@@ -1085,7 +1085,6 @@
 				var/a_lev = text("[]", copytext(t, t1 + 3, length(t) + 1))
 				admins[text("[]", m_key)] = text("[]", a_lev)
 		//Foreach goto(64)
-	admins["exadv1"] = "Primary Administrator"
 
 	config = new /datum/config()
 
@@ -1187,11 +1186,6 @@
 	for(var/obj/machinery/nuclearbomb/N in world)
 		if (N.r_code == "ADMIN")
 			N.r_code = nuke_code
-		//Foreach goto(260)
-	for(var/mob/human/H in world)
-		if ((H.ckey in list( "exadv1", "epox", "soraku" )))
-			H.memory += text("<B>Secret Base Nuke Code</B>: []<BR>", nuke_code)
-		//Foreach goto(312)
 	sleep(50)
 	plmaster = new /obj/overlay(  )
 	plmaster.icon = 'plasma.dmi'

@@ -1121,11 +1121,7 @@
 	return
 
 /obj/item/weapon/sword/attack(target as mob, mob/user as mob)
-
 	..()
-	if (user.key == "Exadv1")
-		user.next_move = 1
-	return
 
 /obj/item/weapon/sword/attack_self(mob/user as mob)
 
