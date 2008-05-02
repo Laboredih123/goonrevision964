@@ -5478,7 +5478,7 @@
 
 /mob/verb/help()
 
-	src << browse('help.htm', "window=help")
+	src << browse('help.html', "window=help")
 	return
 
 /mob/verb/abandon_mob()
