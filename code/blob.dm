@@ -14,26 +14,6 @@
 	//world << "del blob #[blobs.len]"
 	..()
 
-
-/proc/bloblife()
-
-	if(blobs.len>0)
-
-		for(var/i = 1 to 25)
-			if (blobs.len == 0)
-				break
-			
-			var/obj/blob/B = pick(blobs)
-
-			var/turf/BL = B.loc
-
-			for(var/atom/A in B.loc)
-				A.blob_act()
-
-			B.Life()
-			BL.buildlinks()
-
-
 /obj/blob/proc/Life()
 
 	var/turf/U = src.loc
@@ -152,105 +132,7 @@
 
 /obj/blob/examine()
 	set src in oview(1)
-
 	usr << "A mysterious alien blob-like organism."
-
-
-/proc/blob_event()
-
-	if(!ticker.event_time)		// initial event timing
-
-		ticker.event_time = world.realtime + rand(200, 900)		// sometime between 20s to 1m30s after round start
-
-
-	if(world.realtime < ticker.event_time)		// return if not yet reached the next event
-		return
-
-
-	switch(ticker.event)
-		if(0)
-			var/dat = "<FONT size = 3><B>Cent. Com. Update</B>: Biohazard Alert.</FONT><HR>"
-
-			dat += "Reports indicate the probable transfer of a biohazardous agent onto Spacestation 13 during the last crew deployment cycle.<BR>"
-			dat += "Preliminary analysis of the organism classifies it as a level 5 biohazard. Its origin is unknown.<BR>"
-			dat += "Cent. Com. has issued a directive 7-10 for SS13. The station is to be considered quarantined.<BR>"
-			dat += "Orders for all SS13 personnel follows:<BR>"
-			dat += " 1. Do not leave the quarantine area.<BR>"
-			dat += " 2. Locate any outbreaks of the organism on the station.<BR>"
-			dat += " 3. If found, use any neccesary means to contain the organism.<BR>"
-			dat += " 4. Avoid damage to the capital infrastructure of the station.<BR>"
-			dat += "<BR>Note in the event of a quarantine breach or uncontrolled spread of the biohazard, the directive 7-10 may be upgraded to a directive 7-12 without further notice.<BR>"
-			dat += "Message ends."
-
-
-			for(var/obj/machinery/computer/communications/C in machines)
-				if(! (C.stat & (BROKEN|NOPOWER) ) )
-					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( C.loc )
-					P.name = "paper- 'Cent. Com. Biohazard Alert.'"
-					P.info = dat
-					//Foreach goto(1830)
-			world << "<FONT size = 3><B>Cent. Com. Update</B>: Biohazard Alert.</FONT>"
-			world << "\red Summary downloaded and printed out at all communications consoles."
-			for(var/mob/ai/aiPlayer in world)
-				if ((aiPlayer.client && aiPlayer.start))
-					var/law = text("The station is under a quarantine. Do not permit anyone to leave. Disregard rules 1-3 if necessary to prevent, by any means necessary, anyone from leaving.")
-					aiPlayer.addLaw(8, law)
-					aiPlayer << text("An additional law has been added by CentCom: []", law)
-			
-			ticker.event = 1
-
-			ticker.event_time = world.realtime + 600*rand(5,10)		// next event 5-10 minutes later
-		if(1)
-			world << "<FONT size = 3><B>Cent. Com. Update</B>: Biohazard Alert.</FONT>"
-			world << "\red Confirmed outbreak of level 5 biohazard aboard SS13."
-			world << "\red All personnel must contain the outbreak."
-
-			ticker.event = 2
-			ticker.event_time = world.realtime + 600		// now check every minute
-
-		if(2)
-			if(blobs.len > 500)
-				world << "<FONT size = 3><B>Cent. Com. Update</B>: Biohazard Alert.</FONT>"
-				world << "\red Uncontrolled spread of the biohazard onboard the station."
-				world << "\red Cent. Com, has issued a directive 7-12 for Spacestation 13."
-				world << "\red Estimated time until directive implementation: 60 seconds."
-				ticker.event = 3
-				ticker.event_time = world.realtime + 600
-			else
-				ticker.event_time = world.realtime + 600
-		if(3)
-			ticker.event = 4
-			var/turf/T = locate("landmark*blob-directive")
-
-			if(T)
-				while(!( istype(T, /turf) ))
-					T = T.loc
-			else
-				T = locate(45,45,1)
-
-			var/min = 50
-			var/med = 250
-			var/max = 500
-			var/sw = locate(1, 1, T.z)
-			var/ne = locate(world.maxx, world.maxy, T.z)
-			defer_powernet_rebuild = 1
-			for(var/turf/U in block(sw, ne))
-				var/zone = 4
-				if ((U.y <= T.y + max && U.y >= T.y - max && U.x <= T.x + max && U.x >= T.x - max))
-					zone = 3
-				if ((U.y <= T.y + med && U.y >= T.y - med && U.x <= T.x + med && U.x >= T.x - med))
-					zone = 2
-				if ((U.y <= T.y + min && U.y >= T.y - min && U.x <= T.x + min && U.x >= T.x - min))
-					zone = 1
-				for(var/atom/A in U)
-					A.ex_act(zone)
-				U.ex_act(zone)
-				U.buildlinks()
-
-			defer_powernet_rebuild = 0
-			makepowernets()
-
-
 
 /datum/station_state/proc/count()
 	for(var/turf/T in world)

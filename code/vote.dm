@@ -67,7 +67,7 @@
 	calcwin()
 
 	if(mode)
-		var/wintext = upperfirst(winner)
+		var/wintext = capitalize(winner)
 		if(winner=="default")
 			world << "Result is \red No change."
 			return
@@ -140,7 +140,7 @@
 				ret = "No change"
 				break
 			else
-				ret += upperfirst(w)
+				ret += capitalize(w)
 
 
 
@@ -198,7 +198,7 @@
 			text += "Current game mode is: <B>[master_mode]</B>.<BR>Select the mode to change to:<UL>"
 
 			for(var/md in vote.vmodes)
-				var/disp = upperfirst(md)
+				var/disp = capitalize(md)
 				if(md=="default")
 					disp = "No change"
 

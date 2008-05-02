@@ -166,6 +166,7 @@
 		pickprob[M] = 1
 
 /datum/config/proc/pickmode()
+	/*
 	var/total = 0
 	var/list/accum = list()
 
@@ -185,10 +186,9 @@
 			return M
 
 	world << "Failed to pick gamemode in config/pickmode()"
+	*/
+	var/mode = pick(typesof(/datum/game_mode) - /datum/game_mode)
+	return new mode()
 
-	return null
-
-/proc/upperfirst(var/t as text)
-	return uppertext(copytext(t,1,2))+copytext(t,2)
-
-
+/proc/capitalize(var/t as text)
+	return uppertext(copytext(t, 1, 2)) + copytext(t, 2)

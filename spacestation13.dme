@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE:
-DIR: code code\item\weapon icons interface lib
+FILE: ss13_gibbed.dmp
+DIR: code code\item\weapon code\modes interface Lib
 UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
@@ -18,6 +18,7 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "code/item"
 #define FILE_DIR "code/item/weapon"
 #define FILE_DIR "code/machinery"
+#define FILE_DIR "code/modes"
 #define FILE_DIR "icons"
 #define FILE_DIR "interface"
 // END_FILE_DIR
@@ -46,6 +47,7 @@ AUTO_FILE_DIR: ON
 #include "code\demo2.dm"
 #include "code\dna.dm"
 #include "code\engine.dm"
+#include "code\game_mode.dm"
 #include "code\globals.dm"
 #include "code\h_sandbox.dm"
 #include "code\hexadecimal.dm"
@@ -74,5 +76,12 @@ AUTO_FILE_DIR: ON
 #include "code\machinery\airlock.dm"
 #include "code\machinery\recharger.dm"
 #include "code\machinery\turrets.dm"
+#include "code\modes\blob.dm"
+#include "code\modes\megamonkey.dm"
+#include "code\modes\meteor.dm"
+#include "code\modes\monkey.dm"
+#include "code\modes\nuclear.dm"
+#include "code\modes\traitor.dm"
+#include "code\modes\virus.dm"
 // END_INCLUDE
 
