@@ -878,9 +878,11 @@
 					ok = 1
 				if("clear_bombs")
 					for(var/obj/item/weapon/assembly/r_i_ptank/O in world)
-						//O = null
 						del(O)
-						//Foreach goto(3088)
+					for(var/obj/item/weapon/assembly/m_i_ptank/O in world)
+						del(O)
+					for(var/obj/item/weapon/assembly/t_i_ptank/O in world)
+						del(O)
 					ok = 1
 				if("list_bombers")
 					var/dat = "<B>Don't be insane about this list</B> Get the facts. They also could have disarmed one.<HR>"

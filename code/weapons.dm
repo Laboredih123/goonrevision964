@@ -582,6 +582,9 @@
 			src.time = round(src.time) - 1
 			if(time<5)
 				src.c_state(2)
+			else
+				// they might increase the time while it is timing
+				src.c_state(1)
 		else
 			time()
 			src.time = 0
@@ -601,7 +604,10 @@
 				for(var/mob/M in viewers(1, src.master))
 					if (M.client)
 						src.attack_self(M)
-					//Foreach goto(176)
+	else
+		//If it's not timing, reset the icon so it doesn't look like it's still about to go off.
+		src.c_state(0)
+	
 	spawn( 10 )
 		src.process()
 		return
