@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\cellautomata.dm
+FILE: icons\isno\flooring.dmi
 DIR: code code\data code\game icons icons\isno icons\ss13 interface
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
