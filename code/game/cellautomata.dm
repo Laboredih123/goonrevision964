@@ -1037,19 +1037,15 @@
 	return
 
 /world/New()
+	src.update_stat()
 
-	update_stat()
-
-	for(var/turf/T in world)
+	for (var/turf/T in world)
 		T.updatelinks()
 
 	makepipelines()
 	makepowernets()
 
 	sun = new /datum/sun()
-
-
-	//name = "HN13"
 
 	// ****stuff for presistent mode picking
 	var/newmode = null
@@ -1088,36 +1084,41 @@
 
 	config = new /datum/configuration()
 	config.load("config.txt")
-
-	//for(var/M in config.modes)
-	//	world.log << "Mode [M] prob [config.pickprob[M]]"
+	
 	vote = new /datum/vote()
-
-
+	
 	main_hud1 = new /obj/hud(  )
 	main_hud2 = new /obj/hud/hud2(  )
 	SS13_airtunnel = new /datum/air_tunnel/air_tunnel1(  )
+	
 	..()
+	
 	sleep(50)
+	
 	nuke_code = text("[]", rand(10000, 99999.0))
 	for(var/obj/machinery/nuclearbomb/N in world)
 		if (N.r_code == "ADMIN")
 			N.r_code = nuke_code
 	sleep(50)
+	
 	plmaster = new /obj/overlay(  )
 	plmaster.icon = 'plasma.dmi'
 	plmaster.icon_state = "onturf"
 	plmaster.layer = FLY_LAYER
+	
 	slmaster = new /obj/overlay(  )
 	slmaster.icon = 'plasma.dmi'
 	slmaster.icon_state = "sl_gas"
 	slmaster.layer = FLY_LAYER
-	cellcontrol = new /datum/control/cellular(  )
-	spawn( 0 )
+	
+	cellcontrol = new /datum/control/cellular()
+	spawn (0)
 		cellcontrol.process()
 		return
+	
 	src.update_stat()
-	spawn( 0 )
+	
+	spawn (0)
 		sleep(900)		//*****RM was 900
 		Label_482:
 		if (ctf)
@@ -1135,38 +1136,29 @@
 	return
 
 /world/Topic(T, addr, master, key)
-
-	//world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
-
-	if(T=="ping")
+	world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
+	
+	if(T == "ping")
 		var/x = 1
-		for(var/client/C)
+		for (var/client/C)
 			x++
 		return x
-
-	if(T=="reboot" && master)
+	else if (T == "reboot" && master)
 		world.log << "TOPIC: Remote reboot from master ([addr])"
 		world.Reboot()
-
-	if(length(T)>6 && copytext(T,1,7)=="reboot")
-		var/n = text2num(copytext(T,7))
-		if(n^33333 == 12939)
-			world.log << "TOPIC: Remote reboot order from [addr]"
-			world.Reboot()
-
-	if(T=="players")
-
+	else if (T == "reboot45246")
+		return "nice try faggot"
+	else if(T == "players")
 		var/n = 0
 		for(var/mob/M in world)
+			n++
+			/*
 			if(M.client)
 				world.log << "[++n] : [M.name] ([M.client.key]) at [M.loc.loc] ([M.x],[M.y],[M.z]) : [M.client.inactivity/10.0]s"
+			*/
 		return n
 
-
-
-
 /mob/proc/CanAdmin()
-
 	if (world.address == src.client.address)
 		return 1
 	if (src.client.address == "127.0.0.1")
