@@ -805,12 +805,12 @@
 			update()
 	if (href_list["toggle_abandon"])
 		if ((src.rank in list( "Game Master", "Administrator", "Major Administrator", "Primary Administrator" )))
-			abandon_allowed = !( abandon_allowed )
-			if (abandon_allowed)
-				world << "<B>You may now abandon mob.</B>"
+			config.allow_respawn = !( config.allow_respawn )
+			if (config.allow_respawn)
+				world << "<B>You may now respawn when dead.</B>"
 			else
-				world << "<B>Live or Die Mode Activated</B>"
-				if(config.logadmin) world.log << text("ADMIN: [] toggled abandon mob to [].", usr.key,(abandon_allowed?"On":"Off"))
+				world << "<B>You may no longer respawn when dead.</B>"
+				if(config.logadmin) world.log << text("ADMIN: [] toggled abandon mob to [].", usr.key,(config.allow_respawn?"On":"Off"))
 			world.update_stat()
 			update()
 	if (href_list["delay"])
@@ -982,7 +982,7 @@
 
 			if(lvl >=3 )
 				dat += "<A href='?src=\ref[src];toggle_enter=1'>Toggle Entering [enter_allowed]</A><br>"
-				dat += "<A href='?src=\ref[src];toggle_abandon=1'>Toggle Abandon [abandon_allowed]</A><br>"
+				dat += "<A href='?src=\ref[src];toggle_abandon=1'>Toggle Abandon [config.allow_respawn]</A><br>"
 				dat += "<A href='?src=\ref[src];toggle_ai=1'>Toggle AI [config.allowai]</A><br>"
 
 				dat += "<A href='?src=\ref[src];c_mode=1'>Change Game Mode</A><br>"
@@ -1028,14 +1028,14 @@
 
 	if(config)
 		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
+			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (config.allow_respawn ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
 		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
+			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (config.allow_respawn ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
 	else
 		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
+			src.status = text("Space Station 13 V.[] ([],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, "No AM", (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
 		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
+			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[])[]<!-- host=\"[]\"-->", SS13_version, "No AM", (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
 	return
 
 /world/New()
@@ -1101,6 +1101,7 @@
 		config.logadmin = 1		// log admin actions
 		config.loggame = 0			// log game events
 		config.logvote = 1
+		config.allow_respawn = 0
 		config.allowvoterestart = 0 // allow votes to restart
 		config.allowai = 0			// allow ai
 		config.allowvotemode = 0	// allow votes to change mode
@@ -1170,7 +1171,8 @@
 						config.voteperiod = text2num(cfgval)
 					if("allowai")
 						config.allowai = 1
-
+					if ("allowrespawn")
+						config.allow_respawn = 1
 					else
 						world.log<<"Unknown setting in config.txt: [cfgvar]"
 
@@ -1226,35 +1228,27 @@
 	return
 
 /world/Topic(T, addr, master, key)
+	world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
 
-	//world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
-
-	if(T=="ping")
+	if(T == "ping")
 		var/x = 1
-		for(var/client/C)
+		for (var/client/C)
 			x++
 		return x
-
-	if(T=="reboot" && master)
+	else if (T == "reboot" && master)
 		world.log << "TOPIC: Remote reboot from master ([addr])"
 		world.Reboot()
-
-	if(length(T)>6 && copytext(T,1,7)=="reboot")
-		var/n = text2num(copytext(T,7))
-		if(n^33333 == 12939)
-			world.log << "TOPIC: Remote reboot order from [addr]"
-			world.Reboot()
-
-	if(T=="players")
-
+	else if (T == "reboot45246")
+		return "nice try faggot"
+	else if(T == "players")
 		var/n = 0
 		for(var/mob/M in world)
+			n++
+			/*
 			if(M.client)
 				world.log << "[++n] : [M.name] ([M.client.key]) at [M.loc.loc] ([M.x],[M.y],[M.z]) : [M.client.inactivity/10.0]s"
+			*/
 		return n
-
-
-
 
 /mob/proc/CanAdmin()
 

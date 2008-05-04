@@ -5485,7 +5485,7 @@
 /mob/verb/abandon_mob()
 	set name = "Respawn"
 
-	if (!( abandon_allowed ))
+	if (!( config.allow_respawn ))
 		return
 	if ((src.stat != 2 || !( ticker )))
 		usr << "\blue <B>You must be dead to use this!</B>"

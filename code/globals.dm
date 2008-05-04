@@ -97,9 +97,15 @@
 var
 	world_message = "Welcome to SS13!"
 	savefile_ver = "3"
-	SS13_version = "40.93.2H9.5 - B12+Gibbed modified"
+	SS13_version = "gibbed test #4, version #9"
 	changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
 <HR>
+
+<p><b>Gibbed's changes #4 - TEST VERSION #9 5/4/2008</b><br>
+<ul>
+<li>Removed remote reboot exploit (<a target="_blank" href="http://svn.slurm.us/public/spacestation13/misc/remotess13/">thanks Exadv1!</a>)</li>
+<li>Added configuration option for allowing respawn (and now it is off by default).</li>
+</ul>
 
 <p><b>Gibbed's changes #4 - TEST VERSION #8 5/3/2008</b><br>
 <ul>
@@ -248,7 +254,6 @@ var
 	obj/hud/hud2/main_hud2 = null
 	ooc_allowed = 1
 	dna_ident = 1
-	abandon_allowed = 1
 	enter_allowed = 1
 	shuttle_frozen = 0
 	prison_entered = null
