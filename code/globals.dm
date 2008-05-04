@@ -101,6 +101,15 @@ var
 	changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
 <HR>
 
+<p><b>Gibbed's changes #4 - TEST VERSION #8 5/3/2008</b><br>
+<ul>
+<li>Removed all blindfolds.</li>
+<li>Reduced the amount of handcuffs on the station.</li>
+<li>Added another slot for security officer.</li>
+<li>Staff Assistant now starts with a 3-0-0-0 card instead of 2-0-0-0.</li>
+<li>Gasmask screen effect is now removed when you die.</li>
+</ul>
+
 <p><b>Gibbed's changes #4 - TEST VERSION #7 4/27/2008</b><br>
 <ul>
 <li>Added inner cameras to the AI satellite.</li>
@@ -247,7 +256,7 @@ var
 	list/html_colours = new/list(0)
 	list/occupations = list(
 		"Engineer", "Engineer",
-		"Security Officer", "Security Officer",
+		"Security Officer", "Security Officer", "Security Officer",
 		"Forensic Technician",
 		"Medical Researcher",
 		"Research Technician",
@@ -464,15 +473,5 @@ world
 	turf = /turf/space
 	area = /area
 	view = "15x15"
-
-	hub = "Exadv1.spacestation13"
-	hub_password = "kMZy3U5jJHSiBQjr"
-	//hub = "Hobnob.SS13D"
-	//hub = "Stephen001.CustomSpaceStation13"
-	name = "Space Station 13"
-
-
-
-	//visibility = 0
-
+	visibility = 0
 	//loop_checks = 0

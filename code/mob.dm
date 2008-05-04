@@ -3987,7 +3987,7 @@
 		src.eye_blurry = max(0, src.eye_blurry)
 	if (src.client)
 		src.client.screen -= main_hud1.g_dither
-		if (istype(src.wear_mask, /obj/item/weapon/clothing/mask/gasmask))
+		if (src.stat != 2 && istype(src.wear_mask, /obj/item/weapon/clothing/mask/gasmask))
 			src.client.screen += main_hud1.g_dither
 		if (istype(src.glasses, /obj/item/weapon/clothing/glasses/meson))
 			src.sight |= SEE_TURFS
@@ -6803,7 +6803,7 @@
 		src.eye_blurry = max(0, src.eye_blurry)
 	if (src.client)
 		src.client.screen -= main_hud1.g_dither
-		if (istype(src.wear_mask, /obj/item/weapon/clothing/mask/gasmask))
+		if (src.stat != 2 && istype(src.wear_mask, /obj/item/weapon/clothing/mask/gasmask))
 			src.client.screen += main_hud1.g_dither
 		if (src.mach)
 			if (src.machine)

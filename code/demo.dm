@@ -1320,19 +1320,18 @@
 	return
 
 /obj/secloset/security1/New()
-
 	..()
 	sleep(2)
 	new /obj/item/weapon/storage/flashbang_kit( src )
-	new /obj/item/weapon/storage/handcuff_kit( src )
-	new /obj/item/weapon/gun/energy/taser_gun( src )
-	new /obj/item/weapon/flash( src )
-	new /obj/item/weapon/clothing/under/red( src )
-	new /obj/item/weapon/clothing/shoes/brown( src )
-	new /obj/item/weapon/clothing/suit/armor( src )
-	new /obj/item/weapon/clothing/head/helmet( src )
-	new /obj/item/weapon/clothing/glasses/sunglasses( src )
-	new /obj/item/weapon/baton( src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/gun/energy/taser_gun(src)
+	new /obj/item/weapon/flash(src)
+	new /obj/item/weapon/clothing/under/red(src)
+	new /obj/item/weapon/clothing/shoes/brown(src)
+	new /obj/item/weapon/clothing/suit/armor(src)
+	new /obj/item/weapon/clothing/head/helmet(src)
+	new /obj/item/weapon/clothing/glasses/sunglasses(src)
+	new /obj/item/weapon/baton(src)
 	return
 
 /obj/secloset/highsec/New()
