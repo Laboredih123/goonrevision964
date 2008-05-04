@@ -1,11 +1,10 @@
 /datum/game_mode
-	var/name = "extended"
-	var/config_tag = "EXTENDED"
+	var/name = "invalid"
+	var/config_tag = "invalid"
 
 // Default check win
 /datum/game_mode/proc/announce()
-	world << "<B>The current game mode is - Extended Role-Playing!</B>"
-	world << "<B>Just have fun and role-play!</B>"
+	world << "<B>[src] did not define announce()</B>
 
 /datum/game_mode/proc/pre_setup()
 	return

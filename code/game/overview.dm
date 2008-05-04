@@ -5,7 +5,7 @@
 	set src in view(1)
 	usr.machine = src
 
-	if(config.loggame) world.log << "GAME: [usr]([usr.key]) used station map L[maplevel] in [src.loc.loc]"
+	world.log_game("[usr]([usr.key]) used station map L[maplevel] in [src.loc.loc]")
 
 	src.drawmap(usr)
 

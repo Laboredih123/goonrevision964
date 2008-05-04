@@ -28,7 +28,7 @@
 	if(success)
 		world << "<FONT size = 3><B>The humans have won!</B></FONT>"
 		world << "<B>The station has been retaken from the mutant monkeys</B>"
-		if(config.loggame) world.log << "GAME: Humans have destroyed all monkeys"
+		world.log_game("Humans have destroyed all monkeys")
 		sleep(300)
 		world.Reboot()
 	else

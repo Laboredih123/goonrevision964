@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: interface\skin.dmf
-DIR: interface Lib
+FILE: code\game\cellautomata.dm
+DIR: code code\data code\game icons icons\isno icons\ss13 interface
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -13,12 +13,14 @@ AUTO_FILE_DIR: ON
 // BEGIN_FILE_DIR
 #define FILE_DIR .
 #define FILE_DIR "code"
+#define FILE_DIR "code/data"
 #define FILE_DIR "code/game"
 #define FILE_DIR "code/game/item"
 #define FILE_DIR "code/game/item/weapon"
 #define FILE_DIR "code/game/machinery"
 #define FILE_DIR "code/game/modes"
 #define FILE_DIR "icons"
+#define FILE_DIR "icons/isno"
 #define FILE_DIR "icons/ss13"
 #define FILE_DIR "interface"
 // END_FILE_DIR
@@ -29,18 +31,25 @@ AUTO_FILE_DIR: ON
 
 // BEGIN_INCLUDE
 #include "gibbed.dmp"
-#include "code\!atoms.dm"
 #include "code\aaaDefines.dm"
+#include "code\atoms.dm"
+#include "code\configuration.dm"
 #include "code\datumvars.dm"
 #include "code\globals.dm"
 #include "code\helpers.dm"
 #include "code\hexadecimal.dm"
 #include "code\inverthtml.dm"
+#include "code\logging.dm"
 #include "code\texthandling.dm"
+#include "code\data\ai_names.dm"
+#include "code\data\changelog.dm"
+#include "code\data\jobs.dm"
+#include "code\data\stylesheet.dm"
 #include "code\game\airtunnel.dm"
 #include "code\game\areas.dm"
 #include "code\game\atmo_control.dm"
 #include "code\game\blob.dm"
+#include "code\game\bomb.dm"
 #include "code\game\camera.dm"
 #include "code\game\cell_process.dm"
 #include "code\game\cellautomata.dm"
@@ -77,12 +86,12 @@ AUTO_FILE_DIR: ON
 #include "code\game\machinery\recharger.dm"
 #include "code\game\machinery\turrets.dm"
 #include "code\game\modes\blob.dm"
+#include "code\game\modes\extended.dm"
 #include "code\game\modes\megamonkey.dm"
 #include "code\game\modes\meteor.dm"
 #include "code\game\modes\monkey.dm"
 #include "code\game\modes\nuclear.dm"
 #include "code\game\modes\traitor.dm"
 #include "code\game\modes\virus.dm"
-#include "interface\isno.dmf"
 // END_INCLUDE
 

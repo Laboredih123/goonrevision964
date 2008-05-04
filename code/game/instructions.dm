@@ -163,7 +163,7 @@
 /obj/begin/verb/enter()
 	set src in usr.loc
 
-	if(config.loggame) world.log << "GAME: [usr.key] entered as [usr.name]"
+	world.log_game("[usr.key] entered as [usr.name]")
 
 	if (!( enter_allowed ))
 		usr << "\blue There is an administrative lock on entering the game!"

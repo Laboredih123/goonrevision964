@@ -2925,8 +2925,7 @@
 	return
 
 /mob/human/Logout()
-
-	if(config.logaccess) world.log << "LOGOUT: [src.key]"
+	world.log_access("Logout: [src.key]")
 	if (!( src.start ))
 		//SN src = null
 		del(src)
@@ -2984,21 +2983,19 @@
 	return
 
 /mob/human/Login()
-	if(config.logaccess)
-		world.log << "LOGIN: [src.key] from [src.client.address]"
-		src.lastKnownIP = src.client.address
+	src.lastKnownIP = src.client.address
+	world.log_access("Login: [src.key] from [src.client.address]")
 
-		for(var/mob/M in world)
-			if(M==src)
+	if (config.log_access)
+		for (var/mob/M in world)
+			if(M == src)
 				continue
-			if(M.client)
-				if(M.client.address == src.client.address)
-					world.log << "LOGIN NOTICE: [src.key] has same IP address as [M.key]"
-			else if (M.lastKnownIP)
-				if (M.lastKnownIP == src.client.address && M.ckey!=src.ckey)
-					world.log << "LOGIN NOTICE: [src.key] has same IP address as [M.key] did (M.key is no longer logged in)."
-					if (M.ckey in banned)
-						world.log << "FURTHER NOTE: [M.key] was banned."
+			if(M.client && M.client.address == src.client.address)
+				world.log_access("Notice: [src.key] has same IP address as [M.key]")
+			else if (M.lastKnownIP && M.lastKnownIP == src.client.address && M.ckey != src.ckey)
+				world.log_access("Notice: [src.key] has same IP address as [M.key] did (M.key is no longer logged in).")
+				if (M.ckey in banned)
+					world.log_access("Further notice: [M.key] was banned.")
 
 	src.client.screen -= main_hud1.contents
 	src.client.screen -= main_hud2.contents
@@ -3151,7 +3148,7 @@
 					ticker.check_win()
 				else
 					spawn( 300 )
-						if(config.loggame) world.log << "GAME: Rebooting because of no live players"
+						world.log_game("Rebooting because of no live players")
 						world.Reboot()
 						return
 	return ..()
@@ -3311,7 +3308,7 @@
 			ticker.check_win()
 		else
 			spawn( 300 )
-				if(config.loggame) world.log << "GAME: Rebooting because of no live players"
+				world.log_game("Rebooting because of no live players")
 				world.Reboot()
 				return
 	return ..()
@@ -4232,13 +4229,12 @@
 	return
 
 /mob/human/say(message as text)
-
-	if(config.logsay) world.log << "SAY: [src.name]/[src.key] : [message]"
+	world.log_say("[src.name]/[src.key] : [message]")
 	var/alt_name
 	if (src.muted)
 		return
 
-	message = cleanstring(message)
+	message = sanitize(message)
 
 	if ((src.name != src.rname && src.wear_id))
 		alt_name = text(" (as [])", src.wear_id.registered)
@@ -4334,13 +4330,12 @@
 	return
 
 /mob/ai/say(message as text)
-
-	if(config.logsay) world.log << "SAY: [src.name]/[src.key] : [message]"
+	world.log_say("[src.name]/[src.key] : [message]")
 	var/alt_name = ""
 	if (src.muted)
 		return
 
-	message = cleanstring(message)
+	message = sanitize(message)
 
 	if (src.stat == 2)
 		for(var/mob/M in world)
@@ -5490,12 +5485,12 @@
 		usr << "\blue <B>You must be dead to use this!</B>"
 		return
 
-	if(config.loggame) world.log << "GAME: [usr.name]/[usr.key] used abandon mob."
+	world.log_game("[usr.name]/[usr.key] used abandon mob.")
 
 	usr << "\blue <B>Please roleplay correctly!</B>"
 
 	if(!src.client)
-		if(config.loggame) world.log << "GAME: [usr.key] AM failed due to disconnect."
+		world.log_game("[usr.key] AM failed due to disconnect.")
 		return
 	for(var/obj/screen/t in usr.client.screen)
 		if (t.loc == null)
@@ -5503,12 +5498,12 @@
 			del(t)
 		//Foreach goto(66)
 	if(!src.client)
-		if(config.loggame) world.log << "GAME: [usr.key] AM failed due to disconnect."
+		world.log_game("[usr.key] AM failed due to disconnect.")
 		return
 
 	var/mob/human/M = new /mob/human(  )
 	if(!src.client)
-		if(config.loggame) world.log << "GAME: [usr.key] AM failed due to disconnect."
+		world.log_game("[usr.key] AM failed due to disconnect.")
 		del(M)
 		return
 
@@ -5619,18 +5614,23 @@
 	return
 
 /mob/verb/ooc(msg as text)
+	world.log_ooc("[src.name]/[src.key] : [msg]")
 
-	if(config.logooc) world.log << "OOC: [src.name]/[src.key] : [msg]"
-	msg = cleanstring(msg)
+	msg = sanitize(msg)
 	msg = html_encode(copytext(msg, 1, 128))
-	if (!( msg ))
+
+	if (!msg)
 		return
-	if ((ooc_allowed && !( src.muted )))
-		for(var/mob/M in world)
-			if ((M.client && M.client.listen_ooc))
-				M << text("<B>OOC: []</B>: []", src.key, msg)
-			//Foreach goto(54)
-	return
+	else if (!src.client.listen_ooc)
+		return
+	else if (!ooc_allowed)
+		return
+	else if (src.muted)
+		return
+
+	for (var/mob/M in world)
+		if (M.client && M.client.listen_ooc)
+			M << "<span class='ooc_title'>OOC: [src.key]:</span> <span class='ooc_text'>[msg]</span>"
 
 /mob/verb/switch_hud()
 	set name = "Switch HUD"
@@ -5714,7 +5714,7 @@
 				M << "\blue Reply PM from-<B><A href='?src=\ref[M];priv_msg=\ref[usr]'>[usr.key]</A></B>: [t]"
 				usr << "\blue Reply PM to-<B><A href='?src=\ref[usr];priv_msg=\ref[M]'>[M.key]</A></B>: [t]"
 
-			if(config.logadmin) world.log << "ADMIN: PM: [usr.key]->[M.key] : [t]"
+			world.log_admin("PM: [usr.key]->[M.key] : [t]")
 
 	..()
 	return
@@ -6483,7 +6483,7 @@
 			ticker.check_win()
 		else
 			spawn( 300 )
-				if(config.loggame) world.log << "GAME: Rebooting because of no live players"
+				world.log_game("Rebooting because of no live players")
 				world.Reboot()
 				return
 	return ..()
@@ -7083,7 +7083,7 @@
 		return
 	message = copytext(message, 1, 128)
 
-	message = cleanstring(message)
+	message = sanitize(message)
 
 	if (src.stat == 2)
 		for(var/mob/M in world)

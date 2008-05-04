@@ -1,6 +1,6 @@
 /datum/vote/New()
 
-	nextvotetime = world.timeofday // + 10*config.votedelay
+	nextvotetime = world.timeofday // + 10*config.vote_delay
 
 
 /datum/vote/proc/canvote()
@@ -54,10 +54,10 @@
 
 	world << "\red <B>***Voting has closed.</B>"
 
-	if(config.logvote)	world.log << "VOTE: Voting closed, result was [winner]"
+	world.log_vote("Voting closed, result was [winner]")
 
 	voting = 0
-	nextvotetime = world.timeofday + 10*config.votedelay
+	nextvotetime = world.timeofday + 10*config.vote_delay
 
 	for(var/mob/M in world)		// clear vote window from all clients
 		if(M.client)
@@ -88,7 +88,7 @@
 			world <<"\red <B>World will reboot in 10 seconds</B>"
 
 			sleep(100)
-			if(config.loggame) world.log << "GAME: Rebooting due to mode vote "
+			world.log_game("Rebooting due to mode vote")
 			world.Reboot()
 		else
 			master_mode = winner
@@ -104,7 +104,7 @@
 		world <<"\red <B>World will reboot in 5 seconds</B>"
 
 		sleep(50)
-		if(config.loggame) world.log << "GAME: Rebooting due to restart vote"
+		world.log_game("Rebooting due to restart vote")
 		world.Reboot()
 	return
 
@@ -177,7 +177,7 @@
 	var/footer = "<HR><A href='?src=\ref[vote];voter=\ref[src];vclose=1'>Close</A></BODY></HTML>"
 
 
-	if(config.votenodead && usr.stat == 2)
+	if(config.vote_no_dead && usr.stat == 2)
 		text += "Voting while dead has been disallowed."
 		text += footer
 		usr << browse(text, "window=vote")
@@ -246,8 +246,7 @@
 
 	else		//no vote in progress
 
-
-		if(!config.allowvoterestart && !config.allowvotemode)
+		if(!config.allow_vote_restart && !config.allow_vote_mode)
 			text += "<P>Player voting is disabled.</BODY></HTML>"
 
 			usr << browse(text, "window=vote")
@@ -255,8 +254,8 @@
 			return
 
 		if(!vote.canvote())		// not time to vote yet
-			if(config.allowvoterestart) text+="Voting to restart is enabled.<BR>"
-			if(config.allowvotemode) text+="Voting to change mode is enabled.<BR>"
+			if(config.allow_vote_restart) text+="Voting to restart is enabled.<BR>"
+			if(config.allow_vote_mode) text+="Voting to change mode is enabled.<BR>"
 
 			text+="<BR><P>Next vote can begin in [vote.nextwait()]."
 			text+=footer
@@ -264,9 +263,9 @@
 			usr << browse(text, "window=vote")
 
 		else			// voting can begin
-			if(config.allowvoterestart)
+			if(config.allow_vote_restart)
 				text += "<A href='?src=\ref[vote];voter=\ref[src];vmode=1'>Begin restart vote.</A><BR>"
-			if(config.allowvotemode)
+			if(config.allow_vote_mode)
 				text += "<A href='?src=\ref[vote];voter=\ref[src];vmode=2'>Begin change mode vote.</A><BR>"
 
 			text += footer
@@ -302,19 +301,19 @@
 
 		vote.mode = text2num(href_list["vmode"])-1 	// hack to yield 0=restart, 1=changemode
 		vote.voting = 1						// now voting
-		vote.votetime = world.timeofday + config.voteperiod*10	// when the vote will end
+		vote.votetime = world.timeofday + config.vote_period*10	// when the vote will end
 
-		spawn(config.voteperiod*10)
+		spawn(config.vote_period*10)
 			vote.endvote()
 
 		world << "\red<B>*** A vote to [vote.mode?"change game mode":"restart"] has been initiated by [M.key].</B>"
-		world << "\red     You have [vote.timetext(config.voteperiod)] to vote."
+		world << "\red     You have [vote.timetext(config.vote_period)] to vote."
 
-		if(config.logvote)	world.log << "VOTE: Voting to [vote.mode?"change mode":"restart round"] started by [M.name]/[M.key]"
+		world.log_vote("Voting to [vote.mode ? "change mode" : "restart round"] started by [M.name]/[M.key]")
 
 		for(var/mob/CM in world)
 			if(CM.client)
-				if(config.votenodefault || (config.votenodead && CM.stat == 2))
+				if(config.vote_no_default || (config.vote_no_dead && CM.stat == 2))
 					CM.client.vote = "none"
 				else
 					CM.client.vote = "default"

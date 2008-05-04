@@ -1,72 +1,49 @@
-# Config file for SS13D
-#
-# lines starting with '#' are comments
-#
-#####
-#
-# logging of actions to world.log
-# comment to disable, uncomment to enable
-#
 # log OOC channel
-LOGOOC
-#
+LOG_OOC
+
 # log client Say 
-LOGSAY
-#
+LOG_SAY
+
 # log admin actions
-LOGADMIN
-#
+LOG_ADMIN
+
 # log client access (logon/logoff)
-LOGACCESS
-#
+LOG_ACCESS
+
 # log game actions (start of round, results, etc.)
-LOGGAME
-#
+LOG_GAME
+
 # log player votes
-LOGVOTE
-#
-#
-#####
-#
+LOG_VOTE
+
 # probablities for game modes chosen in "secret" and "random" modes
 # 
 # default probablity is 1, increase to make that mode more likely to be picked
 # set to 0 to disable that mode
-#  
-PROB_EXTENDED 0
-PROB_TRAITOR 1
-PROB_MONKEY 1
-PROB_METEOR 2
-PROB_BLOB 2
-PROB_NUCLEAR 1
-#
-#
-#####
-#
-# voting control
-#
+PROBABILITY EXTENDED 0
+PROBABILITY TRAITOR 1
+PROBABILITY MONKEY 1
+PROBABILITY METEOR 2
+PROBABILITY BLOB 2
+PROBABILITY NUCLEAR 1
+
 # allow players to initiate a restart vote
-ALLOWVOTERESTART
-#
+ALLOW_VOTE_RESTART
+
 # allow players to initate a mode-change start
-ALLOWVOTEMODE
-#
+ALLOW_VOTE_MODE
+
 # min delay (seconds) between voting sessions (default 10 minutes)
-VOTEDELAY 600
-#
+VOTE_DELAY 600
+
 # time period (seconds) which voting session will last (default 1 minute)
-VOTEPERIOD 60
-#
+VOTE_PERIOD 60
+
 # prevents dead players from voting or starting votes
-NODEADVOTE
-#
+NO_DEAD_VOTE
+
 # players' votes default to "No vote" (otherwise,  default to "No change")
-DEFAULTNOVOTE
+DEFAULT_NO_VOTE
 
-
-#####
-#
-# added features
-#
-# Comment this out if you don't want the AI job to be available, or if you're using a map which doesn't have an AI spawnpoint.
-ALLOWAI
+# allow AI job
+ALLOW_AI

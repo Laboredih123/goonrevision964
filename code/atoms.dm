@@ -1,3 +1,5 @@
+#include "data\stylesheet.dm"
+
 #define CELLSTANDARD 3600000.0		// gas capacity of cell at STP
 
 #define O2STANDARD 756000.0			// O2 standard value (21%)
@@ -203,23 +205,22 @@
 		var/grille = 0
 		var/mach = 0
 
-/datum/config
-		var/logooc = 0			// log OOC channek
-		var/logaccess = 0		// log login/logout
-		var/logsay = 0			// log client say
-		var/logadmin = 0		// log admin actions
-		var/loggame = 0			// log game events
-		var/logvote = 0
-		var/allowvoterestart = 0 // allow votes to restart
-		var/allowvotemode = 0	// allow votes to change mode
-		var/votedelay = 600		// minimum time between voting sessions (seconds, 10 minute default)
-		var/voteperiod = 60		// length of voting period (seconds, default 1 minute)
-		var/votenodefault = 0	// vote does not default to nochange/norestart (tbi)
-		var/votenodead = 0		// dead people can't vote (tbi)
-		var/list/modes = list("extended", "traitor", "meteor", "monkey", "blob", "nuclear")		// modes to choose between
-		var/list/pickprob = list()		// relative probability of each mode
-		var/allowai = 1 // allow ai job
-
+/datum/configuration
+		var/log_ooc = 0						// log OOC channek
+		var/log_access = 0					// log login/logout
+		var/log_say = 0						// log client say
+		var/log_admin = 0					// log admin actions
+		var/log_game = 0					// log game events
+		var/log_vote = 0					// log voting
+		var/allow_vote_restart = 0 			// allow votes to restart
+		var/allow_vote_mode = 0				// allow votes to change mode
+		var/vote_delay = 600				// minimum time between voting sessions (seconds, 10 minute default)
+		var/vote_period = 60				// length of voting period (seconds, default 1 minute)
+		var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
+		var/vote_no_dead = 0				// dead people can't vote (tbi)
+		var/list/modes = list()				// allowed modes
+		var/list/probabilities = list()		// relative probability of each mode
+		var/allow_ai = 1					// allow ai job
 
 /datum/vote
 	var/voting = 0		// true if currently voting
@@ -3446,8 +3447,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/sp_start
 	name = "sp start"
-	icon = 'human.dmi'
-	icon_state = "male"
+	icon = 'grashaboras.dmi'
+	icon_state = "male_base"
 	var/special = null
 	anchored = 1.0
 /obj/start

@@ -80,12 +80,7 @@
 
 /mob/proc/Delete(atom/A in view())
 	set category = "Debug"
-
-	switch( alert("Are you sure you wish to delete \the [A.name] at ([A.x],[A.y],[A.z]) ?", "Admin Delete Object","Yes","No") )
+	switch (alert("Are you sure you wish to delete \the [A.name] at ([A.x],[A.y],[A.z]) ?", "Admin Delete Object","Yes","No"))
 		if("Yes")
-
-			if(config.logadmin)	world.log << "ADMIN: [usr.key] deleted [A.name] at ([A.x],[A.y],[A.z])"
-
-
+			world.log_admin("[usr.key] deleted [A.name] at ([A.x],[A.y],[A.z])")
 			del(A)
-

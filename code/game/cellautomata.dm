@@ -524,15 +524,15 @@
 		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			vote.mode = text2num(href_list["vmode"])-1 	// hack to yield 0=restart, 1=changemode
 			vote.voting = 1						// now voting
-			vote.votetime = world.timeofday + config.voteperiod*10	// when the vote will end
+			vote.votetime = world.timeofday + config.vote_period*10	// when the vote will end
 
-			spawn(config.voteperiod*10)
+			spawn(config.vote_period*10)
 				vote.endvote()
 
 			world << "\red<B>*** A vote to [vote.mode?"change game mode":"restart"] has been initiated by Admin [usr.key].</B>"
-			world << "\red     You have [vote.timetext(config.voteperiod)] to vote."
+			world << "\red     You have [vote.timetext(config.vote_period)] to vote."
 
-			if(config.logvote || config.logadmin)	world.log << "VOTE/ADMIN: Voting to [vote.mode?"change mode":"restart round"] forced by admin [usr.key]"
+			world.log_admin("Voting to [vote.mode?"change mode":"restart round"] forced by admin [usr.key]")
 
 			for(var/mob/CM in world)
 				if(CM.client)
@@ -543,10 +543,10 @@
 
 			world << "\red <B>***Voting aborted by [usr.key].</B>"
 
-			if(config.logvote || config.logadmin)	world.log << "VOTE/ADMIN: Voting aborted by [usr.key]"
+			world.log_admin("Voting aborted by [usr.key]")
 
 			vote.voting = 0
-			vote.nextvotetime = world.timeofday + 10*config.votedelay
+			vote.nextvotetime = world.timeofday + 10*config.vote_delay
 
 			for(var/mob/M in world)		// clear vote window from all clients
 				if(M.client)
@@ -555,24 +555,23 @@
 
 
 	if (href_list["vt_rst"])
-		if ((src.rank in list("Administrator", "Major Administrator", "Primary Administrator" )))
+		if (src.rank in list("Administrator", "Major Administrator", "Primary Administrator"))
+			config.allow_vote_restart = !config.allow_vote_restart
+			world << "<B>Player restart voting toggled to [config.allow_vote_restart ? "On" : "Off"]</B>."
 
-			config.allowvoterestart = !config.allowvoterestart
+			world.log_admin("Restart voting toggled to [config.allow_vote_restart ? "On" : "Off"] by [usr.key].")
 
-			world << "<B>Player restart voting toggled to [config.allowvoterestart ? "On" : "Off"]</B>."
-			if(config.logadmin)	world.log << "ADMIN: Restart voting toggled to [config.allowvoterestart ? "On" : "Off"] by [usr.key]."
-			if(config.allowvoterestart)
+			if(config.allow_vote_restart)
 				vote.nextvotetime = world.timeofday
 			update()
 
 	if (href_list["vt_mode"])
-		if ((src.rank in list("Administrator", "Major Administrator", "Primary Administrator" )))
+		if (src.rank in list("Administrator", "Major Administrator", "Primary Administrator"))
+			config.allow_vote_mode = !config.allow_vote_mode
+			world << "<B>Player mode voting toggled to [config.allow_vote_mode ? "On" : "Off"]</B>."
+			world.log_admin("Mode voting toggled to [config.allow_vote_mode ? "On" : "Off"] by [usr.key].")
 
-			config.allowvotemode = !config.allowvotemode
-
-			world << "<B>Player mode voting toggled to [config.allowvotemode ? "On" : "Off"]</B>."
-			if(config.logadmin)	world.log << "ADMIN: Mode voting toggled to [config.allowvotemode ? "On" : "Off"] by [usr.key]."
-			if(config.allowvotemode)
+			if(config.allow_vote_mode)
 				vote.nextvotetime = world.timeofday
 			update()
 
@@ -590,7 +589,7 @@
 				if ((M.client && M.client.holder && M.client.holder.rank >= src.rank))
 					alert("You cannot perform this. Action you must be of a higher administrative rank!", null, null, null, null, null)
 					return
-				if(config.logadmin) world.log << text("ADMIN: [] booted [].", usr.key, M.key)
+				world.log_admin("[usr.key] booted [M.key].")
 				//M.client = null
 				del(M.client)
 	if (href_list["ban"])
@@ -611,7 +610,7 @@
 				if ((M.client && M.client.holder && M.client.holder.rank >= src.rank))
 					alert("You cannot perform this. Action you must be of a higher administrative rank!", null, null, null, null, null)
 					return
-				if(config.logadmin) world.log << text("ADMIN: [] banned [].", usr.key, M.key)
+				world.log_admin("[usr.key] banned [M.key].")
 				banned += ckey(M.key)
 				//M.client = null
 				del(M.client)
@@ -620,7 +619,7 @@
 			var/t = href_list["unban2"]
 			if (t)
 				banned -= t
-			if(config.logadmin) world.log << text("ADMIN: [] unbanned [].", usr.key, t)
+			world.log_admin("[usr.key] unbanned [t].")
 	if (href_list["mute"])
 		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			var/dat = "<B>Mute/Unmute Player:</B><HR>"
@@ -635,7 +634,7 @@
 				if ((M.client && M.client.holder && M.client.holder.rank >= src.rank))
 					alert("You cannot perform this. Action you must be of a higher administrative rank!", null, null, null, null, null)
 					return
-				if(config.logadmin) world.log << text("ADMIN: [] altered []'s mute status.", usr.key, M.key)
+				world.log_admin("[usr.key] altered [M.key]'s mute status.")
 				M.muted = !( M.muted )
 	if (href_list["restart"])
 		if ((src.rank in list( "Game Master", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
@@ -644,7 +643,7 @@
 	if (href_list["restart2"])
 		if ((src.rank in list( "Game Master", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			world << text("\red <B> Restarting world!</B>\blue  Initiated by []!", usr.key)
-			if(config.logadmin) world.log << text("ADMIN: [] initiated a reboot.", usr.key)
+			world.log_admin("[usr.key] initiated a reboot.")
 			sleep(50)
 			world.Reboot()
 	if (href_list["restart3"])
@@ -652,7 +651,7 @@
 			if( alert("Reboot server?",,"Yes","No") == "No")
 				return
 			world << text("\red <B> Rebooting world!</B>\blue  Initiated by []!", usr.key)
-			if(config.logadmin) world.log << text("ADMIN: [] initiated an immediate reboot.", usr.key)
+			world.log_admin("[usr.key] initiated an immediate reboot.")
 			world.Reboot()
 	if (href_list["c_mode"])
 		if ((src.rank in list( "Game Master", "Administrator", "Major Administrator", "Primary Administrator" )))
@@ -686,7 +685,7 @@
 				if("sandbox")
 					master_mode = "sandbox"
 				else
-			if(config.logadmin) world.log << text("ADMIN: [] set the mode as [].", usr.key, master_mode)
+			world.log_admin("[usr.key] set the mode as [master_mode].")
 			world << text("\blue <B>The mode is now: []</B>", master_mode)
 
 			var/F = file(persistent_file)
@@ -717,8 +716,8 @@
 	if (href_list["g_send"])
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message
 		if (t)
-			world << text("\blue <B>[] Announces:</B>\n \t []", usr.key, t)
-			if(config.logadmin) world.log << "ADMIN: Announce: [usr.key] : [t]"
+			world << "\blue <B>[usr.key] Announces:</B>\n \t [t]"
+			world.log_admin("Announce: [usr.key] : [t]")
 	if (href_list["p_send"])
 		var/dat = "<B>Who are you sending a message to?</B><HR>"
 		for(var/mob/M in world)
@@ -740,7 +739,7 @@
 			else
 				M << text("\blue Admin PM from-<B>[]</B>: []", usr.key, t)
 			usr << text("\blue Admin PM to-<B><A href='?src=\ref[];p_send2=\ref[]'>[]</A></B>: []", src, M, M.key, t)
-			if(config.logadmin) world.log << "ADMIN: PM: [usr.key]->[M.key] : [t]"
+			world.log_admin("PM: [usr.key]->[M.key] : [t]")
 	*/
 
 	if (href_list["m_item"])
@@ -749,14 +748,14 @@
 		if (!( Q ))
 			return
 		new Q( usr.loc )
-		if(config.logadmin) world.log << text("ADMIN: [] created a []", usr.key, Q)
+		world.log_admin("[usr.key] created a [Q]")
 	if (href_list["m_obj"])
 		var/X = typesof(/obj) - typesof(/obj/item)
 		var/Q = input("What object?", null, null, null)  as null|anything in X
 		if (!( Q ))
 			return
 		new Q( usr.loc )
-		if(config.logadmin) world.log << text("ADMIN: [] created a []", usr.key, Q)
+		world.log_admin("[usr.key] created a [Q]")
 	if (href_list["dna"])
 		if ((src.rank in list( "Game Master", "Administrator", "Major Administrator", "Primary Administrator" )))
 			var/dat = "<B>Registered DNA sequences:</B><HR>"
@@ -771,7 +770,7 @@
 				world << "<B>The OOC channel has been globally enabled!</B>"
 			else
 				world << "<B>The OOC channel has been globally disabled!</B>"
-			if(config.logadmin) world.log << text("ADMIN: [] toggled OOC.", usr.key)
+			world.log_admin("[usr.key] toggled OOC.")
 	if (href_list["startnow"])
 		if ((src.rank in list( "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			world << "<B>The game will now start immediately thanks to [usr.key]!</B>"
@@ -779,8 +778,7 @@
 			if (!ticker)
 				ticker = new /datum/control/gameticker()
 				spawn (0)
-					if (config.logadmin)
-						world.log << "ADMIN: [usr.key] used start_now"
+					world.log_admin("[usr.key] used start_now")
 					ticker.process()
 				data_core = new /obj/datacore()
 	if (href_list["toggle_enter"])
@@ -790,17 +788,17 @@
 				world << "<B>You may no longer enter the game.</B>"
 			else
 				world << "<B>You may now enter the game.</B>"
-			if(config.logadmin) world.log << text("ADMIN: [] toggled new player game entering.", usr.key)
+			world.log_admin("[usr.key] toggled new player game entering.")
 			world.update_stat()
 			update()
 	if (href_list["toggle_ai"])
 		if ((src.rank in list( "Game Master", "Administrator", "Major Administrator", "Primary Administrator" )))
-			config.allowai = !( config.allowai )
-			if (!( config.allowai ))
+			config.allow_ai = !( config.allow_ai )
+			if (!( config.allow_ai ))
 				world << "<B>The AI job is no longer chooseable.</B>"
 			else
 				world << "<B>The AI job is chooseable now.</B>"
-			if(config.logadmin) world.log << text("ADMIN: [] toggled AI allowed.", usr.key)
+			world.log_admin("[usr.key] toggled AI allowed.")
 			world.update_stat()
 			update()
 	if (href_list["toggle_abandon"])
@@ -810,7 +808,7 @@
 				world << "<B>You may now abandon mob.</B>"
 			else
 				world << "<B>Live or Die Mode Activated</B>"
-				if(config.logadmin) world.log << text("ADMIN: [] toggled abandon mob to [].", usr.key,(abandon_allowed?"On":"Off"))
+				world.log_admin("[usr.key] toggled abandon mob to [abandon_allowed ? "On" : "Off"].")
 			world.update_stat()
 			update()
 	if (href_list["delay"])
@@ -820,10 +818,10 @@
 			going = !( going )
 			if (!( going ))
 				world << text("<B>The game start has been delayed by [] (Administrator to SS13)</B>", usr.key)
-				if(config.logadmin) world.log << text("ADMIN: [] delayed the game.", usr.key)
+				world.log_admin("[usr.key] delayed the game.")
 			else
 				world << text("<B>The game will start soon thanks to [] (Administrator to SS13)</B>", usr.key)
-				if(config.logadmin) world.log << text("ADMIN: [] removed the delay.", usr.key)
+				world.log_admin("[usr.key] removed the delay.")
 	if (href_list["secrets"])
 		if ((src.rank in list( "Game Master", "Administrator", "Major Administrator", "Primary Administrator" )))
 			var/dat = {"
@@ -917,13 +915,13 @@
 					else
 						alert("The game has not started yet.", null, null, null, null, null)
 				if("monkey")
-					if(config.logadmin) world.log << text("ADMIN: [] used secret []", usr.key, href_list["secrets2"])
+					world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
 					for(var/mob/human/H in world)
 						H.monkeyize()
 						//Foreach goto(3504)
 					ok = 1
 				if("power")
-					if(config.logadmin) world.log << text("ADMIN: [] used secret []", usr.key, href_list["secrets2"])
+					world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
 
 					for(var/area/A in world)
 						A.requires_power = 0
@@ -933,11 +931,11 @@
 
 						A.power_change()
 				if("wave")
-					if(config.logadmin) world.log << text("ADMIN: [] used secret []", usr.key, href_list["secrets2"])
+					world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
 					meteor_wave()
 				else
 			if (usr)
-				if(config.logadmin) world.log << text("ADMIN: [] used secret []", usr.key, href_list["secrets2"])
+				world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
 				if (ok)
 					world << text("<B>A secret has been activated by []!</B>", usr.key)
 	return
@@ -983,7 +981,7 @@
 			if(lvl >=3 )
 				dat += "<A href='?src=\ref[src];toggle_enter=1'>Toggle Entering [enter_allowed]</A><br>"
 				dat += "<A href='?src=\ref[src];toggle_abandon=1'>Toggle Abandon [abandon_allowed]</A><br>"
-				dat += "<A href='?src=\ref[src];toggle_ai=1'>Toggle AI [config.allowai]</A><br>"
+				dat += "<A href='?src=\ref[src];toggle_ai=1'>Toggle AI [config.allow_ai]</A><br>"
 
 				dat += "<A href='?src=\ref[src];c_mode=1'>Change Game Mode</A><br>"
 			if(lvl >= 2)
@@ -998,8 +996,8 @@
 				dat += "<A href='?src=\ref[src];votekill=1'>Abort current vote.</A><BR>"
 
 			if(lvl>=3)
-				dat += "<A href='?src=\ref[src];vt_rst=1'>Toggle restart voting [config.allowvoterestart].</A><BR>"
-				dat += "<A href='?src=\ref[src];vt_mode=1'>Toggle mode voting [config.allowvotemode].</A><BR>"
+				dat += "<A href='?src=\ref[src];vt_rst=1'>Toggle restart voting [config.allow_vote_restart].</A><BR>"
+				dat += "<A href='?src=\ref[src];vt_mode=1'>Toggle mode voting [config.allow_vote_mode].</A><BR>"
 
 			dat += "<BR>"
 
@@ -1028,9 +1026,9 @@
 
 	if(config)
 		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
+			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allow_vote_mode ? "Vote": "No vote"), (config.allow_ai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
 		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
+			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allow_vote_mode ? "Vote": "No vote"), (config.allow_ai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
 	else
 		if (ticker)
 			src.status = text("Space Station 13 V.[] ([],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
@@ -1088,91 +1086,8 @@
 				admins[text("[]", m_key)] = text("[]", a_lev)
 		//Foreach goto(64)
 
-	config = new /datum/config()
-
-	var/config_text = file2text("config.txt")
-
-	if(!config_text)
-		world.log << "No config.txt file found, setting defaults"
-		config.logooc = 0			// log OOC channek
-		config.logaccess = 0		// log login/logout
-		config.logsay = 0			// log client say
-		config.logadmin = 1		// log admin actions
-		config.loggame = 0			// log game events
-		config.logvote = 1
-		config.allowvoterestart = 0 // allow votes to restart
-		config.allowai = 0			// allow ai
-		config.allowvotemode = 0	// allow votes to change mode
-		config.votenodefault = 0	// vote does not default to nochange/norestart
-		config.votenodead = 0		// dead people can't vote
-		config.votedelay = 600		// minimum time between voting sessions (seconds, 10 minute default)
-		config.voteperiod = 60		// length of voting period (seconds, default 1 minute)
-
-	else
-		world.log << "Reading config.txt"
-		var/list/CL = dd_text2list(config_text, "\n")
-		for(var/t in CL)
-			if(t)
-				//world.log << "CFG:[t]"
-				if(copytext(t,1,2) == "#")		// comment marker
-					continue
-				var/t1 = findtext(t," ")
-				var/cfgvar
-				var/cfgval = null
-
-				if(t1)
-					cfgvar = lowertext(copytext(t,1,t1))
-					cfgval = copytext(t, t1+1)
-				else
-					cfgvar = lowertext(t)
-
-				//world.log << "CFG: [t] : [cfgvar] [cfgval]"
-
-				switch(cfgvar)
-					if("")
-						//continue
-					if("logooc")
-						config.logooc = 1
-					if("logaccess")
-						config.logaccess = 1
-					if("logsay")
-						config.logsay = 1
-					if("logadmin")
-						config.logadmin = 1
-					if("loggame")
-						config.loggame = 1
-					if("logvote")
-						config.logvote = 1
-					if("prob_extended")
-						config.pickprob["extended"] = text2num(cfgval)
-					if("prob_traitor")
-						config.pickprob["traitor"] = text2num(cfgval)
-					if("prob_monkey")
-						config.pickprob["monkey"] = text2num(cfgval)
-					if("prob_meteor")
-						config.pickprob["meteor"] = text2num(cfgval)
-					if("prob_blob")
-						config.pickprob["blob"] = text2num(cfgval)
-					if("prob_nuclear")
-						config.pickprob["nuclear"] = text2num(cfgval)
-					if("allowvoterestart")
-						config.allowvoterestart = 1
-					if("allowvotemode")
-						config.allowvotemode = 1
-					if("nodeadvote")
-						config.votenodead = 1
-					if("defaultnovote")
-						config.votenodefault = 1
-					if("votedelay")
-						config.votedelay = text2num(cfgval)
-					if("voteperiod")
-						config.voteperiod = text2num(cfgval)
-					if("allowai")
-						config.allowai = 1
-
-					else
-						world.log<<"Unknown setting in config.txt: [cfgvar]"
-
+	config = new /datum/configuration()
+	config.load("config.txt")
 
 	//for(var/M in config.modes)
 	//	world.log << "Mode [M] prob [config.pickprob[M]]"
@@ -1416,7 +1331,7 @@
 			//Foreach goto(64)
 		src.timing = 0
 		sleep(300)
-		if(config.loggame) world.log << "GAME: Syndicate success"
+		world.log_game("Syndicate success")
 		world.Reboot()
 		return
 	return
@@ -1489,7 +1404,7 @@
 				del(T)
 			//Foreach goto(2449)
 	sleep(300)
-	if(config.loggame) world.log << "GAME: Rebooting due to end of game"
+	world.log_game("Rebooting due to end of game")
 	world.Reboot()
 	return 1
 
@@ -1502,24 +1417,22 @@
 
 	switch (master_mode)
 		if("secret")
-			src.mode = config.pickmode()
+			src.mode = config.pick_random_mode()
 			world << "<B>The current game mode is - Secret!</B>"
 			world << "<B>The game will pick between meteor, traitor, blob, or monkey mode!</B>"
-
 		if("random")
-			src.mode = config.pickmode()
+			src.mode = config.pick_random_mode()
 			world << "<B>The current game mode is - Random</B>"
 			world << "<B>The game has picked mode: \red [src.mode.name]</B>"
 		else
-			src.mode = master_mode
-			src.mode:announce()
+			src.mode = config.pick_mode(master_mode)
+			src.mode.announce()
 
 	src.mode.pre_setup()
 
 	world << "<B>Now dispensing all identification cards.</B>"
 
-	if (config.loggame)
-		world.log << "GAME: starting game of [src.mode.name]"
+	world.log_game("GAME: starting game of [src.mode.name]")
 
 	DivideOccupations()
 

@@ -46,7 +46,7 @@
 			// If someone picked AI before it was disabled, or has a saved profile with it
 			// on a game that now lacks it, this will make sure they don't become the AI,
 			// by changing that choice to Captain.
-			if (!config.allowai)
+			if (!config.allow_ai)
 				if (M.occupation1 == "AI")
 					M.occupation1 = "Captain"
 				if (M.occupation2 == "AI")

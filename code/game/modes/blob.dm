@@ -181,13 +181,13 @@
 			if (numSpace==0 && numPod==0 && numOffStation==0)
 				world << "<FONT size = 3><B>The AI has won!</B></FONT>"
 				world << "<B>The AI successfully maintained the quarantine - no players escaped in pods, were in space, or were off-station (as far as we can tell).</B>"
-				if(config.loggame) world.log << "GAME: AI won at Blob mode despite overall loss."
+				world.log_game("AI won at Blob mode despite overall loss.")
 			else
 				world << "<FONT size = 3><B>The AI has lost!</B></FONT>"
 				world << text("<B>The AI failed to maintain the quarantine - [] players escaped in pods, [] were in space, and [] were off-station (as far as we can tell).</B>", numPod, numSpace, numOffStation)
-				if(config.loggame) world.log << "GAME: AI lost at Blob mode."
+				world.log_game("AI lost at Blob mode.")
 
-		if(config.loggame) world.log << "GAME: Blob mode was lost."
+		world.log_game("Blob mode was lost.")
 		ticker.event = 5
 		sleep(300)
 		world.Reboot()
@@ -216,7 +216,7 @@
 
 			world << "<B>The station is [percent]% intact.</B>"
 
-			if(config.loggame) world.log << "GAME: Blob mode was won with station [percent]% intact."
+			world.log_game("Blob mode was won with station [percent]% intact.")
 
 			ticker.event = 5
 			sleep(300)
@@ -225,7 +225,7 @@
 			world << "<FONT size = 3><B>The staff has lost!</B></FONT>"
 			world << "<B>The alien organism has been eradicated from the station, but directive 7-12 has already been issued.</B>"
 
-			if(config.loggame) world.log << "GAME: Blob mode was lost after eradicating blob too late."
+			world.log_game("Blob mode was lost after eradicating blob too late.")
 
 			ticker.event = 5
 			sleep(300)
