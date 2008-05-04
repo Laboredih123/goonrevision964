@@ -27,7 +27,7 @@ AUTO_FILE_DIR: ON
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "ss13_gibbed.dmp"
+#include "gibbed.dmp"
 #include "code\!atoms.dm"
 #include "code\aaaDefines.dm"
 #include "code\airtunnel.dm"
