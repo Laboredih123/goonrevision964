@@ -2,32 +2,31 @@
 #include "data\stylesheet.dm"
 
 /atom
-	layer = 2.0
-	var/level = 2.0
+	layer = 2
+	var/level = 2
 	var/flags = FPRINT
 	var/fingerprints = null
 
 /atom/movable
-	layer = 3.0
+	layer = 3
 	var/last_move = null
-	var/anchored = 0.0
-	var/weight = 25000.0
-	var/elevation = 2.0
-	var/move_speed = 10.0
-	var/l_move_time = 1.0
-	var/m_flag = 1.0
+	var/anchored = 0
+	var/weight = 25000
+	var/elevation = 2
+	var/move_speed = 10
+	var/l_move_time = 1
+	var/m_flag = 1
 
 /atom/movable/overlay
 	var/atom/master = null
-	anchored = 1.0
+	anchored = 1
 
 /datum/air_tunnel
 	//name = "air tunnel"
-	var/operating = 0.0
-	var/siphon_status = 0.0
-	var/air_stat = 0.0
-
-	var/list/connectors = list(  )
+	var/operating = 0
+	var/siphon_status = 0
+	var/air_stat = 0
+	var/list/connectors = list()
 
 /datum/air_tunnel/air_tunnel1
 	//name = "air tunnel1"
@@ -35,11 +34,13 @@
 /datum/control
 	//name = "control"
 	var/processing = 1.0
+
 /datum/control/cellular
 	//name = "cellular"
 	var/checkfire = 0.0
 	var/var_swap = 1.0
 	var/time = 0
+
 /datum/control/gameticker
 	//name = "gameticker"
 	var/timeleft = null
