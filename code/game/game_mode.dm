@@ -1,10 +1,11 @@
 /datum/game_mode
 	var/name = "invalid"
 	var/config_tag = "invalid"
+	var/votable = 1
 
 // Default check win
 /datum/game_mode/proc/announce()
-	world << "<B>[src] did not define announce()</B>
+	world << "<B>[src] did not define announce()</B>"
 
 /datum/game_mode/proc/pre_setup()
 	return

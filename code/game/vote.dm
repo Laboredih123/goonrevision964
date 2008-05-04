@@ -197,7 +197,7 @@
 
 			text += "Current game mode is: <B>[master_mode]</B>.<BR>Select the mode to change to:<UL>"
 
-			for(var/md in vote.vmodes)
+			for(var/md in config.votable_modes)
 				var/disp = capitalize(md)
 				if(md=="default")
 					disp = "No change"

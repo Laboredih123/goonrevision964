@@ -36,6 +36,7 @@ var/list/ai_names = list(
 	"Cutie",
 	"Data",
 	"Dee Model",
+	"Deep Thought",
 	"Dor-15",
 	"Dorfl",
 	"Dot Matrix",

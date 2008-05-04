@@ -8,6 +8,8 @@
 			world.log << "Adding game mode [M.name] ([M.config_tag]) to configuration."
 			src.modes += M.config_tag
 			src.probabilities[M.config_tag] = 1
+			if (M.votable)
+				src.votable_modes += M.config_tag
 		del(M)
 
 /datum/configuration/proc/load(filename)
@@ -25,13 +27,13 @@
 	for (var/t in CL)
 		if (!t)
 			continue
-		
+
 		t = trim(t)
 		if (length(t) == 0)
 			continue
 		else if (copytext(t, 1, 2) == "#")
 			continue
-		
+
 		var/pos = findtext(t, " ")
 		var/name = null
 		var/value = null
@@ -110,29 +112,29 @@
 		if (M.config_tag && M.config_tag == mode_name)
 			return M
 		del(M)
-	
+
 	return null
 
 /datum/configuration/proc/pick_random_mode()
 	var/total = 0
 	var/list/accum = list()
-	
+
 	for(var/M in src.modes)
 		total += src.probabilities[M]
 		accum[M] = total
-	
+
 	var/r = total - (rand() * total)
-	
+
 	var/mode_name = null
 	for (var/M in modes)
 		if (src.probabilities[M] > 0 && accum[M] >= r)
 			mode_name = M
 			break
-	
+
 	if (!mode_name)
 		world << "Failed to pick a random game mode."
 		return null
-	
+
 	//world << "Returning mode [mode_name]"
-	
+
 	return src.pick_mode(mode_name)

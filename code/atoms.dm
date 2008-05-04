@@ -1,61 +1,12 @@
+#include "setup.dm"
 #include "data\stylesheet.dm"
-
-#define CELLSTANDARD 3600000.0		// gas capacity of cell at STP
-
-#define O2STANDARD 756000.0			// O2 standard value (21%)
-#define N2STANDARD 2844000.0		// N2 standard value (79%)
-
-#define T0C 273.15					// 0degC
-#define T20C 293.15					// 20degC
-
-#define FIREOFFSET 505				//bias for starting firelevel
-#define FIREQUOT 15000				//divisor to get target temp from firelevel
-#define FIRERATE 5					//divisor of temp difference rate of change
-
-#define NORMPIPERATE 40					//pipe-insulation rate divisor
-#define HEATPIPERATE 8					//heat-exch pipe insulation
-
-#define FLOWFRAC 0.5				// fraction of gas transfered per process
-
-
-//FLAGS BITMASK
-#define ONBACK 1			// can be put in back slot
-#define TABLEPASS 2			// can pass by a table or rack
-#define HALFMASK 4			// mask only gets 1/2 of air supply from internals
-
-#define HEADSPACE 4			// head wear protects against space
-
-#define MASKINTERNALS 8		// mask allows internals
-#define SUITSPACE 8			// suit protects against space
-
-#define USEDELAY 16			// 1 second extra delay on use
-#define NOSHIELD 32			// weapon not affected by shield
-#define DRIVABLE 64			// fireable by mass driver
-#define ONBELT 128			// can be put in belt slot
-#define FPRINT 256			// takes a fingerprint
-#define WINDOW 512			// window or window/door
-
-
-// channel numbers for power
-
-#define EQUIP 1
-#define LIGHT 2
-#define ENVIRON 3
-#define TOTAL 4	//for total power used only
-
-// bitflags for machine stat variable
-#define BROKEN 1
-#define NOPOWER 2
-#define POWEROFF 4		// tbd
-#define MAINT 8			// under maintaince
-
-
 
 /atom
 	layer = 2.0
 	var/level = 2.0
 	var/flags = FPRINT
 	var/fingerprints = null
+
 /atom/movable
 	layer = 3.0
 	var/last_move = null
@@ -65,18 +16,10 @@
 	var/move_speed = 10.0
 	var/l_move_time = 1.0
 	var/m_flag = 1.0
+
 /atom/movable/overlay
 	var/atom/master = null
 	anchored = 1.0
-
-/client
-	var/obj/admins/holder = null
-	var/listen_ooc = 1.0
-	var/move_delay = 1.0
-	var/moving = null
-	var/vote = null
-	var/showvote = null
-	var/adminobs = null
 
 /datum/air_tunnel
 	//name = "air tunnel"
@@ -86,62 +29,9 @@
 
 	var/list/connectors = list(  )
 
-
 /datum/air_tunnel/air_tunnel1
 	//name = "air tunnel1"
-/datum/chemical
-	//var/name = "chemical"
-	var/moles = 0.0
-	var/molarmass = 18.0
-	var/density = 1.0
-	var/chem_formula = "H2O"
-	var/name = "water-l"
-/datum/chemical/ch_cou
-	//name = "ch cou"
-	molarmass = 270.0
-	name = "CCSremedy-l"
-/datum/chemical/epil
-	//name = "epil"
-	molarmass = 230.0
-	name = "EPILremedy-l"
-/datum/chemical/l_plas
-	//name = "l plas"
-	name = "plasma-l"
-	molarmass = 154.0
-/datum/chemical/pathogen
-	name = "pathogen"
-	var/amount = 0.0
-	var/structure_id = null
-/datum/chemical/pathogen/antibody
-	name = "antibody"
-	var/tar_struct = null
-	var/a_style = null
-/datum/chemical/pathogen/blood
-	name = "blood"
-	var/antibodies = null
-	var/antigens = null
-	var/has_oxygen = null
-	var/has_co = null
-/datum/chemical/pathogen/virus
-	name = "virus"
-/datum/chemical/pl_coag
-	name = "pl coag"
-	name = "antipla-l"
-	molarmass = 176.0
-/datum/chemical/rejuv
-	name = "rejuv"
-	molarmass = 97.0
-	name = "rejuv-l"
-/datum/chemical/s_tox
-	name = "s tox"
-	name = "sleeptox-l"
-	molarmass = 45.0
-/datum/chemical/waste
-	name = "waste"
-	name = "waste-l"
-	molarmass = 200.0
-/datum/chemical/water
-	name = "water"
+
 /datum/control
 	//name = "control"
 	var/processing = 1.0
@@ -197,40 +87,13 @@
 	var/timeleft = 60.0
 
 /datum/station_state
-		var/floor = 0
-		var/wall = 0
-		var/r_wall = 0
-		var/window = 0
-		var/door = 0
-		var/grille = 0
-		var/mach = 0
-
-/datum/configuration
-		var/log_ooc = 0						// log OOC channek
-		var/log_access = 0					// log login/logout
-		var/log_say = 0						// log client say
-		var/log_admin = 0					// log admin actions
-		var/log_game = 0					// log game events
-		var/log_vote = 0					// log voting
-		var/allow_vote_restart = 0 			// allow votes to restart
-		var/allow_vote_mode = 0				// allow votes to change mode
-		var/vote_delay = 600				// minimum time between voting sessions (seconds, 10 minute default)
-		var/vote_period = 60				// length of voting period (seconds, default 1 minute)
-		var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
-		var/vote_no_dead = 0				// dead people can't vote (tbi)
-		var/list/modes = list()				// allowed modes
-		var/list/probabilities = list()		// relative probability of each mode
-		var/allow_ai = 1					// allow ai job
-
-/datum/vote
-	var/voting = 0		// true if currently voting
-	var/nextvotetime = 0 // time at which next vote can be started
-	var/votetime = 60	// time at which voting will end
-	var/mode = 0 		// 0 = restart vote, 1 = mode vote
-							// modes which can be voted for
-	var/list/vmodes = list("default", "extended", "secret", "random", "traitor", "meteor", "monkey", "nuclear", "blob", "sandbox" )
-	var/winner = null		// the vote winner
-
+	var/floor = 0
+	var/wall = 0
+	var/r_wall = 0
+	var/window = 0
+	var/door = 0
+	var/grille = 0
+	var/mach = 0
 
 /datum/powernet
 	var/list/cables = list()	// all cables & junctions
@@ -250,14 +113,6 @@
 
 /datum/debug
 	var/list/debuglist
-
-/datum/sun
-	var/angle
-	var/dx
-	var/dy
-	var/counter = 50		// to make the vars update during 1st call
-	var/rate
-
 
 /mob
 	density = 1
@@ -350,6 +205,7 @@
 /mob/ghost
 	name = "ghost"
 	icon_state = "ghost"
+
 /mob/human
 	name = "human"
 	icon = 'mob.dmi'
@@ -537,85 +393,7 @@
 	var/current = null
 	anchored = 1.0
 	flags = 2.0
-/obj/closet
-	desc = "It's a closet!"
-	name = "Closet"
-	icon = 'stationobjs.dmi'
-	icon_state = "closet"
-	density = 1
-	var/icon_closed = "closet"
-	var/icon_opened = "emcloset1"
-	var/opened = 0.0
-	var/welded = 0.0
-	flags = 320.0
-	weight = 1.0E8
-/obj/closet/emcloset
-	desc = "A bulky (yet mobile) closet. Comes prestocked with a gasmask and o2 tank for emergencies."
-	name = "Emergency Closets"
-	icon_state = "emcloset0"
-	icon_closed = "emcloset0"
-/obj/closet/coffin
-	desc = "A burial receptacle for the dearly departed."
-	name = "coffin"
-	icon_state = "premium_coffin_closed"
-	icon_closed = "premium_coffin_closed"
-	icon_opened = "premium_coffin_opened"
-/obj/closet/l3closet
-	desc = "A bulky (yet mobile) closet. Comes prestocked with level 3 biohazard gear for emergencies."
-	name = "Level 3 Biohazard Suit"
-	icon_state = "l3closet0"
-	icon_closed = "l3closet0"
-	icon_opened = "l3closet1"
 
-/obj/closet/syndicate
-	desc = "Why is this here?"
-	name = "Syndicate Weapons Closet"
-	icon_state = "syndicate0"
-	icon_closed = "syndicate0"
-
-/obj/closet/syndicate/personal
-	desc = "Gear preperations closet."
-
-/obj/closet/syndicate/nuclear
-	desc = "Nuclear preperations closet."
-
-/obj/closet/wardrobe
-	desc = "A bulky (yet mobile) wardrobe closet. Comes prestocked with 6 changes of clothes."
-	name = "Wardrobe"
-	icon_state = "wardrobe-b"
-	icon_closed = "wardrobe-b"
-/obj/closet/wardrobe/black
-	name = "Black Wardrobe"
-	icon_state = "wardrobe-bl"
-	icon_closed = "wardrobe-bl"
-/obj/closet/wardrobe/green
-	name = "Green Wardrobe"
-	icon_state = "wardrobe-g"
-	icon_closed = "wardrobe-g"
-/obj/closet/wardrobe/mixed
-	name = "Mixed Wardrobe"
-	icon_state = "wardrobe-bp"
-	icon_closed = "wardrobe-bp"
-/obj/closet/wardrobe/orange
-	name = "Prisoners Wardrobe"
-	icon_state = "wardrobe-o"
-	icon_closed = "wardrobe-o"
-/obj/closet/wardrobe/pink
-	name = "Pink Wardrobe"
-	icon_state = "wardrobe-p"
-	icon_closed = "wardrobe-p"
-/obj/closet/wardrobe/red
-	name = "Red Wardrobe"
-	icon_state = "wardrobe-r"
-	icon_closed = "wardrobe-r"
-/obj/closet/wardrobe/white
-	name = "Medical Wardrobe"
-	icon_state = "wardrobe-w"
-	icon_closed = "wardrobe-w"
-/obj/closet/wardrobe/yellow
-	name = "Technician Wardrobe"
-	icon_state = "wardrobe-y"
-	icon_closed = "wardrobe-y"
 /obj/ctf_assist
 	name = "ctf assist"
 	var/play_team = 4.0
@@ -3253,9 +3031,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/d2 = 1
 	layer = 2.5
 
-
 /obj/manifest
-
 	name = "manifest"
 	icon = 'screen1.dmi'
 	icon_state = "x"
@@ -3390,44 +3166,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "blank"
 	var/selecting = "chest"
 	screen_loc = "15,15"
-/obj/secloset
-	desc = "An immobile card-locked storage closet."
-	name = "Security Locker"
-	icon = 'stationobjs.dmi'
-	icon_state = "1secloset0"
-	density = 1
-	var/opened = 0.0
-	var/locked = 1.0
-	var/allowed = null
-	var/access = null
-	anchored = 1.0
-/obj/secloset/animal
-	name = "Animal Control"
-/obj/secloset/highsec
-	name = "Experimental Technology"
-	allowed = "Captain/Head of Personnel/Head of Research"
-/obj/secloset/captains
-	name = "Captain's Closet"
-	allowed = "Captain"
-/obj/secloset/medical1
-	name = "Medicine Closet"
-	allowed = "Medical Researcher/Prison Doctor/Medical Doctor/Captain/Head of Research"
-/obj/secloset/medical2
-	name = "Anesthetic"
-	allowed = "Medical Researcher/Prison Doctor/Medical Doctor/Captain/Head of Research"
-/obj/secloset/personal
-	desc = "The first card swiped gains control."
-	name = "Personal Closet"
-	icon_state = "0secloset0"
-/obj/secloset/security1
-	name = "Security Equipment"
-	allowed = "Prison Security/Prison Warden/Security Officer/Captain/Head of Personnel/Head of Research"
-/obj/secloset/security2
-	name = "Forensics Locker"
-	allowed = "Prison Security/Prison Warden/Forensic Technician/Security Officer/Captain/Head of Personnel/Head of Research"
-/obj/secloset/toxin
-	name = "Toxin Researcher Locker"
-	allowed = "Toxin Researcher/Captain/Head of Research"
+
 /obj/shut_controller
 	name = "shut controller"
 	var/moving = null
@@ -3519,9 +3258,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 	var/list/members = list(  )
 
-/obj/test
-	name = "test"
-	var/success = 1.0
 /obj/watertank
 	name = "watertank"
 	icon = 'stationobjs.dmi'
@@ -3549,138 +3285,3 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	weight = 2500000.0
 	anchored = 1.0
 	flags = 512.0
-
-/turf
-	icon = 'turfs.dmi'
-	var/intact = 0.0
-	var/firelevel = null
-	var/oxygen = O2STANDARD
-	var/oldoxy = null
-	var/tmpoxy = null
-	var/oldpoison = null
-	var/tmppoison = null
-	var/poison = 0.0
-	var/co2 = 0.0
-	var/oldco2 = null
-	var/tmpco2 = null
-	var/sl_gas = 0.0
-	var/osl_gas = null
-	var/tsl_gas = null
-	var/n2 = N2STANDARD
-	var/on2 = null
-	var/tn2 = null
-	var/temp = T20C
-	var/otemp
-	var/ttemp
-
-	var/airdir = null
-	var/airforce = null
-	var/checkfire = 1.0
-	var/atmoalt = null
-	var/updatecell = null
-	level = 1.0
-
-
-	// the turfs to the N,S,E & W
-	var/turf/linkN
-	var/turf/linkS
-	var/turf/linkE
-	var/turf/linkW
-
-	// whether those turfs are air-connected
-	var/airN
-	var/airS
-	var/airE
-	var/airW
-
-	// whether to use special conduction heat transfer (through windows only)
-
-	var/condN
-	var/condS
-	var/condE
-	var/condW
-
-
-
-/turf/space
-	name = "space"
-	icon_state = "space"
-	var/previousArea = null
-	updatecell = 1.0
-	oxygen = 0.0
-	n2 = 0.0
-	checkfire = 0
-	oldoxy = 0.0
-	oldpoison = 0.0
-	temp = 2.7				// CMB radiation temperature+
-
-/turf/station
-	name = "station"
-	intact = 1.0
-/turf/station/command
-	name = "command"
-/turf/station/command/floor
-	name = "floor"
-	icon = 'Icons.dmi'
-	icon_state = "Floor3"
-	updatecell = 1.0
-/turf/station/command/floor/other
-	icon_state = "Floor"
-/turf/station/command/wall
-	name = "wall"
-	icon = 'wall.dmi'
-	icon_state = "CCWall"
-	opacity = 1
-	density = 1
-	updatecell = 0.0
-/turf/station/command/wall/other
-	icon_state = "r_wall"
-/turf/station/engine
-	name = "engine"
-	icon = 'engine.dmi'
-/turf/station/engine/floor
-	name = "floor"
-	icon_state = "floor"
-	updatecell = 1.0
-/turf/station/floor
-	name = "floor"
-	icon = 'Icons.dmi'
-	icon_state = "Floor"
-	var/health = 150.0
-	var/burnt = null
-	updatecell = 1.0
-/turf/station/floor/grid
-	icon = 'weap_sat.dmi'
-	icon_state = "grid"
-/turf/station/floor/plasma_test
-/turf/station/r_wall
-	name = "r wall"
-	icon = 'wall.dmi'
-	icon_state = "r_wall"
-	var/previousArea = null
-	opacity = 1
-	density = 1
-	var/state = 2.0
-	var/d_state = 0.0
-	updatecell = 0.0
-/turf/station/shuttle
-	name = "shuttle"
-	icon = 'shuttle.dmi'
-/turf/station/shuttle/floor
-	name = "floor"
-	icon_state = "floor"
-	updatecell = 1.0
-/turf/station/shuttle/wall
-	name = "wall"
-	icon_state = "wall"
-	opacity = 1
-	density = 1
-	updatecell = 0.0
-/turf/station/wall
-	name = "wall"
-	icon = 'wall.dmi'
-	var/previousArea = null
-	opacity = 1
-	density = 1
-	var/state = 2.0
-	updatecell = 0.0

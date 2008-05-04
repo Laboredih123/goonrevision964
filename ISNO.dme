@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: icons\isno\flooring.dmi
-DIR: code code\data code\game icons icons\isno icons\ss13 interface
+FILE:
+DIR: code code\atoms code\game code\game\modes icons\isno icons\ss13 interface
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -13,6 +13,7 @@ AUTO_FILE_DIR: ON
 // BEGIN_FILE_DIR
 #define FILE_DIR .
 #define FILE_DIR "code"
+#define FILE_DIR "code/atoms"
 #define FILE_DIR "code/data"
 #define FILE_DIR "code/game"
 #define FILE_DIR "code/game/item"
@@ -40,7 +41,16 @@ AUTO_FILE_DIR: ON
 #include "code\hexadecimal.dm"
 #include "code\inverthtml.dm"
 #include "code\logging.dm"
+#include "code\setup.dm"
 #include "code\texthandling.dm"
+#include "code\atoms\chemical.dm"
+#include "code\atoms\client.dm"
+#include "code\atoms\closet.dm"
+#include "code\atoms\configuration.dm"
+#include "code\atoms\secure_closet.dm"
+#include "code\atoms\sun.dm"
+#include "code\atoms\turf.dm"
+#include "code\atoms\vote.dm"
 #include "code\data\ai_names.dm"
 #include "code\data\changelog.dm"
 #include "code\data\jobs.dm"
@@ -91,6 +101,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\modes\meteor.dm"
 #include "code\game\modes\monkey.dm"
 #include "code\game\modes\nuclear.dm"
+#include "code\game\modes\sandbox.dm"
 #include "code\game\modes\traitor.dm"
 #include "code\game\modes\virus.dm"
 // END_INCLUDE
