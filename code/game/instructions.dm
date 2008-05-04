@@ -146,7 +146,7 @@
 			if("Staff Assistant")
 				I.assignment = "Staff Assistant"
 				I.registered = M.rname
-				I.access_level = 2
+				I.access_level = 3
 				I.lab_access = 0
 				I.engine_access = 0
 				I.air_access = 0
