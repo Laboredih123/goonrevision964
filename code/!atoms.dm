@@ -1433,7 +1433,7 @@ obj/item/weapon/clothing/suit/labcoat
 	var/selected = null
 	var/board_stat = null
 	var/data = ""
-	var/internet = 1.0
+	var/base_url = "http://svn.slurm.us/public/spacestation13/misc/game_kit"
 	s_istate = "sheet-metal"
 	w_class = 5.0
 /obj/item/weapon/gift

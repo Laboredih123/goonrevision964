@@ -5,7 +5,7 @@
 // BEGIN_INTERNALS
 /*
 FILE:
-DIR: code code\item\weapon icons interface Lib
+DIR: code code\item code\item\weapon icons interface Lib
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -68,6 +68,7 @@ AUTO_FILE_DIR: ON
 #include "code\weap_sat.dm"
 #include "code\weapons.dm"
 #include "code\item\weapon\aimodules.dm"
+#include "code\item\weapon\game_kit.dm"
 #include "code\item\weapon\multitool.dm"
 #include "code\machinery\airlock.dm"
 #include "code\machinery\recharger.dm"

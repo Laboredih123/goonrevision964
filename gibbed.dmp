@@ -589,7 +589,7 @@
 "lq" = (/obj/grille,/obj/landmark/alterations{name = "barrier"},/turf/station/floor{name = "airless floor"; oxygen = 0; n2 = 0},/area)
 "lr" = (/obj/machinery/door/airlock{access = "1000"; closeOtherId = "escape pod airlock"},/turf/station/floor,/area/escapezone)
 "ls" = (/obj/machinery/door/window{dir = 4},/turf/station/floor,/area/tech_storage)
-"lt" = (/obj/grille,/obj/window,/obj/window{dir = 1},/turf/station/floor,/area)
+"lt" = (/obj/grille,/obj/window,/obj/window{dir = 1},/turf/station/floor,/area/tech_storage)
 "lu" = (/obj/machinery/alarm{pixel_y = 24},/turf/station/floor,/area/hallway/bridge_access)
 "lv" = (/obj/machinery/door/window{icon = 'security.dmi'; dir = 4; access = "4400"},/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor,/area/secure_storage)
 "lw" = (/obj/table,/obj/item/weapon/card/id/captains_spare,/obj/machinery/door/window{icon = 'security.dmi'; dir = 4; access = "4400"},/obj/landmark{name = "Nuclear-Disk"},/turf/station/floor,/area/secure_storage)
