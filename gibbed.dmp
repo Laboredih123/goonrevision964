@@ -653,7 +653,7 @@
 "mC" = (/obj/machinery/atmoalter/siphs/scrubbers/air_filter,/obj/item/weapon/radio/signaler,/obj/item/weapon/radio/signaler,/turf/station/floor,/area/toolstorage)
 "mD" = (/obj/item/weapon/igniter,/obj/item/weapon/crowbar,/obj/landmark/alterations{name = "monkey"; icon = 'monkey.dmi'; icon_state = "marker"},/turf/station/floor,/area/toolstorage)
 "mE" = (/obj/machinery/atmoalter/siphs/scrubbers/air_filter,/obj/item/weapon/infra,/obj/item/weapon/radio/beacon,/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor,/area/toolstorage)
-"mF" = (/obj/machinery/door/false_wall,/turf/station/floor,/area)
+"mF" = (/turf/station/wall/false_wall,/area)
 "mG" = (/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent,/obj/closet/emcloset,/turf/station/floor,/area/secure_storage)
 "mH" = (/obj/closet/emcloset,/turf/station/floor,/area/secure_storage)
 "mI" = (/obj/closet/emcloset,/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor,/area/secure_storage)

@@ -213,50 +213,7 @@
 	return 1
 	return
 
-/obj/machinery/door/false_wall/New()
-	..()
-	src.verbs -= /atom/movable/verb/pull
-	return
 
-/obj/machinery/door/false_wall/examine()
-	set src in oview(1)
-
-	usr << "It looks like a regular wall"
-	return
-
-/obj/machinery/door/false_wall/attack_ai(mob/user as mob)
-	return
-
-/obj/machinery/door/false_wall/attack_paw(mob/user as mob)
-
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/obj/machinery/door/false_wall/attack_hand(mob/user as mob)
-
-	src.add_fingerprint(user)
-	if (src.density)
-		if (prob(25))
-			open()
-		else
-			user << "\blue You push the wall but nothing happens!"
-	else
-		close()
-	return
-
-/obj/machinery/door/false_wall/attackby(obj/item/weapon/screwdriver/S as obj, mob/user as mob)
-
-	src.add_fingerprint(user)
-	if (istype(S, /obj/item/weapon/screwdriver))
-		new /obj/item/weapon/sheet/metal( src.loc )
-		new /obj/d_girders( src.loc )
-		//SN src = null
-		del(src)
-		return
-	else
-		..()
-	return
 
 
 /obj/machinery/door/firedoor/open()
@@ -3420,5 +3377,6 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 

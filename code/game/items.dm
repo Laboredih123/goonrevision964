@@ -5187,12 +5187,12 @@
 			//W = null
 			del(W)
 			return
-		new /obj/machinery/door/false_wall( src.loc )
+		new /turf/station/wall/false_wall( src.loc )
 		W:amount--
 		if (W:amount < 1)
 			//W = null
 			del(W)
-		user << "\blue Keep in mind when you open it that it MAY be difficult to sldie at first so keep trying."
+		user << "\blue Keep in mind when you open it that it MAY be difficult to slide at first so keep trying."
 		//SN src = null
 		del(src)
 		return
