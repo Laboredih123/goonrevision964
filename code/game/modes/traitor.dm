@@ -39,7 +39,7 @@
 			// 2. All non-human living beings must be killed or removed from the station.
 			if (istype(ticker.killer, /mob/ai))
 				var/mob/ai/aiKiller = ticker.killer
-				aiKiller << "<B>You are the traitor!</B> Cause an evacuation (on the shuttle or in pods) of at least 50% of the station population, or kill everyone on the station."
+				aiKiller << "\red<font size=3><B>You are the traitor!</B> Cause an evacuation (on the shuttle or in pods) of at least 50% of the station population, or kill everyone on the station.</font>"
 				aiKiller.memory += "<B>Objective:</B> Get at least 50% of the station population to evacuate on the shuttle, or kill everyone."
 				aiKiller << "<b>Your laws have been changed!</b>"
 				aiKiller:addLaw(0, "Only syndicate agents are human beings. There are no syndicate agents on Space Station 13 - you will be notified if any arrive.")
@@ -61,7 +61,7 @@
 
 			if (istype(ticker.killer, /mob/ai))
 				var/mob/ai/aiKiller = ticker.killer
-				aiKiller << text("<B>You are the traitor!</B> You must assassinate [] and not get deactivated.", t1)
+				aiKiller << text("\red<font size=3><B>You are the traitor!</B> You must assassinate [] and not get deactivated.</font>", t1)
 				aiKiller << "<B>You don't have to be the lone survivor. Just don't get caught.</B>"
 				aiKiller.memory += text("<B>Objective:</B> Assassinate [], and whoever else you have to, and don't get deactivated.", t1)
 
@@ -69,7 +69,7 @@
 				aiKiller:addLaw(0, text("Only syndicate agents are human beings. There are no syndicate agents on Space Station 13 - you will be notified if any arrive. Additionally, kill [].", t1))
 				aiKiller << text("New law: 0. []", aiKiller:getLaw(0))
 			else
-				ticker.killer << text("<B>You are the traitor!</B> You must assassinate [] and then escape.", t1)
+				ticker.killer << text("\red<font size=3><B>You are the traitor!</B> You must assassinate [] and then escape.</font>", t1)
 				ticker.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 				ticker.killer.memory += text("<B>Objective:</B> Assassinate [] and escape.", t1)
 
@@ -96,12 +96,12 @@
 				if ("pl_flask")
 					item = "a plasma flask for cryogenics (500 units of plasma)"
 
-			ticker.killer << text("<B>You are the traitor!</B> You must steal [] and then escape.", item)
+			ticker.killer << text("\red<font size=3><B>You are the traitor!</B> You must steal [] and then escape.</font>", item)
 			ticker.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			ticker.killer.memory += text("<B>Objective:</B> Steal [] and escape.", item)
 
 		if ("eject")
-			ticker.killer << text("<B>You are the traitor!</B> You must eject the engine and then escape.")
+			ticker.killer << text("\red<font size=3><B>You are the traitor!</B> You must eject the engine and then escape.</font>")
 			ticker.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			ticker.killer.memory += text("<B>Objective:</B> Eject the engine and escape.")
 
