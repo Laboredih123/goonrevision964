@@ -1,6 +1,6 @@
 /datum/game_mode/traitor
 	name = "traitor"
-	config_tag = "TRAITOR"
+	config_tag = "traitor"
 	var/objective = null
 	var/theft_object = null
 

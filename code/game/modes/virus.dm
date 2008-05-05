@@ -1,6 +1,6 @@
 /datum/game_mode/virus
 	name = "virus"
-	config_tag = "VIRUS"
+	config_tag = "virus"
 
 /datum/game_mode/virus/announce()
 	world << "<B>The current game mode is - Virus!</B>"

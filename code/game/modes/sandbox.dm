@@ -1,3 +1,7 @@
+/datum/game_mode/traitor
+	name = "sandbox"
+	config_tag = "sandbox"
+
 /datum/game_mode/sandbox/announce()
 	world << "<B>The current game mode is - Sandbox!</B>"
 	world << "<B>Build your own station with the sandbox-panel command!</B>"

@@ -1,6 +1,6 @@
 /datum/game_mode/meteor
 	name = "meteor"
-	config_tag = "METEOR"
+	config_tag = "meteor"
 
 /datum/game_mode/meteor/announce()
 	world << "<B>The current game mode is - Meteor!</B>"

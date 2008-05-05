@@ -4,8 +4,9 @@
 
 // BEGIN_INTERNALS
 /*
-FILE:
-DIR: code code\game icons\isno icons\ss13
+FILE: gibbed.dmp
+DIR: code code\game icons icons\isno interface
+UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -104,5 +105,6 @@ AUTO_FILE_DIR: ON
 #include "code\game\modes\sandbox.dm"
 #include "code\game\modes\traitor.dm"
 #include "code\game\modes\virus.dm"
+#include "interface\isno.dmf"
 // END_INCLUDE
 

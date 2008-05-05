@@ -39,21 +39,84 @@ macro "macro"
 
 menu "menu"
 	elem 
-		name = "Quit"
-		command = ".quit"
-		category = "File"
+		name = "&File"
+		command = ""
+		category = ""
 		is-checked = false
 		can-check = false
 		group = ""
 		is-disabled = false
 		saved-params = "is-checked"
+	elem 
+		name = "&Options and Messages...\tF1"
+		command = ".options"
+		category = "&File"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
+		name = "&Save screenshot...\tF2"
+		command = ".screenshot"
+		category = "&File"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
+		name = "&Quit"
+		command = ".quit"
+		category = "&File"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
+		name = "&Icons"
+		command = ""
+		category = ""
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem "stretch"
+		name = "&Stretch to fit"
+		command = ".winset \"skin_pane_game.skin_map.icon-size=0\""
+		category = "&Icons"
+		is-checked = true
+		can-check = true
+		group = "size"
+		is-disabled = false
+		saved-params = "is-checked"
+	elem "icon32"
+		name = "&32x32"
+		command = ".winset \"skin_pane_game.skin_map.icon-size=32\""
+		category = "&Icons"
+		is-checked = false
+		can-check = true
+		group = "size"
+		is-disabled = false
+		saved-params = "is-checked"
+	elem "icon16"
+		name = "&16x16"
+		command = ".winset \"skin_pane_game.skin_map.icon-size=16\""
+		category = "&Icons"
+		is-checked = false
+		can-check = true
+		group = "size"
+		is-disabled = false
+		saved-params = "is-checked"
 
 
-window "pane_game"
-	elem "pane_game"
+window "skin_pane_game"
+	elem "skin_pane_game"
 		type = MAIN
 		pos = 281,0
-		size = 800x480
+		size = 480x576
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -83,10 +146,10 @@ window "pane_game"
 		alpha = 255
 		macro = ""
 		menu = ""
-	elem "map1"
+	elem "skin_map"
 		type = MAP
-		pos = 96,0
-		size = 480x480
+		pos = 0,0
+		size = 480x576
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -105,68 +168,12 @@ window "pane_game"
 		text-mode = false
 		on-show = ""
 		on-hide = ""
-	elem "grid1"
-		type = GRID
-		pos = 0,384
-		size = 96x96
-		anchor1 = 0,100
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		text-color = #ffffff
-		background-color = #000000
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = true
-		right-click = false
-		saved-params = ""
-		cells = 3x3
-		current-cell = 1,0
-		show-lines = both
-		small-icons = false
-		enable-http-images = false
-		link-color = #0000ff
-		visited-color = #ff00ff
-		line-color = #c0c0c0
-		style = ""
-		is-list = false
-	elem "grid2"
-		type = GRID
-		pos = 0,73
-		size = 32x311
-		anchor1 = 0,100
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		text-color = #000000
-		background-color = #ffffff
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = true
-		right-click = false
-		saved-params = ""
-		cells = 0x0
-		current-cell = 0,0
-		show-lines = both
-		small-icons = false
-		enable-http-images = false
-		link-color = #0000ff
-		visited-color = #ff00ff
-		line-color = #c0c0c0
-		style = ""
-		is-list = false
 
-window "pane_input"
-	elem "pane_input"
+window "skin_pane_side"
+	elem "skin_pane_side"
 		type = MAIN
 		pos = 281,0
-		size = 800x120
+		size = 480x576
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -196,31 +203,10 @@ window "pane_input"
 		alpha = 255
 		macro = ""
 		menu = ""
-	elem "input1"
-		type = INPUT
-		pos = 0,96
-		size = 800x23
-		anchor1 = 0,100
-		anchor2 = 100,100
-		font-family = ""
-		font-size = 0
-		text-color = #000000
-		background-color = #ffffff
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = true
-		border = sunken
-		drop-zone = false
-		right-click = false
-		saved-params = ""
-		command = "say"
-		multi-line = false
-		is-password = false
-	elem "output1"
+	elem "skin_output"
 		type = OUTPUT
-		pos = 0,-1
-		size = 800x96
+		pos = 0,288
+		size = 480x288
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -240,12 +226,96 @@ window "pane_input"
 		style = ""
 		enable-http-images = false
 		max-lines = 1000
+	elem "tabs"
+		type = TAB
+		pos = 32,0
+		size = 448x288
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = ""
+		font-size = 0
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		tabs = "skin_tab_inventory"
+		current-tab = "skin_tab_inventory"
+		multi-line = true
 
-window "window_main"
-	elem "window_main"
+window "skin_tab_inventory"
+	elem "skin_tab_inventory"
+		type = MAIN
+		pos = 323,153
+		size = 448x288
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "pos;size;is-maximized"
+		title = "&Inventory"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+		is-maximized = false
+		image = ""
+		image-mode = stretch
+		keep-aspect = false
+		transparent-color = none
+		alpha = 255
+		macro = ""
+		menu = ""
+	elem "body"
+		type = GRID
+		pos = 0,0
+		size = 96x96
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		text-color = #000000
+		background-color = #ffffff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = true
+		right-click = false
+		saved-params = ""
+		cells = 3x3
+		current-cell = 1,1
+		show-lines = both
+		small-icons = false
+		enable-http-images = false
+		link-color = #0000ff
+		visited-color = #ff00ff
+		line-color = #c0c0c0
+		style = ""
+		is-list = false
+
+window "skin_window_main"
+	elem "skin_window_main"
 		type = MAIN
 		pos = 281,0
-		size = 800x600
+		size = 960x600
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -275,10 +345,10 @@ window "window_main"
 		alpha = 255
 		macro = "macro"
 		menu = "menu"
-	elem "child1"
+	elem "skin_splitter_main"
 		type = CHILD
 		pos = 0,0
-		size = 800x600
+		size = 960x576
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -293,8 +363,29 @@ window "window_main"
 		drop-zone = false
 		right-click = false
 		saved-params = "splitter"
-		left = "pane_game"
-		right = "pane_input"
-		is-vert = false
-		splitter = 90
+		left = "skin_pane_game"
+		right = "skin_pane_side"
+		is-vert = true
+		splitter = 60
+	elem "skin_input"
+		type = INPUT
+		pos = 0,580
+		size = 960x23
+		anchor1 = 0,100
+		anchor2 = 100,100
+		font-family = ""
+		font-size = 0
+		text-color = #000000
+		background-color = #ffffff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = true
+		border = sunken
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		command = ""
+		multi-line = false
+		is-password = false
 

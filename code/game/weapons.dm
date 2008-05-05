@@ -2,7 +2,7 @@
 /obj/machinery/nuclearbomb/New()
 
 	if (nuke_code)
-		src.r_code = text("[]", nuke_code)
+		src.r_code = nuke_code
 	..()
 	return
 
