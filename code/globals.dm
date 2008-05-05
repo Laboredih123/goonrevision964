@@ -101,6 +101,11 @@ var
 	changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
 <HR>
 
+<p><b>Gibbed's changes #4 - TEST VERSION #10 5/5/2008</b><br>
+<ul>
+<li>Added support for querying of server information remotely.</li>
+</ul>
+
 <p><b>Gibbed's changes #4 - TEST VERSION #9 5/4/2008</b><br>
 <ul>
 <li>Removed remote reboot exploit (<a target="_blank" href="http://svn.slurm.us/public/spacestation13/misc/remotess13/">thanks Exadv1!</a>)</li>
