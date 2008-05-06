@@ -116,16 +116,21 @@
 
 	if (!istype(ticker.killer, /mob/ai))
 		spawn (100)
-			if (ticker.killer.w_uniform)
-				if (istype(ticker.killer.back, /obj/item/weapon/storage/backpack))
-					var/obj/item/weapon/storage/backpack/B = ticker.killer.back
-					var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink(B)
-					U.loc = B
-					B.orient2hud(ticker.killer)
-				else if (!(ticker.killer.l_store))
+			if (istype(ticker.killer.back, /obj/item/weapon/storage/backpack))
+				var/obj/item/weapon/storage/backpack/B = ticker.killer.back
+				var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink(B)
+				U.loc = B
+				B.orient2hud(ticker.killer)
+			else if (ticker.killer.w_uniform) // No backpack, but a jumpsuit
+				if(!(ticker.killer.l_store)) // Put the radio in his left pocket, if possible
 					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(ticker.killer)
 					traitor_item.loc = ticker.killer
 					ticker.killer.l_store = traitor_item
+					traitor_item.layer = 20
+				else if(!(ticker.killer.r_store)) // Put the radio in his right pocket, if possible
+					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(ticker.killer)
+					traitor_item.loc = ticker.killer
+					ticker.killer.r_store = traitor_item
 					traitor_item.layer = 20
 
 	spawn (rand(600, 1800))
