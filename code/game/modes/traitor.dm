@@ -142,16 +142,19 @@
 			if ("assassinate")
 				dat += "\red <B>Transmission suggests future attempts of assassinating of key personnel.</B><BR>"
 				if (prob(50))
-					var/t1 = null
-					for (var/datum/data/record/R in data_core.general)
-						if (R.fields["name"] == ticker.target.name)
-							t1 = text(" the []", R.fields["rank"])
-
 					if (prob(70))
-						dat += text("\red <B>Perceived target: [] - Position: [] ([]% certainty)</B><BR>", ticker.target.rname, t1, rand(30, 100))
+						var/targetrank = null
+						for (var/datum/data/record/R in data_core.general)
+							if (R.fields["name"] == ticker.target.name)
+								targetrank = text(" the []", R.fields["rank"])
+						dat += text("\red <B>Perceived target: [] - Position: [] ([]% certainty)</B><BR>", ticker.target.rname, targetrank, rand(30, 100))
 					else
-						var/mob/temp = pick(backup)
-						dat += text("\red <B>Perceived target: [] - Position: [] ([]% certainty)</B><BR>", temp.rname, t1, rand(10, 95))
+						var/mob/wrongtarget = pick(backup)
+						var/targetrank = null
+						for (var/datum/data/record/R in data_core.general)
+							if (R.fields["name"] == wrongtarget.name)
+								targetrank = text(" the []", R.fields["rank"])
+						dat += text("\red <B>Perceived target: [] - Position: [] ([]% certainty)</B><BR>", wrongtarget.rname, targetrank, rand(10, 95))
 
 			if("theft")
 				dat += "\red <B>Transmission suggests future attempts of theft of critical items.</B><BR>"
