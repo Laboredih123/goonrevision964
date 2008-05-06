@@ -54,10 +54,17 @@
 			if (prob(25))
 				t1 = ticker.target.name
 			else
+				var/targetrank = null
 				for(var/datum/data/record/R in data_core.general)
 					if (R.fields["name"] == ticker.target.name)
-						t1 = text(" the []", R.fields["rank"])
-					//Foreach goto(1193)
+						targetrank = R.fields["rank"]
+				t1 = text(" the []", targetrank)
+				// Make sure there is only one person with that job
+				// If it would be ambiguous to just say "kill the ______" (engineer or whatever), instead just give a name
+				// Making them kill both engineers (or potentially a billion medical assistants) would be silly
+				for(var/datum/data/record/R in data_core.general)
+					if (R.fields["rank"] == targetrank && R.fields["name"] != ticker.target.name) // Someone else has this job
+						t1 = ticker.target.name
 
 			if (istype(ticker.killer, /mob/ai))
 				var/mob/ai/aiKiller = ticker.killer
