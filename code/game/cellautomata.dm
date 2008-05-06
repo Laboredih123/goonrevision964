@@ -536,7 +536,10 @@
 
 			for(var/mob/CM in world)
 				if(CM.client)
-					CM.client.vote = "default"
+					if(config.votenodefault || (config.votenodead && CM.stat == 2))
+						CM.client.vote = "none"
+					else
+						CM.client.vote = "default"
 
 	if(href_list["votekill"])
 		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
