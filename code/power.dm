@@ -130,6 +130,27 @@
 // may be opened to change power cell
 // three different channels (lighting/equipment/environ) - may each be set to on, off, or auto
 
+/obj/machinery/power/apc/updateUsrDialog()
+	var/list/nearby = viewers(1, src)
+	if (!(stat & BROKEN)) // unbroken
+		for(var/mob/M in nearby)
+			if ((M.client && M.machine == src))
+				src.interact(M)
+	if (istype(usr, /mob/ai))
+		if (!(usr in nearby))
+			if (usr.client && usr.machine==src) // && M.machine == src is omitted because if we triggered this by using the dialog, it doesn't matter if our machine changed in between triggering it and this - the dialog is probably still supposed to refresh.
+				src.interact(usr)
+
+/obj/machinery/power/apc/updateDialog()
+	if(!(stat & BROKEN)) // unbroken
+		var/list/nearby = viewers(1, src)
+		for(var/mob/M in nearby)
+			if (M.client && M.machine == src)
+				src.interact(M)
+	AutoUpdateAI(src)
+
+
+
 /obj/machinery/power/apc/New()
 	..()
 
