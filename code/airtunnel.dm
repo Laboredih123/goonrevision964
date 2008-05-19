@@ -347,7 +347,9 @@ obj/machinery/door_control/attack_ai(mob/user as mob)
 obj/machinery/door_control/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-obj/machinery/door_control/attackby(nothing, mob/user as mob)
+obj/machinery/door_control/attackby(obj/item/weapon/W, mob/user as mob)
+	if(istype(W, /obj/item/weapon/f_print_scanner))
+		return
 	return src.attack_hand(user)
 
 obj/machinery/door_control/attack_hand(mob/user as mob)
@@ -371,6 +373,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 	spawn(15)
 		if(!(stat & NOPOWER))
 			icon_state = "doorctrl0"
+	src.add_fingerprint(usr)
 
 //*****
 
