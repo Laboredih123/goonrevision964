@@ -2848,21 +2848,24 @@
 	return
 
 /obj/item/weapon/healthanalyzer/attack(mob/M as mob, mob/user as mob)
-
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
 		user << "\red You don't have the dexterity to do this!"
 		return
-	for(var/mob/O in viewers(M, null))
-		O.show_message(text("\red [] has analyzed []'s vitals!", user, M), 1)
-		//Foreach goto(67)
-	user.show_message(text("\blue Analyzing Results for []:\n\t Overall Status: []", M, (M.stat > 1 ? "dead" : text("[]% healthy", M.health))), 1)
-	user.show_message(text("\blue \t Damage Specifics: []-[]-[]-[]", M.oxyloss, M.toxloss, M.fireloss, M.bruteloss), 1)
+	
+	for (var/mob/O in viewers(M, null))
+		O.show_message("\red [user] has analyzed [M]'s vitals!", 1)
+	
+	user.show_message("\blue Analyzing Results for [M]:\n\t Overall Status: [M.stat > 1 ? "dead" : "[M.health]% healthy"]", 1)
+	user.show_message("\blue \t Damage Specifics: [M.oxyloss]-[M.toxloss]-[M.fireloss]-[M.bruteloss]", 1)
 	user.show_message("\blue Key: Suffocation/Toxin/Burns/Brute", 1)
+	
 	if (M.rejuv)
-		user.show_message(text("\blue Bloodstream Analysis located [] units of rejuvenation chemicals.", M.rejuv), 1)
+		user.show_message("\blue Bloodstream Analysis located [M.rejuv] units of rejuvenation chemicals.", 1)
+	
+	if (!M.client)
+		user.show_message("\blue [M] has a vacant look in \his eyes.", 1)
+	
 	src.add_fingerprint(user)
-	return
-	return
 
 /obj/item/weapon/analyzer/attack_self(mob/user as mob)
 
