@@ -97,9 +97,14 @@
 var
 	world_message = "Welcome to SS13!"
 	savefile_ver = "3"
-	SS13_version = "gibbed test #4, version #9"
+	SS13_version = "gibbed test #4, version #11"
 	changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
 <HR>
+
+<p><b>Gibbed's changes #4 - TEST VERSION #11 5/5/2008</b><br>
+<ul>
+<li>Added support for querying of server information remotely.</li>
+</ul>
 
 <p><b>Gibbed's changes #4 - TEST VERSION #10 5/5/2008</b><br>
 <ul>

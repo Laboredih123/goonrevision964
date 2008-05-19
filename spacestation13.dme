@@ -4,8 +4,9 @@
 
 // BEGIN_INTERNALS
 /*
-FILE:
-DIR: code code\item code\item\weapon icons interface Lib
+FILE: gibbed.dmp
+DIR: code\item code\item\weapon icons interface Lib
+UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
