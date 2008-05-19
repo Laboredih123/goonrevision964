@@ -4310,9 +4310,9 @@
 		var/turf/T = src.loc
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
-		message = html_encode(message)
 		if (src.stuttering)
 			message = stutter(message)
+		message = html_encode(message)
 		if (italics)
 			message = text("<I>[]</I>", message)
 		if (((src.oxygen && src.oxygen.icon_state == "oxy0") || (!( (istype(T, /turf) || istype(T, /obj/move)) ) || T.oxygen > 0)))
@@ -5363,7 +5363,11 @@
 			continue
 
 		total++
-		usr << text("\t[]", M.client)
+
+		if (M.client.authenticated && M.client.authenticated != 1)
+			usr << "\t[M.client] ([html_encode(M.client.authenticated)])"
+		else
+			usr << "\t[M.client]"
 
 	usr << text("<B>Total Players: []</B>", total)
 
@@ -5556,10 +5560,14 @@
 		if (usr == M)
 			continue
 
-		var/name = text("[]", M.name)
+		var/name = M.name
+		
+		if (M.rname && M.rname != M.name)
+			name += " \[[M.rname]\]"
+		
 		if (name in names)
 			namecounts[name]++
-			name = text("[] ([])", name, namecounts[name])
+			name = "[name] ([namecounts[name]])"
 		else
 			names.Add(name)
 			namecounts[name] = 1
@@ -5620,18 +5628,45 @@
 	return
 
 /mob/verb/ooc(msg as text)
-
-	if(config.logooc) world.log << "OOC: [src.name]/[src.key] : [msg]"
+	if (!src.client.authenticated)
+		src << "You are not authorized to communicate over these channels."
+		return
+	
+	if (config.logooc)
+		world.log << "OOC: [src.name]/[src.key] : [msg]"
+	
 	msg = cleanstring(msg)
 	msg = html_encode(copytext(msg, 1, 128))
-	if (!( msg ))
+	
+	if (!msg)
 		return
-	if ((ooc_allowed && !( src.muted )))
+	
+	if (ooc_allowed && !src.muted)
+		for (var/mob/M in world)
+			if (M.client && M.client.listen_ooc)
+				M << "<B>OOC: [src.key]</B>: [msg]"
+
+/mob/verb/adminhelp(msg as text)
+	if (config.logooc)
+		world.log << "HELP: [src.name]/[src.key] : [msg]"
+	
+	msg = cleanstring(msg)
+	msg = html_encode(copytext(msg, 1, 128))
+	
+	if (!msg)
+		return
+	
+	var/yep = 0
+	if (!src.muted)
 		for(var/mob/M in world)
-			if ((M.client && M.client.listen_ooc))
-				M << text("<B>OOC: []</B>: []", src.key, msg)
-			//Foreach goto(54)
-	return
+			if (M.client && M.client.holder)
+				M << "<B>OOC: [src.key]</B>: [msg]"
+				yep = 1
+	
+	if (yep)
+		src << "Your message has been broadcast to administrators."
+	else
+		src << "Sorry, no administrators are on to hear your plea for help."
 
 /mob/verb/switch_hud()
 	set name = "Switch HUD"
@@ -7446,6 +7481,51 @@
 		src.holder.update()
 	return
 
+/client/proc/authorize()
+	set name = "Authorize"
+
+	if (src.authenticating)
+		return
+	
+	if (!config.enable_authentication)
+		src.authenticated = 1
+		return
+
+	src.authenticating = 1
+
+	spawn (rand(4, 18))
+		var/result = world.Export("http://byond.lljk.net/status/?key=[src.ckey]")
+		var/success = 0
+
+		if (lowertext(result["STATUS"]) == "200 ok")
+			var/content = file2text(result["CONTENT"])
+
+			var/pos = findtext(content, " ")
+			var/code
+			var/account = ""
+
+			if (!pos)
+				code = lowertext(content)
+			else
+				code = lowertext(copytext(content, 1, pos))
+				account = copytext(content, pos + 1)
+
+			if (code == "ok" && account)
+				src.verbs -= /client/proc/authorize
+				src.authenticated = account
+				src << "Key authorized, hello [html_encode(account)]!."
+				success = 1
+			else if (code == "banned")
+				banned.Add(src.ckey)
+				del(src)
+				return
+
+		if (!success)
+			src.verbs += /client/proc/authorize
+			src << "Failed to authenticate your key, please authorize it at http://byond.lljk.net/ then try again using the <b>Reauthorize</b> command. Your key is [src.key]."
+
+		src.authenticating = 0
+
 /client/New()
 	if (banned.Find(src.ckey))
 		del(src)
@@ -7456,6 +7536,8 @@
 		world.update_stat()
 
 	..()
+
+	src.authorize()
 
 	spawn (50)
 		if (mob.CanAdmin())

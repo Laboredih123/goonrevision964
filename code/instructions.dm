@@ -163,6 +163,10 @@
 /obj/begin/verb/enter()
 	set src in usr.loc
 
+	if (!usr.client.authenticated)
+		src << "You are not authorized to enter the game."
+		return
+
 	if(config.loggame) world.log << "GAME: [usr.key] entered as [usr.name]"
 
 	if (!( enter_allowed ))

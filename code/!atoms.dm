@@ -69,8 +69,10 @@
 
 /client
 	var/obj/admins/holder = null
-	var/listen_ooc = 1.0
-	var/move_delay = 1.0
+	var/authenticated = 0
+	var/authenticating = 0
+	var/listen_ooc = 1
+	var/move_delay = 1
 	var/moving = null
 	var/vote = null
 	var/showvote = null
@@ -210,6 +212,7 @@
 		var/logadmin = 0		// log admin actions
 		var/loggame = 0			// log game events
 		var/logvote = 0
+		var/enable_authentication = 0
 		var/allow_respawn = 0
 		var/allowvoterestart = 0 // allow votes to restart
 		var/allowvotemode = 0	// allow votes to change mode

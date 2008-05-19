@@ -1173,6 +1173,8 @@
 						config.allowai = 1
 					if ("allowrespawn")
 						config.allow_respawn = 1
+					if ("authentication")
+						config.enable_authentication = 1
 					else
 						world.log<<"Unknown setting in config.txt: [cfgvar]"
 
