@@ -5550,10 +5550,14 @@
 		if (usr == M)
 			continue
 
-		var/name = text("[]", M.name)
+		var/name = M.name
+		
+		if (M.rname && M.rname != M.name)
+			name += " \[[M.rname]\]"
+		
 		if (name in names)
 			namecounts[name]++
-			name = text("[] ([])", name, namecounts[name])
+			name = "[name] ([namecounts[name]])"
 		else
 			names.Add(name)
 			namecounts[name] = 1
