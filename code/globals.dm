@@ -110,7 +110,7 @@ var
 
 <p><b>Gibbed's changes #4 - TEST VERSION #11 5/5/2008</b><br>
 <ul>
-<li>Added support for querying of server information remotely.</li>
+<li>Game kit graphics fixed.</li>
 </ul>
 
 <p><b>Gibbed's changes #4 - TEST VERSION #10 5/5/2008</b><br>
