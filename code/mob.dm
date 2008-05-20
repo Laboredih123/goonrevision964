@@ -5660,7 +5660,7 @@
 	if (!src.muted)
 		for(var/mob/M in world)
 			if (M.client && M.client.holder)
-				M << "<B>OOC: [src.key]</B>: [msg]"
+				M << "<B>HELP: [src.key]</B>: [msg]"
 				yep = 1
 	
 	if (yep)
