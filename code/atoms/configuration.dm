@@ -11,6 +11,7 @@
 	var/vote_period = 60				// length of voting period (seconds, default 1 minute)
 	var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
 	var/vote_no_dead = 0				// dead people can't vote (tbi)
+	var/enable_authentication = 0		// goon authentication
 	
 	var/list/mode_names = list()
 	var/list/modes = list()				// allowed modes

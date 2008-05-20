@@ -70,24 +70,27 @@
 			if ("allow_vote_restart")
 				config.allow_vote_restart = 1
 				
-			if("allow_vote_mode")
+			if ("allow_vote_mode")
 				config.allow_vote_mode = 1
 				
-			if("no_dead_vote")
+			if ("no_dead_vote")
 				config.vote_no_dead = 1
 				
-			if("default_no_vote")
+			if ("default_no_vote")
 				config.vote_no_default = 1
 				
-			if("vote_delay")
+			if ("vote_delay")
 				config.vote_delay = text2num(value)
 				
-			if("vote_period")
+			if ("vote_period")
 				config.vote_period = text2num(value)
 				
-			if("allow_ai")
+			if ("allow_ai")
 				config.allow_ai = 1
-				
+			
+			if ("authentication")
+				config.enable_authentication = 1
+			
 			if ("probability")
 				var/prob_pos = findtext(value, " ")
 				var/prob_name = null

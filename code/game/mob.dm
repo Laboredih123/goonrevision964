@@ -5347,20 +5347,6 @@
 				src.client.eye = src.loc
 	return
 
-/mob/verb/who()
-	set name = "Who"
-
-	var/total = 0
-	usr << "<B>Current Players:</B>"
-	for (var/mob/M in world)
-		if (!M.client)
-			continue
-
-		total++
-		usr << text("\t[]", M.client)
-
-	usr << text("<B>Total Players: []</B>", total)
-
 /mob/proc/equipped()
 
 	if (src.hand)
@@ -5604,37 +5590,6 @@
 	src.reset_view(null)
 	src.machine = null
 	src:cameraFollow = null
-
-
-/mob/verb/listen_ooc()
-	set name = "Toggle OOC"
-
-	if (src.client)
-		src.client.listen_ooc = !( src.client.listen_ooc )
-		if (src.client.listen_ooc)
-			src << "\blue You are now listening to messages on the OOC channel. <B>Don't abuse this!</B>"
-		else
-			src << "\blue You are no longer listening to messages on the OOC channel."
-	return
-
-/mob/verb/ooc(msg as text)
-	world.log_ooc("[src.name]/[src.key] : [msg]")
-
-	msg = sanitize(msg)
-	msg = html_encode(copytext(msg, 1, 128))
-
-	if (!msg)
-		return
-	else if (!src.client.listen_ooc)
-		return
-	else if (!ooc_allowed)
-		return
-	else if (src.muted)
-		return
-
-	for (var/mob/M in world)
-		if (M.client && M.client.listen_ooc)
-			M << "<span class='ooc_title'>OOC: [src.key]:</span> <span class='ooc_text'>[msg]</span>"
 
 /mob/verb/switch_hud()
 	set name = "Switch HUD"
@@ -7459,7 +7414,9 @@
 		world.update_stat()
 
 	..()
-
+	
+	src.authorize()
+	
 	spawn (50)
 		if (mob.CanAdmin())
 			src.holder = new /obj/admins(src)

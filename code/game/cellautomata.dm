@@ -536,7 +536,7 @@
 
 			for(var/mob/CM in world)
 				if(CM.client)
-					if(config.votenodefault || (config.votenodead && CM.stat == 2))
+					if(config.vote_no_default || (config.vote_no_dead && CM.stat == 2))
 						CM.client.vote = "none"
 					else
 						CM.client.vote = "default"
@@ -1026,19 +1026,37 @@
 	return
 
 /world/proc/update_stat()
-
-	if(config)
-		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allow_vote_mode ? "Vote": "No vote"), (config.allow_ai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
-		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allow_vote_mode ? "Vote": "No vote"), (config.allow_ai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-	else
-		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-	return
-
+	src.status = "Space Station 13";
+	src.status += " ([SS13_version])"
+	
+	var/list/features = list()
+	
+	if (ticker && master_mode)
+		features += master_mode
+	else if (!ticker)
+		features += "<b>STARTING</b>"
+	
+	if (config && config.enable_authentication)
+		features += "goon only"
+	
+	if (!enter_allowed)
+		features += "closed"
+	
+	if (abandon_allowed)
+		features += abandon_allowed ? "respawn" : "no respawn"
+	
+	if (config && config.allow_vote_mode)
+		features += "vote"
+	
+	if (config && config.allow_ai)
+		features += "AI allowed"
+	
+	if (host)
+		features += "hosted by <b>[host]</b>"
+	
+	if (features)
+		src.status += ":[dd_list2text(features, ", ")]"
+	
 /world/New()
 	src.update_stat()
 
