@@ -97,9 +97,16 @@
 var
 	world_message = "Welcome to SS13!"
 	savefile_ver = "3"
-	SS13_version = "gibbed test #4, version #11"
-	changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
-<HR>
+	SS13_version = "gibbed test #5"
+	changes = {"<p><b>Gibbed's changes #5 5/19/2008</b><br>
+<ul>
+<li>Authentication! Unauthenticated users cannot enter the game or use OOC.</li>
+<li>Stuttering now happens before HTML encoding, meaning no more excessive &amp;&amp;&amp;qqqquuuooot;;;;.</li>
+<li>Health analyzer now shows offline status.</li>
+<li>New command <b>adminhelp</b> which allows you to broadcast messages to only admins.</li>
+<li>Several patches by Kurper: APC bug fix, fingerprints on door controls, observe patch, staff assistant rank fix.</li>
+<li>Suicide command, thanks to Kurper.</li>
+</ul>
 
 <p><b>Gibbed's changes #4 - TEST VERSION #11 5/5/2008</b><br>
 <ul>
@@ -484,9 +491,11 @@ var
 	list/airlockFeatureNames = list("IdScan", "Main power In", "Main power Out", "Drop door bolts", "Backup power In", "Backup power Out", "Power assist", "AI Control", "Electrify")
 
 world
+	name = "Space Station 13"
 	mob = /mob/human
 	turf = /turf/space
 	area = /area
 	view = "15x15"
-	visibility = 0
-	//loop_checks = 0
+	
+	hub = "Exadv1.spacestation13"
+	hub_password = "kMZy3U5jJHSiBQjr"
