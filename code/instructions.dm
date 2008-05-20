@@ -97,6 +97,9 @@
 /obj/begin/verb/ready()
 	set src in usr.loc
 
+	if (!usr.client.authenticated)
+		src << "You are not authorized to enter the game."
+		return
 
 	if ((!( istype(usr, /mob/human) ) || usr.start))
 		usr << "You have already started!"

@@ -1025,18 +1025,35 @@
 	return
 
 /world/proc/update_stat()
-
-	if(config)
-		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (config.allow_respawn ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
-		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (config.allow_respawn ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-	else
-		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, "No AM", (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[])[]<!-- host=\"[]\"-->", SS13_version, "No AM", (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-	return
+	src.status = "Space Station 13 ([SS13_version])";
+	
+	var/list/features = list()
+	
+	if (ticker && master_mode)
+		features += master_mode
+	else if (!ticker)
+		features += "<b>STARTING</b>"
+	
+	if (config && config.enable_authentication)
+		features += "goon only"
+	
+	if (!enter_allowed)
+		features += "closed"
+	
+	if (config && config.allow_respawn)
+		features += config.allow_respawn ? "respawn" : "no respawn"
+	
+	if (config && config.allowvotemode)
+		features += "vote"
+	
+	if (config && config.allowai)
+		features += "AI allowed"
+	
+	if (host)
+		features += "hosted by <b>[host]</b>"
+	
+	if (features)
+		src.status += ":[dd_list2text(features, ", ")]"
 
 /world/New()
 
