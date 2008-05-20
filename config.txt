@@ -71,4 +71,4 @@ DEFAULTNOVOTE
 # Comment this out if you don't want the AI job to be available, or if you're using a map which doesn't have an AI spawnpoint.
 ALLOWAI
 
-AUTHORIZATION
+AUTHENTICATION
