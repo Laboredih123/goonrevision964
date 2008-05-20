@@ -111,6 +111,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\modes\virus.dm"
 #include "code\game\verbs\authorize.dm"
 #include "code\game\verbs\ooc.dm"
+#include "code\game\verbs\suicide.dm"
 #include "code\game\verbs\who.dm"
 #include "interface\isno.dmf"
 // END_INCLUDE
