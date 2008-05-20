@@ -2920,14 +2920,15 @@
 
 	var/list/L = list(  )
 
-	// RM*****
 	L += src.contents
 
 	for(var/obj/item/weapon/storage/S in src)
 		L += S.return_inv()
-		//Foreach goto(22)
+	for(var/obj/item/weapon/gift/G in ticker.killer.contents)
+		L += G.gift
+		if (istype(G.gift, /obj/item/weapon/storage))
+			L += G.gift:return_inv()
 	return L
-	return
 
 /obj/item/weapon/storage/proc/show_to(mob/user as mob)
 
