@@ -98,7 +98,16 @@ var
 	world_message = "Welcome to SS13!"
 	savefile_ver = "3"
 	SS13_version = "gibbed test #5"
-	changes = {"<p><b>Gibbed's changes #5 5/19/2008</b><br>
+	changes = {"<p><b>Gibbed's changes #6 (svn revision 64) 5/20/2008</b><br>
+<ul>
+<li>Tasers now use charges for melee attacks and are increased to 4 charges instead of 3.</li>
+<li>Admin help now has better formatting and requires you to be authenticated.</li>
+<li>Optical Thermal/MESON scanners are now only optical thermal scanners.</li>
+<li>Shuttle doors no longer using their verb to open close and work like normal doors.</li>
+<li>Traitor selection messages are big and red!</li>
+</ul>
+
+<p><b>Gibbed's changes #5 5/19/2008</b><br>
 <ul>
 <li>Authentication! Unauthenticated users cannot enter the game or use OOC.</li>
 <li>Stuttering now happens before HTML encoding, meaning no more excessive &amp;&amp;&amp;qqqquuuooot;;;;.</li>
