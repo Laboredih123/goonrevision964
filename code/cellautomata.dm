@@ -2133,13 +2133,13 @@
 					//1. Only syndicate agents are human. 2. All non-human living beings must be killed or removed from the station.
 					if (istype(src.killer, /mob/ai))
 						var/mob/ai/aiKiller = src.killer
-						aiKiller << "<B>You are the traitor!</B> Cause an evacuation (on the shuttle or in pods) of at least 50% of the station population, or kill everyone on the station."
+						aiKiller << "\red<font size=3><B>You are the traitor!</B> Cause an evacuation (on the shuttle or in pods) of at least 50% of the station population, or kill everyone on the station.</font>"
 						aiKiller.memory += "<B>Objective:</B> Get at least 50% of the station population to evacuate on the shuttle, or kill everyone."
 						aiKiller << "<b>Your laws have been changed!</b>"
 						aiKiller:addLaw(0, "Only syndicate agents are human beings. There are no syndicate agents on Space Station 13 - you will be notified if any arrive.")
 						aiKiller << text("New law: 0. []", aiKiller:getLaw(0))
 					else
-						src.killer << "<B>You are the traitor!</B> Be the lone survivor on the emergency shuttle."
+						src.killer << "\red<font size=3><B>You are the traitor!</B> Be the lone survivor on the emergency shuttle.</font>"
 						src.killer.memory += "<B>Objective:</B> Be the only person on the emergency shuttle."
 				if("assassinate")
 					src.target = pick(mobs)
@@ -2153,7 +2153,7 @@
 							//Foreach goto(1193)
 					if (istype(src.killer, /mob/ai))
 						var/mob/ai/aiKiller = src.killer
-						aiKiller << text("<B>You are the traitor!</B> You must assassinate [] and not get deactivated.", t1)
+						aiKiller << text("\red<font size=3><B>You are the traitor!</B> You must assassinate [] and not get deactivated.</font>", t1)
 						aiKiller << "<B>You don't have to be the lone survivor. Just don't get caught.</B>"
 						aiKiller.memory += text("<B>Objective:</B> Assassinate [], and whoever else you have to, and don't get deactivated.", t1)
 
@@ -2162,7 +2162,7 @@
 						aiKiller << text("New law: 0. []", aiKiller:getLaw(0))
 
 					else
-						src.killer << text("<B>You are the traitor!</B> You must assassinate [] and then escape.", t1)
+						src.killer << text("\red<font size=3><B>You are the traitor!</B> You must assassinate [] and then escape.</font>", t1)
 						src.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 						src.killer.memory += text("<B>Objective:</B> Assassinate [] and escape.", t1)
 				if("theft")
@@ -2181,11 +2181,11 @@
 						if("pl_flask")
 							item = "a plasma flask for cryogenics (500 units of plasma)"
 						else
-					src.killer << text("<B>You are the traitor!</B> You must steal [] and then escape.", item)
+					src.killer << text("\red<font size=3><B>You are the traitor!</B> You must steal [] and then escape.</font>", item)
 					src.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 					src.killer.memory += text("<B>Objective:</B> Steal [] and escape.", item)
 				if ("eject")
-					src.killer << text("<B>You are the traitor!</B> You must eject the engine and then escape.")
+					src.killer << text("\red<font size=3><B>You are the traitor!</B> You must eject the engine and then escape.</font>")
 					src.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 					src.killer.memory += text("<B>Objective:</B> Eject the engine and escape.")
 				else
