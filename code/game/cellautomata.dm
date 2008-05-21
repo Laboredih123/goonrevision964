@@ -1055,7 +1055,7 @@
 		features += "hosted by <b>[host]</b>"
 	
 	if (features)
-		src.status += ":[dd_list2text(features, ", ")]"
+		src.status += ": [dd_list2text(features, ", ")]"
 	
 /world/New()
 	src.update_stat()
