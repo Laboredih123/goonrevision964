@@ -3153,67 +3153,64 @@
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
 			F.levelupdate()
-	else
-		if ((istype(W, /obj/item/weapon/screwdriver) && src.state == 1))
-			var/turf/T = user.loc
-			if (!( istype(T, /turf) ))
-				return
-			user << "\blue Now dislodging girders."
-			sleep(100)
-			if (!( istype(src, /turf/station/wall) ))
-				return
-			if ((user.loc == T && src.state == 1 && user.equipped() == W))
-				src.state = 0
-				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
-				var/turf/station/floor/F = src.ReplaceWithFloor()
+	else if ((istype(W, /obj/item/weapon/screwdriver) && src.state == 1))
+		var/turf/T = user.loc
+		if (!( istype(T, /turf) ))
+			return
+		user << "\blue Now dislodging girders."
+		sleep(100)
+		if (!( istype(src, /turf/station/wall) ))
+			return
+		if ((user.loc == T && src.state == 1 && user.equipped() == W))
+			src.state = 0
+			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
+			var/turf/station/floor/F = src.ReplaceWithFloor()
 
-				F.oxygen = O2STANDARD
-				new /obj/d_girders( F )
-				new /obj/item/weapon/sheet/metal( F )
-				F.buildlinks()
-		else
-			if ((istype(W, /obj/item/weapon/sheet/r_metal) && src.state == 1))
-				var/turf/T = user.loc
-				if (!( istype(T, /turf) ))
-					return
-				user << "\blue Now reinforcing girders."
-				sleep(100)
-				if (!( istype(src, /turf/station/wall) ))
-					return
-				if ((user.loc == T && src.state == 1 && user.equipped() == W))
-					src.state = 0
-					//var/turf/station/r_wall/F = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
-					var/turf/station/r_wall/F = src.ReplaceWithRWall()
-					F.oxygen = O2STANDARD
-					F.icon_state = "r_girder"
-					F.state = 1
-					F.opacity = 0
-					F.updatecell = 1
-					F.buildlinks()
-			else
-				if ((istype(W, /obj/item/weapon/weldingtool) && src.state == 2))
-					var/turf/T = user.loc
-					if (!( istype(T, /turf) ))
-						return
-					var/obj/item/weapon/weldingtool/WT = W
-					if(WT.welding)
-						if (WT.weldfuel < 5)
-							user << "\blue You need more welding fuel to complete this task."
-							return
-						WT.weldfuel -= 5
-						user << "\blue Now dissembling the outer wall plating. Please stand still."
-						sleep(50)
-						if ((user.loc == T && src.state == 2 && user.equipped() == W))
-							src.opacity = 0
-							src.updatecell = 1
-							buildlinks()
-							src.state = 1
-							src.intact = 0
-							levelupdate()
-							new /obj/item/weapon/sheet/metal( src )
-							new /obj/item/weapon/sheet/metal( src )
-							src.icon_state = "girder"
-		return
+			F.oxygen = O2STANDARD
+			new /obj/d_girders( F )
+			new /obj/item/weapon/sheet/metal( F )
+			F.buildlinks()
+	else if ((istype(W, /obj/item/weapon/sheet/r_metal) && src.state == 1))
+		var/turf/T = user.loc
+		if (!( istype(T, /turf) ))
+			return
+		user << "\blue Now reinforcing girders."
+		sleep(100)
+		if (!( istype(src, /turf/station/wall) ))
+			return
+		if ((user.loc == T && src.state == 1 && user.equipped() == W))
+			src.state = 0
+			//var/turf/station/r_wall/F = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
+			var/turf/station/r_wall/F = src.ReplaceWithRWall()
+			F.oxygen = O2STANDARD
+			F.icon_state = "r_girder"
+			F.state = 1
+			F.opacity = 0
+			F.updatecell = 1
+			F.buildlinks()
+	else if (istype(W, /obj/item/weapon/weldingtool) && src.state == 2 && W:welding) //it short-circuits, so the : is okay
+		var/turf/T = user.loc
+		if (!( istype(T, /turf) ))
+			return
+		if (W:weldfuel < 5)
+			user << "\blue You need more welding fuel to complete this task."
+			return
+		W:weldfuel -= 5
+		user << "\blue Now dissembling the outer wall plating. Please stand still."
+		sleep(50)
+		if ((user.loc == T && src.state == 2 && user.equipped() == W))
+			src.opacity = 0
+			src.updatecell = 1
+			buildlinks()
+			src.state = 1
+			src.intact = 0
+			levelupdate()
+			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/weapon/sheet/metal( src )
+			src.icon_state = "girder"
+	else
+		return attack_hand(user)
+	return
 
 /turf/station/wall/meteorhit(obj/M as obj)
 
@@ -3377,6 +3374,7 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 
 
