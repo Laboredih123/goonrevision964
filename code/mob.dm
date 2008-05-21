@@ -5647,6 +5647,10 @@
 				M << "<B>OOC: [src.key]</B>: [msg]"
 
 /mob/verb/adminhelp(msg as text)
+	if (!usr.client.authenticated)
+		src << "Please authorize before sending these messages."
+		return
+	
 	if (config.logooc)
 		world.log << "HELP: [src.name]/[src.key] : [msg]"
 	
@@ -5660,13 +5664,13 @@
 	if (!src.muted)
 		for(var/mob/M in world)
 			if (M.client && M.client.holder)
-				M << "<B>HELP: [src.key]</B>: [msg]"
+				M << "\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"
 				yep = 1
 	
 	if (yep)
-		src << "Your message has been broadcast to administrators."
+		src << "\blue <b>Your message has been broadcast to administrators.</b>"
 	else
-		src << "Sorry, no administrators are on to hear your plea for help."
+		src << "\blue <b>Sorry, no administrators are on to hear your plea for help.</b>"
 
 /mob/verb/switch_hud()
 	set name = "Switch HUD"
