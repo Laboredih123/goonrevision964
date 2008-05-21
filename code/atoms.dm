@@ -1257,8 +1257,8 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "gun"
 	force = 10.0
 	throwspeed = 10.0
-	charges = 3.0
-	maximum_charges = 3.0
+	maximum_charges = 8
+	charges = 8
 /obj/item/weapon/gun/revolver
 	desc = "There are 0 bullets left. Uses 357"
 	name = "revolver"
