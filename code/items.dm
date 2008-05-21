@@ -1178,7 +1178,7 @@
 
 /obj/item/weapon/gun/energy/taser_gun/update_icon()
 
-	var/ratio = src.charges / 10
+	var/ratio = src.charges / maximum_charges
 	ratio = round(ratio, 0.25) * 100
 	src.icon_state = text("t_gun[]", ratio)
 	return
@@ -1225,39 +1225,39 @@
 	src.add_fingerprint(user)
 	var/mob/human/H = M
 
-	// ******* Check
 	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
-	if (user.a_intent == "hurt")
-		if (prob(20))
-			if (M.paralysis < 10)
-				M.paralysis = 10
-		else
-			if (M.weakened < 10)
+	if(src.charges >= 1)
+		if (user.a_intent == "hurt")
+			if (prob(20))
+				if (M.paralysis < 10)
+					M.paralysis = 10
+			else if (M.weakened < 10)
 				M.weakened = 10
-		if (M.stuttering < 10)
-			M.stuttering = 10
-		..()
-		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall", 2)
-			//Foreach goto(182)
-	else
-		if (prob(50))
-			if (M.paralysis < 60)
-				M.paralysis = 60
+			if (M.stuttering < 10)
+				M.stuttering = 10
+			..()
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				O.show_message("\red <B>[M] has been knocked unconscious!</B>", 1, "\red You hear someone fall", 2)
 		else
-			if (M.weakened < 60)
-				M.weakened = 60
-		if (M.stuttering < 60)
-			M.stuttering = 60
-		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			if ((O.client && !( O.blinded )))
-				O.show_message(text("\red <B>[] has been stunned with the taser gun by []!</B>", M, user), 1, "\red You hear someone fall", 2)
-			//Foreach goto(309)
-	return
+			if (prob(50))
+				if (M.paralysis < 60)
+					M.paralysis = 60
+			else
+				if (M.weakened < 60)
+					M.weakened = 60
+			if (M.stuttering < 60)
+				M.stuttering = 60
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				if ((O.client && !( O.blinded )))
+					O.show_message("\red <B>[M] has been stunned with the taser gun by [user]!</B>", 1, "\red You hear someone fall", 2)
+		src.charges--
+		update_icon()
+	else // no charges in the gun, so they just wallop the target with it
+		..()
 
 /obj/item/weapon/pill_canister/New()
 
