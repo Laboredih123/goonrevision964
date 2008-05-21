@@ -1017,7 +1017,7 @@
 	icon_state = "s_glasses"
 	s_istate = "s_glasses"
 /obj/item/weapon/clothing/glasses/thermal
-	name = "Optical Thermal/Meson Scanner"
+	name = "Optical Thermal Scanner"
 	icon_state = "t_glasses"
 	s_istate = "glasses"
 /obj/item/weapon/clothing/gloves
