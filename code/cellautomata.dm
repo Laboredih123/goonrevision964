@@ -805,12 +805,12 @@
 			update()
 	if (href_list["toggle_abandon"])
 		if ((src.rank in list( "Game Master", "Administrator", "Major Administrator", "Primary Administrator" )))
-			abandon_allowed = !( abandon_allowed )
-			if (abandon_allowed)
-				world << "<B>You may now abandon mob.</B>"
+			config.allow_respawn = !( config.allow_respawn )
+			if (config.allow_respawn)
+				world << "<B>You may now respawn when dead.</B>"
 			else
-				world << "<B>Live or Die Mode Activated</B>"
-				if(config.logadmin) world.log << text("ADMIN: [] toggled abandon mob to [].", usr.key,(abandon_allowed?"On":"Off"))
+				world << "<B>You may no longer respawn when dead.</B>"
+				if(config.logadmin) world.log << text("ADMIN: [] toggled abandon mob to [].", usr.key,(config.allow_respawn?"On":"Off"))
 			world.update_stat()
 			update()
 	if (href_list["delay"])
@@ -982,7 +982,7 @@
 
 			if(lvl >=3 )
 				dat += "<A href='?src=\ref[src];toggle_enter=1'>Toggle Entering [enter_allowed]</A><br>"
-				dat += "<A href='?src=\ref[src];toggle_abandon=1'>Toggle Abandon [abandon_allowed]</A><br>"
+				dat += "<A href='?src=\ref[src];toggle_abandon=1'>Toggle Abandon [config.allow_respawn]</A><br>"
 				dat += "<A href='?src=\ref[src];toggle_ai=1'>Toggle AI [config.allowai]</A><br>"
 
 				dat += "<A href='?src=\ref[src];c_mode=1'>Change Game Mode</A><br>"
@@ -1025,18 +1025,35 @@
 	return
 
 /world/proc/update_stat()
-
-	if(config)
-		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"),  (host ? text(" hosted by <B>[]</B>", host) : null), host)
-		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[],[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), ( config.allowvotemode ? "Vote": "No vote"), (config.allowai ? "AI Allowed" : "AI Not Allowed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-	else
-		if (ticker)
-			src.status = text("Space Station 13 V.[] ([],[],[])[]<!-- host=\"[]\"-->", SS13_version, master_mode, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-		else
-			src.status = text("Space Station 13 V.[] (<B>STARTING</B>,[],[])[]<!-- host=\"[]\"-->", SS13_version, (abandon_allowed ? "AM" : "No AM"), (enter_allowed ? "Open" : "Closed"), (host ? text(" hosted by <B>[]</B>", host) : null), host)
-	return
+	src.status = "Space Station 13 ([SS13_version])";
+	
+	var/list/features = list()
+	
+	if (ticker && master_mode)
+		features += master_mode
+	else if (!ticker)
+		features += "<b>STARTING</b>"
+	
+	if (config && config.enable_authentication)
+		features += "goon only"
+	
+	if (!enter_allowed)
+		features += "closed"
+	
+	if (config && config.allow_respawn)
+		features += config.allow_respawn ? "respawn" : "no respawn"
+	
+	if (config && config.allowvotemode)
+		features += "vote"
+	
+	if (config && config.allowai)
+		features += "AI allowed"
+	
+	if (host)
+		features += "hosted by <b>[host]</b>"
+	
+	if (features)
+		src.status += ": [dd_list2text(features, ", ")]"
 
 /world/New()
 
@@ -1101,6 +1118,7 @@
 		config.logadmin = 1		// log admin actions
 		config.loggame = 0			// log game events
 		config.logvote = 1
+		config.allow_respawn = 0
 		config.allowvoterestart = 0 // allow votes to restart
 		config.allowai = 0			// allow ai
 		config.allowvotemode = 0	// allow votes to change mode
@@ -1170,7 +1188,10 @@
 						config.voteperiod = text2num(cfgval)
 					if("allowai")
 						config.allowai = 1
-
+					if ("allowrespawn")
+						config.allow_respawn = 1
+					if ("authentication")
+						config.enable_authentication = 1
 					else
 						world.log<<"Unknown setting in config.txt: [cfgvar]"
 
@@ -1226,35 +1247,44 @@
 	return
 
 /world/Topic(T, addr, master, key)
+	world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
 
-	//world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
-
-	if(T=="ping")
+	if(T == "ping")
 		var/x = 1
-		for(var/client/C)
+		for (var/client/C)
 			x++
 		return x
-
-	if(T=="reboot" && master)
+	else if (T == "reboot" && master)
 		world.log << "TOPIC: Remote reboot from master ([addr])"
 		world.Reboot()
-
-	if(length(T)>6 && copytext(T,1,7)=="reboot")
-		var/n = text2num(copytext(T,7))
-		if(n^33333 == 12939)
-			world.log << "TOPIC: Remote reboot order from [addr]"
-			world.Reboot()
-
-	if(T=="players")
-
+	else if (T == "reboot45246")
+		return "nice try faggot"
+	else if(T == "players")
+		var/n = 0
+		for(var/mob/M in world)
+			n++
+			/*
+			if(M.client)
+				world.log << "[++n] : [M.name] ([M.client.key]) at [M.loc.loc] ([M.x],[M.y],[M.z]) : [M.client.inactivity/10.0]s"
+			*/
+		return n
+	else if (T == "status")
+		var/list/s = list()
+		s["version"] = SS13_version
+		s["mode"] = master_mode
+		s["respawn"] = config ? config.allow_respawn : 0
+		s["enter"] = enter_allowed
+		s["vote"] = config.allowvotemode
+		s["ai"] = config.allowai
+		s["host"] = host ? host : null
+		s["players"] = list()
 		var/n = 0
 		for(var/mob/M in world)
 			if(M.client)
-				world.log << "[++n] : [M.name] ([M.client.key]) at [M.loc.loc] ([M.x],[M.y],[M.z]) : [M.client.inactivity/10.0]s"
-		return n
-
-
-
+				s["player[n]"] = M.client.key
+				n++
+		s["players"] = n
+		return list2params(s)
 
 /mob/proc/CanAdmin()
 
@@ -2103,13 +2133,13 @@
 					//1. Only syndicate agents are human. 2. All non-human living beings must be killed or removed from the station.
 					if (istype(src.killer, /mob/ai))
 						var/mob/ai/aiKiller = src.killer
-						aiKiller << "<B>You are the traitor!</B> Cause an evacuation (on the shuttle or in pods) of at least 50% of the station population, or kill everyone on the station."
+						aiKiller << "\red<font size=3><B>You are the traitor!</B> Cause an evacuation (on the shuttle or in pods) of at least 50% of the station population, or kill everyone on the station.</font>"
 						aiKiller.memory += "<B>Objective:</B> Get at least 50% of the station population to evacuate on the shuttle, or kill everyone."
 						aiKiller << "<b>Your laws have been changed!</b>"
 						aiKiller:addLaw(0, "Only syndicate agents are human beings. There are no syndicate agents on Space Station 13 - you will be notified if any arrive.")
 						aiKiller << text("New law: 0. []", aiKiller:getLaw(0))
 					else
-						src.killer << "<B>You are the traitor!</B> Be the lone survivor on the emergency shuttle."
+						src.killer << "\red<font size=3><B>You are the traitor!</B> Be the lone survivor on the emergency shuttle.</font>"
 						src.killer.memory += "<B>Objective:</B> Be the only person on the emergency shuttle."
 				if("assassinate")
 					src.target = pick(mobs)
@@ -2123,7 +2153,7 @@
 							//Foreach goto(1193)
 					if (istype(src.killer, /mob/ai))
 						var/mob/ai/aiKiller = src.killer
-						aiKiller << text("<B>You are the traitor!</B> You must assassinate [] and not get deactivated.", t1)
+						aiKiller << text("\red<font size=3><B>You are the traitor!</B> You must assassinate [] and not get deactivated.</font>", t1)
 						aiKiller << "<B>You don't have to be the lone survivor. Just don't get caught.</B>"
 						aiKiller.memory += text("<B>Objective:</B> Assassinate [], and whoever else you have to, and don't get deactivated.", t1)
 
@@ -2132,7 +2162,7 @@
 						aiKiller << text("New law: 0. []", aiKiller:getLaw(0))
 
 					else
-						src.killer << text("<B>You are the traitor!</B> You must assassinate [] and then escape.", t1)
+						src.killer << text("\red<font size=3><B>You are the traitor!</B> You must assassinate [] and then escape.</font>", t1)
 						src.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 						src.killer.memory += text("<B>Objective:</B> Assassinate [] and escape.", t1)
 				if("theft")
@@ -2151,11 +2181,11 @@
 						if("pl_flask")
 							item = "a plasma flask for cryogenics (500 units of plasma)"
 						else
-					src.killer << text("<B>You are the traitor!</B> You must steal [] and then escape.", item)
+					src.killer << text("\red<font size=3><B>You are the traitor!</B> You must steal [] and then escape.</font>", item)
 					src.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 					src.killer.memory += text("<B>Objective:</B> Steal [] and escape.", item)
 				if ("eject")
-					src.killer << text("<B>You are the traitor!</B> You must eject the engine and then escape.")
+					src.killer << text("\red<font size=3><B>You are the traitor!</B> You must eject the engine and then escape.</font>")
 					src.killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 					src.killer.memory += text("<B>Objective:</B> Eject the engine and escape.")
 				else

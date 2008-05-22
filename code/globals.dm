@@ -97,9 +97,41 @@
 var
 	world_message = "Welcome to SS13!"
 	savefile_ver = "3"
-	SS13_version = "40.93.2H9.5 - B12+Gibbed modified"
-	changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
-<HR>
+	SS13_version = "gibbed test #5"
+	changes = {"<p><b>Gibbed's changes #6 (svn revision 64) 5/20/2008</b><br>
+<ul>
+<li>Tasers now use charges for melee attacks and are increased to 4 charges instead of 3.</li>
+<li>Admin help now has better formatting and requires you to be authenticated.</li>
+<li>Optical Thermal/MESON scanners are now only optical thermal scanners.</li>
+<li>Shuttle doors no longer using their verb to open close and work like normal doors.</li>
+<li>Traitor selection messages are big and red!</li>
+</ul>
+
+<p><b>Gibbed's changes #5 5/19/2008</b><br>
+<ul>
+<li>Authentication! Unauthenticated users cannot enter the game or use OOC.</li>
+<li>Stuttering now happens before HTML encoding, meaning no more excessive &amp;&amp;&amp;qqqquuuooot;;;;.</li>
+<li>Health analyzer now shows offline status.</li>
+<li>New command <b>adminhelp</b> which allows you to broadcast messages to only admins.</li>
+<li>Several patches by Kurper: APC bug fix, fingerprints on door controls, observe patch, staff assistant rank fix.</li>
+<li>Suicide command, thanks to Kurper.</li>
+</ul>
+
+<p><b>Gibbed's changes #4 - TEST VERSION #11 5/5/2008</b><br>
+<ul>
+<li>Game kit graphics fixed.</li>
+</ul>
+
+<p><b>Gibbed's changes #4 - TEST VERSION #10 5/5/2008</b><br>
+<ul>
+<li>Added support for querying of server information remotely.</li>
+</ul>
+
+<p><b>Gibbed's changes #4 - TEST VERSION #9 5/4/2008</b><br>
+<ul>
+<li>Removed remote reboot exploit (<a target="_blank" href="http://svn.slurm.us/public/spacestation13/misc/remotess13/">thanks Exadv1!</a>)</li>
+<li>Added configuration option for allowing respawn (and now it is off by default).</li>
+</ul>
 
 <p><b>Gibbed's changes #4 - TEST VERSION #8 5/3/2008</b><br>
 <ul>
@@ -248,7 +280,6 @@ var
 	obj/hud/hud2/main_hud2 = null
 	ooc_allowed = 1
 	dna_ident = 1
-	abandon_allowed = 1
 	enter_allowed = 1
 	shuttle_frozen = 0
 	prison_entered = null
@@ -469,9 +500,11 @@ var
 	list/airlockFeatureNames = list("IdScan", "Main power In", "Main power Out", "Drop door bolts", "Backup power In", "Backup power Out", "Power assist", "AI Control", "Electrify")
 
 world
+	name = "Space Station 13"
 	mob = /mob/human
 	turf = /turf/space
 	area = /area
 	view = "15x15"
-	visibility = 0
-	//loop_checks = 0
+	
+	hub = "Exadv1.spacestation13"
+	hub_password = "kMZy3U5jJHSiBQjr"

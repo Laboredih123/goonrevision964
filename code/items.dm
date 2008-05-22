@@ -213,190 +213,6 @@
 
 	return
 
-/obj/item/weapon/game_kit/New()
-
-	src.board_stat = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-	src.selected = "CR"
-	return
-
-/obj/item/weapon/game_kit/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/game_kit/MouseDrop(mob/user as mob)
-
-	if ((user == usr && !( usr.restrained() ) && !( usr.stat ) && (usr.contents.Find(src) || get_dist(src, usr) <= 1)))
-		if (usr.hand)
-			if (!( usr.l_hand ))
-				spawn( 0 )
-					src.attack_hand(usr, 1, 1)
-					return
-		else
-			if (!( usr.r_hand ))
-				spawn( 0 )
-					src.attack_hand(usr, 0, 1)
-					return
-	return
-
-/obj/item/weapon/game_kit/proc/update()
-
-	if (!( src.internet ))
-		var/dat = text("<CENTER><B>Game Board</B></CENTER><BR><a href='?src=\ref[];mode=hia'>[]</a> <a href='?src=\ref[];mode=remove'>remove</a><HR><table width= 256  border= 0  height= 256  cellspacing= 0  cellpadding= 0 >", src, (src.selected ? text("Selected: []", src.selected) : "Nothing Selected"), src)
-		var/counter = null
-		counter = 1
-		while(counter <= 8)
-			dat += text("<tr>\n\t<td><a href='?src=\ref[];s_board=1 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=2 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=3 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=4 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=5 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=6 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=7 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=8 []'><img src='board_[][].png' width= 32 height= 32 ></td>\n\t</tr>",
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 1) * 2 - 1, ((counter - 1) * 8 + 1) * 2 + 1), ((counter + 1) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 2) * 2 - 1, ((counter - 1) * 8 + 2) * 2 + 1), ((counter + 2) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 3) * 2 - 1, ((counter - 1) * 8 + 3) * 2 + 1), ((counter + 3) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 4) * 2 - 1, ((counter - 1) * 8 + 4) * 2 + 1), ((counter + 4) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 5) * 2 - 1, ((counter - 1) * 8 + 5) * 2 + 1), ((counter + 5) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 6) * 2 - 1, ((counter - 1) * 8 + 6) * 2 + 1), ((counter + 6) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 7) * 2 - 1, ((counter - 1) * 8 + 7) * 2 + 1), ((counter + 7) % 2 ? "W" : "B"),
-			src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 8) * 2 - 1, ((counter - 1) * 8 + 8) * 2 + 1), ((counter + 8) % 2 ? "W" : "B"))
-			counter++
-		dat += "</table><HR><B>Chips:</B> "
-		dat += text("<a href='?src=\ref[];s_piece=CB'><img src='board_CB.png' width= 32 height= 32 ></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=CR'><img src='board_CR.png' width= 32 height= 32 ></A>", src)
-		dat += "<HR><B>Chess pieces:</B><BR>"
-		dat += text("<a href='?src=\ref[];s_piece=WP'><img src='board_WP.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WK'><img src='board_WK.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WQ'><img src='board_WQ.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WI'><img src='board_WI.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WN'><img src='board_WN.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WR'><img src='board_WR.png'></A><BR>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BP'><img src='board_BP.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BK'><img src='board_BK.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BQ'><img src='board_BQ.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BI'><img src='board_BI.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BN'><img src='board_BN.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BR'><img src='board_BR.png'></A><HR>", src)
-		dat += text("<a href='?src=\ref[];sw_pic=1'>Using cache for pictures</A>", src)
-		src.data = dat
-	else
-		var/dat = text("<CENTER><B>Game Board</B></CENTER><BR><a href='?src=\ref[];mode=hia'>[]</a> <a href='?src=\ref[];mode=remove'>remove</a><HR><table width= 256  border= 0  height= 256  cellspacing= 0  cellpadding= 0 >", src, (src.selected ? text("Selected: []", src.selected) : "Nothing Selected"), src)
-		var/counter = null
-		counter = 1
-		while(counter <= 8)
-			dat += text("<tr>\n\t<td><a href='?src=\ref[];s_board=1 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=2 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=3 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=4 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=5 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=6 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=7 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t<td><a href='?src=\ref[];s_board=8 []'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_[][].png' width= 32 height= 32 ></td>\n\t</tr>",
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 1) * 2 - 1, ((counter - 1) * 8 + 1) * 2 + 1), ((counter + 1) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 2) * 2 - 1, ((counter - 1) * 8 + 2) * 2 + 1), ((counter + 2) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 3) * 2 - 1, ((counter - 1) * 8 + 3) * 2 + 1), ((counter + 3) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 4) * 2 - 1, ((counter - 1) * 8 + 4) * 2 + 1), ((counter + 4) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 5) * 2 - 1, ((counter - 1) * 8 + 5) * 2 + 1), ((counter + 5) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 6) * 2 - 1, ((counter - 1) * 8 + 6) * 2 + 1), ((counter + 6) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 7) * 2 - 1, ((counter - 1) * 8 + 7) * 2 + 1), ((counter + 7) % 2 ? "W" : "B"),
-			 src, counter, copytext(src.board_stat, ((counter - 1) * 8 + 8) * 2 - 1, ((counter - 1) * 8 + 8) * 2 + 1), ((counter + 8) % 2 ? "W" : "B"))
-			counter++
-		dat += "</table><HR><B>Chips:</B> "
-		dat += text("<a href='?src=\ref[];s_piece=CB'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_CB.png' width= 32 height= 32 ></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=CR'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_CR.png' width= 32 height= 32 ></A>", src)
-		dat += "<HR><B>Chess pieces:</B><BR>"
-		dat += text("<a href='?src=\ref[];s_piece=WP'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_WP.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WK'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_WK.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WQ'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_WQ.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WI'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_WI.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WN'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_WN.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=WR'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_WR.png'></A><BR>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BP'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_BP.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BK'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_BK.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BQ'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_BQ.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BI'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_BI.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BN'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_BN.png'></A>", src)
-		dat += text("<a href='?src=\ref[];s_piece=BR'><img src='http://exadv1.aretesoft.com/Game_Board_Files/board_BR.png'></A><HR>", src)
-		dat += text("<a href='?src=\ref[];sw_pic=1'>Using Internet for pictures</A>", src)
-		src.data = dat
-	return
-
-/obj/item/weapon/game_kit/attack_hand(mob/user as mob, unused, flag)
-
-	if (flag)
-		return ..()
-	else
-		user.machine = src
-		if (!( src.data ))
-			update()
-		user << browse(src.data, "window=game_kit")
-		return
-	return
-
-/obj/item/weapon/game_kit/Topic(href, href_list)
-	..()
-	if ((usr.stat || usr.restrained()))
-		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
-		if (href_list["s_piece"])
-			src.selected = href_list["s_piece"]
-		else
-			if (href_list["mode"])
-				if (href_list["mode"] == "remove")
-					src.selected = "remove"
-				else
-					src.selected = null
-			else
-				if (href_list["sw_pic"])
-					src.internet = !( src.internet )
-				else
-					if (href_list["s_board"])
-						if (!( src.selected ))
-							src.selected = href_list["s_board"]
-						else
-							var/tx = text2num(copytext(href_list["s_board"], 1, 2))
-							var/ty = text2num(copytext(href_list["s_board"], 3, 4))
-							if ((copytext(src.selected, 2, 3) == " " && length(src.selected) == 3))
-								var/sx = text2num(copytext(src.selected, 1, 2))
-								var/sy = text2num(copytext(src.selected, 3, 4))
-								var/place = ((sy - 1) * 8 + sx) * 2 - 1
-								src.selected = copytext(src.board_stat, place, place + 2)
-								if (place == 1)
-									src.board_stat = text("BB[]", copytext(src.board_stat, 3, 129))
-								else
-									if (place == 127)
-										src.board_stat = text("[]BB", copytext(src.board_stat, 1, 127))
-									else
-										if (place)
-											src.board_stat = text("[]BB[]", copytext(src.board_stat, 1, place), copytext(src.board_stat, place + 2, 129))
-								place = ((ty - 1) * 8 + tx) * 2 - 1
-								if (place == 1)
-									src.board_stat = text("[][]", src.selected, copytext(src.board_stat, 3, 129))
-								else
-									if (place == 127)
-										src.board_stat = text("[][]", copytext(src.board_stat, 1, 127), src.selected)
-									else
-										if (place)
-											src.board_stat = text("[][][]", copytext(src.board_stat, 1, place), src.selected, copytext(src.board_stat, place + 2, 129))
-								src.selected = null
-							else
-								if (src.selected == "remove")
-									var/place = ((ty - 1) * 8 + tx) * 2 - 1
-									if (place == 1)
-										src.board_stat = text("BB[]", copytext(src.board_stat, 3, 129))
-									else
-										if (place == 127)
-											src.board_stat = text("[]BB", copytext(src.board_stat, 1, 127))
-										else
-											if (place)
-												src.board_stat = text("[]BB[]", copytext(src.board_stat, 1, place), copytext(src.board_stat, place + 2, 129))
-								else
-									if (length(src.selected) == 2)
-										var/place = ((ty - 1) * 8 + tx) * 2 - 1
-										if (place == 1)
-											src.board_stat = text("[][]", src.selected, copytext(src.board_stat, 3, 129))
-										else
-											if (place == 127)
-												src.board_stat = text("[][]", copytext(src.board_stat, 1, 127), src.selected)
-											else
-												if (place)
-													src.board_stat = text("[][][]", copytext(src.board_stat, 1, place), src.selected, copytext(src.board_stat, place + 2, 129))
-		src.add_fingerprint(usr)
-		update()
-		for(var/mob/M in viewers(1, src))
-			if ((M.client && M.machine == src))
-				src.attack_hand(M)
-			//Foreach goto(835)
-	return
-
 /obj/item/weapon/ex_act(severity)
 
 	switch(severity)
@@ -1362,7 +1178,7 @@
 
 /obj/item/weapon/gun/energy/taser_gun/update_icon()
 
-	var/ratio = src.charges / 10
+	var/ratio = src.charges / maximum_charges
 	ratio = round(ratio, 0.25) * 100
 	src.icon_state = text("t_gun[]", ratio)
 	return
@@ -1409,39 +1225,39 @@
 	src.add_fingerprint(user)
 	var/mob/human/H = M
 
-	// ******* Check
 	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
-	if (user.a_intent == "hurt")
-		if (prob(20))
-			if (M.paralysis < 10)
-				M.paralysis = 10
-		else
-			if (M.weakened < 10)
+	if(src.charges >= 1)
+		if (user.a_intent == "hurt")
+			if (prob(20))
+				if (M.paralysis < 10)
+					M.paralysis = 10
+			else if (M.weakened < 10)
 				M.weakened = 10
-		if (M.stuttering < 10)
-			M.stuttering = 10
-		..()
-		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall", 2)
-			//Foreach goto(182)
-	else
-		if (prob(50))
-			if (M.paralysis < 60)
-				M.paralysis = 60
+			if (M.stuttering < 10)
+				M.stuttering = 10
+			..()
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				O.show_message("\red <B>[M] has been knocked unconscious!</B>", 1, "\red You hear someone fall", 2)
 		else
-			if (M.weakened < 60)
-				M.weakened = 60
-		if (M.stuttering < 60)
-			M.stuttering = 60
-		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			if ((O.client && !( O.blinded )))
-				O.show_message(text("\red <B>[] has been stunned with the taser gun by []!</B>", M, user), 1, "\red You hear someone fall", 2)
-			//Foreach goto(309)
-	return
+			if (prob(50))
+				if (M.paralysis < 60)
+					M.paralysis = 60
+			else
+				if (M.weakened < 60)
+					M.weakened = 60
+			if (M.stuttering < 60)
+				M.stuttering = 60
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				if ((O.client && !( O.blinded )))
+					O.show_message("\red <B>[M] has been stunned with the taser gun by [user]!</B>", 1, "\red You hear someone fall", 2)
+		src.charges--
+		update_icon()
+	else // no charges in the gun, so they just wallop the target with it
+		..()
 
 /obj/item/weapon/pill_canister/New()
 
@@ -3032,21 +2848,24 @@
 	return
 
 /obj/item/weapon/healthanalyzer/attack(mob/M as mob, mob/user as mob)
-
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
 		user << "\red You don't have the dexterity to do this!"
 		return
-	for(var/mob/O in viewers(M, null))
-		O.show_message(text("\red [] has analyzed []'s vitals!", user, M), 1)
-		//Foreach goto(67)
-	user.show_message(text("\blue Analyzing Results for []:\n\t Overall Status: []", M, (M.stat > 1 ? "dead" : text("[]% healthy", M.health))), 1)
-	user.show_message(text("\blue \t Damage Specifics: []-[]-[]-[]", M.oxyloss, M.toxloss, M.fireloss, M.bruteloss), 1)
+	
+	for (var/mob/O in viewers(M, null))
+		O.show_message("\red [user] has analyzed [M]'s vitals!", 1)
+	
+	user.show_message("\blue Analyzing Results for [M]:\n\t Overall Status: [M.stat > 1 ? "dead" : "[M.health]% healthy"]", 1)
+	user.show_message("\blue \t Damage Specifics: [M.oxyloss]-[M.toxloss]-[M.fireloss]-[M.bruteloss]", 1)
 	user.show_message("\blue Key: Suffocation/Toxin/Burns/Brute", 1)
+	
 	if (M.rejuv)
-		user.show_message(text("\blue Bloodstream Analysis located [] units of rejuvenation chemicals.", M.rejuv), 1)
+		user.show_message("\blue Bloodstream Analysis located [M.rejuv] units of rejuvenation chemicals.", 1)
+	
+	if (!M.client)
+		user.show_message("\blue [M] has a vacant look in \his eyes.", 1)
+	
 	src.add_fingerprint(user)
-	return
-	return
 
 /obj/item/weapon/analyzer/attack_self(mob/user as mob)
 

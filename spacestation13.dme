@@ -4,8 +4,9 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: icons\stationobjs.dmi
-DIR: code\item\weapon icons interface Lib
+FILE: gibbed.dmp
+DIR: code code\item code\item\weapon icons interface Lib
+UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -36,7 +37,6 @@ AUTO_FILE_DIR: ON
 #include "code\cell_process.dm"
 #include "code\cellautomata.dm"
 #include "code\chemical.dm"
-#include "code\colour2html.dm"
 #include "code\computer.dm"
 #include "code\cryo.dm"
 #include "code\datumvars.dm"
@@ -60,6 +60,7 @@ AUTO_FILE_DIR: ON
 #include "code\power.dm"
 #include "code\shuttle.dm"
 #include "code\ss13_algorithm2.dm"
+#include "code\suicide.dm"
 #include "code\sun.dm"
 #include "code\test.dm"
 #include "code\texthandling.dm"
@@ -68,6 +69,7 @@ AUTO_FILE_DIR: ON
 #include "code\weap_sat.dm"
 #include "code\weapons.dm"
 #include "code\item\weapon\aimodules.dm"
+#include "code\item\weapon\game_kit.dm"
 #include "code\item\weapon\multitool.dm"
 #include "code\machinery\airlock.dm"
 #include "code\machinery\recharger.dm"

@@ -69,8 +69,10 @@
 
 /client
 	var/obj/admins/holder = null
-	var/listen_ooc = 1.0
-	var/move_delay = 1.0
+	var/authenticated = 0
+	var/authenticating = 0
+	var/listen_ooc = 1
+	var/move_delay = 1
 	var/moving = null
 	var/vote = null
 	var/showvote = null
@@ -210,6 +212,8 @@
 		var/logadmin = 0		// log admin actions
 		var/loggame = 0			// log game events
 		var/logvote = 0
+		var/enable_authentication = 0
+		var/allow_respawn = 0
 		var/allowvoterestart = 0 // allow votes to restart
 		var/allowvotemode = 0	// allow votes to change mode
 		var/votedelay = 600		// minimum time between voting sessions (seconds, 10 minute default)
@@ -1013,7 +1017,7 @@
 	icon_state = "s_glasses"
 	s_istate = "s_glasses"
 /obj/item/weapon/clothing/glasses/thermal
-	name = "Optical Thermal/Meson Scanner"
+	name = "Optical Thermal Scanner"
 	icon_state = "t_glasses"
 	s_istate = "glasses"
 /obj/item/weapon/clothing/gloves
@@ -1432,7 +1436,7 @@ obj/item/weapon/clothing/suit/labcoat
 	var/selected = null
 	var/board_stat = null
 	var/data = ""
-	var/internet = 1.0
+	var/base_url = "http://svn.slurm.us/public/spacestation13/misc/game_kit"
 	s_istate = "sheet-metal"
 	w_class = 5.0
 /obj/item/weapon/gift
@@ -1477,8 +1481,8 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "gun"
 	force = 10.0
 	throwspeed = 10.0
-	charges = 3.0
-	maximum_charges = 3.0
+	maximum_charges = 4
+	charges = 4
 /obj/item/weapon/gun/revolver
 	desc = "There are 0 bullets left. Uses 357"
 	name = "revolver"

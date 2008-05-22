@@ -405,7 +405,7 @@
 				C.engine_access = 1
 				C.air_access = 0
 			if("Staff Assistant")
-				C.access_level = 2
+				C.access_level = 3
 				C.lab_access = 0
 				C.engine_access = 0
 				C.air_access = 0
