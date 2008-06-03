@@ -37,7 +37,7 @@
 
 	dat += "</table><HR><B>Chips:</B><BR>"
 	for (var/piece in list("CB", "CR"))
-		dat += "<a href='?src=\ref[src];s_piece=CB'><img src='[src.base_url]/board_[piece].png' width=32 height=32 border=0></a>"
+		dat += "<a href='?src=\ref[src];s_piece=[piece]'><img src='[src.base_url]/board_[piece].png' width=32 height=32 border=0></a>"
 
 	dat += "<HR><B>Chess pieces:</B><BR>"
 	for (var/piece in list("WP", "WK", "WQ", "WI", "WN", "WR"))
