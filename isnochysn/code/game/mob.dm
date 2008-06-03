@@ -239,10 +239,8 @@
 
 	if(src.affecting)
 		var/grabee = src.affecting
-		world << "grabee is [grabee] and how"
 		spawn(0)
 			del(src)
-		world << "grabee is [grabee] and howhow"
 		return grabee
 	return null
 
@@ -5503,16 +5501,19 @@
 			continue
 
 		var/name = M.name
-		
-		if (M.rname && M.rname != M.name)
-			name += " \[[M.rname]\]"
-		
+
 		if (name in names)
 			namecounts[name]++
 			name = "[name] ([namecounts[name]])"
 		else
 			names.Add(name)
 			namecounts[name] = 1
+
+		if (M.rname && M.rname != M.name) //they're in disguise!
+			name += " \[[M.rname]\]"
+
+		if (M.stat == 2)
+			name += " \[dead\]"
 
 		creatures[name] = M
 
@@ -7382,9 +7383,9 @@
 		world.update_stat()
 
 	..()
-	
+
 	src.authorize()
-	
+
 	spawn (50)
 		if (mob.CanAdmin())
 			src.holder = new /obj/admins(src)
