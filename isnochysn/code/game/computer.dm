@@ -835,60 +835,49 @@
 	if (locate(/obj/move, src))
 		return 1
 
-	if ((ismob(A) && src.x > 2 && src.x < (world.maxx - 2)))
+	if ((ismob(A) && src.x > 2 && src.x < (world.maxx - 1)))
 		var/mob/M = A
 
 		if ((!( M.restrained()) && M.canmove))
-			var/t1 = 5
+			var/prob_slip = 5
 
 			if (locate(/obj/grille, oview(1, M)))
 				if (!( M.l_hand ))
-					t1 -= 2
-				else
-					if (M.l_hand.w_class <= 2)
-						t1 -= 1
+					prob_slip -= 2
+				else if (M.l_hand.w_class <= 2)
+					prob_slip -= 1
 
 				if (!( M.r_hand ))
-					t1 -= 2
-				else
-					if (M.r_hand.w_class <= 2)
-						t1 -= 1
-			else if (locate(/obj/move/wall, oview(1, M)))
+					prob_slip -= 2
+				else if (M.r_hand.w_class <= 2)
+					prob_slip -= 1
+			else if (locate(/obj/move/wall, oview(1, M)) || locate(/turf/station, oview(1, M)))
 				if (!( M.l_hand ))
-					t1 -= 1
-				else
-					if (M.l_hand.w_class <= 2)
-						t1 -= 0.5
-				if (!( M.r_hand ))
-					t1 -= 1
-				else
-					if (M.r_hand.w_class <= 2)
-						t1 -= 0.5
-			else
-				if (locate(/turf/station, oview(1, M)))
-					if (!( M.l_hand ))
-						t1 -= 1
-					else
-						if (M.l_hand.w_class <= 2)
-							t1 -= 0.5
-					if (!( M.r_hand ))
-						t1 -= 1
-					else
-						if (M.r_hand.w_class <= 2)
-							t1 -= 0.5
-			t1 = round(t1)
-			if (t1 < 5)
-				if (prob(t1))
-					M << "\blue <B>You slipped!</B>"
-				else
-					spawn( 5 )
-						if (src == A.loc)
-							spawn( 0 )
-								src.Entered(A)
-								return
-						return
-					return 0
+					prob_slip -= 1
+				else if (M.l_hand.w_class <= 2)
+					prob_slip -= 0.5
 
+				if (!( M.r_hand ))
+					prob_slip -= 1
+				else if (M.r_hand.w_class <= 2)
+					prob_slip -= 0.5
+			prob_slip = round(prob_slip)
+			if (prob_slip < 5) //next to something, but they might slip off
+				if (prob(prob_slip))
+					M << "\blue <B>You slipped!</B>"
+					M.inertia_dir = M.last_move
+					step(M, M.inertia_dir)
+					return
+				else
+					M.inertia_dir = 0 //no inertia
+			else //not by a wall or anything, they just keep going
+				spawn(5)
+					if ((A && !( A.anchored ) && A.loc == src))
+						if(M.inertia_dir) //they keep moving the same direction
+							step(M, M.inertia_dir)
+						else
+							M.inertia_dir = M.last_move
+							step(M, M.inertia_dir)
 	if (src.x <= 2 && src.z < world.maxz)
 		A.z++
 		A.x = world.maxx - 2
@@ -901,10 +890,27 @@
 		spawn (0)
 			if ((A && A.loc))
 				A.loc.Entered(A)
-	else
-		spawn (5)
-			if ((A && !( A.anchored ) && A.loc == src))
-				if (step(A, A.last_move))
-				else
-					spawn( 0 )
-						src.Entered(A)
+
+/obj/machinery/mass_driver/proc/drive(amount)
+	if(stat & NOPOWER)
+		return
+
+	use_power(500)
+	for(var/atom/movable/O in src.loc)
+		if(!O.anchored)
+			spawn( 0 )
+				var/atom/targetarea = locate(src.x, src.y, src.z)
+				//since NORTHEAST == NORTH & EAST, etc, doing it this way allows for diagonal mass drivers in the future
+				//and isn't really any more complicated
+				if(src.dir & NORTH)
+					targetarea = locate(targetarea.x, world.maxy, targetarea.z)
+				if(src.dir & SOUTH)
+					targetarea = locate(targetarea.x, 1, targetarea.z)
+				if(src.dir & EAST)
+					targetarea = locate(world.maxx, targetarea.y, targetarea.z)
+				if(src.dir & WEST)
+					targetarea = locate(1, targetarea.y, targetarea.z)
+				O.throw_at(targetarea, drive_range * src.power, src.power)
+	flick("mass_driver1", src)
+	return
+

@@ -71,7 +71,7 @@ var/list/modules = list(			// global associative list
 	icon_state = "std_module"
 	w_class = 2.0
 	s_istate = "electronic"
-	flags = FPRINT|DRIVABLE|TABLEPASS
+	flags = FPRINT|TABLEPASS
 	var/mtype = 1						// 1=electronic 2=hardware
 
 /obj/item/weapon/module/card_reader
@@ -100,6 +100,7 @@ var/list/modules = list(			// global associative list
 	name = "power cell charger module"
 	icon_state = "power_mod"
 	desc = "Charging circuits for power cells."
+
 
 
 

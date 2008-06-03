@@ -8,7 +8,7 @@
 	var/icon_opened = "emcloset1"
 	var/opened = 0.0
 	var/welded = 0.0
-	flags = 320.0
+	flags = FPRINT
 	weight = 1.0E8
 
 /obj/closet/emcloset

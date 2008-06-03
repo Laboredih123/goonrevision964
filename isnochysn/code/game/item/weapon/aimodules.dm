@@ -11,11 +11,12 @@
 	force = 5.0
 	w_class = 2.0
 	throwforce = 5.0
-	throwspeed = 15.0
-	
+	throw_speed = 3
+	throw_range = 15
+
 /obj/machinery/computer/aiupload/attackby(obj/item/weapon/aiModule/module as obj, mob/user as mob)
 	module.install(src)
-	
+
 /obj/item/weapon/aiModule/proc/install(var/obj/machinery/computer/aiupload/comp)
 	if(comp.stat & NOPOWER)
 		usr << "The upload computer has no power!"

@@ -238,13 +238,13 @@
 /obj/item/weapon/grab/proc/throw()
 
 	if(src.affecting)
-		src.affecting.density = 1
-		step(src.affecting, src.assailant.dir)
-		if (prob(75))
-			step(src.affecting, src.assailant.dir)
-		//SN src = null
-		del(src)
-	return
+		var/grabee = src.affecting
+		world << "grabee is [grabee] and how"
+		spawn(0)
+			del(src)
+		world << "grabee is [grabee] and howhow"
+		return grabee
+	return null
 
 /obj/item/weapon/grab/proc/synch()
 
@@ -570,8 +570,8 @@
 		if("rest")
 			usr.resting = !( usr.resting )
 		if("throw")
-			if ((!( usr.stat ) && usr.canmove && isturf(usr.loc) && !( usr.restrained() )))
-				usr.throw_item_v()
+			if (!usr.stat && isturf(usr.loc) && !usr.restrained())
+				usr.toggle_throw_mode()
 		if("drop")
 			usr.drop_item_v()
 		if("swap")
@@ -730,12 +730,6 @@
 	using.name = "drop"
 	using.icon_state = "act_drop"
 	using.screen_loc = "7,1"
-	using.layer = 19
-	src.adding += using
-	using = new src.h_type( src )
-	using.name = "throw"
-	using.icon_state = "act_throw"
-	using.screen_loc = "9,1"
 	using.layer = 19
 	src.adding += using
 	using = new src.h_type( src )
@@ -3005,6 +2999,7 @@
 	src.next_move = 1
 	if (!( src.rname ))
 		src.rname = src.key
+	src.throw_icon = new /obj/screen(null)
 	src.oxygen = new /obj/screen( null )
 	src.i_select = new /obj/screen( null )
 	src.m_select = new /obj/screen( null )
@@ -3022,6 +3017,7 @@
 	src.zone_sel = new /obj/screen/zone_sel( null )
 	..()
 	UpdateClothing()
+	src.throw_icon.icon_state = "act_throw_off"
 	src.oxygen.icon_state = "oxy0"
 	src.i_select.icon_state = "selector"
 	src.m_select.icon_state = "selector"
@@ -3037,6 +3033,7 @@
 	src.sleep.icon_state = "sleep0"
 	src.rest.icon_state = "rest0"
 	src.hands.dir = NORTH
+	src.throw_icon.name = "throw"
 	src.oxygen.name = "oxygen"
 	src.i_select.name = "intent"
 	src.m_select.name = "moving"
@@ -3051,6 +3048,7 @@
 	src.flash.name = "flash"
 	src.sleep.name = "sleep"
 	src.rest.name = "rest"
+	src.throw_icon.screen_loc = "9,1"
 	src.oxygen.screen_loc = "15,12"
 	src.i_select.screen_loc = "14,15"
 	src.m_select.screen_loc = "14,14"
@@ -3068,8 +3066,8 @@
 	src.blind.layer = 0
 	src.flash.layer = 17
 	src.client.screen.len = null
-	src.client.screen -= list( src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
-	src.client.screen += list( src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen -= list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen += list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
 	src.client.screen -= src.hud_used.adding
 	src.client.screen += src.hud_used.adding
 	//src << browse('help.htm', "window=help")
@@ -3598,8 +3596,8 @@
 	*/
 	src.client.screen -= src.hud_used.adding
 	src.client.screen -= src.hud_used.mon_blo
-	src.client.screen -= list( src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
-	src.client.screen -= list( src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen -= list( src.throw_icon, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen -= list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
 	src.blind.icon_state = "black"
 	src.blind.name = " "
 	src.blind.screen_loc = "1,1 to 15,15"
@@ -3611,8 +3609,8 @@
 		src.verbs += /mob/proc/show_ctf
 		src.verbs += /proc/variables
 	src << text("\blue <B>[]</B>", world_message)
-	src.client.screen -= list( src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
-	src.client.screen -= list( src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen -= list( src.throw_icon, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen -= list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
 	if (!( isturf(src.loc) ))
 		src.client.eye = src.loc
 		src.client.perspective = EYE_PERSPECTIVE
@@ -3642,7 +3640,7 @@
 
 	if (src.stat != 2)
 		if (!( src.m_flag ))
-			src.last_move = null
+			src.moved_recently = 0
 		src.m_flag = null
 		if (src.mach)
 			if (src.machine)
@@ -5268,38 +5266,7 @@
 		else
 	return
 
-/mob/proc/throw_item()
 
-	var/obj/item/weapon/W = src.equipped()
-	if (W)
-		u_equip(W)
-		if (src.client)
-			src.client.screen -= W
-		if (usr.stat)
-			return
-		W.loc = src.loc
-		if (istype(W, /obj/item/weapon/grab))
-			W:throw()
-		else
-			W.dropped(src)
-		if (W)
-			W.layer = initial(W.layer)
-			for(var/mob/O in viewers(src, null))
-				O.show_message(text("\red [] has thrown [].", src, W), 1)
-				//Foreach goto(133)
-			W.density = 1
-			W.throwing = 1
-			W.throwspeed = initial(W.throwspeed)
-			spawn( 0 )
-				W.throwing(src.dir)
-				return
-
-			//propulsion
-			if(istype(src.loc, /turf/space))
-				src.Move(get_step(src, turn(dir, 180) ))
-
-			//
-	return
 
 /mob/proc/swap_hand()
 
@@ -5316,11 +5283,6 @@
 		drop_item()
 	return
 
-/mob/proc/throw_item_v()
-
-	if (src.stat == 0)
-		throw_item()
-	return
 
 /mob/proc/drop_item()
 
@@ -5604,6 +5566,7 @@
 	src.client.screen -= main_hud2.contents
 	if (src.hud_used == main_hud1)
 		src.hud_used = main_hud2
+		src.throw_icon.icon = 'screen.dmi'
 		src.oxygen.icon = 'screen.dmi'
 		src.toxin.icon = 'screen.dmi'
 		src.internals.icon = 'screen.dmi'
@@ -5618,6 +5581,7 @@
 		src.rest.icon = 'screen.dmi'
 	else
 		src.hud_used = main_hud1
+		src.throw_icon.icon = 'screen1.dmi'
 		src.oxygen.icon = 'screen1.dmi'
 		src.toxin.icon = 'screen1.dmi'
 		src.internals.icon = 'screen1.dmi'
@@ -6253,6 +6217,7 @@
 	src.next_move = 1
 	if (!( src.rname ))
 		src.rname = src.key
+	src.throw_icon = new /obj/screen(null)
 	src.oxygen = new /obj/screen( null )
 	src.i_select = new /obj/screen( null )
 	src.m_select = new /obj/screen( null )
@@ -6269,6 +6234,7 @@
 	src.rest = new /obj/screen( null )
 	..()
 	UpdateClothing()
+	src.throw_icon.icon_state = "act_throw_off"
 	src.oxygen.icon_state = "oxy0"
 	src.i_select.icon_state = "selector"
 	src.m_select.icon_state = "selector"
@@ -6284,6 +6250,7 @@
 	src.sleep.icon_state = "sleep0"
 	src.rest.icon_state = "rest0"
 	src.hands.dir = NORTH
+	src.throw_icon.name = "throw"
 	src.oxygen.name = "oxygen"
 	src.i_select.name = "intent"
 	src.m_select.name = "move"
@@ -6298,6 +6265,7 @@
 	src.flash.name = "flash"
 	src.sleep.name = "sleep"
 	src.rest.name = "rest"
+	src.throw_icon.screen_loc = "9,1"
 	src.oxygen.screen_loc = "15,12"
 	src.i_select.screen_loc = "14,15"
 	src.m_select.screen_loc = "14,14"
@@ -6317,8 +6285,8 @@
 	src.sleep.layer = 20
 	src.rest.layer = 20
 	src.client.screen.len = null
-	src.client.screen -= list( src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
-	src.client.screen += list( src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen -= list( src.throw_icon, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+	src.client.screen += list( src.throw_icon, src.oxygen, src.i_select, src.m_select, src.toxin, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
 	src.client.screen -= src.hud_used.adding
 	src.client.screen += src.hud_used.adding
 	src.client.screen -= src.hud_used.mon_blo
@@ -6467,7 +6435,7 @@
 		src.t_sl_gas = 0
 		src.t_n2 = 0
 		if (!( src.m_flag ))
-			src.last_move = null
+			src.moved_recently = 0
 		src.m_flag = null
 		if (src.mach)
 			if (src.machine)
@@ -7239,11 +7207,6 @@
 	src.mob.drop_item_v()
 	return
 
-/client/Southwest()
-
-	src.mob.throw_item_v()
-	return
-
 /client/Center()
 
 	if (isobj(src.mob.loc))
@@ -7317,6 +7280,7 @@
 							var/obj/effects/sparks/ion_trails/I = new /obj/effects/sparks/ion_trails( src.mob.loc )
 							flick("ion_fade", I)
 							I.icon_state = "blank"
+							src.mob.inertia_dir = 0
 							spawn( 20 )
 								//I = null
 								del(I)

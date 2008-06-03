@@ -584,7 +584,6 @@
 /obj/item/weapon/flashbang/attack_hand()
 
 	walk(src, null, null)
-	src.throwspeed = 20
 	..()
 	return
 
@@ -1571,13 +1570,6 @@
 		spawn( 0 )
 			O.process()
 			return
-	return
-
-/obj/item/weapon/throwing(t_dir, rs)
-
-	if (!( rs ))
-		rs = src.r_speed
-	..(t_dir, rs)
 	return
 
 /obj/item/weapon/examine()
@@ -3684,7 +3676,7 @@
 		var/mob/M = src.loc
 		var/turf/T = M.loc
 		if ((istype(T, /turf) || istype(T, /obj/move)))
-			if (M.last_move)
+			if (M.moved_recently && M.last_move)
 				step(M, M.last_move)
 		M.show_message("\red <B>You feel a sharp shock!</B>")
 
@@ -5420,6 +5412,8 @@
 		usr:lastDblClick = world.time
 
 	..()
+	if(usr.in_throw_mode)
+		return usr.throw_item(src)
 	var/obj/item/weapon/W = usr.equipped()
 	if ((W == src && usr.stat == 0))
 		spawn( 0 )

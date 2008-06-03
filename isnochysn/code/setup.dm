@@ -28,11 +28,12 @@
 
 #define USEDELAY 16			// 1 second extra delay on use
 #define NOSHIELD 32			// weapon not affected by shield
-#define DRIVABLE 64			// fireable by mass driver
+// 64 is an unused flag, because everything's drivable by a mass driver now
+// Don't reuse it until the flags are all cleaned up (using the #defined things rather than magic numbers)
+// because some things probably still have flag 64 set
 #define ONBELT 128			// can be put in belt slot
 #define FPRINT 256			// takes a fingerprint
 #define WINDOW 512			// window or window/door
-
 
 // channel numbers for power
 

@@ -2714,7 +2714,9 @@
 	return
 
 /turf/Entered(atom/movable/M as mob|obj)
-
+	if(ismob(M) && !istype(src, /turf/space))
+		var/mob/tmob = M
+		tmob.inertia_dir = 0
 	..()
 	for(var/atom/A as mob|obj|turf|area in src)
 		spawn( 0 )
@@ -3374,6 +3376,7 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 
 

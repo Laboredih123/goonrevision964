@@ -16,6 +16,10 @@
 	var/move_speed = 10
 	var/l_move_time = 1
 	var/m_flag = 1
+	var/throwing = 0
+	var/throw_speed = 2
+	var/throw_range = 7
+	var/moved_recently = 0
 
 /atom/movable/overlay
 	var/atom/master = null
@@ -179,6 +183,7 @@
 	var/obj/item/weapon/tank/internal = null
 	var/obj/item/weapon/storage/s_active = null
 	var/obj/item/weapon/clothing/mask/wear_mask = null
+	var/obj/screen/throw_icon = null
 	var/obj/screen/flash = null
 	var/obj/screen/blind = null
 	var/obj/screen/hands = null
@@ -202,6 +207,10 @@
 	var/list/requests = list(  )
 
 	var/list/mapobjs = list()
+
+	var/in_throw_mode = 0
+
+	var/inertia_dir = 0
 
 /mob/ghost
 	name = "ghost"
@@ -300,8 +309,6 @@
 		var/activecount				// count-down before mob goes into idle mode
 
 /obj
-	var/throwspeed = 0.0
-	var/throwing = null
 	var/datum/module/mod
 
 /obj/mark
@@ -487,7 +494,7 @@
 	var/health = 10.0
 	var/destroyed = 0.0
 	anchored = 1.0
-	flags = 64.0
+	flags = FPRINT
 	weight = 500000	// added
 /obj/securearea
 	desc = "A warning sign which reads 'SECURE AREA'"
@@ -531,7 +538,6 @@
 	var/burning = null
 	var/obj/item/weapon/master = null
 	flags = 258.0
-	throwspeed = 7.0
 	weight = 500000.0
 /obj/item/weapon/a_gift
 	name = "Gift"
@@ -664,7 +670,8 @@
 /obj/item/weapon/bottle
 	name = "bottle"
 	var/obj/substance/chemical/chem = null
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 	w_class = 1.0
 /obj/item/weapon/bottle/antitoxins
 	name = "antitoxins"
@@ -690,7 +697,8 @@
 	icon_state = "brutepack"
 	var/amount = 5.0
 	w_class = 1.0
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 /obj/item/weapon/c_tube
 	name = "Cardboard tube"
 	icon_state = "c_tube"
@@ -751,7 +759,8 @@
 	flags = 322.0
 	s_istate = "electronic"
 	throwforce = 5.0
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 2.0
 /obj/item/weapon/clothing
 	name = "clothing"
@@ -1094,7 +1103,7 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "coil"
 	desc = "A coil of power cable."
 	w_class = 2
-	flags = TABLEPASS|USEDELAY|DRIVABLE|FPRINT
+	flags = TABLEPASS|USEDELAY|FPRINT
 	s_istate = "coil"
 
 /obj/item/weapon/cable_coil/cut
@@ -1122,7 +1131,8 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "dropper_0"
 	var/obj/substance/chemical/chem = null
 	var/mode = "inject"
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 1.0
 /obj/item/weapon/dummy
 	name = "dummy"
@@ -1166,7 +1176,8 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 1.0
 	flags = 322.0
 	s_istate = "electronic"
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 /obj/item/weapon/flashbang
 	desc = "It is set to detonate in 3 seconds."
 	name = "flashbang"
@@ -1175,7 +1186,8 @@ obj/item/weapon/clothing/suit/labcoat
 	var/det_time = 30.0
 	w_class = 2.0
 	s_istate = "flashbang"
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 	flags = 402.0
 /obj/item/weapon/flasks
 	name = "flask"
@@ -1248,7 +1260,8 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "laser gun"
 	icon_state = "gun"
 	w_class = 3.0
-	throwspeed = 10.0
+	throw_speed = 2
+	throw_range = 10
 	force = 7.0
 /obj/item/weapon/gun/energy/taser_gun
 	name = "taser gun"
@@ -1256,7 +1269,8 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 3.0
 	s_istate = "gun"
 	force = 10.0
-	throwspeed = 10.0
+	throw_speed = 2
+	throw_range = 10
 	maximum_charges = 8
 	charges = 8
 /obj/item/weapon/gun/revolver
@@ -1265,7 +1279,8 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "revolver"
 	var/bullets = 0.0
 	w_class = 3.0
-	throwspeed = 10.0
+	throw_speed = 2
+	throw_range = 10
 	force = 60.0
 /obj/item/weapon/hand_tele
 	name = "hand tele"
@@ -1307,7 +1322,8 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "implantcase-0"
 	var/obj/item/weapon/implant/imp = null
 	s_istate = "implantcase"
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 1.0
 /obj/item/weapon/implantcase/tracking
 	name = "Glass Case- 'Tracking'"
@@ -1317,7 +1333,8 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "implanter0"
 	var/obj/item/weapon/implant/imp = null
 	s_istate = "syringe_0"
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 2.0
 /obj/item/weapon/implantpad
 	name = "implantpad"
@@ -1326,7 +1343,8 @@ obj/item/weapon/clothing/suit/labcoat
 	var/broadcasting = null
 	var/listening = 1.0
 	s_istate = "electronic"
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 2.0
 /obj/item/weapon/infra
 	name = "Infrared Beam (Security)"
@@ -1351,7 +1369,7 @@ obj/item/weapon/clothing/suit/labcoat
 	desc = "A terahertz-ray emitter and scanner used to detect underfloor objects such as cables and pipes."
 	icon_state = "t-scanner0"
 	var/on = 0
-	flags = FPRINT|ONBELT|DRIVABLE|TABLEPASS
+	flags = FPRINT|ONBELT|TABLEPASS
 	w_class = 2
 	s_istate = "electronic"
 
@@ -1365,7 +1383,8 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = 322.0
 	w_class = 2.0
 	s_istate = "electronic"
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 
 /obj/item/weapon/m_pill
 	name = "pill"
@@ -1374,7 +1393,8 @@ obj/item/weapon/clothing/suit/labcoat
 	var/s_time = 1.0
 	w_class = 1.0
 	s_istate = "pill"
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 /obj/item/weapon/m_pill/Tourette
 	name = "green pill"
 	icon_state = "pill2"
@@ -1397,7 +1417,8 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "ointment"
 	icon_state = "ointment"
 	var/amount = 5.0
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 	w_class = 1.0
 /obj/item/weapon/organ
 	name = "organ"
@@ -1530,7 +1551,8 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "paper"
 	var/info = null
 	w_class = 1.0
-	throwspeed = 15.0
+	throw_speed = 3
+	throw_range = 15
 /obj/item/weapon/paper/Internal
 	name = "paper- 'Internal Atmosphere Operating Instructions'"
 	info = "Equipment:<BR>\n\t1+ Tank(s) with appropriate atmosphere<BR>\n\t1 Gas Mask w regulator (standard issue)<BR>\n<BR>\nProcedure:<BR>\n\t1. Wear mask<BR>\n\t2. Attach oxygen tank pipe to regulater (automatic))<BR>\n\t3. Set internal!<BR>\n<BR>\nNotes:<BR>\n\tDon't forget to stop internal when tank is low by<BR>\n\tremoving internal!<BR>\n<BR>\n\tDo not use a tank that has a high concentration of toxins.<BR>\n\tThe filters shut down on internal mode!<BR>\n<BR>\n\tWhen exiting a high danger environment it is advised<BR>\n\tthat you exit through a decontamination zone!<BR>\n<BR>\n\tRefill a tank at a oxygen canister by equiping the tank (Double Click)<BR>\n\tthen 'attacking' the canister (Double Click the canister)."
@@ -1630,7 +1652,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "pen"
 	flags = 386.0
 	w_class = 1.0
-	throwspeed = 15.0
+	throw_speed = 3
+	throw_range = 15
 /obj/item/weapon/pen/sleepypen
 	desc = "It's a normal black ink pen with a sharp point."
 	var/obj/substance/chemical/chem = null
@@ -1678,7 +1701,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/broadcasting = null
 	var/listening = 1.0
 	flags = 450.0
-	throwspeed = 9.0
+	throw_speed = 2
+	throw_range = 9
 	w_class = 2.0
 	s_istate = "electronic"
 /obj/item/weapon/radio/beacon
@@ -1718,7 +1742,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	w_class = 4.0
 	force = 9.0
 	throwforce = 20.0
-	throwspeed = 10.0
+	throw_speed = 2
+	throw_range = 10
 /obj/item/weapon/screwdriver
 	name = "screwdriver"
 	icon_state = "screwdriver"
@@ -1726,7 +1751,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	force = 5.0
 	w_class = 2.0
 	throwforce = 5.0
-	throwspeed = 15.0
+	throw_speed = 3
+	throw_range = 5
 /obj/item/weapon/shard
 	name = "shard"
 	icon = 'shards.dmi'
@@ -1743,7 +1769,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/height = 0.01
 	flags = 322.0
 	throwforce = 7.0
-	throwspeed = 10.0
+	throw_speed = 1
+	throw_range = 4
 	w_class = 4.0
 /obj/item/weapon/sheet/glass
 	name = "glass"
@@ -1771,7 +1798,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	flags = 322.0
 	s_istate = "electronic"
 	throwforce = 5.0
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 2.0
 /obj/item/weapon/storage
 	name = "storage"
@@ -1802,7 +1830,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	s_istate = "syringe_kit"
 /obj/item/weapon/storage/firstaid
 	name = "First-Aid"
-	throwspeed = 8.0
+	throw_speed = 2
+	throw_range = 8
 /obj/item/weapon/storage/firstaid/fire
 	name = "Fire First Aid"
 	icon_state = "firstaid-ointment"
@@ -1844,14 +1873,14 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "toolbox"
 	flags = 322.0
 	force = 8.0
-	throwspeed = 4.0
+	throw_speed = 1
+	throw_range = 4
 	w_class = 4.0
 /obj/item/weapon/storage/toolbox/electrical
 	name = "electical toolbox"
 	icon_state = "toolbox-y"
 	flags = 322.0
 	force = 8.0
-	throwspeed = 4.0
 	w_class = 4.0
 
 
@@ -1865,7 +1894,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/active = 0.0
 	force = 3.0
 	throwforce = 5.0
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 2.0
 	flags = 290.0
 /obj/item/weapon/syndicate_uplink
@@ -1877,14 +1907,16 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	flags = 322.0
 	w_class = 2.0
 	s_istate = "electronic"
-	throwspeed = 20.0
+	throw_speed = 4
+	throw_range = 20
 /obj/item/weapon/syringe
 	name = "syringe"
 	icon_state = "syringe_0"
 	var/obj/substance/chemical/chem = null
 	var/mode = "inject"
 	var/s_time = 1.0
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 1.0
 /obj/item/weapon/table_parts
 	name = "table parts"
@@ -1899,7 +1931,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	weight = 1000000.0
 	force = 5.0
 	throwforce = 10.0
-	throwspeed = 4.0
+	throw_speed = 1
+	throw_range = 4
 /obj/item/weapon/tank/anesthetic
 	name = "anesthetic"
 	icon_state = "an_tank"
@@ -1925,7 +1958,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "tile"
 	var/amount = 1.0
 	w_class = 3.0
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	force = 6.0
 	throwforce = 7.0
 /obj/item/weapon/timer
@@ -1944,7 +1978,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	flags = 322.0
 	force = 3.0
 	throwforce = 5.0
-	throwspeed = 5.0
+	throw_speed = 1
+	throw_range = 5
 	w_class = 2.0
 /obj/item/weapon/wire
 	desc = "This is just a simple piece of regular insulated wire."
@@ -1958,7 +1993,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "cutters"
 	flags = 322.0
 	force = 6.0
-	throwspeed = 9.0
+	throw_speed = 2
+	throw_range = 9
 	w_class = 2.0
 /obj/item/weapon/wrapping_paper
 	name = "wrapping paper"
@@ -1980,10 +2016,11 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'power.dmi'
 	icon_state = "cell"
 	s_istate = "cell"
-	flags = FPRINT|DRIVABLE|TABLEPASS
+	flags = FPRINT|TABLEPASS
 	force = 10.0
 	throwforce = 2.0
-	throwspeed = 1
+	throw_speed = 1
+	throw_range = 1
 	w_class = 3.0
 	weight = 100000
 	var/charge = 0	// note %age conveted to actual charge in New
@@ -2075,7 +2112,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	holding = null
 	var/health = 20.0
 	var/destroyed = null
-	flags = 320.0
+	flags = FPRINT
 	weight = 1.0E7
 	var/filled = 1		//fractional fullness at spawn
 /obj/machinery/atmoalter/canister/anesthcanister
@@ -2146,7 +2183,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/atmoalter/siphs/fullairsiphon/port
 	name = "Portable Siphon"
 	icon = 'stationobjs.dmi'
-	flags = 320.0
+	flags = FPRINT
 	anchored = 0.0
 /obj/machinery/atmoalter/siphs/scrubbers
 	name = "scrubbers"
@@ -2164,7 +2201,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Portable Siphon"
 	icon = 'stationobjs.dmi'
 	icon_state = "scrubber:0"
-	flags = 320.0
+	flags = FPRINT
 	anchored = 0.0
 /obj/machinery/autolathe
 	name = "Autolathe"
@@ -2564,6 +2601,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/code = 1.0
 	var/id = 1.0
 	anchored = 1.0
+	var/drive_range = 50 //this is mostly irrelevant since current mass drivers throw into space, but you could make a lower-range mass driver for interstation transport or something I guess.
 /obj/machinery/meter
 	name = "meter"
 	icon = 'pipes.dmi'
@@ -2586,7 +2624,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/yes_code = 0.0
 	var/safety = 1.0
 	var/obj/item/weapon/disk/nuclear/auth = null
-	flags = 320.0
+	flags = FPRINT
 /obj/machinery/valve
 	name = "valve"
 	icon = 'pipes.dmi'
@@ -2710,7 +2748,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'escapepod.dmi'
 	icon_state = "podfire"
 	density = 1
-	flags = 320.0
+	flags = FPRINT
 	anchored = 1.0
 	var/speed = 10.0
 	var/maximum_speed = 10.0
@@ -3138,7 +3176,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'Icons.dmi'
 	icon_state = "rack"
 	density = 1
-	flags = 320.0
+	flags = FPRINT
 	anchored = 1.0
 /obj/screen
 	name = "screen"
@@ -3197,7 +3235,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "stool"
 	icon = 'Icons.dmi'
 	icon_state = "stool"
-	flags = 320.0
+	flags = FPRINT
 	weight = 100000
 /obj/stool/bed
 	name = "bed"
@@ -3261,14 +3299,14 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'stationobjs.dmi'
 	icon_state = "watertank"
 	density = 1
-	flags = 320.0
+	flags = FPRINT
 	weight = 5000000.0
 /obj/weldfueltank
 	name = "weldfueltank"
 	icon = 'items.dmi'
 	icon_state = "weldtank"
 	density = 1
-	flags = 320.0
+	flags = FPRINT
 	weight = 5000000.0
 /obj/window
 	name = "window"
