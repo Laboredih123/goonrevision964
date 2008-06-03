@@ -1,4 +1,4 @@
-/datum/game_mode/traitor
+/datum/game_mode/sandbox
 	name = "sandbox"
 	config_tag = "sandbox"
 

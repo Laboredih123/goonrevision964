@@ -7415,11 +7415,11 @@
 				src.holder.owner = src
 				src.verbs += /client/proc/show_panel
 
-			if (ticker && master_mode =="sandbox")
-				mob.CanBuild()
-				if (src.holder.level == 5)
-					src.verbs += /proc/variables
-					src.verbs += /mob/proc/Delete
+		if (ticker && master_mode =="sandbox")
+			mob.CanBuild()
+			if (src.holder.level == 5)
+				src.verbs += /proc/variables
+				src.verbs += /mob/proc/Delete
 
 /client/Del()
 	if (banned.Find(src.ckey))
