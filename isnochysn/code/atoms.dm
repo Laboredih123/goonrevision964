@@ -978,7 +978,7 @@
 	a_filter = 9.0
 	h_filter = 9.0
 	s_istate = "bio_suit"
-	flags = 266.0
+	flags = FPRINT | TABLEPASS
 	s_fire = 1350000.0
 	fire_protect = 126.0
 /obj/item/weapon/clothing/suit/firesuit
@@ -989,7 +989,7 @@
 	h_filter = 6.0
 	a_filter = 4.0
 	s_istate = "fire_suit"
-	flags = 266.0
+	flags = FPRINT | TABLEPASS
 	s_fire = 7.5E7
 	fire_protect = 126.0
 obj/item/weapon/clothing/suit/labcoat
@@ -997,7 +997,7 @@ obj/item/weapon/clothing/suit/labcoat
 	desc = "A suit that protects against minor chemical spills."
 	icon_state = "labcoat"
 	s_istate = "labcoat"
-	flags = 266.0
+	flags = FPRINT | TABLEPASS
 	s_fire = 1000000.0
 	fire_protect = 126.0
 /obj/item/weapon/clothing/suit/robot_suit
@@ -1007,7 +1007,7 @@ obj/item/weapon/clothing/suit/labcoat
 	a_filter = 9.0
 	h_filter = 9.0
 	s_istate = "ro_suit"
-	flags = 266.0
+	flags = FPRINT | TABLEPASS
 	s_fire = 1.875E7
 	fire_protect = 126.0
 /obj/item/weapon/clothing/suit/sp_suit
@@ -1018,7 +1018,7 @@ obj/item/weapon/clothing/suit/labcoat
 	h_filter = 6.0
 	a_filter = 4.0
 	s_istate = "s_suit"
-	flags = 266.0
+	flags = FPRINT | TABLEPASS | SUITSPACE
 	s_fire = 6.75E7
 	fire_protect = 126.0
 /obj/item/weapon/clothing/suit/straight_jacket
@@ -1034,7 +1034,7 @@ obj/item/weapon/clothing/suit/labcoat
 	h_filter = 6.0
 	a_filter = 4.0
 	s_istate = "swat_suit"
-	flags = 266.0
+	flags = FPRINT | TABLEPASS
 	s_fire = 6.75E7
 	brute_protect = 126.0
 	fire_protect = 126.0
