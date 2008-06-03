@@ -1282,7 +1282,6 @@
 	new /obj/item/weapon/fcardholder( src )
 	new /obj/item/weapon/fcardholder( src )
 	new /obj/item/weapon/fcardholder( src )
-	new /obj/item/weapon/camera( src )
 	new /obj/item/weapon/f_print_scanner( src )
 	new /obj/item/weapon/f_print_scanner( src )
 	new /obj/item/weapon/f_print_scanner( src )
