@@ -273,11 +273,11 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 		if (!istype(usr, /mob/ai))
 			usr << "\red You don't have the dexterity to do this!"
 			return
-	
+
 	if ((usr.stat || usr.restrained()))
 		if (!istype(usr, /mob/ai))
 			return
-	
+
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/ai))))
 		usr.machine = src
 		if (href_list["retract"])
@@ -300,7 +300,7 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 			SS13_airtunnel.siphons()
 		else if (href_list["refresh"])
 			SS13_airtunnel.siphons()
-		
+
 		src.add_fingerprint(usr)
 		src.updateUsrDialog()
 	return
@@ -449,10 +449,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 					src.scan = I
 		if (href_list["door1"])
 			if (src.scan)
-
-
-
-				if (scan.check_access(access, allowed))
+				if (src.check_access(src.scan))
 					if (src.d1.density)
 						spawn( 0 )
 							src.d1.open()
@@ -463,7 +460,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 							return
 		if (href_list["door2"])
 			if (src.scan)
-				if (scan.check_access(access, allowed))
+				if (src.check_access(src.scan))
 					if (src.d2.density)
 						spawn( 0 )
 							src.d2.open()
@@ -474,7 +471,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 							return
 		if (href_list["em_cl"])
 			if (src.scan)
-				if (scan.check_access(access, allowed))
+				if (src.check_access(src.scan))
 					if (!( src.d1.density ))
 						src.d1.close()
 						return
@@ -485,7 +482,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 						return
 		if (href_list["em_op"])
 			if (src.scan)
-				if (scan.check_access(access, allowed))
+				if (src.check_access(src.scan))
 					spawn( 0 )
 						if (src.d1.density)
 							src.d1.open()

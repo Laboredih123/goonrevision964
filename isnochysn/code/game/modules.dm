@@ -88,8 +88,6 @@ var/list/modules = list(			// global associative list
 	name = "ID authentication module"
 	icon_state = "id_mod"
 	desc = "A module allowing secure authorization of ID cards."
-	var/access = null
-	var/allowed = null
 
 /obj/item/weapon/module/cell_power
 	name = "power cell regulator module"

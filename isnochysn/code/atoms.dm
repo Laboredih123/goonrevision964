@@ -391,7 +391,6 @@
 	var/explosive = 1	// 0= firebomb
 	var/btemp = 500	// bomb temperature (degC)
 	var/active = 0
-
 /obj/bullet
 	name = "bullet"
 	icon = 'weap_sat.dmi'
@@ -732,10 +731,7 @@
 /obj/item/weapon/card/id
 	name = "Identification Card"
 	icon_state = "card-id"
-	var/access_level = null
-	var/lab_access = null
-	var/engine_access = null
-	var/air_access = null
+	var/access = list()
 	var/registered = null
 	var/assignment = null
 /obj/item/weapon/card/id/syndicate
@@ -744,12 +740,11 @@
 /obj/item/weapon/card/id/captains_spare
 	name = "Captain's spare ID"
 	icon_state = "card-id"
-	access_level = 5
-	lab_access = 5
-	engine_access = 5
-	air_access = 5
 	registered = "Captain"
 	assignment = "Captain"
+	New()
+		access = get_access("Captain")
+		..()
 /obj/item/weapon/clipboard
 	name = "clipboard"
 	icon_state = "clipboard00"
@@ -2286,6 +2281,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/authenticated = 0.0
 	var/mode = 0.0
 	var/printing = null
+	req_access = list(access_change_ids)
 /obj/machinery/computer/communications
 	name = "Communications Console"
 	icon = 'stationobjs.dmi'
@@ -2318,8 +2314,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/temp = null
 	var/id = 1
 	var/obj/machinery/gas_sensor/gs
-	var/access = "4000/0030"
-	var/allowed
+	req_access = list(access_eject_engine)
 
 /obj/machinery/computer/hologram_comp
 	name = "Hologram Computer"
@@ -2335,6 +2330,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Medical Records"
 	icon = 'weap_sat.dmi'
 	icon_state = "computer"
+	req_access = list(access_medical_records)
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
@@ -2344,8 +2340,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/a_id = null
 	var/temp = null
 	var/printing = null
-	var/allowed = "Medical Researcher/Medical Doctor/Head of Personnel/Captain"
-	var/access
 
 /obj/machinery/computer/pod
 	name = "Pod Launch Control"
@@ -2365,6 +2359,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Security Records"
 	icon = 'weap_sat.dmi'
 	icon_state = "computer"
+	req_access = list(access_security_records)
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
@@ -2374,6 +2369,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/a_id = null
 	var/temp = null
 	var/printing = null
+	var/can_change_id = 0
 /obj/machinery/computer/security
 	name = "Security Cameras"
 	icon = 'stationobjs.dmi'
@@ -2389,8 +2385,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/auth_need = 3.0
 
 	var/list/authorized = list(  )
-	var/allowed
-	var/access = "2000"
 
 /obj/machinery/computer/sleep_console
 	name = "Sleeper Console"
@@ -2497,13 +2491,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	opacity = 1
 	density = 1
 	var/visible = 1.0
-	var/access = "0000"
-	var/allowed = null
-	//var/r_access
-	//var/r_lab
-	//var/r_engine
-	//var/r_air
-
 	var/p_open = 0.0
 	var/operating = null
 	anchored = 1.0
@@ -2808,8 +2795,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/obj/machinery/door/d1 = null
 	var/obj/machinery/door/d2 = null
 	anchored = 1.0
-	var/access = "5500"
-	var/allowed = "Prison Security/Prison Warden/Security Officer/Head of Personnel/Captain"
+	req_access = list(access_brig)
 
 //*****RM
 /obj/machinery/door_control
@@ -2911,8 +2897,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/lastused_total = 0
 	var/main_status = 0
 	netnum = -1		// set so that APCs aren't found as powernet nodes
-	var/access = "4000/0002/0030"
-	var/allowed = "Systems"
 
 /obj/machinery/power/terminal
 	name = "terminal"

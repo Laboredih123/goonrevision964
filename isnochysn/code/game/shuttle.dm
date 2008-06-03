@@ -165,8 +165,12 @@
 
 	if ((!( istype(W, /obj/item/weapon/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
 		return
-	if (!W.check_access(access, allowed))
-		user << text("The access level ([]) of [] card is not high enough. ", W.access_level, W.registered)
+	if (!W.access) //no access
+		user << "The access level of [W.registered]\'s card is not high enough. "
+		return
+	var/list/cardaccess = W.access
+	if(!istype(cardaccess, /list) || !cardaccess.len) //no access
+		user << "The access level of [W.registered]\'s card is not high enough. "
 		return
 	var/choice = alert(user, text("Would you like to (un)authorize a shortened launch time? [] authorization\s are still needed. Use abort to cancel all authorizations.", src.auth_need - src.authorized.len), "Shuttle Launch", "Authorize", "Repeal", "Abort")
 	switch(choice)

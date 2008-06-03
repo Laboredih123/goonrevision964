@@ -300,67 +300,37 @@
 	src.equip_if_possible(new /obj/item/weapon/storage/backpack(src), slot_back)
 	if (src.disabilities & 1)
 		src.equip_if_possible(new /obj/item/weapon/clothing/glasses/regular(src), slot_glasses)
-	var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id(src)
-	C.assignment = rank
 	switch(rank)
 		if("Research Assistant")
-			C.access_level = 1
-			C.lab_access = 1
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clipboard(src), slot_l_hand)
 		if("Technical Assistant")
-			C.access_level = 1
-			C.lab_access = 0
-			C.engine_access = 1
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
 			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
 		if("Staff Assistant")
-			C.access_level = 3
-			C.lab_access = 0
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/handcuffs(src), slot_l_hand)
 		if("Medical Assistant")
-			C.access_level = 1
-			C.lab_access = 1
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/storage/firstaid/regular(src), slot_l_hand)
 		if("Engineer")
-			C.access_level = 2
-			C.lab_access = 1
-			C.engine_access = 3
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
 			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
 		if("Research Technician")
-			C.access_level = 2
-			C.lab_access = 3
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clipboard(src), slot_l_hand)
 		if("Forensic Technician")
-			C.access_level = 3
-			C.lab_access = 2
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/gloves/latex(src), slot_gloves)
@@ -368,19 +338,11 @@
 			src.equip_if_possible(new /obj/item/weapon/fcardholder(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/f_print_scanner(src), slot_in_backpack)
 		if("Medical Doctor")
-			C.access_level = 2
-			C.lab_access = 0
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/storage/firstaid/regular(src), slot_l_hand)
 		if("Captain")
-			C.access_level = 5
-			C.air_access = 5
-			C.engine_access = 5
-			C.lab_access = 5
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/darkgreen(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
@@ -390,10 +352,6 @@
 			src.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
 		if("Security Officer")
-			C.access_level = 3
-			C.lab_access = 0
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
@@ -406,18 +364,10 @@
 			src.equip_if_possible(new /obj/item/weapon/baton(src), slot_belt)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
 		if("Medical Researcher")
-			C.access_level = 2
-			C.lab_access = 5
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
 		if("Toxin Researcher")
-			C.access_level = 2
-			C.lab_access = 5
-			C.engine_access = 0
-			C.air_access = 0
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/bio_suit(src), slot_wear_suit)
@@ -425,10 +375,6 @@
 			src.equip_if_possible(new /obj/item/weapon/clothing/mask/gasmask(src), slot_wear_mask)
 			src.equip_if_possible(new /obj/item/weapon/tank/oxygentank(src), slot_l_hand)
 		if("Head of Research")
-			C.access_level = 4
-			C.air_access = 2
-			C.engine_access = 2
-			C.lab_access = 5
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
@@ -439,10 +385,6 @@
 			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
 		if("Head of Personnel")
-			C.access_level = 4
-			C.air_access = 2
-			C.engine_access = 2
-			C.lab_access = 4
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
@@ -453,10 +395,6 @@
 			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
 		if("Station Technician")
-			C.access_level = 2
-			C.lab_access = 0
-			C.engine_access = 2
-			C.air_access = 3
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
@@ -464,10 +402,6 @@
 			src.equip_if_possible(new /obj/item/weapon/cable_coil(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/t_scanner(src), slot_belt)
 		if("Atmospheric Technician")
-			C.access_level = 3
-			C.lab_access = 0
-			C.engine_access = 0
-			C.air_access = 4
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
@@ -475,8 +409,11 @@
 		else
 			//this shouldn't ever happen?
 			src << "UH OH! Your job is [rank] and the game just can't handle it! Please report this bug to an administrator."
+	var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id(src)
 	C.registered = src.rname
-	C.name = "[C.registered]'s ID Card ([C.access_level]>[C.lab_access]-[C.engine_access]-[C.air_access])"
+	C.assignment = rank
+	C.name = "[C.registered]'s ID Card ([C.assignment])"
+	C.access = get_access(C.assignment)
 	src.equip_if_possible(C, slot_wear_id)
 	src.equip_if_possible(new /obj/item/weapon/pen(src), slot_r_store)
 	src.equip_if_possible(new /obj/item/weapon/radio/signaler(src), slot_belt)

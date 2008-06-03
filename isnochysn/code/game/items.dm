@@ -1698,44 +1698,7 @@
 	set src in usr
 
 	usr << text("\icon[] []: The current assignment on the card is [].", src, src.name, src.assignment)
-	usr << "\blue The rubric for the 4 access numbers is: general>lab-engine-systems"
 	return
-
-// new check_access for ID cards
-// returns 1 if passed check, 0 if denied
-
-/obj/item/weapon/card/id/proc/check_access(var/access, var/allowed)
-
-	if(!access && !allowed)		// if neither set, allow by default
-		return 1
-
-	if(access)					// if level access
-		var/list/AL = dd_text2list(access, "/")		// text is series of 4 digits separated by /
-
-		for(var/t in AL)							// for each on
-			if(length(t) != 4)						// if not 4 digits, skip
-				continue
-
-			var/rlev = text2num(copytext(t, 1, 2))		// generate the access levels
-			var/rlab = text2num(copytext(t, 2, 3))
-			var/reng = text2num(copytext(t, 3, 4))
-			var/rsys = text2num(copytext(t, 4, 5))
-
-			if(access_level >= rlev && lab_access >= rlab && engine_access >= reng && air_access >= rsys)
-				return 1							// true if the card levels all equal or exceed the set levels
-
-	if(allowed)					// if job assignment access
-
-		var/list/AL = dd_text2list(allowed, "/")		// list as before
-
-		for(var/t in AL)								// for each assignment listesd
-
-			if(assignment == t || "Name:[registered]" == t)		// check assignnet; also name for special cases
-				return 1
-
-	return 0			// nothing matched, so return fail
-
-
 
 /obj/item/weapon/rods/attack_hand(mob/user as mob)
 

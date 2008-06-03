@@ -24,170 +24,60 @@
 /obj/machinery/door/attack_ai(mob/user as mob)
 	return src.attack_hand(user)
 
-//*****RM
 /obj/machinery/door/attack_paw(mob/user as mob)
-
 	return src.attack_hand(user)
 
 /obj/machinery/door/attack_hand(mob/user as mob)
-	if(istype(user, /mob/human))
-		var/mob/human/H = user
-		if(H.wear_id)
-			attackby(H.wear_id, user)
-	else
-		if(istype(user, /mob/ai))
-			attackby(user, user)
-	return
-//*****
+	return src.attackby(user, user)
 
 /obj/machinery/door/proc/acceptsIDs()
 	return 1
 
 /obj/machinery/door/attackby(obj/item/I as obj, mob/user as mob)
-	//world << text("door attackby src [] obj [] mob []", src, I, user)
 	if (src.operating)
 		return
 	src.add_fingerprint(user)
 	if (!src.acceptsIDs())
-		var/isAllowed = 0
-		if(!access && !allowed)		// if neither set, allow by default
-			isAllowed = 1
-		else if (access)					// if level access
-			var/list/AL = dd_text2list(access, "/")		// text is series of 4 digits separated by /
-
-			for(var/t in AL)							// for each on
-				if(length(t) != 4)						// if not 4 digits, skip
-					continue
-
-				var/rlev = text2num(copytext(t, 1, 2))		// generate the access levels
-				var/rlab = text2num(copytext(t, 2, 3))
-				var/reng = text2num(copytext(t, 3, 4))
-				var/rsys = text2num(copytext(t, 4, 5))
-				if (rlev==0 && rlab==0 && reng==0 && rsys==0)
-					isAllowed = 1
-		if (isAllowed==0 && istype(user, /mob/ai))
-			isAllowed = 1
-
-		if (isAllowed)
-			if (src.density)
-				open()
-			else
-				close()
-		else
-			if (src.density)
-				flick("door_deny", src)
-		return
-	if ((src.density && istype(I, /obj/item/weapon/card/emag)))
+		//don't care who they are or what they have, act as if they're NOTHING
+		user = null
+	if (src.density && istype(I, /obj/item/weapon/card/emag))
 		src.operating = 1
 		flick("door_spark", src)
 		sleep(6)
 		src.operating = null
 		open()
 		return 1
-	var/obj/item/weapon/card/id/card
-	if (istype(user, /mob/human))
-		var/mob/human/H = user
-		card = H.wear_id
-	if (istype(I, /obj/item/weapon/card/id))
-		card = I
-	else
-		if (!( istype(card, /obj/item/weapon/card/id) ))
-			if ((istype(user, /mob/ai)))
-				if (src.density)
-					open()
-				else
-					close()
-				return
-			else
-				return 0
-	if (card.check_access(access, allowed))
+	if (src.allowed(user))
 		if (src.density)
 			open()
 		else
 			close()
-	else
-		if (src.density)
-			flick("door_deny", src)
-	return
-
-/obj/machinery/door/window/close()
-
-	..()
-	var/turf/T = src.loc
-	if (T)
-		T.updatecell = 1
-		T.buildlinks()
+	else if (src.density)
+		flick("door_deny", src)
 	return
 
 /obj/machinery/door/window/New()
-
 	..()
-	var/turf/T = src.loc
-	if (T)
-		T.updatecell = 1
-		T.buildlinks()
-	if ( (access && access!="0000") || allowed)
+	if (src.req_access && src.req_access.len)
 		src.icon = 'security.dmi'
 	return
 
 /obj/machinery/door/window/Bumped(atom/movable/AM as mob|obj)
-
 	if (!( ismob(AM) ))
 		return
-	src.cycle(AM,1)
-	return
-
-/obj/machinery/door/window/attack_ai(mob/user as mob)
-
-	return src.attack_hand(user)
-
-//*****RM
-/obj/machinery/door/window/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-
-/obj/machinery/door/window/attack_hand(mob/user as mob)
-	src.cycle(user,0)
-	return
-
-/obj/machinery/door/window/proc/cycle(mob/user, bumped=0)
 	if (!( ticker ))
 		return
 	if (src.operating)
 		return
-	if (access && access=="0000" && !allowed)
-		if (src.density)
-			open()
+	if (src.density && src.allowed(AM))
+		open()
+		if(src.check_access(null))
 			sleep(50)
-			close()
-		return
+		else //secure doors close faster
+			sleep(20)
+		close()
 
-	if(bumped)
-		return
-
-	var/obj/item/weapon/card/id/card
-	if (istype(user, /mob/human))
-		var/mob/human/H = user
-		card = H.wear_id
-		if (!( istype(card, /obj/item/weapon/card/id) ))
-			return
-	else
-		if (istype(user, /mob/ai))
-			if (src.density)
-				open()
-			else
-				close()
-		return
-	if (card.check_access(access, allowed))
-		if (src.density)
-			open()
-		else
-			close()
-	else
-		if (src.density)
-			flick("door_deny", src)
 	return
-//*****
 
 /obj/machinery/door/window/CheckPass(atom/movable/O as mob|obj, target as turf)
 
@@ -199,7 +89,6 @@
 			if ((direct == WEST && src.dir & 3))
 				return 0
 	return 1
-	return
 
 /obj/machinery/door/window/CheckExit(atom/movable/O as mob|obj, target as turf)
 
@@ -211,18 +100,13 @@
 			if ((direct == EAST && src.dir & 3))
 				return 0
 	return 1
-	return
-
-
 
 
 /obj/machinery/door/firedoor/open()
-
 	usr << "This is a remote firedoor!"
 	return
 
 /obj/machinery/door/firedoor/close()
-
 	usr << "This is a remote firedoor!"
 	return
 
@@ -254,20 +138,35 @@
 	else
 		if (!( istype(C, /obj/item/weapon/crowbar) ))
 			return
-	if ((src.density && !( src.blocked ) && !( src.operating )))
-		spawn( 0 )
-			src.operating = 1
-			flick("doorc0", src)
-			src.icon_state = "door0"
-			sleep(15)
-			src.density = 0
-			src.opacity = 0
-			var/turf/T = src.loc
-			if (istype(T, /turf))
-				T.updatecell = 1
-				T.buildlinks()
-			src.operating = 0
-			return
+	if (!src.blocked && !src.operating)
+		if(src.density)
+			spawn( 0 )
+				src.operating = 1
+				flick("doorc0", src)
+				src.icon_state = "door0"
+				sleep(15)
+				src.density = 0
+				src.opacity = 0
+				var/turf/T = src.loc
+				if (istype(T, /turf))
+					T.updatecell = 1
+					T.buildlinks()
+				src.operating = 0
+				return
+		else //close it up again
+			spawn( 0 )
+				src.operating = 1
+				flick("doorc1", src)
+				src.icon_state = "door1"
+				sleep(15)
+				src.density = 1
+				src.opacity = 1
+				var/turf/T = src.loc
+				if (istype(T, /turf))
+					T.updatecell = 1
+					T.buildlinks()
+				src.operating = 0
+				return
 	return
 
 /obj/machinery/door/firedoor/proc/openfire()
@@ -1213,6 +1112,9 @@
 		return 1
 	return
 
+/obj/secloset/personal/var/registered = null
+/obj/secloset/personal/req_access = list(access_all_personal_lockers)
+
 /obj/secloset/personal/New()
 
 	..()
@@ -1228,45 +1130,37 @@
 	if (src.opened)
 		user.drop_item()
 		W.loc = src.loc
-	else
-		if (istype(W, /obj/item/weapon/card/id))
-			if(src.broken)
-				user << "\red It appears to be broken."
-				return
-			var/obj/item/weapon/card/id/I = W
-			if (I.check_access(null,"Systems"))
-				src.allowed = null
-				src.icon_state = "0secloset0"
-				src.locked = 1
-				src.desc = "The first card swiped gains control."
-				return
-			if (I.check_access(access,allowed))
-				src.locked = !( src.locked )
-				for(var/mob/O in viewers(user, 3))
-					if ((O.client && !( O.blinded )))
-						O << text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user)
-					//Foreach goto(185)
-				src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
-				if (!( src.allowed ))
-					src.allowed = "Name:[I.registered]/Captain/Head of Personnel"
-					src.desc = "Owned by [I.registered], Clear by using a card of rank 'Systems'"
-			else
-				user << "\red Access Denied"
-		else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
-			src.broken = 1
-			src.locked = 0
-			src.desc = "It appears to be broken."
-			src.icon = 'secloset_broken.dmi'
-			src.icon_state = "secloset0"
+	else if (istype(W, /obj/item/weapon/card/id))
+		if(src.broken)
+			user << "\red It appears to be broken."
+			return
+		var/obj/item/weapon/card/id/I = W
+		if (src.allowed(user) || !src.registered || (istype(W, /obj/item/weapon/card/id) && src.registered == I.registered))
+			//they can open all lockers, or nobody owns this, or they own this locker
+			src.locked = !( src.locked )
 			for(var/mob/O in viewers(user, 3))
 				if ((O.client && !( O.blinded )))
-					O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
+					O << text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user)
+			src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
+			if (!src.registered)
+				src.registered = I.registered
+				src.desc = "Owned by [I.registered]."
 		else
-			user << "\red It's closed..."
+			user << "\red Access Denied"
+	else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
+		src.broken = 1
+		src.locked = 0
+		src.desc = "It appears to be broken."
+		src.icon = 'secloset_broken.dmi'
+		src.icon_state = "secloset0"
+		for(var/mob/O in viewers(user, 3))
+			if ((O.client && !( O.blinded )))
+				O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
+	else
+		user << "\red Access Denied"
 	return
 
 /obj/secloset/security2/New()
-
 	..()
 	sleep(2)
 	new /obj/item/weapon/clothing/under/red( src )
@@ -1455,32 +1349,25 @@
 	if (src.opened)
 		user.drop_item()
 		W.loc = src.loc
+	else if(src.broken)
+		user << "\red It appears to be broken."
+		return
+	else if(src.allowed(user))
+		src.locked = !( src.locked )
+		for(var/mob/O in viewers(user, 3))
+			if ((O.client && !( O.blinded )))
+				O << text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user)
+		src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
+	else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
+		src.broken = 1
+		src.locked = 0
+		src.icon = 'secloset_broken.dmi'
+		src.icon_state = "secloset0"
+		for(var/mob/O in viewers(user, 3))
+			if ((O.client && !( O.blinded )))
+				O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
 	else
-		if (istype(W, /obj/item/weapon/card/id))
-			if(src.broken)
-				user << "\red It appears to be broken."
-				return
-			var/obj/item/weapon/card/id/I = W
-
-			if(I.check_access(access,allowed))
-				src.locked = !( src.locked )
-				for(var/mob/O in viewers(user, 3))
-					if ((O.client && !( O.blinded )))
-						O << text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user)
-					//Foreach goto(121)
-				src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
-			else
-				user << "\red Access Denied"
-		else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
-			src.broken = 1
-			src.locked = 0
-			src.icon = 'secloset_broken.dmi'
-			src.icon_state = "secloset0"
-			for(var/mob/O in viewers(user, 3))
-				if ((O.client && !( O.blinded )))
-					O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
-		else
-			user << "\red It's closed..."
+		user << "\red Access Denied"
 	return
 
 /obj/secloset/relaymove(mob/user as mob)
@@ -1529,34 +1416,31 @@
 /obj/secloset/attack_hand(mob/user as mob)
 
 	src.add_fingerprint(user)
-	if (!( src.opened ))
-		if (!( src.locked ))
-			for(var/obj/item/I in src)
-				I.loc = src.loc
-				//Foreach goto(43)
-			for(var/mob/M in src)
-				M.loc = src.loc
-				if (M.client)
-					M.client.eye = M.client.mob
-					M.client.perspective = MOB_PERSPECTIVE
-				//Foreach goto(85)
-			src.icon_state = "secloset1"
-			src.opened = 1
-		else
-			usr << "\blue It's locked tight!"
-	else
+	if (!src.opened && !src.locked)
+		//open it
+		for(var/obj/item/I in src)
+			I.loc = src.loc
+		for(var/mob/M in src)
+			M.loc = src.loc
+			if (M.client)
+				M.client.eye = M.client.mob
+				M.client.perspective = MOB_PERSPECTIVE
+		src.icon_state = "secloset1"
+		src.opened = 1
+	else if(src.opened)
+		//close it
 		for(var/obj/item/I in src.loc)
 			if (!( I.anchored ))
 				I.loc = src
-			//Foreach goto(176)
 		for(var/mob/M in src.loc)
 			if (M.client)
 				M.client.perspective = EYE_PERSPECTIVE
 				M.client.eye = src
 			M.loc = src
-			//Foreach goto(226)
 		src.icon_state = "secloset0"
 		src.opened = 0
+	else
+		return src.attackby(null, user)
 	return
 
 /obj/morgue/proc/update()

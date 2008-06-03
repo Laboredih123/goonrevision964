@@ -260,8 +260,13 @@
 						traitorwin = 1
 				if(captain_card)
 					for(var/obj/item/weapon/card/id/O in L)
-						if ((O.access_level == 5 && O.air_access == 5 && O.engine_access == 5 && O.lab_access == 5 && O.assignment == "Captain"))
-							traitorwin = 1
+						if(!O.access)
+							break
+						for(var/A in get_all_accesses())
+							if(!A in O.access)
+								break
+						//he's got all the permissions, GOOD JOB
+						traitorwin = 1
 				if(jetpack)
 					for(var/obj/item/weapon/tank/jetpack/O in L)
 						traitorwin = 1
@@ -412,7 +417,7 @@
 		if (plasma_bomb)
 			return "a fully armed and heated plasma bomb"
 		if (captain_card)
-			return "a captain's card with universal level 5 access"
+			return "an ID card with universal access"
 		if (captain_suit)
 			return "a captain's dark green jumpsuit"
 		if (jetpack)

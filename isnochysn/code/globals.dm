@@ -179,6 +179,6 @@ world
 	view = "15x15"
 	hub = "Slurm.Isno"
 	hub_password = ""
-	
+
 	//visibility = 0
 	//loop_checks = 0

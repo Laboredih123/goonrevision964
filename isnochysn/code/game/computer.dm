@@ -101,7 +101,7 @@
 			continue
 		else if (M == usr)
 			continue
-		
+
 		var/name = M.name
 		if (name in names)
 			namecounts[name]++
@@ -111,15 +111,15 @@
 			namecounts[name] = 1
 
 		creatures[name] = M
-	
+
 	var/target_name = input(usr, "Which creature should you track?") as null|anything in creatures
 
 	if (!target_name)
 		usr << "Nothing is trackable."
 		return
-	
+
 	var/mob/target = creatures[target_name]
-	
+
 	usr:cameraFollow = target
 	usr << text("Now tracking [] on camera.", target.name)
 	if (usr.machine == null)
@@ -254,120 +254,73 @@
 	return src.attack_hand(user)
 
 /obj/machinery/computer/card/attack_paw(var/mob/user as mob)
-
 	return src.attack_hand(user)
-	return
 
 /obj/machinery/computer/card/attack_hand(var/mob/user as mob)
-
-	if(stat & (NOPOWER|BROKEN) ) return
+	if(stat & (NOPOWER|BROKEN))
+		return
 
 	user.machine = src
 	var/dat
 	if (!( ticker ))
 		return
-	if (src.mode)
-		var/d2 = text("Confirm Identity: <A href='?src=\ref[];scan=1'>[]</A>\n[]", src, (src.scan ? text("[]", src.scan.name) : "----------"), (src.authenticated ? "You are logged in!" : text("<A href='?src=\ref[];auth=1'>{Log in}</A>", src)))
-		var/d1 = "Please use security Records to modify entries.<BR>"
+	if (src.mode) // accessing crew manifest
+		var/crew = ""
 		for(var/datum/data/record/t in data_core.general)
-			d1 += text("[] - []<BR>", t.fields["name"], t.fields["rank"])
-			//Foreach goto(104)
-		dat = text("<HTML><HEAD></HEAD><BODY><TT>[]<BR>\n<BR>\n<B>Crew Manifest:</B><BR>\n[]\n<BR>\n<A href='?src=\ref[];print=1'>Print</A><BR>\n<BR>\n<A href='?src=\ref[];mode=0'>Access ID modification console.</A><BR>\n</TT></BODY></HTML>", d2, d1, src, src)
+			crew += "[t.fields["name"]] - [t.fields["rank"]]<br>"
+		dat = "<tt><b>Crew Manifest:</b><br>Please use security record computer to modify entries.<br>[crew]<a href='?src=\ref[src];print=1'>Print</a><br><br><a href='?src=\ref[src];mode=0'>Access ID modification console.</a><br></tt>"
 	else
-		var/d1 = text("<A href='?src=\ref[];auth=1'>{Log in}</A>", src)
-		if ((src.authenticated && src.modify))
-			var/vo = null
-			var/va = null
-			var/vl = null
-			var/ve = null
-			switch(src.modify.access_level)
-				if(1.0)
-					vo = text("<A href='?src=\ref[];vo=-1'>0</A> 1 <A href='?src=\ref[];vo=2'>2</A> <A href='?src=\ref[];vo=3'>3</A> <A href='?src=\ref[];vo=4'>4</A> <A href='?src=\ref[];vo=5'>5</A>", src, src, src, src, src)
-				if(2.0)
-					vo = text("<A href='?src=\ref[];vo=-1'>0</A> <A href='?src=\ref[];vo=1'>1</A> 2 <A href='?src=\ref[];vo=3'>3</A> <A href='?src=\ref[];vo=4'>4</A> <A href='?src=\ref[];vo=5'>5</A>", src, src, src, src, src)
-				if(3.0)
-					vo = text("<A href='?src=\ref[];vo=-1'>0</A> <A href='?src=\ref[];vo=1'>1</A> <A href='?src=\ref[];vo=2'>2</A> 3 <A href='?src=\ref[];vo=4'>4</A> <A href='?src=\ref[];vo=5'>5</A>", src, src, src, src, src)
-				if(4.0)
-					vo = text("<A href='?src=\ref[];vo=-1'>0</A> <A href='?src=\ref[];vo=1'>1</A> <A href='?src=\ref[];vo=2'>2</A> <A href='?src=\ref[];vo=3'>3</A> 4 <A href='?src=\ref[];vo=5'>5</A>", src, src, src, src, src)
-				if(5.0)
-					vo = text("<A href='?src=\ref[];vo=-1'>0</A> <A href='?src=\ref[];vo=1'>1</A> <A href='?src=\ref[];vo=2'>2</A> <A href='?src=\ref[];vo=3'>3</A> <A href='?src=\ref[];vo=4'>4</A> 5", src, src, src, src, src)
-				else
-					vo = text("0 <A href='?src=\ref[];vo=1'>1</A> <A href='?src=\ref[];vo=2'>2</A> <A href='?src=\ref[];vo=3'>3</A> <A href='?src=\ref[];vo=4'>4</A> <A href='?src=\ref[];vo=5'>5</A>", src, src, src, src, src)
-			switch(src.modify.lab_access)
-				if(1.0)
-					vl = text("<A href='?src=\ref[];vl=-1'>0</A> 1 <A href='?src=\ref[];vl=2'>2</A> <A href='?src=\ref[];vl=3'>3</A> <A href='?src=\ref[];vl=4'>4</A> <A href='?src=\ref[];vl=5'>5</A>", src, src, src, src, src)
-				if(2.0)
-					vl = text("<A href='?src=\ref[];vl=-1'>0</A> <A href='?src=\ref[];vl=1'>1</A> 2 <A href='?src=\ref[];vl=3'>3</A> <A href='?src=\ref[];vl=4'>4</A> <A href='?src=\ref[];vl=5'>5</A>", src, src, src, src, src)
-				if(3.0)
-					vl = text("<A href='?src=\ref[];vl=-1'>0</A> <A href='?src=\ref[];vl=1'>1</A> <A href='?src=\ref[];vl=2'>2</A> 3 <A href='?src=\ref[];vl=4'>4</A> <A href='?src=\ref[];vl=5'>5</A>", src, src, src, src, src)
-				if(4.0)
-					vl = text("<A href='?src=\ref[];vl=-1'>0</A> <A href='?src=\ref[];vl=1'>1</A> <A href='?src=\ref[];vl=2'>2</A> <A href='?src=\ref[];vl=3'>3</A> 4 <A href='?src=\ref[];vl=5'>5</A>", src, src, src, src, src)
-				if(5.0)
-					vl = text("<A href='?src=\ref[];vl=-1'>0</A> <A href='?src=\ref[];vl=1'>1</A> <A href='?src=\ref[];vl=2'>2</A> <A href='?src=\ref[];vl=3'>3</A> <A href='?src=\ref[];vl=4'>4</A> 5", src, src, src, src, src)
-				else
-					vl = text("0 <A href='?src=\ref[];vl=1'>1</A> <A href='?src=\ref[];vl=2'>2</A> <A href='?src=\ref[];vl=3'>3</A> <A href='?src=\ref[];vl=4'>4</A> <A href='?src=\ref[];vl=5'>5</A>", src, src, src, src, src)
-			switch(src.modify.engine_access)
-				if(1.0)
-					ve = text("<A href='?src=\ref[];ve=-1'>0</A> 1 <A href='?src=\ref[];ve=2'>2</A> <A href='?src=\ref[];ve=3'>3</A> <A href='?src=\ref[];ve=4'>4</A> <A href='?src=\ref[];ve=5'>5</A>", src, src, src, src, src)
-				if(2.0)
-					ve = text("<A href='?src=\ref[];ve=-1'>0</A> <A href='?src=\ref[];ve=1'>1</A> 2 <A href='?src=\ref[];ve=3'>3</A> <A href='?src=\ref[];ve=4'>4</A> <A href='?src=\ref[];ve=5'>5</A>", src, src, src, src, src)
-				if(3.0)
-					ve = text("<A href='?src=\ref[];ve=-1'>0</A> <A href='?src=\ref[];ve=1'>1</A> <A href='?src=\ref[];ve=2'>2</A> 3 <A href='?src=\ref[];ve=4'>4</A> <A href='?src=\ref[];ve=5'>5</A>", src, src, src, src, src)
-				if(4.0)
-					ve = text("<A href='?src=\ref[];ve=-1'>0</A> <A href='?src=\ref[];ve=1'>1</A> <A href='?src=\ref[];ve=2'>2</A> <A href='?src=\ref[];ve=3'>3</A> 4 <A href='?src=\ref[];ve=5'>5</A>", src, src, src, src, src)
-				if(5.0)
-					ve = text("<A href='?src=\ref[];ve=-1'>0</A> <A href='?src=\ref[];ve=1'>1</A> <A href='?src=\ref[];ve=2'>2</A> <A href='?src=\ref[];ve=3'>3</A> <A href='?src=\ref[];ve=4'>4</A> 5", src, src, src, src, src)
-				else
-					ve = text("0 <A href='?src=\ref[];ve=1'>1</A> <A href='?src=\ref[];ve=2'>2</A> <A href='?src=\ref[];ve=3'>3</A> <A href='?src=\ref[];ve=4'>4</A> <A href='?src=\ref[];ve=5'>5</A>", src, src, src, src, src)
-			switch(src.modify.air_access)
-				if(1.0)
-					va = text("<A href='?src=\ref[];va=-1'>0</A> 1 <A href='?src=\ref[];va=2'>2</A> <A href='?src=\ref[];va=3'>3</A> <A href='?src=\ref[];va=4'>4</A> <A href='?src=\ref[];va=5'>5</A>", src, src, src, src, src)
-				if(2.0)
-					va = text("<A href='?src=\ref[];va=-1'>0</A> <A href='?src=\ref[];va=1'>1</A> 2 <A href='?src=\ref[];va=3'>3</A> <A href='?src=\ref[];va=4'>4</A> <A href='?src=\ref[];va=5'>5</A>", src, src, src, src, src)
-				if(3.0)
-					va = text("<A href='?src=\ref[];va=-1'>0</A> <A href='?src=\ref[];va=1'>1</A> <A href='?src=\ref[];va=2'>2</A> 3 <A href='?src=\ref[];va=4'>4</A> <A href='?src=\ref[];va=5'>5</A>", src, src, src, src, src)
-				if(4.0)
-					va = text("<A href='?src=\ref[];va=-1'>0</A> <A href='?src=\ref[];va=1'>1</A> <A href='?src=\ref[];va=2'>2</A> <A href='?src=\ref[];va=3'>3</A> 4 <A href='?src=\ref[];va=5'>5</A>", src, src, src, src, src)
-				if(5.0)
-					va = text("<A href='?src=\ref[];va=-1'>0</A> <A href='?src=\ref[];va=1'>1</A> <A href='?src=\ref[];va=2'>2</A> <A href='?src=\ref[];va=3'>3</A> <A href='?src=\ref[];va=4'>4</A> 5", src, src, src, src, src)
-				else
-					va = text("0 <A href='?src=\ref[];va=1'>1</A> <A href='?src=\ref[];va=2'>2</A> <A href='?src=\ref[];va=3'>3</A> <A href='?src=\ref[];va=4'>4</A> <A href='?src=\ref[];va=5'>5</A>", src, src, src, src, src)
-			var/list/L = list( "Research Assistant", "Staff Assistant", "Medical Assistant", "Technical Assistant", "Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Medical Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Station Technician", "Atmospheric Technician", "Unassigned", "Systems", "Custom" )
-			var/assign = ""
-			if (istype(user, /mob/human) || istype(user, /mob/ai))
-				var/counter = 1
-				for(var/t in L)
-					assign += text("<A href='?src=\ref[];assign=[]'>[]</A>  ", src, t, t)
-					counter++
-					if (counter >= 3)
-						assign += "<BR>"
-						counter = 1
-					//Foreach goto(912)
-				d1 = text("[] :<BR>\nGeneral Access Level: []<BR>\nLaboratory Access: []<BR>\nReactor/Engine Access: []<BR>\nMain Systems Access: []<BR>\nRegistered: <A href='?src=\ref[];reg=1'>[]</A><BR>\nAssignment: []<BR>\n[]<BR>", src.modify.name, vo, vl, ve, va, src, (src.modify.registered ? text("[]", src.modify.registered) : "{None: Click to modify}"), (src.modify.assignment ? text("[]", src.modify.assignment) : "None"), assign)
-			else
-				var/counter = 1
-				for(var/t in L)
-					assign += text("<A href='?src=\ref[];assign=[]'>[]</A>  ", src, t, stars(t))
-					counter++
-					if (counter >= 4)
-						assign += "<BR>"
-						counter = 1
-					//Foreach goto(1057)
-				d1 = text("[] :<BR>\n[] []<BR>\n[] []<BR>\n[] []<BR>\n[] []<BR>\n[] <A href='?src=\ref[];reg=1'>[]</A><BR>\n[] []<BR>\n[]<BR>", stars("modify.name"), stars("General Access Level:"), vo, stars("Laboratory Access:"), vl, stars("Reactor/Engine Access:"), ve, stars("Main Systems Access:"), va, stars("Registered:"), src, (src.modify.registered ? text("[]", stars(src.modify.registered)) : text("[]", stars("{None: Click to modify}"))), stars("Assignment:"), (src.modify.assignment ? text("[]", stars(src.modify.assignment)) : "None"), assign)
-		if (istype(user, /mob/human) || istype(user, /mob/ai))
-			dat = text("<TT><B>Identification Card Modifier</B><BR>\n<I>Please Insert the cards into the slots</I><BR>\nTarget: <A href='?src=\ref[];modify=1'>[]</A><BR>\nConfirm Identity: <A href='?src=\ref[];scan=1'>[]</A><BR>\n-----------------<BR>\n[]<BR>\n<BR>\n<BR>\n<A href='?src=\ref[];mode=1'>Access Crew Manifest</A><BR>\n</TT>", src, (src.modify ? text("[]", src.modify.name) : "----------"), src, (src.scan ? text("[]", src.scan.name) : "----------"), d1, src)
+		var/header = "<b>Identification Card Modifier</b><br><i>Please insert the cards into the slots</i><br>"
+
+		var/target_name
+		var/target_owner
+		var/target_rank
+		if(src.modify)
+			target_name = src.modify.name
 		else
-			dat = text("<TT><B>[]</B><BR>\n<I>[]</I><BR>\n[] <A href='?src=\ref[];modify=1'>[]</A><BR>\n[] <A href='?src=\ref[];scan=1'>[]</A><BR>\n-----------------<BR>\n[]<BR>\n<BR>\n<BR>\n<A href='?src=\ref[];mode=1'>[]</A><BR>\n</TT>", stars("Identification Card Modifier"), stars("Please Insert the cards into the slots"), stars("Target:"), src, (src.modify ? text("[]", stars(src.modify.name)) : "----------"), stars("Confirm Identity:"), src, (src.scan ? text("[]", stars(src.scan.name)) : "----------"), d1, src, stars("Access Crew Manifest"))
-	user << browse(dat, "window=id_com;size=400x500")
+			target_name = "--------"
+		if(src.modify && src.modify.registered)
+			target_owner = src.modify.registered
+		else
+			target_owner = "--------"
+		if(src.modify && src.modify.assignment)
+			target_rank = src.modify.assignment
+		else
+			target_rank = "Unassigned"
+		header += "Target: <a href='?src=\ref[src];modify=1'>[target_name]</a><br>"
+
+		var/scan_name
+		if(src.scan)
+			scan_name = src.scan.name
+		else
+			scan_name = "--------"
+		header += "Confirm Identity: <a href='?src=\ref[src];scan=1'>[scan_name]</a><br>"
+		header += "<hr>"
+		var/body
+		if (src.authenticated && src.modify)
+			var/carddesc = "Registered: <a href='?src=\ref[src];reg=1'>[target_owner]</a><br>Assignment: [target_rank]"
+			var/list/alljobs = get_all_jobs() + "Custom"
+			var/jobs = ""
+			for(var/job in alljobs)
+				jobs += "<a href='?src=\ref[src];assign=[job]'>[dd_replacetext(job, " ", "&nbsp")]</a> " //make sure there isn't a line break in the middle of a job
+			var/accesses = ""
+			for(var/A in get_all_accesses())
+				if(A in src.modify.access)
+					accesses += "<a href='?src=\ref[src];access=[A];allowed=0'><font color=\"red\">[dd_replacetext(get_access_desc(A), " ", "&nbsp")]</font></a> "
+				else
+					accesses += "<a href='?src=\ref[src];access=[A];allowed=1'>[dd_replacetext(get_access_desc(A), " ", "&nbsp")]</a> "
+			body = "[carddesc]<br>[jobs]<br><br>[accesses]"
+		else
+			body = "<a href='?src=\ref[src];auth=1'>{Log in}</a>"
+		dat = "<tt>[header][body]<hr><a href='?src=\ref[src];mode=1'>Access Crew Manifest</a><br></tt>"
+	user << browse(dat, "window=id_com;size=700x375")
 	return
 
 /obj/machinery/computer/card/Topic(href, href_list)
 	..()
-
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=id_com")
 		return
-
 	if(usr.restrained() || usr.lying) return
 
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
@@ -376,105 +329,82 @@
 			return
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/ai)))
-		usr.machine = src
-		if (href_list["modify"])
-			if (src.modify)
-				src.modify.name = text("[]'s ID Card ([]>[]-[]-[])", src.modify.registered, src.modify.access_level, src.modify.lab_access, src.modify.engine_access, src.modify.air_access)
-				src.modify.loc = src.loc
-				src.modify = null
-			else
-				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
-					usr.drop_item()
-					I.loc = src
-					src.modify = I
-			src.authenticated = 0
-		if (href_list["scan"])
-			if (src.scan)
-				src.scan.loc = src.loc
-				src.scan = null
-			else
-				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
-					usr.drop_item()
-					I.loc = src
-					src.scan = I
-			src.authenticated = 0
-		if (href_list["auth"])
-			if ((!( src.authenticated ) && (src.scan || (istype(usr, /mob/ai))) && (src.modify || src.mode)))
-				if (istype(usr, /mob/ai))
-					src.authenticated = 1
-				else
-					if ((src.scan.assignment == "Captain" || src.scan.assignment == "Head of Personnel"))
-						src.authenticated = 1
-			else
-				if ((!( src.authenticated ) && (istype(usr, /mob/ai))) && (!src.modify))
-					usr << "You can't modify an ID without an ID inserted to modify. Once one is in the modify slot on the computer, you can log in."
-
-		if (href_list["vo"])
-			if (src.authenticated)
-				var/t1 = text2num(href_list["vo"])
-				if (t1 == -1.0)
-					t1 = 0
-				src.modify.access_level = t1
-		if (href_list["vl"])
-			if (src.authenticated)
-				var/t1 = text2num(href_list["vl"])
-				if (t1 == -1.0)
-					t1 = 0
-				src.modify.lab_access = t1
-		if (href_list["ve"])
-			if (src.authenticated)
-				var/t1 = text2num(href_list["ve"])
-				if (t1 == -1.0)
-					t1 = 0
-				src.modify.engine_access = t1
-		if (href_list["va"])
-			if (src.authenticated)
-				var/t1 = text2num(href_list["va"])
-				if (t1 == -1.0)
-					t1 = 0
-				src.modify.air_access = t1
-		if (href_list["assign"])
-			if (src.authenticated)
-				var/t1 = href_list["assign"]
-
-				if(t1 == "Custom")
-					t1 = input("Enter a custom job assignment.","Assignment")
-
-				src.modify.assignment = t1
-		if (href_list["reg"])
-			if (src.authenticated)
-				var/t2 = src.modify
-				var/t1 = input(usr, "What name?", "ID computer", null)  as text
-				if ((src.authenticated && src.modify == t2 && (get_dist(src, usr) <= 1 || (istype(usr, /mob/ai))) && istype(src.loc, /turf)))
-					src.modify.registered = t1
-		if (href_list["mode"])
-			src.mode = text2num(href_list["mode"])
-		if (href_list["print"])
-			if (!( src.printing ))
-				src.printing = 1
-				sleep(50)
-				var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
-				var/t1 = "<B>Crew Manifest:</B><BR>"
-				for(var/datum/data/record/t in data_core.general)
-					t1 += text("<B>[]</B> - []<BR>", t.fields["name"], t.fields["rank"])
-					//Foreach goto(868)
-				P.info = text("[]", t1)
-				P.name = "paper- 'Crew Manifest'"
-				src.printing = null
-		if (href_list["mode"])
-			src.authenticated = 0
-			src.mode = text2num(href_list["mode"])
-		if (src.modify)
-			src.modify.name = text("[]'s ID Card ([]>[]-[]-[])", src.modify.registered, src.modify.access_level, src.modify.lab_access, src.modify.engine_access, src.modify.air_access)
-		src.updateUsrDialog()
-
-		src.add_fingerprint(usr)
-	else
+	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/ai))
 		usr << browse(null, "window=id_com")
 		return
+	usr.machine = src
+	if (href_list["modify"])
+		if (src.modify)
+			src.modify.name = text("[]'s ID Card ([])", src.modify.registered, src.modify.assignment)
+			src.modify.loc = src.loc
+			src.modify = null
+		else
+			var/obj/item/I = usr.equipped()
+			if (istype(I, /obj/item/weapon/card/id))
+				usr.drop_item()
+				I.loc = src
+				src.modify = I
+		src.authenticated = 0
+	if (href_list["scan"])
+		if (src.scan)
+			src.scan.loc = src.loc
+			src.scan = null
+		else
+			var/obj/item/I = usr.equipped()
+			if (istype(I, /obj/item/weapon/card/id))
+				usr.drop_item()
+				I.loc = src
+				src.scan = I
+		src.authenticated = 0
+	if (href_list["auth"])
+		if ((!( src.authenticated ) && (src.scan || (istype(usr, /mob/ai))) && (src.modify || src.mode)))
+			if (src.check_access(src.scan))
+				src.authenticated = 1
+		else if ((!( src.authenticated ) && (istype(usr, /mob/ai))) && (!src.modify))
+			usr << "You can't modify an ID without an ID inserted to modify. Once one is in the modify slot on the computer, you can log in."
+	if(href_list["access"] && href_list["allowed"])
+		if(src.authenticated)
+			var/access_type = text2num(href_list["access"])
+			var/access_allowed = text2num(href_list["allowed"])
+			if(access_type in get_all_accesses())
+				src.modify.access -= access_type
+				if(access_allowed == 1)
+					src.modify.access += access_type
+	if (href_list["assign"])
+		if (src.authenticated)
+			var/t1 = href_list["assign"]
+			if(t1 == "Custom")
+				t1 = input("Enter a custom job assignment.","Assignment")
+			src.modify.access = get_access(t1)
+			src.modify.assignment = t1
+	if (href_list["reg"])
+		if (src.authenticated)
+			var/t2 = src.modify
+			var/t1 = input(usr, "What name?", "ID computer", null)  as text
+			if ((src.authenticated && src.modify == t2 && (get_dist(src, usr) <= 1 || (istype(usr, /mob/ai))) && istype(src.loc, /turf)))
+				src.modify.registered = t1
+	if (href_list["mode"])
+		src.mode = text2num(href_list["mode"])
+	if (href_list["print"])
+		if (!( src.printing ))
+			src.printing = 1
+			sleep(50)
+			var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+			var/t1 = "<B>Crew Manifest:</B><BR>"
+			for(var/datum/data/record/t in data_core.general)
+				t1 += "<B>[t.fields["name"]]</B> - [t.fields["rank"]]<BR>"
+			P.info = t1
+			P.name = "paper- 'Crew Manifest'"
+			src.printing = null
+	if (href_list["mode"])
+		src.authenticated = 0
+		src.mode = text2num(href_list["mode"])
+	if (src.modify)
+		src.modify.name = text("[]'s ID Card ([])", src.modify.registered, src.modify.assignment)
+	src.updateUsrDialog()
+
+	src.add_fingerprint(usr)
+
 	return
 
 /obj/machinery/computer/card/attackby(I as obj, user as mob)

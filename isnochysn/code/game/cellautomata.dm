@@ -6,13 +6,10 @@
 		while(locate(text("landmark*CTF-supply-[]", src.base)))
 			var/obj/L = locate(text("landmark*CTF-supply-[]", src.base))
 			var/obj/item/weapon/card/id/I = new /obj/item/weapon/card/id( L.loc )
-			I.access_level = 5
-			I.lab_access = 5
-			I.engine_access = 5
-			I.air_access = 5
+			I.access = get_access("Captain")
 			I.assignment = "Captain"
 			I.registered = text("[]", uppertext((src.color ? src.color : "rogue")))
-			I.name = text("[]'s ID Card ([]>[]-[]-[])", I.registered, I.access_level, I.lab_access, I.engine_access, I.air_access)
+			I.name = text("[]'s ID Card ([])", I.registered, I.assignment)
 			var/obj/item/weapon/paper/flag/F = new /obj/item/weapon/paper/flag( L.loc )
 			if (src.color)
 				F.icon_state = text("flag_[]", src.color)
@@ -1028,35 +1025,35 @@
 /world/proc/update_stat()
 	src.status = "Space Station 13";
 	src.status += " ([SS13_version])"
-	
+
 	var/list/features = list()
-	
+
 	if (ticker && master_mode)
 		features += master_mode
 	else if (!ticker)
 		features += "<b>STARTING</b>"
-	
+
 	if (config && config.enable_authentication)
 		features += "goon only"
-	
+
 	if (!enter_allowed)
 		features += "closed"
-	
+
 	if (abandon_allowed)
 		features += abandon_allowed ? "respawn" : "no respawn"
-	
+
 	if (config && config.allow_vote_mode)
 		features += "vote"
-	
+
 	if (config && config.allow_ai)
 		features += "AI allowed"
-	
+
 	if (host)
 		features += "hosted by <b>[host]</b>"
-	
+
 	if (features)
 		src.status += ": [dd_list2text(features, ", ")]"
-	
+
 /world/New()
 	src.update_stat()
 
@@ -1105,40 +1102,40 @@
 
 	config = new /datum/configuration()
 	config.load("config.txt")
-	
+
 	vote = new /datum/vote()
-	
+
 	main_hud1 = new /obj/hud(  )
 	main_hud2 = new /obj/hud/hud2(  )
 	SS13_airtunnel = new /datum/air_tunnel/air_tunnel1(  )
-	
+
 	..()
-	
+
 	sleep(50)
-	
+
 	nuke_code = text("[]", rand(10000, 99999.0))
 	for(var/obj/machinery/nuclearbomb/N in world)
 		if (N.r_code == "ADMIN")
 			N.r_code = nuke_code
 	sleep(50)
-	
+
 	plmaster = new /obj/overlay(  )
 	plmaster.icon = 'plasma.dmi'
 	plmaster.icon_state = "onturf"
 	plmaster.layer = FLY_LAYER
-	
+
 	slmaster = new /obj/overlay(  )
 	slmaster.icon = 'plasma.dmi'
 	slmaster.icon_state = "sl_gas"
 	slmaster.layer = FLY_LAYER
-	
+
 	cellcontrol = new /datum/control/cellular()
 	spawn (0)
 		cellcontrol.process()
 		return
-	
+
 	src.update_stat()
-	
+
 	spawn (0)
 		sleep(900)		//*****RM was 900
 		Label_482:
@@ -1158,7 +1155,7 @@
 
 /world/Topic(T, addr, master, key)
 	world.log << "TOPIC: \"[T]\", from:[addr], master:[master], key:[key]"
-	
+
 	if(T == "ping")
 		var/x = 1
 		for (var/client/C)

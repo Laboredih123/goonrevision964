@@ -96,16 +96,17 @@ datum/hSB
 					hsb.loc = usr.loc
 				if("hsbairlock")
 					var/obj/machinery/door/hsb = new/obj/machinery/door/airlock
-					var/r_access = input(usr, "What general access will this airlock require?", "Sandbox:") as num
-					var/r_lab = input(usr, "What laboratory access will this airlock require?", "Sandbox:") as num
-					var/r_engine = input(usr, "What engine access will this airlock require?", "Sandbox:") as num
-					var/r_air = input(usr, "What air access will this airlock require?", "Sandbox:") as num
 
-					hsb.access = "[r_access][r_lab][r_engine][r_air]"
+					//TODO: make this better, with an HTML window or something instead of 15 popups
+					hsb.req_access = list()
+					var/accesses = get_all_accesses()
+					for(var/A in accesses)
+						if(alert(usr, "Will this airlock require [get_access_desc(A)] access?", "Sandbox:", "Yes", "No") == "Yes")
+							hsb.req_access += A
 
 					hsb.loc = usr.loc
 					hsb.loc.buildlinks()
-					usr << "<b>Sandbox:  Created an airlock requiring at least [r_access]>[r_lab]-[r_engine]-[r_air] access."
+					usr << "<b>Sandbox:  Created an airlock."
 				if("hsbregulator")
 					var/obj/machinery/atmoalter/siphs/fullairsiphon/hsb = new/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent
 					hsb.loc = usr.loc

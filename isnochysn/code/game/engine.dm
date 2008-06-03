@@ -1,5 +1,7 @@
 #define ENGINE_EJECT_Z 6
 
+/obj/machinery/computer/engine/req_access = list(access_eject_engine)
+
 /obj/machinery/computer/engine/ex_act(severity)
 
 	switch(severity)
@@ -40,7 +42,7 @@
 
 /obj/machinery/computer/engine/attack_ai(var/mob/user as mob)
 	return src.attack_hand(user)
-	
+
 /obj/machinery/computer/engine/attack_paw(var/mob/user as mob)
 
 	return src.attack_hand(user)
@@ -101,7 +103,7 @@
 		else if (href_list["eject2"])
 			var/obj/item/weapon/card/id/I = usr.equipped()
 			if (istype(I))
-				if(I.check_access(access,allowed))
+				if(src.check_access(I))
 					if (engine_eject_control.status == 0)
 						engine_eject_control.ejectstart()
 						src.temp = null

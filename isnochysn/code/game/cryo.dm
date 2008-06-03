@@ -1,7 +1,7 @@
 
 /obj/machinery/computer/med_data/attack_ai(user as mob)
 	return src.attack_hand(user)
-	
+
 /obj/machinery/computer/med_data/attack_paw(user as mob)
 
 	return src.attack_hand(user)
@@ -72,28 +72,25 @@
 					usr.drop_item()
 					I.loc = src
 					src.scan = I
-		else
-			if (href_list["logout"])
-				src.authenticated = null
-				src.screen = null
+		else if (href_list["logout"])
+			src.authenticated = null
+			src.screen = null
+			src.active1 = null
+			src.active2 = null
+		else if (href_list["login"])
+			if (istype(usr, /mob/ai))
 				src.active1 = null
 				src.active2 = null
-			else
-				if (href_list["login"])
-					if (istype(usr, /mob/ai))
-						src.active1 = null
-						src.active2 = null
-						src.authenticated = 1
-						src.rank = "AI"
-						src.screen = 1
-					else
-						if (istype(src.scan, /obj/item/weapon/card/id))
-							src.active1 = null
-							src.active2 = null
-							if(scan.check_access(access, allowed))
-								src.authenticated = src.scan.registered
-								src.rank = src.scan.assignment
-								src.screen = 1
+				src.authenticated = 1
+				src.rank = "AI"
+				src.screen = 1
+		else if (istype(src.scan, /obj/item/weapon/card/id))
+			src.active1 = null
+			src.active2 = null
+			if (src.check_access(src.scan))
+				src.authenticated = src.scan.registered
+				src.rank = src.scan.assignment
+				src.screen = 1
 		if (src.authenticated)
 			if (href_list["list"])
 				src.screen = 2
@@ -362,7 +359,7 @@
 
 /obj/machinery/computer/secure_data/attack_ai(mob/user as mob)
 	return src.attack_hand(user)
-	
+
 /obj/machinery/computer/secure_data/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
@@ -451,15 +448,17 @@
 						src.active2 = null
 						src.authenticated = 1
 						src.rank = "AI"
+						src.can_change_id = 1
 						src.screen = 1
-					if (istype(src.scan, /obj/item/weapon/card/id))
+					else if (istype(src.scan, /obj/item/weapon/card/id))
 						src.active1 = null
 						src.active2 = null
-						var/list/L = list( "Security Officer", "Forensic Technician", "Prison Warden", "Head of Personnel", "Captain" )
-						if (L.Find(src.scan.assignment))
+						if(src.check_access(src.scan))
 							src.authenticated = src.scan.registered
 							src.rank = src.scan.assignment
 							src.screen = 1
+							if(access_change_ids in src.scan.access)
+								src.can_change_id = 1
 		if (src.authenticated)
 			if (href_list["list"])
 				src.screen = 2
@@ -554,14 +553,12 @@
 											if (istype(src.active2, /datum/data/record))
 												src.temp = text("<B>Criminal Status:</B><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=none'>None</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=arrest'>*Arrest*</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=incarcerated'>Incarcerated</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=parolled'>Parolled</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=released'>Released</A><BR>", src, src, src, src, src)
 										if("rank")
-											var/list/L = list( "Head of Personnel", "Captain", "AI" )
-											if ((istype(src.active1, /datum/data/record) && L.Find(src.rank)))
+											if (istype(src.active1, /datum/data/record) && src.can_change_id)
 												src.temp = text("<B>Rank:</B><BR>\n<B>Assistants:</B><BR>\n<A href='?src=\ref[];temp=1;rank=res_assist'>Research Assistant</A><BR>\n<A href='?src=\ref[];temp=1;rank=staff_assist'>Staff Assistant</A><BR>\n<A href='?src=\ref[];temp=1;rank=med_assist'>Medical Assistant</A><BR>\n<A href='?src=\ref[];temp=1;rank=tech_assist'>Technical Assistant</A><BR>\n<B>Technicians:</B><BR>\n<A href='?src=\ref[];temp=1;rank=foren_tech'>Forensic Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=res_tech'>Research Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=stat_tech'>Station Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=atmo_tech'>Atmospheric Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=engineer'>Engineer (Engine Technician)\n<B>Researchers:</B><BR>\n<A href='?src=\ref[];temp=1;rank=med_res'>Medical Researcher</A><BR>\n<A href='?src=\ref[];temp=1;rank=tox_res'>Toxin Researcher</A><BR>\n<B>Officers:</B><BR>\n<A href='?src=\ref[];temp=1;rank=med_doc'>Medical Doctor</A><BR>\n<A href='?src=\ref[];temp=1;rank=secure_off'>Security Officer</A><BR>\n<B>Higher Officers:</B><BR>\n<A href='?src=\ref[];temp=1;rank=hoperson'>Head of Research</A><BR>\n<A href='?src=\ref[];temp=1;rank=horesearch'>Head of Personnel</A><BR>\n<A href='?src=\ref[];temp=1;rank=captain'>Captain</A><BR>", src, src, src, src, src, src, src, src, src, src, src, src, src, src, src, src)
 										else
 								else
 									if (href_list["rank"])
-										var/list/L = list( "Head of Personnel", "Captain", "AI" )
-										if ((src.active1 && L.Find(src.rank)))
+										if(src.can_change_id)
 											switch(href_list["rank"])
 												if("res_assist")
 													src.active1.fields["rank"] = "Research Assistant"
@@ -795,7 +792,7 @@
 
 /obj/machinery/computer/sleep_console/attack_ai(mob/user as mob)
 	return src.attack_hand(user)
-	
+
 /obj/machinery/computer/sleep_console/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
@@ -852,7 +849,7 @@
 
 /obj/machinery/freezer/attack_ai(mob/user as mob)
 	return src.attack_hand(user)
-	
+
 /obj/machinery/freezer/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
@@ -926,7 +923,7 @@
 /obj/machinery/freezer/Topic(href, href_list)
 	..()
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))		
+		if (!istype(usr, /mob/ai))
 			usr << "\red You don't have the dexterity to do this!"
 			return
 	if ((usr.stat || usr.restrained()))
@@ -1571,7 +1568,7 @@
 	//G = null
 	del(G)
 	return
-	
+
 /obj/machinery/cryo_cell/attack_ai(mob/user as mob)
 	return src.attack_hand(user)
 

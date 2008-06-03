@@ -258,8 +258,7 @@
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
 		else
-			var/obj/item/weapon/card/id/I = W
-			if (I.check_access(access, allowed))
+			if(src.allowed(usr))
 				locked = !locked
 				user << "You [ locked ? "lock" : "unlock"] the APC interface."
 				updateicon()
