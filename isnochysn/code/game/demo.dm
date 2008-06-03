@@ -735,20 +735,17 @@
 			src.i_used += cp
 			src.i_used = min(max(round(src.i_used), 0), 10000)
 		if ((href_list["stat"] && src.loc == usr))
-			if (usr.internal == src)
+			if (usr.internal != src && usr.wear_mask && (usr.wear_mask.flags & MASKINTERNALS))
+				usr.internal = src
+				usr << "\blue Now running on internals!"
+			else
+				if(usr.internal)
+					usr << "\blue No longer running on internals!"
 				usr.internal = null
-				return
-			if (usr.internal)
-				usr.internal = null
-			if ((!( usr.wear_mask ) || !( usr.wear_mask.flags & 8 )))
-				return
-			usr.internal = src
-			usr << "\blue Now running on internals!"
 		src.add_fingerprint(usr)
 		for(var/mob/M in viewers(1, src.loc))
 			if ((M.client && M.machine == src))
 				src.attack_self(M)
-			//Foreach goto(206)
 	else
 		usr << browse(null, "window=tank")
 		return
@@ -3416,6 +3413,7 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 
 
