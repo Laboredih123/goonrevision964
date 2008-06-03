@@ -1865,7 +1865,6 @@
 	L["closet"] = "closet (2)"
 	L["fl_tiles"] = "floor tiles (makes 4)"
 	L["reinforced"] = "reinforced sheet (2) (Doesn't stack)"
-	L["repair"] = "repair wall"
 	L["construct"] = "construct wall"
 	for(var/t in L)
 		counter++
@@ -1940,32 +1939,16 @@
 				if (src.amount < 2)
 					return
 				src.amount -= 2
-				var/turf/F = get_step(usr, usr.dir)
+				var/turf/F = usr.loc
 				if (!( istype(F, /turf/station/floor) ))
 					return
-				//var/turf/station/wall/W = new /turf/station/wall( locate(F.x, F.y, F.z) )
 				var/turf/station/wall/W = F.ReplaceWithWall()
 
 				W.icon_state = "girder"
 				W.updatecell = 1
 				W.opacity = 0
 				W.state = 1
-				W.density = 1
-				W.levelupdate()
-				W.buildlinks()
-			else
-				if (src.amount < 2)
-					return
-				var/turf/station/wall/W = get_step(usr, usr.dir)
-				if (!( istype(W, /turf/station/wall) ))
-					return
-				src.amount -= 2
-				W.icon_state = ""
-				W.state = 2
-				W.density = 1
-				W.opacity = 1
-				W.updatecell = 0
-				W.intact = 1
+				W.density = 0
 				W.levelupdate()
 				W.buildlinks()
 		if (src.amount <= 0)
