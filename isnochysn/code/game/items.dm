@@ -1831,7 +1831,7 @@
 
 	if (!( istype(W, /obj/item/weapon/sheet/metal) ))
 		return
-	if (W.amount == 5)
+	if (W.amount >= 5)
 		return
 	if (W.amount + src.amount > 5)
 		src.amount = W.amount + src.amount - 5
@@ -2003,7 +2003,7 @@
 
 	if ( istype(W, /obj/item/weapon/sheet/glass) )
 		var/obj/item/weapon/sheet/glass/G = W
-		if (G.amount == 5)
+		if (G.amount >= 5)
 			return
 		if (G.amount + src.amount > 5)
 			src.amount = G.amount + src.amount - 5
@@ -2109,7 +2109,7 @@
 
 	if (!( istype(W, /obj/item/weapon/sheet/rglass) ))
 		return
-	if (W.amount == 5)
+	if (W.amount >= 5)
 		return
 	if (W.amount + src.amount > 5)
 		src.amount = W.amount + src.amount - 5
