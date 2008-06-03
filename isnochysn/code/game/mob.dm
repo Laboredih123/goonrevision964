@@ -4251,50 +4251,44 @@
 		return
 	if (src.stat < 2)
 		var/list/L = list(  )
-		var/pre = copytext(message, 1, 4)
 		var/italics = 0
 		var/obj_range = null
-		if (pre == "\[r\]")
-			message = copytext(message, 4, length(message) + 1)
+		if (findtext(message, "/") == 1) //say it into headset - just uses a slash, because it's the most common use case
+			//say "/ words" or say "/words"
+			message = copytext(message, 2, length(message) + 1)
+			if (src.w_radio)
+				src.w_radio.talk_into(usr, message)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
+		else if (findtext(message, ":r") == 1) //say into right hand - say ":r words" or say ":rwords"
+			message = copytext(message, 3, length(message) + 1)
 			if (src.r_hand)
 				src.r_hand.talk_into(usr, message)
 			L += hearers(1, null)
 			obj_range = 1
 			italics = 1
+		else if (findtext(message, ":l") == 1) // left hand
+			message = copytext(message, 3, length(message) + 1)
+			if (src.l_hand)
+				src.l_hand.talk_into(usr, message)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
+		else if (findtext(message, ":w") == 1) //whisper
+			message = copytext(message, 3, length(message) + 1)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
+		else if (findtext(message, ":i") == 1)
+			message = copytext(message, 3, length(message) + 1)
+			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
+				I.talk_into(usr, message)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
 		else
-			if (pre == "\[h\]")
-				message = copytext(message, 4, length(message) + 1)
-				if (src.w_radio)
-					src.w_radio.talk_into(usr, message)
-				L += hearers(1, null)
-				obj_range = 1
-				italics = 1
-			else
-				if (pre == "\[l\]")
-					message = copytext(message, 4, length(message) + 1)
-					if (src.l_hand)
-						src.l_hand.talk_into(usr, message)
-					L += hearers(1, null)
-					obj_range = 1
-					italics = 1
-				else
-					if (pre == "\[w\]")
-						message = copytext(message, 4, length(message) + 1)
-						L += hearers(1, null)
-						obj_range = 1
-						italics = 1
-					else
-						if (pre == "\[i\]")
-							message = copytext(message, 4, length(message) + 1)
-							for(var/obj/item/weapon/radio/intercom/I in view(1, null))
-								I.talk_into(usr, message)
-								//Foreach goto(626)
-							L += hearers(1, null)
-							obj_range = 1
-							italics = 1
-						else
-							L += hearers(null, null)
-							pre = null
+			L += hearers(null, null)
 		L -= src
 		L += src
 		var/turf/T = src.loc
@@ -4344,37 +4338,31 @@
 		return
 	if (src.stat < 2)
 		var/list/L = list(  )
-		var/pre = copytext(message, 1, 4)
 		var/italics = 0
 		var/obj_range = null
-		if (pre == "\[w\]")
-			message = copytext(message, 4, length(message) + 1)
+		if (findtext(message, ":w") == 1)
+			message = copytext(message, 3, length(message) + 1)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
+		else if (findtext(message, ":i") == 1)
+			message = copytext(message, 3, length(message) + 1)
+			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
+				I.talk_into(usr, message)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
+		else if (findtext(message, ":") == 1)
+			var/radionum = text2num(copytext(message, 2, 3)) //number after the :, if any
+			message = copytext(message, 3, length(message) + 1)
+			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
+				if (I.number == radionum)
+					I.talk_into(usr, message)
 			L += hearers(1, null)
 			obj_range = 1
 			italics = 1
 		else
-			if (pre == "\[i\]")
-				message = copytext(message, 4, length(message) + 1)
-				for(var/obj/item/weapon/radio/intercom/I in view(1, null))
-					I.talk_into(usr, message)
-					//Foreach goto(626)
-				L += hearers(1, null)
-				obj_range = 1
-				italics = 1
-			else
-				if (length(pre) >= 3)
-					if (copytext(pre, 1, 2) == "\[")
-						if (copytext(pre, length(pre), length(pre)+1) == "\]")
-							var/number = text2num(copytext(pre, 2, length(pre)))
-							message = copytext(message, length(pre)+1, length(message) + 1)
-							for(var/obj/item/weapon/radio/intercom/I in view(1, null))
-								if (I.number == number)
-									I.talk_into(usr, message)
-							L += hearers(1, null)
-							obj_range = 1
-							italics = 1
-				L += hearers(null, null)
-				pre = null
+			L += hearers(null, null)
 		L -= src
 		L += src
 		var/turf/T = src.loc
@@ -7030,33 +7018,36 @@
 		return
 	if (src.stat < 2)
 		var/list/L = list(  )
-		var/pre = copytext(message, 1, 4)
 		var/italics = 0
 		var/obj_range = null
-		if (pre == "\[r\]")
-			message = copytext(message, 4, length(message) + 1)
+		if (findtext(message, ":r") == 1)
+			message = copytext(message, 3, length(message) + 1)
 			if (src.r_hand)
 				src.r_hand.talk_into(usr, message)
 			L += hearers(1, null)
 			italics = 1
 			obj_range = 1
+		else if (findtext(message, ":l") == 1)
+			message = copytext(message, 3, length(message) + 1)
+			if (src.l_hand)
+				src.l_hand.talk_into(usr, message)
+			L += hearers(1, null)
+			italics = 1
+			obj_range = 1
+		else if (findtext(message, ":w") == 1)
+			message = copytext(message, 4, length(message) + 1)
+			L += hearers(1, null)
+			italics = 1
+			obj_range = 1
+		else if (findtext(message, ":i") == 1)
+			message = copytext(message, 3, length(message) + 1)
+			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
+				I.talk_into(usr, message)
+			L += hearers(1, null)
+			obj_range = 1
+			italics = 1
 		else
-			if (pre == "\[l\]")
-				message = copytext(message, 4, length(message) + 1)
-				if (src.l_hand)
-					src.l_hand.talk_into(usr, message)
-				L += hearers(1, null)
-				italics = 1
-				obj_range = 1
-			else
-				if (pre == "\[w\]")
-					message = copytext(message, 4, length(message) + 1)
-					L += hearers(1, null)
-					italics = 1
-					obj_range = 1
-				else
-					L += hearers(null, null)
-					pre = null
+			L += hearers(null, null)
 		L -= src
 		L += src
 		if (italics)
