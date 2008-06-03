@@ -4165,8 +4165,9 @@
 							d = d / 2
 						d = d / 5
 		if (src.stat != 2)
-			if (istype(src.organs["chest"], /obj/item/weapon/organ/external))
-				var/obj/item/weapon/organ/external/temp = src.organs["chest"]
+			var/organ = src.organs[ran_zone("chest")]
+			if (istype(organ, /obj/item/weapon/organ/external))
+				var/obj/item/weapon/organ/external/temp = organ
 				temp.take_damage(d, 0)
 			src.UpdateDamageIcon()
 			src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
@@ -4214,8 +4215,9 @@
 								d = d / 2
 							d = d / 2
 			if (src.stat != 2)
-				if (istype(src.organs["chest"], /obj/item/weapon/organ/external))
-					var/obj/item/weapon/organ/external/temp = src.organs["chest"]
+				var/organ = src.organs[ran_zone("chest")]
+				if (istype(organ, /obj/item/weapon/organ/external))
+					var/obj/item/weapon/organ/external/temp = organ
 					temp.take_damage(d, 0)
 				src.UpdateDamageIcon()
 				src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss

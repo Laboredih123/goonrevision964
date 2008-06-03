@@ -54,7 +54,8 @@
 	var/obj/machinery/turretcover/cover = null
 	var/popping = 0
 	var/wasvalid = 0
-	
+	var/lastfired = 0
+	var/const/shot_delay = 30 //3 seconds between shots
 
 /obj/machinery/turretcover
 	name = "pop-up turret cover"
@@ -94,6 +95,9 @@
 /obj/machinery/turret/process()
 	if(stat & (NOPOWER|BROKEN))
 		return
+	if(lastfired && world.time - lastfired < shot_delay)
+		return
+	lastfired = world.time
 	if (src.cover==null)
 		src.cover = new /obj/machinery/turretcover(src.loc)
 	use_power(50)
