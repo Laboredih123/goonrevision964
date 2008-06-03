@@ -1220,10 +1220,10 @@
 
 	..()
 	sleep(2)
-	new /obj/item/weapon/storage/backpack( src )
-	new /obj/item/weapon/radio/headset( src )
 	new /obj/item/weapon/radio/signaler( src )
 	new /obj/item/weapon/pen( src )
+	new /obj/item/weapon/storage/backpack( src )
+	new /obj/item/weapon/radio/headset( src )
 	return
 
 /obj/secloset/personal/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -3374,6 +3374,7 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 
 
