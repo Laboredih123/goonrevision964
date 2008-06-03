@@ -3024,8 +3024,6 @@
 				F.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
 				F.levelupdate()
 		else if (istype(W, /obj/item/weapon/sheet/r_metal))
@@ -3419,7 +3417,6 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
-
 
 
 
