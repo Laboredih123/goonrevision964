@@ -730,7 +730,7 @@ About the new airlock wires panel:
 	if (src.blocked || src.locked || (!src.arePowerSystemsOn()) || (stat & NOPOWER))
 		return
 	use_power(50)
-	if (src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/))
+	if (src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
 		src.closeOther.close()
 	..()
 	return
