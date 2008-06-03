@@ -654,12 +654,14 @@
 	flags = 322.0
 
 /obj/item/weapon/baton
-	name = "baton"
+	name = "Stun Baton"
+	desc = "A stun baton for hitting people with."
+	icon = 'stun_baton.dmi'
 	icon_state = "baton"
-	flags = 450.0
-	force = 10.0
-	throwforce = 7.0
-	w_class = 3.0
+	flags = FPRINT | ONBELT | TABLEPASS
+	force = 15
+	throwforce = 7
+	w_class = 3
 
 /obj/item/weapon/bedsheet
 	name = "bedsheet"

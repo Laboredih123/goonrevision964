@@ -1253,6 +1253,30 @@
 	else // no charges in the gun, so they just wallop the target with it
 		..()
 
+/obj/item/weapon/baton/attack(mob/M as mob, mob/user as mob)
+	src.add_fingerprint(user)
+	var/mob/human/H = M
+	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+		M << "\red The helmet protects you from being hit hard in the head!"
+		return
+	flick("baton_active", src)
+	if (user.a_intent == "hurt")
+		if (M.weakened < 10)
+			M.weakened = 10
+		if (M.stuttering < 10)
+			M.stuttering = 10
+		..()
+		M.stat = 1
+	else
+		if (M.weakened < 60)
+			M.weakened = 60
+		if (M.stuttering < 60)
+			M.stuttering = 60
+		M.stat = 1
+	for(var/mob/O in viewers(M))
+		if ((O.client && !( O.blinded )))
+			O.show_message("\red <B>[M] has been stunned with the stun baton by [user]!</B>", 1, "\red You hear someone fall", 2)
+
 /obj/item/weapon/pill_canister/New()
 
 	..()
