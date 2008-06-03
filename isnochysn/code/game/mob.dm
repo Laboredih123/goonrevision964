@@ -5484,6 +5484,15 @@
 	var/list/names = list()
 	var/list/namecounts = list()
 	var/list/creatures = list()
+	for (var/obj/item/weapon/disk/nuclear/D in world)
+		var/name = "Nuclear Disk"
+		if (name in names)
+			namecounts[name]++
+			name = "[name] ([namecounts[name]])"
+		else
+			names.Add(name)
+			namecounts[name] = 1
+		creatures[name] = D
 	for (var/mob/M in world)
 		if (usr == M)
 			continue
