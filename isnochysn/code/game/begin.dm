@@ -10,6 +10,10 @@
 		return
 
 	var/mob/human/M = usr
+	for (var/mob/human/H in world)
+		if (H.start && cmptext(H.rname,M.rname))
+			usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
+			return
 	src.get_dna_ready(M)
 
 	if (ticker)
