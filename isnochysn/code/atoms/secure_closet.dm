@@ -8,6 +8,7 @@
 	var/locked = 1.0
 	var/allowed = null
 	var/access = null
+	var/broken = 0
 	anchored = 1.0
 /obj/secloset/animal
 	name = "Animal Control"

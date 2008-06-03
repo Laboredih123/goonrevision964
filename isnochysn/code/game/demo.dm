@@ -1233,6 +1233,9 @@
 		W.loc = src.loc
 	else
 		if (istype(W, /obj/item/weapon/card/id))
+			if(src.broken)
+				user << "\red It appears to be broken."
+				return
 			var/obj/item/weapon/card/id/I = W
 			if (I.check_access(null,"Systems"))
 				src.allowed = null
@@ -1252,6 +1255,15 @@
 					src.desc = "Owned by [I.registered], Clear by using a card of rank 'Systems'"
 			else
 				user << "\red Access Denied"
+		else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
+			src.broken = 1
+			src.locked = 0
+			src.desc = "It appears to be broken."
+			src.icon = 'secloset_broken.dmi'
+			src.icon_state = "secloset0"
+			for(var/mob/O in viewers(user, 3))
+				if ((O.client && !( O.blinded )))
+					O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
 		else
 			user << "\red It's closed..."
 	return
@@ -1449,6 +1461,9 @@
 		W.loc = src.loc
 	else
 		if (istype(W, /obj/item/weapon/card/id))
+			if(src.broken)
+				user << "\red It appears to be broken."
+				return
 			var/obj/item/weapon/card/id/I = W
 
 			if(I.check_access(access,allowed))
@@ -1460,6 +1475,14 @@
 				src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
 			else
 				user << "\red Access Denied"
+		else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
+			src.broken = 1
+			src.locked = 0
+			src.icon = 'secloset_broken.dmi'
+			src.icon_state = "secloset0"
+			for(var/mob/O in viewers(user, 3))
+				if ((O.client && !( O.blinded )))
+					O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
 		else
 			user << "\red It's closed..."
 	return
@@ -1693,7 +1716,7 @@
 	var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink( src )
 	U.uses = 5
 	return
-	
+
 /obj/closet/syndicate/personal/New()
 
 	..()
@@ -3396,6 +3419,7 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 
 
