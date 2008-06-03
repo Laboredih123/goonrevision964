@@ -2401,7 +2401,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Teleporter"
 	icon = 'stationobjs.dmi'
 	icon_state = "tele_computer"
-	var/locked = null
+	var/obj/item/weapon/radio/beacon/locked = null
 	var/id = null
 
 /obj/machinery/connector
@@ -2868,6 +2868,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "station"
 	icon_state = "controller"
 	var/active = 0
+	var/engaged = 0
 /obj/machinery/wire
 	name = "wire"
 	icon = 'wire.dmi'
@@ -3168,7 +3169,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'stationobjs.dmi'
 	icon_state = "portal"
 	density = 1
-	var/obj/target = null
+	var/obj/item/weapon/radio/beacon/target = null
 	anchored = 1.0
 /obj/projection
 	name = "Projection"

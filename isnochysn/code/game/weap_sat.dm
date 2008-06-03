@@ -27,37 +27,39 @@
 		else
 	return
 
-/obj/machinery/computer/teleporter/verb/lock_in(freq as num)
-	set src in oview(1)
-	set desc = "Frequency to check"
+/obj/machinery/computer/teleporter/attackby(obj/item/weapon/W)
+	src.attack_hand()
 
+/obj/machinery/computer/teleporter/attack_paw()
+	src.attack_hand()
+
+/obj/machinery/teleport/station/attack_ai()
+	src.attack_hand()
+
+/obj/machinery/computer/teleporter/attack_hand()
 	if(stat & (NOPOWER|BROKEN) )
 		return
 
 	var/list/L = list(  )
-	for(var/obj/item/weapon/radio/R in world)
-		if (R.freq != freq)
-			continue //goto(26)
-		var/turf/T = src.find_loc(R)
+	for(var/obj/item/weapon/radio/beacon/R in world)
+		var/turf/T = find_loc(R)
 		if (!( T ))
 			continue //goto(26)
 		var/t1 = text("-[],[],[]", T.x, T.y, T.z)
 		t1 = text("[][]", R.text, t1)
 		L[t1] = R
-		//Foreach goto(26)
-	var/t1 = input("Please select a location to lock in.", "Locking Computer", null, null) in L
+	var/t1 = input("Please select a location to lock in.", "Locking Computer") in L
 	var/R = L[t1]
-	if ((prob(30) || istype(R, /obj/item/weapon/radio/beacon) && prob(50)))
-		src.locked = src.find_loc(R)
+	if (prob(50))
+		src.locked = R
 	else
 		if (L.len)
-			R = L[text("[]", pick(L))]
-			src.locked = src.find_loc(R)
+			R = L[pick(L)]
+			src.locked = R
 		else
 			src.locked = null
 	for(var/mob/O in hearers(src, null))
 		O.show_message("\blue Locked In", 2)
-		//Foreach goto(270)
 	src.add_fingerprint(usr)
 	return
 
@@ -71,7 +73,7 @@
 		src.id = t
 	return
 
-/obj/machinery/computer/teleporter/proc/find_loc(obj/R as obj)
+/proc/find_loc(obj/R as obj)
 
 	if (!( R ))
 		return null
@@ -201,19 +203,18 @@
 	var/obj/machinery/computer/teleporter/com = locate(/obj/machinery/computer/teleporter, locate(l.x - 2, l.y, l.z))
 	if (!( com ))
 		return
-	var/atom/target = com.locked
 	if (!( com.locked ))
 		for(var/mob/O in hearers(src, null))
-			O.show_message("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiat coordinate matrix.", 1, "\red Error!", 2)
-			//Foreach goto(80)
+			O.show_message("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.", 1, "\red Error!", 2)
 		return
+	var/atom/target = find_loc(com.locked)
 	var/obj/effects/sparks/O = new /obj/effects/sparks( target )
-	O.dir = pick(1, 2, 4, 8)
+	O.dir = pick(NORTH, SOUTH, EAST, WEST)
 	spawn( 0 )
 		O.Life()
 		return
 	if (istype(M, /atom/movable))
-		if (rand(1, 1000) == 7)
+		if (prob(0.1))
 			M << "\red You see a fainting blue light."
 			M.loc = null
 		else
@@ -228,8 +229,22 @@
 			//Foreach goto(316)
 	return
 
-/obj/machinery/teleport/station/verb/engage()
-	set src in oview(1)
+/obj/machinery/teleport/station/attackby(/obj/item/weapon/W)
+	src.attack_hand()
+
+/obj/machinery/teleport/station/attack_paw()
+	src.attack_hand()
+
+/obj/machinery/teleport/station/attack_ai()
+	src.attack_hand()
+
+/obj/machinery/teleport/station/attack_hand()
+	if(engaged)
+		src.disengage()
+	else
+		src.engage()
+
+/obj/machinery/teleport/station/proc/engage()
 	if(stat & NOPOWER) return
 
 	var/atom/l = src.loc
@@ -239,12 +254,11 @@
 		use_power(5000)
 		for(var/mob/O in hearers(src, null))
 			O.show_message("\blue Teleporter engaged!", 2)
-			//Foreach goto(70)
 	src.add_fingerprint(usr)
+	src.engaged = 1
 	return
 
-/obj/machinery/teleport/station/verb/disengage()
-	set src in oview(1)
+/obj/machinery/teleport/station/proc/disengage()
 	if(stat & NOPOWER) return
 
 	var/atom/l = src.loc
@@ -253,8 +267,8 @@
 		com.icon_state = "tele0"
 		for(var/mob/O in hearers(src, null))
 			O.show_message("\blue Teleporter disengaged!", 2)
-			//Foreach goto(70)
 	src.add_fingerprint(usr)
+	src.engaged = 0
 	return
 
 /obj/machinery/teleport/station/verb/testfire()

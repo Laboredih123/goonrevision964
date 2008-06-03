@@ -4629,17 +4629,18 @@
 	for(var/obj/machinery/teleport/hub/R in world)
 		var/obj/machinery/computer/teleporter/com = locate(/obj/machinery/computer/teleporter, locate(R.x - 2, R.y, R.z))
 		if (istype(com, /obj/machinery/computer/teleporter))
-			L[text("[][]", com.id, (src.icon_state == "tele1" ? " (Active)" : " (Inactive)"))] = com.locked
-		//Foreach goto(22)
-	var/t1 = input(user, "Please select a location to lock in.", "Locking Computer", null) in L
+			if(R.icon_state == "tele1")
+				L["[com.id] (Active)"] = com.locked
+			else
+				L["[com.id] (Inactive)"] = com.locked
+	var/t1 = input(user, "Please select a teleporter to lock in on.", "Hand Teleporter") in L
 	if ((user.equipped() != src || user.stat || user.restrained()))
 		return
 	var/T = L[t1]
 	for(var/mob/O in hearers(user, null))
 		O.show_message("\blue Locked In", 2)
-		//Foreach goto(192)
 	var/obj/portal/P = new /obj/portal( get_turf(src) )
-	P.target = T
+	P.target = find_loc(T)
 	src.add_fingerprint(user)
 	return
 
