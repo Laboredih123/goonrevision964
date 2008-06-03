@@ -906,7 +906,6 @@
 	see_face = 0.0
 	s_istate = "gas_mask"
 	s_fire = 7.5E7
-	brute_protect = 1.0
 	fire_protect = 1.0
 /obj/item/weapon/clothing/mask/m_mask
 	desc = "This mask does not work very well in low pressure environments."
