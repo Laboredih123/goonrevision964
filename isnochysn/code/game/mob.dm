@@ -4811,6 +4811,11 @@
 	if (!ticker)
 		M << "You cannot attack people before the game has started."
 		return
+
+	if (istype(src.loc, /turf) && istype(src.loc.loc, /area/start))
+		M << "No attacking people at spawn, you jackass."
+		return
+
 	if (M.a_intent == "help")
 		if (src.health > 0)
 			if (src.w_uniform)
