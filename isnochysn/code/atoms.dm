@@ -52,6 +52,7 @@
 	var/mob/human/killer = null
 	var/mob/human/target = null
 	var/theft_obj = null
+	var/sab_target = null
 	var/objective = null
 	var/shuttle_location = null
 

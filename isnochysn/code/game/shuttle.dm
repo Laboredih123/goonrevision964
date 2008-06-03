@@ -161,19 +161,6 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/machinery/computer/shuttle/verb/hijack()
-	set src in oview(1)
-
-	if ((!( ticker ) || ticker.shuttle_location != shuttle_z))
-		return
-	if (usr != ticker.killer)
-		return
-	world << "\blue <B>Alert: The shuttle is has been hijacked prematurely by the traitor!</B>"
-	ticker.timing = 0
-	ticker.check_win()
-	src.add_fingerprint(usr)
-	return
-
 /obj/machinery/computer/shuttle/attackby(var/obj/item/weapon/card/id/W as obj, var/mob/user as mob)
 
 	if ((!( istype(W, /obj/item/weapon/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
