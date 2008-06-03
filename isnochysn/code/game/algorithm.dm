@@ -181,7 +181,114 @@
 	src << browse(null, "window=mob_occupation")
 	return
 
-/mob/human/proc/Assign_Rank(rank)
+/mob/human/var/const
+	slot_back = 1
+	slot_wear_mask = 2
+	slot_handcuffed = 3
+	slot_l_hand = 4
+	slot_r_hand = 5
+	slot_belt = 6
+	slot_wear_id = 7
+	slot_ears = 8
+	slot_glasses = 9
+	slot_gloves = 10
+	slot_head = 11
+	slot_shoes = 12
+	slot_wear_suit = 13
+	slot_w_uniform = 14
+	slot_l_store = 15
+	slot_r_store = 16
+	slot_w_radio = 17
+	slot_in_backpack = 18
+
+/mob/human/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
+	//warning: icky code
+	var/equipped = 0
+	if((slot == l_store || slot == r_store || slot == belt || slot == wear_id) && !src.w_uniform)
+		del(W)
+		return
+	switch(slot)
+		if(slot_back)
+			if(!src.back)
+				src.back = W
+				equipped = 1
+		if(slot_wear_mask)
+			if(!src.wear_mask)
+				src.wear_mask = W
+				equipped = 1
+		if(slot_handcuffed)
+			if(!src.handcuffed)
+				src.handcuffed = W
+				equipped = 1
+		if(slot_l_hand)
+			if(!src.l_hand)
+				src.l_hand = W
+				equipped = 1
+		if(slot_r_hand)
+			if(!src.r_hand)
+				src.r_hand = W
+				equipped = 1
+		if(slot_belt)
+			if(!src.belt)
+				src.belt = W
+				equipped = 1
+		if(slot_wear_id)
+			if(!src.wear_id)
+				src.wear_id = W
+				equipped = 1
+		if(slot_ears)
+			if(!src.ears)
+				src.ears = W
+				equipped = 1
+		if(slot_glasses)
+			if(!src.glasses)
+				src.glasses = W
+				equipped = 1
+		if(slot_gloves)
+			if(!src.gloves)
+				src.gloves = W
+				equipped = 1
+		if(slot_head)
+			if(!src.head)
+				src.head = W
+				equipped = 1
+		if(slot_shoes)
+			if(!src.shoes)
+				src.shoes = W
+				equipped = 1
+		if(slot_wear_suit)
+			if(!src.wear_suit)
+				src.wear_suit = W
+				equipped = 1
+		if(slot_w_uniform)
+			if(!src.w_uniform)
+				src.w_uniform = W
+				equipped = 1
+		if(slot_l_store)
+			if(!src.l_store)
+				src.l_store = W
+				equipped = 1
+		if(slot_r_store)
+			if(!src.r_store)
+				src.r_store = W
+				equipped = 1
+		if(slot_w_radio)
+			if(!src.w_radio)
+				src.w_radio = W
+				equipped = 1
+		if(slot_in_backpack)
+			if (src.back && istype(src.back, /obj/item/weapon/storage/backpack))
+				var/obj/item/weapon/storage/backpack/B = src.back
+				if(B.contents.len < 7 && W.w_class <= 3)
+					W.loc = B
+					equipped = 1
+	if(equipped)
+		W.layer = 20
+	else
+		del(W)
+
+
+/mob/human/proc/Assign_Rank(rank, joined_late)
 	if (rank == "AI")
 		var/obj/S = locate(text("start*[]", rank))
 		if ((istype(S, /obj/start) && istype(S.loc, /turf) && !( ctf )))
@@ -189,173 +296,195 @@
 			src.loc = S.loc
 			src.AIize()
 		return
-	if (rank == "Captain")
-		world << text("<b>[] is the captain!</b>", src)
-	if (!( src.w_radio ))
-		var/obj/item/weapon/radio/headset/H = new /obj/item/weapon/radio/headset( src )
-		src.w_radio = H
-		H.layer = 20
-	if (!( src.back ))
-		var/obj/item/weapon/storage/backpack/H = new /obj/item/weapon/storage/backpack( src )
-		src.back = H
-		H.layer = 20
-	if (!( src.glasses ))
-		if (src.disabilities & 1)
-			var/obj/item/weapon/clothing/glasses/regular/G = new /obj/item/weapon/clothing/glasses/regular( src )
-			src.glasses = G
-			G.layer = 20
-	if ((!( src.belt ) && src.w_uniform))
-		var/obj/item/weapon/radio/signaler/S = new /obj/item/weapon/radio/signaler( src )
-		src.belt = S
-		S.layer = 20
-	if ((!( src.r_store ) && src.w_uniform))
-		var/obj/item/weapon/pen/S = new /obj/item/weapon/pen( src )
-		src.r_store = S
-		S.layer = 20
-	if (src.client && !(src.wear_id))
-		var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id( src )
-		if (src.w_uniform)
-			src.wear_id = C
+	src.equip_if_possible(new /obj/item/weapon/radio/headset(src), slot_w_radio)
+	src.equip_if_possible(new /obj/item/weapon/storage/backpack(src), slot_back)
+	if (src.disabilities & 1)
+		src.equip_if_possible(new /obj/item/weapon/clothing/glasses/regular(src), slot_glasses)
+	var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id(src)
+	C.assignment = rank
+	switch(rank)
+		if("Research Assistant")
+			C.access_level = 1
+			C.lab_access = 1
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clipboard(src), slot_l_hand)
+		if("Technical Assistant")
+			C.access_level = 1
+			C.lab_access = 0
+			C.engine_access = 1
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
+			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
+		if("Staff Assistant")
+			C.access_level = 3
+			C.lab_access = 0
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/handcuffs(src), slot_l_hand)
+		if("Medical Assistant")
+			C.access_level = 1
+			C.lab_access = 1
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/storage/firstaid/regular(src), slot_l_hand)
+		if("Engineer")
+			C.access_level = 2
+			C.lab_access = 1
+			C.engine_access = 3
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
+			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
+		if("Research Technician")
+			C.access_level = 2
+			C.lab_access = 3
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clipboard(src), slot_l_hand)
+		if("Forensic Technician")
+			C.access_level = 3
+			C.lab_access = 2
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/gloves/latex(src), slot_gloves)
+			src.equip_if_possible(new /obj/item/weapon/storage/fcard_kit(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/fcardholder(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/f_print_scanner(src), slot_in_backpack)
+		if("Medical Doctor")
+			C.access_level = 2
+			C.lab_access = 0
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/storage/firstaid/regular(src), slot_l_hand)
+		if("Captain")
+			C.access_level = 5
+			C.air_access = 5
+			C.engine_access = 5
+			C.lab_access = 5
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/darkgreen(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/head/swat_hel(src), slot_head)
+			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/taser_gun(src), slot_belt)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
+		if("Security Officer")
+			C.access_level = 3
+			C.lab_access = 0
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/taser_gun(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/handcuffs(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/handcuffs(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/storage/flashbang_kit(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/baton(src), slot_belt)
+			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
+		if("Medical Researcher")
+			C.access_level = 2
+			C.lab_access = 5
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+		if("Toxin Researcher")
+			C.access_level = 2
+			C.lab_access = 5
+			C.engine_access = 0
+			C.air_access = 0
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/bio_suit(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/head/bio_hood(src), slot_head)
+			src.equip_if_possible(new /obj/item/weapon/clothing/mask/gasmask(src), slot_wear_mask)
+			src.equip_if_possible(new /obj/item/weapon/tank/oxygentank(src), slot_l_hand)
+		if("Head of Research")
+			C.access_level = 4
+			C.air_access = 2
+			C.engine_access = 2
+			C.lab_access = 5
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
+			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/taser_gun(src), slot_belt)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
+		if("Head of Personnel")
+			C.access_level = 4
+			C.air_access = 2
+			C.engine_access = 2
+			C.lab_access = 4
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
+			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/taser_gun(src), slot_belt)
+			src.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
+		if("Station Technician")
+			C.access_level = 2
+			C.lab_access = 0
+			C.engine_access = 2
+			C.air_access = 3
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
+			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/cable_coil(src), slot_in_backpack)
+			src.equip_if_possible(new /obj/item/weapon/t_scanner(src), slot_belt)
+		if("Atmospheric Technician")
+			C.access_level = 3
+			C.lab_access = 0
+			C.engine_access = 0
+			C.air_access = 4
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
+			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
+			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
 		else
-			src.r_hand = C
-		C.assignment = rank
-		C.layer = 20
-		C.registered = src.rname
-		switch(C.assignment)
-			if("Research Assistant")
-				C.access_level = 1
-				C.lab_access = 1
-				C.engine_access = 0
-				C.air_access = 0
-			if("Technical Assistant")
-				C.access_level = 1
-				C.lab_access = 0
-				C.engine_access = 1
-				C.air_access = 0
-			if("Staff Assistant")
-				C.access_level = 3
-				C.lab_access = 0
-				C.engine_access = 0
-				C.air_access = 0
-			if("Medical Assistant")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/firstaid/regular/W = new /obj/item/weapon/storage/firstaid/regular( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 1
-				C.lab_access = 1
-				C.engine_access = 0
-				C.air_access = 0
-			if("Engineer")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/toolbox/W = new /obj/item/weapon/storage/toolbox( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 2
-				C.lab_access = 1
-				C.engine_access = 3
-				C.air_access = 0
-			if("Research Technician")
-				C.access_level = 2
-				C.lab_access = 3
-				C.engine_access = 0
-				C.air_access = 0
-			if("Forensic Technician")
-				C.access_level = 3
-				C.lab_access = 2
-				C.engine_access = 0
-				C.air_access = 0
-			if("Medical Doctor")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/firstaid/regular/W = new /obj/item/weapon/storage/firstaid/regular( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 2
-				C.lab_access = 0
-				C.engine_access = 0
-				C.air_access = 0
-			if("Prison Doctor")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/firstaid/regular/W = new /obj/item/weapon/storage/firstaid/regular( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 3
-				C.lab_access = 0
-				C.engine_access = 0
-				C.air_access = 0
-			if("Captain")
-				C.access_level = 5
-				C.air_access = 5
-				C.engine_access = 5
-				C.lab_access = 5
-			if("Security Officer")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/handcuffs/W = new /obj/item/weapon/handcuffs( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 3
-				C.lab_access = 0
-				C.engine_access = 0
-				C.air_access = 0
-			if("Prison Security")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/handcuffs/W = new /obj/item/weapon/handcuffs( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 3
-				C.lab_access = 0
-				C.engine_access = 0
-				C.air_access = 0
-			if("Medical Researcher")
-				C.access_level = 2
-				C.lab_access = 5
-				C.engine_access = 0
-				C.air_access = 0
-			if("Toxin Researcher")
-				C.access_level = 2
-				C.lab_access = 5
-				C.engine_access = 0
-				C.air_access = 0
-			if("Head of Research")
-				C.access_level = 4
-				C.air_access = 2
-				C.engine_access = 2
-				C.lab_access = 5
-			if("Head of Personnel")
-				C.access_level = 4
-				C.air_access = 2
-				C.engine_access = 2
-				C.lab_access = 4
-			if("Prison Warden")
-				C.access_level = 4
-				C.air_access = 2
-				C.engine_access = 2
-				C.lab_access = 4
-			if("Station Technician")
-				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/toolbox/W = new /obj/item/weapon/storage/toolbox( src )
-					src.l_hand = W
-					W.layer = 20
-					src.UpdateClothing()
-				C.access_level = 2
-				C.lab_access = 0
-				C.engine_access = 2
-				C.air_access = 3
-			if("Atmospheric Technician")
-				C.access_level = 3
-				C.lab_access = 0
-				C.engine_access = 0
-				C.air_access = 4
-			else
-		C.name = text("[]'s ID Card ([]>[]-[]-[])", C.registered, C.access_level, C.lab_access, C.engine_access, C.air_access)
-		src << text("<B>You are the [].</B>", C.assignment)
-		var/obj/S = locate(text("start*[]", C.assignment))
+			//this shouldn't ever happen?
+			src << "UH OH! Your job is [rank] and the game just can't handle it! Please report this bug to an administrator."
+	C.registered = src.rname
+	C.name = "[C.registered]'s ID Card ([C.access_level]>[C.lab_access]-[C.engine_access]-[C.air_access])"
+	src.equip_if_possible(C, slot_wear_id)
+	src.equip_if_possible(new /obj/item/weapon/pen(src), slot_r_store)
+	src.equip_if_possible(new /obj/item/weapon/radio/signaler(src), slot_belt)
+	if(rank == "Captain")
+		world << "<b>[src] is the captain!</b>"
+	src << "<B>You are the [rank].</B>"
+	if(!joined_late)
+		var/obj/S = locate("start*[rank]")
 		if ((istype(S, /obj/start) && istype(S.loc, /turf) && !( ctf )))
 			src << "\blue <B>You have been teleported to your new starting location!</B>"
 			src.loc = S.loc

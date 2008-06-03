@@ -12,74 +12,29 @@
 	var/mob/human/M = usr
 	src.get_dna_ready(M)
 
-	if (!M.w_uniform && !ticker)
-		if (M.gender == "female")
-			M.w_uniform = new /obj/item/weapon/clothing/under/pink(M)
-		else
-			M.w_uniform = new /obj/item/weapon/clothing/under/blue(M)
-
-		M.w_uniform.layer = 20
-		M.shoes = new /obj/item/weapon/clothing/shoes/brown(M)
-		M.shoes.layer = 20
-	else
-		M << "You will have to find clothes from the station."
-
-	if (ticker && !M.l_hand)
-		var/obj/item/weapon/card/id/I = new /obj/item/weapon/card/id(M)
+	if (ticker)
 		var/list/L = assistant_occupations
-		var/choose
-
+		var/job
 		if (L.Find(M.occupation1))
-			choose = M.occupation1
+			job = M.occupation1
+		else if (L.Find(M.occupation2))
+			job = M.occupation2
+		else if (L.Find(M.occupation3))
+			job = M.occupation3
 		else
-			choose = pick(L)
-
-		switch(choose)
-			if("Research Assistant")
-				I.assignment = "Research Assistant"
-				I.registered = M.rname
-				I.access_level = 1
-				I.lab_access = 1
-				I.engine_access = 0
-				I.air_access = 0
-			if("Technical Assistant")
-				I.assignment = "Technical Assistant"
-				I.registered = M.rname
-				I.access_level = 1
-				I.lab_access = 0
-				I.engine_access = 0
-				I.air_access = 1
-			if("Medical Assistant")
-				I.assignment = "Medical Assistant"
-				I.registered = M.rname
-				I.access_level = 1
-				I.lab_access = 1
-				I.engine_access = 0
-				I.air_access = 0
-			if("Staff Assistant")
-				I.assignment = "Staff Assistant"
-				I.registered = M.rname
-				I.access_level = 3
-				I.lab_access = 0
-				I.engine_access = 0
-				I.air_access = 0
-
-		I.name = text("[]'s ID Card ([]>[]-[]-[])", I.registered, I.access_level, I.lab_access, I.engine_access, I.air_access)
-		I.layer = 20
-		M.l_hand = I
+			job = pick(L)
+		var/joined_late = 1
+		M.Assign_Rank(job, joined_late)
 
 	M.verbs -= /mob/human/verb/char_setup
 	M.start = 1
 	M.update_face()
 	M.update_body()
 
-/obj/begin/verb/enter()
-	set src in usr.loc
-	
-	if (!usr.client.authenticated)
-		src << "You are not authorized to enter the game."
-		return
-	
+	enter()
+
+/obj/begin/proc/enter()
+
 	world.log_game("[usr.key] entered as [usr.name]")
 
 	if (!enter_allowed)
