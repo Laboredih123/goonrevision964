@@ -1928,7 +1928,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "tank"
 	var/maximum = null
 	var/obj/substance/gas/gas = null
-	var/i_used = 350.0
+	var/i_used = 100
 	flags = 323.0
 	weight = 1000000.0
 	force = 5.0
@@ -1944,13 +1944,13 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "jetpack"
 	icon_state = "jetpack0"
 	var/on = 0.0
-	maximum = 3500000.0
+	maximum = 300000
 	w_class = 4.0
 	s_istate = "jetpack"
 /obj/item/weapon/tank/oxygentank
 	name = "oxygentank"
 	icon_state = "oxygen"
-	maximum = 800000.0
+	maximum = 600000
 /obj/item/weapon/tank/plasmatank
 	name = "plasmatank"
 	icon_state = "plasma"
