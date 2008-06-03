@@ -536,7 +536,7 @@
 
 			for(var/mob/CM in world)
 				if(CM.client)
-					if(config.vote_no_default || (config.vote_no_dead && CM.stat == 2))
+					if(config.vote_no_default || (config.vote_no_dead && CM.stat == 2) || !CM.client.authenticated)
 						CM.client.vote = "none"
 					else
 						CM.client.vote = "default"
