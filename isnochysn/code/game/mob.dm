@@ -5201,7 +5201,11 @@
 				type = alt_type
 				if ((type & 1 && src.sdisabilities & 1))
 					return
-	src << msg
+	// Added voice muffling for Issue 41.
+	if (src.stat == 1 || src.sleeping > 0)
+		src << "<I>... You hear a faint voice ...</I>"
+	else
+		src << msg
 	return
 
 /mob/proc/findname(msg)
