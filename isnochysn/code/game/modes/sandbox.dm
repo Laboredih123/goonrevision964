@@ -8,7 +8,7 @@
 
 /datum/game_mode/sandbox/pre_setup()
 	for(var/mob/M in world)
-		if(M.client)
+		if(M.client && M.client.authenticated)
 			M.CanBuild()
 
 /datum/game_mode/sandbox/check_win()

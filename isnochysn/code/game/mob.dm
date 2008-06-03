@@ -7415,7 +7415,7 @@
 				src.holder.owner = src
 				src.verbs += /client/proc/show_panel
 
-		if (ticker && master_mode =="sandbox")
+		if (ticker && master_mode =="sandbox" && src.authenticated)
 			mob.CanBuild()
 			if (src.holder.level == 5)
 				src.verbs += /proc/variables
