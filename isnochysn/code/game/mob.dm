@@ -4231,8 +4231,11 @@
 
 	message = sanitize(message)
 
-	if ((src.name != src.rname && src.wear_id))
-		alt_name = text(" (as [])", src.wear_id.registered)
+	if (src.name != src.rname)
+		if(src.wear_id && src.wear_id.registered)
+			alt_name = " (as [src.wear_id.registered])"
+		else
+			alt_name = " (as Unknown)"
 	if (src.stat == 2)
 		for(var/mob/M in world)
 			if (M.stat == 2)
@@ -4592,17 +4595,18 @@
 				t1 = src.belt.icon_state
 			src.overlays += image("icon" = 'belt.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = MOB_LAYER)
 			src.belt.screen_loc = null
-	if (src.wear_id)
-		if (((src.wear_mask && !( src.wear_mask.see_face )) || (src.head && !( src.head.see_face ))))
-			src.name = (src.wear_id.registered ? src.wear_id.registered : "Unknown")
+	if ((src.wear_mask && !(src.wear_mask.see_face)) || (src.head && !(src.head.see_face))) // can't see the face
+		if(src.wear_id && src.wear_id.registered)
+			src.name = src.wear_id.registered
 		else
-			if (src.wear_id.registered != src.rname)
-				src.name = text("[] (as [])", src.rname, src.wear_id.registered)
-			else
-				src.name = text("[]", src.rname)
-		src.wear_id.screen_loc = "1,1"
+			src.name = "Unknown"
 	else
-		src.name = text("[]", src.rname)
+		if (src.wear_id && src.wear_id.registered != src.rname)
+			src.name = text("[] (as [])", src.rname, src.wear_id.registered)
+		else
+			src.name = text("[]", src.rname)
+	if(src.wear_id)
+		src.wear_id.screen_loc = "1,1"
 	if (src.l_store)
 		src.l_store.screen_loc = "4,1"
 	if (src.r_store)
