@@ -171,6 +171,9 @@ var
 	list/airlockWireColorToIndex
 	list/airlockFeatureNames = list("IdScan", "Main power In", "Main power Out", "Drop door bolts", "Backup power In", "Backup power Out", "Power assist", "AI Control", "Electrify")
 
+	const/shuttle_time_in_station = 1800 // 3 minutes in the station
+	const/shuttle_time_to_arrive = 6000 // 10 minutes to arrive
+
 world
 	name = "In Space No One Can Hear You Say No"
 	mob = /mob/human

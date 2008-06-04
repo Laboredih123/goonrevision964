@@ -182,9 +182,7 @@
 
 		world.log_game("Blob mode was lost.")
 		ticker.event = 5
-		sleep(300)
-		world.Reboot()
-		return
+		return 1
 
 	if(ticker.event == 5)
 		return
@@ -212,8 +210,7 @@
 			world.log_game("Blob mode was won with station [percent]% intact.")
 
 			ticker.event = 5
-			sleep(300)
-			world.Reboot()
+			return 1
 		else
 			world << "<FONT size = 3><B>The staff has lost!</B></FONT>"
 			world << "<B>The alien organism has been eradicated from the station, but directive 7-12 has already been issued.</B>"
@@ -222,6 +219,5 @@
 
 			ticker.event = 5
 			sleep(300)
-			world.Reboot()
-		return
-	return
+			return 1
+	return 1

@@ -56,4 +56,4 @@
 		for(var/mob/human/M in world)
 			if (M.client)
 				world << text("<B>[] was [].</B>", M.key, M)
-			//Foreach goto(1254)
+	return 1

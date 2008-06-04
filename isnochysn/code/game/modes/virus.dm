@@ -58,17 +58,14 @@
 					alive += text("<B>[]</B> was left infected. \red (Has Stage [] Infection)", M.rname, round(M.virus))
 				else
 					alive += text("<B>[]</B> was left to be infected on Space Station 13.", M.rname)
-		//Foreach goto(1653)
 	if (humanwin)
 		world << "<FONT size = 3><B>The Research Staff have won!</B></FONT>"
 	else
 		world << "<FONT size = 3><B>The Virus has won!</B></FONT>"
 	for(var/I in escapees)
 		world << text("<FONT size = 2>[]</FONT>", I)
-		//Foreach goto(1851)
 	for(var/I in alive)
 		world << text("<FONT size = 2>[]</FONT>", I)
-		//Foreach goto(1883)
 	for(var/I in dead)
 		world << text("<FONT size = 1>[]</FONT>", I)
-		//Foreach goto(1915)
+	return 1

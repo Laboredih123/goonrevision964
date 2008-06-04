@@ -12,4 +12,4 @@
 			M.CanBuild()
 
 /datum/game_mode/sandbox/check_win()
-	return 0
+	return 1

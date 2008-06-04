@@ -25,7 +25,6 @@
 						L[text("[]", M.rname)] = "pod"
 					else
 						L[text("[]", M.rname)] = "alive"
-		//Foreach goto(1955)
 	if (L.len)
 		world << "\blue <B>The following survived the meteor attack!</B>"
 		for(var/I in L)
@@ -38,6 +37,6 @@
 				if("alive")
 					world << text("\t <FONT size = 1>[] at least is alive.</FONT>", I)
 				else
-			//Foreach goto(2092)
 	else
 		world << "\blue <B>No one survived the meteor attack!</B>"
+	return 1

@@ -133,3 +133,4 @@
 		else
 			world << "<FONT size = 3><B>Neutral Victory</B></FONT>"
 			world << "<B>The Syndicate recovered the abandoned auth. disk but detonation of SS13 was averted.</B> Next time, don't lose the disk!"
+	return 1

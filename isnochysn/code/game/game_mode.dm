@@ -47,3 +47,4 @@
 			//Foreach goto(2337)
 	else
 		world << "\blue <B>No one lived!</B>"
+	return 1

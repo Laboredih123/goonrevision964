@@ -29,7 +29,4 @@
 		world << "<FONT size = 3><B>The humans have won!</B></FONT>"
 		world << "<B>The station has been retaken from the mutant monkeys</B>"
 		world.log_game("Humans have destroyed all monkeys")
-		sleep(300)
-		world.Reboot()
-	else
-		return
+	return 1

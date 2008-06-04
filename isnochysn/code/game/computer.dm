@@ -185,9 +185,9 @@
 		user << "Under directive 7-10, SS13 is quarantined until further notice."
 		return
 
-	world << "\blue <B>Alert: The emergency shuttle has been called. It will arrive in T-10:00 minutes.</B>"
 	if (!( ticker.timeleft ))
-		ticker.timeleft = 6000
+		ticker.timeleft = shuttle_time_to_arrive
+	world << "\blue <B>Alert: The emergency shuttle has been called. It will arrive in [ticker.timeleft/600] minutes.</B>"
 	ticker.timing = 1
 	return
 

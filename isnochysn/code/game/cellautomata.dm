@@ -1246,7 +1246,7 @@
 			else
 				if (src.timing == -1.0)
 					src.timeleft += 10
-					if (src.timeleft >= 6000)
+					if (src.timeleft >= shuttle_time_to_arrive)
 						src.timeleft = null
 						src.timing = 0
 		spawn_meteors()
@@ -1280,7 +1280,7 @@
 			else
 				if (src.timing == -1.0)
 					src.timeleft += 10
-					if (src.timeleft >= 6000)
+					if (src.timeleft >= shuttle_time_to_arrive)
 						src.timeleft = null
 						src.timing = 0
 		if (prob(0.5))
@@ -1320,7 +1320,6 @@
 
 	var/A = locate(/area/shuttle)
 	if (src.shuttle_location == shuttle_z)
-		world << "<B>The emergency shuttle has docked with the station! You have 3 minutes to board the shuttle.</B>"
 		for(var/turf/T in A)
 
 			if (T.z == shuttle_z)
@@ -1342,8 +1341,9 @@
 				//T = null
 				del(T)
 			//Foreach goto(45)
-		src.timeleft = 1800
+		src.timeleft = shuttle_time_in_station
 		src.shuttle_location = 1
+		world << "<B>The emergency shuttle has docked with the station! You have [ticker.timeleft/600] minutes to board the shuttle.</B>"
 	else
 		world << "<B>The emergency shuttle is leaving!</B>"
 		check_win()

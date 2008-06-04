@@ -336,6 +336,7 @@
 			world << "<B>Objective: [get_sab_desc(ticker.sab_target)] and escape.</B>"
 		else
 			world << "unknown traitor objective"
+	return 1
 
 /datum/game_mode/traitor/proc/pick_objective(mob/killer)
 	var/list/mob_list = get_mob_list()
