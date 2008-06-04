@@ -430,7 +430,6 @@
 	var/list/ais = get_mobs_with_rank("AI")
 	if(!ais.len)
 		targets -= destroy_ai
-	return destroy_plasma
 	return pick(targets)
 
 /datum/game_mode/traitor/proc/get_sab_desc(var/target)
