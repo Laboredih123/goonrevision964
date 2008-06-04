@@ -2770,18 +2770,9 @@
 		var/dam_zone = pick("chest", "chest", "chest", "head", "diaper")
 		if (istype(src.organs[text("[]", dam_zone)], /obj/item/weapon/organ/external))
 			var/obj/item/weapon/organ/external/temp = src.organs[text("[]", dam_zone)]
-			temp.take_damage((istype(O, /obj/meteor/small) ? 15 : 30), 20)
+			temp.take_damage((istype(O, /obj/meteor/small) ? 20 : 50), 30)
 			src.UpdateDamageIcon()
 		src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
-	if (prob(30))
-		var/t = pick(prob(25); blindness, prob(25); muteness, prob(25); deafness, prob(10); blindness & muteness, prob(10); blindness & deafness, prob(5); blindness & muteness & deafness)
-		src.sdisabilities |= t
-		if (t & blindness)
-			src.show_message("\red You go blind!")
-		if (t & muteness)
-			src.show_message("\red You go mute!")
-		if (t & deafness)
-			src.show_message("\red You go deaf!")
 	return
 
 
