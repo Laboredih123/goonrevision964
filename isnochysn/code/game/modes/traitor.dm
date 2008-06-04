@@ -102,7 +102,6 @@
 
 		if (obj_sabotage)
 			ticker.sab_target = pick_sab_target()
-			world << ticker.sab_target
 			var/targetdesc = get_sab_desc(ticker.sab_target)
 			if(ticker.sab_target == destroy_ai)
 				ticker.target = get_mobs_with_rank("AI")[1]
