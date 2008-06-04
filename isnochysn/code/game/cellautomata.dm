@@ -1249,15 +1249,7 @@
 					if (src.timeleft >= 6000)
 						src.timeleft = null
 						src.timing = 0
-		spawn( 0 )
-			new /obj/meteor( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-			return
-		if (prob(50))
-			spawn( 0 )
-				new /obj/meteor/small( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-
-
-				return
+		spawn_meteors()
 		if ((src.timeleft <= 0 && src.timing && !( prison_entered )))
 			src.timeup()
 
@@ -1265,28 +1257,12 @@
 	while(src.processing)
 	return
 
-/proc/meteor_wave()
-	if(!ticker || wavesecret)
-		return
-
-	wavesecret = 1
-	for(var/my = 1 to world.maxy)
-		spawn(rand(10,100))
-			new /obj/meteor( locate(world.maxx, my, 1) )
-	sleep(300)
-	wavesecret = 0
 
 /datum/control/gameticker/proc/megamonkey_process()
 
 	do
 		if (prob(2))
-			spawn( 0 )
-				new /obj/meteor( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-				return
-			if (prob(10))
-				spawn( 0 )
-					new /obj/meteor/small( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-					return
+			spawn_meteors()
 
 		world << "megamonkey_process check_win"
 		check_win()
@@ -1294,7 +1270,6 @@
 		sleep(50)
 	while(src.processing)
 	return
-
 
 /datum/control/gameticker/proc/extend_process()
 
@@ -1309,13 +1284,7 @@
 						src.timeleft = null
 						src.timing = 0
 		if (prob(0.5))
-			spawn( 0 )
-				new /obj/meteor( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-				return
-			if (prob(10))
-				spawn( 0 )
-					new /obj/meteor/small( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-					return
+			spawn_meteors()
 		if ((src.timeleft <= 0 && (src.timing && (!( prison_entered ) || src.shuttle_location == 1))))
 			src.timeup()
 

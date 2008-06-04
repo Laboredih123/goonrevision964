@@ -2774,13 +2774,13 @@
 			src.UpdateDamageIcon()
 		src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
 	if (prob(30))
-		var/t = pick(1, 2, 4, 1, 2, 4, 1, 2, 4, 1, 2, 4, 3, 5, 6)
+		var/t = pick(prob(25); blindness, prob(25); muteness, prob(25); deafness, prob(10); blindness & muteness, prob(10); blindness & deafness, prob(5); blindness & muteness & deafness)
 		src.sdisabilities |= t
-		if (t & 1)
+		if (t & blindness)
 			src.show_message("\red You go blind!")
-		if (t & 2)
+		if (t & muteness)
 			src.show_message("\red You go mute!")
-		if (t & 4)
+		if (t & deafness)
 			src.show_message("\red You go deaf!")
 	return
 

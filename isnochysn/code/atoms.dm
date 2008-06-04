@@ -213,6 +213,10 @@
 
 	var/inertia_dir = 0
 
+	var/const/blindness = 1
+	var/const/deafness = 2
+	var/const/muteness = 4
+
 /mob/ghost
 	name = "ghost"
 	icon_state = "ghost"
@@ -3058,16 +3062,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "manifest"
 	icon = 'screen1.dmi'
 	icon_state = "x"
-/obj/meteor
-	name = "meteor"
-	icon = 'meteor.dmi'
-	density = 1
-	var/steps = null
-	var/hits = 3.0
-	anchored = 1.0
-/obj/meteor/small
-	name = "small"
-	icon_state = "small"
 /obj/morgue
 	name = "morgue"
 	icon = 'stationobjs.dmi'

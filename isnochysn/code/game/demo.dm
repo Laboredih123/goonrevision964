@@ -489,7 +489,6 @@
 	while(src.pltanks > 0)
 		new /obj/item/weapon/tank/plasmatank( src.loc )
 		src.pltanks--
-	//SN src = null
 	del(src)
 	return
 	return
@@ -1012,91 +1011,8 @@
 	return
 
 /obj/item/weapon/tank/plasmatank/New()
-
 	..()
 	src.gas.plasma = src.maximum
-	return
-
-/obj/meteor/small/Move()
-
-	if (src.steps < 7)
-		src.steps++
-		if (src.steps >= 7)
-			src.icon_state = "smallf"
-	else
-		var/turf/T = src.loc
-		if (istype(T, /turf))
-			T.firelevel = T.poison + 5
-	..()
-	if (src.z != 1)
-		//SN src = null
-		del(src)
-		return
-	spawn( 3 )
-		step(src, WEST)
-		if (prob(30))
-			step(src, pick(NORTH, SOUTH))
-		return
-	return
-
-/obj/meteor/New()
-
-	..()
-	sleep(1)
-	step(src, WEST)
-	return
-
-/obj/meteor/Move()
-
-	if (src.steps < 7)
-		src.steps++
-		if (src.steps >= 7)
-			src.icon_state = "flaming"
-	else
-		var/turf/T = src.loc
-		if (istype(T, /turf))
-			T.firelevel = T.poison + 5
-	..()
-	if (src.z != 1)
-		//SN src = null
-		del(src)
-		return
-	spawn( 3 )
-		step(src, WEST)
-		if (prob(30))
-			step(src, pick(NORTH, SOUTH))
-		return
-	return
-
-/obj/meteor/Bump(atom/A)
-
-	spawn( 0 )
-		if (A)
-			A.meteorhit(src)
-
-
-
-
-		if (--src.hits <= 0)
-			//SN src = null
-			//******RM
-			if(prob(15) && !istype(A, /obj/grille))
-
-				var/obj/item/weapon/tank/plasmatank/pt = new /obj/item/weapon/tank/plasmatank( src )
-				pt.gas.temperature = 475+T0C
-				pt.ignite()
-			//*****
-			del(src)
-			return
-		return
-	return
-
-/obj/meteor/ex_act(severity)
-
-	if (severity < 4)
-		//SN src = null
-		del(src)
-		return
 	return
 
 /obj/secloset/alter_health()

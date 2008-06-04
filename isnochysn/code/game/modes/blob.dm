@@ -1,7 +1,7 @@
 /datum/game_mode/blob
 	name = "blob"
 	config_tag = "blob"
-	
+
 	var/stage = 0
 	var/next_stage = 0
 
@@ -25,15 +25,8 @@
 
 /datum/game_mode/blob/proc/process()
 	do
-		// spawn a meteor
 		if (prob(2))
-			spawn (0)
-				new /obj/meteor( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))))
-
-			if (prob(10))
-				spawn (0)
-					new /obj/meteor/small( pick(block(locate(world.maxx, 1, 1), locate(world.maxx, world.maxy, 1))) )
-
+			spawn_meteors()
 		//world << "blob_process check_win"
 		check_win()
 		life()

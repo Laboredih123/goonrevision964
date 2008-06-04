@@ -5060,10 +5060,8 @@
 	return
 
 /obj/rack/meteorhit(obj/O as obj)
-
-	if (O.icon_state == "flaming")
-		src.icon_state = "rackbroken"
-		src.density = 0
+	src.icon_state = "rackbroken"
+	src.density = 0
 	return
 
 /obj/weldfueltank/attackby(obj/item/weapon/weldingtool/W as obj, mob/user as mob)

@@ -14,17 +14,15 @@
 	return
 
 /obj/machinery/vehicle/meteorhit(var/obj/O as obj)
-	if (O.icon_state == "flaming")
-		for (var/obj/item/I in src)
-			I.loc = src.loc
-		
-		for (var/mob/M in src)
-			M.loc = src.loc
-			if (M.client)
-				M.client.eye = M.client.mob
-				M.client.perspective = MOB_PERSPECTIVE
-		//SN src = null
-		del(src)
+	for (var/obj/item/I in src)
+		I.loc = src.loc
+
+	for (var/mob/M in src)
+		M.loc = src.loc
+		if (M.client)
+			M.client.eye = M.client.mob
+			M.client.perspective = MOB_PERSPECTIVE
+	del(src)
 
 /obj/machinery/vehicle/ex_act(severity)
 	switch (severity)
