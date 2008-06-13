@@ -1,25 +1,4 @@
-/mob/proc/Cell()
-	set category = "Admin"
-	set hidden = 1
-	var/turf/T = src.loc
-
-	if (!( istype(T, /turf) ))
-		return
-
-	if (locate(/obj/move, T))
-		T = locate(/obj/move, T)
-
-	var/t = ""
-	t+= "Nitrogen : [T.n2]\n"
-	t+= "Oxygen : [T.oxygen]\n"
-	t+= "Plasma : [T.poison]\n"
-	t+= "CO2: [T.co2]\n"
-	t+= "N2O: [T.sl_gas]\n"
-
-	usr.show_message(t, 1)
-
 /proc/findname(msg)
-
 	for(var/mob/M in world)
 		if (M.rname == msg)
 			return 1
@@ -35,12 +14,10 @@
 	return
 
 /obj/screen/attack_hand(mob/user as mob, using)
-	user.db_click(src.name, using)
-	return
+	return user.db_click(src.name, using)
 
 /obj/screen/attack_paw(mob/user as mob, using)
-	user.db_click(src.name, using)
-	return
+	return user.db_click(src.name, using)
 
 /obj/point/point()
 	set src in oview()
@@ -375,43 +352,20 @@
 /mob/human/proc/monkeyize()
 	if (src.monkeyizing)
 		return
-	for(var/obj/item/weapon/W in src)
-		src.u_equip(W)
-		if (src.client)
-			src.client.screen -= W
-		if (W)
-			W.loc = src.loc
-			W.dropped(src)
-			W.layer = initial(W.layer)
-	src.UpdateClothing()
+	src.drop_all()
 	src.monkeyizing = 1
 	src.canmove = 0
 	src.icon = null
 	src.invisibility = 100
-	for(var/t in src.organs)
-		//src.organs[text("[]", t)] = null
-		del(src.organs[t])
-		//Foreach goto(154)
 	var/atom/movable/overlay/animation = new /atom/movable/overlay( src.loc )
-	animation.icon_state = "blank"
-	animation.icon = 'mob.dmi'
-	animation.master = src
-	flick("h2monkey", animation)
+	flick("h2monkey", src)
 	sleep(48)
-	//animation = null
-	del(animation)
-	src.primary.spec_identity = "2B6696D2B127E5A4"
 	var/mob/monkey/O = new /mob/monkey( src.loc )
 	O.start = 1
-	O.primary = src.primary
-	src.primary = null
 	if (src.client)
 		src.client.mob = O
 	O.loc = src.loc
 	O << "<B>You are now a monkey.</B>"
-	O << "<B>Don't be angry at the source as now you are just like him so deal with it.</B>"
-	O << "<B>Follow your objective.</B>"
-	//SN src = null
 	del(src)
 	return
 
@@ -419,17 +373,7 @@
 
 	if (src.monkeyizing)
 		return
-	for(var/obj/item/weapon/W in src)
-		src.u_equip(W)
-		if (src.client)
-			src.client.screen -= W
-		if (W)
-			W.loc = src.loc
-			W.dropped(src)
-			W.layer = initial(W.layer)
-			del(W)
-		//Foreach goto(25)
-	src.UpdateClothing()
+	src.drop_all()
 	src.monkeyizing = 1
 	src.canmove = 0
 	src.icon = null

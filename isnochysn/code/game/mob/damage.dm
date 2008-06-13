@@ -1,8 +1,10 @@
-/mob/proc/take_damage(damage)
-	src.damage.add(damage)
+/mob/var/datum/damage/dam = new /datum/damage()
 
-/mob/proc/heal_damage(damage)
-	src.damage.subtract(damage)
+/mob/proc/take_damage(datum/damage/dam)
+	src.dam.add(dam)
+
+/mob/proc/heal_damage(datum/damage/dam)
+	src.dam.subtract(dam)
 
 /mob/proc/get_damage()
-	return src.damage
+	return src.dam

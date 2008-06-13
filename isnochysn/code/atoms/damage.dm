@@ -1,9 +1,9 @@
 /datum/damage
-	var/brute
-	var/burn
-	var/toxin
-	var/electric
-	var/suffocation
+	var/brute = 0
+	var/burn = 0
+	var/toxin = 0
+	var/electric = 0
+	var/suffocation = 0
 
 /datum/damage/New(brute, burn, toxin, electric, suffocation)
 	src.brute = brute
@@ -12,14 +12,14 @@
 	src.electric = electric
 	src.suffocation = suffocation
 
-/datum/damage/add(dam)
+/datum/damage/proc/add(datum/damage/dam)
 	src.brute += dam.brute
 	src.burn += dam.burn
 	src.toxin += dam.toxin
 	src.electric += dam.electric
 	src.suffocation += dam.suffocation
 
-/datum/damage/subtract(dam)
+/datum/damage/proc/subtract(datum/damage/dam)
 	//returns anything left over from the subtraction, doesn't just throw away overflow
 	if(dam.brute > src.damage.brute)
 		dam.brute -= src.damage.brute

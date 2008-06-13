@@ -1,0 +1,1 @@
+/mob/prespawn/proc/setup()

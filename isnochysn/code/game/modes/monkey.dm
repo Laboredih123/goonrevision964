@@ -35,25 +35,43 @@
 			if (istype(T, /turf))
 				if ((T in A))
 					monkeywin = 0
-		//Foreach goto(999)
 	if (monkeywin)
 		monkeywin = 0
-		for(var/mob/monkey/M in world)
+		for(var/mob/carbon/monkey/M in world)
 			if (M.stat != 2)
 				var/T = M.loc
 				if (istype(T, /turf))
 					if ((T in A))
 						monkeywin = 1
-			//Foreach goto(1096)
 	if (monkeywin)
-		world << "<FONT size = 3><B>The monkies have won!</B></FONT>"
+		world << "<FONT size = 3><B>The monkeys have won!</B></FONT>"
 		for(var/mob/monkey/M in world)
 			if (M.client)
 				world << text("<B>[] was a monkey.</B>", M.key)
 			//Foreach goto(1194)
 	else
-		world << "<FONT size = 3><B>The Research Staff has stopped he monkey invasion!</B></FONT>"
+		world << "<FONT size = 3><B>The Research Staff has stopped the monkey invasion!</B></FONT>"
 		for(var/mob/human/M in world)
 			if (M.client)
 				world << text("<B>[] was [].</B>", M.key, M)
 	return 1
+
+/mob/carbon/proc/monkeyize()
+	if (src.monkeyizing)
+		return
+	src.drop_all()
+	src.monkeyizing = 1
+	src.canmove = 0
+	src.icon = null
+	src.invisibility = 100
+	var/atom/movable/overlay/animation = new /atom/movable/overlay( src.loc )
+	flick("h2monkey", src)
+	sleep(48)
+	var/mob/monkey/O = new /mob/monkey( src.loc )
+	O.start = 1
+	if (src.client)
+		src.client.mob = O
+	O.loc = src.loc
+	O << "<B>You are now a monkey.</B>"
+	del(src)
+	return

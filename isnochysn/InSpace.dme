@@ -3,12 +3,6 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
-/*
-FILE: icons\ss13\ghost.dmi
-DIR: code code\data code\game code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\verbs icons icons\isno icons\ss13 interface
-MAP_ICON_TYPE: 0
-AUTO_FILE_DIR: ON
-*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -23,6 +17,8 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "code/game/mob/carbon"
 #define FILE_DIR "code/game/mob/carbon/human"
 #define FILE_DIR "code/game/mob/carbon/monkey"
+#define FILE_DIR "code/game/mob/silicon"
+#define FILE_DIR "code/game/mob/silicon/ai"
 #define FILE_DIR "code/game/modes"
 #define FILE_DIR "code/game/verbs"
 #define FILE_DIR "icons"
@@ -94,6 +90,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\newitems.dm"
 #include "code\game\newobjects.dm"
 #include "code\game\newpipe.dm"
+#include "code\game\organ.dm"
 #include "code\game\overview.dm"
 #include "code\game\power.dm"
 #include "code\game\shuttle.dm"
@@ -123,6 +120,8 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\carbon\human\hear.dm"
 #include "code\game\mob\carbon\human\say.dm"
 #include "code\game\mob\carbon\monkey\hear.dm"
+#include "code\game\mob\silicon\damage.dm"
+#include "code\game\mob\silicon\ai\damage.dm"
 #include "code\game\modes\blob.dm"
 #include "code\game\modes\extended.dm"
 #include "code\game\modes\megamonkey.dm"
