@@ -49,8 +49,8 @@
 	//name = "gameticker"
 	var/timeleft = null
 	var/timing = 0.0
-	var/mob/human/killer = null
-	var/mob/human/target = null
+	var/mob/killer = null
+	var/mob/target = null
 	var/theft_obj = null
 	var/sab_target = null
 	var/objective = null
@@ -119,199 +119,6 @@
 
 /datum/debug
 	var/list/debuglist
-
-/mob
-	density = 1
-	layer = 4.0
-	var/already_placed = 0.0
-	var/obj/machinery/machine = null
-	var/other_mobs = null
-	var/memory = ""
-	var/poll_answer = 0.0
-	var/sdisabilities = 0.0
-	var/disabilities = 0.0
-	var/atom/movable/pulling = null
-	var/stat = 0.0
-	var/next_move = null
-	var/prev_move = null
-	var/monkeyizing = null
-	var/other = 0.0
-	var/hand = null
-	var/eye_blind = null
-	var/eye_blurry = null
-	var/ear_deaf = null
-	var/ear_damage = null
-	var/stuttering = null
-	var/rname = null
-	var/blinded = null
-	var/rejuv = null
-	var/r_epil = null
-	var/r_ch_cou = null
-	var/r_Tourette = null
-	var/antitoxs = null
-	var/plasma = null
-	var/virus = 0.0
-	var/sleeping = 0.0
-	var/resting = 0.0
-	var/lying = 0.0
-	var/canmove = 1.0
-	var/eye_stat = null
-	var/oxyloss = 0.0
-	var/toxloss = 0.0
-	var/fireloss = 0.0
-	var/timeofdeath = 0.0
-	var/bruteloss = 0.0
-	var/cpr_time = 1.0
-	var/health = 100.0
-	var/drowsyness = 0.0
-	var/paralysis = 0.0
-	var/stunned = 0.0
-	var/weakened = 0.0
-	var/losebreath = 0.0
-	var/muted = null
-	var/intent = null
-	var/a_intent = "disarm"
-	var/m_int = null
-	var/m_intent = "run"
-	var/lastDblClick = 0
-	var/lastKnownIP = null
-	var/obj/stool/chair/buckled = null
-	var/obj/dna/primary = null
-	var/obj/item/weapon/handcuffs/handcuffed = null
-	var/obj/item/weapon/l_hand = null
-	var/obj/item/weapon/r_hand = null
-	var/obj/item/weapon/back = null
-	var/obj/item/weapon/tank/internal = null
-	var/obj/item/weapon/storage/s_active = null
-	var/obj/item/weapon/clothing/mask/wear_mask = null
-	var/obj/screen/throw_icon = null
-	var/obj/screen/flash = null
-	var/obj/screen/blind = null
-	var/obj/screen/hands = null
-	var/obj/screen/mach = null
-	var/obj/screen/sleep = null
-	var/obj/screen/rest = null
-	var/obj/screen/pullin = null
-	var/obj/screen/internals = null
-	var/obj/screen/oxygen = null
-	var/obj/screen/i_select = null
-	var/obj/screen/m_select = null
-	var/obj/screen/toxin = null
-	var/obj/screen/fire = null
-	var/obj/screen/healths = null
-	var/obj/screen/zone_sel/zone_sel = null
-	var/obj/hud/hud_used = null
-	var/start = null
-
-	var/list/organs = list(  )
-	var/list/grabbed_by = list(  )
-	var/list/requests = list(  )
-
-	var/list/mapobjs = list()
-
-	var/in_throw_mode = 0
-
-	var/inertia_dir = 0
-
-	var/const/blindness = 1
-	var/const/deafness = 2
-	var/const/muteness = 4
-
-/mob/ghost
-	name = "ghost"
-	icon_state = "ghost"
-
-/mob/human
-	name = "human"
-	icon = 'mob.dmi'
-	icon_state = "m-none"
-	gender = MALE
-	var/occupation1 = "No Preference"
-	var/occupation2 = "No Preference"
-	var/occupation3 = "No Preference"
-	var/need_gl = 0.0
-	var/be_epil = 0.0
-	var/be_cough = 0.0
-	var/be_tur = 0.0
-	var/be_stut = 0.0
-	var/r_hair = 0.0
-	var/g_hair = 0.0
-	var/b_hair = 0.0
-	var/h_style = "Short Hair (M)"
-	var/nr_hair = 0.0
-	var/ng_hair = 0.0
-	var/nb_hair = 0.0
-	var/ns_tone = 0.0
-	var/r_eyes = 0.0
-	var/g_eyes = 0.0
-	var/b_eyes = 0.0
-	var/s_tone = 0.0
-	var/age = 30.0
-	var/b_type = "A+"
-	var/obj/item/weapon/clothing/suit/wear_suit = null
-	var/obj/item/weapon/clothing/under/w_uniform = null
-	var/obj/item/weapon/radio/w_radio = null
-	var/obj/item/weapon/clothing/shoes/shoes = null
-	var/obj/item/weapon/belt = null
-	var/obj/item/weapon/clothing/gloves/gloves = null
-	var/obj/item/weapon/clothing/glasses/glasses = null
-	var/obj/item/weapon/clothing/head/head = null
-	var/obj/item/weapon/clothing/ears/ears = null
-	var/obj/item/weapon/card/id/wear_id = null
-	var/obj/item/weapon/r_store = null
-	var/obj/item/weapon/l_store = null
-	var/icon/stand_icon = null
-	var/icon/lying_icon = null
-	var/now_pushing = null
-	var/t_plasma = 0.0
-	var/t_oxygen = 0.0
-	var/last_b_state = 1.0
-	var/image/face = null
-	var/image/face2 = null
-	var/h_style_r = "hair_a"
-	weight = 2500000.0
-	var/cameraFollow = null
-
-	var/list/body_standing = list(  )
-	var/list/body_lying = list(  )
-
-/mob/monkey
-	name = "monkey"
-	icon = 'monkey.dmi'
-	icon_state = "monkey1"
-	gender = MALE
-	var/t_plasma = null
-	var/t_oxygen = null
-	var/t_sl_gas = null
-	var/t_n2 = null
-	var/now_pushing = null
-	flags = 258.0
-	var/cameraFollow = null
-
-/mob/ai
-	name = "AI"
-	icon = 'power.dmi'
-	icon_state = "teg"
-	gender = MALE
-	var/network = "SS13"
-	var/obj/machinery/camera/current = null
-	var/t_plasma = null
-	var/t_oxygen = null
-	var/t_sl_gas = null
-	var/t_n2 = null
-	var/now_pushing = null
-	var/aiRestorePowerRoutine = 0
-	var/list/laws = list()
-	flags = 258.0
-	var/cameraFollow = null
-
-/mob/megamonkey
-		name = "mutant monkey"
-		icon = 'monkey.dmi'
-		icon_state = "megamonkey1"
-		gender = MALE
-		var/lastattacktime			// world.time that last p-attack happened - for tuning firing rate
-		var/activecount				// count-down before mob goes into idle mode
 
 /obj
 	var/datum/module/mod
@@ -483,12 +290,9 @@
 	var/t_loc = null
 	var/obj/item/item = null
 	var/place = null
-/obj/equip_e/human
-	name = "human"
-	var/mob/human/target = null
-/obj/equip_e/monkey
-	name = "monkey"
-	var/mob/monkey/target = null
+/obj/equip_e/carbon
+	name = "carbon-based life form"
+	var/mob/carbon/target = null
 /obj/grille
 	desc = "A piece of metal with evenly spaced gridlike holes in it. Blocks large object but lets small items, gas, or energy beams through."
 	name = "grille"
@@ -1425,122 +1229,67 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "organ"
 	var/owner = null
 	s_istate = "bio_orange"
-/obj/item/weapon/organ/external
+/atom/organ
 	name = "external"
 	icon = 'human.dmi'
 	var/d_i_state = ""
 	var/brute_dam = 0.0
 	var/burn_dam = 0.0
-	var/bandaged = 0.0
-	var/max_damage = 0.0
 	var/r_name = "chest"
-	var/wound_size = 0.0
-	var/max_size = 0.0
-/obj/item/weapon/organ/external/chest
+/atom/organ/chest
 	name = "chest"
 	icon_state = "chest"
-	max_damage = 100.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/diaper
+/atom/organ/diaper
 	name = "diaper"
 	icon_state = "diaper"
 	r_name = "diaper"
-	max_damage = 90.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/head
+/atom/organ/head
 	name = "head"
 	icon_state = "head"
 	r_name = "head"
-	max_damage = 100.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_arm
+/atom/organ/l_arm
 	name = "l arm"
 	icon_state = "l_arm"
 	r_name = "l_arm"
-	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_foot
+/atom/organ/l_foot
 	name = "l foot"
 	icon_state = "l_foot"
 	r_name = "l_foot"
-	max_damage = 20.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_hand
+/atom/organ/l_hand
 	name = "l hand"
 	icon_state = "l_hand"
 	r_name = "l_hand"
-	max_damage = 20.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_leg
+/atom/organ/l_leg
 	name = "l leg"
 	icon_state = "l_leg"
 	r_name = "l_leg"
-	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_arm
+/atom/organ/r_arm
 	name = "r arm"
 	icon_state = "r_arm"
 	r_name = "r_arm"
-	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_foot
+/atom/organ/r_foot
 	name = "r foot"
 	icon_state = "r_foot"
 	r_name = "r_foot"
-	max_damage = 20.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_hand
+/atom/organ/r_hand
 	name = "r hand"
 	icon_state = "r_hand"
 	r_name = "r_hand"
-	max_damage = 20.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_leg
+/atom/organ/r_leg
 	name = "r leg"
 	icon_state = "r_leg"
 	r_name = "r_leg"
-	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/internal
-	name = "internal"
-/obj/item/weapon/organ/internal/blood_vessels
-	name = "blood vessels"
-	var/heart = null
-	var/lungs = null
-	var/kidneys = null
-/obj/item/weapon/organ/internal/brain
-	name = "brain"
-	var/head = null
-/obj/item/weapon/organ/internal/excretory
-	name = "excretory"
-	var/excretory = 7.0
-	var/blood_vessels = null
-/obj/item/weapon/organ/internal/heart
-	name = "heart"
-/obj/item/weapon/organ/internal/immune_system
-	name = "immune system"
-	var/blood_vessels = null
-	var/isys = null
-/obj/item/weapon/organ/internal/intestines
-	name = "intestines"
-	var/intestines = 3.0
-	var/blood_vessels = null
-/obj/item/weapon/organ/internal/liver
-	name = "liver"
-	var/intestines = null
-	var/blood_vessels = null
-/obj/item/weapon/organ/internal/lungs
-	name = "lungs"
-	var/lungs = 3.0
-	var/throat = null
-	var/blood_vessels = null
-/obj/item/weapon/organ/internal/stomach
-	name = "stomach"
-	var/intestines = null
-/obj/item/weapon/organ/internal/throat
-	name = "throat"
-	var/lungs = null
-	var/stomach = null
 /obj/item/weapon/paint
 	name = "Paint Can"
 	icon_state = "paint_neutral"

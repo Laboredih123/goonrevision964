@@ -1747,7 +1747,7 @@
 			var/mob/human/H = M
 			var/ok = 0
 			for(var/organ in H.organs)
-				var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", organ)]
+				var/atom/organ/affecting = H.organs[text("[]", organ)]
 				ok += affecting.heal_damage(5, 5)
 				//Foreach goto(267)
 			if (ok)

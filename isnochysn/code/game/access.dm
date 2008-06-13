@@ -39,16 +39,16 @@
 	//check if it doesn't require any access at all
 	if(src.check_access(null))
 		return 1
-	if(istype(M, /mob/ai))
+	if(istype(M, /mob/silicon/ai))
 		//AI can do whatever he wants
 		return 1
-	else if(istype(M, /mob/human))
-		var/mob/human/H = M
+	else if(istype(M, /mob/carbon/human))
+		var/mob/carbon/human/H = M
 		//if they are holding or wearing a card that has access, that works
 		if(src.check_access(H.equipped()) || src.check_access(H.wear_id))
 			return 1
-	else if(istype(M, /mob/monkey))
-		var/mob/monkey/george = M
+	else if(istype(M, /mob/carbon/monkey))
+		var/mob/carbon/monkey/george = M
 		//they can only hold things :(
 		if(george.equipped() && istype(george.equipped(), /obj/item/weapon/card/id) && src.check_access(george.equipped()))
 			return 1

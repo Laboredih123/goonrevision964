@@ -176,7 +176,7 @@ var
 
 world
 	name = "In Space No One Can Hear You Say No"
-	mob = /mob/human
+	mob = /mob/carbon/human
 	turf = /turf/space
 	area = /area
 	view = "15x15"

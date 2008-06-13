@@ -18,606 +18,27 @@
 
 	usr.show_message(t, 1)
 
-
-/proc/hsl2rgb(h, s, l)
-
-	return
-
-/proc/ran_zone(zone, probability)
-
-	if (probability == null)
-		probability = 75
-	if (probability == 100)
-		return zone
-	switch(zone)
-		if("chest")
-			if (prob(probability))
-				return "chest"
-			else
-				var/t = rand(1, 15)
-				if (t < 3)
-					return "head"
-				else if (t < 6)
-					return "l_arm"
-				else if (t < 9)
-					return "r_arm"
-				else if (t < 13)
-					return "diaper"
-				else if (t < 14)
-					return "l_hand"
-				else if (t < 15)
-					return "r_hand"
-				else
-					return null
-
-		if("diaper")
-			if (prob(probability * 0.9))
-				return "diaper"
-			else
-				var/t = rand(1, 8)
-				if (t < 4)
-					return "chest"
-				else if (t < 5)
-					return "r_leg"
-				else if (t < 6)
-					return "l_leg"
-				else if (t < 7)
-					return "l_hand"
-				else if (t < 8)
-					return "r_hand"
-				else
-					return null
-		if("head")
-			if (prob(probability * 0.75))
-				return "head"
-			else
-				if (prob(60))
-					return "chest"
-				else
-					return null
-		if("l_arm")
-			if (prob(probability * 0.75))
-				return "l_arm"
-			else
-				if (prob(60))
-					return "chest"
-				else
-					return null
-		if("r_arm")
-			if (prob(probability * 0.75))
-				return "r_arm"
-			else
-				if (prob(60))
-					return "chest"
-				else
-					return null
-		if("r_leg")
-			if (prob(probability * 0.75))
-				return "r_leg"
-			else
-				if (prob(60))
-					return "diaper"
-				else
-					return null
-		if("l_leg")
-			if (prob(probability * 0.75))
-				return "l_leg"
-			else
-				if (prob(60))
-					return "diaper"
-				else
-					return null
-		if("l_hand")
-			if (prob(probability * 0.5))
-				return "l_hand"
-			else
-				var/t = rand(1, 8)
-				if (t < 2)
-					return "l_arm"
-				else if (t < 3)
-					return "chest"
-				else if (t < 4)
-					return "diaper"
-				else if (t < 6)
-					return "l_leg"
-				else
-					return null
-
-		if("r_hand")
-			if (prob(probability * 0.5))
-				return "r_hand"
-			else
-				var/t = rand(1, 8)
-				if (t < 2)
-					return "r_arm"
-				else if (t < 3)
-					return "chest"
-				else if (t < 4)
-					return "diaper"
-				else if (t < 6)
-					return "r_leg"
-				else
-					return null
-
-		if("l_foot")
-			if (prob(probability * 0.25))
-				return "l_foot"
-			else
-				var/t = rand(1, 5)
-				if (t < 2)
-					return "r_leg"
-				else
-					if (t < 3)
-						return "l_foot"
-					else
-						return null
-		if("r_foot")
-			if (prob(probability * 0.25))
-				return "r_foot"
-			else
-				var/t = rand(1, 5)
-				if (t < 2)
-					return "r_leg"
-				else
-					if (t < 3)
-						return "l_foot"
-					else
-						return null
-		else
-	return
-
-/proc/stars(n, pr)
-
-	if (pr == null)
-		pr = 25
-	if (pr <= 0)
-		return null
-	else
-		if (pr >= 100)
-			return n
-	var/te = n
-	var/t = ""
-	n = length(n)
-	var/p = null
-	p = 1
-	while(p <= n)
-		if ((copytext(te, p, p + 1) == " " || prob(pr)))
-			t = text("[][]", t, copytext(te, p, p + 1))
-		else
-			t = text("[]*", t)
-		p++
-	return t
-	return
-
-/proc/stutter(n)
-
-	var/te = n
-	var/t = ""
-	n = length(n)
-	var/p = null
-	p = 1
-	while(p <= n)
-		var/n_letter = copytext(te, p, p + 1)
-		if (prob(80))
-			if (prob(10))
-				n_letter = text("[][][][]", n_letter, n_letter, n_letter, n_letter)
-			else
-				if (prob(20))
-					n_letter = text("[][][]", n_letter, n_letter, n_letter)
-				else
-					if (prob(5))
-						n_letter = null
-					else
-						n_letter = text("[][]", n_letter, n_letter)
-		t = text("[][]", t, n_letter)
-		p++
-	return t
-	return
-
 /proc/findname(msg)
 
 	for(var/mob/M in world)
-		if (M.rname == text("[]", msg))
+		if (M.rname == msg)
 			return 1
-		//Foreach goto(15)
 	return 0
-	return
 
 /obj/proc/alter_health()
-
 	return 1
-	return
 
 /obj/proc/relaymove()
-
 	return
 
 /obj/proc/hide(h)
 	return
 
-/obj/item/weapon/grab/proc/throw()
-
-	if(src.affecting)
-		var/grabee = src.affecting
-		spawn(0)
-			del(src)
-		return grabee
-	return null
-
-/obj/item/weapon/grab/proc/synch()
-
-	if (src.assailant.r_hand == src)
-		src.hud1.screen_loc = "1,4"
-	else
-		src.hud1.screen_loc = "3,4"
-	return
-
-/obj/item/weapon/grab/proc/process()
-
-	if ((!( isturf(src.assailant.loc) ) || (!( isturf(src.affecting.loc) ) || (src.assailant.loc != src.affecting.loc && get_dist(src.assailant, src.affecting) > 1))))
-		//SN src = null
-		del(src)
-		return
-	if (src.assailant.client)
-		src.assailant.client.screen -= src.hud1
-		src.assailant.client.screen += src.hud1
-	if (src.assailant.pulling == src.affecting)
-		src.assailant.pulling = null
-	if (src.state <= 2)
-		src.allow_upgrade = 1
-		if ((src.assailant.l_hand && src.assailant.l_hand != src && istype(src.assailant.l_hand, /obj/item/weapon/grab)))
-			var/obj/item/weapon/grab/G = src.assailant.l_hand
-			if (G.affecting != src.affecting)
-				src.allow_upgrade = 0
-		if ((src.assailant.r_hand && src.assailant.r_hand != src && istype(src.assailant.r_hand, /obj/item/weapon/grab)))
-			var/obj/item/weapon/grab/G = src.assailant.r_hand
-			if (G.affecting != src.affecting)
-				src.allow_upgrade = 0
-		if (src.state == 2)
-			var/h = src.affecting.hand
-			src.affecting.hand = 0
-			src.affecting.drop_item()
-			src.affecting.hand = 1
-			src.affecting.drop_item()
-			src.affecting.hand = h
-			for(var/obj/item/weapon/grab/G in src.affecting.grabbed_by)
-				if (G.state == 2)
-					src.allow_upgrade = 0
-				//Foreach goto(341)
-		if (src.allow_upgrade)
-			src.hud1.icon_state = "reinforce"
-		else
-			src.hud1.icon_state = "!reinforce"
-	else
-		if (!( src.affecting.buckled ))
-			src.affecting.loc = src.assailant.loc
-	if ((src.killing && src.state == 3))
-		src.affecting.stunned = max(5, src.affecting.stunned)
-		src.affecting.paralysis = max(3, src.affecting.paralysis)
-		src.affecting.losebreath = min(src.affecting.losebreath + 2, 3)
-	return
-
-/obj/item/weapon/grab/proc/s_click(obj/screen/S as obj)
-
-	if (src.assailant.next_move > world.time)
-		return
-	if ((!( src.assailant.canmove ) || src.assailant.lying))
-		//SN src = null
-		del(src)
-		return
-	switch(S.id)
-		if(1.0)
-			if (src.state >= 3)
-				if (!( src.killing ))
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has temporarily tightened his grip on []!", src.assailant, src.affecting), 1)
-						//Foreach goto(97)
-					src.assailant.next_move = world.time + 10
-					src.affecting.stunned = max(2, src.affecting.stunned)
-					src.affecting.paralysis = max(1, src.affecting.paralysis)
-					src.affecting.losebreath = min(src.affecting.losebreath + 1, 3)
-					src.last_suffocate = world.time
-					flick("disarm/killf", S)
-		else
-	return
-
-/obj/item/weapon/grab/proc/s_dbclick(obj/screen/S as obj)
-
-	if ((src.assailant.next_move > world.time && !( src.last_suffocate < world.time + 2 )))
-		return
-	if ((!( src.assailant.canmove ) || src.assailant.lying))
-		//SN src = null
-		del(src)
-		return
-	switch(S.id)
-		if(1.0)
-			if (src.state < 2)
-				if (!( src.allow_upgrade ))
-					return
-				if (prob(75))
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has grabbed [] aggressively (now hands)!", src.assailant, src.affecting), 1)
-						//Foreach goto(121)
-					src.state = 2
-					src.icon_state = "grabbed1"
-				else
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has failed to grab [] aggressively!", src.assailant, src.affecting), 1)
-						//Foreach goto(186)
-					//SN src = null
-					del(src)
-					return
-			else
-				if (src.state < 3)
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has reinforced his grip on [] (now neck)!", src.assailant, src.affecting), 1)
-						//Foreach goto(257)
-					src.state = 3
-					src.icon_state = "grabbed+1"
-					if (!( src.affecting.buckled ))
-						src.affecting.loc = src.assailant.loc
-					src.hud1.icon_state = "disarm/kill"
-					src.hud1.name = "disarm/kill"
-				else
-					if (src.state >= 3)
-						src.killing = !( src.killing )
-						if (src.killing)
-							for(var/mob/O in viewers(src.assailant, null))
-								O.show_message(text("\red [] has tightened his grip on []'s neck!", src.assailant, src.affecting), 1)
-								//Foreach goto(392)
-							src.assailant.next_move = world.time + 10
-							src.affecting.stunned = max(2, src.affecting.stunned)
-							src.affecting.paralysis = max(1, src.affecting.paralysis)
-							src.affecting.losebreath += 1
-							src.hud1.icon_state = "disarm/kill1"
-						else
-							src.hud1.icon_state = "disarm/kill"
-							for(var/mob/O in viewers(src.assailant, null))
-								O.show_message(text("\red [] has loosened the grip on []'s neck!", src.assailant, src.affecting), 1)
-								//Foreach goto(517)
-		else
-	return
-
-/obj/item/weapon/grab/New()
-
-	..()
-	src.hud1 = new /obj/screen/grab( src )
-	src.hud1.icon_state = "reinforce"
-	src.hud1.name = "Reinforce Grab"
-	src.hud1.id = 1
-	src.hud1.master = src
-	return
-
-/obj/item/weapon/grab/attack(mob/M as mob, user as mob)
-
-	if (M == src.affecting)
-		if (src.state < 3)
-			s_dbclick(src.hud1)
-		else
-			s_click(src.hud1)
-	return 0
-	return
-
-/obj/item/weapon/grab/dropped()
-
-	//SN src = null
-	del(src)
-	return
-	return
-
-/obj/item/weapon/grab/Del()
-
-	//src.hud1 = null
-	del(src.hud1)
-	..()
-	return
-
-/obj/screen/zone_sel/MouseDown(location, control,params)		//(location, icon_x, icon_y)
-	// Changes because of 4.0
-	var/list/PL = params2list(params)
-	var/icon_x = text2num(PL["icon-x"])
-	var/icon_y = text2num(PL["icon-y"])
-
-	if (icon_y < 6)
-		if ((icon_x > 10 && icon_x < 22))
-			if (icon_x < 16)
-				src.selecting = "r_foot"
-			else
-				src.selecting = "l_foot"
-	else
-		if (icon_y < 13)
-			if ((icon_x > 11 && icon_x < 21))
-				if (icon_x < 16)
-					src.selecting = "r_leg"
-				else
-					src.selecting = "l_leg"
-		else
-			if (icon_y < 16)
-				if ((icon_x > 9 && icon_x < 23))
-					if (icon_x < 12)
-						src.selecting = "r_hand"
-					else
-						if (icon_x < 20)
-							src.selecting = "diaper"
-						else
-							src.selecting = "l_hand"
-			else
-				if (icon_y < 23)
-					if ((icon_x > 9 && icon_x < 23))
-						if (icon_x < 12)
-							src.selecting = "r_arm"
-						else
-							if (icon_x < 20)
-								src.selecting = "chest"
-							else
-								src.selecting = "l_arm"
-				else
-					if (icon_y < 25)
-						if ((icon_x > 13 && icon_x < 18))
-							src.selecting = "neck"
-					else
-						if (icon_y < 30)
-							if ((icon_x > 11 && icon_x < 20))
-								if (icon_y == 28)
-									src.selecting = "eyes"
-								else
-									if (icon_y == 29)
-										src.selecting = "hair"
-									else
-										if (icon_y == 26)
-											src.selecting = "mouth"
-										else
-											src.selecting = "head"
-	return
-
-/obj/screen/grab/Click()
-
-	src.master:s_click(src)
-	return
-
-/obj/screen/grab/DblClick()
-
-	src.master:s_dbclick(src)
-	return
-
-/obj/screen/grab/attack_hand()
-
-	return
-
-/obj/screen/grab/attackby()
-
-	return
-
-/obj/screen/Click()
-
-	//world << "o/s/Click: [src.name]"
-
-	switch(src.name)
-		if("map")
-
-			usr.clearmap()
-		if("maprefresh")
-			var/obj/machinery/computer/security/seccomp = usr.machine
-
-			if(seccomp!=null)
-				seccomp.drawmap(usr)
-			else
-
-				usr.clearmap()
-
-		if("other")
-			usr.other = !( usr.other )
-		if("intent")
-			if (!( usr.intent ))
-				switch(usr.a_intent)
-					if("help")
-						usr.intent = "12,15"
-					if("disarm")
-						usr.intent = "13,15"
-					if("hurt")
-						usr.intent = "14,15"
-					if("grab")
-						usr.intent = "11,15"
-					else
-			else
-				usr.intent = null
-		if("m_intent")
-			if (!( usr.m_int ))
-				switch(usr.m_intent)
-					if("run")
-						usr.m_int = "12,14"
-					if("walk")
-						usr.m_int = "13,14"
-					if("face")
-						usr.m_int = "14,14"
-					else
-			else
-				usr.m_int = null
-		if("walk")
-			usr.m_intent = "walk"
-			usr.m_int = "13,14"
-		if("face")
-			usr.m_intent = "face"
-			usr.m_int = "14,14"
-		if("run")
-			usr.m_intent = "run"
-			usr.m_int = "12,14"
-		if("hurt")
-			usr.a_intent = "hurt"
-			usr.intent = "14,15"
-		if("grab")
-			usr.a_intent = "grab"
-			usr.intent = "11,15"
-		if("disarm")
-			if (istype(usr, /mob/human))
-				var/mob/M = usr
-				M.a_intent = "disarm"
-				M.intent = "13,15"
-		if("help")
-			usr.a_intent = "help"
-			usr.intent = "12,15"
-		if("Reset Machine")
-			usr.machine = null
-		if("internal")
-			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
-				usr.internal = null
-		if("pull")
-			usr.pulling = null
-		if("sleep")
-			usr.sleeping = !( usr.sleeping )
-		if("rest")
-			usr.resting = !( usr.resting )
-		if("throw")
-			if (!usr.stat && isturf(usr.loc) && !usr.restrained())
-				usr.toggle_throw_mode()
-		if("drop")
-			usr.drop_item_v()
-		if("swap")
-			usr.swap_hand()
-		if("resist")
-			if (usr.next_move < world.time)
-				return
-			usr.next_move = world.time + 20
-			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
-				for(var/obj/O in usr.requests)
-					//O = null
-					del(O)
-					//Foreach goto(557)
-				for(var/obj/item/weapon/grab/G in usr.grabbed_by)
-					if (G.state == 1)
-						//G = null
-						del(G)
-					else
-						if (G.state == 2)
-							if (prob(25))
-								for(var/mob/O in viewers(usr, null))
-									O.show_message(text("\red [] has broken free of []'s grip!", usr, G.assailant), 1)
-									//Foreach goto(681)
-								//G = null
-								del(G)
-						else
-							if (G.state == 2)
-								if (prob(5))
-									for(var/mob/O in viewers(usr, null))
-										O.show_message(text("\red [] has broken free of []'s headlock!", usr, G.assailant), 1)
-										//Foreach goto(762)
-									//G = null
-									del(G)
-					//Foreach goto(602)
-				for(var/mob/O in viewers(usr, null))
-					O.show_message(text("\red <B>[] resists!</B>", usr), 1)
-					//Foreach goto(824)
-		else
-			src.DblClick()
-	return
-
 /obj/screen/attack_hand(mob/user as mob, using)
-
 	user.db_click(src.name, using)
 	return
 
 /obj/screen/attack_paw(mob/user as mob, using)
-
 	user.db_click(src.name, using)
 	return
 
@@ -629,29 +50,6 @@
 /obj/examine/examine()
 	set src in oview()
 
-	return
-/obj/dna/proc/cleanup()
-
-	var/e1 = (length(src.struc_enzyme) > 3 ? copytext(src.struc_enzyme, 1, 4) : null)
-	if ((e1 == "AEC" && length(src.spec_identity) > src.n_chromo))
-		src.r_spec_identity = src.spec_identity
-	else
-		if (e1 == "14A")
-			var/t1 = rand(1, 3)
-			var/t = null
-			while(t < t1)
-				var/t2 = rand(1, length(src.use_enzyme) + 1)
-				src.use_enzyme = text("[]0[]", copytext(1, t2, null), copytext(t2 + 1, length(src.use_enzyme) + 1, null))
-				t++
-		else
-			if (e1 == "CDE")
-				if (length(src.spec_identity) == length(src.r_spec_identity))
-					src.spec_identity = src.r_spec_identity
-				else
-					src.r_spec_identity = src.spec_identity
-			else
-				src.spec_identity = src.r_spec_identity
-	src.n_chromo = length(src.r_spec_identity)
 	return
 
 /obj/hud/New()
@@ -972,888 +370,9 @@
 	using.layer = 17
 	using.mouse_opacity = 0
 	src.vimpaired += using
-
-	return
-
-/obj/equip_e/proc/process()
-
-	return
-
-/obj/equip_e/proc/done()
-
-	return
-
-/obj/equip_e/New()
-
-	if (!( ticker ))
-		//SN src = null
-		del(src)
-		return
-	spawn( 100 )
-		//SN src = null
-		del(src)
-		return
-		return
-	..()
-	return
-
-/obj/equip_e/monkey/process()
-
-	if (src.item)
-		src.item.add_fingerprint(src.source)
-	if (!( src.item ))
-		switch(src.place)
-			if("head")
-				if (!( src.target.wear_mask ))
-					//SN src = null
-					del(src)
-					return
-			if("l_hand")
-				if (!( src.target.l_hand ))
-					//SN src = null
-					del(src)
-					return
-			if("r_hand")
-				if (!( src.target.r_hand ))
-					//SN src = null
-					del(src)
-					return
-			if("back")
-				if (!( src.target.back ))
-					//SN src = null
-					del(src)
-					return
-			if("handcuff")
-				if (!( src.target.handcuffed ))
-					//SN src = null
-					del(src)
-					return
-			if("internal")
-				if ((!( (istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
-					//SN src = null
-					del(src)
-					return
-
-	if (src.item)
-		for(var/mob/O in viewers(src.target, null))
-			if ((O.client && !( O.blinded )))
-				O.show_message(text("\red <B>[] is trying to put a [] on []</B>", src.source, src.item, src.target), 1)
-			//Foreach goto(251)
-	else
-		var/message = null
-		switch(src.place)
-			if("l_hand")
-				message = text("\red <B>[] is trying to take off a [] from []'s left hand!</B>", src.source, src.target.l_hand, src.target)
-			if("r_hand")
-				message = text("\red <B>[] is trying to take off a [] from []'s right hand!</B>", src.source, src.target.r_hand, src.target)
-			if("back")
-				message = text("\red <B>[] is trying to take off a [] from []'s back!</B>", src.source, src.target.back, src.target)
-			if("handcuff")
-				message = text("\red <B>[] is trying to unhandcuff []!</B>", src.source, src.target)
-			if("internal")
-				if (src.target.internal)
-					message = text("\red <B>[] is trying to remove []'s internals</B>", src.source, src.target)
-				else
-					message = text("\red <B>[] is trying to set on []'s internals.</B>", src.source, src.target)
-			else
-		for(var/mob/M in viewers(src.target, null))
-			M.show_message(message, 1)
-			//Foreach goto(469)
-	spawn( 30 )
-		src.done()
-		return
-	return
-
-/obj/equip_e/monkey/done()
-
-	if ((!( src.source ) || !( src.target )))
-		return
-	if (src.source.loc != src.s_loc)
-		return
-	if (src.target.loc != src.t_loc)
-		return
-	if ((src.item && src.source.equipped() != src.item))
-		return
-	if ((src.source.restrained() || src.source.stat))
-		return
-	switch(src.place)
-		if("mask")
-			if (src.target.wear_mask)
-				var/obj/item/weapon/W = src.target.wear_mask
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/mask))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.wear_mask = src.item
-					src.item.loc = src.target
-		if("l_hand")
-			if (src.target.l_hand)
-				var/obj/item/weapon/W = src.target.l_hand
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.l_hand = src.item
-					src.item.loc = src.target
-		if("r_hand")
-			if (src.target.r_hand)
-				var/obj/item/weapon/W = src.target.r_hand
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.r_hand = src.item
-					src.item.loc = src.target
-		if("back")
-			if (src.target.back)
-				var/obj/item/weapon/W = src.target.back
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if ((istype(src.item, /obj/item/weapon) && src.item.flags & 1))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.back = src.item
-					src.item.loc = src.target
-		if("handcuff")
-			if (src.target.handcuffed)
-				var/obj/item/weapon/W = src.target.handcuffed
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/handcuffs))
-					src.source.drop_item()
-					src.target.handcuffed = src.item
-					src.item.loc = src.target
-		if("internal")
-			if (src.target.internal)
-				src.target.internal.add_fingerprint(src.source)
-				src.target.internal = null
-			else
-				if (src.target.internal)
-					src.target.internal = null
-				if (!( istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) ))
-					return
-				else
-					if (istype(src.target.back, /obj/item/weapon/tank))
-						src.target.internal = src.target.back
-						src.target.internal.add_fingerprint(src.source)
-						for(var/mob/M in viewers(src.target, 1))
-							if ((M.client && !( M.blinded )))
-								M.show_message(text("[] is now running on internals.", src.target), 1)
-							//Foreach goto(1097)
-		else
-	src.source.UpdateClothing()
-	src.target.UpdateClothing()
-	//SN src = null
-	del(src)
-	return
-	return
-
-/obj/equip_e/human/process()
-
-	if (src.item)
-		src.item.add_fingerprint(src.source)
-	if (!( src.item ))
-		switch(src.place)
-			if("mask")
-				if (!( src.target.wear_mask ))
-					//SN src = null
-					del(src)
-					return
-			if("headset")
-				if (!( src.target.w_radio ))
-					//SN src = null
-					del(src)
-					return
-			if("l_hand")
-				if (!( src.target.l_hand ))
-					//SN src = null
-					del(src)
-					return
-			if("r_hand")
-				if (!( src.target.r_hand ))
-					//SN src = null
-					del(src)
-					return
-			if("suit")
-				if (!( src.target.wear_suit ))
-					//SN src = null
-					del(src)
-					return
-			if("uniform")
-				if (!( src.target.w_uniform ))
-					//SN src = null
-					del(src)
-					return
-			if("back")
-				if (!( src.target.back ))
-					//SN src = null
-					del(src)
-					return
-			if("syringe")
-				return
-			if("pill")
-				return
-			if("handcuff")
-				if (!( src.target.handcuffed ))
-					//SN src = null
-					del(src)
-					return
-			if("id")
-				if ((!( src.target.wear_id ) || !( src.target.w_uniform )))
-					//SN src = null
-					del(src)
-					return
-			if("internal")
-				if ((!( (istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
-					//SN src = null
-					del(src)
-					return
-
-	var/list/L = list( "syringe", "pill" )
-	if ((src.item && !( L.Find(src.place) )))
-		for(var/mob/O in viewers(src.target, null))
-			O.show_message(text("\red <B>[] is trying to put \a [] on []</B>", src.source, src.item, src.target), 1)
-			//Foreach goto(401)
-	else
-		if (src.place == "syringe")
-			for(var/mob/O in viewers(src.target, null))
-				O.show_message(text("\red <B>[] is trying to inject []!</B>", src.source, src.target), 1)
-				//Foreach goto(466)
-		else
-			if (src.place == "pill")
-				for(var/mob/O in viewers(src.target, null))
-					O.show_message(text("\red <B>[] is trying to force [] to swallow []!</B>", src.source, src.target, src.item), 1)
-					//Foreach goto(527)
-			else
-				var/message = null
-				switch(src.place)
-					if("mask")
-						message = text("\red <B>[] is trying to take off \a [] from []'s head!</B>", src.source, src.target.wear_mask, src.target)
-					if("headset")
-						message = text("\red <B>[] is trying to take off \a [] from []'s face!</B>", src.source, src.target.w_radio, src.target)
-					if("l_hand")
-						message = text("\red <B>[] is trying to take off \a [] from []'s left hand!</B>", src.source, src.target.l_hand, src.target)
-					if("r_hand")
-						message = text("\red <B>[] is trying to take off \a [] from []'s right hand!</B>", src.source, src.target.r_hand, src.target)
-					if("gloves")
-						message = text("\red <B>[] is trying to take off the [] from []'s hands!</B>", src.source, src.target.gloves, src.target)
-					if("eyes")
-						message = text("\red <B>[] is trying to take off the [] from []'s eyes!</B>", src.source, src.target.glasses, src.target)
-					if("ears")
-						message = text("\red <B>[] is trying to take off the [] from []'s ears!</B>", src.source, src.target.ears, src.target)
-					if("head")
-						message = text("\red <B>[] is trying to take off the [] from []'s head!</B>", src.source, src.target.head, src.target)
-					if("shoes")
-						message = text("\red <B>[] is trying to take off the [] from []'s feet!</B>", src.source, src.target.shoes, src.target)
-					if("belt")
-						message = text("\red <B>[] is trying to take off the [] from []'s belt!</B>", src.source, src.target.belt, src.target)
-					if("suit")
-						message = text("\red <B>[] is trying to take off \a [] from []'s body!</B>", src.source, src.target.wear_suit, src.target)
-					if("back")
-						message = text("\red <B>[] is trying to take off \a [] from []'s back!</B>", src.source, src.target.back, src.target)
-					if("handcuff")
-						message = text("\red <B>[] is trying to unhandcuff []!</B>", src.source, src.target)
-					if("uniform")
-						message = text("\red <B>[] is trying to take off \a [] from []'s body!</B>", src.source, src.target.w_uniform, src.target)
-					if("pockets")
-						message = text("\red <B>[] is trying to empty []'s pockets!!</B>", src.source, src.target)
-					if("CPR")
-						if (src.target.cpr_time >= world.time + 3)
-							//SN src = null
-							del(src)
-							return
-						message = text("\red <B>[] is trying perform CPR on []!</B>", src.source, src.target)
-					if("id")
-						message = text("\red <B>[] is trying to take off [] from []'s uniform!</B>", src.source, src.target.wear_id, src.target)
-					if("internal")
-						if (src.target.internal)
-							message = text("\red <B>[] is trying to remove []'s internals</B>", src.source, src.target)
-						else
-							message = text("\red <B>[] is trying to set on []'s internals.</B>", src.source, src.target)
-					else
-				for(var/mob/M in viewers(src.target, null))
-					M.show_message(message, 1)
-					//Foreach goto(1069)
-	spawn( 30 )
-		src.done()
-		return
-	return
-
-/obj/equip_e/human/done()
-
-	if ((!( src.source ) || !( src.target )))
-		return
-	if (src.source.loc != src.s_loc)
-		return
-	if (src.target.loc != src.t_loc)
-		return
-	if ((src.item && src.source.equipped() != src.item))
-		return
-	if ((src.source.restrained() || src.source.stat))
-		return
-	switch(src.place)
-		if("mask")
-			if (src.target.wear_mask)
-				var/obj/item/weapon/W = src.target.wear_mask
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/mask))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.wear_mask = src.item
-					src.item.loc = src.target
-		if("headset")
-			if (src.target.w_radio)
-				var/obj/item/weapon/W = src.target.w_radio
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-			else
-				if (istype(src.item, /obj/item/weapon/radio/headset))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.w_radio = src.item
-					src.item.loc = src.target
-		if("gloves")
-			if (src.target.gloves)
-				var/obj/item/weapon/W = src.target.gloves
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/gloves))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.gloves = src.item
-					src.item.loc = src.target
-		if("eyes")
-			if (src.target.glasses)
-				var/obj/item/weapon/W = src.target.glasses
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/glasses))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.glasses = src.item
-					src.item.loc = src.target
-		if("belt")
-			if (src.target.belt)
-				var/obj/item/weapon/W = src.target.belt
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if ((istype(src.item, /obj) && src.item.flags & 128 && src.target.w_uniform))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.belt = src.item
-					src.item.loc = src.target
-		if("head")
-			if (src.target.head)
-				var/obj/item/weapon/W = src.target.head
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/head))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.head = src.item
-					src.item.loc = src.target
-		if("ears")
-			if (src.target.ears)
-				var/obj/item/weapon/W = src.target.ears
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/ears))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.ears = src.item
-					src.item.loc = src.target
-		if("shoes")
-			if (src.target.shoes)
-				var/obj/item/weapon/W = src.target.shoes
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/shoes))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.shoes = src.item
-					src.item.loc = src.target
-		if("l_hand")
-			if (istype(src.target, /obj/item/weapon/clothing/suit/straight_jacket))
-				//SN src = null
-				del(src)
-				return
-			if (src.target.l_hand)
-				var/obj/item/weapon/W = src.target.l_hand
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.l_hand = src.item
-					src.item.loc = src.target
-					src.item.add_fingerprint(src.target)
-		if("r_hand")
-			if (istype(src.target, /obj/item/weapon/clothing/suit/straight_jacket))
-				//SN src = null
-				del(src)
-				return
-			if (src.target.r_hand)
-				var/obj/item/weapon/W = src.target.r_hand
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.r_hand = src.item
-					src.item.loc = src.target
-					src.item.add_fingerprint(src.target)
-		if("uniform")
-			if (src.target.w_uniform)
-				var/obj/item/weapon/W = src.target.w_uniform
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-				W = src.target.l_store
-				if (W)
-					src.target.u_equip(W)
-					if (src.target.client)
-						src.target.client.screen -= W
-					if (W)
-						W.loc = src.target.loc
-						W.dropped(src.target)
-						W.layer = initial(W.layer)
-				W = src.target.r_store
-				if (W)
-					src.target.u_equip(W)
-					if (src.target.client)
-						src.target.client.screen -= W
-					if (W)
-						W.loc = src.target.loc
-						W.dropped(src.target)
-						W.layer = initial(W.layer)
-				W = src.target.wear_id
-				if (W)
-					src.target.u_equip(W)
-					if (src.target.client)
-						src.target.client.screen -= W
-					if (W)
-						W.loc = src.target.loc
-						W.dropped(src.target)
-						W.layer = initial(W.layer)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/under))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.w_uniform = src.item
-					src.item.loc = src.target
-		if("suit")
-			if (src.target.wear_suit)
-				var/obj/item/weapon/W = src.target.wear_suit
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/suit))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.wear_suit = src.item
-					src.item.loc = src.target
-		if("id")
-			if (src.target.wear_id)
-				var/obj/item/weapon/W = src.target.wear_id
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if ((istype(src.item, /obj/item/weapon/card/id) && src.target.w_uniform))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.wear_id = src.item
-					src.item.loc = src.target
-		if("back")
-			if (src.target.back)
-				var/obj/item/weapon/W = src.target.back
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if ((istype(src.item, /obj/item/weapon) && src.item.flags & 1))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.back = src.item
-					src.item.loc = src.target
-		if("handcuff")
-			if (src.target.handcuffed)
-				var/obj/item/weapon/W = src.target.handcuffed
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/handcuffs))
-					src.source.drop_item()
-					src.target.handcuffed = src.item
-					src.item.loc = src.target
-		if("CPR")
-			if (src.target.cpr_time >= world.time + 30)
-				//SN src = null
-				del(src)
-				return
-			if ((src.target.health >= -75.0 && src.target.health < 0))
-				src.target.cpr_time = world.time
-				if (src.target.health >= -40.0)
-					var/suff = min(src.target.oxyloss, 5)
-					src.target.oxyloss -= suff
-					src.target.health = 100 - src.target.oxyloss - src.target.toxloss - src.target.fireloss - src.target.bruteloss
-				if(target.rejuv<10)
-					src.target.rejuv += 10		// change
-				for(var/mob/O in viewers(src.source, null))
-					O.show_message(text("\red [] performs CPR on []!", src.source, src.target), 1)
-					//Foreach goto(3251)
-				src.source << "\red Repeat every 7 seconds AT LEAST."
-		if("syringe")
-			var/obj/item/weapon/syringe/S = src.item
-			src.item.add_fingerprint(src.source)
-			if (!( istype(S, /obj/item/weapon/syringe) ))
-				//SN src = null
-				del(src)
-				return
-			if (S.s_time >= world.time + 30)
-				//SN src = null
-				del(src)
-				return
-			S.s_time = world.time
-			var/a = S.inject(src.target)
-			for(var/mob/O in viewers(src.source, null))
-				O.show_message(text("\red [] injects [] with the syringe!", src.source, src.target), 1)
-				//Foreach goto(3407)
-			src.source << text("\red You inject [] units into []. The syringe contains [] units.", a, src.target, S.chem.volume())
-		if("pill")
-			var/obj/item/weapon/m_pill/S = src.item
-			if (!( istype(S, /obj/item/weapon/m_pill) ))
-				//SN src = null
-				del(src)
-				return
-			if (S.s_time >= world.time + 30)
-				//SN src = null
-				del(src)
-				return
-			S.s_time = world.time
-			var/a = S.name
-			S.ingest(src.target)
-			for(var/mob/O in viewers(src.source, null))
-				O.show_message(text("\red [] forces [] to swallow \a []!", src.source, src.target, a), 1)
-				//Foreach goto(3568)
-		if("pockets")
-			if (src.target.l_store)
-				var/obj/item/weapon/W = src.target.l_store
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			if (src.target.r_store)
-				var/obj/item/weapon/W = src.target.r_store
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-		if("internal")
-			if (src.target.internal)
-				src.target.internal.add_fingerprint(src.source)
-				src.target.internal = null
-			else
-				if (src.target.internal)
-					src.target.internal = null
-				if (!( istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) ))
-					return
-				else
-					if (istype(src.target.back, /obj/item/weapon/tank))
-						src.target.internal = src.target.back
-						for(var/mob/M in viewers(src.target, 1))
-							M.show_message(text("[] is now running on internals.", src.target), 1)
-							//Foreach goto(3913)
-						src.target.internal.add_fingerprint(src.source)
-		else
-	src.source.UpdateClothing()
-	src.target.UpdateClothing()
-	//SN src = null
-	del(src)
-	return
-	return
-
-/mob/human/proc/TakeDamage(zone, brute, burn)
-
-	var/obj/item/weapon/organ/external/E = src.organs[text("[]", zone)]
-	if (istype(E, /obj/item/weapon/organ/external))
-		if (E.take_damage(brute, burn))
-			src.UpdateDamageIcon()
-		else
-			src.UpdateDamage()
-	else
-		return 0
-	return
-
-/mob/human/proc/HealDamage(zone, brute, burn)
-
-	var/obj/item/weapon/organ/external/E = src.organs[text("[]", zone)]
-	if (istype(E, /obj/item/weapon/organ/external))
-		if (E.heal_damage(brute, burn))
-			src.UpdateDamageIcon()
-		else
-			src.UpdateDamage()
-	else
-		return 0
-	return
-
-/mob/human/proc/UpdateDamage()
-
-	var/list/L = list(  )
-	for(var/t in src.organs)
-		if (istype(src.organs[text("[]", t)], /obj/item/weapon/organ/external))
-			L += src.organs[text("[]", t)]
-		//Foreach goto(24)
-	src.bruteloss = 0
-	src.fireloss = 0
-	for(var/obj/item/weapon/organ/external/O in L)
-		src.bruteloss += O.brute_dam
-		src.fireloss += O.burn_dam
-		//Foreach goto(94)
-	return
-
-
-// new damage icon system
-// now constructs damage icon for each organ from mask * damage field
-
-/mob/human/proc/UpdateDamageIcon()
-
-
-	var/list/L = list(  )
-	for(var/t in src.organs)
-		if (istype(src.organs[text("[]", t)], /obj/item/weapon/organ/external))
-			L += src.organs[text("[]", t)]
-		//Foreach goto(24)
-	//src.body_standing = null
-	del(src.body_standing)
-	src.body_standing = list(  )
-	//src.body_lying = null
-	del(src.body_lying)
-	src.body_lying = list(  )
-	src.bruteloss = 0
-	src.fireloss = 0
-	for(var/obj/item/weapon/organ/external/O in L)
-		src.bruteloss += O.brute_dam
-		src.fireloss += O.burn_dam
-
-		var/icon/DI = new /icon('dam_human.dmi', O.d_i_state)			// the damage icon for whole human
-		DI.Blend(new /icon('dam_mask.dmi', O.r_name),ICON_MULTIPLY)		// mask with this organ's pixels
-
-//		world << "[O.r_name] [O.d_i_state] \icon[DI]"
-
-		body_standing += DI
-
-		DI = new /icon('dam_human.dmi', "[O.d_i_state]-2")				// repeat for lying icons
-		DI.Blend(new /icon('dam_mask.dmi', "[O.r_name]2"),ICON_MULTIPLY)
-
-//		world << "[O.r_name]2 [O.d_i_state]-2 \icon[DI]"
-
-		body_lying += DI
-
-		//src.body_standing += new /icon( 'dam_zones.dmi', text("[]", O.d_i_state) )
-		//src.body_lying += new /icon( 'dam_zones.dmi', text("[]2", O.d_i_state) )
-
-		//Foreach goto(122)
-
-
-
-	return
-
-/mob/human/proc/aircheck(obj/substance/gas/G as obj)
-
-	src.t_oxygen = 0
-	src.t_plasma = 0
-	if (G)
-		var/a_oxygen = G.oxygen * 0.7
-		var/a_plasma = G.plasma
-		var/a_sl_gas = G.sl_gas * 0.7
-		G.oxygen -= a_oxygen
-		G.plasma -= a_plasma
-		G.sl_gas -= a_sl_gas
-		if (a_oxygen < 67.032)
-			src.t_oxygen = round( (67.032 - a_oxygen) / 5) + 1
-		if (G.co2 > 5)
-			var/t = round((G.co2 - 5) / 5) + 1
-			if (G.co2 > 25)
-				src.paralysis = max(src.paralysis, 3)
-				if (G.co2 > 50)
-					t = 50
-			src.t_oxygen = max(src.t_oxygen, t)
-		if (a_plasma > 5)
-			src.t_plasma = round(a_plasma / 10) + 1
-			if ((src.wear_mask && src.wear_mask.a_filter >= 4))
-				src.t_plasma = max(src.t_plasma - 40, 0)
-		if (a_sl_gas > 10)
-			src.weakened = max(src.weakened, 3)
-			if (a_sl_gas > 40)
-				src.paralysis = max(src.paralysis, 3)
-
-		G.co2 += a_oxygen  // was * 0.6  - changed to increase CO2 output rate of breathing
-
 	return
 
 /mob/human/proc/monkeyize()
-
 	if (src.monkeyizing)
 		return
 	for(var/obj/item/weapon/W in src)
@@ -1864,7 +383,6 @@
 			W.loc = src.loc
 			W.dropped(src)
 			W.layer = initial(W.layer)
-		//Foreach goto(25)
 	src.UpdateClothing()
 	src.monkeyizing = 1
 	src.canmove = 0
@@ -1872,7 +390,7 @@
 	src.invisibility = 100
 	for(var/t in src.organs)
 		//src.organs[text("[]", t)] = null
-		del(src.organs[text("[]", t)])
+		del(src.organs[t])
 		//Foreach goto(154)
 	var/atom/movable/overlay/animation = new /atom/movable/overlay( src.loc )
 	animation.icon_state = "blank"
@@ -2406,8 +924,8 @@
 				src.ear_deaf += 60
 		else
 	for(var/organ in src.organs)
-		var/obj/item/weapon/organ/external/temp = src.organs[text("[]", organ)]
-		if (istype(temp, /obj/item/weapon/organ/external))
+		var/atom/organ/temp = src.organs[text("[]", organ)]
+		if (istype(temp, /atom/organ))
 			switch(temp.name)
 				if("head")
 					temp.take_damage(b_loss * 0.2, f_loss * 0.2)
@@ -2458,7 +976,7 @@
 
 	var/zone = pick(zones)
 
-	var/obj/item/weapon/organ/external/temp = src.organs["[zone]"]
+	var/atom/organ/temp = src.organs["[zone]"]
 
 	switch(zone)
 		if ("head")
@@ -2768,8 +1286,8 @@
 		//Foreach goto(19)
 	if (src.health > 0)
 		var/dam_zone = pick("chest", "chest", "chest", "head", "diaper")
-		if (istype(src.organs[text("[]", dam_zone)], /obj/item/weapon/organ/external))
-			var/obj/item/weapon/organ/external/temp = src.organs[text("[]", dam_zone)]
+		if (istype(src.organs[text("[]", dam_zone)], /atom/organ))
+			var/atom/organ/temp = src.organs[text("[]", dam_zone)]
 			temp.take_damage((istype(O, /obj/meteor/small) ? 20 : 50), 30)
 			src.UpdateDamageIcon()
 		src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
@@ -2921,27 +1439,27 @@
 	spawn (1)
 		if (world.time < 60)
 			sleep(7)
-		var/obj/item/weapon/organ/external/chest/chest = new /obj/item/weapon/organ/external/chest( src )
+		var/atom/organ/chest/chest = new /atom/organ/chest( src )
 		chest.owner = src
-		var/obj/item/weapon/organ/external/diaper/diaper = new /obj/item/weapon/organ/external/diaper( src )
+		var/atom/organ/diaper/diaper = new /atom/organ/diaper( src )
 		diaper.owner = src
-		var/obj/item/weapon/organ/external/head/head = new /obj/item/weapon/organ/external/head( src )
+		var/atom/organ/head/head = new /atom/organ/head( src )
 		head.owner = src
-		var/obj/item/weapon/organ/external/l_arm/l_arm = new /obj/item/weapon/organ/external/l_arm( src )
+		var/atom/organ/l_arm/l_arm = new /atom/organ/l_arm( src )
 		l_arm.owner = src
-		var/obj/item/weapon/organ/external/r_arm/r_arm = new /obj/item/weapon/organ/external/r_arm( src )
+		var/atom/organ/r_arm/r_arm = new /atom/organ/r_arm( src )
 		r_arm.owner = src
-		var/obj/item/weapon/organ/external/l_hand/l_hand = new /obj/item/weapon/organ/external/l_hand( src )
+		var/atom/organ/l_hand/l_hand = new /atom/organ/l_hand( src )
 		l_hand.owner = src
-		var/obj/item/weapon/organ/external/r_hand/r_hand = new /obj/item/weapon/organ/external/r_hand( src )
+		var/atom/organ/r_hand/r_hand = new /atom/organ/r_hand( src )
 		r_hand.owner = src
-		var/obj/item/weapon/organ/external/l_leg/l_leg = new /obj/item/weapon/organ/external/l_leg( src )
+		var/atom/organ/l_leg/l_leg = new /atom/organ/l_leg( src )
 		l_leg.owner = src
-		var/obj/item/weapon/organ/external/r_leg/r_leg = new /obj/item/weapon/organ/external/r_leg( src )
+		var/atom/organ/r_leg/r_leg = new /atom/organ/r_leg( src )
 		r_leg.owner = src
-		var/obj/item/weapon/organ/external/l_foot/l_foot = new /obj/item/weapon/organ/external/l_foot( src )
+		var/atom/organ/l_foot/l_foot = new /atom/organ/l_foot( src )
 		l_foot.owner = src
-		var/obj/item/weapon/organ/external/r_foot/r_foot = new /obj/item/weapon/organ/external/r_foot( src )
+		var/atom/organ/r_foot/r_foot = new /atom/organ/r_foot( src )
 		r_foot.owner = src
 		src.organs["chest"] = chest
 		src.organs["diaper"] = diaper
@@ -3157,7 +1675,7 @@
 /mob/human/burn(fi_amount)
 
 	var/ok = 0
-	var/obj/item/weapon/organ/external/temp
+	var/atom/organ/temp
 	if (src.r_hand)
 		src.r_hand.burn(fi_amount)
 	if (src.l_hand)
@@ -3203,7 +1721,7 @@
 		temp = null
 		if (src.organs["head"])
 			temp = src.organs["head"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (still_burning & 2)
 		if (src.wear_id)
@@ -3211,57 +1729,57 @@
 		temp = null
 		if (src.organs["chest"])
 			temp = src.organs["chest"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (still_burning & 4)
 		temp = null
 		if (src.organs["diaper"])
 			temp = src.organs["diaper"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (still_burning & 8)
 		temp = null
 		if (src.organs["l_arm"])
 			temp = src.organs["l_arm"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 		temp = null
 		if (src.organs["r_arm"])
 			temp = src.organs["r_arm"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (still_burning & 32)
 		temp = null
 		if (src.organs["l_leg"])
 			temp = src.organs["l_leg"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 		temp = null
 		if (src.organs["r_leg"])
 			temp = src.organs["r_leg"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (still_burning & 64)
 		temp = null
 		if (src.organs["l_foot"])
 			temp = src.organs["l_foot"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 		temp = null
 		if (src.organs["r_foot"])
 			temp = src.organs["r_foot"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (still_burning & 16)
 		temp = null
 		if (src.organs["l_hand"])
 			temp = src.organs["l_hand"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 		temp = null
 		if (src.organs["r_hand"])
 			temp = src.organs["r_hand"]
-			if (istype(temp, /obj/item/weapon/organ/external))
+			if (istype(temp, /atom/organ))
 				ok += temp.take_damage(0, 5)
 	if (ok)
 		src.UpdateDamageIcon()
@@ -4157,8 +2675,8 @@
 						d = d / 5
 		if (src.stat != 2)
 			var/organ = src.organs[ran_zone("chest")]
-			if (istype(organ, /obj/item/weapon/organ/external))
-				var/obj/item/weapon/organ/external/temp = organ
+			if (istype(organ, /atom/organ))
+				var/atom/organ/temp = organ
 				temp.take_damage(d, 0)
 			src.UpdateDamageIcon()
 			src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
@@ -4207,8 +2725,8 @@
 							d = d / 2
 			if (src.stat != 2)
 				var/organ = src.organs[ran_zone("chest")]
-				if (istype(organ, /obj/item/weapon/organ/external))
-					var/obj/item/weapon/organ/external/temp = organ
+				if (istype(organ, /atom/organ))
+					var/atom/organ/temp = organ
 					temp.take_damage(d, 0)
 				src.UpdateDamageIcon()
 				src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
@@ -4713,8 +3231,8 @@
 				//Foreach goto(344)
 			var/damage = rand(1, 3)
 			var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg", "diaper")
-			if (istype(src.organs[text("[]", dam_zone)], /obj/item/weapon/organ/external))
-				var/obj/item/weapon/organ/external/temp = src.organs[text("[]", dam_zone)]
+			if (istype(src.organs[text("[]", dam_zone)], /atom/organ))
+				var/atom/organ/temp = src.organs[text("[]", dam_zone)]
 				if (temp.take_damage(damage, 0))
 					src.UpdateDamageIcon()
 				else
@@ -4773,8 +3291,8 @@
 				//Foreach goto(402)
 			var/damage = rand(1, 3)
 			var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg", "diaper")
-			if (istype(src.organs[text("[]", dam_zone)], /obj/item/weapon/organ/external))
-				var/obj/item/weapon/organ/external/temp = src.organs[text("[]", dam_zone)]
+			if (istype(src.organs[text("[]", dam_zone)], /atom/organ))
+				var/atom/organ/temp = src.organs[text("[]", dam_zone)]
 				if (temp.take_damage(damage, 0))
 					src.UpdateDamageIcon()
 				else
@@ -4845,14 +3363,14 @@
 				if (src.w_uniform)
 					src.w_uniform.add_fingerprint(M)
 				var/damage = rand(1, 9)
-				var/obj/item/weapon/organ/external/affecting = src.organs["chest"]
+				var/atom/organ/affecting = src.organs["chest"]
 				var/t = M.zone_sel.selecting
 				if ((t in list( "hair", "eyes", "mouth", "neck" )))
 					t = "head"
 				var/def_zone = ran_zone(t)
 				if (src.organs[text("[]", def_zone)])
 					affecting = src.organs[text("[]", def_zone)]
-				if ((istype(affecting, /obj/item/weapon/organ/external) && prob(90)))
+				if ((istype(affecting, /atom/organ) && prob(90)))
 					for(var/mob/O in viewers(src, null))
 						O.show_message(text("\red <B>[] has punched []!</B>", M, src), 1)
 						//Foreach goto(646)
@@ -5199,17 +3717,7 @@
 		src << msg
 	return
 
-/mob/proc/findname(msg)
-
-	for(var/mob/M in world)
-		if (M.rname == text("[]", msg))
-			return 1
-		//Foreach goto(15)
-	return 0
-	return
-
 /mob/proc/m_delay()
-
 	return
 
 /mob/proc/Life()
@@ -5661,7 +4169,7 @@
 				var/mob/human/H = src
 				var/dam_zone = pick("chest", "chest", "chest", "diaper", "head")
 				if (H.organs[text("[]", dam_zone)])
-					var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", dam_zone)]
+					var/atom/organ/affecting = H.organs[text("[]", dam_zone)]
 					if (affecting.take_damage(51, 0))
 						H.UpdateDamageIcon()
 					else
@@ -5682,7 +4190,7 @@
 				var/mob/human/H = src
 				var/dam_zone = pick("chest", "chest", "chest", "diaper", "head")
 				if (H.organs[text("[]", dam_zone)])
-					var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", dam_zone)]
+					var/atom/organ/affecting = H.organs[text("[]", dam_zone)]
 					if (affecting.take_damage(20, 0))
 						H.UpdateDamageIcon()
 					else

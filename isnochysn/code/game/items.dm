@@ -285,7 +285,7 @@
 	if (M.health >= -10.0)
 		if (istype(M, /mob/human))
 			var/mob/human/H = M
-			var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
+			var/atom/organ/affecting = H.organs["chest"]
 			if (istype(user, /mob/human))
 				if (!( def_zone ))
 					var/mob/user2 = user
@@ -295,7 +295,7 @@
 					def_zone = ran_zone(t)
 				if (H.organs[text("[]", def_zone)])
 					affecting = H.organs[text("[]", def_zone)]
-			if (istype(affecting, /obj/item/weapon/organ/external))
+			if (istype(affecting, /atom/organ))
 				var/b_dam = (src.damtype == "brute" ? src.force : 0)
 				var/f_dam = (src.damtype == "fire" ? src.force : 0)
 				if (def_zone == "head")
@@ -4132,7 +4132,7 @@
 					var/mob/human/H = M
 					var/dam_zone = pick("chest", "diaper", "head")
 					if (H.organs[text("[]", dam_zone)])
-						var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", dam_zone)]
+						var/atom/organ/affecting = H.organs[text("[]", dam_zone)]
 						if (affecting.take_damage(src.throwforce, 0))
 							H.UpdateDamageIcon()
 						else
@@ -4539,7 +4539,7 @@
 			//Foreach goto(89)
 	if (istype(M, /mob/human))
 		var/mob/human/H = M
-		var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
+		var/atom/organ/affecting = H.organs["chest"]
 		if (istype(user, /mob/human))
 			var/mob/human/user2 = user
 			var/t = user2.zone_sel.selecting
@@ -4548,9 +4548,9 @@
 			if (H.organs[text("[]", t)])
 				affecting = H.organs[text("[]", t)]
 		else
-			if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting:burn_dam <= 0))
+			if ((!( istype(affecting, /atom/organ) ) || affecting:burn_dam <= 0))
 				affecting = H.organs["head"]
-				if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting:burn_dam <= 0))
+				if ((!( istype(affecting, /atom/organ) ) || affecting:burn_dam <= 0))
 					affecting = H.organs["diaper"]
 		if (affecting.heal_damage(60, 0))
 			H.UpdateDamageIcon()
@@ -4642,7 +4642,7 @@
 			//Foreach goto(89)
 	if (istype(M, /mob/human))
 		var/mob/human/H = M
-		var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
+		var/atom/organ/affecting = H.organs["chest"]
 		if (istype(user, /mob/human))
 			var/mob/user2 = user
 			var/t = user2.zone_sel.selecting
@@ -4651,9 +4651,9 @@
 			if (H.organs[text("[]", t)])
 				affecting = H.organs[text("[]", t)]
 		else
-			if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting.burn_dam <= 0))
+			if ((!( istype(affecting, /atom/organ) ) || affecting.burn_dam <= 0))
 				affecting = H.organs["head"]
-				if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting.burn_dam <= 0))
+				if ((!( istype(affecting, /atom/organ) ) || affecting.burn_dam <= 0))
 					affecting = H.organs["diaper"]
 		if (affecting.heal_damage(0, 40))
 			H.UpdateDamageIcon()

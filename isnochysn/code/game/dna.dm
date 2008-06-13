@@ -660,7 +660,7 @@
 /obj/machinery/scan_console/Topic(href, href_list)
 	..()
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))		
+		if (!istype(usr, /mob/ai))
 			usr << "\red You don't have the dexterity to do this!"
 			return
 	if ((usr.stat || usr.restrained()))
@@ -984,3 +984,27 @@
 		for(var/atom/movable/A as mob|obj in src)
 			A.loc = src.loc
 		del(src)
+
+/obj/dna/proc/cleanup()
+
+	var/e1 = (length(src.struc_enzyme) > 3 ? copytext(src.struc_enzyme, 1, 4) : null)
+	if ((e1 == "AEC" && length(src.spec_identity) > src.n_chromo))
+		src.r_spec_identity = src.spec_identity
+	else
+		if (e1 == "14A")
+			var/t1 = rand(1, 3)
+			var/t = null
+			while(t < t1)
+				var/t2 = rand(1, length(src.use_enzyme) + 1)
+				src.use_enzyme = text("[]0[]", copytext(1, t2, null), copytext(t2 + 1, length(src.use_enzyme) + 1, null))
+				t++
+		else
+			if (e1 == "CDE")
+				if (length(src.spec_identity) == length(src.r_spec_identity))
+					src.spec_identity = src.r_spec_identity
+				else
+					src.r_spec_identity = src.spec_identity
+			else
+				src.spec_identity = src.r_spec_identity
+	src.n_chromo = length(src.r_spec_identity)
+	return
