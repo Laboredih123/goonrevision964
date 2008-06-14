@@ -48,7 +48,6 @@
 		for(var/mob/monkey/M in world)
 			if (M.client)
 				world << text("<B>[] was a monkey.</B>", M.key)
-			//Foreach goto(1194)
 	else
 		world << "<FONT size = 3><B>The Research Staff has stopped the monkey invasion!</B></FONT>"
 		for(var/mob/human/M in world)

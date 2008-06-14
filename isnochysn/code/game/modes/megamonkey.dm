@@ -13,14 +13,14 @@
 			del(M)
 
 		for (var/turf/T in monkeystart)
-			new /mob/megamonkey(T)
+			new /mob/carbon/monkey/megamonkey(T)
 
 	spawn (50)
 		ticker.megamonkey_process()
 
 /datum/game_mode/megamonkey/check_win()
 	var/success = 1
-	for(var/mob/megamonkey/M in world)
+	for(var/mob/carbon/monkey/megamonkey/M in world)
 		if(M.stat == 0 && M.z == 1)				// check for concious, alive monkeys in SS13 maplevel
 			success = 0
 			break

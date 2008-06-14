@@ -3,10 +3,12 @@
 		return
 	if(src.stat == 1 || src.sleeping == 0)
 		src << "<i>You hear a faint noise.</i>"
+		return 1
 	else
 		src << message
+		return 1
 
-/mob/proc/hear_talk(speaker, alt_name, message)
+/mob/proc/hear_talk(speaker, message)
 	var/alt_name = ""
 	if(speaker in view(src) && speaker.name != speaker.rname) //he's in disguise
 		//TODO: improve handling of people in disguise speaking, let them disguise their voices
