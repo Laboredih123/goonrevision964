@@ -17,10 +17,10 @@
 			s += c
 	return s
 
-/mob/proc/default_radio()
+/mob/proc/get_default_radio()
 	return null
 
-/mob/proc/get_fave_radio(id)
+/mob/proc/get_radio(id)
 	if(id == "w") // just whispering
 		return null
 	if(id == "i") //intercom
@@ -54,11 +54,12 @@
 		//should be the most common use case, because just using a slash is the easiest thing to type
 		//say "/ words" or say "/words"
 		message = copytext(message, 2)
-		target = src.default_radio()
+		target = src.get_default_radio()
 		hear_range = 1
 	else if (findtext(message, ":") == 1) //saying into something, don't know what
+		//second character indicates what they talk into, third to end indicate actual message
 		message = copytext(message, 3)
-		target = src.get_fave_radio(copytext(message, 2, 3))
+		target = src.get_radio(copytext(message, 2, 3))
 		hear_range = 1
 
 	if (hear_range == 1)

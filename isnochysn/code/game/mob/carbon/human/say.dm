@@ -1,4 +1,4 @@
-/mob/carbon/human/default_radio()
+/mob/carbon/human/get_default_radio()
 	return src.w_radio
 
 /mob/carbon/proc/get_fave_radio(id)

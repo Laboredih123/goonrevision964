@@ -18,16 +18,16 @@
 				if(M.hear("someone [message]"))
 					mobs_seen += M
 
-/mob/carbon/proc/muzzled()
+/mob/carbon/proc/is_muzzled()
 	return istype(src.mask, /obj/item/weapon/clothing/mask/muzzle)
 
-/mob/carbon/proc/blindfolded()
+/mob/carbon/proc/is_blindfolded()
 	return istype(src.glasses, /obj/item/weapon/clothing/glasses/blindfold)
 
-/mob/carbon/proc/cuffed() //in cuffs or straitjacket
+/mob/carbon/proc/is_handcuffed() //in cuffs or straitjacket
 	return istype(src.handcuffs, /obj/item/weapon/handcuffs) || istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket)
 
-/mob/carbon/proc/restrained()
+/mob/carbon/proc/is_restrained()
 	if(src.buckled)
 		return 1
 	return 0
@@ -37,7 +37,7 @@
 
 /mob/carbon/verb/chuckle()
 	set name = ".chuckle"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("chuckles", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
@@ -48,7 +48,7 @@
 
 /mob/carbon/verb/blink()
 	set name = ".blink"
-	if(!src.blindfolded())
+	if(!src.is_blindfolded())
 		src.emote("blinks")
 
 /mob/carbon/verb/blush()
@@ -58,7 +58,7 @@
 /mob/carbon/verb/bow(mob/M as mob)
 	set name = ".bow"
 	set M in oview(src)
-	if(src.restrained())
+	if(src.is_restrained())
 		return
 	if(M)
 		src.emote("bows to [M]")
@@ -71,7 +71,7 @@
 
 /mob/carbon/verb/clap()
 	set name = ".clap"
-	if(!src.handcuffed() && !src.restrained())
+	if(!src.is_handcuffed() && !src.is_restrained())
 		src.emote("claps", sound & sight)
 
 /mob/carbon/verb/cry()
@@ -80,19 +80,19 @@
 
 /mob/carbon/verb/cough()
 	set name = ".cough"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("coughs", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
 
 /mob/carbon/verb/eyebrow()
 	set name = ".eyebrow"
-	if(!src.blindfolded())
+	if(!src.is_blindfolded())
 		src.emote("raises an eyebrow")
 
 /mob/carbon/verb/frown()
 	set name = ".frown"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("frowns")
 
 /mob/carbon/verb/faint()
@@ -102,7 +102,7 @@
 
 /mob/carbon/verb/gasp()
 	set name = ".gasp"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("gasps!", sound & sight)
 	else
 		src.emote("makes a weak noise", sound & sight)
@@ -110,7 +110,7 @@
 /mob/carbon/verb/glare(mob/M as mob)
 	set name = ".glare"
 	set M in oview(src)
-	if(src.blindfolded())
+	if(src.is_blindfolded())
 		return
 	if(M)
 		src.emote("glares at [M]")
@@ -119,26 +119,26 @@
 
 /mob/carbon/verb/grin()
 	set name = ".grin"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("grins")
 
 /mob/carbon/verb/groan()
 	set name = ".groan"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("groans", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
 
 /mob/carbon/verb/grumble()
 	set name = ".grumble"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("grumbles", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
 
 /mob/carbon/verb/laugh()
 	set name = ".laugh"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("laughs", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
@@ -146,7 +146,7 @@
 /mob/carbon/verb/look(mob/M as mob)
 	set name = ".look"
 	set M in oview(src)
-	if(src.blindfolded())
+	if(src.is_blindfolded())
 		return
 	if(M)
 		src.emote("looks at [M]")
@@ -155,14 +155,14 @@
 
 /mob/carbon/verb/moan()
 	set name = ".moan"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("moans", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
 
 /mob/carbon/verb/mumble()
 	set name = ".mumble"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("mumbles", sound & sight)
 	else
 		src.emote("makes a noise", sound & sight)
@@ -178,7 +178,7 @@
 /mob/carbon/verb/salute(mob/M as mob)
 	set name = ".salute"
 	set M in oview(src)
-	if(src.restrained())
+	if(src.is_restrained())
 		return
 	if(M)
 		src.emote("salutes [M]")
@@ -199,19 +199,19 @@
 
 /mob/carbon/verb/sigh()
 	set name = ".sigh"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("sighs", sound & sight)
 	else
 		src.emote("makes a weak noise", sound & sight)
 
 /mob/carbon/verb/smile()
 	set name = ".smile"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("smiles")
 
 /mob/carbon/verb/snore()
 	set name = ".snore"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("snores", sound & sight)
 	else
 		src.emote("makes a loud noise", sound & sight)
@@ -219,7 +219,7 @@
 /mob/carbon/verb/wink(mob/M as mob)
 	set name = ".wink"
 	set M in oview(src)
-	if(src.blindfolded())
+	if(src.is_blindfolded())
 		return
 	if(M)
 		src.emote("winks at [M]")
@@ -228,5 +228,5 @@
 
 /mob/carbon/verb/yawn()
 	set name = ".yawn"
-	if(!src.muzzled())
+	if(!src.is_muzzled())
 		src.emote("yawns")

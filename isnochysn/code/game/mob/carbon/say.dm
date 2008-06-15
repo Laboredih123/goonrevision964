@@ -16,7 +16,7 @@
 
 	return ..()
 
-/mob/carbon/proc/get_fave_radio(id)
+/mob/carbon/proc/get_radio(id)
 	if(id == "r") //radio in their right hand
 		return src.r_hand
 	if(id == "l")
