@@ -2052,15 +2052,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Research Computer"
 /obj/machinery/computer/data/weapon/log
 	name = "Log Computer"
-/obj/machinery/computer/dna
-	name = "DNA operations computer"
-	icon = 'Cryogenic2.dmi'
-	icon_state = "dna_computer"
-	var/obj/item/weapon/card/data/scan = null
-	var/obj/item/weapon/card/data/modify = null
-	var/obj/item/weapon/card/data/modify2 = null
-	var/mode = null
-	var/temp = null
 /obj/machinery/computer/engine
 	name = "Engine Control"
 	icon = 'enginecomputer.dmi'
@@ -2229,14 +2220,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/o2tanks = 10.0
 	var/pltanks = 10.0
 	anchored = 1.0
-/obj/machinery/dna_scanner
-	name = "DNA Scanner/Implanter"
-	icon = 'Cryogenic2.dmi'
-	icon_state = "scanner_0"
-	density = 1
-	var/locked = 0.0
-	var/mob/occupant = null
-	anchored = 1.0
+
 /obj/machinery/door
 	name = "Door"
 	icon = 'doors.dmi'

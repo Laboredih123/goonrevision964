@@ -82,6 +82,19 @@
 		return
 	use_power(250)
 
+/obj/machinery/computer/Topic(href, href_list)
+	..()
+	if(!usr.can_use_computer)
+		return 0
+	if(!usr.is_conscious())
+		return 0
+	if(istype(usr, /mob/carbon))
+		/mob/carbon/M = usr
+		if(M.is_restrained())
+			return 0
+		if(get_dist(src, usr) > 1)
+			return 0
+	return 1
 
 /obj/machinery/computer/communications/verb/call_shuttle()
 	set src in oview(1)
