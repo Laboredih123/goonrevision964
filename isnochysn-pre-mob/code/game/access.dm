@@ -28,10 +28,14 @@
 /obj/var/req_access_txt = null
 /obj/New()
 	if(src.req_access_txt)
-		req_access = list()
 		var/req_access_str = params2list(req_access_txt)
+		var/req_access_changed = 0
 		for(var/x in req_access_str)
-			src.req_access += text2num(x)
+			var/n = text2num(x)
+			if(n)
+				if(!req_access_changed)
+					req_access = list()
+				req_access += n
 	..()
 
 //returns 1 if this mob has sufficient access to use this object
