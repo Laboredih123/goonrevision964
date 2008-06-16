@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: names.dm
+DIR: code code\data code\game
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -27,6 +33,7 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "names.dm"
 #include "code\aaaDefines.dm"
 #include "code\atoms.dm"
 #include "code\configuration.dm"
@@ -47,7 +54,6 @@
 #include "code\atoms\sun.dm"
 #include "code\atoms\turf.dm"
 #include "code\atoms\vote.dm"
-#include "code\data\ai_names.dm"
 #include "code\data\changelog.dm"
 #include "code\data\jobs.dm"
 #include "code\data\stylesheet.dm"

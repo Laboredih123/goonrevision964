@@ -410,6 +410,18 @@
 			//this shouldn't ever happen?
 			src << "UH OH! Your job is [rank] and the game just can't handle it! Please report this bug to an administrator."
 	var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id(src)
+
+	var/randomname = "[pick(first_names)] [pick(last_names)]"
+	var/newname = input(src, "You are the [rank]! Would you like to change your name?", "Name change", randomname)
+	if (length(newname) == 0)
+		newname = randomname
+	if (newname)
+		if (length(newname) >= 26)
+			newname = copytext(newname, 1, 26)
+			newname = dd_replacetext(newname, ">", "'")
+	src.rname = newname
+	src.name = newname
+
 	C.registered = src.rname
 	C.assignment = rank
 	C.name = "[C.registered]'s ID Card ([C.assignment])"
