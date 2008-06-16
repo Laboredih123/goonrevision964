@@ -391,92 +391,6 @@
 	return
 	return
 
-/obj/item/weapon/a_gift/ex_act()
-
-	//SN src = null
-	del(src)
-	return
-	return
-
-/obj/item/weapon/a_gift/burn(fi_amount)
-
-	if (fi_amount > 900000.0)
-		//SN src = null
-		del(src)
-		return
-	return
-
-/obj/item/weapon/a_gift/attack_self(mob/M as mob)
-
-	switch(pick("pill", "flash", "t_gun", "l_gun", "shield", "sword"))
-		if("pill")
-			var/obj/item/weapon/m_pill/superpill/W = new /obj/item/weapon/m_pill/superpill( M )
-			if (M.hand)
-				M.l_hand = W
-			else
-				M.r_hand = W
-			W.layer = 20
-			W.add_fingerprint(M)
-			//SN src = null
-			del(src)
-			return
-		if("flash")
-			var/obj/item/weapon/flash/W = new /obj/item/weapon/flash( M )
-			if (M.hand)
-				M.l_hand = W
-			else
-				M.r_hand = W
-			W.layer = 20
-			W.add_fingerprint(M)
-			//SN src = null
-			del(src)
-			return
-		if("l_gun")
-			var/obj/item/weapon/gun/energy/laser_gun/W = new /obj/item/weapon/gun/energy/laser_gun( M )
-			if (M.hand)
-				M.l_hand = W
-			else
-				M.r_hand = W
-			W.layer = 20
-			W.add_fingerprint(M)
-			//SN src = null
-			del(src)
-			return
-		if("t_gun")
-			var/obj/item/weapon/gun/energy/taser_gun/W = new /obj/item/weapon/gun/energy/taser_gun( M )
-			if (M.hand)
-				M.l_hand = W
-			else
-				M.r_hand = W
-			W.layer = 20
-			W.add_fingerprint(M)
-			//SN src = null
-			del(src)
-			return
-		if("shield")
-			var/obj/item/weapon/shield/W = new /obj/item/weapon/shield( M )
-			if (M.hand)
-				M.l_hand = W
-			else
-				M.r_hand = W
-			W.layer = 20
-			W.add_fingerprint(M)
-			//SN src = null
-			del(src)
-			return
-		if("sword")
-			var/obj/item/weapon/sword/W = new /obj/item/weapon/sword( M )
-			if (M.hand)
-				M.l_hand = W
-			else
-				M.r_hand = W
-			W.layer = 20
-			W.add_fingerprint(M)
-			//SN src = null
-			del(src)
-			return
-		else
-	return
 
 /obj/item/weapon/flashbang/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
@@ -884,20 +798,6 @@
 		src.force = 3
 		src.icon_state = "sword0"
 		src.w_class = 2
-	src.add_fingerprint(user)
-	return
-
-/obj/item/weapon/shield/attack_self(mob/user as mob)
-
-	src.active = !( src.active )
-	if (src.active)
-		user << "\blue The shield is now active."
-		src.force = 40
-		src.icon_state = "shield1"
-	else
-		user << "\blue The shield is now inactive."
-		src.force = 3
-		src.icon_state = "shield0"
 	src.add_fingerprint(user)
 	return
 
@@ -4650,12 +4550,6 @@
 
 /mob/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
-	var/shielded = 0
-	for(var/obj/item/weapon/shield/S in src)
-		if (S.active)
-			shielded = 1
-		else
-			//Foreach continue //goto(22)
 	if (locate(/obj/item/weapon/grab, src))
 		var/mob/safe = null
 		if (istype(src.l_hand, /obj/item/weapon/grab))
@@ -4668,11 +4562,8 @@
 				safe = G.affecting
 		if (safe)
 			return safe.attackby(W, user)
-	if ((!( shielded ) || !( W.flags ) & 32))
-		spawn( 0 )
-			W.attack(src, user)
-			return
-	return
+	spawn( 0 )
+		W.attack(src, user)
 
 /atom/proc/MouseDrop_T()
 

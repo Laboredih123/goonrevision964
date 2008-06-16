@@ -20,37 +20,27 @@
 			ear_loss = 15
 			if (prob(50))
 				src.paralysis += 10
-		else
 	src.take_damage(new damage(brute = brute_loss, burn = burn_loss))
 	return
 
 /mob/carbon/take_damage(datum/damage/dam)
-	if(src.appearance == HUMAN)
-		var/atom/organ/O = src.choose_organ()
-		if (istype(O, /atom/organ))
-			O.take_damage(dam)
-			src.update_damage()
-	else
-		return ..()
+	var/atom/organ/O = src.choose_organ()
+	if (istype(O, /atom/organ))
+		O.take_damage(dam)
+		src.update_damage()
 
 /mob/carbon/heal_damage(datum/damage/dam)
-	if(src.appearance == HUMAN)
-		for(var/atom/organ/O in src.organs)
-			dam = O.heal_damage(dam) //returns a smaller damage, or null if it's all used up
-			if(!dam) //all done!
-				break
-		src.update_damage()
-	else
-		return ..()
+	for(var/atom/organ/O in src.organs)
+		dam = O.heal_damage(dam) //returns a smaller damage, or null if it's all used up
+		if(!dam) //all done!
+			break
+	src.update_damage()
 
 /mob/carbon/proc/update_damage()
-	if(src.appearance == HUMAN)
-		src.dam = new damage()
-		for(var/atom/organ/O in src.organs)
-			src.dam.add(x.dam)
-		src.update_damage_icon()
-	else
-		return ..()
+	src.dam = new damage()
+	for(var/atom/organ/O in src.organs)
+		src.dam.add(x.dam)
+	src.update_damage_icon()
 
 /mob/carbon/proc/update_damage_icon()
 	if(src.appearance == HUMAN)
@@ -64,5 +54,4 @@
 		return ..()
 
 /mob/carbon/proc/choose_organ()
-	if(src.appearance == HUMAN)
-		return pick(src.organs)
+	return pick(src.organs)

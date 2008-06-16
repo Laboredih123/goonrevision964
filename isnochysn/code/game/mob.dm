@@ -29,41 +29,13 @@
 
 	return
 
-
-
-
-/mob/ai/ex_act(severity)
-	flick("flash", src.flash)
-
-	var/b_loss = null
-	var/f_loss = null
-	switch(severity)
-		if(1.0)
-			if (src.stat != 2)
-				b_loss += 100
-				f_loss += 100
-		if(2.0)
-			if (src.stat != 2)
-				b_loss += 60
-				f_loss += 60
-		if(3.0)
-			if (src.stat != 2)
-				b_loss += 30
-		else
-
 /mob/human/blob_act()
 	if (src.stat == 2)
 		return
-	var/shielded = 0
-	for(var/obj/item/weapon/shield/S in src)
-		if (S.active)
-			shielded = 1
 	var/damage = null
 	if (src.stat != 2)
 		damage = rand(1,20)
 
-	if(shielded)
-		damage /= 4
 
 		//src.paralysis += 1
 
@@ -1715,26 +1687,10 @@
 
 /mob/human/las_act(flag, A as obj)
 
-	var/shielded = 0
-	for(var/obj/item/weapon/shield/S in src)
-		if (S.active)
-			if (flag == "bullet")
-				return
-			shielded = 1
-			S.active = 0
-			S.icon_state = "shield0"
-		//Foreach goto(22)
 	for(var/obj/item/weapon/cloaking_device/S in src)
 		if (S.active)
-			shielded = 1
 			S.active = 0
 			S.icon_state = "shield0"
-		//Foreach goto(99)
-	if ((shielded && flag != "bullet"))
-		if (!( flag ))
-			src << "\blue Ohhh that shield isn't going to help here!"
-			src.paralysis = 120
-			src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
 	if (locate(/obj/item/weapon/grab, src))
 		var/mob/safe = null
 		if (istype(src.l_hand, /obj/item/weapon/grab))
@@ -2259,23 +2215,12 @@
 	if (src.client)
 		src.client.screen -= src.contents
 		src.client.screen += src.contents
-	var/shielded = 0
-	for(var/obj/item/weapon/shield/S in src)
-		if (S.active)
-			shielded = 1
-		else
-			//Foreach continue //goto(2917)
+	src.invisibility = 0
 	for(var/obj/item/weapon/cloaking_device/S in src)
 		if (S.active)
-			shielded = 2
-		else
-			//Foreach continue //goto(2969)
-	if (shielded == 2)
-		src.invisibility = 2
-	else
-		src.invisibility = 0
-	if (shielded)
-		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "shield", "layer" = MOB_LAYER)
+			src.invisibility = 2
+			src.overlays += image("icon" = 'mob.dmi', "icon_state" = "shield", "layer" = MOB_LAYER)
+			break
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
 			spawn( 0 )
@@ -3564,14 +3509,8 @@
 		M.show_message(text("\red [] has been hit by []", src, O), 1)
 		//Foreach goto(19)
 	if (src.health > 0)
-		var/shielded = 0
-		for(var/obj/item/weapon/shield/S in src)
-			if (S.active)
-				shielded = 1
-			else
-				//Foreach continue //goto(79)
 		src.bruteloss += 30
-		if ((O.icon_state == "flaming" && !( shielded )))
+		if (O.icon_state == "flaming")
 			src.fireloss += 40
 		src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
 	return

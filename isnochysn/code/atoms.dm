@@ -347,11 +347,6 @@
 	var/obj/item/weapon/master = null
 	flags = 258.0
 	weight = 500000.0
-/obj/item/weapon/a_gift
-	name = "Gift"
-	icon_state = "gift"
-	s_istate = "gift"
-	weight = 1.0E7
 /obj/item/weapon/ammo
 	name = "ammo"
 	icon = 'ammo.dmi'
@@ -1498,16 +1493,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	force = 5.0
 	throwforce = 14.0
 	s_istate = "sheet-metal"
-/obj/item/weapon/shield
-	name = "shield"
-	icon_state = "shield0"
-	var/active = 0.0
-	flags = 322.0
-	s_istate = "electronic"
-	throwforce = 5.0
-	throw_speed = 1
-	throw_range = 5
-	w_class = 2.0
 /obj/item/weapon/storage
 	name = "storage"
 	var/obj/screen/storage/boxes = null
