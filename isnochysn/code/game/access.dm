@@ -1,3 +1,16 @@
+/*
+HOW TO ADD A NEW ACCESS LEVEL
+1. Add it to the end of the list right below this. (Give it a number that isn't already taken.)
+2. Add it to get_all_accesses() at the end.
+3. Add a description of it to get_access_desc().
+4. If you want people other than the captain to be able to access it, add it to get_access for the
+people you want to be able to access it.
+
+That's it! Now you can make doors on your map require that permission. Don't worry about things like
+making it show up in the ID computer - it will automatically. This is the only file you have to edit.
+
+*/
+
 /var/const
 	access_security = 1
 	access_brig = 2
@@ -25,7 +38,7 @@
 	access_all_personal_lockers = 24
 
 /obj/var/list/req_access = null
-/obj/var/req_access_txt = null
+/obj/var/req_access_txt = "0"
 /obj/New()
 	if(src.req_access_txt)
 		req_access = list()
@@ -91,7 +104,7 @@
 			return get_all_accesses()
 		if("Security Officer")
 			return list(access_security, access_brig, access_security_lockers)
-		if("Medical Researcher")
+		if("Genetic Researcher")
 			return list(access_medical_supplies, access_morgue, access_medlab)
 		if("Toxin Researcher")
 			return list(access_tox, access_tox_storage)
@@ -169,4 +182,4 @@
 			return "open all personal lockers"
 
 /proc/get_all_jobs()
-	return list("Research Assistant", "Staff Assistant", "Medical Assistant", "Technical Assistant", "Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Medical Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Station Technician", "Atmospheric Technician")
+	return list("Research Assistant", "Staff Assistant", "Medical Assistant", "Technical Assistant", "Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Station Technician", "Atmospheric Technician")

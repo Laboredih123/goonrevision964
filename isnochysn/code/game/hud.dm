@@ -1,5 +1,7 @@
-/obj/hud/New()
+/obj/hud/var/mob/carbon/owner
 
+/obj/hud/New(owner)
+	src.owner = owner
 	src.instantiate()
 	..()
 	return
@@ -317,3 +319,11 @@
 	using.mouse_opacity = 0
 	src.vimpaired += using
 	return
+
+/obj/hud/proc/remove()
+	owner.client.screen -= main_hud1.contents
+	owner.client.screen -= main_hud2.contents
+	owner.client.screen -= owner.hud_used.adding
+	owner.client.screen -= owner.hud_used.mon_blo
+	owner.client.screen -= list( owner.oxygen, owner.i_select, owner.m_select, owner.toxin, owner.internals, owner.fire, owner.hands, owner.healths, owner.pullin, owner.blind, owner.flash, owner.rest, owner.sleep, owner.mach )
+	owner.client.screen -= list( owner.zone_sel, owner.oxygen, owner.i_select, owner.m_select, owner.toxin, owner.internals, owner.fire, owner.hands, owner.healths, owner.pullin, owner.blind, owner.flash, owner.rest, owner.sleep, owner.mach )

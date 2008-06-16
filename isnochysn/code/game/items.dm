@@ -50,8 +50,7 @@
 		else
 	return
 
-/obj/proc/hear_talk(mob/M as mob, text)
-	return
+/atom/proc/hear(datum/message/M, source)
 	return
 
 /obj/item/weapon/table_parts/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -276,100 +275,34 @@
 	return
 	return
 
-/obj/item/weapon/proc/attack(mob/M as mob, mob/user as mob, def_zone)
-
+/obj/item/weapon/proc/attack(mob/carbon/M as mob, mob/carbon/attacker as mob, def_zone)
+	if(!src.force)
+		return
 	for(var/mob/O in viewers(M, null))
-		O.show_message(text("\red <B>[] has been attacked with [][] </B>", M, src, (user ? text(" by [].", user) : ".")), 1)
-		//Foreach goto(20)
-	var/power = src.force
-	if (M.health >= -10.0)
-		if (istype(M, /mob/human))
-			var/mob/human/H = M
-			var/atom/organ/affecting = H.organs["chest"]
-			if (istype(user, /mob/human))
-				if (!( def_zone ))
-					var/mob/user2 = user
-					var/t = user2.zone_sel.selecting
-					if ((t in list( "hair", "eyes", "mouth", "neck" )))
-						t = "head"
-					def_zone = ran_zone(t)
-				if (H.organs[text("[]", def_zone)])
-					affecting = H.organs[text("[]", def_zone)]
-			if (istype(affecting, /atom/organ))
-				var/b_dam = (src.damtype == "brute" ? src.force : 0)
-				var/f_dam = (src.damtype == "fire" ? src.force : 0)
-				if (def_zone == "head")
-					if ((b_dam && (((H.head && H.head.brute_protect & 1) || (H.wear_mask && H.wear_mask.brute_protect & 1)) && prob(75))))
-						if (prob(20))
-							affecting.take_damage(power, 0)
-						else
-							H.show_message("\red You have been protected from a hit to the head.")
-						return
-					if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
-						var/time = rand(10, 120)
-						if (prob(90))
-							if (H.paralysis < time)
-								H.paralysis = time
-						else
-							if (H.weakened < time)
-								H.weakened = time
-						H.stat = 1
-						for(var/mob/O in viewers(M, null))
-							O.show_message(text("\red <B>[] has been knocked unconscious!</B>", H), 1, "\red You hear someone fall.", 2)
-							//Foreach goto(514)
-						H.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
-					affecting.take_damage(b_dam, f_dam)
-				else
-					if (def_zone == "chest")
-						if ((b_dam && (((H.wear_suit && H.wear_suit.brute_protect & 2) || (H.w_uniform && H.w_uniform.brute_protect & 2)) && prob(90 - src.force))))
-							H.show_message("\red You have been protected from a hit to the chest.")
-							return
-						if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
-							if (prob(50))
-								if (H.weakened < 5)
-									H.weakened = 5
-								for(var/mob/O in viewers(H, null))
-									O.show_message(text("\red <B>[] has been knocked down!</B>", H), 1, "\red You hear someone fall.", 2)
-									//Foreach goto(738)
-							else
-								if (H.stunned < 2)
-									H.stunned = 2
-								for(var/mob/O in viewers(H, null))
-									O.show_message(text("\red <B>[] has been stunned!</B>", H), 1)
-									//Foreach goto(808)
-							H.stat = 1
-						affecting.take_damage(b_dam, f_dam)
-					else
-						if (def_zone == "diaper")
-							if ((b_dam && (((H.wear_suit && H.wear_suit.brute_protect & 4) || (H.w_uniform && H.w_uniform.brute_protect & 4)) && prob(90 - src.force))))
-								H.show_message("\red You have been protected from a hit to the lower chest/diaper.")
-								return
-							if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
-								if (prob(50))
-									if (H.weakened < 5)
-										H.weakened = 5
-									for(var/mob/O in viewers(H, null))
-										O.show_message(text("\red <B>[] has been knocked down!</B>", H), 1, "\red You hear someone fall.", 2)
-										//Foreach goto(1014)
-								else
-									if (H.stunned < 2)
-										H.stunned = 2
-									for(var/mob/O in viewers(H, null))
-										O.show_message(text("\red <B>[] has been stunned!</B>", H), 1)
-										//Foreach goto(1084)
-								H.stat = 1
-							affecting.take_damage(b_dam, f_dam)
-						else
-							affecting.take_damage(b_dam, f_dam)
-			H.UpdateDamageIcon()
-		else
-			switch(src.damtype)
-				if("brute")
-					M.bruteloss += power
-				if("fire")
-					M.fireloss += power
-				else
-		M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
+		O.see("\red <B>[M] has been attacked with [src][attacker ? " by [attacker]." : "."] </B>")
+	var/datum/damage/dam = new /datum/damage(brute = src.force)
+	if(!istype(/mob/carbon/, M))
+		M.take_damage(dam)
+		return
+	if ((M.helmet && M.helmet.brute_protect & 1) || (M.mask && M.mask.brute_protect & 1) && prob(5))
+		M.think("\red Your helmet softened the blow.")
+		dam.brute /= 2
+	else if((M.suit && M.suit.brute_protect & 2) || (M.jumpsuit && M.jumpsuit.brute_protect & 2) && prob(20))
+		M.think("\red Your armor softened the blow.")
+		dam.brute /= 2
+
+	if (prob(dam.brute + M.dam.brute/5)) //knock 'em out
+		if(M.conscious())
+			for(var/mob/O in oviewers(M))
+				O.see("\red <B>[M] has been knocked unconscious!</B>")
+		var/time = rand(10, 120)
+		if (H.paralysis < time)
+			H.paralysis = time
+		else if (H.weakened < time)
+			H.weakened = time
+			H.stat = 1
+
+	src.take_damage(dam)
 	src.add_fingerprint(user)
 	return
 
@@ -2173,10 +2106,7 @@
 		if (href_list["read"])
 			var/obj/item/weapon/paper/P = locate(href_list["read"])
 			if ((P && P.loc == src))
-				if (!( istype(usr, /mob/human) ))
-					usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, stars(P.info)), text("window=[]", P.name))
-				else
-					usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.info), text("window=[]", P.name))
+				usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.info), text("window=[]", P.name))
 		if (ismob(src.loc))
 			var/mob/M = src.loc
 			if (M.machine == src)
@@ -2626,10 +2556,7 @@
 	set src in view()
 
 	..()
-	if (!( istype(usr, /mob/human) ))
-		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, stars(src.info)), text("window=[]", src.name))
-	else
-		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 	return
 
 /obj/item/weapon/paper/Map/examine()
@@ -2638,10 +2565,7 @@
 	..()
 
 	usr << browse_rsc(map_graphic)
-	if (!( istype(usr, /mob/human) ))
-		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, stars(src.info)), text("window=[]", src.name))
-	else
-		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 	return
 
 
@@ -3525,547 +3449,6 @@
 			usr.show_message("The igniter is ready!")
 		else
 			usr.show_message("The igniter can be attached!")
-	return
-
-/obj/item/weapon/radio/electropack/examine()
-	set src in view()
-
-	..()
-	if ((get_dist(src, usr) <= 1 || src.loc == usr))
-		if (src.e_pads)
-			usr << "\blue The electric pads are exposed!"
-	return
-
-/obj/item/weapon/radio/electropack/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/radio/electropack/attack_hand(mob/user as mob)
-
-	if (src == user.back)
-		user << "\blue You need help taking this off!"
-		return
-	else
-		..()
-	return
-
-/obj/item/weapon/radio/electropack/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
-	if (istype(W, /obj/item/weapon/screwdriver))
-		src.e_pads = !( src.e_pads )
-		if (src.e_pads)
-			user.show_message("\blue The electric pads have been exposed!")
-		else
-			user.show_message("\blue The electric pads have been reinserted!")
-		src.add_fingerprint(user)
-	else
-		if (istype(W, /obj/item/weapon/clothing/head/helmet))
-			var/obj/item/weapon/assembly/shock_kit/A = new /obj/item/weapon/assembly/shock_kit( user )
-			W.loc = A
-			A.part1 = W
-			W.layer = initial(W.layer)
-			if (user.client)
-				user.client.screen -= W
-			if (user.r_hand == W)
-				user.u_equip(W)
-				user.r_hand = A
-			else
-				user.u_equip(W)
-				user.l_hand = A
-			W.master = A
-			src.master = A
-			src.layer = initial(src.layer)
-			user.u_equip(src)
-			if (user.client)
-				user.client.screen -= src
-			src.loc = A
-			A.part2 = src
-			A.layer = 20
-			src.add_fingerprint(user)
-			A.add_fingerprint(user)
-	return
-
-/obj/item/weapon/radio/electropack/Topic(href, href_list)
-	//..()
-	if (usr.stat || usr.restrained())
-		return
-	if (((istype(usr, /mob/human) && ((!( ticker ) || (ticker && ticker.mode != "monkey")) && usr.contents.Find(src))) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
-		usr.machine = src
-		if (href_list["freq"])
-			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
-				src.freq += 0.1
-			src.freq = min(148.9, src.freq)
-			src.freq = max(144.1, src.freq)
-		else
-			if (href_list["code"])
-				src.code += text2num(href_list["code"])
-				src.code = round(src.code)
-				src.code = min(100, src.code)
-				src.code = max(1, src.code)
-			else
-				if (href_list["power"])
-					src.on = !( src.on )
-					src.icon_state = text("electropack[]", src.on)
-		if (!( src.master ))
-			if (istype(src.loc, /mob))
-				attack_self(src.loc)
-			else
-				for(var/mob/M in viewers(1, src))
-					if (M.client)
-						src.attack_self(M)
-					//Foreach goto(308)
-		else
-			if (istype(src.master.loc, /mob))
-				src.attack_self(src.master.loc)
-			else
-				for(var/mob/M in viewers(1, src.master))
-					if (M.client)
-						src.attack_self(M)
-					//Foreach goto(384)
-	else
-		usr << browse(null, "window=radio")
-		return
-	return
-
-/obj/item/weapon/radio/electropack/accept_rad(obj/item/weapon/radio/signaler/R as obj, message)
-
-	if ((istype(R, /obj/item/weapon/radio/signaler) && R.freq == src.freq && R.code == src.code))
-		return 1
-	else
-		return null
-	return
-
-/obj/item/weapon/radio/electropack/r_signal()
-
-	//*****
-	//world << "electropack \ref[src] got signal: [src.loc] [on]"
-	if ((ismob(src.loc) && src.on))
-
-		var/mob/M = src.loc
-		var/turf/T = M.loc
-		if ((istype(T, /turf) || istype(T, /obj/move)))
-			if (M.moved_recently && M.last_move)
-				step(M, M.last_move)
-		M.show_message("\red <B>You feel a sharp shock!</B>")
-
-
-		if (M.weakened < 10)
-			M.weakened = 10
-
-	if ((src.master && src.wires & 1))
-		src.master:r_signal(1)
-	return
-
-/obj/item/weapon/radio/electropack/attack_self(mob/user as mob, flag1)
-
-	if (!( istype(user, /mob/human) ))
-		return
-	user.machine = src
-	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.freq, src, src, src, src, src.code, src, src)
-	user << browse(dat, "window=radio")
-	return
-
-/obj/item/weapon/radio/proc/accept_rad(obj/item/weapon/radio/R as obj, message)
-
-	if ((R.freq == src.freq && message))
-		return 1
-	else
-		return null
-	return
-
-/obj/item/weapon/radio/proc/r_signal()
-
-	return
-
-/obj/item/weapon/radio/proc/send_crackle()
-
-	if ((src.listening && src.wires & 2))
-		return hearers(3, src.loc)
-	return
-
-/obj/item/weapon/radio/proc/sendm(msg)
-
-	if ((src.listening && src.wires & 2))
-		return hearers(1, src.loc)
-	return
-
-/obj/item/weapon/radio/examine()
-	set src in view()
-
-	..()
-	if ((get_dist(src, usr) <= 1 || src.loc == usr))
-		if (src.b_stat)
-			usr.show_message("\blue The radio can be attached and modified!")
-		else
-			usr.show_message("\blue The radio can not be modified or attached!")
-	return
-
-/obj/item/weapon/radio/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
-	user.machine = src
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
-		return
-	src.b_stat = !( src.b_stat )
-	if (src.b_stat)
-		user.show_message("\blue The radio can now be attached and modified!")
-	else
-		user.show_message("\blue The radio can no longer be modified or attached!")
-	for(var/mob/M in viewers(1, src))
-		if (M.client)
-			src.attack_self(M)
-		//Foreach goto(83)
-	src.add_fingerprint(user)
-	return
-
-/obj/item/weapon/radio/beacon/hear_talk()
-
-	return
-	return
-
-/obj/item/weapon/radio/beacon/sendm()
-
-	return null
-	return
-
-/obj/item/weapon/radio/beacon/send_crackle()
-
-	return null
-	return
-
-/obj/item/weapon/radio/beacon/verb/alter_signal(t as text)
-	set src in usr
-
-	if ((usr.canmove && !( usr.restrained() )))
-		src.code = t
-	if (!( src.code ))
-		src.code = "beacon"
-	src.add_fingerprint(usr)
-	return
-
-/obj/item/weapon/radio/signaler/accept_rad(obj/item/weapon/radio/signaler/R as obj, message)
-
-	if ((istype(R, /obj/item/weapon/radio/signaler) && R.freq == src.freq && R.code == src.code))
-		return 1
-	else
-		return null
-	return
-
-/obj/item/weapon/radio/signaler/examine()
-	set src in view()
-
-	..()
-	if ((get_dist(src, usr) <= 1 || src.loc == usr))
-		if (src.b_stat)
-			usr.show_message("\blue The signaler can be attached and modified!")
-		else
-			usr.show_message("\blue The signaler can not be modified or attached!")
-	return
-
-/obj/item/weapon/radio/signaler/attack_self(mob/user as mob, flag1)
-
-	user.machine = src
-	var/t1
-	if ((src.b_stat && !( flag1 )))
-		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
-	else
-		t1 = "-------"
-	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.listening ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.freq, src, src, src, src, src.code, src, src, t1)
-	user << browse(dat, "window=radio")
-	return
-
-/obj/item/weapon/radio/signaler/hear_talk()
-
-	return
-	return
-
-/obj/item/weapon/radio/signaler/sendm()
-
-	return
-	return
-
-/obj/item/weapon/radio/signaler/send_crackle()
-
-	return
-	return
-
-/obj/item/weapon/radio/signaler/r_signal(signal)
-
-
-
-	if (!( src.wires & 2 ))
-		return
-	if ((src.master && src.wires & 1))
-
-
-		src.master:r_signal(signal)
-	for(var/mob/O in hearers(1, src.loc))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
-		//Foreach goto(64)
-	return
-
-/obj/item/weapon/radio/signaler/proc/s_signal(signal)
-
-
-	if (signal == null)
-		signal = 1
-	if (!( src.wires & 4 ))
-		return
-
-	if(delay)
-		return
-	delay = 1
-
-	//world << "Sending signal from signaler \ref[src]: [freq]/[code]"
-
-	for(var/obj/item/weapon/radio/R in world)
-
-		if (R.accept_rad(src))
-			spawn( 0 )
-
-				if (R)
-					R.r_signal(signal)
-				return
-		//Foreach goto(48)
-
-	sleep(50)
-	delay = 0
-	return
-
-/obj/item/weapon/radio/signaler/Topic(href, href_list)
-	//..()
-	if (usr.stat)
-		return
-	if ((usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
-		usr.machine = src
-		if (href_list["freq"])
-			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
-				src.freq += 0.1
-			src.freq = min(148.9, src.freq)
-			src.freq = max(144.1, src.freq)
-		else
-			if (href_list["code"])
-				src.code += text2num(href_list["code"])
-				src.code = round(src.code)
-				src.code = min(100, src.code)
-				src.code = max(1, src.code)
-			else
-				if (href_list["send"])
-					var/t1 = round(text2num(href_list["send"]))
-					spawn( 0 )
-						src.s_signal(t1)
-
-						return
-				else
-					if (href_list["listen"])
-						src.listening = text2num(href_list["listen"])
-					else
-						if (href_list["wires"])
-							var/t1 = text2num(href_list["wires"])
-							if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
-								return
-							if ((!( src.b_stat ) && !( src.master )))
-								return
-							if (t1 & 1)
-								if (src.wires & 1)
-									src.wires &= 65534
-								else
-									src.wires |= 1
-							else
-								if (t1 & 2)
-									if (src.wires & 2)
-										src.wires &= 65533
-									else
-										src.wires |= 2
-								else
-									if (t1 & 4)
-										if (src.wires & 4)
-											src.wires &= 65531
-										else
-											src.wires |= 4
-		src.add_fingerprint(usr)
-		if (!( src.master ))
-			if (istype(src.loc, /mob))
-				attack_self(src.loc)
-			else
-				for(var/mob/M in viewers(1, src))
-					if (M.client)
-						src.attack_self(M)
-					//Foreach goto(501)
-		else
-			if (istype(src.master.loc, /mob))
-				src.attack_self(src.master.loc)
-			else
-				for(var/mob/M in viewers(1, src.master))
-					if (M.client)
-						src.attack_self(M)
-					//Foreach goto(577)
-	else
-		usr << browse(null, "window=radio")
-		return
-	return
-
-/obj/item/weapon/radio/intercom/attack_ai(mob/user as mob)
-
-	src.add_fingerprint(user)
-	spawn( 0 )
-		attack_self(user)
-		return
-	return
-
-/obj/item/weapon/radio/intercom/attack_paw(mob/user as mob)
-
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/obj/item/weapon/radio/intercom/attack_hand(mob/user as mob)
-
-	src.add_fingerprint(user)
-	spawn( 0 )
-		attack_self(user)
-		return
-	return
-
-/obj/item/weapon/radio/intercom/send_crackle()
-
-	if (src.listening)
-		return list(  )
-	return
-
-/obj/item/weapon/radio/intercom/sendm(msg)
-
-	if (src.listening)
-		return hearers(7, src.loc)
-	return
-
-/obj/item/weapon/radio/attack_self(mob/user as mob)
-
-	user.machine = src
-	var/t1
-	if (src.b_stat)
-		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
-	else
-		t1 = "-------"
-	var/dat = text("<TT>Microphone: []<BR>\nSpeaker: []<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\n[]</TT>", (src.broadcasting ? text("<A href='?src=\ref[];talk=0'>Engaged</A>", src) : text("<A href='?src=\ref[];talk=1'>Disengaged</A>", src)), (src.listening ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src.freq, src, src, t1)
-	user << browse(dat, "window=radio")
-	return
-
-/obj/item/weapon/radio/Topic(href, href_list)
-	//..()
-	if (usr.stat)
-		return
-	if ((usr.contents.Find(src) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/ai)))
-		usr.machine = src
-		if (href_list["freq"])
-			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
-				src.freq += 0.1
-			src.freq = min(148.9, src.freq)
-			src.freq = max(144.1, src.freq)
-		else
-			if (href_list["talk"])
-				src.broadcasting = text2num(href_list["talk"])
-			else
-				if (href_list["listen"])
-					src.listening = text2num(href_list["listen"])
-				else
-					if (href_list["wires"])
-						var/t1 = text2num(href_list["wires"])
-						if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
-							return
-						if (t1 & 1)
-							if (src.wires & 1)
-								src.wires &= 65534
-							else
-								src.wires |= 1
-						else
-							if (t1 & 2)
-								if (src.wires & 2)
-									src.wires &= 65533
-								else
-									src.wires |= 2
-							else
-								if (t1 & 4)
-									if (src.wires & 4)
-										src.wires &= 65531
-									else
-										src.wires |= 4
-		if (!( src.master ))
-			if (istype(src.loc, /mob))
-				attack_self(src.loc)
-			else
-				src.updateDialog()
-		else
-			if (istype(src.master.loc, /mob))
-				src.attack_self(src.master.loc)
-			else
-				src.updateDialog()
-		src.add_fingerprint(usr)
-	else
-		usr << browse(null, "window=radio")
-		return
-	return
-
-/obj/item/weapon/radio/talk_into(mob/M as mob, msg)
-
-	if (!( src.wires & 4 ))
-		return
-	var/list/receive = list(  )
-	var/list/crackle = list(  )
-	for(var/obj/item/weapon/radio/R in world)
-		if (((src.freq == 0 || R.accept_rad(src, msg)) && src.freq != 5))
-			for(var/i in R.sendm(msg))
-				receive -= i
-				receive += i
-				//Foreach goto(118)
-			for(var/i in R.send_crackle())
-				crackle -= i
-				crackle += i
-				//Foreach goto(162)
-		//Foreach goto(43)
-	for(var/i in receive)
-		crackle -= i
-		//Foreach goto(203)
-	for(var/mob/O in crackle)
-		O.show_message(text("\icon[] <I>Crackle,Crackle</I>", src), 2)
-		//Foreach goto(233)
-	if (istype(M, /mob/human) || (istype(M, /mob/ai)))
-		for(var/mob/O in receive)
-			if (istype(O, /mob/human) || (istype(O, /mob/ai)))
-				O.show_message(text("<B>[]-\icon[]\[[]\]-broadcasts</B>: <I>[]</I>", M.rname, src, src.freq, msg), 2)
-			else
-				O.show_message(text("<B>[]-\icon[]\[[]\]-broadcasts</B>: <I>[]</I>", M.rname, src, src.freq, stars(msg)), 2)
-			//Foreach goto(284)
-		if (src.freq == 5)
-			for(var/mob/O in receive)
-				if (istype(O, /mob/human) || (istype(O, /mob/ai)))
-					O.show_message(text("<B>[]-\icon[]\[[]\]-broadcasts (over PA)</B>: <I>[]</I>", M.rname, src, src.freq, msg), 2)
-				else
-					O.show_message(text("<B>[]-\icon[]\[[]\]-broadcasts (over PA)</B>: <I>[]</I>", M.rname, src, src.freq, stars(msg)), 2)
-				//Foreach goto(393)
-	else
-		for(var/mob/O in receive)
-			if (istype(O, M))
-				O.show_message(text("<B>The monkey-\icon[]\[[]\]-broadcasts</B>: <I>[]</I>", src, src.freq, msg), 2)
-			else
-				O.show_message(text("<B>The monkey-\icon[]\[[]\]-broadcasts</B>: chimpering", src, src.freq), 2)
-			//Foreach goto(492)
-		if (src.freq == 5)
-			for(var/mob/O in receive)
-				if (istype(O, M))
-					O.show_message(text("<B>The monkey-\icon[]\[[]\]-broadcasts (over PA)</B>: <I>[]</I>", src, src.freq, msg), 2)
-				else
-					O.show_message(text("<B>The monkey-\icon[]\[[]\]-broadcasts (over PA)</B>: chimpering", src, src.freq), 2)
-				//Foreach goto(585)
-	return
-
-/obj/item/weapon/radio/hear_talk(mob/M as mob, msg)
-
-	if (src.broadcasting)
-		talk_into(M, msg)
 	return
 
 /obj/item/weapon/shard/Bump()

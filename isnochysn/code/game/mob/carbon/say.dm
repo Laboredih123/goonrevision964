@@ -16,9 +16,15 @@
 
 	return ..()
 
-/mob/carbon/proc/get_radio(id)
+/mob/carbon/get_radio(id)
 	if(id == "r") //radio in their right hand
 		return src.r_hand
 	if(id == "l")
 		return src.l_hand
+	if(id == "h" && src.has_headset)
+		return src.headset
 	return ..()
+
+/mob/carbon/get_default_radio()
+	if(src.has_headset)
+		return src.headset

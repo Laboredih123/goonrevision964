@@ -672,8 +672,7 @@
 					var/suff = min(src.target.oxyloss, 5)
 					src.target.oxyloss -= suff
 					src.target.health = 100 - src.target.oxyloss - src.target.toxloss - src.target.fireloss - src.target.bruteloss
-				if(target.rejuv<10)
-					src.target.rejuv += 10		// change
+				src.target.chemicals.rejuv = max(src.target.chemicals.rejuv, 10)
 				for(var/mob/O in viewers(src.source, null))
 					O.show_message(text("\red [] performs CPR on []!", src.source, src.target), 1)
 					//Foreach goto(3251)

@@ -18,22 +18,22 @@
 
 //FLAGS BITMASK
 #define ONBACK 1			// can be put in back slot
-#define TABLEPASS 2			// can pass by a table or rack
-#define HALFMASK 4			// mask only gets 1/2 of air supply from internals
+#define TABLEPASS 1 << 1	// can pass by a table or rack
+#define HALFMASK 1 << 2		// mask only gets 1/2 of air supply from internals
 
-#define HEADSPACE 4			// head wear protects against space
+#define HEADSPACE 1 << 2	// head wear protects against space
 
-#define MASKINTERNALS 8		// mask allows internals
-#define SUITSPACE 8			// suit protects against space
+#define MASKINTERNALS 1 << 3// mask allows internals
+#define SUITSPACE 1 << 3	// suit protects against space
 
-#define USEDELAY 16			// 1 second extra delay on use
-#define NOSHIELD 32			// weapon not affected by shield
-// 64 is an unused flag, because everything's drivable by a mass driver now
-// Don't reuse it until the flags are all cleaned up (using the #defined things rather than magic numbers)
-// because some things probably still have flag 64 set
-#define ONBELT 128			// can be put in belt slot
-#define FPRINT 256			// takes a fingerprint
-#define WINDOW 512			// window or window/door
+#define USEDELAY 1 << 4		// 1 second extra delay on use
+// 1 << 5 is an unused flag, because shields don't exist any more
+// 1 << 6 is an unused flag, because everything's drivable by a mass driver now
+// Don't reuse them until the flags are all cleaned up (using the #defined things rather than magic numbers)
+// because some things probably still have them set
+#define ONBELT 1 << 7		// can be put in belt slot
+#define FPRINT 1 << 8		// takes a fingerprint
+#define WINDOW 1 << 9		// window or window/door
 
 // channel numbers for power
 
@@ -44,6 +44,6 @@
 
 // bitflags for machine stat variable
 #define BROKEN 1
-#define NOPOWER 2
-#define POWEROFF 4		// tbd
-#define MAINT 8			// under maintaince
+#define NOPOWER 1 << 1
+#define POWEROFF 1 << 2	// tbd
+#define MAINT 1 << 3	// under maintaince

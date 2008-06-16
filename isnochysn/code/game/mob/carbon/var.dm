@@ -65,6 +65,7 @@
 		obj/screen/zone_sel/zone_sel = null
 		obj/hud/hud_used = null
 		grabbed_by = list()
+		datum/chemical/chemicals = null
 
 		const
 			slot_back = 1
@@ -85,3 +86,29 @@
 			slot_r_store = 16
 			slot_w_radio = 17
 			slot_in_backpack = 18
+	var/obj/item/weapon/clothing/suit/wear_suit = null
+	var/obj/item/weapon/clothing/under/w_uniform = null
+	var/obj/item/weapon/radio/w_radio = null
+	var/obj/item/weapon/clothing/shoes/shoes = null
+	var/obj/item/weapon/belt = null
+	var/obj/item/weapon/clothing/gloves/gloves = null
+	var/obj/item/weapon/clothing/glasses/glasses = null
+	var/obj/item/weapon/clothing/head/head = null
+	var/obj/item/weapon/clothing/ears/ears = null
+	var/obj/item/weapon/card/id/wear_id = null
+	var/obj/item/weapon/r_store = null
+	var/obj/item/weapon/l_store = null
+	var/icon/stand_icon = null
+	var/icon/lying_icon = null
+	var/now_pushing = null
+	var/t_plasma = 0.0
+	var/t_oxygen = 0.0
+	var/last_b_state = 1.0
+	var/image/face = null
+	var/image/face2 = null
+	var/h_style_r = "hair_a"
+	var/cameraFollow = null
+
+	var/list/body_standing = list()
+	var/list/body_lying = list()
+	var/list/organs = list()

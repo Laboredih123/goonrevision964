@@ -14,6 +14,6 @@
 	New()
 		alleles = list()
 		for(var/i = 0; i < num_alleles; i++)
-			alleles += new datum/allele()
+			alleles += new /datum/allele()
 
 /datum/allele

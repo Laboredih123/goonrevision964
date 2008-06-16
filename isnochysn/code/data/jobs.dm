@@ -2,7 +2,7 @@ var/list/occupations = list(
 	"Engineer", "Engineer",
 	"Security Officer", "Security Officer", "Security Officer",
 	"Forensic Technician",
-	"Medical Researcher",
+	"Genetic Researcher",
 	"Research Technician",
 	"Toxin Researcher",
 	"Atmospheric Technician", "Atmospheric Technician",

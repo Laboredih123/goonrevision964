@@ -363,7 +363,7 @@
 			src.equip_if_possible(new /obj/item/weapon/storage/flashbang_kit(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/baton(src), slot_belt)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
-		if("Medical Researcher")
+		if("Genetic Researcher")
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
