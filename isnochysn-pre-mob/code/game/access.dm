@@ -25,7 +25,7 @@
 	access_all_personal_lockers = 24
 
 /obj/var/list/req_access = null
-/obj/var/req_access_txt = null
+/obj/var/req_access_txt = "0"
 /obj/New()
 	if(src.req_access_txt)
 		var/req_access_str = params2list(req_access_txt)
