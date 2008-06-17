@@ -51,3 +51,10 @@
 					world.log_game("Rebooting because of no live players")
 					world.Reboot()
 	return ..()
+
+/mob/burn(fi_amount)
+
+	for(var/atom/movable/A in src)
+		A.burn(fi_amount)
+		//Foreach goto(15)
+	return

@@ -9,3 +9,7 @@
 	var/now_pushing = null
 	flags = FPRINT & TABLEPASS
 	var/cameraFollow = null
+
+	New()
+		src.name = "monkey ([rand(26)][rand(26)][rand(26)][rand(26)])"
+		..()

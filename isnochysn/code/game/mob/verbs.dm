@@ -108,3 +108,9 @@
 			src.client.eye = eye
 		else
 			src.client.eye = src.client.mob
+
+/mob/verb/cancel_camera()
+	set name = "Cancel Camera View"
+	src.reset_view(null)
+	src.machine = null
+	src:cameraFollow = null

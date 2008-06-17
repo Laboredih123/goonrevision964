@@ -80,3 +80,11 @@
 		else
 			tally--
 	return tally
+
+/mob/carbon/CheckPass(mob/carbon/M as mob)
+
+	if (src.other_mobs && istype(M, mob/carbon) && M.other_mobs)
+		return 1
+	else
+		return (!M.density || !src.density || src.lying)
+	return

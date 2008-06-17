@@ -299,11 +299,13 @@
 	icons[src.r_hand] = "1,2"
 	icons[src.l_hand] = "3,2"
 
+	var/iconsource = src.appearance == LOOK_MONKEY ? 'monkey.dmi' : 'mob.dmi'
+
 	for(var/obj/item/weapon/W in icons)
 		var/type = W.s_istate
 		if (!type)
 			type = W.icon_state
-		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "[type][suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = iconsource, "icon_state" = "[type][suffix]", "layer" = MOB_LAYER)
 		W.screen_loc = icons[W]
 
 	if (src.jumpsuit && istype(src.jumpsuit, /obj/item/weapon/clothing/under))
@@ -313,8 +315,20 @@
 		src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[color][suffix]", "layer" = MOB_LAYER)
 		src.jumpsuit.screen_loc = "2,2"
 	if (src.id)
-		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = iconsource, "icon_state" = "id[suffix]", "layer" = MOB_LAYER)
 		src.id.screen_loc = "1,1"
+	if (src.l_hand)
+		var/type = src.l_hand.s_istate
+		if (!type)
+			type = src.l_hand.icon_state
+		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = "[type]", "layer" = MOB_LAYER)
+		src.l_hand.screen_loc = "3,2"
+	if (src.r_hand)
+		var/type = src.r_hand.s_istate
+		if (!type)
+			type = src.r_hand.icon_state
+		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[type]", "layer" = MOB_LAYER)
+		src.r_hand.screen_loc = "3,2"
 
 	if (src.l_store)
 		src.l_store.screen_loc = "4,1"
@@ -333,12 +347,12 @@
 		var/elect = ""
 		if (istype(src.back, /obj/item/weapon/radio/electropack))
 			elect = "e"
-		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "back[elect][suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = iconsource, "icon_state" = "back[elect][suffix]", "layer" = MOB_LAYER)
 		src.back.screen_loc = "3,3"
 
 	if (src.handcuffs)
 		src.pulling = null
-		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "handcuff[suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = iconsource, "icon_state" = "handcuff[suffix]", "layer" = MOB_LAYER)
 	if (src.client)
 		src.client.screen -= src.contents
 		src.client.screen += src.contents
@@ -437,4 +451,12 @@
 		return src.l_hand
 	else
 		return src.r_hand
+	return
+
+/mob/carbon/MouseDrop(mob/carbon/M as mob)
+
+	..()
+	if (M != usr || usr == src || get_dist(usr, src) > 1 || !istype(M, /mob/carbon))
+		return
+	src.show_inv(usr)
 	return

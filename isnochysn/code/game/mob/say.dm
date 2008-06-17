@@ -32,7 +32,6 @@
 			if (I.number == radio_num)
 				return I
 
-
 /mob/verb/say(txt as text)
 	if(!txt)
 		return

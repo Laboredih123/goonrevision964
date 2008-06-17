@@ -25,6 +25,61 @@
 	var/atom/master = null
 	anchored = 1
 
+/atom/movable/Move(NewLoc, direct)
+
+	if (direct & direct - 1)
+		if (direct & 1)
+			if (direct & 4)
+				if (step(src, NORTH))
+					step(src, EAST)
+				else
+					if (step(src, EAST))
+						step(src, NORTH)
+			else
+				if (direct & 8)
+					if (step(src, NORTH))
+						step(src, WEST)
+					else
+						if (step(src, WEST))
+							step(src, NORTH)
+		else
+			if (direct & 2)
+				if (direct & 4)
+					if (step(src, SOUTH))
+						step(src, EAST)
+					else
+						if (step(src, EAST))
+							step(src, SOUTH)
+				else
+					if (direct & 8)
+						if (step(src, SOUTH))
+							step(src, WEST)
+						else
+							if (step(src, WEST))
+								step(src, SOUTH)
+	else
+		..()
+	return
+
+/atom/movable/verb/pull()
+	set src in oview(1)
+
+	if (!( usr ))
+		return
+	if (!( src.anchored ))
+		usr.pulling = src
+	return
+
+/atom/verb/examine()
+	set src in oview(12)	//make it work from farther away
+
+	if (!( usr ))
+		return
+	usr << src.desc
+	// *****RM
+	//usr << "[src.name]: Dn:[density] dir:[dir] cont:[contents] icon:[icon] is:[icon_state] loc:[loc]"
+	return
+
 /datum/air_tunnel
 	//name = "air tunnel"
 	var/operating = 0

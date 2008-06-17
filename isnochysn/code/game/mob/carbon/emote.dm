@@ -173,7 +173,7 @@
 
 /mob/carbon/verb/shake()
 	set name = ".shake"
-	src.emote("shakes [src.gender == MALE ? "his" : "her"] head") //can't use a macro here, sadly
+	src.emote("shakes \his[src] head")
 
 /mob/carbon/verb/shiver()
 	set name = ".shiver"
@@ -216,3 +216,8 @@
 	set name = ".yawn"
 	if(!src.is_muzzled())
 		src.emote("yawns")
+
+/mob/carbon/verb/tail()
+	set name = ".tail"
+	if(src.has_tail)
+		src.emote("waves \his[src] tail")
