@@ -181,7 +181,7 @@ world
 	area = /area
 	view = "15x15"
 	hub = "Slurm.SpaceStation13"
-	hub_password = "99QuOpW433Kqcyuu"
+	hub_password = ""
 
 	//visibility = 0
 	//loop_checks = 0
