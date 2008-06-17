@@ -23,6 +23,8 @@
 	access_heads = 22
 	access_captain = 23
 	access_all_personal_lockers = 24
+	access_chapel_office = 25
+	access_tech_storage = 26
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
@@ -82,7 +84,7 @@
 		if("Medical Assistant")
 			return list(access_medical_supplies, access_morgue)
 		if("Technical Assistant")
-			return list(access_maint_tunnels, access_external_airlocks)
+			return list(access_maint_tunnels, access_external_airlocks, access_tech_storage)
 		if("Engineer")
 			return list(access_engine, access_eject_engine)
 		if("Forensic Technician")
@@ -101,16 +103,17 @@
 			return list(access_tox, access_tox_storage)
 		if("Head of Research")
 			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_medlab,
-			            access_teleporter, access_heads)
+			            access_teleporter, access_heads, access_tech_storage)
 		if("Head of Personnel")
 			return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
 						access_security_records, access_tox, access_tox_storage, access_medlab, access_engine,
 						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
-						access_all_personal_lockers)
+						access_all_personal_lockers, access_tech_storage)
 		if("Station Technician")
-			return list(access_maint_tunnels, access_external_airlocks, access_apcs, access_all_personal_lockers)
+			return list(access_maint_tunnels, access_external_airlocks, access_apcs, access_all_personal_lockers,
+			            access_tech_storage)
 		if("Atmospheric Technician")
-			return list(access_maint_tunnels, access_emergency_storage)
+			return list(access_maint_tunnels, access_emergency_storage, access_tech_storage)
 		else
 			return list()
 
@@ -119,7 +122,8 @@
 	            access_security_records, access_medical_supplies, access_medical_records, access_morgue, access_tox,
 	            access_tox_storage, access_medlab, access_engine, access_eject_engine, access_maint_tunnels,
 	            access_external_airlocks, access_emergency_storage, access_apcs, access_change_ids, access_ai_upload,
-	            access_teleporter, access_eva, access_heads, access_captain, access_all_personal_lockers)
+	            access_teleporter, access_eva, access_heads, access_captain, access_all_personal_lockers,
+	            access_tech_storage, access_chapel_office)
 
 /proc/get_access_desc(A)
 	switch(A)
@@ -171,6 +175,10 @@
 			return "access the captain's quarters"
 		if(access_all_personal_lockers)
 			return "open all personal lockers"
+		if(access_chapel_office)
+			return "access the chapel office"
+		if(access_tech_storage)
+			return "access technical storage"
 
 /proc/get_all_jobs()
 	return list("Research Assistant", "Staff Assistant", "Medical Assistant", "Technical Assistant", "Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Medical Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Station Technician", "Atmospheric Technician")
