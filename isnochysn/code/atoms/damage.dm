@@ -4,6 +4,7 @@
 	var/toxin = 0
 	var/electric = 0
 	var/suffocation = 0
+	var/total = 0
 
 /datum/damage/New(brute, burn, toxin, electric, suffocation)
 	src.brute = brute
@@ -11,6 +12,7 @@
 	src.toxin = toxin
 	src.electric = electric
 	src.suffocation = suffocation
+	total()
 
 /datum/damage/proc/add(datum/damage/dam)
 	src.brute += dam.brute
@@ -18,6 +20,7 @@
 	src.toxin += dam.toxin
 	src.electric += dam.electric
 	src.suffocation += dam.suffocation
+	total()
 
 /datum/damage/proc/subtract(datum/damage/dam)
 	//returns anything left over from the subtraction, doesn't just throw away overflow
@@ -55,8 +58,8 @@
 	else
 		src.damage.suffocation -= dam.suffocation
 		dam.suffocation = 0
-
+	total()
 	return dam
 
 /datum/damage/proc/total()
-	return src.brute + src.burn + src.toxin + src.electric + src.suffocation
+	total = src.brute + src.burn + src.toxin + src.electric + src.suffocation

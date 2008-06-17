@@ -202,3 +202,35 @@
 	else
 		src.UpdateDamage()
 	return
+
+/mob/carbon/check_decompression()
+	if (istype(src.loc, /turf/space) && !locate(/obj/move, src.loc))
+		var/layers = 20
+		if (((istype(src.head, /obj/item/weapon/clothing/head) && src.head.flags & 4) || (istype(src.mask, /obj/item/weapon/clothing/mask) && (!( src.mask.flags & 4 ) && src.mask.flags & 8))))
+			layers -= 5
+		if (istype(src.jumpsuit, /obj/item/weapon/clothing/under))
+			layers -= 5
+		if ((istype(src.suit, /obj/item/weapon/clothing/suit) && src.suit.flags & 8))
+			layers -= 10
+		src.take_damage(new datum/damage(suffocation = layers))
+
+/mob/carbon/handle_knockout()
+	src.knockout = max(src.knockout - 1, 0)
+	if(src.knockout > 0)
+		src.canmove = 0
+		src.lying = 1
+		src.blinded = 1
+		src.drop(slot_l_hand)
+		src.drop(slot_r_hand)
+	else
+		src.canmove = 1
+		src.lying = 1
+
+/mob/carbon/handle_knockdown()
+	src.knockdown = max(src.knockdown - 1, 0)
+	if (src.knockdown > 0)
+		src.canmove = 0
+		src.lying = 1
+	else
+		src.canmove = 1
+		src.lying = 0

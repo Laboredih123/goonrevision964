@@ -1336,7 +1336,7 @@
 
 	if (M.drowsyness < 600)
 		M.drowsyness += 600
-		M.drowsyness = min(M.drowsyness, 1800)
+	M.drowsyness = min(M.drowsyness, 1800)
 	if (prob(25))
 		M.paralysis += 60
 	else
@@ -1357,7 +1357,7 @@
 
 	if ((prob(50) && M.drowsyness < 600))
 		M.drowsyness += 60
-		M.drowsyness = min(M.drowsyness, 600)
+	M.drowsyness = min(M.drowsyness, 600)
 	if (M.health >= 0)
 		if (M.toxloss <= 20)
 			M.toxloss = 0
@@ -1372,7 +1372,7 @@
 
 	if ((prob(75) && M.drowsyness < 600))
 		M.drowsyness += 60
-		M.drowsyness = min(M.drowsyness, 600)
+	M.drowsyness = min(M.drowsyness, 600)
 	M.r_ch_cou += 1200
 	..()
 	return
@@ -1381,7 +1381,7 @@
 
 	if (M.drowsyness < 600)
 		M.drowsyness += rand(2, 3) * 60
-		M.drowsyness = min(M.drowsyness, 600)
+	M.drowsyness = min(M.drowsyness, 600)
 	M.r_epil += 1200
 	..()
 	return
@@ -1390,7 +1390,7 @@
 
 	if (M.drowsyness < 600)
 		M.drowsyness += rand(3, 5) * 60
-		M.drowsyness = min(M.drowsyness, 600)
+	M.drowsyness = min(M.drowsyness, 600)
 	M.r_Tourette += 1200
 	..()
 	return

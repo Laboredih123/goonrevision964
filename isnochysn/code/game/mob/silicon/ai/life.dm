@@ -5,7 +5,7 @@
 		if (ficheck)
 			src.take_damage(new /datum/damage(burn = ficheck * 10))
 
-	if (src.dam.total() > 200)
+	if (src.dam.total > 200)
 		death()
 
 

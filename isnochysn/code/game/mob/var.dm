@@ -14,3 +14,5 @@
 		list
 			requests = list(  )
 			mapobjs = list()
+		death_threshold = 200
+		unconsciousness_threshold = 100

@@ -14,31 +14,17 @@
 		monkeyizing = null
 		other = 0.0
 		hand = null
-		eye_blind = null
-		eye_blurry = null
-		ear_deaf = null
-		ear_damage = null
-		stuttering = null
 		rname = null
 		blinded = null
 		rejuv = null
-		r_epil = null
-		r_ch_cou = null
-		r_Tourette = null
-		antitoxs = null
-		plasma = null
-		virus = 0.0
 		sleeping = 0.0
 		resting = 0.0
 		lying = 0.0
 		canmove = 1.0
-		eye_stat = null
 		timeofdeath = 0.0
 		cpr_time = 1.0
-		drowsyness = 0.0
-		paralysis = 0.0
-		stunned = 0.0
-		weakened = 0.0
+		knockout = 0.0
+		knockdown = 0.0
 		losebreath = 0.0
 		obj/stool/chair/buckled = null
 		obj/item/weapon/handcuffs/handcuffed = null
@@ -70,7 +56,7 @@
 		const
 			slot_back = 1
 			slot_mask = 2
-			slot_handcuffed = 3
+			slot_handcuffs = 3
 			slot_l_hand = 4
 			slot_r_hand = 5
 			slot_belt = 6
@@ -101,8 +87,7 @@
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
 	var/now_pushing = null
-	var/t_plasma = 0.0
-	var/t_oxygen = 0.0
+
 	var/last_b_state = 1.0
 	var/image/face = null
 	var/image/face2 = null
@@ -112,6 +97,8 @@
 	var/list/body_standing = list()
 	var/list/body_lying = list()
 	var/list/organs = list()
+
+	var/blackout_threshold = 80
 
 /mob/carbon/New()
 	spawn (1)

@@ -3,7 +3,7 @@
 /var/const/COMPUTER_LANG = 3
 
 /mob/proc/hear(message)
-	if(src.sdisabilities & deafness)
+	if(src.deaf)
 		return
 	if(src.stat == 1 || src.sleeping == 0)
 		src << "<i>You hear a faint noise.</i>"

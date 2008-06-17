@@ -43,6 +43,79 @@
 			src.l_hand = null
 	return
 
+/mob/carbon/proc/drop_all()
+	for(var/obj/item/weapon/W in src)
+		src.u_equip(W)
+		if (src.client)
+			src.client.screen -= W
+		if (W)
+			W.loc = src.loc
+			W.dropped(src)
+			W.layer = initial(W.layer)
+	src.UpdateClothing()
+
+/mob/carbon/proc/drop(slot)
+	/obj/item/weapon/W
+	switch(slot)
+		if(slot_back)
+			W = src.back
+			src.back = null
+		if(slot_mask)
+			W = src.mask
+			src.mask = null
+		if(slot_handcuffs)
+			W = src.handcuffs
+			src.handcuffs = null
+		if(slot_l_hand)
+			W = src.l_hand
+			src.l_hand = null
+		if(slot_r_hand)
+			W = src.r_hand
+			src.r_hand = null
+		if(slot_belt)
+			W = src.belt
+			src.belt = null
+		if(slot_id)
+			W = src.id
+			src.id = null
+		if(slot_ears)
+			W = src.ears
+			src.ears = null
+		if(slot_glasses)
+			W = src.glasses
+			src.glasses = null
+		if(slot_gloves)
+			W = src.gloves
+			src.gloves = null
+		if(slot_helmet)
+			W = src.helmet
+			src.helmet = null
+		if(slot_shoes)
+			W = src.shoes
+			src.shoes = null
+		if(slot_suit)
+			W = src.suit
+			src.suit = null
+		if(slot_jumpsuit)
+			W = src.jumpsuit
+			src.jumpsuit = null
+		if(slot_l_store)
+			W = src.l_store
+			src.l_store = null
+		if(slot_r_store)
+			W = src.r_store
+			src.r_store = null
+		if(slot_headset)
+			W = src.headset
+			src.headset = null
+	if (W)
+		if (src.client)
+			src.client.screen -= W
+		W.loc = src.loc
+		W.dropped(src)
+		W.layer = initial(W.layer)
+
+
 
 /mob/carbon/db_click(text, t1)
 	var/obj/item/weapon/W = src.equipped()
@@ -183,5 +256,16 @@
 				return
 			src.u_equip(W)
 			src.r_store = W
-		else
+
+	src.update_clothing()
 	return
+
+/mob/human/proc/update_clothing()
+	src.update_clothing_functions()
+	src.update_clothing_icons()
+
+/mob/human/proc/update_clothing_functions()
+	src.update_vision
+
+
+/mob/human/proc/update_clothing_icons()
