@@ -1,3 +1,23 @@
+/obj/point/point()
+	set src in oview()
+
+	return
+
+/obj/examine/examine()
+	set src in oview()
+
+	return
+
+/obj/proc/alter_health()
+	return 1
+
+/obj/proc/relaymove()
+	return
+
+/obj/proc/hide(h)
+	return
+
+
 
 /proc/text2dir(direction)
 
@@ -4160,7 +4180,7 @@
 	var/dat = "<B>Crew Manifest</B>:<BR>"
 	for(var/mob/human/M in world)
 		if (M.start)
-			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.wear_id, /obj/item/weapon/card/id) ? text("[]", M.wear_id.assignment) : "Unknown Position"))
+			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.id, /obj/item/weapon/card/id) ? text("[]", M.id.assignment) : "Unknown Position"))
 		//Foreach goto(23)
 	var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
 	P.info = dat

@@ -50,33 +50,33 @@
 			for(var/mob/human/H in src.members)
 				H.loc = starting.loc
 				if ((src.master.autodress && src.color))
-					H.w_uniform = null
-					del(H.w_uniform)
+					H.jumpsuit = null
+					del(H.jumpsuit)
 					H.shoes = null
 					del(H.shoes)
 					switch(src.color)
 						if("blue")
-							H.w_uniform = new /obj/item/weapon/clothing/under/blue( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/blue( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/brown( H )
 						if("green")
-							H.w_uniform = new /obj/item/weapon/clothing/under/green( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/green( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
 						if("yellow")
-							H.w_uniform = new /obj/item/weapon/clothing/under/yellow( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/yellow( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/orange( H )
 						if("black")
-							H.w_uniform = new /obj/item/weapon/clothing/under/black( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/black( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
 						if("white")
-							H.w_uniform = new /obj/item/weapon/clothing/under/white( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/white( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/brown( H )
 						if("red")
-							H.w_uniform = new /obj/item/weapon/clothing/under/red( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/red( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/brown( H )
 						else
-							H.w_uniform = new /obj/item/weapon/clothing/under/orange( H )
+							H.jumpsuit = new /obj/item/weapon/clothing/under/orange( H )
 							H.shoes = new /obj/item/weapon/clothing/shoes/orange( H )
-					H.w_uniform.layer = 20
+					H.jumpsuit.layer = 20
 					H.shoes.layer = 20
 				//Foreach goto(507)
 	return
@@ -425,8 +425,8 @@
 		var/obj/rogue = locate("landmark*CTF-rogue")
 		for(var/mob/human/H in world)
 			H.loc = rogue.loc
-			H.w_uniform = new /obj/item/weapon/clothing/under/orange( H )
-			H.w_uniform.layer = 20
+			H.jumpsuit = new /obj/item/weapon/clothing/under/orange( H )
+			H.jumpsuit.layer = 20
 			H.shoes = new /obj/item/weapon/clothing/shoes/orange( H )
 			H.shoes.layer = 20
 			//Foreach goto(1453)

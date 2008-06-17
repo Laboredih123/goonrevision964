@@ -58,7 +58,7 @@ making it show up in the ID computer - it will automatically. This is the only f
 	else if(istype(M, /mob/carbon/human))
 		var/mob/carbon/human/H = M
 		//if they are holding or wearing a card that has access, that works
-		if(src.check_access(H.equipped()) || src.check_access(H.wear_id))
+		if(src.check_access(H.equipped()) || src.check_access(H.id))
 			return 1
 	else if(istype(M, /mob/carbon/monkey))
 		var/mob/carbon/monkey/george = M

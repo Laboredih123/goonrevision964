@@ -61,24 +61,24 @@ datum/hSB
 						return
 				if("hsbsuit")
 					var/mob/human/P = usr
-					if(P.wear_suit)
-						P.wear_suit.loc = P.loc
-						P.wear_suit.layer = initial(P.wear_suit.layer)
-						P.wear_suit = null
-					P.wear_suit = new/obj/item/weapon/clothing/suit/sp_suit(P)
-					P.wear_suit.layer = 20
+					if(P.suit)
+						P.suit.loc = P.loc
+						P.suit.layer = initial(P.suit.layer)
+						P.suit = null
+					P.suit = new/obj/item/weapon/clothing/suit/sp_suit(P)
+					P.suit.layer = 20
 					if(P.head)
 						P.head.loc = P.loc
 						P.head.layer = initial(P.head.layer)
 						P.head = null
 					P.head = new/obj/item/weapon/clothing/head/s_helmet(P)
 					P.head.layer = 20
-					if(P.wear_mask)
-						P.wear_mask.loc = P.loc
-						P.wear_mask.layer = initial(P.wear_mask.layer)
-						P.wear_mask = null
-					P.wear_mask = new/obj/item/weapon/clothing/mask/gasmask(P)
-					P.wear_mask.layer = 20
+					if(P.mask)
+						P.mask.loc = P.loc
+						P.mask.layer = initial(P.mask.layer)
+						P.mask = null
+					P.mask = new/obj/item/weapon/clothing/mask/gasmask(P)
+					P.mask.layer = 20
 					if(P.back)
 						P.back.loc = P.loc
 						P.back.layer = initial(P.back.layer)

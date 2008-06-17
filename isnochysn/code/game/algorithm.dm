@@ -183,28 +183,28 @@
 
 /mob/human/var/const
 	slot_back = 1
-	slot_wear_mask = 2
+	slot_mask = 2
 	slot_handcuffed = 3
 	slot_l_hand = 4
 	slot_r_hand = 5
 	slot_belt = 6
-	slot_wear_id = 7
+	slot_id = 7
 	slot_ears = 8
 	slot_glasses = 9
 	slot_gloves = 10
 	slot_head = 11
 	slot_shoes = 12
-	slot_wear_suit = 13
-	slot_w_uniform = 14
+	slot_suit = 13
+	slot_jumpsuit = 14
 	slot_l_store = 15
 	slot_r_store = 16
-	slot_w_radio = 17
+	slot_headset = 17
 	slot_in_backpack = 18
 
 /mob/human/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
 	//warning: icky code
 	var/equipped = 0
-	if((slot == l_store || slot == r_store || slot == belt || slot == wear_id) && !src.w_uniform)
+	if((slot == l_store || slot == r_store || slot == belt || slot == id) && !src.jumpsuit)
 		del(W)
 		return
 	switch(slot)
@@ -212,9 +212,9 @@
 			if(!src.back)
 				src.back = W
 				equipped = 1
-		if(slot_wear_mask)
-			if(!src.wear_mask)
-				src.wear_mask = W
+		if(slot_mask)
+			if(!src.mask)
+				src.mask = W
 				equipped = 1
 		if(slot_handcuffed)
 			if(!src.handcuffed)
@@ -232,9 +232,9 @@
 			if(!src.belt)
 				src.belt = W
 				equipped = 1
-		if(slot_wear_id)
-			if(!src.wear_id)
-				src.wear_id = W
+		if(slot_id)
+			if(!src.id)
+				src.id = W
 				equipped = 1
 		if(slot_ears)
 			if(!src.ears)
@@ -256,13 +256,13 @@
 			if(!src.shoes)
 				src.shoes = W
 				equipped = 1
-		if(slot_wear_suit)
-			if(!src.wear_suit)
-				src.wear_suit = W
+		if(slot_suit)
+			if(!src.suit)
+				src.suit = W
 				equipped = 1
-		if(slot_w_uniform)
-			if(!src.w_uniform)
-				src.w_uniform = W
+		if(slot_jumpsuit)
+			if(!src.jumpsuit)
+				src.jumpsuit = W
 				equipped = 1
 		if(slot_l_store)
 			if(!src.l_store)
@@ -272,9 +272,9 @@
 			if(!src.r_store)
 				src.r_store = W
 				equipped = 1
-		if(slot_w_radio)
-			if(!src.w_radio)
-				src.w_radio = W
+		if(slot_headset)
+			if(!src.headset)
+				src.headset = W
 				equipped = 1
 		if(slot_in_backpack)
 			if (src.back && istype(src.back, /obj/item/weapon/storage/backpack))
@@ -296,55 +296,55 @@
 			src.loc = S.loc
 			src.AIize()
 		return
-	src.equip_if_possible(new /obj/item/weapon/radio/headset(src), slot_w_radio)
+	src.equip_if_possible(new /obj/item/weapon/radio/headset(src), slot_headset)
 	src.equip_if_possible(new /obj/item/weapon/storage/backpack(src), slot_back)
 	if (src.disabilities & 1)
 		src.equip_if_possible(new /obj/item/weapon/clothing/glasses/regular(src), slot_glasses)
 	switch(rank)
 		if("Research Assistant")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clipboard(src), slot_l_hand)
 		if("Technical Assistant")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
 			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
 		if("Staff Assistant")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/handcuffs(src), slot_l_hand)
 		if("Medical Assistant")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/storage/firstaid/regular(src), slot_l_hand)
 		if("Engineer")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
 			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
 		if("Research Technician")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clipboard(src), slot_l_hand)
 		if("Forensic Technician")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/gloves/latex(src), slot_gloves)
 			src.equip_if_possible(new /obj/item/weapon/storage/fcard_kit(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/fcardholder(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/f_print_scanner(src), slot_in_backpack)
 		if("Medical Doctor")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/storage/firstaid/regular(src), slot_l_hand)
 		if("Captain")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/darkgreen(src), slot_w_uniform)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/darkgreen(src), slot_jumpsuit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/head/swat_hel(src), slot_head)
 			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
@@ -352,8 +352,8 @@
 			src.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
 		if("Security Officer")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_w_uniform)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/red(src), slot_jumpsuit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
@@ -364,19 +364,19 @@
 			src.equip_if_possible(new /obj/item/weapon/baton(src), slot_belt)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
 		if("Genetic Researcher")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(src), slot_suit)
 		if("Toxin Researcher")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/white(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/bio_suit(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/bio_suit(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/head/bio_hood(src), slot_head)
-			src.equip_if_possible(new /obj/item/weapon/clothing/mask/gasmask(src), slot_wear_mask)
+			src.equip_if_possible(new /obj/item/weapon/clothing/mask/gasmask(src), slot_mask)
 			src.equip_if_possible(new /obj/item/weapon/tank/oxygentank(src), slot_l_hand)
 		if("Head of Research")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_w_uniform)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_jumpsuit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
 			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
@@ -385,8 +385,8 @@
 			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
 		if("Head of Personnel")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_w_uniform)
-			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/green(src), slot_jumpsuit)
+			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(src), slot_head)
 			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
@@ -395,14 +395,14 @@
 			src.equip_if_possible(new /obj/item/weapon/storage/id_kit(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/flash(src), slot_l_store)
 		if("Station Technician")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
 			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/cable_coil(src), slot_in_backpack)
 			src.equip_if_possible(new /obj/item/weapon/t_scanner(src), slot_belt)
 		if("Atmospheric Technician")
-			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_w_uniform)
+			src.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(src), slot_jumpsuit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(src), slot_shoes)
 			src.equip_if_possible(new /obj/item/weapon/storage/toolbox(src), slot_l_hand)
 			src.equip_if_possible(new /obj/item/weapon/crowbar(src), slot_in_backpack)
@@ -414,7 +414,7 @@
 	C.assignment = rank
 	C.name = "[C.registered]'s ID Card ([C.assignment])"
 	C.access = get_access(C.assignment)
-	src.equip_if_possible(C, slot_wear_id)
+	src.equip_if_possible(C, slot_id)
 	src.equip_if_possible(new /obj/item/weapon/pen(src), slot_r_store)
 	src.equip_if_possible(new /obj/item/weapon/radio/signaler(src), slot_belt)
 	if(rank == "Captain")

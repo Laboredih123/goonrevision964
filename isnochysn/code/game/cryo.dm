@@ -1800,7 +1800,7 @@
 
 /mob/human/abiotic()
 
-	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || (src.back || src.wear_mask || src.head || src.shoes || src.w_uniform || src.wear_suit || src.w_radio || src.glasses || src.ears || src.gloves))
+	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || (src.back || src.mask || src.head || src.shoes || src.jumpsuit || src.suit || src.headset || src.glasses || src.ears || src.gloves))
 		return 1
 	else
 		return 0
@@ -1808,7 +1808,7 @@
 
 /mob/proc/abiotic()
 
-	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || src.back || src.wear_mask)
+	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || src.back || src.mask)
 		return 1
 	else
 		return 0

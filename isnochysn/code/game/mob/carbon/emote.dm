@@ -18,20 +18,6 @@
 				if(M.hear("someone [message]"))
 					mobs_seen += M
 
-/mob/carbon/proc/is_muzzled()
-	return istype(src.mask, /obj/item/weapon/clothing/mask/muzzle)
-
-/mob/carbon/proc/is_blindfolded()
-	return istype(src.glasses, /obj/item/weapon/clothing/glasses/blindfold)
-
-/mob/carbon/proc/is_handcuffed() //in cuffs or straitjacket
-	return istype(src.handcuffs, /obj/item/weapon/handcuffs) || istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket)
-
-/mob/carbon/proc/is_restrained()
-	if(src.buckled)
-		return 1
-	return 0
-
 /mob/carbon/verb/emote_help()
 	src << "The valid emotes are: blink, blush, bow \[at person\], choke, chuckle, clap, cough, cry,  eyebrow, frown, gasp, giggle, groan, grumble, handshake, hug-(none)/mob, glare-(none)/mob,\ngrin, laugh, look-(none)/mob, moan, mumble, nod, pale, point-atom, raise, salute, shake, shiver, shrug,\nsigh, signal-#1-10, smile, sneeze, sniff, snore, stare-(none)/mob, tremble, twitch, twitch_s, whimper,\nwink, yawn"
 

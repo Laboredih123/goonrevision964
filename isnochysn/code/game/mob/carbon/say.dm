@@ -3,7 +3,7 @@
 		return 0
 	if(src.sdisabilites & muteness)
 		return 0
-	if(istype(src.wear_mask, /obj/item/weapon/clothing/mask/muzzle))
+	if(istype(src.mask, /obj/item/weapon/clothing/mask/muzzle))
 		return 0
 
 	//TODO: completely redo this check so that it isn't absolutely awful

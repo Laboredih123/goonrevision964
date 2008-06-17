@@ -47,7 +47,7 @@
 		obj/item/weapon/back = null
 		obj/item/weapon/tank/internal = null
 		obj/item/weapon/storage/s_active = null
-		obj/item/weapon/clothing/mask/wear_mask = null
+		obj/item/weapon/clothing/mask/mask = null
 		obj/screen/flash = null
 		obj/screen/blind = null
 		obj/screen/hands = null
@@ -69,33 +69,33 @@
 
 		const
 			slot_back = 1
-			slot_wear_mask = 2
+			slot_mask = 2
 			slot_handcuffed = 3
 			slot_l_hand = 4
 			slot_r_hand = 5
 			slot_belt = 6
-			slot_wear_id = 7
+			slot_id = 7
 			slot_ears = 8
 			slot_glasses = 9
 			slot_gloves = 10
 			slot_head = 11
 			slot_shoes = 12
-			slot_wear_suit = 13
-			slot_w_uniform = 14
+			slot_suit = 13
+			slot_jumpsuit = 14
 			slot_l_store = 15
 			slot_r_store = 16
-			slot_w_radio = 17
+			slot_headset = 17
 			slot_in_backpack = 18
-	var/obj/item/weapon/clothing/suit/wear_suit = null
-	var/obj/item/weapon/clothing/under/w_uniform = null
-	var/obj/item/weapon/radio/w_radio = null
+	var/obj/item/weapon/clothing/suit/suit = null
+	var/obj/item/weapon/clothing/under/jumpsuit = null
+	var/obj/item/weapon/radio/headset = null
 	var/obj/item/weapon/clothing/shoes/shoes = null
 	var/obj/item/weapon/belt = null
 	var/obj/item/weapon/clothing/gloves/gloves = null
 	var/obj/item/weapon/clothing/glasses/glasses = null
 	var/obj/item/weapon/clothing/head/head = null
 	var/obj/item/weapon/clothing/ears/ears = null
-	var/obj/item/weapon/card/id/wear_id = null
+	var/obj/item/weapon/card/id/id = null
 	var/obj/item/weapon/r_store = null
 	var/obj/item/weapon/l_store = null
 	var/icon/stand_icon = null
@@ -112,3 +112,41 @@
 	var/list/body_standing = list()
 	var/list/body_lying = list()
 	var/list/organs = list()
+
+/mob/carbon/New()
+	spawn (1)
+		if (world.time < 60)
+			sleep(7) //I guess this is here because of all the stuff taking forever to load? I won't mess with it.
+		var/atom/organ/chest/chest = new /atom/organ/chest( src )
+		chest.owner = src
+		var/atom/organ/diaper/diaper = new /atom/organ/diaper( src )
+		diaper.owner = src
+		var/atom/organ/head/head = new /atom/organ/head( src )
+		head.owner = src
+		var/atom/organ/l_arm/l_arm = new /atom/organ/l_arm( src )
+		l_arm.owner = src
+		var/atom/organ/r_arm/r_arm = new /atom/organ/r_arm( src )
+		r_arm.owner = src
+		var/atom/organ/l_hand/l_hand = new /atom/organ/l_hand( src )
+		l_hand.owner = src
+		var/atom/organ/r_hand/r_hand = new /atom/organ/r_hand( src )
+		r_hand.owner = src
+		var/atom/organ/l_leg/l_leg = new /atom/organ/l_leg( src )
+		l_leg.owner = src
+		var/atom/organ/r_leg/r_leg = new /atom/organ/r_leg( src )
+		r_leg.owner = src
+		var/atom/organ/l_foot/l_foot = new /atom/organ/l_foot( src )
+		l_foot.owner = src
+		var/atom/organ/r_foot/r_foot = new /atom/organ/r_foot( src )
+		r_foot.owner = src
+		src.organs += chest
+		src.organs += diaper
+		src.organs += head
+		src.organs += l_arm
+		src.organs += r_arm
+		src.organs += l_hand
+		src.organs += r_hand
+		src.organs += l_leg
+		src.organs += r_leg
+		src.organs += l_foot
+		src.organs += r_foot

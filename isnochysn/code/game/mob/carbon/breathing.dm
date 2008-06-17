@@ -20,7 +20,7 @@
 			src.t_oxygen = max(src.t_oxygen, t)
 		if (a_plasma > 5)
 			src.t_plasma = round(a_plasma / 10) + 1
-			if ((src.wear_mask && src.wear_mask.a_filter >= 4))
+			if ((src.mask && src.mask.a_filter >= 4))
 				src.t_plasma = max(src.t_plasma - 40, 0)
 		if (a_sl_gas > 10)
 			src.weakened = max(src.weakened, 3)

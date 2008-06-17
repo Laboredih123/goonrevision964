@@ -31,18 +31,18 @@
 				H.rname = "Syndicate Leader"
 				ticker.killer = H
 			H.already_placed = 1
-			//H.w_uniform = null
-			del(H.w_uniform)
-			H.w_uniform = new /obj/item/weapon/clothing/under/black( H )
-			H.w_uniform.layer = 20
+			//H.jumpsuit = null
+			del(H.jumpsuit)
+			H.jumpsuit = new /obj/item/weapon/clothing/under/black( H )
+			H.jumpsuit.layer = 20
 			//H.shoes = null
 			del(H.shoes)
 			H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
 			H.shoes.layer = 20
 			H.gloves = new /obj/item/weapon/clothing/gloves/swat( H )
 			H.gloves.layer = 20
-			H.wear_suit = new /obj/item/weapon/clothing/suit/armor( H )
-			H.wear_suit.layer = 20
+			H.suit = new /obj/item/weapon/clothing/suit/armor( H )
+			H.suit.layer = 20
 			H.head = new /obj/item/weapon/clothing/head/swat_hel( H )
 			H.head.layer = 20
 			H.glasses = new /obj/item/weapon/clothing/glasses/sunglasses( H )
@@ -60,7 +60,7 @@
 			var/obj/item/weapon/radio/R = new /obj/item/weapon/radio/headset( H )
 			R.freq = 146.5
 			R.layer = 20
-			H.w_radio = R
+			H.headset = R
 
 /datum/game_mode/nuclear/post_setup()
 	spawn (50)

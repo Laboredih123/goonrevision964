@@ -110,7 +110,7 @@
 	var/list/namecounts = list()
 	var/list/creatures = list()
 	for (var/mob/M in world)
-		if (istype(M, /mob/human) && istype(M:wear_id, /obj/item/weapon/card/id/syndicate))
+		if (istype(M, /mob/human) && istype(M:id, /obj/item/weapon/card/id/syndicate))
 			continue
 		else if (M == usr)
 			continue
@@ -144,7 +144,7 @@
 				usr:cameraFollow = null
 				usr << "Follow camera mode ended."
 				return
-			else if (istype(target, /mob/human) && istype(target:wear_id, /obj/item/weapon/card/id/syndicate))
+			else if (istype(target, /mob/human) && istype(target:id, /obj/item/weapon/card/id/syndicate))
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return
@@ -682,7 +682,7 @@
 			var/datum/data/record/G = new /datum/data/record(  )
 			var/datum/data/record/M = new /datum/data/record(  )
 			var/datum/data/record/S = new /datum/data/record(  )
-			var/obj/item/weapon/card/id/C = H.wear_id
+			var/obj/item/weapon/card/id/C = H.id
 			if (C)
 				G.fields["rank"] = C.assignment
 			else

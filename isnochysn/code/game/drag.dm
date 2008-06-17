@@ -27,7 +27,7 @@
 	if (!( src.item ))
 		switch(src.place)
 			if("head")
-				if (!( src.target.wear_mask ))
+				if (!( src.target.mask ))
 					//SN src = null
 					del(src)
 					return
@@ -52,7 +52,7 @@
 					del(src)
 					return
 			if("internal")
-				if ((!( (istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
+				if ((!( (istype(src.target.mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
 					//SN src = null
 					del(src)
 					return
@@ -101,8 +101,8 @@
 		return
 	switch(src.place)
 		if("mask")
-			if (src.target.wear_mask)
-				var/obj/item/weapon/W = src.target.wear_mask
+			if (src.target.mask)
+				var/obj/item/weapon/W = src.target.mask
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -116,7 +116,7 @@
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.wear_mask = src.item
+					src.target.mask = src.item
 					src.item.loc = src.target
 		if("l_hand")
 			if (src.target.l_hand)
@@ -195,7 +195,7 @@
 			else
 				if (src.target.internal)
 					src.target.internal = null
-				if (!( istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) ))
+				if (!( istype(src.target.mask, /obj/item/weapon/clothing/mask) ))
 					return
 				else
 					if (istype(src.target.back, /obj/item/weapon/tank))
@@ -220,12 +220,12 @@
 	if (!( src.item ))
 		switch(src.place)
 			if("mask")
-				if (!( src.target.wear_mask ))
+				if (!( src.target.mask ))
 					//SN src = null
 					del(src)
 					return
 			if("headset")
-				if (!( src.target.w_radio ))
+				if (!( src.target.headset ))
 					//SN src = null
 					del(src)
 					return
@@ -240,12 +240,12 @@
 					del(src)
 					return
 			if("suit")
-				if (!( src.target.wear_suit ))
+				if (!( src.target.suit ))
 					//SN src = null
 					del(src)
 					return
 			if("uniform")
-				if (!( src.target.w_uniform ))
+				if (!( src.target.jumpsuit ))
 					//SN src = null
 					del(src)
 					return
@@ -264,12 +264,12 @@
 					del(src)
 					return
 			if("id")
-				if ((!( src.target.wear_id ) || !( src.target.w_uniform )))
+				if ((!( src.target.id ) || !( src.target.jumpsuit )))
 					//SN src = null
 					del(src)
 					return
 			if("internal")
-				if ((!( (istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
+				if ((!( (istype(src.target.mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
 					//SN src = null
 					del(src)
 					return
@@ -293,9 +293,9 @@
 				var/message = null
 				switch(src.place)
 					if("mask")
-						message = text("\red <B>[] is trying to take off \a [] from []'s head!</B>", src.source, src.target.wear_mask, src.target)
+						message = text("\red <B>[] is trying to take off \a [] from []'s head!</B>", src.source, src.target.mask, src.target)
 					if("headset")
-						message = text("\red <B>[] is trying to take off \a [] from []'s face!</B>", src.source, src.target.w_radio, src.target)
+						message = text("\red <B>[] is trying to take off \a [] from []'s face!</B>", src.source, src.target.headset, src.target)
 					if("l_hand")
 						message = text("\red <B>[] is trying to take off \a [] from []'s left hand!</B>", src.source, src.target.l_hand, src.target)
 					if("r_hand")
@@ -313,13 +313,13 @@
 					if("belt")
 						message = text("\red <B>[] is trying to take off the [] from []'s belt!</B>", src.source, src.target.belt, src.target)
 					if("suit")
-						message = text("\red <B>[] is trying to take off \a [] from []'s body!</B>", src.source, src.target.wear_suit, src.target)
+						message = text("\red <B>[] is trying to take off \a [] from []'s body!</B>", src.source, src.target.suit, src.target)
 					if("back")
 						message = text("\red <B>[] is trying to take off \a [] from []'s back!</B>", src.source, src.target.back, src.target)
 					if("handcuff")
 						message = text("\red <B>[] is trying to unhandcuff []!</B>", src.source, src.target)
 					if("uniform")
-						message = text("\red <B>[] is trying to take off \a [] from []'s body!</B>", src.source, src.target.w_uniform, src.target)
+						message = text("\red <B>[] is trying to take off \a [] from []'s body!</B>", src.source, src.target.jumpsuit, src.target)
 					if("pockets")
 						message = text("\red <B>[] is trying to empty []'s pockets!!</B>", src.source, src.target)
 					if("CPR")
@@ -329,7 +329,7 @@
 							return
 						message = text("\red <B>[] is trying perform CPR on []!</B>", src.source, src.target)
 					if("id")
-						message = text("\red <B>[] is trying to take off [] from []'s uniform!</B>", src.source, src.target.wear_id, src.target)
+						message = text("\red <B>[] is trying to take off [] from []'s uniform!</B>", src.source, src.target.id, src.target)
 					if("internal")
 						if (src.target.internal)
 							message = text("\red <B>[] is trying to remove []'s internals</B>", src.source, src.target)
@@ -358,8 +358,8 @@
 		return
 	switch(src.place)
 		if("mask")
-			if (src.target.wear_mask)
-				var/obj/item/weapon/W = src.target.wear_mask
+			if (src.target.mask)
+				var/obj/item/weapon/W = src.target.mask
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -373,11 +373,11 @@
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.wear_mask = src.item
+					src.target.mask = src.item
 					src.item.loc = src.target
 		if("headset")
-			if (src.target.w_radio)
-				var/obj/item/weapon/W = src.target.w_radio
+			if (src.target.headset)
+				var/obj/item/weapon/W = src.target.headset
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -390,7 +390,7 @@
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.w_radio = src.item
+					src.target.headset = src.item
 					src.item.loc = src.target
 		if("gloves")
 			if (src.target.gloves)
@@ -440,7 +440,7 @@
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if ((istype(src.item, /obj) && src.item.flags & 128 && src.target.w_uniform))
+				if ((istype(src.item, /obj) && src.item.flags & 128 && src.target.jumpsuit))
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
@@ -547,8 +547,8 @@
 					src.item.loc = src.target
 					src.item.add_fingerprint(src.target)
 		if("uniform")
-			if (src.target.w_uniform)
-				var/obj/item/weapon/W = src.target.w_uniform
+			if (src.target.jumpsuit)
+				var/obj/item/weapon/W = src.target.jumpsuit
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -575,7 +575,7 @@
 						W.loc = src.target.loc
 						W.dropped(src.target)
 						W.layer = initial(W.layer)
-				W = src.target.wear_id
+				W = src.target.id
 				if (W)
 					src.target.u_equip(W)
 					if (src.target.client)
@@ -589,11 +589,11 @@
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.w_uniform = src.item
+					src.target.jumpsuit = src.item
 					src.item.loc = src.target
 		if("suit")
-			if (src.target.wear_suit)
-				var/obj/item/weapon/W = src.target.wear_suit
+			if (src.target.suit)
+				var/obj/item/weapon/W = src.target.suit
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -607,11 +607,11 @@
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.wear_suit = src.item
+					src.target.suit = src.item
 					src.item.loc = src.target
 		if("id")
-			if (src.target.wear_id)
-				var/obj/item/weapon/W = src.target.wear_id
+			if (src.target.id)
+				var/obj/item/weapon/W = src.target.id
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -621,11 +621,11 @@
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if ((istype(src.item, /obj/item/weapon/card/id) && src.target.w_uniform))
+				if ((istype(src.item, /obj/item/weapon/card/id) && src.target.jumpsuit))
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.wear_id = src.item
+					src.target.id = src.item
 					src.item.loc = src.target
 		if("back")
 			if (src.target.back)
@@ -738,7 +738,7 @@
 			else
 				if (src.target.internal)
 					src.target.internal = null
-				if (!( istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) ))
+				if (!( istype(src.target.mask, /obj/item/weapon/clothing/mask) ))
 					return
 				else
 					if (istype(src.target.back, /obj/item/weapon/tank))

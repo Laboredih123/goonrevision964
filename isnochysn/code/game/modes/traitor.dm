@@ -116,7 +116,7 @@
 				var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink(B)
 				U.loc = B
 				B.orient2hud(killer)
-			else if (killer.w_uniform) // No backpack, but a jumpsuit
+			else if (killer.jumpsuit) // No backpack, but a jumpsuit
 				if(!(killer.l_store)) // Put the radio in his left pocket, if possible
 					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(killer)
 					traitor_item.loc = killer

@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\items.dm
-DIR: code code\game code\game\item code\game\item\weapon code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\silicon code\game\mob\silicon\ai
+FILE: icons\ss13\screen.dmi
+DIR: code code\game code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\modes icons icons\ss13
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -82,6 +82,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\cell_process.dm"
 #include "code\game\cellautomata.dm"
 #include "code\game\chemical.dm"
+#include "code\game\client.dm"
 #include "code\game\computer.dm"
 #include "code\game\cryo.dm"
 #include "code\game\demo.dm"
@@ -132,6 +133,10 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\carbon\breathing.dm"
 #include "code\game\mob\carbon\damage.dm"
 #include "code\game\mob\carbon\emote.dm"
+#include "code\game\mob\carbon\equipment.dm"
+#include "code\game\mob\carbon\examine.dm"
+#include "code\game\mob\carbon\login.dm"
+#include "code\game\mob\carbon\movement.dm"
 #include "code\game\mob\carbon\proc.dm"
 #include "code\game\mob\carbon\say.dm"
 #include "code\game\mob\carbon\var.dm"
@@ -140,6 +145,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\carbon\monkey\megamonkey\var.dm"
 #include "code\game\mob\prespawn\setup.dm"
 #include "code\game\mob\silicon\damage.dm"
+#include "code\game\mob\silicon\examine.dm"
 #include "code\game\mob\silicon\ai\login.dm"
 #include "code\game\mob\silicon\ai\say.dm"
 #include "code\game\mob\silicon\ai\var.dm"

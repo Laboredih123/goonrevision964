@@ -596,7 +596,7 @@
 
 /obj/item/weapon/clothing/mask/muzzle/attack_paw(mob/user as mob)
 
-	if (src == user.wear_mask)
+	if (src == user.mask)
 		return
 	else
 		..()
@@ -633,7 +633,7 @@
 			src.i_used += cp
 			src.i_used = min(max(round(src.i_used), 0), 10000)
 		if ((href_list["stat"] && src.loc == usr))
-			if (usr.internal != src && usr.wear_mask && (usr.wear_mask.flags & MASKINTERNALS))
+			if (usr.internal != src && usr.mask && (usr.mask.flags & MASKINTERNALS))
 				usr.internal = src
 				usr << "\blue Now running on internals!"
 			else
