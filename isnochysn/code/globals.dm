@@ -180,8 +180,8 @@ world
 	turf = /turf/space
 	area = /area
 	view = "15x15"
-	hub = "Slurm.Isno"
-	hub_password = ""
+	hub = "Slurm.SpaceStation13"
+	hub_password = "99QuOpW433Kqcyuu"
 
 	//visibility = 0
 	//loop_checks = 0
