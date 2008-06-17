@@ -1,5 +1,123 @@
-var/changes = {"<FONT color='blue'><B>Changes from base version 40.93.2</B></FONT><BR>
+var/changes = {"<FONT color='blue'>
+<P><B>Current Version: KURPER'S VERSION NUMBER TWO!</b></p>
+<P>This version is a fork of Rick's currently running server,
+and is a testbed of proposed fixes, changes, and features.</p>
 <HR>
+<P><B>Modified Tuesday, June 17th 2008 (Revision 129):</b><BR>
+<ul>
+<li>Removed random name code for now as it delayed spawning and caused some problems</li>
+<li>Fixed exception error with empty pill cannister</li>
+<li>Fixed bug with sandbox that threw errors if you logged out or died with the sandbox panel open</li>
+<li>Fixed bug in sandbox where non-admins could spawn</li>
+<li>Fixed bug where readying didn't spawn you</li>
+<li>Changed headset trigger from / to ; as / clears the chatbox when in chat mode</li>
+<li>Added the Chaplain position</li>
+<li>Made some new access levels</li>
+</ul>
+</p>
+
+<HR>
+<P><B>Modified Monday, June 16th 2008 (Revision 117):</b><BR>
+<ul>
+<li>You are now told what your job is and are offered to change your name, even if you aren't AI. This implementation is kind of kludgy and will be rolled into a new character sheet in the future.</li>
+<li>Fixed the default state of req_access_txt to make things easier for mapmakers.</li>
+<li>Fixed a bug with how req_access_txt was being read</li>
+<li>Removed the "THROW" icon from the AI's HUD</li>
+<li>Shuttle arrival and holding times have been cleaned up to make them easier to modify in the future.</li>
+<li>Fixed bug that would prevent rounds from ending.</li>
+<li>Meteors do more damage, but no longer blind/deafen/mute you.</li>
+<li>Meteors can now fly in from all directions, not just the East.</li>
+<li><B>ACCESS LEVEL REVAMP</b>. The old 4>2-2-0 security cards are gone and have been replaced with a permission-based system. That means you are given actual permissions such as
+"Access security" or "access the bridge" or "eject engine core". All items (computers, doors, etc.) check your security card for the required permission to be set. As this changes how station
+equipment works, it <B>breaks all previous maps</b>. There is a .txt in the root folder of the SVN detailing how to convert old maps. All appropriate security computers and interfaces have been
+updated for ease of use. The added benefit of this update is that adding new and wild permissions is now VERY easy to implement, both on the map side and code side.</li>
+<li>Asleep and unconscious people now hear muffled voices instead of clear text.</li>
+<li>Fixed problems that occur when two people have the same name.</li>
+<li>Turning off your internals now generates a refresh (it only worked when you turned them on before)</li>
+<li>Timer-igniter combinations now ignite things other than bombs.</li>
+<li>The Camera item has been removed from the forensics locker (it was broken and lagged out servers anyway)</li>
+<li>Left clicking on the teleporter computer now brings up the command dialogue (instead of having to right-click)</li>
+<li>The teleporter dialogue now lists only beacons, not all things with frequencies (and you can only lock onto beacons)</li>
+<li>The AI can now operate the teleporter (with some difficulty, particularly locking onto things - camera must be in follow mode)</li>
+<li>Left-clicking the teleportation hub now toggles it on and off.</li>
+<li>The teleportation target now follows the becaon (instead of the first reported beacon location)</li>
+<li>Turrets now hit people lying down.</li>
+<li>Turrets now shoot you in random body parts, not just the chest (which fixes the turrets-never-kill-you bug)</li>
+<li>Turrets now have a 3 second cooldown between shots so they don't spam you to death in the first second</li>
+<li>RWalls now produce and consume the same amount of materials when building or dismantling. No more free metal, kids.</li>
+<li>EMags now open (and break) secure closets. Added a new icon (by Judenhauer and weasello) that shows FANCY SPARK EFFECTS!</li>
+<li>People wearing a face-obscuring mask and wearing no ID now show up as "unknown"</li>
+<li>Gas masks no longer count as helmets (they used to shield from head damage)</li>
+<li>The nuclear disk can now be observed, so dead/admin can follow it</li>
+<li>The sandbox panel now requires authentication (pubbies were spawning toolboxes in the start area and beating each other)</li>
+<li>The sandbox panel now appears even if you spawn in mid-round</li>
+<li>The "enter" verb has been removed and it's functionality has been rolled into "ready" (you only have to type READY to spawn in now)</li>
+<li>You now spawn into the game with all the equipment associated with your job assignment (toolbox in hand, clothes on, etc.)</li>
+<li>You no longer start mid-round naked</li>
+<li>Walls are now built directly under you, making your 'facing' direction no longer important. To make this happen, girders are now passable tiles (you can walk through them).</li>
+<li>"Repair wall" is now gone, instead you use metal on the exposed girders.</li>
+<li>Time to build and dismantle walls has been increased to compensate for the new ease of building them.</li>
+<li>Traitors no longer get the "Hijack" verb (there was no legitimate use for it)</li>
+<li>The "Eject Engine" objective no longer appears for the Traitor, and has been replaced with "Cut power to 80% of the station" (that figure can be easily adjusted in the code)</li>
+<li>Added "Kill all monkeys on the station" traitor objective</li>
+<li>Added "Destroy 70% of plasma containers on the station" traitor objective (value easily changed in code)</li>
+<li>Added "Destroy AI" traitor objective</li>
+<li>Fixed some traitor text to make more sense</li>
+<li>The Intercept now only prints on the bridge (no longer in engineering or security)</li>
+<li>The AI mission of "kill everyone" was actually coded as a percentage value. The mission now reflects the code (and defaults to 75% murder rate - which is higher than before)</li>
+<li>Fixed the bug where it was impossible to steal a fully charged laser (since laser charges were reduced below the threshold)</li>
+<li>Fixed issue where airlocks would attempt to close even if they were already closed.</li>
+<li>Air tanks now start with a flow rate of 100 enabled (instead of 350), oxygen in the tank is now 25% of what it used to be, and jetpacks have half of THAT.</li>
+<li>Tasers have 4 charges instead of 8.</li>
+<li>Game Kit is now fixed (chessboard)</li>
+<li>Stacking large piles is fixed (previously clicking a pile of 50 on another pile of 50 created one pile of 5 and another of 95. They now both stay at 50)</li>
+<li><B>Radio communications methods have changed.</b> You would now use:<br>
+say "/words words"<BR>
+instead of:<br>
+say "\[h]words words<BR>
+All other commands, such as \[r], \[1], etc. have been replaced with :r and :1, etc.</li>
+<li>Unauthenticated users can no longer vote.</li>
+<li>There is now an indicator if the person you are observing is dead.</li>
+<li>Rearranged the order of suffixes in the observe code.</li>
+<li>Regular batons are now replaced with stun batons. They look cooler, do more damage, and stun people for 10-60 seconds with each hit. They can still talk while stunned.</li>
+<li><B>The throwing system has been completely replaced</b>. Now you can click throw, then click on the square you want to try to throw to. Your facing direction no longer has any effect.</li>
+<li>Throwing items no longer alters your direction of travel. If you slip into space, throwing your shoes will move you one square backwards but you will continue to float in the direction you slipped.</li>
+<li>Mass drivers can now drive anything, and they can (With some trivial code changes) even drive diagonally.</li>
+<li>Only spacesuits protect you from the vacuum of space. Firesuits and biohazard suits will now send you to the morgue.</li>
+<li>Suicide verb fixed so you can use it in the spawn area (in case you want to observe), you can no longer suicide if you are dead (duh), and you can attempt suicide once every 20 seconds now (in case some jerk doctor is healing you or you are monkeyed back to life).</li>
+<li>Attacking people at spawn should now be disabled. You might be able to hit people with ID cards but they do zero damage. Admin spawned weapons still hurt.</li>
+<li>Personal lockers now have smarter stacking (headsets and backpacks on the top)</li>
+<li>False walls now work properly whether you are holding a tool or not (it doesn't auto-open if you are holding a tool)</li>
+<li>False wall display bug fixed</li>
+<li>A lot of code cleaning was done, making things niiice and pretty.</li>
+</ul>
+</p>
+
+<HR>
+<B>Changes from base version 40.93.2</B></FONT><BR>
+<HR>
+
+<P><B>Gibbed's changes #6 (svn revision 64) 5/20/2008</b><BR>
+
+<ul>
+<li>Tasers now use charges for melee attacks and are increased to 4 charges instead of 3. </li>
+<li>Admin help now has better formatting and requires you to be authenticated. </li>
+<li>Optical Thermal/MESON scanners are now only optical thermal scanners. </li>
+<li>Shuttle doors no longer using their verb to open close and work like normal doors. </li>
+<li>Traitor selection messages are big and red!</li>
+</ul></p>
+
+<P><B>Gibbed's changes #5 5/19/2008</B><BR>
+
+<ul>
+<li>Authentication! Unauthenticated users cannot enter the game or use OOC. </li>
+<li>Stuttering now happens before HTML encoding, meaning no more excessive &&&qqqquuuooot;;;;. </li>
+<li>Health analyzer now shows offline status. </li>
+<li>New command adminhelp which allows you to broadcast messages to only admins. </li>
+<li>Several patches by Kurper: APC bug fix, fingerprints on door controls, observe patch, staff assistant rank fix. </li>
+<li>Suicide command, thanks to Kurper.</li>
+</ul>
+</p>
 
 <p><b>Gibbed's changes #4 - TEST VERSION #7 4/27/2008</b><br>
 <ul>

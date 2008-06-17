@@ -81,6 +81,8 @@
 			return list(access_tox, access_medlab)
 		if("Staff Assistant")
 			return list(access_security)
+		if("Chaplain")
+			return list(access_morgue, access_chapel_office)
 		if("Medical Assistant")
 			return list(access_medical_supplies, access_morgue)
 		if("Technical Assistant")
