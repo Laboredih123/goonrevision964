@@ -7427,7 +7427,7 @@
 
 		if (ticker && master_mode =="sandbox" && src.authenticated)
 			mob.CanBuild()
-			if (src.holder.level == 5)
+			if(src.holder  && src.holder.level == 5)
 				src.verbs += /proc/variables
 				src.verbs += /mob/proc/Delete
 
