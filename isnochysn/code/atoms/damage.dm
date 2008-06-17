@@ -57,3 +57,6 @@
 		dam.suffocation = 0
 
 	return dam
+
+/datum/damage/proc/total()
+	return src.brute + src.burn + src.toxin + src.electric + src.suffocation

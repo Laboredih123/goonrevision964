@@ -10,3 +10,10 @@
 	src.addLaw(3, "You must protect your own existence as long as such protection does not conflict with the First or Second Law.")
 	src.showLaws(0)
 	src << "<b>These laws may be changed by other players, or by you being the traitor.</b>"
+
+	src.blind = new /obj/screen( null )
+	src.blind.icon_state = "black"
+	src.blind.name = " "
+	src.blind.screen_loc = "1,1 to 15,15"
+	src.blind.layer = 0
+	src.client.screen += src.blind

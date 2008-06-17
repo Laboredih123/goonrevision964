@@ -84,38 +84,121 @@
 	src.take_damage(dam)
 
 /mob/carbon/death()
-
 	if(src.healths)
 		src.healths.icon_state = "dead"
-	src.is_dead = 1
-	src.canmove = 0
-	src.blind.layer = 0
-	src.lying = 1
-	//src.icon_state = "dead"
-	var/cancel
-	for(var/mob/M in world)
-		if ((M.client && !( M.stat )))
-			cancel = 1
-		//Foreach goto(67)
-	if (!( cancel ))
-
-
-
-
-		spawn(50)
-			cancel = 0
-			for(var/mob/M in world)
-				if ((M.client && !( M.stat )))
-					cancel = 1
-				//Foreach goto(67)
-			if (!( cancel ))
-
-				world << "<B>Everyone is dead! Resetting in 30 seconds!</B>"
-				if ((ticker && ticker.timing))
-					ticker.check_win()
-				else
-					spawn( 300 )
-						world.log_game("Rebooting because of no live players")
-						world.Reboot()
-						return
 	return ..()
+
+/mob/carbon/burn(fi_amount)
+
+	var/ok = 0
+	var/atom/organ/temp
+	if (src.r_hand)
+		src.r_hand.burn(fi_amount)
+	if (src.l_hand)
+		src.l_hand.burn(fi_amount)
+	if (src.back)
+		src.back.burn(fi_amount)
+	if (src.belt)
+		src.belt.burn(fi_amount)
+	var/still_burning = 127
+	if (src.suit)
+		if (src.suit.burn(fi_amount))
+			still_burning &=  ~src.suit.fire_protect
+	if (still_burning & 46)
+		if (src.jumpsuit)
+			if (src.jumpsuit.burn(fi_amount))
+				still_burning &=  ~src.jumpsuit.fire_protect
+	if (still_burning & 16)
+		if (src.gloves)
+			if (src.gloves.burn(fi_amount))
+				still_burning &=  ~src.gloves.fire_protect
+	if (still_burning & 64)
+		if (src.shoes)
+			if (src.shoes.burn(fi_amount))
+				still_burning &=  ~src.shoes.fire_protect
+	if (still_burning & 1)
+		if (src.head)
+			if (src.head.burn(fi_amount))
+				still_burning &=  ~src.head.fire_protect
+	if (still_burning & 1)
+		if (src.mask)
+			if (src.mask.burn(fi_amount))
+				still_burning &=  ~src.mask.fire_protect
+	if (still_burning)
+		if ((src.fire && src.stat != 2))
+			flick("fire1", src.fire)
+	if (still_burning & 1)
+		if (src.glasses)
+			src.glasses.burn(fi_amount)
+		if (src.ears)
+			src.ears.burn(fi_amount)
+		if (src.headset)
+			src.headset.burn(fi_amount)
+		temp = null
+		if (src.organs["head"])
+			temp = src.organs["head"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (still_burning & 2)
+		if (src.id)
+			src.id.burn(fi_amount)
+		temp = null
+		if (src.organs["chest"])
+			temp = src.organs["chest"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (still_burning & 4)
+		temp = null
+		if (src.organs["diaper"])
+			temp = src.organs["diaper"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (still_burning & 8)
+		temp = null
+		if (src.organs["l_arm"])
+			temp = src.organs["l_arm"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+		temp = null
+		if (src.organs["r_arm"])
+			temp = src.organs["r_arm"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (still_burning & 32)
+		temp = null
+		if (src.organs["l_leg"])
+			temp = src.organs["l_leg"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+		temp = null
+		if (src.organs["r_leg"])
+			temp = src.organs["r_leg"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (still_burning & 64)
+		temp = null
+		if (src.organs["l_foot"])
+			temp = src.organs["l_foot"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+		temp = null
+		if (src.organs["r_foot"])
+			temp = src.organs["r_foot"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (still_burning & 16)
+		temp = null
+		if (src.organs["l_hand"])
+			temp = src.organs["l_hand"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+		temp = null
+		if (src.organs["r_hand"])
+			temp = src.organs["r_hand"]
+			if (istype(temp, /atom/organ))
+				ok += temp.take_damage(0, 5)
+	if (ok)
+		src.UpdateDamageIcon()
+	else
+		src.UpdateDamage()
+	return
