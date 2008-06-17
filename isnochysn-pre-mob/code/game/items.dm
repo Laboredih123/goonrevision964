@@ -1360,7 +1360,7 @@
 
 /obj/item/weapon/pill_canister/attack_hand(mob/user as mob)
 
-	if ((user.r_hand == src || user.l_hand == src))
+	if ((user.r_hand == src || user.l_hand == src) && src.contents && src.contents.len)
 		var/obj/item/weapon/m_pill/P = pick(src.contents)
 		if (P)
 			P.amount--
