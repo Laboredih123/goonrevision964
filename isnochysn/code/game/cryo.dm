@@ -1800,7 +1800,7 @@
 
 /mob/human/abiotic()
 
-	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || (src.back || src.mask || src.head || src.shoes || src.jumpsuit || src.suit || src.headset || src.glasses || src.ears || src.gloves))
+	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || (src.back || src.mask || src.head || src.shoes || src.jumpsuit || src.suit || src.headset || src.glasses || src.gloves))
 		return 1
 	else
 		return 0

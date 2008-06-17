@@ -40,11 +40,16 @@ making it show up in the ID computer - it will automatically. This is the only f
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
 /obj/New()
+	var/reset_req_access = 0
 	if(src.req_access_txt)
-		req_access = list()
 		var/req_access_str = params2list(req_access_txt)
 		for(var/x in req_access_str)
-			src.req_access += text2num(x)
+			var/y = text2num(x)
+			if(y)
+				if(!reset_req_access)
+					req_access = list()
+					reset_req_access = 1
+				req_access += y
 	..()
 
 //returns 1 if this mob has sufficient access to use this object

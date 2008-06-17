@@ -187,12 +187,6 @@
 	using.layer = 19
 	src.other += using
 	using = new src.h_type( src )
-	using.name = "ears"
-	using.icon_state = "ears"
-	using.screen_loc = "9,2"
-	using.layer = 19
-	src.other += using
-	using = new src.h_type( src )
 	using.name = "head"
 	using.icon_state = "hair"
 	using.screen_loc = "7,2"

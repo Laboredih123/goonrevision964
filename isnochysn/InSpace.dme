@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\game\demo.dm
+DIR: code code\atoms code\data code\game code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\modes icons icons\ss13 interface
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -122,6 +128,7 @@
 #include "code\game\mob\login.dm"
 #include "code\game\mob\say.dm"
 #include "code\game\mob\see.dm"
+#include "code\game\mob\stat.dm"
 #include "code\game\mob\think.dm"
 #include "code\game\mob\var.dm"
 #include "code\game\mob\carbon\breathing.dm"
@@ -129,11 +136,17 @@
 #include "code\game\mob\carbon\emote.dm"
 #include "code\game\mob\carbon\equipment.dm"
 #include "code\game\mob\carbon\examine.dm"
+#include "code\game\mob\carbon\grab.dm"
+#include "code\game\mob\carbon\hearing.dm"
+#include "code\game\mob\carbon\hud.dm"
+#include "code\game\mob\carbon\life.dm"
 #include "code\game\mob\carbon\login.dm"
 #include "code\game\mob\carbon\movement.dm"
 #include "code\game\mob\carbon\proc.dm"
 #include "code\game\mob\carbon\say.dm"
+#include "code\game\mob\carbon\stat.dm"
 #include "code\game\mob\carbon\var.dm"
+#include "code\game\mob\carbon\vision.dm"
 #include "code\game\mob\carbon\human\var.dm"
 #include "code\game\mob\carbon\monkey\var.dm"
 #include "code\game\mob\carbon\monkey\megamonkey\var.dm"
@@ -159,7 +172,7 @@
 #include "code\game\verbs\ooc.dm"
 #include "code\game\verbs\suicide.dm"
 #include "code\game\verbs\who.dm"
-#include "interface\isno.dmf"
+#include "interface\skin.dmf"
 #include "maps\Space Station 13.dmp"
 // END_INCLUDE
 

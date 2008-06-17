@@ -189,7 +189,6 @@
 	slot_r_hand = 5
 	slot_belt = 6
 	slot_id = 7
-	slot_ears = 8
 	slot_glasses = 9
 	slot_gloves = 10
 	slot_head = 11
@@ -235,10 +234,6 @@
 		if(slot_id)
 			if(!src.id)
 				src.id = W
-				equipped = 1
-		if(slot_ears)
-			if(!src.ears)
-				src.ears = W
 				equipped = 1
 		if(slot_glasses)
 			if(!src.glasses)

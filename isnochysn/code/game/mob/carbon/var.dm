@@ -61,7 +61,6 @@
 			slot_r_hand = 5
 			slot_belt = 6
 			slot_id = 7
-			slot_ears = 8
 			slot_glasses = 9
 			slot_gloves = 10
 			slot_head = 11
@@ -80,7 +79,6 @@
 	var/obj/item/weapon/clothing/gloves/gloves = null
 	var/obj/item/weapon/clothing/glasses/glasses = null
 	var/obj/item/weapon/clothing/head/head = null
-	var/obj/item/weapon/clothing/ears/ears = null
 	var/obj/item/weapon/card/id/id = null
 	var/obj/item/weapon/r_store = null
 	var/obj/item/weapon/l_store = null

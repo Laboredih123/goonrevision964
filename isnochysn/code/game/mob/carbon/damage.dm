@@ -124,83 +124,30 @@
 		if (src.mask)
 			if (src.mask.burn(fi_amount))
 				still_burning &=  ~src.mask.fire_protect
+
 	if (still_burning)
 		if ((src.fire && src.stat != 2))
 			flick("fire1", src.fire)
 	if (still_burning & 1)
 		if (src.glasses)
 			src.glasses.burn(fi_amount)
-		if (src.ears)
-			src.ears.burn(fi_amount)
 		if (src.headset)
 			src.headset.burn(fi_amount)
-		temp = null
-		if (src.organs["head"])
-			temp = src.organs["head"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
+		src.take_damage(new datum/damage(burn = 5))
 	if (still_burning & 2)
 		if (src.id)
 			src.id.burn(fi_amount)
-		temp = null
-		if (src.organs["chest"])
-			temp = src.organs["chest"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
+		src.take_damage(new datum/damage(burn = 5))
 	if (still_burning & 4)
-		temp = null
-		if (src.organs["diaper"])
-			temp = src.organs["diaper"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
+		src.take_damage(new datum/damage(burn = 5))
 	if (still_burning & 8)
-		temp = null
-		if (src.organs["l_arm"])
-			temp = src.organs["l_arm"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
-		temp = null
-		if (src.organs["r_arm"])
-			temp = src.organs["r_arm"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
+		src.take_damage(new datum/damage(burn = 10))
 	if (still_burning & 32)
-		temp = null
-		if (src.organs["l_leg"])
-			temp = src.organs["l_leg"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
-		temp = null
-		if (src.organs["r_leg"])
-			temp = src.organs["r_leg"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
+		src.take_damage(new datum/damage(burn = 10))
 	if (still_burning & 64)
-		temp = null
-		if (src.organs["l_foot"])
-			temp = src.organs["l_foot"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
-		temp = null
-		if (src.organs["r_foot"])
-			temp = src.organs["r_foot"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
+		src.take_damage(new datum/damage(burn = 10))
 	if (still_burning & 16)
-		temp = null
-		if (src.organs["l_hand"])
-			temp = src.organs["l_hand"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
-		temp = null
-		if (src.organs["r_hand"])
-			temp = src.organs["r_hand"]
-			if (istype(temp, /atom/organ))
-				ok += temp.take_damage(0, 5)
-	if (ok)
-		src.UpdateDamageIcon()
-	else
-		src.UpdateDamage()
+		src.take_damage(new datum/damage(burn = 10))
 	return
 
 /mob/carbon/check_decompression()
@@ -234,3 +181,83 @@
 	else
 		src.canmove = 1
 		src.lying = 0
+
+/mob/human/las_act(flag, A as obj) // get hit by a projectile - las = laser
+
+	for(var/obj/item/weapon/cloaking_device/S in src)
+		if (S.active)
+			S.active = 0
+			S.icon_state = "shield0"
+	if (locate(/obj/item/weapon/grab, src))
+		var/mob/safe = null
+		if (istype(src.l_hand, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/G = src.l_hand
+			if ((G.state == 3 && get_dir(src, A) == src.dir))
+				safe = G.affecting
+		if (istype(src.r_hand, /obj/item/weapon/grab))
+			var/obj/item/weapon.grab/G = src.r_hand
+			if ((G.state == 3 && get_dir(src, A) == src.dir))
+				safe = G.affecting
+		if (safe)
+			return safe.las_act(flag, A)
+	if (flag == "bullet")
+		var/d = 51
+		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
+			if (prob(70))
+				src.think("\red Your armor absorbs the hit!")
+				return
+			else if (prob(40))
+				src.think("\red Your armor only softens the hit!")
+				if (prob(20))
+					d = d / 2
+				d = d / 4
+		else if (istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit))
+			if (prob(90))
+				src.think("\red Your armor absorbs the blow!")
+				return
+			else if (prob(90))
+				src.think("\red Your armor only softens the blow!")
+				if (prob(60))
+					d = d / 2
+				d = d / 5
+		src.take_damage(new datum/damage(brute = d))
+		if (prob(50))
+			src.knockdown = 5
+		return
+	else if (flag) //taser
+		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
+			if (prob(5))
+				src.think("\red Your armor absorbs the hit!")
+				return
+		else if (istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit))
+			if (prob(70))
+				src.think("\red Your armor absorbs the hit!")
+				return
+			if (prob(75))
+				src.knockout = 10
+			else
+				src.knockdown = 10
+	else //laser
+		var/d = 20
+		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
+			if (prob(40))
+				src.think("\red Your armor absorbs the hit!")
+				return
+			else if (prob(40))
+				src.think("\red Your armor only softens the hit!")
+				if (prob(20))
+					d = d / 2
+				d = d / 2
+		else if (istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit))
+			if (prob(70))
+				src.think("\red Your armor absorbs the blow!")
+				return
+			else if (prob(90))
+				src.think("\red Your armor only softens the blow!")
+				if (prob(60))
+					d = d / 2
+				d = d / 2
+		src.take_damage(new datum/damage(brute = d)
+		if (prob(25))
+			src.knockdown = 1
+	return

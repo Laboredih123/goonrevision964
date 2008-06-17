@@ -304,8 +304,6 @@
 						message = text("\red <B>[] is trying to take off the [] from []'s hands!</B>", src.source, src.target.gloves, src.target)
 					if("eyes")
 						message = text("\red <B>[] is trying to take off the [] from []'s eyes!</B>", src.source, src.target.glasses, src.target)
-					if("ears")
-						message = text("\red <B>[] is trying to take off the [] from []'s ears!</B>", src.source, src.target.ears, src.target)
 					if("head")
 						message = text("\red <B>[] is trying to take off the [] from []'s head!</B>", src.source, src.target.head, src.target)
 					if("shoes")
@@ -463,24 +461,6 @@
 					src.loc = src.target
 					src.item.layer = 20
 					src.target.head = src.item
-					src.item.loc = src.target
-		if("ears")
-			if (src.target.ears)
-				var/obj/item/weapon/W = src.target.ears
-				src.target.u_equip(W)
-				if (src.target.client)
-					src.target.client.screen -= W
-				if (W)
-					W.loc = src.target.loc
-					W.dropped(src.target)
-					W.layer = initial(W.layer)
-				W.add_fingerprint(src.source)
-			else
-				if (istype(src.item, /obj/item/weapon/clothing/ears))
-					src.source.drop_item()
-					src.loc = src.target
-					src.item.layer = 20
-					src.target.ears = src.item
 					src.item.loc = src.target
 		if("shoes")
 			if (src.target.shoes)

@@ -482,14 +482,8 @@
 			if (M == src.loc)
 				M.eye_stat += 10
 				if (prob(60))
-					if (istype(M, /mob/human))
-						var/mob/human/H = M
-						if (!( istype(H.ears, /obj/item/weapon/clothing/ears/earmuffs) ))
-							M.ear_damage += 15
-							M.ear_deaf += 60
-					else
-						M.ear_damage += 15
-						M.ear_deaf += 60
+					M.ear_damage += 15
+					M.ear_deaf += 60
 		else
 			if (get_dist(M, T) <= 5)
 				flick("e_flash", M.flash)

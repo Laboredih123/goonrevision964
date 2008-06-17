@@ -573,14 +573,6 @@
 	var/color = null
 	var/brute_protect = 0.0
 	var/fire_protect = 0.0
-/obj/item/weapon/clothing/ears
-	name = "ears"
-	w_class = 2.0
-/obj/item/weapon/clothing/ears/earmuffs
-	name = "earmuffs"
-	icon_state = "earmuffs"
-	s_fire = 1.875E7
-	s_istate = "earmuffs"
 /obj/item/weapon/clothing/glasses
 	name = "glasses"
 	w_class = 2.0
