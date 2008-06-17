@@ -2682,7 +2682,7 @@
 			src.u_equip(W)
 			src.shoes = W
 		if("belt")
-			if ((src.belt || !( istype(W, /obj/item/weapon) )))
+			if (src.belt)
 				if (emptyHand)
 					src.belt.DblClick()
 				return
