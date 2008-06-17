@@ -1,10 +1,16 @@
 /obj/begin/verb/ready()
 	set src in usr.loc
-	
+
+	while (world.time < 60)
+		sleep(10) //attempted temporary fix for "people dont spawn when they do ready"
+		//assumes it's a lag issue
+		//TODO: actually fix the bug
+
+
 	if (!usr.client.authenticated)
 		src << "You are not authorized to enter the game."
 		return
-	
+
 	if (!istype(usr, /mob/human) || usr.start)
 		usr << "You have already started!"
 		return
@@ -110,10 +116,10 @@
 
 /obj/begin/proc/get_dna_ready(var/mob/user as mob)
 	var/mob/human/M = user
-	
+
 	if (!M.primary)
 		var/t2
-		
+
 		M.r_hair = M.nr_hair
 		M.b_hair = M.nb_hair
 		M.g_hair = M.ng_hair
