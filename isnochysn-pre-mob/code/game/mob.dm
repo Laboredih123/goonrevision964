@@ -4249,7 +4249,7 @@
 		var/list/L = list(  )
 		var/italics = 0
 		var/obj_range = null
-		if (findtext(message, "/") == 1) //say it into headset - just uses a slash, because it's the most common use case
+		if (findtext(message, ";") == 1) //say it into headset - just uses a slash, because it's the most common use case
 			//say "/ words" or say "/words"
 			message = copytext(message, 2, length(message) + 1)
 			if (src.w_radio)
