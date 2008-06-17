@@ -3,12 +3,6 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
-/*
-FILE: code\game\demo.dm
-DIR: code code\atoms code\data code\game code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\modes icons icons\ss13 interface
-MAP_ICON_TYPE: 0
-AUTO_FILE_DIR: ON
-*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -65,10 +59,10 @@ AUTO_FILE_DIR: ON
 #include "code\atoms\sun.dm"
 #include "code\atoms\turf.dm"
 #include "code\atoms\vote.dm"
-#include "code\data\ai_names.dm"
 #include "code\data\changelog.dm"
 #include "code\data\jobs.dm"
 #include "code\data\languages.dm"
+#include "code\data\names.dm"
 #include "code\data\stylesheet.dm"
 #include "code\game\access.dm"
 #include "code\game\airtunnel.dm"
@@ -126,12 +120,15 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\damage.dm"
 #include "code\game\mob\hear.dm"
 #include "code\game\mob\login.dm"
+#include "code\game\mob\memory.dm"
+#include "code\game\mob\proc.dm"
 #include "code\game\mob\say.dm"
 #include "code\game\mob\see.dm"
 #include "code\game\mob\stat.dm"
 #include "code\game\mob\think.dm"
 #include "code\game\mob\var.dm"
 #include "code\game\mob\carbon\breathing.dm"
+#include "code\game\mob\carbon\combat.dm"
 #include "code\game\mob\carbon\damage.dm"
 #include "code\game\mob\carbon\emote.dm"
 #include "code\game\mob\carbon\equipment.dm"

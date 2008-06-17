@@ -1,8 +1,8 @@
 /datum/message
 	var/voice
-	var/message
+	var/text
 	var/language
-	New(voice, message, language)
+	New(voice, text, language)
 		src.voice = voice
-		src.message = message
+		src.text = text
 		src.language = language
