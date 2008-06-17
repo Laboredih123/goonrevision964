@@ -12,31 +12,30 @@
 		src << message
 		return 1
 
-/mob/proc/hear_message(datum/message/M, source)
+/mob/proc/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
-	if(source in view(src) && istype(source, mob) && source.name != speaker_name) //he's in disguise
+	if(source in view(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
 		name += " (disguised as [source.name])"
-	else if(istype(source, /item/weapon/radio))
+	else if(istype(source, /obj/item/weapon/radio))
 		name += " broadcasts \icon[source]"
-	var/message = M.message
+	var/text = M.text
 	if(!M.language in src.languages)
-		message = replace_language(message, language)
-	src.hear("<b>[speaker_name]</b>: [message]")
+		text = replace_language(text, M.language)
+	src.hear("<b>[speaker_name]</b>: [text]")
 
 /mob/proc/replace_language(message, language)
 	var/list/words = dd_text2list(message, " ")
 	var/list/replaced_words = list()
+	var/list/language_words
+	switch(language)
+		if(MONKEY_LANG)
+			language_words = get_monkey_words()
+		if(ENGLISH_LANG)
+			language_words = get_english_words()
+		if(COMPUTER_LANG)
+			language_words = get_computer_words()
 	for(var/word in words)
 		if(!word) //blank string (occurs when multiple spaces are in a row) isn't replaced
 			continue
-		switch(language)
-			if(MONKEY_LANG)
-				replaced_words += pick(monkey_words)
-			if(ENGLISH_LANG)
-				replaced_words += pick(english_words)
-			if(COMPUTER_LANG)
-				var/word = ""
-				for(var/i = 0; i < 16; i++)
-					word += rand(0, 1)
-				replaced_words += word
+		replaced_words += pick(language_words)
 	return dd_list2text(replaced_words, " ")

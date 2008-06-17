@@ -53,11 +53,11 @@
 		spawn( 5 )
 			attack_hand(user)
 
-/mob/ai/attack_ai(var/mob/user as mob)
+/mob/silicon/ai/interact(mob/user)
 	if (user != src)
 		return
 
-	if (stat == 2)
+	if (src.is_dead)
 		return
 
 	user.machine = src
@@ -96,6 +96,6 @@
 		src.current = C
 		//use_power(50)
 		spawn( 5 )
-			attack_ai(user)
+			src.interact(user)
 			return
 	return

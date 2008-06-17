@@ -10,7 +10,7 @@
 
 /mob/proc/stutter(txt)
 	var/s = ""
-	for(var/i = 0; i < txt.len; i++)
+	for(var/i = 0; i < lentext(txt); i++)
 		var/c = copytext(txt, i, i + 1)
 		var/numrepeats = rand(5) - 1
 		for(var/j = 0; j < numrepeats; j++)
@@ -26,51 +26,53 @@
 	if(id == "i") //intercom
 		for(var/obj/item/weapon/radio/intercom/I in view(1)) // use the first one
 			return I
-	var/radio_num = text2num(copytext(message, 2, 3))
+	var/radio_num = text2num(id)
 	if(radio_num) //will only be non-null if it's a number
 		for(var/obj/item/weapon/radio/intercom/I in view(1))
-			if (I.number == radionum)
+			if (I.number == radio_num)
 				return I
 
 
-/mob/verb/say(message as text)
-	if(!message)
+/mob/verb/say(txt as text)
+	if(!txt)
 		return
-	message = sanitize(message)
-	message = copytext(message, 1, 256)
-	world.log_say("[src.name]/[src.key] : [message]")
+	txt = sanitize(txt)
+	txt = copytext(txt, 1, 256)
+	world.log_say("[src.name]/[src.key] : [txt]")
 
 	if(src.stat == 2)
-		return src.say_dead(html_encode(message))
+		return src.say_dead(html_encode(txt))
 
 	if(!src.can_say())
 		return
 
 	var/obj/item/weapon/radio/target = null
 	var/hear_range = null
-	if (findtext(message, "/") == 1) //default target
+	if (findtext(txt, "/") == 1) //default target
 		//for a human, it's their headset
 		//for AI, it's radio #2
 		//should be the most common use case, because just using a slash is the easiest thing to type
 		//say "/ words" or say "/words"
-		message = copytext(message, 2)
+		txt = copytext(txt, 2)
 		target = src.get_default_radio()
 		hear_range = 1
-	else if (findtext(message, ":") == 1) //saying into something, don't know what
-		//second character indicates what they talk into, third to end indicate actual message
-		message = copytext(message, 3)
-		target = src.get_radio(copytext(message, 2, 3))
+	else if (findtext(txt, ":") == 1) //saying into something, don't know what
+		//second character indicates what they talk into, third to end indicate actual txt
+		txt = copytext(txt, 3)
+		target = src.get_radio(copytext(txt, 2, 3))
 		hear_range = 1
 
 	if (hear_range == 1)
-		message = "<I>[message]</I>"
+		txt = "<I>[txt]</I>"
 	if (src.stuttering)
-		message = stutter(message)
-	message = html_encode(message)
+		txt = stutter(txt)
+	txt = html_encode(txt)
+
+	var/datum/message = new(text = txt, language = src.language, voice = src.rname)
 
 	if(target && istype(target, /obj/item/weapon/radio))
-		target.talk_into(usr, message)
-	for(var/O as obj|mob in view(hear_range))
+		target.talk_into(usr, txt)
+	for(var/obj/O as obj|mob in view(hear_range))
 		spawn(0)
 			if (O)
-				O.hear_talk(usr, message)
+				O.hear_message(usr, message)

@@ -298,32 +298,26 @@
 /obj/item/weapon/proc/attack(mob/carbon/M as mob, mob/carbon/attacker as mob, def_zone)
 	if(!src.force)
 		return
-	for(var/mob/O in viewers(M, null))
-		O.see("\red <B>[M] has been attacked with [src][attacker ? " by [attacker]." : "."] </B>")
-	var/datum/damage/dam = new /datum/damage(brute = src.force)
+	M.show_viewers("\red <B>[M] has been attacked with [src][attacker ? " by [attacker]." : "."] </B>")
+	var/dam = src.force
 	if(!istype(/mob/carbon/, M))
-		M.take_damage(dam)
+		M.take_damage(brute = dam)
 		return
 	if ((M.helmet && M.helmet.brute_protect & 1) || (M.mask && M.mask.brute_protect & 1) && prob(5))
 		M.think("\red Your helmet softened the blow.")
-		dam.brute /= 2
+		dam /= 2
 	else if((M.suit && M.suit.brute_protect & 2) || (M.jumpsuit && M.jumpsuit.brute_protect & 2) && prob(20))
 		M.think("\red Your armor softened the blow.")
-		dam.brute /= 2
+		dam /= 2
 
 	if (prob(dam.brute + M.dam.brute/5)) //knock 'em out
 		if(M.conscious())
-			for(var/mob/O in oviewers(M))
-				O.see("\red <B>[M] has been knocked unconscious!</B>")
+			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
 		var/time = rand(10, 120)
-		if (H.paralysis < time)
-			H.paralysis = time
-		else if (H.weakened < time)
-			H.weakened = time
-			H.stat = 1
+		M.knockout = max(M.knockout, time)
 
-	src.take_damage(dam)
-	src.add_fingerprint(user)
+	src.take_damage(brute = dam)
+	src.add_fingerprint(attacker)
 	return
 
 /obj/item/weapon/bedsheet/ex_act(severity)
@@ -3421,22 +3415,8 @@
 				O.hitby(src)
 			if (!( istype(M, /mob) ))
 				return
-			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red [] has been hit by [].", M, src), 1)
-				//Foreach goto(143)
-			if (M.health > -100.0)
-				if (istype(M, /mob/human))
-					var/mob/human/H = M
-					var/dam_zone = pick("chest", "diaper", "head")
-					if (H.organs[text("[]", dam_zone)])
-						var/atom/organ/affecting = H.organs[text("[]", dam_zone)]
-						if (affecting.take_damage(src.throwforce, 0))
-							H.UpdateDamageIcon()
-						else
-							H.UpdateDamage()
-				else
-					M.bruteloss += src.throwforce
-				M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
+			M.show_viewers("\red [M] has been hit by [src].")
+			M.take_damage(brute = src.throwforce)
 		return
 	return
 

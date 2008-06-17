@@ -1195,6 +1195,9 @@
 
 	return
 
+/atom/proc/hear_message()
+	return
+
 /atom/movable/Bump(var/atom/A as mob|obj|turf|area, yes)
 
 	spawn( 0 )

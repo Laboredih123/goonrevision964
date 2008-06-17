@@ -54,7 +54,7 @@
 
 
 /obj/item/weapon/radio/proc/receive(datum/message/M, freq)
-	if (freq != src.freq || !message || !src.receiving || !(src.wires & WIRE_RECEIVE))
+	if (freq != src.freq || !M || !src.receiving || !(src.wires & WIRE_RECEIVE))
 		return
 	for(var/atom/A in hearers(listenrange))
 		A.hear_message(M, src)
@@ -168,7 +168,7 @@
 		return
 	if(M.language != COMPUTER_LANG)
 		return
-	if(text2num(M.message) != src.code)
+	if(text2num(M.text) != src.code)
 		return
 	if(src.master && src.wires & WIRE_SIGNAL)
 		src.master:r_signal()
@@ -178,7 +178,8 @@
 /obj/item/weapon/radio/signaler/proc/send_signal()
 	if (!( src.wires & WIRE_TRANSMIT))
 		return
-	src.broadcast(new datum/message/M(voice = "A computer", message = num2text(src.code), language = COMPUTER_LANG))
+	var/datum/message/M = new(voice = "A computer", message = num2text(src.code), language = COMPUTER_LANG)
+	src.broadcast(M)
 
 /obj/item/weapon/radio/signaler/examine()
 	set src in view()
@@ -203,7 +204,7 @@
 	user << browse(dat, "window=radio")
 	return
 
-/obj/item/weapon/radio/signaler/hear_talk()
+/obj/item/weapon/radio/signaler/talk_into()
 	return
 
 /obj/item/weapon/radio/signaler/Topic(href, href_list)
@@ -381,7 +382,7 @@
 		return
 	if(M.language != COMPUTER_LANG)
 		return
-	if(text2num(M.message) != src.code)
+	if(text2num(M.text) != src.code)
 		return
 	if(src.master && src.wires & WIRE_SIGNAL)
 		src.master:r_signal()

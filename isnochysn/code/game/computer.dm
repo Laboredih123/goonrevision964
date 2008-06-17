@@ -89,7 +89,7 @@
 	if(!usr.is_conscious())
 		return 0
 	if(istype(usr, /mob/carbon))
-		/mob/carbon/M = usr
+		var/mob/carbon/M = usr
 		if(M.is_restrained())
 			return 0
 		if(get_dist(src, usr) > 1)

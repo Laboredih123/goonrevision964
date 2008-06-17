@@ -219,7 +219,7 @@
 			for(var/mob/mob in world)
 				if ((mob != ticker.killer && mob.client))
 					if (mob.stat != 2) //they're not dead
-						if (get_turf_loc(mob) in shuttle)
+						if (get_turf(mob) in shuttle)
 							traitorwin = 0
 		if(obj_murder, ai_obj_murder)
 			if (ticker.target && ticker.target.stat != 2) //target's alive
@@ -444,10 +444,3 @@
 			return "Cut power to at least [percentage_station_cut_power]% of the station"
 		else
 			return "Error: Invalid sabotage target: [target]"
-
-/datum/game_mode/traitor/proc/get_turf_loc(mob/m) //gets the location of the turf that the mob is on, or what the mob is in is on, etc
-	//in case they're in a closet or sleeper or something
-	var/loc = m:loc
-	while(!istype(loc, /turf/))
-		loc = loc:loc
-	return loc

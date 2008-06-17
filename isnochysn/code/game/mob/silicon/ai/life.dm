@@ -3,10 +3,10 @@
 	if (istype(T, /turf))
 		var/ficheck = src.firecheck(T)
 		if (ficheck)
-			src.take_damage(new /datum/damage(burn = ficheck * 10))
+			src.take_damage(burn = ficheck * 10)
 
-	if (src.dam.total > 200)
-		death()
+	if (src.dam.total > death_threshold)
+		src.death()
 
 
 	if (src.mach)
@@ -47,7 +47,7 @@
 					src << "Alert cancelled. Power has been restored without our assistance."
 					src:aiRestorePowerRoutine = 0
 					spawn(1)
-						while (src.oxyloss>0 && stat!=2)
+						while (src.oxyloss>0 && !src.is_dead)
 							sleep(50)
 							src.oxyloss-=1
 						src.oxyloss = 0
@@ -56,7 +56,7 @@
 					src << "Alert cancelled. Power has been restored."
 					src:aiRestorePowerRoutine = 0
 					spawn(1)
-						while (src.oxyloss>0 && stat!=2)
+						while (src.oxyloss>0 && !src.is_dead)
 							sleep(50)
 							src.oxyloss-=1
 						src.oxyloss = 0
@@ -82,7 +82,7 @@
 						for (var/index=4, index<9, index++)
 							src.addLaw(index, "")
 						spawn(50)
-							while ((src:aiRestorePowerRoutine!=0) && stat!=2)
+							while ((src:aiRestorePowerRoutine!=0) && !src.is_dead)
 								src.oxyloss += 1
 								sleep(50)
 

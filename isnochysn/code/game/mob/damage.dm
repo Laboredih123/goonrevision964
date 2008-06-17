@@ -1,13 +1,15 @@
 /mob/var/datum/damage/dam = new /datum/damage()
 
-/mob/proc/take_damage(datum/damage/dam)
+/mob/proc/take_damage(brute, burn, suffocation, toxin, electric)
+	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
 	src.dam.add(dam)
 
-/mob/proc/heal_damage(datum/damage/dam)
+/mob/proc/heal_damage(brute, burn, suffocation, toxin, electric)
+	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
 	src.dam.subtract(dam)
 
 /mob/proc/get_damage()
-	return src.dam
+	return src.dam.total
 
 /mob/blob_act()
 	for(var/mob/O in viewers(M, null))
@@ -16,13 +18,14 @@
 
 /mob/meteorhit(obj/O)
 	for(var/mob/M in viewers(src, null))
-		M.see("\red [src] has been hit by [O]"
-	src.take_damage(new datum/damage(brute = 40, burn = 40)
+		M.see("\red [src] has been hit by [O]")
+	src.take_damage(brute = 40, burn = 40)
 
 /mob/death()
 	src.is_dead = 1
 	src.canmove = 0
 	src.lying = 1
+	src.timeofdeath = world.time
 
 	//let dead people see anything, there's no resurrection any more anyways
 	src.blind.layer = 0

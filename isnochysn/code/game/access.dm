@@ -60,15 +60,10 @@ making it show up in the ID computer - it will automatically. This is the only f
 	if(istype(M, /mob/silicon/ai))
 		//AI can do whatever he wants
 		return 1
-	else if(istype(M, /mob/carbon/human))
-		var/mob/carbon/human/H = M
+	else if(istype(M, /mob/carbon))
 		//if they are holding or wearing a card that has access, that works
-		if(src.check_access(H.equipped()) || src.check_access(H.id))
-			return 1
-	else if(istype(M, /mob/carbon/monkey))
-		var/mob/carbon/monkey/george = M
-		//they can only hold things :(
-		if(george.equipped() && istype(george.equipped(), /obj/item/weapon/card/id) && src.check_access(george.equipped()))
+		var/mob/carbon/C = M
+		if(src.check_access(C.equipped()) || src.check_access(C.id))
 			return 1
 	return 0
 

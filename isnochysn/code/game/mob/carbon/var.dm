@@ -54,23 +54,23 @@
 		datum/chemical/chemicals = null
 
 		const
-			slot_back = 1
-			slot_mask = 2
-			slot_handcuffs = 3
-			slot_l_hand = 4
-			slot_r_hand = 5
-			slot_belt = 6
-			slot_id = 7
-			slot_glasses = 9
-			slot_gloves = 10
-			slot_head = 11
-			slot_shoes = 12
-			slot_suit = 13
-			slot_jumpsuit = 14
-			slot_l_store = 15
-			slot_r_store = 16
-			slot_headset = 17
-			slot_in_backpack = 18
+			SLOT_BACK = 1
+			SLOT_MASK = 2
+			SLOT_HANDCUFFS = 3
+			SLOT_L_HAND = 4
+			SLOT_R_HAND = 5
+			SLOT_BELT = 6
+			SLOT_ID = 7
+			SLOT_GLASSES = 9
+			SLOT_GLOVES = 10
+			SLOT_HELMET = 11
+			SLOT_SHOES = 12
+			SLOT_SUIT = 13
+			SLOT_JUMPSUIT = 14
+			SLOT_L_STORE = 15
+			SLOT_R_STORE = 16
+			SLOT_HEADSET = 17
+			SLOT_IN_BACKPACK = 18
 	var/obj/item/weapon/clothing/suit/suit = null
 	var/obj/item/weapon/clothing/under/jumpsuit = null
 	var/obj/item/weapon/radio/headset = null
@@ -78,7 +78,7 @@
 	var/obj/item/weapon/belt = null
 	var/obj/item/weapon/clothing/gloves/gloves = null
 	var/obj/item/weapon/clothing/glasses/glasses = null
-	var/obj/item/weapon/clothing/head/head = null
+	var/obj/item/weapon/clothing/head/helmet = null
 	var/obj/item/weapon/card/id/id = null
 	var/obj/item/weapon/r_store = null
 	var/obj/item/weapon/l_store = null
@@ -86,7 +86,6 @@
 	var/icon/lying_icon = null
 	var/now_pushing = null
 
-	var/last_b_state = 1.0
 	var/image/face = null
 	var/image/face2 = null
 	var/h_style_r = "hair_a"
@@ -98,10 +97,13 @@
 
 	var/blackout_threshold = 80
 
+	var/attack_type = ATTACK_BITE
+
+	var/knockout = 0
+	var/knockdown = 0
+
 /mob/carbon/New()
 	spawn (1)
-		if (world.time < 60)
-			sleep(7) //I guess this is here because of all the stuff taking forever to load? I won't mess with it.
 		var/atom/organ/chest/chest = new /atom/organ/chest( src )
 		chest.owner = src
 		var/atom/organ/diaper/diaper = new /atom/organ/diaper( src )

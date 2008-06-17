@@ -35,7 +35,7 @@
 			src.gasp()
 		src.knockout = min(5, src.knockout)
 		if(src.rejuv <= 0)
-			src.take_damage(new datum/damage(suffocation = 1))
+			src.take_damage(suffocation = 2)
 	else if (src.dam.total > blackout_threshold)
 		if (prob(5))
 			if(prob(1))

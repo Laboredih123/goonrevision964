@@ -9,7 +9,7 @@
 		for(var/mob/M in range(src, 1))
 			if (M.pulling == src && M.is_conscious() && !M.is_handcuffed())
 				is_being_pulled = 1
-	if (!is_being_pulled && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving)))))
+	if (!is_being_pulled && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving))))
 		var/turf/T = src.loc
 		. = ..()
 		if (!isturf(src.pulling.loc))

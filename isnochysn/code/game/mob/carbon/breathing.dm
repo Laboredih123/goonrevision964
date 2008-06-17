@@ -11,7 +11,7 @@
 		G.plasma -= a_plasma
 		G.sl_gas -= a_sl_gas
 		if (a_oxygen < oxygen_needed) //wtf
-			src.take_damage(new datum/damage(suffocation = round( (oxygen_needed - a_oxygen) / 5 + 1))
+			src.take_damage(suffocation = round( (oxygen_needed - a_oxygen) / 5 ) + 1)
 
 		if (a_plasma > 5)
 			src.t_plasma = round(a_plasma / 10) + 1
@@ -22,14 +22,13 @@
 		src.co2_breathed += G.co2
 		if(src.co2_breathed > 50)
 			src.co2_breathed -= 50
-			src.paralysis = max(src.paralysis, 3)
-			src.take_damage(new datum/damage(suffocation = 2))
+			src.knockdown = max(src.paralysis, 3)
+			src.take_damage(suffocation = 2)
 
 		src.sl_gas_breathed = min(0, src.sl_gas_breathed - 5)
 		src.sl_gas_breathed += a_sl_gas
 		if (src.sl_gas_breathed > 50)
-			src.weakened = max(src.weakened, 3)
-			src.paralysis = max(src.paralysis, 3)
+			src.knockdown = max(src.knockdown, 3)
 
 		G.co2 += a_oxygen //breathe out!
 
@@ -73,7 +72,7 @@
 		src.losebreath--
 		if (prob(5))
 			src.gasp()
-		src.take_damage(new datum/damage(suffocation = 5))
+		src.take_damage(suffocation = 5)
 		return
 	if (isobj(T))
 		var/obj/O = T

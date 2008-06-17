@@ -20,10 +20,11 @@
 			ear_loss = 15
 			if (prob(50))
 				src.paralysis += 10
-	src.take_damage(new damage(brute = brute_loss, burn = burn_loss))
+	src.take_damage(brute = brute_loss, burn = burn_loss)
 	return
 
-/mob/carbon/take_damage(datum/damage/dam)
+/mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
+	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
 	var/atom/organ/O = src.choose_organ()
 	if (istype(O, /atom/organ))
 		O.take_damage(dam)
@@ -57,31 +58,8 @@
 	return pick(src.organs)
 
 /mob/carbon/blob_act()
-	for(var/mob/O in viewers(M, null))
-		O.see("\red <B>[M] has been attacked by the blob.</B>")
-	var/datum/damage/dam = new /datum/damage(brute = rand(5,25))
-	if(!istype(/mob/carbon/, M))
-		M.take_damage(dam)
-		return
-	if ((M.helmet && M.helmet.brute_protect & 1) || (M.mask && M.mask.brute_protect & 1) && prob(5))
-		M.think("\red Your helmet softened the blow.")
-		dam.brute /= 2
-	else if((M.suit && M.suit.brute_protect & 2) || (M.jumpsuit && M.jumpsuit.brute_protect & 2) && prob(20))
-		M.think("\red Your armor softened the blow.")
-		dam.brute /= 2
-
-	if (prob(dam.brute + M.dam.brute/5)) //knock 'em out
-		if(M.conscious())
-			for(var/mob/O in oviewers(M))
-				O.see("\red <B>[M] has been knocked unconscious!</B>")
-		var/time = rand(10, 120)
-		if (H.paralysis < time)
-			H.paralysis = time
-		else if (H.weakened < time)
-			H.weakened = time
-			H.stat = 1
-
-	src.take_damage(dam)
+	src.showviewers("\red <B>[src] has been attacked by the blob.</B>")
+	M.take_damage(brute = rand(5, 25))
 
 /mob/carbon/death()
 	if(src.healths)
@@ -133,21 +111,21 @@
 			src.glasses.burn(fi_amount)
 		if (src.headset)
 			src.headset.burn(fi_amount)
-		src.take_damage(new datum/damage(burn = 5))
+		src.take_damage(burn = 5)
 	if (still_burning & 2)
 		if (src.id)
 			src.id.burn(fi_amount)
-		src.take_damage(new datum/damage(burn = 5))
+		src.take_damage(burn = 5)
 	if (still_burning & 4)
-		src.take_damage(new datum/damage(burn = 5))
+		src.take_damage(burn = 5)
 	if (still_burning & 8)
-		src.take_damage(new datum/damage(burn = 10))
+		src.take_damage(burn = 10)
 	if (still_burning & 32)
-		src.take_damage(new datum/damage(burn = 10))
+		src.take_damage(burn = 10)
 	if (still_burning & 64)
-		src.take_damage(new datum/damage(burn = 10))
+		src.take_damage(burn = 10)
 	if (still_burning & 16)
-		src.take_damage(new datum/damage(burn = 10))
+		src.take_damage(burn = 10)
 	return
 
 /mob/carbon/check_decompression()
@@ -159,7 +137,7 @@
 			layers -= 5
 		if ((istype(src.suit, /obj/item/weapon/clothing/suit) && src.suit.flags & 8))
 			layers -= 10
-		src.take_damage(new datum/damage(suffocation = layers))
+		src.take_damage(suffocation = layers)
 
 /mob/carbon/handle_knockout()
 	src.knockout = max(src.knockout - 1, 0)
@@ -167,8 +145,8 @@
 		src.canmove = 0
 		src.lying = 1
 		src.blinded = 1
-		src.drop(slot_l_hand)
-		src.drop(slot_r_hand)
+		src.drop(SLOT_L_HAND)
+		src.drop(SLOT_R_HAND)
 	else
 		src.canmove = 1
 		src.lying = 1
@@ -220,7 +198,7 @@
 				if (prob(60))
 					d = d / 2
 				d = d / 5
-		src.take_damage(new datum/damage(brute = d))
+		src.take_damage(brute = d)
 		if (prob(50))
 			src.knockdown = 5
 		return
@@ -257,7 +235,7 @@
 				if (prob(60))
 					d = d / 2
 				d = d / 2
-		src.take_damage(new datum/damage(brute = d)
+		src.take_damage(brute = d)
 		if (prob(25))
 			src.knockdown = 1
 	return

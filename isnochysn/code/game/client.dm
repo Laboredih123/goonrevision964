@@ -21,3 +21,17 @@
 				if (M.ckey in banned)
 					world.log_access("Further notice: [M.key] was banned.")
 	..()
+
+/client/proc/reset_view(atom/A)
+
+	if (src.client)
+		if (istype(A, /atom/movable))
+			src.client.perspective = EYE_PERSPECTIVE
+			src.client.eye = A
+		else if (isturf(src.loc))
+			src.client.eye = src.client.mob
+			src.client.perspective = MOB_PERSPECTIVE
+		else
+			src.client.perspective = EYE_PERSPECTIVE
+			src.client.eye = src.loc
+	return

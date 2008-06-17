@@ -1,7 +1,11 @@
 /mob/proc/see(message)
-	if(src.sdisabilities & blindness)
+	if(src.is_blind)
 		return
-	if(src.stat == 1 || src.sleeping == 0)
+	if(!src.is_conscious())
 		return
 	src << message
 	return 1
+
+/mob/proc/show_viewers(message)
+	for(var/mob/M in viewers())
+		M.see(message)
