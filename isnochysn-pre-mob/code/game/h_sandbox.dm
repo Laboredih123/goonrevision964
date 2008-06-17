@@ -47,6 +47,7 @@ datum/hSB
 			usr << browse(hsbpanel, "window=hsbpanel")
 	Topic(href, href_list)
 		if(!(src.owner == usr.ckey)) return
+		if(!usr) return //I guess this is possible if they log out or die with the panel open? It happened.
 		if(href_list["hsb"])
 			switch(href_list["hsb"])
 				if("hsbtobj")
