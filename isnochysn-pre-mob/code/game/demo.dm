@@ -222,12 +222,11 @@
 	return
 
 /obj/machinery/door/proc/open()
-
 	if (src.operating == 1) //doors can still open when emag-disabled
 		return
 	if (!ticker)
 		return 0
-	if(operating == 0) //in case of emag
+	if(!src.operating) //in case of emag
 		src.operating = 1
 	flick(text("[]doorc0", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door0", (src.p_open ? "o_" : null))
