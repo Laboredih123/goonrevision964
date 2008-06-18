@@ -4,10 +4,9 @@
 	icon = 'stationobjs.dmi'
 	icon_state = "1secloset0"
 	density = 1
-	var/opened = 0.0
-	var/locked = 1.0
+	var/opened = 0
+	var/locked = 1
 	var/broken = 0
-	anchored = 1.0
 /obj/secloset/animal
 	name = "Animal Control"
 	req_access = access_medical_supplies
