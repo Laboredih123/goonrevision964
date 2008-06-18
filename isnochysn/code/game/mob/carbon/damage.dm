@@ -44,7 +44,7 @@
 	src.update_damage_icon()
 
 /mob/carbon/proc/update_damage_icon()
-	if(src.appearance == HUMAN)
+	if(src.appearance == APPEARANCE_HUMAN)
 		src.body_standing = list()
 		src.body_lying = list()
 		var/icon/dam_icon
@@ -160,7 +160,7 @@
 		src.canmove = 1
 		src.lying = 0
 
-/mob/human/las_act(flag, A as obj) // get hit by a projectile - las = laser
+/mob/carbon/las_act(flag, A as obj) // get hit by a projectile - las = laser
 
 	for(var/obj/item/weapon/cloaking_device/S in src)
 		if (S.active)

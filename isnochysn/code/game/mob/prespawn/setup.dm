@@ -109,7 +109,7 @@ mob/prespawn/proc/savefile_load()
 		"hair_style" = src.char_hair_style
 	)
 	for(var/x in vars)
-		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]:</b>
+		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]:</b>"
 		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[vars[x]]</b></a><br>"
 
 	dat += "<hr>"

@@ -1304,7 +1304,7 @@
 	spawn( 0 )
 		src.objective = "Success"
 		world << "<B>The Syndicate Operatives have destroyed Space Station 13!</B>"
-		for(var/mob/human/H in world)
+		for(var/mob/carbon/H in world)
 			if ((H.client && findtext(H.rname, "Syndicate ", 1, null)))
 				if (H.stat != 2)
 					world << text("<B>[] was []</B>", H.key, H.rname)

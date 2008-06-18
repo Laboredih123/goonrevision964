@@ -9,7 +9,7 @@
 
 /datum/game_mode/megamonkey/post_setup()
 	spawn (1)
-		for(var/mob/monkey/M in world)
+		for(var/mob/carbon/monkey/M in world)
 			del(M)
 
 		for (var/turf/T in monkeystart)

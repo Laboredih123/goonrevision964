@@ -288,8 +288,8 @@
 					if(ticker.target && ticker.target.stat != 2)
 						traitorwin = 0
 				if(kill_monkeys)
-					for(var/mob/monkey/M in world)
-						if(M.z == 1 && M.stat != 2) // assumes that the station is only on one z-level and it's 1
+					for(var/mob/carbon/M in world)
+						if(M.z == 1 && !M.is_dead && M.appearance == APPEARANCE_MONKEY) // assumes that the station is only on one z-level and it's 1
 						// this assumption is made basically thoughout the code, so one more time shouldn't hurt
 							traitorwin = 0
 				if(cut_power)

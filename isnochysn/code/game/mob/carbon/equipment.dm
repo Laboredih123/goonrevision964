@@ -241,15 +241,15 @@
 	src.update_clothing()
 	return
 
-/mob/human/proc/update_clothing()
+/mob/carbon/proc/update_clothing()
 	src.update_clothing_functions()
 	src.update_clothing_icons()
 
-/mob/human/proc/update_clothing_functions()
+/mob/carbon/proc/update_clothing_functions()
 	src.update_vision()
 
 
-/mob/human/proc/update_clothing_icons()
+/mob/carbon/proc/update_clothing_icons()
 	if (!( src.jumpsuit ))
 		for(var/x in list(SLOT_R_STORE, SLOT_L_STORE, SLOT_ID, SLOT_BELT))
 			src.drop(x)
@@ -299,7 +299,7 @@
 	icons[src.r_hand] = "1,2"
 	icons[src.l_hand] = "3,2"
 
-	var/iconsource = src.appearance == LOOK_MONKEY ? 'monkey.dmi' : 'mob.dmi'
+	var/iconsource = src.appearance == APPEARANCE_MONKEY ? 'monkey.dmi' : 'mob.dmi'
 
 	for(var/obj/item/weapon/W in icons)
 		var/type = W.s_istate

@@ -8,7 +8,7 @@
 		return
 	return
 
-/mob/human/proc/SetJob(occ, job)
+/mob/carbon/proc/SetJob(occ, job)
 	if (occ == null)
 		occ = 1
 	if (job == null)
@@ -93,7 +93,7 @@
 	src << browse(null, "window=mob_occupation")
 	return
 
-/mob/human/proc/Assign_Rank(rank, joined_late)
+/mob/carbon/proc/Assign_Rank(rank, joined_late)
 	if (rank == "AI")
 		var/obj/S = locate(text("start*[]", rank))
 		if ((istype(S, /obj/start) && istype(S.loc, /turf) && !( ctf )))

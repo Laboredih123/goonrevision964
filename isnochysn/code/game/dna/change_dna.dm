@@ -29,7 +29,7 @@
 
 	return
 
-/mob/human/proc/update_face()
+/mob/carbon/proc/update_face()
 
 	//src.face = null
 	del(src.face)

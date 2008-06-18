@@ -1,10 +1,10 @@
-/obj/begin/verb/ready()
+/*/obj/begin/verb/ready()
 	set src in usr.loc
-	
+
 	if (!usr.client.authenticated)
 		src << "You are not authorized to enter the game."
 		return
-	
+
 	if (!istype(usr, /mob/human) || usr.start)
 		usr << "You have already started!"
 		return
@@ -110,10 +110,10 @@
 
 /obj/begin/proc/get_dna_ready(var/mob/user as mob)
 	var/mob/human/M = user
-	
+
 	if (!M.primary)
 		var/t2
-		
+
 		M.r_hair = M.nr_hair
 		M.b_hair = M.nb_hair
 		M.g_hair = M.ng_hair
@@ -195,3 +195,4 @@
 		M.primary.struc_enzyme = "CDE375C9A6C2[b_vis]DBD[stutter][cough][Tourette][epil]B63"
 		M.primary.use_enzyme = "493DB249EB6D13236100A37000800AB71"
 		M.primary.n_chromo = 28
+*/

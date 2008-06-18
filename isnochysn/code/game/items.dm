@@ -4606,23 +4606,18 @@
 				//Foreach goto(102)
 	return
 
-/atom/proc/add_fingerprint(mob/human/M as mob)
+/atom/proc/add_fingerprint(mob/carbon/M as mob)
 
-	if ((!( istype(M, /mob/human) ) || !( istype(M.primary, /obj/dna) )))
+	if (!istype(M, /mob/carbon) || !istype(M.dna, /datum/dna))
 		return 0
-	if (!( src.flags ) & 256)
+	if (!(src.flags & FPRINT))
 		return
 	if (M.gloves)
 		return 0
-	if (!( src.fingerprints ))
-		src.fingerprints = text("[]", md5(M.primary.uni_identity))
-	else
-		var/list/L = params2list(src.fingerprints)
-		L -= md5(M.primary.uni_identity)
-		while(L.len >= 3)
-			L -= L[1]
-		L += md5(M.primary.uni_identity)
-		src.fingerprints = list2params(L)
+	src.fingerprints -= md5(M.primary.uni_identity)
+	while(src.fingerprints.len >= 3)
+		src.fingerprints -= src.fingerprints[1]
+	src.fingerprints += md5(M.primary.uni_identity)
 	return
 
 /atom/MouseDrop(atom/over_object as mob|obj|turf|area)
@@ -4665,14 +4660,6 @@
 	var/t5 = (get_dist(src, usr) <= 1 || src.loc == usr)
 	if (istype(usr, /mob/ai))
 		t5 = 1
-	if ((istype(src, /obj/item/weapon/organ) && src in usr.contents))
-		var/mob/human/H = usr
-		usr << "Betchya think you're really smart trying to remove your own body parts aren't ya!"
-		if (istype(H, /mob/human))
-			if (!( (src == H.l_store || src == H.r_store) ))
-				return
-		else
-			return
 
 	if (((t5 || (W && (W.flags & 16))) && !( istype(src, /obj/screen) )))
 		if (usr.next_move < world.time)
@@ -4760,30 +4747,16 @@
 			if (!( ok ))
 				return 0
 
-		if (!( usr.restrained() ))
+		if (!usr.handcuffed())
 			if (W)
 				if (t5)
 					src.attackby(W, usr)
 				if (W)
 					W.afterattack(src, usr, (t5 ? 1 : 0))
 			else
-				if (istype(usr, /mob/human))
-					src.attack_hand(usr, usr.hand)
-				else
-					if (istype(usr, /mob/monkey))
-						src.attack_paw(usr, usr.hand)
-					else
-						if (istype(usr, /mob/ai))
-							src.attack_ai(usr, usr.hand)
+				src.interact(usr)
 		else
-			if (istype(usr, /mob/human))
-				src.hand_h(usr, usr.hand)
-			else
-				if (istype(usr, /mob/monkey))
-					src.hand_p(usr, usr.hand)
-				else
-					if (istype(usr, /mob/ai))
-						src.hand_a(usr, usr.hand)
+			src.interact_cuffed(usr)
 
 	else
 		if (istype(src, /obj/screen))
@@ -4799,17 +4772,9 @@
 					if (W)
 						W.afterattack(src, usr)
 				else
-					if (istype(usr, /mob/human))
-						src.attack_hand(usr, usr.hand)
-					else
-						if (istype(usr, /mob/monkey))
-							src.attack_paw(usr, usr.hand)
+					src.interact(usr)
 			else
-				if (istype(usr, /mob/human))
-					src.hand_h(usr, usr.hand)
-				else
-					if (istype(usr, /mob/monkey))
-						src.hand_p(usr, usr.hand)
+				src.interact_cuffed(usr)
 	return
 
 

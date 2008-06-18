@@ -45,13 +45,13 @@
 						monkeywin = 1
 	if (monkeywin)
 		world << "<FONT size = 3><B>The monkeys have won!</B></FONT>"
-		for(var/mob/monkey/M in world)
-			if (M.client)
+		for(var/mob/carbon/M in world)
+			if (M.client && M.appearance == APPEARANCE_MONKEY)
 				world << text("<B>[] was a monkey.</B>", M.key)
 	else
 		world << "<FONT size = 3><B>The Research Staff has stopped the monkey invasion!</B></FONT>"
 		for(var/mob/human/M in world)
-			if (M.client)
+			if (M.client && M.appearance = APPEARANCE_HUMAN)
 				world << text("<B>[] was [].</B>", M.key, M)
 	return 1
 

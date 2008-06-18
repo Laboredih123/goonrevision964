@@ -127,7 +127,6 @@
 		return
 	if (src.mob.monkeyizing)
 		return
-	var/is_monkey = istype(src.mob, /mob/monkey)
 	if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, src.mob.grabbed_by.len)))
 		var/list/grabbing = list(  )
 		if (istype(src.mob.l_hand, /obj/item/weapon/grab))
@@ -144,7 +143,7 @@
 			else
 				if (G.state == 2)
 					src.move_delay = world.time + 10
-					if ((prob(25) && (!( is_monkey ) || prob(25))))
+					if (prob(10))
 						for(var/mob/O in viewers(src.mob, null))
 							O.show_message(text("\red [] has broken free of []'s grip!", src.mob, G.assailant), 1)
 							//Foreach goto(309)
@@ -155,7 +154,7 @@
 				else
 					if (G.state == 2)
 						src.move_delay = world.time + 10
-						if ((prob(5) && !( is_monkey ) || prob(25)))
+						if (prob(5))
 							for(var/mob/O in viewers(src.mob, null))
 								O.show_message(text("\red [] has broken free of []'s headlock!", src.mob, G.assailant), 1)
 								//Foreach goto(423)
