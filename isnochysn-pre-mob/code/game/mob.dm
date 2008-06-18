@@ -5888,7 +5888,8 @@
 			src.primary.struc_enzyme = "CDEAF5B90AADBC6BA8033DB0A7FD613FA"
 			src.primary.use_enzyme = "C8FFFE7EC09D80AEDEDB9A5A0B4085B61"
 			src.primary.n_chromo = 16
-			src.name = text("monkey ([])", copytext(md5(src.primary.uni_identity), 2, 6))
+			if(src.name == "monkey")
+				src.name = text("monkey ([])", copytext(md5(src.primary.uni_identity), 2, 6))
 		return
 	..()
 	return
