@@ -164,64 +164,6 @@
 	..()
 	return
 
-/obj/screen/zone_sel/MouseDown(location, control,params)		//(location, icon_x, icon_y)
-	// Changes because of 4.0
-	var/list/PL = params2list(params)
-	var/icon_x = text2num(PL["icon-x"])
-	var/icon_y = text2num(PL["icon-y"])
-
-	if (icon_y < 6)
-		if ((icon_x > 10 && icon_x < 22))
-			if (icon_x < 16)
-				src.selecting = "r_foot"
-			else
-				src.selecting = "l_foot"
-	else
-		if (icon_y < 13)
-			if ((icon_x > 11 && icon_x < 21))
-				if (icon_x < 16)
-					src.selecting = "r_leg"
-				else
-					src.selecting = "l_leg"
-		else
-			if (icon_y < 16)
-				if ((icon_x > 9 && icon_x < 23))
-					if (icon_x < 12)
-						src.selecting = "r_hand"
-					else
-						if (icon_x < 20)
-							src.selecting = "diaper"
-						else
-							src.selecting = "l_hand"
-			else
-				if (icon_y < 23)
-					if ((icon_x > 9 && icon_x < 23))
-						if (icon_x < 12)
-							src.selecting = "r_arm"
-						else
-							if (icon_x < 20)
-								src.selecting = "chest"
-							else
-								src.selecting = "l_arm"
-				else
-					if (icon_y < 25)
-						if ((icon_x > 13 && icon_x < 18))
-							src.selecting = "neck"
-					else
-						if (icon_y < 30)
-							if ((icon_x > 11 && icon_x < 20))
-								if (icon_y == 28)
-									src.selecting = "eyes"
-								else
-									if (icon_y == 29)
-										src.selecting = "hair"
-									else
-										if (icon_y == 26)
-											src.selecting = "mouth"
-										else
-											src.selecting = "head"
-	return
-
 /obj/screen/grab/Click()
 	src.master:s_click(src)
 	return

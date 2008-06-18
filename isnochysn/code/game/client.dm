@@ -213,7 +213,7 @@
 
 			src.move_delay += round((100 - src.mob.health) / 20)		//*****RM fix
 
-			if (src.mob.restrained())
+			if (src.mob.handcuffed())
 				for(var/mob/M in range(src.mob, 1))
 					if (((M.pulling == src.mob && (!( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, src.mob.grabbed_by.len)))
 						src << "\blue You're restrained! You can't move!"

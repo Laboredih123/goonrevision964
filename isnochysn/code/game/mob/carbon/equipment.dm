@@ -460,3 +460,104 @@
 		return
 	src.show_inv(usr)
 	return
+
+/mob/carbon/var/const
+	SLOT_BACK = 1
+	SLOT_MASK = 2
+	SLOT_HANDCUFFS = 3
+	SLOT_L_HAND = 4
+	SLOT_R_HAND = 5
+	SLOT_BELT = 6
+	SLOT_ID = 7
+	SLOT_GLASSES = 8
+	SLOT_GLOVES = 9
+	SLOT_HELMET = 10
+	SLOT_SHOES = 11
+	SLOT_SUIT = 12
+	SLOT_JUMPSUIT = 13
+	SLOT_L_STORE = 14
+	SLOT_R_STORE = 15
+	SLOT_HEADSET = 16
+	SLOT_IN_BACKPACK = 17
+
+/mob/carbon/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
+	//warning: icky code
+	var/equipped = 0
+	if((slot == SLOT_L_STORE || slot == SLOT_R_STORE || slot == SLOT_BELT || slot == SLOT_ID) && !src.jumpsuit)
+		del(W)
+		return
+	switch(slot)
+		if(SLOT_BACK)
+			if(!src.back && src.can_wear_back)
+				src.back = W
+				equipped = 1
+		if(SLOT_MASK)
+			if(!src.mask && src.can_wear_mask)
+				src.mask = W
+				equipped = 1
+		if(SLOT_HANDCUFFS)
+			if(!src.handcuffs && src.can_wear_handcuffs)
+				src.handcuffs = W
+				equipped = 1
+		if(SLOT_L_HAND)
+			if(!src.l_hand && src.can_wear_l_hand)
+				src.l_hand = W
+				equipped = 1
+		if(SLOT_R_HAND)
+			if(!src.r_hand && src.can_wear_r_hand)
+				src.r_hand = W
+				equipped = 1
+		if(SLOT_BELT)
+			if(!src.belt && src.can_wear_belt && src.jumpsuit)
+				src.belt = W
+				equipped = 1
+		if(SLOT_ID)
+			if(!src.id && src.can_wear_id && src.jumpsuit)
+				src.id = W
+				equipped = 1
+		if(SLOT_GLASSES)
+			if(!src.glasses && src.can_wear_glasses)
+				src.glasses = W
+				equipped = 1
+		if(SLOT_GLOVES)
+			if(!src.gloves && src.can_wear_gloves)
+				src.gloves = W
+				equipped = 1
+		if(SLOT_HELMET)
+			if(!src.head && src.can_wear_helmet)
+				src.head = W
+				equipped = 1
+		if(SLOT_SHOES)
+			if(!src.shoes && src.can_wear_shoes)
+				src.shoes = W
+				equipped = 1
+		if(SLOT_SUIT)
+			if(!src.suit && src.can_wear_suit)
+				src.suit = W
+				equipped = 1
+		if(SLOT_JUMPSUIT)
+			if(!src.jumpsuit && src.can_wear_back)
+				src.jumpsuit = W
+				equipped = 1
+		if(SLOT_L_STORE)
+			if(!src.l_store && src.can_wear_l_store && src.jumpsuit)
+				src.l_store = W
+				equipped = 1
+		if(SLOT_R_STORE)
+			if(!src.r_store && src.can_wear_r_store && src.jumpsuit)
+				src.r_store = W
+				equipped = 1
+		if(SLOT_HEADSET && src.can_wear_headset)
+			if(!src.headset)
+				src.headset = W
+				equipped = 1
+		if(SLOT_IN_BACKPACK)
+			if (src.back && istype(src.back, /obj/item/weapon/storage/backpack))
+				var/obj/item/weapon/storage/backpack/B = src.back
+				if(B.contents.len < 7 && W.w_class <= 3)
+					W.loc = B
+					equipped = 1
+	if(equipped)
+		W.layer = 20
+	else
+		del(W)

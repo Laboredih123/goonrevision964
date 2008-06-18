@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\game\mob\prespawn\setup.dm
+DIR: code code\atoms code\data code\game code\game\mob code\game\mob\prespawn code\game\mob\silicon icons icons\ss13 maps
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -148,7 +154,11 @@
 #include "code\game\mob\carbon\human\var.dm"
 #include "code\game\mob\carbon\monkey\var.dm"
 #include "code\game\mob\carbon\monkey\megamonkey\var.dm"
+#include "code\game\mob\prespawn\hair_color.dm"
+#include "code\game\mob\prespawn\hair_style.dm"
+#include "code\game\mob\prespawn\job.dm"
 #include "code\game\mob\prespawn\setup.dm"
+#include "code\game\mob\prespawn\skin.dm"
 #include "code\game\mob\silicon\damage.dm"
 #include "code\game\mob\silicon\examine.dm"
 #include "code\game\mob\silicon\ai\damage.dm"
