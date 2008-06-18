@@ -65,7 +65,6 @@
 /atom/movable/proc/throw_at(atom/target, range, speed)
 	//use a modified version of Bresenham's algorithm to get from the atom's current position to that of the target
 	src.throwing = 1
-	src.density = 1
 	var/dist_x = abs(target.x - src.x)
 	var/dist_y = abs(target.y - src.y)
 
@@ -137,8 +136,6 @@
 
 	//done throwing, either because it hit something or it finished moving
 	src.throwing = 0
-	if(istype(src, /obj/item))
-		src.density = 0
 
 
 /atom/movable/Bump(atom/O)
