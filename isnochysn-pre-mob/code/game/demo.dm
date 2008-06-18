@@ -223,11 +223,12 @@
 
 /obj/machinery/door/proc/open()
 
-	if (src.operating)
+	if (src.operating == 1) //doors can still open when emag-disabled
 		return
 	if (!ticker)
 		return 0
-	src.operating = 1
+	if(operating == 0) //in case of emag
+		src.operating = 1
 	flick(text("[]doorc0", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door0", (src.p_open ? "o_" : null))
 	sleep(15)
@@ -237,7 +238,8 @@
 	if (istype(T, /turf))
 		T.updatecell = 1
 		T.buildlinks()
-	src.operating = 0
+	if(operating == 1) //emag again
+		src.operating = 0
 	return 1
 
 /obj/machinery/door/proc/close()
