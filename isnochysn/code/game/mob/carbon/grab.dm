@@ -30,9 +30,5 @@
 								src.pixel_x = -8.0
 
 /mob/carbon/proc/get_members_of_grab_chain()
-	var/list/L = list(src)
 	for(var/obj/item/weapon/grab/hand in list(src.l_hand, src.r_hand))
-		var/list/grabees = hand.affecting.get_members_of_grab_chain()
-		L -= grabees
-		L += grabees
-	return L
+		. = uniquelist(. + hand.affecting.get_members_of_grab_chain() + src)
