@@ -679,6 +679,9 @@
 	throw_speed = 4
 	throw_range = 20
 	w_class = 1.0
+/obj/item/weapon/bottle/beer
+	name = "Space Beer"
+	icon_state = "beer"
 /obj/item/weapon/bottle/antitoxins
 	name = "antitoxins"
 	icon_state = "atoxinbottle"
