@@ -60,32 +60,37 @@ datum/hSB
 						hsboxspawn = 1
 						return
 				if("hsbsuit")
-					var/mob/human/P = usr
+					var/mob/carbon/P = usr
 					if(P.suit)
 						P.suit.loc = P.loc
 						P.suit.layer = initial(P.suit.layer)
 						P.suit = null
-					P.suit = new/obj/item/weapon/clothing/suit/sp_suit(P)
-					P.suit.layer = 20
+					if(P.can_wear_suit)
+						P.suit = new/obj/item/weapon/clothing/suit/sp_suit(P)
+						P.suit.layer = 20
 					if(P.head)
 						P.head.loc = P.loc
 						P.head.layer = initial(P.head.layer)
 						P.head = null
-					P.head = new/obj/item/weapon/clothing/head/s_helmet(P)
-					P.head.layer = 20
+					if(P.can_wear_head)
+						P.head = new/obj/item/weapon/clothing/head/s_helmet(P)
+						P.head.layer = 20
 					if(P.mask)
 						P.mask.loc = P.loc
 						P.mask.layer = initial(P.mask.layer)
 						P.mask = null
-					P.mask = new/obj/item/weapon/clothing/mask/gasmask(P)
-					P.mask.layer = 20
+					if(P.can_wear_mask)
+						P.mask = new/obj/item/weapon/clothing/mask/gasmask(P)
+						P.mask.layer = 20
 					if(P.back)
 						P.back.loc = P.loc
 						P.back.layer = initial(P.back.layer)
 						P.back = null
-					P.back = new/obj/item/weapon/tank/jetpack(P)
-					P.back.layer = 20
-					P.internal = P.back
+					if(P.can_wear_back)
+						P.back = new/obj/item/weapon/tank/jetpack(P)
+						P.back.layer = 20
+						if(P.mask)
+							P.internal = P.back
 				if("hsbmetal")
 					var/obj/item/weapon/sheet/hsb = new/obj/item/weapon/sheet/metal
 					hsb.amount = 50

@@ -859,7 +859,7 @@
 
 	user.machine = src
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))) && (!istype(usr, /mob/ai)))
+	if (istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer))
 		var/d1
 		if (locate(/obj/item/weapon/flasks, src))
 			var/counter = 1
@@ -893,10 +893,9 @@
 
 /obj/machinery/freezer/Topic(href, href_list)
 	..()
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!(istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer)))
+		usr << "\red You don't have the dexterity to do this!"
+		return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
@@ -1554,7 +1553,7 @@
 		return
 
 	user.machine = src
-	if (istype(user, /mob/human) || istype(user, /mob/ai))
+	if (istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer))
 		var/dat = "<font color='blue'> <B>System Statistics:</B></FONT><BR>"
 		if (src.gas.temperature > T0C)
 			dat += text("<font color='red'>\tTemperature (&deg;C): [] (MUST be below 0, add coolant to mixture)</FONT><BR>", round(src.gas.temperature-T0C, 0.1))
@@ -1591,10 +1590,8 @@
 
 /obj/machinery/cryo_cell/Topic(href, href_list)
 	..()
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer))
+		return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
@@ -1661,52 +1658,19 @@
 
 	if(stat & NOPOWER)
 		return
-
-	if (M.health < 0)
-		if ((src.gas.temperature > T0C || src.gas.plasma < 1))
-			return
-	if (M.stat == 2)
+	if (M.is_dead)
 		return
-	if (src.gas.oxygen >= 1)
+
+	M.knockdown += 5
+
+	if(src.ngas.oxygen >= 1)
 		src.ngas.oxygen--
-		if (M.oxyloss >= 10)
-			var/amount = max(0.15, 2)
-			M.oxyloss -= amount
-		else
-			M.oxyloss = 0
-		M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
-	if ((src.gas.temperature < T0C && src.gas.plasma >= 1))
+		M.heal_damage(suffocation = 5)
+
+	if (src.gas.temperature < T0C && src.gas.plasma >= 1)
+		M.heal_damage(toxin = 5, brute = 5, burn = 5)
 		src.ngas.plasma--
-		if (M.toxloss > 5)
-			var/amount = max(0.1, 2)
-			M.toxloss -= amount
-		else
-			M.toxloss = 0
-		M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
-		if (istype(M, /mob/human))
-			var/mob/human/H = M
-			var/ok = 0
-			for(var/organ in H.organs)
-				var/atom/organ/affecting = H.organs[text("[]", organ)]
-				ok += affecting.heal_damage(5, 5)
-				//Foreach goto(267)
-			if (ok)
-				H.UpdateDamageIcon()
-			else
-				H.UpdateDamage()
-		else
-			if (M.fireloss > 15)
-				var/amount = max(0.3, 2)
-				M.fireloss -= amount
-			else
-				M.fireloss = 0
-			if (M.bruteloss > 10)
-				var/amount = max(0.3, 2)
-				M.bruteloss -= amount
-			else
-				M.bruteloss = 0
-		M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
-		M.paralysis += 5
+
 	if (src.gas.temperature < (60+T0C))
 		src.gas.temperature = min(src.gas.temperature + 1, 60+T0C)
 	src.updateDialog()

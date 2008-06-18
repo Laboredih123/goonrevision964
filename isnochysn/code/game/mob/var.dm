@@ -9,8 +9,6 @@
 		poll_answer = 0.0
 		muted = null
 		lastDblClick = 0
-		lastKnownIP = null
-		start = null
 		list
 			requests = list(  )
 			mapobjs = list()

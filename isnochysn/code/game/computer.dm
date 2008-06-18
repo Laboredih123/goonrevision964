@@ -110,7 +110,7 @@
 	var/list/namecounts = list()
 	var/list/creatures = list()
 	for (var/mob/M in world)
-		if (istype(M, /mob/human) && istype(M:id, /obj/item/weapon/card/id/syndicate))
+		if (istype(M, /mob/carbon) && istype(M.id, /obj/item/weapon/card/id/syndicate))
 			continue
 		else if (M == usr)
 			continue
@@ -144,7 +144,7 @@
 				usr:cameraFollow = null
 				usr << "Follow camera mode ended."
 				return
-			else if (istype(target, /mob/human) && istype(target:id, /obj/item/weapon/card/id/syndicate))
+			else if (istype(target, /mob/carbon) && istype(target.id, /obj/item/weapon/card/id/syndicate))
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return
@@ -330,16 +330,13 @@
 	return
 
 /obj/machinery/computer/card/Topic(href, href_list)
-	..()
+	. = ..()
+	if(!.) return
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=id_com")
 		return
 	if(usr.restrained() || usr.lying) return
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/ai))
@@ -551,7 +548,8 @@
 	return
 
 /obj/machinery/computer/pod/Topic(href, href_list)
-	..()
+	. = ..()
+	if(!.) return
 
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=computer")
@@ -560,10 +558,6 @@
 
 	if(usr.restrained() || usr.lying) return
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
@@ -677,8 +671,8 @@
 
 /obj/datacore/proc/manifest()
 
-	for(var/mob/human/H in world)
-		if ((H.start && !( findtext(H.rname, "Syndicate ", 1, null) )))
+	for(var/mob/carbon/H in world)
+		if (!findtext(H.rname, "Syndicate ", 1, null))
 			var/datum/data/record/G = new /datum/data/record(  )
 			var/datum/data/record/M = new /datum/data/record(  )
 			var/datum/data/record/S = new /datum/data/record(  )

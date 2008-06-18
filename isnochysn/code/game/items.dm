@@ -449,10 +449,10 @@
 	return
 
 /obj/item/weapon/flashbang/proc/prime()
-
+	//TODO: handle flashbangs in closets properly
 	var/turf/T = get_turf(src)
 	T.firelevel = T.poison
-	for(var/mob/M in viewers(T, null))
+	for(var/mob/carbon/M in viewers(T))
 		if (locate(/obj/item/weapon/cloaking_device, M))
 			for(var/obj/item/weapon/cloaking_device/S in M)
 				S.active = 0
@@ -469,7 +469,7 @@
 				if (prob(30))
 					M.ear_damage += rand(7, 14)
 			if (!( M.paralysis ))
-				M.eye_stat += rand(10, 15)
+				M.eye_damage += rand(10, 15)
 			if (prob(10))
 				M.eye_stat += 7
 			M.ear_deaf += 30
@@ -481,30 +481,17 @@
 		else
 			if (get_dist(M, T) <= 5)
 				flick("e_flash", M.flash)
-				if (!( istype(M, /mob/human) ))
-					M.stunned = 7
-					M.weakened = 2
-				else
-					var/mob/human/H = M
-					M.ear_deaf += 10
-					if (prob(20))
-						M.ear_damage += 10
-					if ((!( istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses) ) || M.paralysis))
-						M.stunned = 7
-						M.weakened = 2
-					else
-						if (!( M.paralysis ))
-							M.eye_stat += rand(1, 3)
+
+				M.ear_damage += 10
+				if (!istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
+					M.knockdown += min(5, M.knockdown)
+					M.knockout = min(2, M.knockout)
 				M << "\red <B>BANG</B>"
 			else
-				if (!( istype(M, /mob/human) ))
+				if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 					flick("flash", M.flash)
-				else
-					var/mob/human/H = M
-					if (!( istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses) ))
-						flick("flash", M.flash)
-				M.eye_stat += rand(1, 2)
-				M.ear_deaf += 5
+				M.eye_damage += 2
+				M.ear_damage += 5
 				M << "\red <B>BANG</B>"
 		if (M.eye_stat >= 20)
 			M << "\red Your eyes start to burn badly!"
@@ -533,7 +520,7 @@
 	return
 	return
 
-/obj/item/weapon/flashbang/attack_self(mob/user as mob)
+/obj/item/weapon/flashbang/attack_self(mob/user)
 
 	if (!( src.state ))
 		user << "\red You prime the flashbang! [det_time/10] seconds!"
@@ -545,45 +532,40 @@
 			return
 	return
 
-/obj/item/weapon/flash/attack(mob/M as mob, mob/user as mob)
-
+/obj/item/weapon/flash/attack(mob/carbon/M, mob/carbon/user)
+	if(!istype(M, /mob/carbon))
+		return ..()
 	if (src.shots > 0)
 		var/safety = null
-		if (istype(M, /mob/human))
-			var/mob/human/H = M
-			if (istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
-				safety = 1
+		if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
+			safety = 1
 		if (!( safety ))
-			M.weakened = 10
+			M.knockdown = min(10, M.knockdown)
 			if (M.client)
-				if (!( safety ))
-					if ((M.eye_stat > 15 && prob(M.eye_stat + 50)))
-						flick("e_flash", M.flash)
-						M.eye_stat += rand(1, 2)
-					else
-						flick("flash", M.flash)
-						M.eye_stat += rand(0, 2)
-					if (M.eye_stat >= 20)
-						M << "\red You eyes start to burn badly!"
-						M.disabilities |= 1
-						if (prob(M.eye_stat - 20 + 1))
-							M << "\red You go blind!"
-							M.sdisabilities |= 1
-		for(var/mob/O in viewers(user, null))
-			O.show_message(text("\red [] blinds [] with the flash!", user, M))
-			//Foreach goto(229)
+				if ((M.eye_stat > 15 && prob(M.eye_stat + 50)))
+					flick("e_flash", M.flash)
+					M.eye_stat += rand(1, 2)
+				else
+					flick("flash", M.flash)
+					M.eye_stat += rand(0, 2)
+				if (M.eye_stat >= 20)
+					M << "\red You eyes start to burn badly!"
+					M.disabilities |= 1
+					if (prob(M.eye_stat - 20 + 1))
+						M << "\red You go blind!"
+						M.sdisabilities |= 1
+		user.show_viewers(text("\red [] blinds [] with the flash!", user, M))
+
 	src.attack_self(user, 1)
 	return
 
-/obj/item/weapon/flash/attack_self(mob/user as mob, flag)
-
+/obj/item/weapon/flash/attack_self(mob/carbon/user as mob, flag)
+	if(!user.check_dexterity())
+		return
 	if ( (world.time + 600) > src.l_time)
 		src.shots = 5
 	if (src.shots < 1)
 		user.show_message("\red *click* *click*", 2)
-		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
 		return
 	src.l_time = world.time
 	add_fingerprint(user)
@@ -1094,29 +1076,18 @@
 	else // no charges in the gun, so they just wallop the target with it
 		..()
 
-/obj/item/weapon/baton/attack(mob/M as mob, mob/user as mob)
+/obj/item/weapon/baton/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 	src.add_fingerprint(user)
-	var/mob/human/H = M
-	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+	if (istype(M.helmet, /obj/item/weapon/clothing/head/helmet) && M.helmet.flags & 8 && prob(80))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	flick("baton_active", src)
 	if (user.a_intent == "hurt")
-		if (M.weakened < 10)
-			M.weakened = 10
-		if (M.stuttering < 10)
-			M.stuttering = 10
+		M.knockdown = min(10, M.knockdown)
 		..()
-		M.stat = 1
 	else
-		if (M.weakened < 60)
-			M.weakened = 60
-		if (M.stuttering < 60)
-			M.stuttering = 60
-		M.stat = 1
-	for(var/mob/O in viewers(M))
-		if ((O.client && !( O.blinded )))
-			O.show_message("\red <B>[M] has been stunned with the stun baton by [user]!</B>", 1, "\red You hear someone fall", 2)
+		M.knockdown = min(20, M.knockdown)
+	M.show_viewers("\red <B>[M] has been stunned with the stun baton by [user]!</B>")
 
 /obj/item/weapon/pill_canister/New()
 
@@ -2653,12 +2624,11 @@
 	return
 	return
 
-/obj/item/weapon/analyzer/attack_self(mob/user as mob)
+/obj/item/weapon/analyzer/attack_self(mob/carbon/user as mob)
 
 	if (user.stat)
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if(!src.check_dexterity())
 		return
 	var/turf/T = user.loc
 	if (!( istype(T, /turf) ))
@@ -3478,17 +3448,11 @@
 	..()
 	return
 
-/obj/item/weapon/dropper/attack(mob/M as mob, mob/user as mob)
-
-	if (!( istype(M, /mob) ))
-		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+/obj/item/weapon/dropper/attack(mob/carbon/M as mob, mob/user as mob)
+	if(!src.check_dexterity())
 		return
 	if (user)
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] has been eyedropped with [] by [].", M, src, user), 1)
-			//Foreach goto(89)
+		M.show_viewers(text("\red [] has been eyedropped with [] by [].", M, src, user))
 		var/amount = src.chem.dropper_mob(M, 1)
 		src.update_is()
 		user.show_message(text("\red You drop [] units into []'s eyes. The dropper contains [] millimeters.", amount, M, src.chem.volume()))
@@ -3751,12 +3715,8 @@
 	..()
 	return
 
-/obj/item/weapon/syringe/attack(mob/M as mob, mob/user as mob)
-
-	if (!( istype(M, /mob) ))
-		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+/obj/item/weapon/syringe/attack(mob/carbon/M as mob, mob/carbon/user as mob)
+	if (!user.check_dexterity())
 		return
 	if (user)
 		if (istype(M, /mob/human))
@@ -3802,37 +3762,14 @@
 		..()
 	return
 
-/obj/item/weapon/brutepack/attack(mob/M as mob, mob/user as mob)
+/obj/item/weapon/brutepack/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 
-	if (M.health < 0)
+	if (M.is_dead)
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if(!user.check_dexterity())
 		return
-	if (user)
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] has been applied with [] by []", M, src, user), 1)
-			//Foreach goto(89)
-	if (istype(M, /mob/human))
-		var/mob/human/H = M
-		var/atom/organ/affecting = H.organs["chest"]
-		if (istype(user, /mob/human))
-			var/mob/human/user2 = user
-			var/t = user2.zone_sel.selecting
-			if ((t in list( "hair", "eyes", "mouth", "neck" )))
-				t = "head"
-			if (H.organs[text("[]", t)])
-				affecting = H.organs[text("[]", t)]
-		else
-			if ((!( istype(affecting, /atom/organ) ) || affecting:burn_dam <= 0))
-				affecting = H.organs["head"]
-				if ((!( istype(affecting, /atom/organ) ) || affecting:burn_dam <= 0))
-					affecting = H.organs["diaper"]
-		if (affecting.heal_damage(60, 0))
-			H.UpdateDamageIcon()
-		else
-			H.UpdateDamage()
-	M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
+	M.show_viewers("\red [user] has applied the [] to []")
+	M.heal_damage(brute = 60)
 	src.amount--
 	return
 
@@ -4541,23 +4478,6 @@
 
 
 	.=..()
-
-/mob/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
-	if (locate(/obj/item/weapon/grab, src))
-		var/mob/safe = null
-		if (istype(src.l_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.l_hand
-			if ((G.state == 3 && get_dir(src, user) == src.dir))
-				safe = G.affecting
-		if (istype(src.r_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.r_hand
-			if ((G.state == 3 && get_dir(src, user) == src.dir))
-				safe = G.affecting
-		if (safe)
-			return safe.attackby(W, user)
-	spawn( 0 )
-		W.attack(src, user)
 
 /atom/proc/MouseDrop_T()
 

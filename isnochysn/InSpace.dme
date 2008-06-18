@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\throwing.dm
-DIR: code code\game code\game\modes
+FILE: code\game\mob\combat.dm
+DIR: code code\game code\game\mob code\game\mob\carbon code\game\modes
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -122,6 +122,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\machinery\airlock.dm"
 #include "code\game\machinery\recharger.dm"
 #include "code\game\machinery\turrets.dm"
+#include "code\game\mob\combat.dm"
 #include "code\game\mob\damage.dm"
 #include "code\game\mob\hear.dm"
 #include "code\game\mob\login.dm"
@@ -137,6 +138,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\carbon\breathing.dm"
 #include "code\game\mob\carbon\combat.dm"
 #include "code\game\mob\carbon\damage.dm"
+#include "code\game\mob\carbon\dexterity.dm"
 #include "code\game\mob\carbon\emote.dm"
 #include "code\game\mob\carbon\equipment.dm"
 #include "code\game\mob\carbon\examine.dm"

@@ -157,18 +157,14 @@
 	for(var/obj/begin/B in world)
 		if (!( locate(/obj/grille, B.loc) ))
 			new /obj/grille( B.loc )
-		//Foreach goto(50)
-	for(var/mob/human/M in world)
+	for(var/mob/carbon/M in world)
 		M.loc = locate(/area/start)
 		if (M.start)
 			M.primary = null
 			del(M.primary)
 			for(var/obj/item/weapon/I in M)
-				//M = null
 				del(M)
-				//Foreach goto(165)
 			M.start = 0
-		//Foreach goto(106)
 	world << "<B>All players have been pushed back!</B>"
 	return
 
@@ -214,7 +210,7 @@
 
 	var/dat = "<H1>CTF Mode Pick</H1><HR>"
 	dat += text("<B>Players (per Team): []</B><BR>\n<B>\"Please Pick a Player</B><BR>", src.play_team)
-	for(var/mob/human/H in src.players_left)
+	for(var/mob/carbon/H in src.players_left)
 		dat += text("<A href='?src=\ref[];pick=\ref[]'>[] ([])</A><BR>", src, H, H.rname, H.key)
 		//Foreach goto(39)
 	user << browse(dat, "window=ctf_pick")
@@ -254,7 +250,7 @@
 		world << "<H3><B>The game has been won!!!</B></H3>"
 		world << text("<B>Team: [] Team led by [] in []</B>", uppertext(winner.color), winner.captain, winner.base)
 		world << "<B>Original Members:</B>"
-		for(var/mob/human/H in winner.members)
+		for(var/mob/carbon/H in winner.members)
 			if (H.client)
 				world << text("\t [] ([])", H.rname, H.key)
 			//Foreach goto(266)
@@ -288,7 +284,7 @@
 	if (href_list["pick"])
 		if (src.picker == usr)
 			var/H = locate(href_list["pick"])
-			if ((istype(H, /mob/human) && src.players_left.Find(H)))
+			if ((istype(H, /mob/carbon) && src.players_left.Find(H)))
 				var/obj/team/T = get_team(src.picker)
 				if (istype(T, /obj/team))
 					T.members += H
@@ -333,7 +329,7 @@
 	if (href_list["select_team"])
 		if (!( src.picking ))
 			src.picking = 1
-			for(var/mob/human/H in world)
+			for(var/mob/carbon/H in world)
 				src.players_left += H
 				//Foreach goto(578)
 			for(var/obj/team/T in src)
@@ -369,11 +365,9 @@
 	if (href_list["start"])
 		src.starting = 1
 		var/obj/begin/use_me = locate(/obj/begin)
-		for(var/mob/human/H in world)
+		for(var/mob/carbon/H in world)
 			if (H.client)
-				H.start = 1
 				H.occupation1 = pick("Staff Assistant", "Research Assistant", "Technical Assistant", "Medical Assistant")
-				use_me.get_dna_ready(H)
 				H.update_face()
 			//Foreach goto(923)
 		world << "<B>STARTING!!!</B>"
@@ -423,7 +417,7 @@
 					//A = null
 					del(A)
 		var/obj/rogue = locate("landmark*CTF-rogue")
-		for(var/mob/human/H in world)
+		for(var/mob/carbon/H in world)
 			H.loc = rogue.loc
 			H.jumpsuit = new /obj/item/weapon/clothing/under/orange( H )
 			H.jumpsuit.layer = 20
@@ -461,10 +455,9 @@
 			return
 		data_core = new /obj/datacore(  )
 	src.show_screen(usr)
-	for(var/mob/human/H in world)
+	for(var/mob/carbon/H in world)
 		if (H.CanAdmin())
 			src.show_screen(H)
-		//Foreach goto(1881)
 	return
 
 /obj/landmark/New()
@@ -916,7 +909,7 @@
 						alert("The game has not started yet.", null, null, null, null, null)
 				if("monkey")
 					world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
-					for(var/mob/human/H in world)
+					for(var/mob/carbon/H in world)
 						H.monkeyize()
 						//Foreach goto(3504)
 					ok = 1
@@ -1421,9 +1414,6 @@
 	for (var/obj/manifest/M in world)
 		M.manifest()
 
-	for (var/mob/human/H in world)
-		if (H.start)
-			reg_dna[H.primary.uni_identity] = H.name
 
 	data_core.manifest()
 

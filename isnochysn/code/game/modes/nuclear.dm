@@ -9,10 +9,9 @@
 
 /datum/game_mode/nuclear/pre_setup()
 	var/list/mobs = list(  )
-	for(var/mob/human/M in world)
-		if ((M.client && M.start))
+	for(var/mob/carbon/M in world)
+		if (M.client)
 			mobs += M
-		//Foreach goto(260)
 	var/obj/O = locate("landmark*CTF-rogue")
 	var/amount = 1
 	if (mobs.len >= 4)
@@ -21,9 +20,9 @@
 	amount = min(5, amount)
 	while(amount > 0)
 		amount--
-		var/mob/human/H = pick(mobs)
+		var/mob/carbon/H = pick(mobs)
 		mobs -= H
-		if (istype(H, /mob/human))
+		if (istype(H, /mob/carbon))
 			H.loc = O.loc
 			if (ticker.killer)
 				H.rname = text("Syndicate Operative #[]", amount + 1)
@@ -123,9 +122,9 @@
 			//Foreach goto(1327)
 		if (disk_on_shuttle)
 			world << "<FONT size = 3><B>The Research Staff has stopped the Syndicate Operatives!</B></FONT>"
-			for(var/mob/human/H in world)
-				if ((H.client && !( findtext(H.rname, "Syndicate ", 1, null) )))
-					if (H.stat != 2)
+			for(var/mob/carbon/H in world)
+				if ((H.client && !( findtext(H.rname, "Syndicate ", 1) )))
+					if (!H.is_dead)
 						world << text("<B>[] was []</B>", H.key, H.rname)
 					else
 						world << text("[] was [] (Dead)", H.key, H.rname)

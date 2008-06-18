@@ -364,12 +364,12 @@
 
 /datum/game_mode/traitor/proc/get_human_list()
 	var/list/humans = list()
-	for(var/mob/human/M in world)
-		if (M.client && M.start && get_rank(M) != "AI")
+	for(var/mob/carbon/M in world)
+		if (M.client && get_rank(M) != "AI")
 			humans += M
 	return humans
 
-/datum/game_mode/traitor/proc/pick_human_except(mob/human/exception)
+/datum/game_mode/traitor/proc/pick_human_except(mob/carbon/exception)
 	return pick(get_human_list() - exception)
 
 /datum/game_mode/traitor/proc/get_target_desc(mob/target) //return a useful string describing the target

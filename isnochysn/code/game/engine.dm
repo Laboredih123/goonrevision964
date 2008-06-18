@@ -86,11 +86,8 @@
 	return
 
 /obj/machinery/computer/engine/Topic(href, href_list)
-	..()
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	. = ..()
+	if(!.) return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))

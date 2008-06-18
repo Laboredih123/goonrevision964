@@ -358,21 +358,20 @@
 	var/area/A = src.loc
 	var/d1
 	var/d2
-	if (istype(user, /mob/human) || istype(user, /mob/ai))
-		A = A.loc
+	A = A.loc
 
-		if (A.fire)
-			d1 = text("<A href='?src=\ref[];reset=1'>Reset - Lockdown</A>", src)
-		else
-			d1 = text("<A href='?src=\ref[];alarm=1'>Alarm - Lockdown</A>", src)
-		if (src.timing)
-			d2 = text("<A href='?src=\ref[];time=0'>Stop Time Lock</A>", src)
-		else
-			d2 = text("<A href='?src=\ref[];time=1'>Initiate Time Lock</A>", src)
-		var/second = src.time % 60
-		var/minute = (src.time - second) / 60
-		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>Fire alarm</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='?src=\ref[];tp=-30'>-</A> <A href='?src=\ref[];tp=-1'>-</A> <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
-		user << browse(dat, "window=firealarm")
+	if (A.fire)
+		d1 = text("<A href='?src=\ref[];reset=1'>Reset - Lockdown</A>", src)
+	else
+		d1 = text("<A href='?src=\ref[];alarm=1'>Alarm - Lockdown</A>", src)
+	if (src.timing)
+		d2 = text("<A href='?src=\ref[];time=0'>Stop Time Lock</A>", src)
+	else
+		d2 = text("<A href='?src=\ref[];time=1'>Initiate Time Lock</A>", src)
+	var/second = src.time % 60
+	var/minute = (src.time - second) / 60
+	var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>Fire alarm</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='?src=\ref[];tp=-30'>-</A> <A href='?src=\ref[];tp=-1'>-</A> <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
+	user << browse(dat, "window=firealarm")
 	return
 
 /obj/machinery/firealarm/Topic(href, href_list)
@@ -503,11 +502,8 @@
 	..()
 	if (usr.stat || usr.restrained() )
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-		else
-			usr << "\red You are unable to dispense anything, since the controls are physical levers which don't go through any other kind of input."
+	if (istype(usr, /mob/ai))
+		usr << "\red You are unable to dispense anything, since the controls are physical levers which don't go through any other kind of input."
 		return
 
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
@@ -649,12 +645,12 @@
 /obj/item/weapon/tank/attack(mob/M as mob, mob/user as mob)
 
 	..()
-	if ((prob(30) && M.stat < 2))
-		var/mob/human/H = M
+	if (prob(30) && !M.is_dead)
+		var/mob/carbon/human/H = M
 
 // ******* Check
 
-		if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
 		var/time = rand(10, 120)
@@ -665,9 +661,7 @@
 			if (M.stunned < time)
 				M.stunned = time
 		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			if ((O.client && !( O.blinded )))
-				O << text("\red <B>[] has been knocked unconscious!</B>", M)
+		M.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 			//Foreach goto(169)
 		M << text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120)
 	return
@@ -2732,9 +2726,9 @@
 
 
 
-/turf/station/r_wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/station/r_wall/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
+	if (user.is_dextrous())
 		user << "\red You don't have the dexterity to do this!"
 		return
 	if (src.state == 2)
@@ -2930,9 +2924,9 @@
 	src.add_fingerprint(user)
 	return
 
-/turf/station/wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/station/wall/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
+	if (M.is_dextrous())
 		user << "\red You don't have the dexterity to do this!"
 		return
 	if ((istype(W, /obj/item/weapon/wrench) && src.state == 1))

@@ -238,10 +238,8 @@
 			usr.a_intent = "grab"
 			usr.intent = "11,15"
 		if("disarm")
-			if (istype(usr, /mob/human))
-				var/mob/M = usr
-				M.a_intent = "disarm"
-				M.intent = "13,15"
+			M.a_intent = "disarm"
+			M.intent = "13,15"
 		if("help")
 			usr.a_intent = "help"
 			usr.intent = "12,15"
