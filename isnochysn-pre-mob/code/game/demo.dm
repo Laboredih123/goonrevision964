@@ -41,10 +41,9 @@
 		//don't care who they are or what they have, act as if they're NOTHING
 		user = null
 	if (src.density && istype(I, /obj/item/weapon/card/emag))
-		src.operating = 1
+		src.operating = -1
 		flick("door_spark", src)
 		sleep(6)
-		src.operating = null
 		open()
 		return 1
 	if (src.allowed(user))
@@ -226,6 +225,8 @@
 
 	if (src.operating)
 		return
+	if (!ticker)
+		return 0
 	src.operating = 1
 	flick(text("[]doorc0", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door0", (src.p_open ? "o_" : null))
@@ -237,7 +238,7 @@
 		T.updatecell = 1
 		T.buildlinks()
 	src.operating = 0
-	return
+	return 1
 
 /obj/machinery/door/proc/close()
 

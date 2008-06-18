@@ -728,12 +728,11 @@ About the new airlock wires panel:
 /obj/machinery/door/airlock/open()
 
 	if (src.blocked || src.locked || (!src.arePowerSystemsOn()) || (stat & NOPOWER))
-		return
+		return 0
 	use_power(50)
 	if (src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
 		src.closeOther.close()
-	..()
-	return
+	return ..()
 
 /obj/machinery/door/airlock/close()
 
