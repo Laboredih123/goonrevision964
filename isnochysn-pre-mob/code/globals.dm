@@ -131,7 +131,7 @@ var
 
 
         //
-	shuttle_z = 10	//default
+	shuttle_z = 2	//default
 	airtunnel_start = 68 // default
 	airtunnel_stop = 68 // default
 	airtunnel_bottom = 72 // default

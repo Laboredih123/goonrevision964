@@ -47,3 +47,5 @@
 #define NOPOWER 2
 #define POWEROFF 4		// tbd
 #define MAINT 8			// under maintaince
+
+#define ENGINE_EJECT_Z 6
