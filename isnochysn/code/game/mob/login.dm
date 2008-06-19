@@ -11,3 +11,8 @@
 	src.sight |= SEE_SELF
 
 	return ..()
+
+/mob/Logout()
+	if(src.client)
+		for(var/obj/screen/s in src.client.screen)
+			del(s)

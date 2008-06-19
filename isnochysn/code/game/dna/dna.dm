@@ -3,7 +3,7 @@
 	var/const/NUM_LOCI = 10
 	var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
-/datum/dna/
+/datum/dna/proc
 
 
 // canonical DNA - effectively a singleton, with data on all the loci and their associated genes
@@ -21,11 +21,10 @@
 		G.associate_with_loci(src)
 
 /datum/dna/canonical/proc/get_random_junk_locus()
-	do
+	while(1)
 		var/canonical_locus/L = get_random_locus()
 		if(L.is_junk)
 			return L
-	while (1)
 
 /datum/dna/canonical/proc/get_random_locus()
 	var/chromosome = pick(src.data)
