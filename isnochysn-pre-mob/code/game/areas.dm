@@ -1,7 +1,7 @@
 /area
 	var/fire = null
 	level = null
-	name = "area"
+	name = "Space"
 	icon = 'areas.dmi'
 	icon_state = "unknown"
 	layer = 10
@@ -24,285 +24,36 @@
 	var/area/linked = null
 	var/no_air = null
 
-/area/aircontrol
-	name = "aircontrol"
-	linkarea = "airintake"
-	icon_state = "atmos"
+/area/engine/
 
-/area/airintake
-	name = "air intake"
-
-/area/airtunnel1
-	name = "airtunnel"
-
-/area/bridge
-	name = "bridge"
-	icon_state = "bridge"
-
-/area/crew_quarters
-	name = "crew quarters"
-	icon_state = "crew_quarters"
-
-/area/decontamination
-	name = "decontamination"
-	icon_state = "decontamination"
-
-/area/dummy
-	name = "dummy"
-
-/area/engine
-	name = "engine"
-	icon_state = "engine"
-
-/area/engine_access
-	name = "engine access"
-
-/area/escapezone
-	name = "escape zone"
-	icon_state = "exit"
-
-/area/hallway
-	name = "hallway"
-	icon_state = "hallway"
-
-/area/hallway/bridge_access
-	name = "bridge access"
-
-/area/hallway/central_hallway
-	name = "central hallway"
-	icon_state = "central_hallway"
-
-/area/hallway/east_airlock
-	name = "east airlock"
-
-/area/hallway/lab_access
-	name = "lab access"
-
-/area/hallway/lounge_hallway
-	name = "lounge hallway"
-
-/area/lounge
-	name = "lounge"
-
-/area/medical
-	name = "medical bay"
-	icon_state = "medbay"
-
-/area/medicalresearch
-	name = "medical research"
-	icon_state = "medresearch"
-
-/area/medicalstorage
-	name = "medical storage"
-
-/area/oxygen_storage
-	name = "gas storage"
-
-/area/security
-	name = "security"
-	linkarea = "brig"
-	icon_state = "security"
-
-/area/shuttle
-	requires_power = 0
-	name = "shuttle"
-	icon_state = "shuttle"
-
-/area/shuttle_airlock
-	name = "shuttle airlock"
-
-/area/shuttle_docking_arm
-	name = "shuttle docking arm"
-
-/area/shuttle_prison
-	name = "prison shuttle"
-	requires_power = 0
+/area/turret_protected/
 
 /area/arrival/start
-	name = "arrival area"
+	name = "Arrival Area"
 	icon_state = "start"
 
 /area/arrival/shuttle
-	name = "arrival shuttle"
+	name = "Arrival Shuttle"
 	icon_state = "shuttle"
 
-/area/solar_control_primary
-	name = "primary solar power control"
+/area/shuttle
+	requires_power = 0
+	name = "Escape Shuttle"
+	icon_state = "shuttle"
 
-/area/solar_control_secondary
-	name = "secondary solar power control"
+// === Trying to remove these areas:
 
-/area/start
+/area/airtunnel1/      // referenced in airtunnel.dm:759
+
+/area/dummy/           // Referenced in engine.dm:261
+
+/area/shuttle_prison/  // referenced in shuttle.dm:57 and :86
+
+/area/start            // will be unused once kurper gets his login interface patch done
 	name = "start area"
 	icon_state = "start"
 
-/area/supply_station
-	name = "supply station"
-
-/area/testlab1
-	name = "testlab1"
-
-/area/testlab2
-	name = "testlab2"
-
-/area/testlab3
-	name = "testlab3"
-
-/area/testlab4
-	name = "testlab4"
-
-/area/aux_engine
-	name = "aux. engine"
-
-/area/toolstorage
-	name = "tool storage"
-
-/area/tech_storage
-	name = "technical storage"
-	icon_state = "storage"
-
-/area/toxinlab
-	name = "toxin lab"
-	icon_state = "toxlab"
-
-/area/vehicles
-	requires_power = 0
-
-/area/vehicles/shuttle1
-
-/area/vehicles/shuttle2
-
-/area/vehicles/shuttle3
-
-/area/sleep_area_annexe
-	name = "sleep area annexe"
-
-/area/south_access
-	name = "southern access corridor"
-
-/area/turret_protected/ai_upload
-	name = "AI upload core"
-	icon_state = "ai_upload"
-
-/area/turret_protected/ai_upload_storage
-	name = "AI upload storage"
-
-/area/turret_protected/ai_upload_foyer
-	name = "AI upload foyer"
-
-/area/transport_tube
-	name = "transport tube"
-
-/area/secure_storage
-	name = "secure stores"
-
-/area/emergency_storage
-	name = "emergency stores"
-
-/area/morgue
-	name = "morgue"
-	icon_state = "morgue"
-
-/area/repair_bay
-	name = "repair bay"
-
-/area/engine/engine_gas_storage
-	name = "engine gas storage"
-	icon_state = "engine_gas_storage"
-
-/area/engine/engine_storage
-	name = "engine storage"
-	icon_state = "engine_storage"
-
-/area/engine/engine_hallway
-	name = "engine hallway"
-	icon_state = "engine_hallway"
-
-/area/engine/engine_medical
-	name = "engine medical center"
-	icon_state = "engine_medical"
-
-/area/engine/generator
-	name = "generator room"
-	icon_state = "generator"
-
-/area/engine/combustion
-	name = "combustion chamber"
-	icon_state = "combustion"
-
-/area/engine/engine_control
-	name = "engine control"
-	icon_state = "engine_control"
-
-/area/engine/engine_mon
-	name = "engine monitoring"
-	icon_state = "engine_monitoring"
-
-/area/engine/prototype_engine
-	name = "prototype engine"
-	icon_state = "prototype_engine"
-
-/area/station_teleport
-	name = "teleporter"
-	icon_state = "teleporter"
-
-/area/chapel
-	name = "chapel"
-	icon_state = "chapel"
-
-/area/chapel_storage
-	name = "chapel storage"
-	icon_state = "chapel"
-
-/area/attack_ship
-	name = "attack ship"
-
-/area/security_sub
-	name = "security annexe"
-	icon_state = "security_sub"
-
-/area/aux_storage
-	name = "aux. storage"
-
-/area/eva_storage
-	name = "EVA storage"
-
-/area/weapon_sat
-	name = "weapon sat"
-	requires_power = 0
-
-/area/med_sat
-	name = "med. sat"
-	requires_power = 0
-
-/area/secret_base
-	name = "secret base"
-	no_air = 1
-	power_equip = 0
-	power_light = 0
-	power_environ = 0
-
-/area/prison
-	name = "prison"
-	requires_power = 1
-
-/area/control_station
-	name = "control station"
-	requires_power = 0
-
-/area/brig
-	name = "brig"
-	icon_state = "brig"
-
-/area/syndicate_station
-	name = "syndicate mini-station"
-
-/area/turret_protected/ai_satellite
-	name = "AI Satellite"
-	icon_state = "ai"
-
-/area/turret_protected/ai_satellite_exterior
-	name = "AI Satellite Protected Zone"
+// ===
 
 /area/New()
 	..()
@@ -329,7 +80,7 @@
 	spawn(15)
 		src.power_change()		// all machines set to current power level, also updates lighting icon
 
-/area/vehicles/New()
+/* /area/vehicles/New()
 	..()
 	sleep(1)
 	var/obj/shut_controller/S = new /obj/shut_controller(  )
@@ -338,7 +89,7 @@
 		S.parts += O
 		O.master = S
 		//Foreach goto(42)
-	return
+	return */
 
 /area/proc/firealert()
 
@@ -452,5 +203,6 @@
 /area/proc/calc_lighting()
 	if(lightswitch && power_light)
 		used_light += numturfs * LIGHTING_POWER
+
 
 

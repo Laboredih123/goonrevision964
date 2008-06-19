@@ -111,6 +111,7 @@
 #include "code\game\verbs\suicide.dm"
 #include "code\game\verbs\who.dm"
 #include "interface\skin.dmf"
+#include "maps\Space Station 13 areas.dm"
 #include "maps\Space Station 13.dmp"
 // END_INCLUDE
 

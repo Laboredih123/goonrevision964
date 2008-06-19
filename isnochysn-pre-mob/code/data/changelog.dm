@@ -1,8 +1,41 @@
 var/changes = {"<FONT color='blue'>
-<P><B>Current Version: KURPER'S VERSION NUMBER TWO!</b></p>
+<P><B>Current Version: KURPER'S VERSION NUMBER THREE!</b></p>
 <P>This version is a fork of Rick's currently running server,
 and is a testbed of proposed fixes, changes, and features.</p>
 <HR>
+
+<p><B>Modified Thursday, June 19th 2008 (Revision 172):</b><BR>
+<ul>
+<li>Airlock access bug fixed</li>
+<li>Added chapel_office and tech_storage access levels</li>
+<li>Added the Chaplain job title</li>
+<li>Made the working skin the default skin</li>
+<li>Fixed bug where clicking on the belt slot without an active item would cause an error</li>
+<li>Added Beer to the game (icons/items only at this time, no effects)</li>
+<li>Fixed bug where emags weren't working properly on doors</li>
+<li>Made doors not openable before the round starts</li>
+<li>emags now have a higher priority, so if you have access to a locker the emag will still fry it</li>
+<li>Fixed windoor and airlock display where running into it multiple times would restart the animation</li>
+<li>Secured closets are no longer anchorable (you can push them now)</li>
+<li>Teleporter now reports the area name instead of X/Y/Z coordinates</li>
+<li>Thrown objects are no longer dense (fixes issues with launching several items at once)</li>
+<li>Moved engine Z-level definition to the main globals file for easier editing</li>
+<li>Random meteor spawn rate lowered by 80%</li>
+<li>Blob now hurts the AI computer</li>
+<li>Teleporter now pulls the default /area name from the name variable (instead of just calling it 'unknown')</li>
+<li>The nuke in Blob mode is now bigger</li>
+<li>Fixed a bug that prevented security closets from verifying access levels</li>
+<li>Walking through girders is no longer allowed; you still build them directly under you though so watch out which way you step off.</li>
+<li>Hitting an AI computer with an item caused an exception error. It now behaves in a sane fashion (only checks for modules).</li>
+<li>Communications intercepts now print in any location (previous patch made it only print in the 'bridge' area)</li>
+<li>Communications computers now have a prints_intercept attribute which can be set to OFF in the map editor</li>
+<li>The SWAT helmet no longer hides your face, and is now organized into a more logical class</li>
+<li>Stun baton stun time is now 5-20 seconds (instead of 20-60 seconds)</li>
+<li>Server code now using the Slurm.spacestation13 hub</li>
+</ul>
+</p>
+
+
 <P><B>Modified Tuesday, June 17th 2008 (Revision 129):</b><BR>
 <ul>
 <li>Removed random name code for now as it delayed spawning and caused some problems</li>
