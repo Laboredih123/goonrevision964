@@ -3614,6 +3614,11 @@
 	user.reset_view(src.current)
 	return 1
 
+/mob/ai/blob_act()
+	if (src.stat != 2)
+		src.bruteloss += 30
+		src.health = 100 - src.oxyloss - src.toxloss - src.fireloss - src.bruteloss
+
 /mob/human/Life()
 	set invisibility = 0
 	set background = 1
