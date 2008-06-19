@@ -121,7 +121,7 @@
 			else
 				T = locate(45,45,1)
 
-			var/min = 50
+			var/min = 75
 			var/med = 250
 			var/max = 500
 			var/sw = locate(1, 1, T.z)
