@@ -1911,7 +1911,7 @@
 				W.updatecell = 1
 				W.opacity = 0
 				W.state = 1
-				W.density = 0
+				W.density = 1
 				W.levelupdate()
 				W.buildlinks()
 		if (src.amount <= 0)
