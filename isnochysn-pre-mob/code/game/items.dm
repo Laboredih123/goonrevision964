@@ -1261,17 +1261,17 @@
 		return
 	flick("baton_active", src)
 	if (user.a_intent == "hurt")
-		if (M.weakened < 10)
-			M.weakened = 10
-		if (M.stuttering < 10)
-			M.stuttering = 10
+		if (M.weakened < 5)
+			M.weakened = 5
+		if (M.stuttering < 5)
+			M.stuttering = 5
 		..()
 		M.stat = 1
 	else
-		if (M.weakened < 60)
-			M.weakened = 60
-		if (M.stuttering < 60)
-			M.stuttering = 60
+		if (M.weakened < 20)
+			M.weakened = 20
+		if (M.stuttering < 20)
+			M.stuttering = 20
 		M.stat = 1
 	for(var/mob/O in viewers(M))
 		if ((O.client && !( O.blinded )))
