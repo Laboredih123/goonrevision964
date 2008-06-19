@@ -1,13 +1,20 @@
 The new (June 2008) DNA system is pretty incredible. Here are the major ways in which it differs from the old system:
 
 "Medical researchers" are now called "genetic researchers."
+
 UI, SI, UE, SE are all abolished - there's just "DNA" now.
+
 No more disks - the computer can do everything by itself, and pops out little DNA disks whenever it needs to (there may need to be a maximum number, to prevent griefers from making thousands to cause massive lag - we'll see).
+
 There's just one DNA computer and one place to store people now, rather than two with various functions split up between them.
-People now have 23 (this may change) chromosomes, each with 20 (this may change) genes. Each gene has a value from A to Z (this may change), and a specific function. Note that multiple genes may be required to all match for any given characteristic, or multiple genes might all do the same thing (so setting gene 21A to "W" might make you fireproof, as would setting gene 12B to "X"). Everything is randomized at the beginning of each round, so the DNA researchers something to do no matter how good they are.
+
+People now have 23 (this may change) chromosomes, each with 10 (this may change) loci. The value of the locus is the allele. An allele can have the value of A, C, G, or T. For instance, the gene for "is intelligent" might be located at chromosome 12, locus 8, and require the allele to be A. A value of C, G, or T at that locus would mean you weren't intelligent. Note that multiple genes may be required to all match for any given characteristic.
+
+Everything is randomized at the beginning of each round, so the DNA researchers something to do no matter how good they are.
+
 The general gene functions are:
 	Junk gene: The value of this gene makes no difference. Most genes will be of this type.
-	Cosmetic gene: Changing this gene will change your looks or voice. Examples include hair color, eye color, gender (the whole X/Y chromosome thing is probably not being modelled), voice, whether or not you look like a monkey, etc.
+	Cosmetic gene: Changing this gene will change your looks or voice. Examples include hair color, hair style, gender (the whole X/Y chromosome thing is probably not being modelled), voice, whether or not you look like a monkey, etc.
 	Ability gene: Changing this gene will give you abilities or remove them. Examples may include fireproofness, intelligence (which allows you to use computers), ability to understand/talk to humans, ability to understand/talk to monkeys, genetic diseases, being infectious (like the monkeys in monkey mode - attacking someone without a weapon makes them get your DNA), etc.
 	
 	This system will allow for almost any combination of human/monkey/other traits you want, as long as you're good enough at genetic research. If you want to be a super-monkey, able to understand humans and operate computers without being too suspicious, just isolate the monkey appearance genes and apply them to yourself. If you want to be fireproof, keep bombarding monkeys with gamma radiation (which the DNA machine will be able to do - it'll cause slight unhealable damage as well as mutating some of the DNA) and sticking them in fires until one of them survives. You might have to abduct some people and try on them if you run out of monkeys.

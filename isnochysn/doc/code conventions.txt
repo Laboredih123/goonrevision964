@@ -1,0 +1,13 @@
+These aren't really followed religiously because the code's been edited by like 10 different people with wildly varying conventions, but oh well. Try to change things to follow them when it's convenient.
+
+
+
+Variable names and function names are lowercase, underscore-separated.
+
+Constants are all caps, underscore-separated.
+
+#defined constants should not be used unless there is no other way - make them /var/const if you have to, but encapsulate them if you can. For instance, a constant that only affects traitor mode should go in /datum/game_mode/traitor/var/const, generally. The awful design of the existing codebase might mean this isn't always possible. The same goes for functions, of course - in particular, try not to clutter up /obj, /atom, or /datum, because there are probably a few thousand items on the map all of which would be duplicating that data or code. That means crazy lag.
+
+A function name with initial capitalization should be a built-in important one like New(), Del(), Bump(), etc.
+
+Try to use sensible names for things.
