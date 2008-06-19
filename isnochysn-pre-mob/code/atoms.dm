@@ -884,15 +884,11 @@
 	s_istate = "s_helmet"
 	s_fire = 5.625E7
 	fire_protect = 1.0
-/obj/item/weapon/clothing/head/swat_hel
+/obj/item/weapon/clothing/head/helmet/swat_hel
 	name = "swat hel"
 	icon_state = "swat_hel"
 	flags = 270.0
-	see_face = 0.0
 	s_istate = "swat_hel"
-	s_fire = 6.75E7
-	brute_protect = 1.0
-	fire_protect = 1.0
 /obj/item/weapon/clothing/head/wig
 	name = "wig"
 /obj/item/weapon/clothing/mask

@@ -350,7 +350,7 @@
 			src.equip_if_possible(new /obj/item/weapon/clothing/under/darkgreen(src), slot_w_uniform)
 			src.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(src), slot_wear_suit)
 			src.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(src), slot_shoes)
-			src.equip_if_possible(new /obj/item/weapon/clothing/head/swat_hel(src), slot_head)
+			src.equip_if_possible(new /obj/item/weapon/clothing/head/helmet/swat_hel(src), slot_head)
 			src.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(src), slot_glasses)
 			src.equip_if_possible(new /obj/item/weapon/gun/energy/taser_gun(src), slot_belt)
 			src.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(src), slot_in_backpack)
