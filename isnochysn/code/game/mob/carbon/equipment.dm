@@ -105,8 +105,6 @@
 		W.dropped(src)
 		W.layer = initial(W.layer)
 
-
-
 /mob/carbon/db_click(text, t1)
 	var/obj/item/weapon/W = src.equipped()
 	var/emptyHand = (W == null)

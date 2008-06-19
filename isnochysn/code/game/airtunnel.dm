@@ -328,8 +328,6 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 	return
 
 
-//*****RM
-
 /obj/machinery/camera/ex_act(severity)
 
 	if(src.invuln)
@@ -374,8 +372,6 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 		if(!(stat & NOPOWER))
 			icon_state = "doorctrl0"
 	src.add_fingerprint(usr)
-
-//*****
 
 /obj/machinery/door_control/power_change()
 	..()

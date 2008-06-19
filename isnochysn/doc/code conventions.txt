@@ -25,6 +25,12 @@ Instead, do:
 	var/var3 = "4"
 For one thing, this makes it easier to search for their declaration. Ideally, order variables by type (inherited or new), then in alphabetical order. Unless it really doesn't make sense, default values should be provided.
 
+An exception to this is constants. It's perfectly OK to do:
+var/const
+	const1 = "a"
+	const2 = "b"
+because they only get assigned and declared once, and generally in large groups (since BYOND lacks enums).
+
 Use multi-// comments rather than /* */ ones. Apparently, the OpenSS13 people can't handle it, and interoperability between our codebases would be a good thing.
 
 Procedures don't need to end in return unless they're returning something. (However, if you make use of the . variable, it's suggested that you put in a return statement anyways for readability to people who aren't BYOND gurus like you.)
@@ -40,6 +46,7 @@ rather than
 /mob/carbon/human
 	proc/do_stuff()
 This makes searching through the codebase for things easier.
+Note that in the future, as the codebase becomes more organized and less awful, this will change.
 
 Do not put var/ in front of arguments or "as [whatever]" after them (unless it's a verb).
 Bad:

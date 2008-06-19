@@ -4,7 +4,7 @@
 
 
 /mob/carbon/interact_cuffed(mob/carbon/M as mob)
-	if((M.a_intent == "hurt" || M.a_intent == "disarm") && M.attack_type == ATTACK_BITE)
+	if((M.a_intent == "hurt" || M.a_intent == "disarm") && M.attack_type == ATTACK_BITE) //can still bite while cuffed
 		return src.interact(M)
 	return
 

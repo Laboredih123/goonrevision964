@@ -10,7 +10,4 @@
 	src.last_known_ip = client.address
 	src.sight |= SEE_SELF
 
-	if (ticker && master_mode =="sandbox" && src.client.authenticated)
-		mob.CanBuild()
-
 	return ..()

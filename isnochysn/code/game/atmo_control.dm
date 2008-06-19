@@ -67,20 +67,6 @@
 	var/val = min(18, round( 18.99 * ((abs(average) / 2500000)**0.25)) )
 	icon_state = "meter[val]"
 
-/*
-/obj/machinery/meter/examine()
-	set src in oview(1)
-
-	var/t = "A gas flow meter. "
-	if (src.target)
-		t += text("Results:\nMass flow []%\nPressure [] kPa", round(100*average/src.target.gas.maximum, 0.1), round(pressure(), 0.1) )
-	else
-		t += "It is not functioning."
-
-	usr << t
-
-*/
-
 /obj/machinery/meter/Click()
 
 	if (get_dist(usr, src) <= 3)

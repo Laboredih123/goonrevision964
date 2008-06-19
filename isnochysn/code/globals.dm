@@ -174,8 +174,7 @@ var
 	const/shuttle_time_in_station = 1800 // 3 minutes in the station
 	const/shuttle_time_to_arrive = 6000 // 10 minutes to arrive
 
-	const/APPEARANCE_HUMAN = 1
-	const/APPEARANCE_MONKEY = 2
+	datum/dna/canonical/canonical_dna = new()
 
 world
 	name = "In Space No One Can Hear You Say No"

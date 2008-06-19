@@ -10,11 +10,6 @@ var/list/occupations = list(
 	"Station Technician",
 	"Head of Personnel",
 	"Head of Research",
-	/*
-	"Prison Security", "Prison Security",
-	"Prison Doctor",
-	"Prison Warden",
-	*/
 	"AI")
 
 var/list/assistant_occupations = list(

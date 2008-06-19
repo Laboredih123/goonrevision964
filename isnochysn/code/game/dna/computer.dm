@@ -10,8 +10,7 @@
 
 /obj/machinery/computer/dna/interact(mob/user as mob)
 	. = ..()
-	if(!.)
-		return
+	if(!.) return
 
 	user.machine = src
 	var/dat = {"<I>Please Insert the cards into the slots</I>
@@ -25,8 +24,7 @@
 
 /obj/machinery/computer/dna/Topic(href, href_list)
 	. = ..()
-	if(!.)
-		return
+	if(!.) return
 	usr.machine = src
 	if (href_list["modify"])
 		if (src.modify)

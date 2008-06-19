@@ -1,94 +1,111 @@
-/mob/carbon
-	var
-		intent = null
-		a_intent = "disarm"
-		m_int = null
-		m_intent = "run"
-		obj/dna/dna = null
-		sdisabilities = 0.0
-		disabilities = 0.0
-		atom/movable/pulling = null
-		stat = 0.0
-		next_move = null
-		prev_move = null
-		monkeyizing = null
-		other = 0.0
-		hand = null
-		rname = null
-		blinded = null
-		rejuv = null
-		sleeping = 0.0
-		resting = 0.0
-		lying = 0.0
-		canmove = 1.0
-		timeofdeath = 0.0
-		cpr_time = 1.0
-		knockout = 0.0
-		knockdown = 0.0
-		losebreath = 0.0
-		obj/stool/chair/buckled = null
-		obj/item/weapon/handcuffs/handcuffed = null
-		obj/item/weapon/l_hand = null
-		obj/item/weapon/r_hand = null
-		obj/item/weapon/back = null
-		obj/item/weapon/tank/internal = null
-		obj/item/weapon/storage/s_active = null
-		obj/item/weapon/clothing/mask/mask = null
-		obj/screen/flash = null
-		obj/screen/blind = null
-		obj/screen/hands = null
-		obj/screen/mach = null
-		obj/screen/sleep = null
-		obj/screen/rest = null
-		obj/screen/pullin = null
-		obj/screen/internals = null
-		obj/screen/oxygen = null
-		obj/screen/i_select = null
-		obj/screen/m_select = null
-		obj/screen/toxin = null
-		obj/screen/fire = null
-		obj/screen/healths = null
-		obj/screen/zone_sel/zone_sel = null
-		obj/hud/hud_used = null
-		grabbed_by = list()
-		datum/chemical/chemicals = null
+/var/const/RIGHT = 0
+/var/const/LEFT = 1
 
-		const
-			SLOT_BACK = 1
-			SLOT_MASK = 2
-			SLOT_HANDCUFFS = 3
-			SLOT_L_HAND = 4
-			SLOT_R_HAND = 5
-			SLOT_BELT = 6
-			SLOT_ID = 7
-			SLOT_GLASSES = 9
-			SLOT_GLOVES = 10
-			SLOT_HELMET = 11
-			SLOT_SHOES = 12
-			SLOT_SUIT = 13
-			SLOT_JUMPSUIT = 14
-			SLOT_L_STORE = 15
-			SLOT_R_STORE = 16
-			SLOT_HEADSET = 17
-			SLOT_IN_BACKPACK = 18
+/mob/carbon
+	var/intent = null
+	var/a_intent = "disarm"
+	var/m_int = null
+	var/m_intent = "run"
+
+	var/atom/movable/pulling = null
+	var/next_move = null
+	var/prev_move = null
+
+	var/other = 0
+	var/hand = RIGHT //the active hand - note that tons of code just says "if(hand)" or "if(!hand)", which sucks
+	var/body_name
+
+	var/blind = null
+	var/rejuv = null
+	var/sleeping = 0
+	var/resting = 0
+	var/lying = 0
+	var/canmove = 1
+	var/timeofdeath = 0
+	var/cpr_time = 1
+	var/knockout = 0
+	var/knockdown = 0
+	var/losebreath = 0.0
+	var/obj/stool/chair/buckled = null
+	var/obj/item/weapon/tank/internal = null
+	var/obj/item/weapon/storage/s_active = null
+	var/obj/item/weapon/handcuffs/handcuffs = null
+
+	var/obj/item/weapon/l_hand = null
+	var/can_wear_l_hand = 0
+
+	var/obj/item/weapon/r_hand = null
+	var/can_wear_r_hand = 0
+
+	var/obj/item/weapon/back = null
+	var/can_wear_back = 0
+
+	var/obj/item/weapon/clothing/mask/mask = null
+	var/can_wear_mask = 0
+
 	var/obj/item/weapon/clothing/suit/suit = null
+	var/can_wear_suit = 0
+
 	var/obj/item/weapon/clothing/under/jumpsuit = null
-	var/obj/item/weapon/radio/headset = null
+	var/can_wear_jumpsuit = 0
+
+	var/obj/item/weapon/radio/headset/headset = null
+	var/can_wear_headset = 0
+
 	var/obj/item/weapon/clothing/shoes/shoes = null
+	var/can_wear_shoes = 0
+
 	var/obj/item/weapon/belt = null
+	var/can_wear_belt = 0
+
 	var/obj/item/weapon/clothing/gloves/gloves = null
+	var/can_wear_gloves = 0
+
 	var/obj/item/weapon/clothing/glasses/glasses = null
+	var/can_wear_glasses = 0
+
 	var/obj/item/weapon/clothing/head/helmet = null
+	var/can_wear_helmet = 0
+
 	var/obj/item/weapon/card/id/id = null
+	var/can_wear_id = 0
+
 	var/obj/item/weapon/r_store = null
+	var/can_wear_r_store = 0
+
 	var/obj/item/weapon/l_store = null
+	var/can_wear_l_store = 0
+
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
 	var/now_pushing = null
 
-	var/image/face = null
-	var/image/face2 = null
-	var/h_style_r = "hair_a"
+	var/grabbed_by = list()
+	var/datum/chemical/chemicals = null
+
+	var/const
+		SLOT_BACK = 1
+		SLOT_MASK = 2
+		SLOT_HANDCUFFS = 3
+		SLOT_L_HAND = 4
+		SLOT_R_HAND = 5
+		SLOT_BELT = 6
+		SLOT_ID = 7
+		SLOT_GLASSES = 9
+		SLOT_GLOVES = 10
+		SLOT_HELMET = 11
+		SLOT_SHOES = 12
+		SLOT_SUIT = 13
+		SLOT_JUMPSUIT = 14
+		SLOT_L_STORE = 15
+		SLOT_R_STORE = 16
+		SLOT_HEADSET = 17
+		SLOT_IN_BACKPACK = 18
+
+
+	var/hair_color = HAIR_COLOR_BROWN
+	var/hair_style = HAIR_STYLE_SHORT
+	var/appearance = APPEARANCE_MONKEY
 	var/cameraFollow = null
 
 	var/list/body_standing = list()
