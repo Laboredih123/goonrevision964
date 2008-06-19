@@ -189,14 +189,13 @@
 	intercepttext += "\red <B>Transmission names enemy operative: [killer] ([prob_right_killer]% certainty)</B><BR>"
 
 	for (var/obj/machinery/computer/communications/comm in world)
-		if (!(comm.stat & (BROKEN | NOPOWER)) && istype(comm.loc.loc, /area/bridge)) //it works
-			//only send it to the one on the bridge, because engineers don't need to know and security can just come to the bridge
+		if (!(comm.stat & (BROKEN | NOPOWER)) //it works
 			var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
 			intercept.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
 			intercept.info = intercepttext
 
 	world << "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT>"
-	world << "\red Summary downloaded and printed out at bridge communications console."
+	world << "\red Summary downloaded and printed out at all communications consoles."
 
 /datum/game_mode/traitor/check_win()
 	var/area/shuttle = locate(/area/shuttle)
