@@ -189,7 +189,7 @@
 	intercepttext += "\red <B>Transmission names enemy operative: [killer] ([prob_right_killer]% certainty)</B><BR>"
 
 	for (var/obj/machinery/computer/communications/comm in world)
-		if (!(comm.stat & (BROKEN | NOPOWER)) //it works
+		if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept) //it works
 			var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
 			intercept.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
 			intercept.info = intercepttext

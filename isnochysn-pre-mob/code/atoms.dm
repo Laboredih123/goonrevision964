@@ -2293,6 +2293,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Communications Console"
 	icon = 'stationobjs.dmi'
 	icon_state = "comm_computer"
+	var/prints_intercept = 1
 /obj/machinery/computer/data
 	name = "data"
 	icon = 'weap_sat.dmi'
