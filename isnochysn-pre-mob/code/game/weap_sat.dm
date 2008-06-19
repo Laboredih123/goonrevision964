@@ -45,12 +45,7 @@
 		var/turf/T = find_loc(R)
 		if (!( T ))
 			continue //goto(26)
-		var/desc
-		if(T.loc.name == "area")
-			desc = "unknown"
-		else
-			desc = T.loc.name
-		L[desc] = R
+		L[T.loc.name] = R
 	var/desc = input("Please select a location to lock in.", "Locking Computer") in L
 	var/R = L[desc]
 	if (prob(50))
