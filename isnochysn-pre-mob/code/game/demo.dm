@@ -1279,8 +1279,6 @@
 			if ((O.client && !( O.blinded )))
 				O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
 	else if(src.allowed(user))
-		world << "BUTTS"
-		world << "he's allowed!"
 		src.locked = !src.locked
 		for(var/mob/O in viewers(user, 3))
 			if ((O.client && !( O.blinded )))
