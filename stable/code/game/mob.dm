@@ -2850,7 +2850,7 @@
 	return
 
 /mob/human/examine()
-	set src in oview()
+	set src in view()
 
 	usr << "\blue *---------*"
 	usr << text("\blue This is \icon[] <B>[]</B>!", src, src.name)
@@ -2868,6 +2868,10 @@
 		usr << text("\blue \t[] has a \icon[] [] in \his[] left hand!", src.name, src.l_hand, src.l_hand.name, src)
 	if (src.r_hand)
 		usr << text("\blue [] has a \icon[] [] in \his[] right hand!", src.name, src.r_hand, src.r_hand.name, src)
+	if (src.belt)
+		usr << text("\blue [] has a \icon[] [] on \his[] belt!", src.name, src.belt, src.belt.name, src)
+	if (src.gloves)
+		usr << text("\blue [] has a \icon[] [] on \his[] hands!", src.name, src.gloves, src.gloves.name, src)
 	if (src.back)
 		usr << text("\blue [] has a \icon[] [] on \his[] back!", src.name, src.back, src.back.name, src)
 	if (src.wear_id)
