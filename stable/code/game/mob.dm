@@ -3109,7 +3109,8 @@
 		src.healths.icon_state = "health5"
 	src.stat = 2
 	src.canmove = 0
-	src.blind.layer = 0
+	if(src.client)
+		src.blind.layer = 0
 	src.lying = 1
 	//src.icon_state = "dead"
 	var/cancel
