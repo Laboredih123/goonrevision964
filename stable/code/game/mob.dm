@@ -2686,7 +2686,7 @@
 				if (emptyHand)
 					src.belt.DblClick()
 				return
-			if (!( W.flags & ONBELT ))
+			if (!W.flags || !( W.flags & ONBELT ))
 				return
 			src.u_equip(W)
 			src.belt = W

@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\verbs\ooc.dm
+FILE: code\game\mob.dm
 DIR: code code\game code\game\item code\game\item\weapon code\game\machinery code\game\verbs maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
