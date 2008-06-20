@@ -1819,6 +1819,8 @@
 
 	return
 
+/mob/human/var/co2overloadtime = null
+
 /mob/human/proc/aircheck(obj/substance/gas/G as obj)
 
 	src.t_oxygen = 0
@@ -1832,13 +1834,13 @@
 		G.sl_gas -= a_sl_gas
 		if (a_oxygen < 67.032)
 			src.t_oxygen = round( (67.032 - a_oxygen) / 5) + 1
-		if (G.co2 > 5)
-			var/t = round((G.co2 - 5) / 5) + 1
-			if (G.co2 > 25)
+		if (G.co2 > 25)
+			if(co2overloadtime && co2overloadtime - world.time > 50) //5 seconds before CO2 knocks you out
 				src.paralysis = max(src.paralysis, 3)
-				if (G.co2 > 50)
-					t = 50
-			src.t_oxygen = max(src.t_oxygen, t)
+			else if(!co2overloadtime)
+				co2overloadtime = world.time
+		else
+			co2overloadtime = null
 		if (a_plasma > 5)
 			src.t_plasma = round(a_plasma / 10) + 1
 			if ((src.wear_mask && src.wear_mask.a_filter >= 4))
