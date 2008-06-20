@@ -707,6 +707,23 @@
 				dat += text("[]<BR>", M.client.ckey)
 			//Foreach goto(1525)
 		usr << browse(dat, "window=keys")
+	if (href_list["monkeyone"])
+		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
+			var/mob/M = locate(href_list["monkeyone"])
+			if (ismob(M) && istype(M, /mob/human))
+				var/mob/human/N = M
+				world.log_admin(text("ADMIN: [] attempting to monkeyize []", usr.key, M.name))
+				N.monkeyize()
+				href_list["l_players"] = 1 // lets it fall through and refresh
+	if (href_list["adminauth"])
+		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
+			var/mob/M = locate(href_list["adminauth"])
+			if (ismob(M) && !M.client.authenticated && !M.client.authenticating)
+				M.client.verbs -= /client/proc/authorize
+				M.client.authenticated = text("admin/[]", usr.client.authenticated)
+				world.log_admin(text("ADMIN: [] authorized [] ([])", usr.key, M.name, (M.client ? M.client : "No client")))
+				M.client << text("You have been authorized by []", usr.key)
+				href_list["l_players"] = 1 // lets it fall through and refresh
 	if (href_list["l_players"])
 		var/dat = "<B>Name/Real Name/Key/IP:</B><HR>"
 		for(var/mob/M in world)
@@ -724,21 +741,6 @@
 			dat += text("N: [] R: [] (K: []) (IP: []) []<BR>", M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP, foo)
 			//Foreach goto(1602)
 		usr << browse(dat, "window=players")
-	if (href_list["monkeyone"])
-		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
-			var/mob/M = locate(href_list["monkeyone"])
-			if (ismob(M) && !istype(M, /mob/monkey))
-				var/mob/human/N = M
-				N.monkeyize()
-				world.log_admin(text("ADMIN: [] monkeyized []", usr.key, M.rname))
-	if (href_list["adminauth"])
-		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
-			var/mob/M = locate(href_list["adminauth"])
-			if (ismob(M) && !M.client.authenticated && !M.client.authenticating)
-				M.client.verbs -= /client/proc/authorize
-				M.client.authenticated = text("admin/[]", usr.client.authenticated)
-				world.log_admin(text("ADMIN: [] authorized []", usr.key, M.rname))
-				M.client << text("You have been authorized by []", usr.key)
 	if (href_list["g_send"])
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message
 		if (t)
