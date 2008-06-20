@@ -1697,6 +1697,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	suffix = "\[3\]"
 	icon_state = "radio"
 	var/freq = 145.9
+	var/traitorfreq = 0.0
+	var/obj/item/weapon/syndicate_uplink/traitorradio = null
 	var/wires = 7.0
 	var/b_stat = 0.0
 	var/broadcasting = null
@@ -1905,6 +1907,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/temp = null
 	var/uses = 1.0
 	var/selfdestruct = 0.0
+	var/traitorfreq = 0.0
+	var/obj/item/weapon/radio/origradio = null
 	flags = 322.0
 	w_class = 2.0
 	s_istate = "electronic"

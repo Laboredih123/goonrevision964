@@ -111,26 +111,57 @@
 
 	if (!istype(killer, /mob/ai))
 		spawn (100)
-			if (istype(killer.back, /obj/item/weapon/storage/backpack))
-				var/obj/item/weapon/storage/backpack/B = killer.back
-				var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink(B)
-				U.loc = B
-				B.orient2hud(killer)
-			else if (killer.w_uniform) // No backpack, but a jumpsuit
-				if(!(killer.l_store)) // Put the radio in his left pocket, if possible
-					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(killer)
-					traitor_item.loc = killer
-					killer.l_store = traitor_item
-					traitor_item.layer = 20
-				else if(!(killer.r_store)) // Put the radio in his right pocket, if possible
-					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(ticker.killer)
-					traitor_item.loc = ticker.killer
-					ticker.killer.r_store = traitor_item
-					traitor_item.layer = 20
-				else
-					killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
-			else
+			// generate list of radio freqs
+			var/freq = 144.1
+			var/list/freqlist = list()
+			while (freq <= 148.9)
+				if (freq < 145.1 || freq > 145.9)
+					freqlist += freq
+				freq += 0.2
+				if (freq * 10 % 2 == 0)
+					freq += 0.1
+			freq = freqlist[rand(1, freqlist.len)]
+			// find a radio! toolbox(es), backpack, belt, headset
+			var/loc = ""
+			var/obj/item/weapon/radio/R = null
+			if (!R && istype(killer.l_hand, /obj/item/weapon/storage))
+				var/obj/item/weapon/storage/S = killer.l_hand
+				var/list/L = S.return_inv()
+				for (var/obj/item/weapon/radio/foo in L)
+					R = foo
+					loc = "in the [S.name] in your left hand"
+					break
+			if (!R && istype(killer.r_hand, /obj/item/weapon/storage))
+				var/obj/item/weapon/storage/S = killer.r_hand
+				var/list/L = S.return_inv()
+				for (var/obj/item/weapon/radio/foo in L)
+					R = foo
+					loc = "in the [S.name] in your right hand"
+					break
+			if (!R && istype(killer.back, /obj/item/weapon/storage))
+				var/obj/item/weapon/storage/S = killer.back
+				var/list/L = S.return_inv()
+				for (var/obj/item/weapon/radio/foo in L)
+					R = foo
+					loc = "in the [S.name] on your back"
+					break
+			if (!R && killer.w_uniform && istype(killer.belt, /obj/item/weapon/radio))
+				R = killer.belt
+				loc = "on your belt"
+			if (!R && istype(killer.w_radio, /obj/item/weapon/radio))
+				R = killer.w_radio
+				loc = "on your head"
+			if (!R)
 				killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
+			else
+				var/obj/item/weapon/syndicate_uplink/T = new /obj/item/weapon/syndicate_uplink(R)
+				R.traitorradio = T
+				R.traitorfreq = freq
+				T.name = R.name
+				T.icon_state = R.icon_state
+				T.origradio = R
+				killer << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [freq] to unlock it's hidden features."
+				killer:memory += "<BR><B>Radio Freq:</B> [freq] ([R.name] [loc])."
 
 /datum/game_mode/traitor/proc/send_intercept()
 	var/intercepttext = "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT><HR>"

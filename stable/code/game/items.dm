@@ -872,7 +872,7 @@
 		if (src.temp)
 			dat = text("[]<BR><BR><A href='?src=\ref[];temp=1'>Clear</A>", src.temp, src)
 		else
-			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, src)
+			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>\n<A href='?src=\ref[];lock=1'>Lock</A><BR>\n<HR>\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, src, src)
 	user << browse(dat, "window=radio")
 	return
 
@@ -916,6 +916,29 @@
 			if (src.uses > 0)
 				src.uses--
 				new /obj/item/weapon/aiModule/oxygen( H.loc )
+		else if (href_list["lock"])
+			// presto chango, a regular radio again! (reset the freq too...)
+			usr.machine = null
+			usr << browse(null, "window=radio")
+			var/obj/item/weapon/radio/T = src.origradio
+			var/obj/item/weapon/syndicate_uplink/R = src
+			R.loc = T
+			T.loc = usr
+			// R.layer = initial(R.layer)
+			R.layer = 0
+			if (usr.client)
+				usr.client.screen -= R
+			if (usr.r_hand == R)
+				usr.u_equip(R)
+				usr.r_hand = T
+			else
+				usr.u_equip(R)
+				usr.l_hand = T
+			R.loc = T
+			T.layer = 20
+			T.freq = initial(T.freq)
+			T.attack_self(usr)
+			return
 		else if (href_list["selfdestruct"])
 			src.temp = text("<A href='?src=\ref[];selfdestruct2=1'>Self-Destruct</A>", src)
 		else if (href_list["selfdestruct2"])
@@ -3840,11 +3863,15 @@
 	if ((usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
 		usr.machine = src
 		if (href_list["freq"])
+			/* // comment this out and bump to parent, so we don't duplicate syndicate uplink code
 			src.freq += text2num(href_list["freq"])
 			if (src.freq * 10 % 2 == 0)
 				src.freq += 0.1
 			src.freq = min(148.9, src.freq)
 			src.freq = max(144.1, src.freq)
+			*/
+			..()
+			return
 		else
 			if (href_list["code"])
 				src.code += text2num(href_list["code"])
@@ -3965,6 +3992,27 @@
 				src.freq += 0.1
 			src.freq = min(148.9, src.freq)
 			src.freq = max(144.1, src.freq)
+			if (src.traitorfreq && src.freq == src.traitorfreq)
+				usr.machine = null
+				usr << browse(null, "window=radio")
+				// now transform the regular radio, into a (disguised)syndicate uplink!
+				var/obj/item/weapon/syndicate_uplink/T = src.traitorradio
+				var/obj/item/weapon/radio/R = src
+				R.loc = T
+				T.loc = usr
+				R.layer = 0
+				if (usr.client)
+					usr.client.screen -= R
+				if (usr.r_hand == R)
+					usr.u_equip(R)
+					usr.r_hand = T
+				else
+					usr.u_equip(R)
+					usr.l_hand = T
+				R.loc = T
+				T.layer = 20
+				T.attack_self(usr)
+				return
 		else
 			if (href_list["talk"])
 				src.broadcasting = text2num(href_list["talk"])
