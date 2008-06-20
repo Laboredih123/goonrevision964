@@ -417,7 +417,8 @@
 			var/t1 = href_list["assign"]
 			if(t1 == "Custom")
 				t1 = input("Enter a custom job assignment.","Assignment")
-			src.modify.access = get_access(t1)
+			else
+				src.modify.access = get_access(t1)
 			src.modify.assignment = t1
 	if (href_list["reg"])
 		if (src.authenticated)
