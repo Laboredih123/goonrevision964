@@ -89,6 +89,48 @@
 	if(stat & NOPOWER) return
 	call_shuttle_proc(usr)
 
+/mob/ai/proc/ai_alerts()
+	set category = "AI Commands"
+	set name = "Show Alerts"
+
+	var/dat = "<HEAD><TITLE>Current Station Alerts</TITLE><META HTTP-EQUIV='Refresh' CONTENT='10'></HEAD><BODY>\n"
+	dat += "<A HREF='?src=\ref[src];mach_close=aialerts'>Close</A><BR><BR>"
+	for (var/cat in src.alarms)
+		dat += text("<B>[]</B><BR>\n", cat)
+		var/list/L = src.alarms[cat]
+		if (L.len)
+			for (var/alarm in L)
+				var/list/alm = L[alarm]
+				var/area/A = alm[1]
+				var/C = alm[2]
+				var/list/sources = alm[3]
+				dat += "<NOBR>"
+				if (C && istype(C, /list))
+					var/dat2 = ""
+					for (var/obj/machinery/camera/I in C)
+						dat2 += text("[]<A HREF=?src=\ref[];switchcamera=\ref[]>[]</A>", (dat2=="") ? "" : " | ", src, I, I.c_tag)
+					dat += text("-- [] ([])", A.name, (dat2!="") ? dat2 : "No Camera")
+				else if (C && istype(C, /obj/machinery/camera))
+					var/obj/machinery/camera/Ctmp = C
+					dat += text("-- [] (<A HREF=?src=\ref[];switchcamera=\ref[]>[]</A>)", A.name, src, C, Ctmp.c_tag)
+				else
+					dat += text("-- [] (No Camera)", A.name)
+				if (sources.len > 1)
+					dat += text("- [] sources", sources.len)
+				dat += "</NOBR><BR>\n"
+		else
+			dat += "-- All Systems Nominal<BR>\n"
+		dat += "<BR>\n"
+
+	src.viewalerts = 1
+	src << browse(dat, "window=aialerts&can_close=0")
+
+/mob/ai/proc/ai_camera_list()
+	set category = "AI Commands"
+	set name = "Show Camera List"
+
+	attack_ai(src)
+
 /mob/ai/proc/ai_camera_track()
 	set category = "AI Commands"
 	set name = "Track With Camera"
@@ -843,4 +885,5 @@
 				O.throw_at(targetarea, drive_range * src.power, src.power)
 	flick("mass_driver1", src)
 	return
+
 

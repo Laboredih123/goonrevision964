@@ -575,23 +575,27 @@
 
 		// set channels depending on how much charge we have left
 
-
 		if(cell.charge <= 0)					// zero charge, turn all off
 			equipment = autoset(equipment, 2)
 			lighting = autoset(lighting, 2)
 			environ = autoset(environ, 2)
+			area.poweralert(0, src)
 		else if(cell.percent() < 15)				// <15%, turn off lighting & equipment
 			equipment = autoset(equipment, 2)
 			lighting = autoset(lighting, 2)
 			environ = autoset(environ, 1)
+			area.poweralert(0, src)
 		else if(cell.percent() < 30)			// <30%, turn off equipment
 			equipment = autoset(equipment, 2)
 			lighting = autoset(lighting, 1)
 			environ = autoset(environ, 1)
+			area.poweralert(0, src)
 		else									// otherwise all can be on
 			equipment = autoset(equipment, 1)
 			lighting = autoset(lighting, 1)
 			environ = autoset(environ, 1)
+			if(cell.percent() > 75)
+				area.poweralert(1, src)
 
 
 		if(excess > 0 || perapc > lastused_total)		// if power excess, or enough anyway, recharge the cell
@@ -677,6 +681,7 @@
 		equipment = autoset(equipment, 0)
 		lighting = autoset(lighting, 0)
 		environ = autoset(environ, 0)
+		area.poweralert(0, src)
 
 
 

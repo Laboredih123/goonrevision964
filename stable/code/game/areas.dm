@@ -1,5 +1,7 @@
 /area
 	var/fire = null
+	var/atmos = 1
+	var/poweralm = 1
 	level = null
 	name = "Space"
 	icon = 'areas.dmi'
@@ -91,6 +93,37 @@
 		//Foreach goto(42)
 	return */
 
+/area/proc/atmosalert(var/state, var/obj/machinery/alarm/source)
+	// state 2 == normal, 1 == recovering, 0 == alarm
+	var/list/cameras = list()
+	for (var/obj/machinery/camera/C in src)
+		cameras += C
+	for (var/mob/ai/aiPlayer in world)
+		// maybe it'll just be easier to check the retval from trigger/cancel
+		if (state == 0)
+			// send off a trigger
+			aiPlayer.triggerAlarm("Atmosphere", src, cameras, source)
+			atmos = 0
+		else if (state == 2)
+			var/retval = aiPlayer.cancelAlarm("Atmosphere", src, source)
+			if (retval == 0) // alarm(s) cleared
+				atmos = 1
+	return 1
+
+/area/proc/poweralert(var/state, var/source)
+	if (state != poweralm)
+		poweralm = state
+		var/list/cameras = list()
+		for (var/obj/machinery/camera/C in src)
+			cameras += C
+		for (var/mob/ai/aiPlayer in world)
+			if (state == 1)
+				aiPlayer.cancelAlarm("Power", src, source)
+			else
+				aiPlayer.triggerAlarm("Power", src, cameras, source)
+	return
+
+
 /area/proc/firealert()
 
 	if (!( src.fire ))
@@ -102,9 +135,26 @@
 				spawn( 0 )
 					D.closefire()
 					return
-			//Foreach goto(74)
+		var/list/cameras = list()
+		for (var/obj/machinery/camera/C in src)
+			cameras += C
+		for (var/mob/ai/aiPlayer in world)
+			aiPlayer.triggerAlarm("Fire", src, cameras, src)
 	return
 
+/area/proc/firereset()
+	if (src.fire)
+		src.fire = 0
+		src.mouse_opacity = 0
+		src.updateicon()
+		for(var/obj/machinery/door/firedoor/D in src)
+			if (D.density)
+				spawn( 0 )
+					D.openfire()
+					return
+		for (var/mob/ai/aiPlayer in world)
+			aiPlayer.cancelAlarm("Fire", src, src)
+	return
 
 /area/proc/updateicon()
 	if ((fire || eject) && power_environ)
@@ -203,6 +253,7 @@
 /area/proc/calc_lighting()
 	if(lightswitch && power_light)
 		used_light += numturfs * LIGHTING_POWER
+
 
 
 

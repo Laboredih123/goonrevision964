@@ -304,6 +304,8 @@
 	var/list/laws = list()
 	flags = 258.0
 	var/cameraFollow = null
+	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list())
+	var/viewalerts = 0
 
 /mob/megamonkey
 		name = "mutant monkey"

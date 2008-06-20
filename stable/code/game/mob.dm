@@ -1961,6 +1961,8 @@
 	O.verbs += /mob/ai/proc/ai_call_shuttle
 	O.verbs += /mob/ai/proc/show_laws
 	O.verbs += /mob/ai/proc/ai_camera_track
+	O.verbs += /mob/ai/proc/ai_alerts
+	O.verbs += /mob/ai/proc/ai_camera_list
 	O.verbs -= /mob/verb/switch_hud
 	//O.verbs += /mob/ai/proc/ai_cancel_call
 	del(src)
@@ -5944,6 +5946,8 @@
 /mob/ai/Topic(href, href_list)
 	..()
 	if (href_list["mach_close"])
+		if (href_list["mach_close"] == "aialerts")
+			src.viewalerts = 0
 		var/t1 = text("window=[]", href_list["mach_close"])
 		src.machine = null
 		src << browse(null, t1)
@@ -5960,6 +5964,11 @@
 			O.process()
 			return
 		*/
+	if (href_list["switchcamera"])
+		switchCamera(locate(href_list["switchcamera"]))
+	if (href_list["showalerts"])
+		ai_alerts()
+
 	..()
 	return
 
@@ -6917,6 +6926,75 @@
 	total += 0.25
 	return total
 	return
+
+/mob/ai/proc/switchCamera(var/obj/machinery/camera/C)
+	usr:cameraFollow = null
+	if (!C)
+		src.machine = null
+		src.reset_view(null)
+		return 0
+	if (stat == 2 || !C.status || C.network != src.network) return 0
+
+	// ok, we're alive, camera is good and in our network...
+
+	src.machine = src
+	src:current = C
+	src.reset_view(C)
+	return 1
+
+/mob/ai/proc/triggerAlarm(var/class, area/A, var/O, var/alarmsource)
+	if (stat == 2)
+		return 1
+	var/list/L = src.alarms[class]
+	for (var/I in L)
+		if (I == A.name)
+			var/list/alarm = L[I]
+			var/list/sources = alarm[3]
+			if (!(alarmsource in sources))
+				sources += alarmsource
+			return 1
+	var/obj/machinery/camera/C = null
+	var/list/CL = null
+	if (O && istype(O, /list))
+		CL = O
+		if (CL.len == 1)
+			C = CL[1]
+	else if (O && istype(O, /obj/machinery/camera))
+		C = O
+	L[A.name] = list(A, (C) ? C : O, list(alarmsource))
+	if (O)
+		if (C && C.status)
+			src << text("--- [] alarm detected in []! (<A HREF=?src=\ref[];switchcamera=\ref[]>[]</A>)", class, A.name, src, C, C.c_tag)
+		else if (CL && CL.len)
+			var/foo = 0
+			var/dat2 = ""
+			for (var/obj/machinery/camera/I in CL)
+				dat2 += text("[]<A HREF=?src=\ref[];switchcamera=\ref[]>[]</A>", (!foo) ? "" : " | ", src, I, I.c_tag)
+				foo = 1
+			src << text ("--- [] alarm detected in []! ([])", class, A.name, dat2)
+		else
+			src << text("--- [] alarm detected in []! (No Camera)", class, A.name)
+	else
+		src << text("--- [] alarm detected in []! (No Camera)", class, A.name)
+	if (src.viewalerts) src.ai_alerts()
+	return 1
+
+/mob/ai/proc/cancelAlarm(var/class, area/A as area, obj/origin)
+	var/list/L = src.alarms[class]
+	var/cleared = 0
+	for (var/I in L)
+		if (I == A.name)
+			var/list/alarm = L[I]
+			var/list/srcs  = alarm[3]
+			if (origin in srcs)
+				srcs -= origin
+			if (srcs.len == 0) 
+				cleared = 1
+				L -= I
+	if (cleared) 
+		src << text("--- [] alarm in [] has been cleared.", class, A.name)
+		if (src.viewalerts) src.ai_alerts()
+	return !cleared
 
 /mob/monkey/proc/emote(act)
 

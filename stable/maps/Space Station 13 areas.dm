@@ -183,6 +183,18 @@
 	name = "Emergency Storage"
 	icon_state = "storage"
 
+/area/ai_monitored/storage/eva
+	name = "EVA Storage"
+	icon_state = "storage"
+
+/area/ai_monitored/storage/secure
+	name = "Secure Storage"
+	icon_state = "storage"
+
+/area/ai_monitored/storage/emergency
+	name = "Emergency Storage"
+	icon_state = "storage"
+
 /area/turret_protected/ai_upload
 	name = "AI Upload Chamber"
 	icon_state = "ai_upload"
