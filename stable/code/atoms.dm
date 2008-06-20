@@ -682,6 +682,7 @@
 /obj/item/weapon/bottle/beer
 	name = "Space Beer"
 	icon_state = "beer"
+	var/amount = 10
 /obj/item/weapon/bottle/antitoxins
 	name = "antitoxins"
 	icon_state = "atoxinbottle"

@@ -4,8 +4,9 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\mob.dm
-DIR: code code\game code\game\item code\game\item\weapon code\game\machinery code\game\verbs maps
+FILE: code\game\item\weapon\beer.dm
+DIR: code code\atoms code\game code\game\item code\game\item\weapon code\game\machinery code\game\verbs icons icons\ss13 maps
+UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -97,6 +98,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\weap_sat.dm"
 #include "code\game\weapons.dm"
 #include "code\game\item\weapon\aimodules.dm"
+#include "code\game\item\weapon\beer.dm"
 #include "code\game\item\weapon\flashlight.dm"
 #include "code\game\item\weapon\game_kit.dm"
 #include "code\game\item\weapon\multitool.dm"
@@ -120,5 +122,6 @@ AUTO_FILE_DIR: ON
 #include "maps\Space Station 13 areas.dm"
 #include "maps\Space Station 13.dmp"
 // END_INCLUDE
+
 
 
