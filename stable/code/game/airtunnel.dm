@@ -325,6 +325,31 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 				O.show_message(text("\red [] has reactivated []!", user, src), 1)
 				//Foreach goto(106)
 			src.icon_state = "camera"
+		// now disconnect anyone using the camera
+		for(var/mob/ai/O in world)
+			if (O.current == src)
+				O.cancel_camera()
+				O << "Your connection to the camera has been lost."
+		for (var/mob/O in world)
+			if (istype(O.machine, /obj/machinery/computer/security))
+				var/obj/machinery/computer/security/S = O.machine
+				if (S.current == src)
+					O.machine = null
+					S.current = null
+					O.reset_view(null)
+					O << "The screen bursts into static."
+	else if (istype(W, /obj/item/weapon/paper))
+		var/obj/item/weapon/paper/X = W
+		for(var/mob/ai/O in world)
+			if (O.current == src)
+				O << "[user] holds a paper up to the camera ..."
+				O << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", X.name, X.info), text("window=[]", X.name))
+		for (var/mob/O in world)
+			if (istype(O.machine, /obj/machinery/computer/security))
+				var/obj/machinery/computer/security/S = O.machine
+				if (S.current == src)
+					O << "[user] holds a paper up to the camera ..."
+					O << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", X.name, X.info), text("window=[]", X.name))
 	return
 
 

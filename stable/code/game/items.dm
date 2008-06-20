@@ -2594,6 +2594,13 @@
 	src.add_fingerprint(user)
 	return
 
+/obj/item/weapon/paper/attack_ai(var/mob/ai/user as mob)
+	if (get_dist(src, user.current) < 2)
+		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+	else
+		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, stars(src.info)), text("window=[]", src.name))
+	return
+
 /obj/item/weapon/paper/attackby(obj/item/weapon/P as obj, mob/user as mob)
 
 	if (istype(P, /obj/item/weapon/pen))
