@@ -112,7 +112,7 @@
 						if (src.modify)
 							if (src.modify2)
 								if ((src.modify.data && src.modify2.data))
-									src.modify.data += src.modify2
+									src.modify.data += src.modify2.data
 									src.temp = text("Done!<BR>New Data:<BR>[]", src.modify.data)
 								else
 									src.temp = "Cannot read data! (may be null)"
@@ -660,7 +660,7 @@
 /obj/machinery/scan_console/Topic(href, href_list)
 	..()
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))		
+		if (!istype(usr, /mob/ai))
 			usr << "\red You don't have the dexterity to do this!"
 			return
 	if ((usr.stat || usr.restrained()))
