@@ -3,13 +3,6 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
-/*
-FILE: code\game\item\weapon\beer.dm
-DIR: code code\atoms code\game code\game\item code\game\item\weapon code\game\machinery code\game\verbs icons icons\ss13 maps
-UPDATE_OBJ_TREE: ON
-MAP_ICON_TYPE: 0
-AUTO_FILE_DIR: ON
-*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -50,6 +43,7 @@ AUTO_FILE_DIR: ON
 #include "code\atoms\closet.dm"
 #include "code\atoms\configuration.dm"
 #include "code\atoms\false_wall.dm"
+#include "code\atoms\power_sink.dm"
 #include "code\atoms\secure_closet.dm"
 #include "code\atoms\sun.dm"
 #include "code\atoms\turf.dm"
