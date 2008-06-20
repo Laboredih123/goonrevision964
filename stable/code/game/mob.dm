@@ -5501,9 +5501,6 @@
 			namecounts[name] = 1
 		creatures[name] = D
 	for (var/mob/M in world)
-		if (usr == M)
-			continue
-
 		var/name = M.name
 
 		if (name in names)
