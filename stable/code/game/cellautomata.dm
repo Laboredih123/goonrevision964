@@ -710,9 +710,35 @@
 	if (href_list["l_players"])
 		var/dat = "<B>Name/Real Name/Key/IP:</B><HR>"
 		for(var/mob/M in world)
-			dat += text("N: [] R: [] (K: []) (IP: [])<BR>", M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP)
+			var/foo = ""
+			if (ismob(M) && M.client)
+				if(!M.client.authenticated && !M.client.authenticating)
+					foo += text("\[ <A HREF='?src=\ref[];adminauth=\ref[]'>Authorize</A> | ", src, M)
+				else
+					foo += text("\[ <B>Authorized</B> | ")
+				if(!istype(M, /mob/monkey))
+					foo += text("<A HREF='?src=\ref[];monkeyone=\ref[]'>Monkeyize</A> \]", src, M)
+				else
+					foo += text("<B>Monkeyized</B> \]")
+
+			dat += text("N: [] R: [] (K: []) (IP: []) []<BR>", M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP, foo)
 			//Foreach goto(1602)
 		usr << browse(dat, "window=players")
+	if (href_list["monkeyone"])
+		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
+			var/mob/M = locate(href_list["monkeyone"])
+			if (ismob(M) && !istype(M, /mob/monkey))
+				var/mob/human/N = M
+				N.monkeyize()
+				world.log_admin(text("ADMIN: [] monkeyized []", usr.key, M.rname))
+	if (href_list["adminauth"])
+		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
+			var/mob/M = locate(href_list["adminauth"])
+			if (ismob(M) && !M.client.authenticated && !M.client.authenticating)
+				M.client.verbs -= /client/proc/authorize
+				M.client.authenticated = text("admin/[]", usr.client.authenticated)
+				world.log_admin(text("ADMIN: [] authorized []", usr.key, M.rname))
+				M.client << text("You have been authorized by []", usr.key)
 	if (href_list["g_send"])
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message
 		if (t)
