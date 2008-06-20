@@ -4248,7 +4248,7 @@
 	if ((copytext(message, 1, 2) == "*" && !( src.stat )))
 		src.emote(copytext(message, 2, length(message) + 1))
 		return
-	message = copytext(message, 1, 256)
+	message = copytext(message, 1, 1024)
 	if (src.sdisabilities & 2)
 		return
 	if (src.stat >= 1)
@@ -4339,7 +4339,7 @@
 			//Foreach goto(69)
 		return
 
-	message = copytext(message, 1, 256)
+	message = copytext(message, 1, 1024)
 	if (src.stat >= 1)
 		return
 	if (src.stat < 2)

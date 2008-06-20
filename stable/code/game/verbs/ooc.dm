@@ -1,6 +1,6 @@
 /mob/verb/listen_ooc()
 	set name = "Toggle OOC"
-	
+
 	if (src.client)
 		src.client.listen_ooc = !src.client.listen_ooc
 		if (src.client.listen_ooc)
@@ -12,11 +12,11 @@
 	if (!src.client.authenticated)
 		src << "You are not authorized to communicate over these channels."
 		return
-	
+
 	world.log_ooc("[src.name]/[src.key] : [msg]")
 
 	msg = sanitize(msg)
-	msg = html_encode(copytext(msg, 1, 128))
+	msg = html_encode(copytext(msg, 1, 1024))
 
 	if (!msg)
 		return
