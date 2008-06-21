@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\dna.dm
+FILE: code\game\verbs\ooc.dm
 DIR: code code\atoms code\game code\game\area code\game\item code\game\item\weapon code\game\machinery code\game\modes code\game\verbs icons\ss13 maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
@@ -116,6 +116,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\modes\sandbox.dm"
 #include "code\game\modes\traitor.dm"
 #include "code\game\modes\virus.dm"
+#include "code\game\verbs\adminhelp.dm"
 #include "code\game\verbs\authorize.dm"
 #include "code\game\verbs\ooc.dm"
 #include "code\game\verbs\suicide.dm"
