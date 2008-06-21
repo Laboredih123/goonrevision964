@@ -1,4 +1,8 @@
 /mob/verb/adminhelp(msg as text)
+	if(!usr.client.authenticated)
+		src << "Please authorize before sending these messages."
+		return
+
 	world.log_ooc("HELP: [src.name]/[src.key] : [msg]")
 
 	msg = sanitize(msg)
@@ -11,7 +15,7 @@
 	if (!src.muted)
 		for(var/mob/M in world)
 			if (M.client && M.client.holder)
-				M << "<B>HELP: [src.key]</B>: [msg]"
+				M << "\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"
 				yep = 1
 
 	if (yep)
