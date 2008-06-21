@@ -851,6 +851,14 @@
 						else
 							M.inertia_dir = M.last_move
 							step(M, M.inertia_dir)
+		else //can't move, they just keep going (COPY PASTED CODE WOO)
+			spawn(5)
+				if ((A && !( A.anchored ) && A.loc == src))
+					if(M.inertia_dir) //they keep moving the same direction
+						step(M, M.inertia_dir)
+					else
+						M.inertia_dir = M.last_move
+						step(M, M.inertia_dir)
 	if (src.x <= 2 && src.z < world.maxz)
 		A.z++
 		A.x = world.maxx - 2
