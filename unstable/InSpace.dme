@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\dna\computer.dm
+FILE: code\game\mob\computers.dm
 DIR: code code\game code\game\dna code\game\item code\game\item\weapon code\game\mob code\game\mob\carbon maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
