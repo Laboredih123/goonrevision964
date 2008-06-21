@@ -447,10 +447,8 @@
 
 	if (usr.stat || usr.restrained() )
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!user.check_dexterity())
+		return
 
 	if (( (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai) && !(src.aidisabled)))
 
@@ -916,10 +914,8 @@
 
 	if (usr.stat || usr.restrained() )
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!user.check_dexterity())
+		return
 
 	//world << "[href] ; [href_list[href]]"
 
@@ -2072,10 +2068,8 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if (usr.stat || usr.restrained() )
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!user.check_dexterity())
+		return
 
 	//world << "[href] ; [href_list[href]]"
 
@@ -2368,10 +2362,8 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if (usr.stat || usr.restrained() )
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!user.check_dexterity())
+		return
 
 	//world << "[href] ; [href_list[href]]"
 
@@ -2631,10 +2623,8 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		return
 	if (usr.stat || usr.restrained() )
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!user.check_dexterity())
+		return
 
 	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
 

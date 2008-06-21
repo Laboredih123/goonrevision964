@@ -2727,9 +2727,7 @@
 
 
 /turf/station/r_wall/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
-
-	if (user.is_dextrous())
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	if (src.state == 2)
 		if (istype(W, /obj/item/weapon/wrench))
@@ -2926,8 +2924,7 @@
 
 /turf/station/wall/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
-	if (M.is_dextrous())
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	if ((istype(W, /obj/item/weapon/wrench) && src.state == 1))
 		var/turf/T = user.loc

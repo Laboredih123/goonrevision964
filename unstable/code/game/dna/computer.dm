@@ -2,17 +2,34 @@
 	name = "DNA operations computer"
 	icon = 'Cryogenic2.dmi'
 	icon_state = "dna_computer"
-	var/obj/item/weapon/card/data/scan = null
-	var/obj/item/weapon/card/data/modify = null
-	var/obj/item/weapon/card/data/modify2 = null
 	var/mode = null
 	var/temp = null
+	var/obj/machinery/dna_scanner/connected_scanner = null
+	var/state = null
+	var/primary_buf = null
+	var/secondary_buf = null
+	var/const/NUM_BUFFERS = 10
+	var/list/buffers[NUM_BUFFERS]
+	var/const
+		STATE_SCAN_INPUT = 1
+		STATE_SCANNING
+
+/obj/machinery/computer/dna/New()
+		..()
+	spawn(5)
+		//connect to first scanner it sees
+		for(/obj/machinery/dna_scanner/scanner in view(src, 1)
+			src.connected_scanner = scanner
+			return
+	return
+
 
 /obj/machinery/computer/dna/interact(mob/user as mob)
 	. = ..()
 	if(!.) return
 
 	user.machine = src
+
 	var/dat = {"<I>Please Insert the cards into the slots</I>
 		<BR>Function Disk: <A href='?src=\ref[src];scan=1'>[src.scan ? src.scan.name : "----------"]</A>
 		<BR>Target Disk: <A href='?src=\ref[src];modify=1'>[src.modify ? src.modify.name : "----------"]</A>
@@ -21,27 +38,24 @@
 	if (src.temp)
 		dat = "[src.temp]<BR><BR><A href='?src=\ref[src];clear=1'>Clear Message</A>"
 	user << browse(dat, "window=dna_comp")
+		src.add_fingerprint(usr)
 
 /obj/machinery/computer/dna/Topic(href, href_list)
 	. = ..()
 	if(!.) return
-	usr.machine = src
-	if (href_list["modify"])
-		if (src.modify)
-			src.modify.loc = src.loc
-			src.modify = null
-			src.mode = null
-		else
-			var/obj/item/I = usr.equipped()
-			if (istype(I, /obj/item/weapon/card/data))
-				usr.drop_item()
-				I.loc = src
-				src.modify = I
-			src.mode = null
-	//TODO: update
-	src.add_fingerprint(usr)
-	src.updateUsrDialog()
 
+	if (href_list["locked"])
+		if (src.connected_scanner && src.connected_scanner.occupant)
+			src.connected_scanner.locked = !( src.connected_scanner.locked )
+	if(href_list["scan"])
+		src.state = STATE_SCAN_INPUT
+	if(href_list["scan_buf"])
+		src.state = STATE_SCANNING
+		src.primary_buf = text2num(href_list["scan_buf"])
+		buffers[primary_buf]
+
+
+	src.UpdateUsrDialog()
 	return
 
 /obj/machinery/computer/dna/ex_act(severity)

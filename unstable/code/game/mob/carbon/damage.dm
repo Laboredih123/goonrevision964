@@ -151,6 +151,9 @@
 		src.canmove = 1
 		src.lying = 1
 
+/mob/carbon/knockout_until(time)
+	src.knockout = max(time, src.knockout)
+
 /mob/carbon/handle_knockdown()
 	src.knockdown = max(src.knockdown - 1, 0)
 	if (src.knockdown > 0)
@@ -159,6 +162,9 @@
 	else
 		src.canmove = 1
 		src.lying = 0
+
+/mob/carbon/knockdown_until(time)
+	src.knockdown = max(time, src.knockdown)
 
 /mob/carbon/las_act(flag, A as obj) // get hit by a projectile - las = laser
 
@@ -200,7 +206,7 @@
 				d = d / 5
 		src.take_damage(brute = d)
 		if (prob(50))
-			src.knockdown = 5
+			src.knockdown_until(5)
 		return
 	else if (flag) //taser
 		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
@@ -212,9 +218,9 @@
 				src.think("\red Your armor absorbs the hit!")
 				return
 			if (prob(75))
-				src.knockout = 10
+				src.knockout_until(10)
 			else
-				src.knockdown = 10
+				src.knockdown_until(10)
 	else //laser
 		var/d = 20
 		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
@@ -237,5 +243,5 @@
 				d = d / 2
 		src.take_damage(brute = d)
 		if (prob(25))
-			src.knockdown = 1
+			src.knockdown_until(1)
 	return

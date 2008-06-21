@@ -55,7 +55,7 @@
 /obj/machinery/nuclearbomb/verb/make_deployable()
 	set name = "make deployable"
 	set src in oview(1)
-	
+
 	if (src.deployable)
 		src.deployable = 0
 	else
@@ -65,8 +65,7 @@
 	..()
 	if (usr.stat || usr.restrained())
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		usr << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src

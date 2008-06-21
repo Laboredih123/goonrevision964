@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\dna\dna.dm
-DIR: code code\atoms code\data code\game code\game\dna code\game\dna\gene code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\carbon\monkey\megamonkey code\game\mob\prespawn code\game\modes maps
+FILE: code\game\dna\computer.dm
+DIR: code code\game code\game\dna code\game\item code\game\item\weapon code\game\mob code\game\mob\carbon maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -129,7 +129,9 @@ AUTO_FILE_DIR: ON
 #include "code\game\machinery\recharger.dm"
 #include "code\game\machinery\turrets.dm"
 #include "code\game\mob\combat.dm"
+#include "code\game\mob\computers.dm"
 #include "code\game\mob\damage.dm"
+#include "code\game\mob\dexterity.dm"
 #include "code\game\mob\hear.dm"
 #include "code\game\mob\login.dm"
 #include "code\game\mob\memory.dm"

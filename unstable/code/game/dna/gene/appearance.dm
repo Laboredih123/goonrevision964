@@ -1,0 +1,3 @@
+/var/const/APPEARANCE_MONKEY = 1
+/var/const/APPEARANCE_HUMAN = 2
+/var/const/APPEARANCE_QUIVERING_MASS = 3

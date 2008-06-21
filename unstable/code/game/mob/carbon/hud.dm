@@ -314,14 +314,6 @@
 	src.vimpaired += using
 	return
 
-/obj/hud/proc/remove()
-	owner.client.screen -= main_hud1.contents
-	owner.client.screen -= main_hud2.contents
-	owner.client.screen -= owner.hud_used.adding
-	owner.client.screen -= owner.hud_used.mon_blo
-	owner.client.screen -= list( owner.oxygen, owner.i_select, owner.m_select, owner.toxin, owner.internals, owner.fire, owner.hands, owner.healths, owner.pullin, owner.blind, owner.flash, owner.rest, owner.sleep, owner.mach )
-	owner.client.screen -= list( owner.zone_sel, owner.oxygen, owner.i_select, owner.m_select, owner.toxin, owner.internals, owner.fire, owner.hands, owner.healths, owner.pullin, owner.blind, owner.flash, owner.rest, owner.sleep, owner.mach )
-
 /obj/screen/attack_hand(mob/user as mob, using)
 	return user.db_click(src.name, using)
 
@@ -426,9 +418,9 @@ obj/screen/flash = null
 
 
 	if (!src.is_dead && istype(src.mask, /obj/item/weapon/clothing/mask/gasmask))
-		src.client.screen += main_hud1.g_dither
+		src.client.screen += src.g_dither
 	else
-		src.client.screen -= main_hud1.g_dither
+		src.client.screen -= src.g_dither
 
 	if (src.sleep_icon)
 		src.sleep_icon.icon_state = text("sleep[]", src.sleeping)
@@ -453,12 +445,12 @@ obj/screen/flash = null
 		else
 			src.pullin.icon_state = "pull0"
 	if (src.toxin)
-		if (plcheck)
+		if (src.taking_tox_damage)
 			src.toxin.icon_state = "toxin1"
 		else
 			src.toxin.icon_state = "toxin0"
 	if (src.oxygen)
-		if (oxcheck)
+		if (src.taking_suff_damage)
 			src.oxygen.icon_state = "oxy1"
 		else
 			src.oxygen.icon_state = "oxy0"

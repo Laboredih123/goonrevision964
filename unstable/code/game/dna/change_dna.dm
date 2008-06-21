@@ -1,4 +1,4 @@
-/mob/carbon/proc/change_dna(/datum/dna/D)
+/mob/carbon/proc/change_dna(datum/dna/D)
 	src.dna = D
 
 

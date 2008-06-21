@@ -416,7 +416,7 @@
 	return
 
 /mob/carbon/proc/drop_item_v()
-	if (src.is_conscious)
+	if (src.is_conscious && !src.knockdown)
 		drop_item()
 	return
 

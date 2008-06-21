@@ -114,8 +114,6 @@ var
 	poll_controller = null
 	datum/engine_eject/engine_eject_control = null
 	host = null
-	obj/hud/main_hud1 = null
-	obj/hud/hud2/main_hud2 = null
 	ooc_allowed = 1
 	dna_ident = 1
 	abandon_allowed = 1

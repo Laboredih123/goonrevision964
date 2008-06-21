@@ -314,7 +314,7 @@
 		if(M.conscious())
 			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
 		var/time = rand(10, 120)
-		M.knockout = max(M.knockout, time)
+		M.knockout_until(time)
 
 	src.take_damage(brute = dam)
 	src.add_fingerprint(attacker)
@@ -484,8 +484,8 @@
 
 				M.ear_damage += 10
 				if (!istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
-					M.knockdown += min(5, M.knockdown)
-					M.knockout = min(2, M.knockout)
+					M.knockdown_until(5)
+					M.knockout_until(2)
 				M << "\red <B>BANG</B>"
 			else
 				if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
@@ -540,7 +540,7 @@
 		if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 			safety = 1
 		if (!( safety ))
-			M.knockdown = min(10, M.knockdown)
+			M.knockdown_until(10)
 			if (M.client)
 				if ((M.eye_stat > 15 && prob(M.eye_stat + 50)))
 					flick("e_flash", M.flash)
@@ -572,7 +572,7 @@
 	src.shots--
 	flick("flash2", src)
 	if (!( flag ))
-		for(var/mob/M in oviewers(3, null))
+		for(var/mob/M in oviewers(3))
 			if (prob(50))
 				if (locate(/obj/item/weapon/cloaking_device, M))
 					for(var/obj/item/weapon/cloaking_device/S in M)
@@ -581,8 +581,8 @@
 						//Foreach goto(201)
 			if (M.client)
 				var/safety = null
-				if (istype(M, /mob/human))
-					var/mob/human/H = M
+				if (istype(M, /mob/carbon))
+					var/mob/carbon/H = M
 					if (istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 						safety = 1
 				if (!( safety ))
@@ -718,7 +718,7 @@
 	if (usr.stat || usr.restrained())
 		return
 	var/mob/human/H = usr
-	if (!( istype(H, /mob/human) ))
+	if (!( istype(H, /mob/carbon) ))
 		return 1
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
@@ -847,8 +847,7 @@
 
 	if (flag)
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	src.add_fingerprint(user)
 	if (src.bullets < 1)
@@ -886,11 +885,11 @@
 /obj/item/weapon/gun/revolver/attack(mob/M as mob, mob/user as mob)
 
 	src.add_fingerprint(user)
-	var/mob/human/H = M
+	var/mob/carbon/H = M
 
 // ******* Check
 
-	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+	if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	if ((user.a_intent == "hurt" && src.bullets > 0))
@@ -905,9 +904,7 @@
 		..()
 		src.force = 60
 		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red <B>[] has been shot point-blank by []!</B>", M, user), 1, "\red You hear someone fall", 2)
-			//Foreach goto(192)
+		M.show_viewers(text("\red <B>[] has been shot point-blank by []!</B>", M, user), 1, "\red You hear someone fall", 2)
 	else
 		if (prob(50))
 			if (M.paralysis < 60)
@@ -935,8 +932,7 @@
 
 	if (flag)
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	src.add_fingerprint(user)
 	if (src.charges < 1)
@@ -973,25 +969,16 @@
 
 	..()
 	src.add_fingerprint(user)
-	if ((prob(30) && M.stat < 2))
-		var/mob/human/H = M
-
-// ******* Check
-		if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
-			M << "\red The helmet protects you from being hit hard in the head!"
+	if ((prob(30) && !M.is_dead))
+		var/mob/carbon/H = M
+		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+			M.think("\red The helmet protects you from being hit hard in the head!")
 			return
 		var/time = rand(10, 120)
 		if (prob(90))
-			if (M.paralysis < time)
-				M.paralysis = time
-		else
-			if (M.weakened < time)
-				M.weakened = time
+			M.knockdown_until(time)
 		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall", 2)
-			//Foreach goto(181)
-		M.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
+		M.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 	return
 
 /obj/item/weapon/gun/energy/taser_gun/update_icon()
@@ -1005,8 +992,7 @@
 
 	if (flag)
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	src.add_fingerprint(user)
 	if (src.charges < 1)
@@ -1041,8 +1027,8 @@
 /obj/item/weapon/gun/energy/taser_gun/attack(mob/M as mob, mob/user as mob)
 
 	src.add_fingerprint(user)
-	var/mob/human/H = M
-	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+	var/mob/carbon/H = M
+	if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	if(src.charges >= 1)
@@ -1083,10 +1069,10 @@
 		return
 	flick("baton_active", src)
 	if (user.a_intent == "hurt")
-		M.knockdown = min(10, M.knockdown)
+		M.knockdown_until(5)
 		..()
 	else
-		M.knockdown = min(20, M.knockdown)
+		M.knockdown_until(20)
 	M.show_viewers("\red <B>[M] has been stunned with the stun baton by [user]!</B>")
 
 /obj/item/weapon/pill_canister/New()
@@ -1257,12 +1243,11 @@
 	return
 
 /obj/item/weapon/m_pill/attack(mob/M as mob, mob/user as mob)
-
-	if ((user != M && istype(M, /mob/human)))
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
-			//Foreach goto(41)
-		var/obj/equip_e/human/O = new /obj/equip_e/human(  )
+	if(!istype(M, /mob/carbon))
+		return
+	if (user != M )
+		M.show_viewers(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
+		var/obj/equip_e/O = new /obj/equip_e(  )
 		O.source = user
 		O.target = M
 		O.item = src
@@ -1379,33 +1364,19 @@
 
 /obj/item/weapon/handcuffs/attack(mob/M as mob, mob/user as mob)
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (user.check_dexterity())
 		return
-	if (istype(M, /mob/human))
-		var/obj/equip_e/human/O = new /obj/equip_e/human(  )
-		O.source = user
-		O.target = M
-		O.item = user.equipped()
-		O.s_loc = user.loc
-		O.t_loc = M.loc
-		O.place = "handcuff"
-		M.requests += O
-		spawn( 0 )
-			O.process()
-			return
-	else
-		var/obj/equip_e/monkey/O = new /obj/equip_e/monkey(  )
-		O.source = user
-		O.target = M
-		O.item = user.equipped()
-		O.s_loc = user.loc
-		O.t_loc = M.loc
-		O.place = "handcuff"
-		M.requests += O
-		spawn( 0 )
-			O.process()
-			return
+	var/obj/equip_e/O = new /obj/equip_e()
+	O.source = user
+	O.target = M
+	O.item = user.equipped()
+	O.s_loc = user.loc
+	O.t_loc = M.loc
+	O.place = "handcuff"
+	M.requests += O
+	spawn( 0 )
+		O.process()
+		return
 	return
 
 /obj/item/weapon/examine()
@@ -1815,8 +1786,7 @@
 
 	if (!( istype(usr.loc, /turf/station) ))
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	switch(alert("Sheet-Glass", "Would you like full tile glass or one direction?", "one direct", "full (2 sheets)", "cancel", null))
 		if("one direct")
@@ -1890,8 +1860,7 @@
 
 	if (!( istype(usr.loc, /turf/station) ))
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	switch(alert("Sheet Reinf. Glass", "Would you like full tile glass or one direction?", "one direct", "full (2 sheets)", "cancel", null))
 		if("one direct")
@@ -2090,10 +2059,7 @@
 		if (href_list["read"])
 			var/obj/item/weapon/f_card/P = locate(href_list["read"])
 			if ((P && P.loc == src))
-				if (!( istype(usr, /mob/human) ))
-					usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.display()), text("window=[]", P.name))
-				else
-					usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.display()), text("window=[]", P.name))
+				usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.display()), text("window=[]", P.name))
 			src.add_fingerprint(usr)
 		if (ismob(src.loc))
 			var/mob/M = src.loc
@@ -2561,9 +2527,9 @@
 	add_fingerprint(user)
 	return
 
-/obj/item/weapon/f_print_scanner/attack(mob/human/M as mob, mob/user as mob)
+/obj/item/weapon/f_print_scanner/attack(mob/carbon/M as mob, mob/user as mob)
 
-	if ((!( ismob(M) ) || !( istype(M.primary, /obj/dna) ) || !( istype(M, /mob/human) ) || M.gloves))
+	if (!istype(M, /mob/carbon) || !istype(M.dna, /datum/dna) ||  M.gloves)
 		user << text("\blue Unable to locate any fingerprints on []!", M)
 		return 0
 	else
@@ -2575,11 +2541,11 @@
 		src.amount--
 		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user.loc )
 		F.amount = 1
-		F.fingerprints = md5(M.primary.uni_identity)
+		F.fingerprints = M.get_fingerprints()
 		F.icon_state = "f_print_card1"
 		F.name = text("FPrintC- '[]'", M.name)
 		user << "\blue Done printing."
-	user << text("\blue []'s Fingerprints: []", M, md5(M.primary.uni_identity))
+	user << text("\blue []'s Fingerprints: []", M, M.get_fingerprints())
 	return
 
 /obj/item/weapon/f_print_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
@@ -2608,9 +2574,7 @@
 	return
 
 /obj/item/weapon/healthanalyzer/attack(mob/M as mob, mob/user as mob)
-
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
+	if (!user.check_dexterity())
 		return
 	for(var/mob/O in viewers(M, null))
 		O.show_message(text("\red [] has analyzed []'s vitals!", user, M), 1)
@@ -2877,7 +2841,7 @@
 
 	if (src.loc != usr)
 		return
-	if ((istype(usr, /mob/human) || (ticker && ticker.mode == "monkey")))
+	if (src.is_dextrous)
 		var/mob/M = usr
 		if (!( istype(over_object, /obj/screen) ))
 			return ..()
@@ -3020,20 +2984,18 @@
 
 	..()
 	if ((prob(30) && M.stat < 2))
-		var/mob/H = M
+		var/mob/carbon/H = M
 
 		// ******* Check
 
-		if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
 		var/time = rand(10, 120)
 		if (prob(90))
-			if (M.paralysis < time)
-				M.paralysis = time
+			M.knockdown_until(time)
 		else
-			if (M.stunned < time)
-				M.stunned = time
+			M.knockout_until(time)
 		M.stat = 1
 		for(var/mob/O in viewers(M, null))
 			O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall.", 2)
@@ -3719,8 +3681,8 @@
 	if (!user.check_dexterity())
 		return
 	if (user)
-		if (istype(M, /mob/human))
-			var/obj/equip_e/human/O = new /obj/equip_e/human(  )
+		if (istype(M, /mob/carbon))
+			var/obj/equip_e/O = new /obj/equip_e(  )
 			O.source = user
 			O.target = M
 			O.item = src
@@ -3733,7 +3695,7 @@
 				return
 		else
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red [] has been injected with [] by [].", M, src, user), 1)
+				O.see(text("\red [] has been injected with [] by [].", M, src, user))
 				//Foreach goto(192)
 			var/amount = src.chem.transfer_mob(M, 5)
 			src.update_is()
@@ -3842,42 +3804,16 @@
 	return
 
 /obj/item/weapon/ointment/attack(mob/M as mob, mob/user as mob)
+	if (!user.check_dexterity())
+		return
+	if (istype(M, /mob/carbon))
+		if (user)
+			M.show_viewers(text("\red [] has been applied with [] by []", M, src, user))
+		M.heal_damage(burn = 40)
+		src.amount--
+		if (src.amount <= 0)
+			del(src)
 
-	if (M.health < 0)
-		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		user << "\red You don't have the dexterity to do this!"
-		return
-	if (user)
-		for(var/mob/O in viewers(M, null))
-			if ((O.client && !( O.blinded )))
-				O.show_message(text("\red [] has been applied with [] by []", M, src, user), 1)
-			//Foreach goto(89)
-	if (istype(M, /mob/human))
-		var/mob/human/H = M
-		var/atom/organ/affecting = H.organs["chest"]
-		if (istype(user, /mob/human))
-			var/mob/user2 = user
-			var/t = user2.zone_sel.selecting
-			if ((t in list( "hair", "eyes", "mouth", "neck" )))
-				t = "head"
-			if (H.organs[text("[]", t)])
-				affecting = H.organs[text("[]", t)]
-		else
-			if ((!( istype(affecting, /atom/organ) ) || affecting.burn_dam <= 0))
-				affecting = H.organs["head"]
-				if ((!( istype(affecting, /atom/organ) ) || affecting.burn_dam <= 0))
-					affecting = H.organs["diaper"]
-		if (affecting.heal_damage(0, 40))
-			H.UpdateDamageIcon()
-		else
-			H.UpdateDamage()
-	src.amount--
-	if (src.amount <= 0)
-		//SN src = null
-		del(src)
-		return
-	return
 
 /obj/item/weapon/ointment/examine()
 	set src in view(1)

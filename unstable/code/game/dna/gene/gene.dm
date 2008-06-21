@@ -1,7 +1,7 @@
 /datum/gene
 	var/const/JUNK = 0
 
-	var/attributes = list(JUNK)
+	var/list/attributes = list(JUNK)
 	var/num_alleles = 1
 
 	//the default value of this gene for a standard /mob/carbon
@@ -16,9 +16,9 @@
 		return 0
 	return 1
 
-/datum/gene/proc/associate_with_loci(/datum/dna/canonical/D)
+/datum/gene/proc/associate_with_loci(datum/dna/canonical/D)
 	for(var/i = 0; i < src.num_alleles; i++)
-		var/canonical_locus/locus = D.get_random_junk_locus()
+		var/datum/canonical_locus/locus = D.get_random_junk_locus()
 		locus.is_junk = 0
 		locus.associated_gene = src
 
@@ -30,7 +30,7 @@
 			//add in 1 copy each of the rest
 			var/used = list()
 			for(var/attr in attributes)
-				var/allele = pick(get_all_alleles_except(used))
+				var/allele = pick_allele_except(used)
 				locus.alleles[allele] = attr
 				used += allele
 		else //

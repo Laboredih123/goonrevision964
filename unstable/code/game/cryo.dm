@@ -893,10 +893,9 @@
 
 /obj/machinery/freezer/Topic(href, href_list)
 	..()
-	if (!(istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer)))
-		usr << "\red You don't have the dexterity to do this!"
+	if (!usr.check_dexterity())
 		return
-	if ((usr.stat || usr.restrained()))
+	if (usr.can_use_computer())
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
 		usr.machine = src
@@ -1590,7 +1589,7 @@
 
 /obj/machinery/cryo_cell/Topic(href, href_list)
 	..()
-	if (istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer))
+	if (!usr.can_use_computer())
 		return
 	if ((usr.stat || usr.restrained()))
 		return

@@ -37,8 +37,8 @@
 		ALLELE_TT
 	)
 
-/proc/get_rand_allele()
+/proc/pick_allele()
 	return rand(get_all_alleles())
 
-/proc/get_rand_allele_except(val)
+/proc/pick_allele_except(val)
 	return rand(get_all_alleles() - val)

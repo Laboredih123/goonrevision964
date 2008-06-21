@@ -23,8 +23,6 @@
 	var/canmove = 1
 	var/timeofdeath = 0
 	var/cpr_time = 1
-	var/knockout = 0
-	var/knockdown = 0
 	var/losebreath = 0.0
 	var/obj/stool/chair/buckled = null
 	var/obj/item/weapon/tank/internal = null

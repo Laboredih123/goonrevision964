@@ -3,7 +3,13 @@
 	var/const/NUM_LOCI = 10
 	var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
-/datum/dna/proc
+/datum/dna/proc/mutate()
+	for(var/list/chromosome in data)
+		for(var/i = 1; i <= chromosome.len; i++)
+			//1% chance of mutating any given locus
+			if(prob(1))
+				chromosome[i] = pick_allele()
+
 
 
 // canonical DNA - effectively a singleton, with data on all the loci and their associated genes

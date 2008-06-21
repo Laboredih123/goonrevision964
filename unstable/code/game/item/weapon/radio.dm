@@ -338,9 +338,9 @@
 
 /obj/item/weapon/radio/electropack/Topic(href, href_list)
 	//..()
-	if (usr.stat || usr.restrained())
+	if (!usr.is_conscious || usr.is_handcuffed())
 		return
-	if (((istype(usr, /mob/human) && ((!( ticker ) || (ticker && ticker.mode != "monkey")) && usr.contents.Find(src))) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
+	if (usr.is_dextrous() && usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
 		if (href_list["freq"])
 			src.freq += text2num(href_list["freq"])
@@ -400,7 +400,7 @@
 
 /obj/item/weapon/radio/electropack/attack_self(mob/user as mob, flag1)
 
-	if (!( istype(user, /mob/human) ))
+	if (!user.is_dextrous())
 		return
 	user.machine = src
 	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.freq, src, src, src, src, src.code, src, src)

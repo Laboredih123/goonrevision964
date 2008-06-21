@@ -1,34 +1,42 @@
 /mob/carbon/var/max_air_breathed = 650 //max amount of air breathed per second
 /mob/carbon/var/oxygen_needed = 67
 /mob/carbon/var/co2_breathed
+/mob/carbon/var/taking_tox_damage = 0
+/mob/carbon/var/taking_suff_damage = 0
+
 
 /mob/carbon/proc/aircheck(obj/substance/gas/G as obj)
 	if (G)
+		taking_tox_damage = 0
+		taking_suff_damage = 0
 		var/a_oxygen = G.oxygen * 0.7
 		var/a_plasma = G.plasma
 		var/a_sl_gas = G.sl_gas * 0.7
 		G.oxygen -= a_oxygen
 		G.plasma -= a_plasma
 		G.sl_gas -= a_sl_gas
-		if (a_oxygen < oxygen_needed) //wtf
+		if (a_oxygen < oxygen_needed)
 			src.take_damage(suffocation = round( (oxygen_needed - a_oxygen) / 5 ) + 1)
-
+			src.taking_suff_damage = 1
 		if (a_plasma > 5)
-			src.t_plasma = round(a_plasma / 10) + 1
+			var/plasma_dam = round(a_plasma / 10) + 1
 			if ((src.mask && src.mask.a_filter >= 4))
-				src.t_plasma = max(src.t_plasma - 40, 0)
+				plasma_dam = max(plasma_dam - 40, 0)
+			if(plasma_dam > 0)
+				src.take_damage(toxin = plasma_dam)
+				src.taking_tox_damage = 1
 
 		src.co2_breathed = min(0, src.co2_breathed - 5)
 		src.co2_breathed += G.co2
 		if(src.co2_breathed > 50)
 			src.co2_breathed -= 50
-			src.knockdown = max(src.paralysis, 3)
+			src.knockdown_until(3)
 			src.take_damage(suffocation = 2)
 
 		src.sl_gas_breathed = min(0, src.sl_gas_breathed - 5)
 		src.sl_gas_breathed += a_sl_gas
 		if (src.sl_gas_breathed > 50)
-			src.knockdown = max(src.knockdown, 3)
+			src.knockdown_until(3)
 
 		G.co2 += a_oxygen //breathe out!
 

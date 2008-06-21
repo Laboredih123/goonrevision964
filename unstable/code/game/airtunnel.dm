@@ -269,10 +269,8 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 /obj/machinery/computer/airtunnel/Topic(href, href_list)
 	..()
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!usr.check_dexterity())
+		return
 
 	if ((usr.stat || usr.restrained()))
 		if (!istype(usr, /mob/ai))
@@ -422,10 +420,8 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 	..()
 
 
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!user.check_dexterity())
+		return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((!( src.d1 ) || !( src.d2 )))
@@ -654,10 +650,8 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 
 	if (usr.stat || stat & NOPOWER)
 		return
-	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
-		if (!istype(usr, /mob/ai))
-			usr << "\red You don't have the dexterity to do this!"
-			return
+	if (!usr.check_dexterity())
+		return
 	var/turf/T = src.loc
 	if (!( istype(T, /turf) ))
 		return
