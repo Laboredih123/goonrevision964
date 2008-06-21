@@ -4,6 +4,15 @@
 
 	var/turf/T = src.loc
 
+	if (src.client)
+		src.hud.update()
+		if (src.machine)
+			if (!src.machine.check_eye(src))
+				src.reset_view(null)
+		else
+			if(!client.adminobs)
+				reset_view(null)
+
 	if (src.is_dead)
 		src.lying = 1
 		src.blinded = 1
@@ -62,14 +71,5 @@
 	src.density = !src.lying
 
 	src.update_grabs()
-
-	if (src.client)
-		src.update_hud()
-		if (src.machine)
-			if (!src.machine.check_eye(src))
-				src.reset_view(null)
-		else
-			if(!client.adminobs)
-				reset_view(null)
 
 	return

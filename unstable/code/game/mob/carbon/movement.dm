@@ -1,13 +1,13 @@
-/mob/movement/Move(a, b, flag)
+/mob/carbon/Move(a, b, flag)
 
-	if (src.is_restrained())
+	if (src.buckled)
 		return
-	if (src.is_handcuffed())
+	if (!src.can_use_hands())
 		src.pulling = null
 	var/is_being_pulled = 0
 	if (src.is_handcuffed())
 		for(var/mob/M in range(src, 1))
-			if (M.pulling == src && M.is_conscious() && !M.is_handcuffed())
+			if (M.pulling == src && M.can_use_hands())
 				is_being_pulled = 1
 	if (!is_being_pulled && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving))))
 		var/turf/T = src.loc

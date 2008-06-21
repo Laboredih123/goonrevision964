@@ -4,10 +4,26 @@
 /mob/carbon/proc/is_blindfolded()
 	return istype(src.glasses, /obj/item/weapon/clothing/glasses/blindfold)
 
-/mob/carbon/proc/is_handcuffed() //in cuffs or straitjacket
-	return istype(src.handcuffs, /obj/item/weapon/handcuffs) || istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket)
-
-/mob/carbon/proc/is_restrained()
-	if(src.buckled)
+/mob/proc/is_handcuffed()
+	if (istype(src.handcuffs, /obj/item/weapon/handcuffs))
+		return 1
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
 		return 1
 	return 0
+
+/mob/carbon/proc/can_use_hands()
+	if(src.is_handcuffed())
+		return 0
+	if(src.buckled)
+		return 0
+	if(!src.is_active())
+		return 0
+	return 1
+
+/mob/carbon/is_active()
+	if(src.is_dead)
+		return
+	if(!src.is_conscious())
+		return
+	if(src.knockdown > 0)
+		return

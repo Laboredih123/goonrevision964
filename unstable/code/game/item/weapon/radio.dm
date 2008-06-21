@@ -338,9 +338,12 @@
 
 /obj/item/weapon/radio/electropack/Topic(href, href_list)
 	//..()
-	if (!usr.is_conscious || usr.is_handcuffed())
+	if (!usr.is_active() || !usr.can_use_hands())
 		return
-	if (usr.is_dextrous() && usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
+	if (!usr.check_dexterity())
+		usr << browse(null, "window=radio")
+		return
+	if (usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
 		if (href_list["freq"])
 			src.freq += text2num(href_list["freq"])

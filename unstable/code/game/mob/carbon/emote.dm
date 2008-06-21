@@ -57,7 +57,7 @@
 
 /mob/carbon/verb/clap()
 	set name = ".clap"
-	if(!src.is_handcuffed() && !src.is_restrained())
+	if(src.can_use_hands)
 		src.emote("claps", sound & sight)
 
 /mob/carbon/verb/cry()

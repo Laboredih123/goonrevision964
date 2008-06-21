@@ -1,4 +1,4 @@
-/mob/carbon/const
+/mob/carbon/var/const
 	ATTACK_BITE = 1
 	ATTACK_PUNCH = 2
 
@@ -46,7 +46,7 @@
 		G.synch()
 		src.show_viewers("\red [M] has grabbed [src] passively!")
 	else if(M.a_intent == "disarm")
-		if(M.is_handcuffed())
+		if(!M.can_use_hands())
 			return
 		var/randn = rand(1, 100)
 		if (randn <= 25)
@@ -81,7 +81,7 @@
 				if(M.is_infectious)
 					src.infected_by(M)
 		else if(M.attack_type == ATTACK_PUNCH)
-			if (M.is_handcuffed())
+			if (M.can_use_hands())
 				return
 			var/success = 1
 			if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(50))

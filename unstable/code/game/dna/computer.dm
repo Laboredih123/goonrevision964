@@ -15,18 +15,18 @@
 		STATE_SCANNING
 
 /obj/machinery/computer/dna/New()
-		..()
+	..()
 	spawn(5)
 		//connect to first scanner it sees
-		for(/obj/machinery/dna_scanner/scanner in view(src, 1)
+		for(var/obj/machinery/dna_scanner/scanner in view(src, 1))
 			src.connected_scanner = scanner
 			return
-	return
 
 
 /obj/machinery/computer/dna/interact(mob/user as mob)
 	. = ..()
-	if(!.) return
+	if(!.)
+		return
 
 	user.machine = src
 
@@ -38,11 +38,12 @@
 	if (src.temp)
 		dat = "[src.temp]<BR><BR><A href='?src=\ref[src];clear=1'>Clear Message</A>"
 	user << browse(dat, "window=dna_comp")
-		src.add_fingerprint(usr)
+	src.add_fingerprint(usr)
 
 /obj/machinery/computer/dna/Topic(href, href_list)
 	. = ..()
-	if(!.) return
+	if(!.)
+		return
 
 	if (href_list["locked"])
 		if (src.connected_scanner && src.connected_scanner.occupant)

@@ -63,9 +63,9 @@
 
 /obj/machinery/nuclearbomb/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (!istype(usr, /mob/carbon) || !usr.can_use_computer())
 		return
-	if (!user.check_dexterity())
+	if (!usr.check_computer())
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
