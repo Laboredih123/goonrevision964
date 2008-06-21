@@ -308,7 +308,9 @@ About the new airlock wires panel:
 	src.icon_state = text("[]door[]", (src.p_open ? "o_" : null), d)
 	return
 
-/obj/machinery/door/airlock/attack_ai(mob/user as mob)
+/obj/machinery/door/airlock/interact(mob/user as mob)
+	if(!istype(user, /mob/silicon/ai))
+		return ..()
 	if (!src.canAIControl())
 		if (src.canAIHack())
 			src.hack(user)
@@ -437,14 +439,13 @@ About the new airlock wires panel:
 			sleep(10)
 			//bring up airlock dialog
 			src.aiHacking = 0
-			src.attack_ai(user)
+			src.interact(user)
 
 
-/obj/machinery/door/airlock/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/door/airlock/attack_hand(mob/user as mob)
-	if (!istype(usr, /mob/ai))
+/obj/machinery/door/airlock/interact(mob/user as mob)
+	if (istype(usr, /mob/ai))
+		return ..()
+	else
 		if (src.isElectrified())
 			if (src.shock(user, 100))
 				return
@@ -688,9 +689,9 @@ About the new airlock wires panel:
 		src.p_open = !( src.p_open )
 		src.updateIconState()
 	else if (istype(C, /obj/item/weapon/wirecutters))
-		return src.attack_hand(user)
+		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/multitool))
-		return src.attack_hand(user)
+		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/crowbar))
 		if ((src.density) && (!( src.blocked ) && !( src.operating ) && ((!src.arePowerSystemsOn()) || (stat & NOPOWER)) && !( src.locked )))
 			spawn( 0 )

@@ -172,7 +172,7 @@
 	src.master:s_dbclick(src)
 	return
 
-/obj/screen/grab/attack_hand()
+/obj/screen/grab/interact()
 	return
 
 /obj/screen/grab/attackby()

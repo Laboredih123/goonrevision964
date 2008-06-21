@@ -3,15 +3,6 @@
 	if(!maplevel)
 		src.verbs -= /obj/machinery/computer/security/verb/station_map
 
-/obj/machinery/computer/security/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/computer/security/attack_paw(var/mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
 /obj/machinery/computer/security/check_eye(var/mob/user as mob)
 
 	if ((get_dist(user, src) > 1 || !( user.canmove ) || user.blinded || !( src.current ) || !( src.current.status )) && (!istype(user, /mob/ai)))
@@ -263,13 +254,7 @@
 				src.icon_state = "id_unpowered"
 				stat |= NOPOWER
 
-/obj/machinery/computer/card/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/card/attack_paw(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/card/attack_hand(var/mob/user as mob)
+/obj/machinery/computer/card/interact(var/mob/user as mob)
 	if(stat & (NOPOWER|BROKEN))
 		return
 
@@ -419,7 +404,7 @@
 
 /obj/machinery/computer/card/attackby(I as obj, user as mob)
 
-	src.attack_hand(user)
+	src.interact(user)
 	return
 
 /obj/machinery/computer/pod/ex_act(severity)
@@ -489,15 +474,7 @@
 		return
 	return
 
-/obj/machinery/computer/pod/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/pod/attack_paw(var/mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/computer/pod/attack_hand(var/mob/user as mob)
+/obj/machinery/computer/pod/interact(var/mob/user as mob)
 
 	if(stat & (NOPOWER|BROKEN)) return
 
@@ -717,12 +694,7 @@
 		//Foreach goto(15)
 	return
 
-/turf/space/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/turf/space/attack_hand(mob/user as mob)
+/turf/space/interact(mob/user as mob)
 
 	if ((user.restrained() || !( user.pulling )))
 		return

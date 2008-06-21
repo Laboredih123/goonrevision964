@@ -3,10 +3,10 @@ obj/machinery/recharger
 	icon = 'stationobjs.dmi'
 	icon_state = "recharger0"
 	name = "recharger"
-	
+
 	var
 		obj/item/weapon/gun/energy/charging = null
-	
+
 	attackby(obj/item/weapon/G as obj, mob/user as mob)
 		if (src.charging)
 			return
@@ -14,18 +14,16 @@ obj/machinery/recharger
 			user.drop_item()
 			G.loc = src
 			src.charging = G
-		
-	attack_hand(mob/user as mob)
+
+	interact(mob/user as mob)
+		if(!src.check_intelligence())
+			return
 		src.add_fingerprint(user)
 		if (src.charging)
 			src.charging.update_icon()
 			src.charging.loc = src.loc
 			src.charging = null
-	
-	attack_paw(mob/user as mob)
-		if ((ticker && ticker.mode == "monkey"))
-			return src.attack_hand(user)
-	
+
 	process()
 		if (src.charging && ! (stat & NOPOWER) )
 			if (src.charging.charges < src.charging.maximum_charges)

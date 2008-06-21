@@ -278,13 +278,7 @@
 	else
 		return close()
 
-/obj/shuttle/door/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/shuttle/door/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/shuttle/door/attack_hand(mob/user as mob)
+/obj/shuttle/door/interact(mob/user as mob)
 	return attackby(user, user)
 
 /obj/shuttle/door/proc/open()

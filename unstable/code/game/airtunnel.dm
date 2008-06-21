@@ -180,16 +180,7 @@
 		else
 	return
 
-/obj/machinery/computer/airtunnel/attack_paw(user as mob)
-
-	return src.attack_hand(user)
-	return
-
-obj/machinery/computer/airtunnel/attack_ai(user as mob)
-	return src.attack_hand(user)
-
-
-/obj/machinery/computer/airtunnel/attack_hand(var/mob/user as mob)
+/obj/machinery/computer/airtunnel/interact(var/mob/user as mob)
 
 	if(stat & (NOPOWER|BROKEN) )
 		return
@@ -303,7 +294,9 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 		src.updateUsrDialog()
 	return
 
-/obj/machinery/camera/attack_ai(var/mob/ai/user as mob)
+/obj/machinery/camera/interact(mob/ai/user as mob)
+	if(!istype(user, mob/ai))
+		return ..()
 	if (src.network != user.network || !(src.status))
 		return
 	user.current = src
@@ -337,18 +330,12 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 /obj/machinery/camera/blob_act()
 	return
 
-obj/machinery/door_control/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-obj/machinery/door_control/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
-
 obj/machinery/door_control/attackby(obj/item/weapon/W, mob/user as mob)
 	if(istype(W, /obj/item/weapon/f_print_scanner))
 		return
-	return src.attack_hand(user)
+	return src.interact(user)
 
-obj/machinery/door_control/attack_hand(mob/user as mob)
+obj/machinery/door_control/interact(mob/user as mob)
 
 	if(stat & NOPOWER)
 		return
@@ -378,13 +365,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 	else
 		icon_state = "doorctrl0"
 
-/obj/machinery/sec_lock/attack_ai(user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/sec_lock/attack_paw(user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/sec_lock/attack_hand(var/mob/user as mob)
+/obj/machinery/sec_lock/interact(var/mob/user as mob)
 
 	if(stat & NOPOWER)
 		return
@@ -396,7 +377,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 	return
 
 /obj/machinery/sec_lock/attackby(nothing, user as mob)
-	return src.attack_hand(user)
+	return src.interact(user)
 
 
 /obj/machinery/sec_lock/New()
@@ -516,16 +497,12 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 					user << "\red The machine is in use. You can not maintain it now."
 			else
 				spawn( 0 )
-					src.attack_hand(user)
+					src.interact(user)
 					return
 	return
 
-/obj/machinery/autolathe/attack_paw(user as mob)
 
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/autolathe/attack_hand(user as mob)
+/obj/machinery/autolathe/interact(user as mob)
 
 	var/dat
 	if (src.temp)
@@ -571,7 +548,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
-			src.attack_hand(M)
+			src.interact(M)
 		//Foreach goto(108)
 	return
 

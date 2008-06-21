@@ -190,15 +190,7 @@
 	src.gas.maximum = src.maximum
 	return
 
-/obj/machinery/atmoalter/heater/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/atmoalter/heater/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/atmoalter/heater/attack_hand(var/mob/user as mob)
+/obj/machinery/atmoalter/heater/interact(var/mob/user as mob)
 
 	if(stat & NOPOWER)	return
 
@@ -464,15 +456,7 @@
 	healthcheck()
 	return
 
-/obj/machinery/atmoalter/canister/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-	
-/obj/machinery/atmoalter/canister/attack_paw(var/mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/atmoalter/canister/attack_hand(var/mob/user as mob)
+/obj/machinery/atmoalter/canister/interact(var/mob/user as mob)
 
 	if (src.destroyed)
 		return

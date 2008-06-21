@@ -38,17 +38,9 @@
 	return
 
 /obj/machinery/computer/engine/attackby(var/obj/O, mob/user)
-	return src.attack_hand(user)
+	return src.interact(user)
 
-/obj/machinery/computer/engine/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/engine/attack_paw(var/mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/computer/engine/attack_hand(var/mob/user as mob)
+/obj/machinery/computer/engine/interact(var/mob/user as mob)
 
 	if(stat & (NOPOWER|BROKEN) )
 		return
@@ -125,18 +117,14 @@
 		src.add_fingerprint(usr)
 		for(var/mob/M in viewers(1, src))
 			if ((M.client && M.machine == src))
-				src.attack_hand(M)
+				src.interact(M)
 			//Foreach goto(351)
 	return
 
 
 
 
-/turf/station/engine/attack_paw(var/mob/user as mob)
-
-	return src.attack_hand(user)
-
-/turf/station/engine/attack_hand(var/mob/user as mob)
+/turf/station/engine/interact(var/mob/user as mob)
 
 	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
 		return

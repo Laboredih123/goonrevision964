@@ -3,12 +3,7 @@
 
 	return !( src.density )
 
-/obj/move/attack_paw(user as mob)
-
-	return src.attack_hand(user)
-
-
-/obj/move/attack_hand(var/mob/user as mob)
+/obj/move/interact(var/mob/user as mob)
 
 	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
 		return

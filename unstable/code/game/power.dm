@@ -33,10 +33,7 @@
 		usr << "A light switch. It is [on? "on" : "off"]."
 
 
-/obj/machinery/light_switch/attack_paw(mob/user)
-	src.attack_hand(user)
-
-/obj/machinery/light_switch/attack_hand(mob/user)
+/obj/machinery/light_switch/interact(mob/user)
 
 	on = !on
 
@@ -229,7 +226,7 @@
 
 	if(stat & BROKEN) return
 	if (istype(user, /mob/ai))
-		return src.attack_hand(user)
+		return src.interact(user)
 
 	if (istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
 		if(opened)
@@ -289,12 +286,9 @@
 		else
 			user << "You must open the cover first."
 
-/obj/machinery/power/apc/attack_ai(mob/user)
-	return src.attack_hand(user)
-
 // attack with hand - remove cell (if cover open) or interact with the APC
 
-/obj/machinery/power/apc/attack_hand(mob/user)
+/obj/machinery/power/apc/interact(mob/user)
 
 	add_fingerprint(user)
 
@@ -863,12 +857,7 @@
 
 		src.updateDialog()
 
-/obj/machinery/power/generator/attack_ai(mob/user)
-	if(stat & (BROKEN|NOPOWER)) return
-
-	interact(user)
-
-/obj/machinery/power/generator/attack_hand(mob/user)
+/obj/machinery/power/generator/interact(mob/user)
 
 	add_fingerprint(user)
 
@@ -1777,14 +1766,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 // the power monitoring computer
 // for the moment, just report the status of all APCs in the same powernet
 
-/obj/machinery/power/monitor/attack_ai(mob/user)
-	add_fingerprint(user)
-
-	if(stat & (BROKEN|NOPOWER))
-		return
-	interact(user)
-
-/obj/machinery/power/monitor/attack_hand(mob/user)
+/obj/machinery/power/monitor/interact(mob/user)
 	add_fingerprint(user)
 
 	if(stat & (BROKEN|NOPOWER))
@@ -2011,15 +1993,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	if(terminal && terminal.powernet)
 		terminal.powernet.newload += amount
 
-/obj/machinery/power/smes/attack_ai(mob/user)
-
-	add_fingerprint(user)
-
-	if(stat & BROKEN) return
-
-	interact(user)
-
-/obj/machinery/power/smes/attack_hand(mob/user)
+/obj/machinery/power/smes/interact(mob/user)
 
 	add_fingerprint(user)
 
@@ -2268,15 +2242,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 
 
-/obj/machinery/power/solar_control/attack_ai(mob/user)
-
-	add_fingerprint(user)
-
-	if(stat & (BROKEN | NOPOWER)) return
-
-	interact(user)
-
-/obj/machinery/power/solar_control/attack_hand(mob/user)
+/obj/machinery/power/solar_control/interact(mob/user)
 
 	add_fingerprint(user)
 
@@ -2576,15 +2542,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			src.interact(M)
 	AutoUpdateAI(src)
 
-/obj/machinery/power/turbine/attack_ai(mob/user)
-
-	add_fingerprint(user)
-
-	if(stat & (BROKEN | NOPOWER)) return
-
-	interact(user)
-
-/obj/machinery/power/turbine/attack_hand(mob/user)
+/obj/machinery/power/turbine/interact(mob/user)
 
 	add_fingerprint(user)
 

@@ -107,12 +107,7 @@
 /turf/station/command/conduction()
 	return
 
-/turf/station/command/floor/attack_paw(user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/turf/station/command/floor/attack_hand(var/mob/user as mob)
+/turf/station/command/floor/interact(var/mob/user as mob)
 
 	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
 		return

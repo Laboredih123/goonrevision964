@@ -21,13 +21,7 @@
 			buildlinks()
 	return
 
-/obj/machinery/door/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/door/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/door/attack_hand(mob/user as mob)
+/obj/machinery/door/interact(mob/user as mob)
 	return src.attackby(user, user)
 
 /obj/machinery/door/proc/acceptsIDs()
@@ -257,16 +251,7 @@
 	src.operating = 0
 	return
 
-/obj/machinery/igniter/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/igniter/attack_paw(mob/user as mob)
-
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/obj/machinery/igniter/attack_hand(mob/user as mob)
+/obj/machinery/igniter/interact(mob/user as mob)
 
 	..()
 	add_fingerprint(user)
@@ -301,14 +286,6 @@
 /obj/machinery/firealarm/burn(fi_amount)
 
 	if(src.detecting) src.alarm()			// added check of detector status here
-	return
-
-/obj/machinery/firealarm/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/firealarm/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
 	return
 
 /obj/machinery/firealarm/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -350,7 +327,7 @@
 			stat |= NOPOWER
 			icon_state = "firealarm-p"
 
-/obj/machinery/firealarm/attack_hand(mob/user as mob)
+/obj/machinery/firealarm/interact(mob/user as mob)
 
 	if(user.stat || stat&NOPOWER) return
 
@@ -483,15 +460,7 @@
 		return
 	use_power(5)
 
-/obj/machinery/dispenser/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/dispenser/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/dispenser/attack_hand(mob/user as mob)
+/obj/machinery/dispenser/interact(mob/user as mob)
 
 	user.machine = src
 	var/dat = text("<TT><B>Loaded Tank Dispensing Unit</B><BR>\n<FONT color = 'blue'><B>Oxygen</B>: []</FONT> []<BR>\n<FONT color = 'orange'><B>Plasma</B>: []</FONT> []<BR>\n</TT>", src.o2tanks, (src.o2tanks ? text("<A href='?src=\ref[];oxygen=1'>Dispense</A>", src) : "empty"), src.pltanks, (src.pltanks ? text("<A href='?src=\ref[];plasma=1'>Dispense</A>", src) : "empty"))
@@ -515,7 +484,7 @@
 					new /obj/item/weapon/tank/oxygentank( src.loc )
 					src.o2tanks--
 			if (istype(src.loc, /mob))
-				attack_hand(src.loc)
+				interact(src.loc)
 		else
 			if (href_list["plasma"])
 				if (text2num(href_list["plasma"]))
@@ -524,11 +493,11 @@
 						new /obj/item/weapon/tank/plasmatank( src.loc )
 						src.pltanks--
 				if (istype(src.loc, /mob))
-					attack_hand(src.loc)
+					interact(src.loc)
 		src.add_fingerprint(usr)
 		for(var/mob/M in viewers(1, src))
 			if ((M.client && M.machine == src))
-				src.attack_hand(M)
+				src.interact(M)
 			//Foreach goto(275)
 	else
 		usr << browse(null, "window=dispenser")
@@ -576,9 +545,8 @@
 		src.icon_state = "o_shoes1"
 	return
 
-/obj/item/weapon/clothing/mask/muzzle/attack_paw(mob/user as mob)
-
-	if (src == user.mask)
+/obj/item/weapon/clothing/mask/muzzle/interact(mob/user as mob)
+	if (src == user.mask && src.appearance == APPEARANCE_MONKEY)
 		return
 	else
 		..()
@@ -1304,12 +1272,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/secloset/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/secloset/attack_hand(mob/user as mob)
+/obj/secloset/interact(mob/user as mob)
 
 	src.add_fingerprint(user)
 	if (!src.opened && !src.locked)
@@ -1355,12 +1318,7 @@
 	return src.loc
 	return
 
-/obj/morgue/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/morgue/attack_hand(mob/user as mob)
+/obj/morgue/interact(mob/user as mob)
 
 	if (src.connected)
 		for(var/atom/movable/A as mob|obj in src.connected.loc)
@@ -1432,12 +1390,7 @@
 		return ..()
 	return
 
-/obj/m_tray/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/m_tray/attack_hand(mob/user as mob)
+/obj/m_tray/interact(mob/user as mob)
 
 	if (src.connected)
 		for(var/atom/movable/A as mob|obj in src.loc)
@@ -1794,12 +1747,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/closet/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/closet/attack_hand(mob/user as mob)
+/obj/closet/interact(mob/user as mob)
 
 	src.add_fingerprint(user)
 	if (!( src.opened ))
@@ -2062,14 +2010,9 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/stool/chair/attack_paw(mob/user as mob)
-
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/obj/stool/chair/attack_hand(mob/user as mob)
-
+/obj/stool/chair/interact(mob/user as mob)
+	if(!user.check_intelligence())
+		return
 	for(var/mob/M in src.loc)
 		if (M.buckled)
 			if (M != user)
@@ -2447,16 +2390,10 @@
 		return src.master.attackby(a, b)
 	return
 
-/atom/movable/overlay/attack_paw(a, b, c)
+/atom/movable/overlay/interact(a, b, c)
 
 	if (src.master)
-		return src.master.attack_paw(a, b, c)
-	return
-
-/atom/movable/overlay/attack_hand(a, b, c)
-
-	if (src.master)
-		return src.master.attack_hand(a, b, c)
+		return src.master.interact(a, b, c)
 	return
 
 /atom/movable/overlay/New()
@@ -2910,14 +2847,7 @@
 		src.icon_state = ""
 	return
 
-/turf/station/wall/attack_paw(mob/user as mob)
-
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/turf/station/wall/attack_hand(mob/user as mob)
-
+/turf/station/wall/interact(mob/user as mob)
 	user << "\blue You push the wall but nothing happens!"
 	src.add_fingerprint(user)
 	return
@@ -3024,7 +2954,7 @@
 			if(W:amount <= 0)
 				del(W)
 	else
-		return attack_hand(user)
+		return interact(user)
 	return
 
 /turf/station/wall/meteorhit(obj/M as obj)
@@ -3101,12 +3031,7 @@
 /turf/station/floor/blob_act()
 	return
 
-/turf/station/floor/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/turf/station/floor/attack_hand(mob/user as mob)
+/turf/station/floor/interact(mob/user as mob)
 
 	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
 		return

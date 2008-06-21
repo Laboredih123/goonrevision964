@@ -482,15 +482,7 @@
 	src.setstate()
 	return
 
-/obj/machinery/atmoalter/siphs/attack_ai(user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/atmoalter/siphs/attack_paw(user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/atmoalter/siphs/attack_hand(var/mob/user as mob)
+/obj/machinery/atmoalter/siphs/interact(var/mob/user as mob)
 
 	if(stat & NOPOWER) return
 	user.machine = src

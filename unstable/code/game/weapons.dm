@@ -14,16 +14,12 @@
 			explode()
 		for(var/mob/M in viewers(1, src))
 			if ((M.client && M.machine == src))
-				src.attack_hand(M)
+				src.interact(M)
 			//Foreach goto(46)
 	return
 
-/obj/machinery/nuclearbomb/attack_paw(mob/user as mob)
 
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/nuclearbomb/attack_hand(mob/user as mob)
+/obj/machinery/nuclearbomb/interact(mob/user as mob)
 
 	if (src.extended)
 		user.machine = src
@@ -116,7 +112,7 @@
 		src.add_fingerprint(usr)
 		for(var/mob/M in viewers(1, src))
 			if ((M.client && M.machine == src))
-				src.attack_hand(M)
+				src.interact(M)
 			//Foreach goto(511)
 	else
 		usr << browse(null, "window=nuclearbomb")
@@ -378,11 +374,6 @@
 		return
 	return
 
-/obj/item/weapon/prox_sensor/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
 /obj/item/weapon/prox_sensor/Move()
 
 	..()
@@ -517,12 +508,7 @@
 		return
 	return
 
-/obj/item/weapon/infra/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/infra/attack_hand()
+/obj/item/weapon/infra/interact()
 
 	//src.first = null
 	del(src.first)
@@ -935,11 +921,6 @@
 	src.part2.sense()
 	return
 
-/obj/item/weapon/assembly/rad_prox/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
 /obj/item/weapon/assembly/rad_prox/dropped()
 
 	spawn( 0 )
@@ -1017,12 +998,7 @@
 	del(src.part2.first)
 	return
 
-/obj/item/weapon/assembly/rad_infra/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/assembly/rad_infra/attack_hand(M)
+/obj/item/weapon/assembly/rad_infra/interact(M)
 
 	//src.part2.first = null
 	del(src.part2.first)

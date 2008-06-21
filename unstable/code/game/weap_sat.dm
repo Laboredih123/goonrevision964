@@ -28,15 +28,9 @@
 	return
 
 /obj/machinery/computer/teleporter/attackby(obj/item/weapon/W)
-	src.attack_hand()
+	src.interact()
 
-/obj/machinery/computer/teleporter/attack_paw()
-	src.attack_hand()
-
-/obj/machinery/teleport/station/attack_ai()
-	src.attack_hand()
-
-/obj/machinery/computer/teleporter/attack_hand()
+/obj/machinery/computer/teleporter/interact()
 	if(stat & (NOPOWER|BROKEN) )
 		return
 
@@ -230,15 +224,9 @@
 	return
 
 /obj/machinery/teleport/station/attackby(/obj/item/weapon/W)
-	src.attack_hand()
+	src.interact()
 
-/obj/machinery/teleport/station/attack_paw()
-	src.attack_hand()
-
-/obj/machinery/teleport/station/attack_ai()
-	src.attack_hand()
-
-/obj/machinery/teleport/station/attack_hand()
+/obj/machinery/teleport/station/interact()
 	if(engaged)
 		src.disengage()
 	else

@@ -175,7 +175,7 @@
 							src << "Receiving control information from APC."
 							sleep(2)
 							//bring up APC dialog
-							theAPC.attack_ai(src)
+							theAPC.interact(src)
 							src:aiRestorePowerRoutine = 3
 							src << "Your laws have been reset:"
 							src.showLaws(0)

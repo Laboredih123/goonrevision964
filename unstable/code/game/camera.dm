@@ -14,7 +14,7 @@
 					L.Swap(j, j + 1)
 	return L
 
-/obj/machinery/computer/security/attack_hand(var/mob/user as mob)
+/obj/machinery/computer/security/interact(var/mob/user as mob)
 	if (stat & (NOPOWER|BROKEN))
 		return
 
@@ -51,7 +51,7 @@
 		use_power(50)
 
 		spawn( 5 )
-			attack_hand(user)
+			interact(user)
 
 /mob/silicon/ai/interact(mob/user)
 	if (user != src)

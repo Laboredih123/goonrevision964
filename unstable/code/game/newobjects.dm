@@ -45,7 +45,7 @@
 
 
 
-/obj/machinery/cell_charger/attack_hand(mob/user)
+/obj/machinery/cell_charger/interact(mob/user)
 
 	add_fingerprint(user)
 

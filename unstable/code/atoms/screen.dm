@@ -1,9 +1,5 @@
-/obj/screen/attack_hand(mob/user as mob, using)
+/obj/screen/interact(mob/user as mob, using)
 	return user.db_click(src.name, using)
-
-/obj/screen/attack_paw(mob/user as mob, using)
-	return user.db_click(src.name, using)
-
 
 /obj/screen/New(owner, name = null, dir = null, screen_loc = null, layer = null, icon_state = null, mouse_not_opaque = 0)
 	..(owner)

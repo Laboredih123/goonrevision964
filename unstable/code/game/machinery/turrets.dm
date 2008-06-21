@@ -224,7 +224,7 @@
 /obj/machinery/turretid/attackby(obj/item/weapon/W, mob/user)
 	if(stat & BROKEN) return
 	if (istype(user, /mob/ai))
-		return src.attack_hand(user)
+		return src.interact(user)
 	else // trying to unlock the interface
 		if (src.allowed(usr))
 			locked = !locked
@@ -235,14 +235,11 @@
 					user << browse(null, "window=turretid")
 			else
 				if (user.machine==src)
-					src.attack_hand(usr)
+					src.interact(usr)
 		else
 			user << "\red Access denied."
 
-/obj/machinery/turretid/attack_ai(mob/user as mob)
-	return attack_hand(user)
-
-/obj/machinery/turretid/attack_hand(mob/user as mob)
+/obj/machinery/turretid/interact(mob/user as mob)
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/ai))
 			user << text("Too far away.")
@@ -282,7 +279,7 @@
 	else if (href_list["toggleLethal"])
 		src.lethal = !src.lethal
 		src.updateTurrets()
-	src.attack_hand(usr)
+	src.interact(usr)
 
 /obj/machinery/turretid/proc/updateTurrets()
 	if (src.enabled)

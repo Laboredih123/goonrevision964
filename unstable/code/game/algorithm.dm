@@ -236,4 +236,4 @@
 	if (subject!=null)
 		for(var/mob/ai/M in world)
 			if ((M.client && M.machine == subject))
-				subject.attack_ai(M)
+				subject.interact(M)

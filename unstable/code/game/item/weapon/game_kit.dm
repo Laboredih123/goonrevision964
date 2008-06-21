@@ -2,19 +2,16 @@
 	src.board_stat = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	src.selected = "CR"
 
-/obj/item/weapon/game_kit/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/item/weapon/game_kit/MouseDrop(mob/user as mob)
 	if (user == usr && !usr.restrained() && !usr.stat && (usr.contents.Find(src) || get_dist(src, usr) <= 1))
 		if (usr.hand)
 			if (!usr.l_hand)
 				spawn (0)
-					src.attack_hand(usr, 1, 1)
+					src.interact(usr, 1, 1)
 		else
 			if (!usr.r_hand)
 				spawn (0)
-					src.attack_hand(usr, 0, 1)
+					src.interact(usr, 0, 1)
 
 /obj/item/weapon/game_kit/proc/update()
 	var/dat = text("<CENTER><B>Game Board</B></CENTER><BR><a href='?src=\ref[];mode=hia'>[]</a> <a href='?src=\ref[];mode=remove'>remove</a><HR><table width= 256  border= 0  height= 256  cellspacing= 0  cellpadding= 0 >", src, (src.selected ? text("Selected: []", src.selected) : "Nothing Selected"), src)
@@ -47,7 +44,7 @@
 		dat += "<a href='?src=\ref[src];s_piece=[piece]'><img src='[src.base_url]/board_[piece].png' width=32 height=32 border=0></a>"
 	src.data = dat
 
-/obj/item/weapon/game_kit/attack_hand(mob/user as mob, unused, flag)
+/obj/item/weapon/game_kit/interact(mob/user as mob, unused, flag)
 
 	if (flag)
 		return ..()
@@ -127,4 +124,4 @@
 		update()
 		for(var/mob/M in viewers(1, src))
 			if ((M.client && M.machine == src))
-				src.attack_hand(M)
+				src.interact(M)

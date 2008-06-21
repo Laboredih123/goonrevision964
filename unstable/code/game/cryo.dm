@@ -1,13 +1,5 @@
 
-/obj/machinery/computer/med_data/attack_ai(user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/med_data/attack_paw(user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/computer/med_data/attack_hand(mob/user as mob)
+/obj/machinery/computer/med_data/interact(mob/user as mob)
 
 	var/dat
 	if (src.temp)
@@ -357,15 +349,7 @@
 	src.updateUsrDialog()
 	return
 
-/obj/machinery/computer/secure_data/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/secure_data/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/computer/secure_data/attack_hand(mob/user as mob)
+/obj/machinery/computer/secure_data/interact(mob/user as mob)
 
 	if(stat & (NOPOWER|BROKEN) )
 		return
@@ -790,15 +774,7 @@
 		return
 	return
 
-/obj/machinery/computer/sleep_console/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/sleep_console/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/computer/sleep_console/attack_hand(mob/user as mob)
+/obj/machinery/computer/sleep_console/interact(mob/user as mob)
 
 	if (src.connected)
 		var/mob/occupant = src.connected.occupant
@@ -847,15 +823,7 @@
 /obj/machinery/computer/sleep_console/power_change()
 	// no change - sleeper works without power
 
-/obj/machinery/freezer/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/freezer/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/freezer/attack_hand(mob/user as mob)
+/obj/machinery/freezer/interact(mob/user as mob)
 
 	user.machine = src
 
@@ -1538,15 +1506,7 @@
 	del(G)
 	return
 
-/obj/machinery/cryo_cell/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/cryo_cell/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/machinery/cryo_cell/attack_hand(mob/user as mob)
+/obj/machinery/cryo_cell/interact(mob/user as mob)
 
 	if(stat & NOPOWER)
 		return
@@ -1689,7 +1649,7 @@
 		//del(S)			// ******************************************		removed
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
-			src.attack_hand(M)
+			src.interact(M)
 		//Foreach goto(74)
 	return
 */

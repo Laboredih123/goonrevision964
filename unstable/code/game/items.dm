@@ -161,21 +161,16 @@
 		if (usr.hand)
 			if (!( usr.l_hand ))
 				spawn( 0 )
-					src.attack_hand(usr, 1, 1)
+					src.interact(usr, 1, 1)
 					return
 		else
 			if (!( usr.r_hand ))
 				spawn( 0 )
-					src.attack_hand(usr, 0, 1)
+					src.interact(usr, 0, 1)
 					return
 	return
 
-/obj/item/weapon/paper_bin/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/paper_bin/attack_hand(mob/user as mob, unused, flag)
+/obj/item/weapon/paper_bin/interact(mob/user as mob, unused, flag)
 
 	if (flag)
 		return ..()
@@ -437,12 +432,7 @@
 		src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/flashbang/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-
-
-/obj/item/weapon/flashbang/attack_hand()
+/obj/item/weapon/flashbang/interact()
 
 	walk(src, null, null)
 	..()
@@ -1150,14 +1140,9 @@
 		usr << "\blue It looks empty!"
 	return
 
-/obj/item/weapon/pill_canister/attack_paw(mob/user as mob)
-
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/obj/item/weapon/pill_canister/attack_hand(mob/user as mob)
-
+/obj/item/weapon/pill_canister/interact(mob/user as mob)
+	if(!src.check_intelligence())
+		return
 	if ((user.r_hand == src || user.l_hand == src))
 		var/obj/item/weapon/m_pill/P = pick(src.contents)
 		if (P)
@@ -1221,7 +1206,7 @@
 		return
 	return
 
-/obj/item/weapon/m_pill/attack_hand(mob/user as mob)
+/obj/item/weapon/m_pill/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -1399,7 +1384,7 @@
 	..()
 	return
 
-/obj/item/weapon/attack_hand(mob/user as mob)
+/obj/item/weapon/interact(mob/user as mob)
 
 	if (istype(src.loc, /obj/item/weapon/storage))
 		for(var/mob/M in range(1, src.loc))
@@ -1417,26 +1402,6 @@
 	src.loc = user
 	src.layer = 20
 	add_fingerprint(user)
-	user.UpdateClothing()
-	return
-
-/obj/item/weapon/attack_paw(mob/user as mob)
-
-	if (istype(src.loc, /obj/item/weapon/storage))
-		for(var/mob/M in range(1, src.loc))
-			if (M.s_active == src.loc)
-				if (M.client)
-					M.client.screen -= src
-			//Foreach goto(34)
-	src.throwing = 0
-	if (src.loc == user)
-		user.u_equip(src)
-	if (user.hand)
-		user.l_hand = src
-	else
-		user.r_hand = src
-	src.loc = user
-	src.layer = 20
 	user.UpdateClothing()
 	return
 
@@ -1483,7 +1448,7 @@
 	usr << text("\icon[] []: The current assignment on the card is [].", src, src.name, src.assignment)
 	return
 
-/obj/item/weapon/rods/attack_hand(mob/user as mob)
+/obj/item/weapon/rods/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -1551,7 +1516,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/sheet/metal/attack_hand(mob/user as mob)
+/obj/item/weapon/sheet/metal/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -1706,7 +1671,7 @@
 		return
 	return
 
-/obj/item/weapon/sheet/glass/attack_hand(mob/user as mob)
+/obj/item/weapon/sheet/glass/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -1811,7 +1776,7 @@
 		return
 	return
 
-/obj/item/weapon/sheet/rglass/attack_hand(mob/user as mob)
+/obj/item/weapon/sheet/rglass/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -1963,12 +1928,7 @@
 					return
 	return
 
-/obj/item/weapon/clipboard/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/clipboard/attack_hand(mob/user as mob)
+/obj/item/weapon/clipboard/interact(mob/user as mob)
 
 	if ((locate(/obj/item/weapon/paper, src) && (!( user.equipped() ) && (user.l_hand == src || user.r_hand == src))))
 		var/obj/item/weapon/paper/P
@@ -2069,12 +2029,7 @@
 					return
 	return
 
-/obj/item/weapon/fcardholder/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/fcardholder/attack_hand(mob/user as mob)
+/obj/item/weapon/fcardholder/interact(mob/user as mob)
 
 	if (user.contents.Find(src))
 		spawn( 0 )
@@ -2209,11 +2164,6 @@
 		src.desc = "The safety is on."
 	return
 
-/obj/item/weapon/pen/sleepypen/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
 /obj/item/weapon/pen/sleepypen/New()
 
 	src.chem = new /obj/substance/chemical(  )
@@ -2299,7 +2249,7 @@
 	src.name = "flag- 'FLAG'"
 	return
 
-/obj/item/weapon/paper/flag/attack_hand()
+/obj/item/weapon/paper/flag/interact()
 
 	if ((ctf && ctf.immobile))
 		return 0
@@ -2435,7 +2385,7 @@
 		return "<B>There are no fingerprints on this card.</B>"
 	return
 
-/obj/item/weapon/f_card/attack_hand(mob/user as mob)
+/obj/item/weapon/f_card/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -2917,12 +2867,7 @@
 		src.show_to(usr)
 	return
 
-/obj/item/weapon/storage/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/storage/attack_hand(mob/user as mob)
+/obj/item/weapon/storage/interact(mob/user as mob)
 
 	if (src.loc == user)
 		if (user.s_active)
@@ -3078,7 +3023,7 @@
 	src.pixel_y = rand(1, 14)
 	return
 
-/obj/item/weapon/tile/attack_hand(mob/user as mob)
+/obj/item/weapon/tile/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -3364,12 +3309,7 @@
 		src.pixel_y = rand(0, 16)
 	return
 
-/obj/item/weapon/dropper/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/dropper/attack_hand()
+/obj/item/weapon/dropper/interact()
 
 	..()
 	src.update_is()
@@ -3478,7 +3418,7 @@
 		src.icon_state = "implantpad-0"
 	return
 
-/obj/item/weapon/implantpad/attack_hand(mob/user as mob)
+/obj/item/weapon/implantpad/interact(mob/user as mob)
 
 	if ((src.case && (user.l_hand == src || user.r_hand == src)))
 		if (user.hand)
@@ -3617,12 +3557,7 @@
 		src.icon_state = "implanter0"
 	return
 
-/obj/item/weapon/syringe/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/item/weapon/syringe/attack_hand()
+/obj/item/weapon/syringe/interact()
 
 	..()
 	src.update_is()
@@ -3703,7 +3638,7 @@
 			user.show_message(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.volume()))
 	return
 
-/obj/item/weapon/brutepack/attack_hand(mob/user as mob)
+/obj/item/weapon/brutepack/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -3782,7 +3717,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/ointment/attack_hand(mob/user as mob)
+/obj/item/weapon/ointment/interact(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
@@ -4056,12 +3991,7 @@
 		src.amount++
 	return
 
-/obj/bedsheetbin/attack_paw(mob/user as mob)
-
-	return src.attack_hand(user)
-	return
-
-/obj/bedsheetbin/attack_hand(mob/user as mob)
+/obj/bedsheetbin/interact(mob/user as mob)
 
 	if (src.amount >= 1)
 		src.amount--
@@ -4107,21 +4037,19 @@
 		new /obj/item/weapon/table_parts( src.loc )
 		del(src)
 
-/obj/table/hand_p(mob/user as mob)
-
-	return src.attack_paw(user)
+/obj/table/interact_cuffed(mob/user as mob)
+	if(src.appearance == APPEARANCE_MONKEY)
+		return src.interact(user)
 	return
 
-/obj/table/attack_paw(mob/user as mob)
-
-	if (!( locate(/obj/table, user.loc) ))
-		step(user, get_dir(user, src))
-		if (user.loc == src.loc)
-			user.layer = TURF_LAYER
-			for(var/mob/M in viewers(user, null))
-				M.show_message("The monkey hides under the table!", 1)
-				//Foreach goto(69)
-	return
+/obj/table/interact(mob/user as mob)
+	if(src.appearance == APPEARANCE_MONKEY)
+		if (!( locate(/obj/table, user.loc) ))
+			step(user, get_dir(user, src))
+			if (user.loc == src.loc)
+				user.layer = TURF_LAYER
+				M.show_viewers("[src] hides under the table!")
+	return ..()
 
 /obj/table/CheckPass(atom/movable/O as mob|obj, target as turf)
 
@@ -4419,15 +4347,7 @@
 
 	return
 
-/atom/proc/attack_hand(mob/user as mob)
-
-	return
-
-/atom/proc/attack_paw(mob/user as mob)
-
-	return
-
-/atom/proc/attack_ai(mob/user as mob)
+/atom/proc/interact(mob/user as mob)
 
 	return
 
@@ -4638,15 +4558,15 @@
 	var/list/nearby = viewers(1, src)
 	for(var/mob/M in nearby)
 		if ((M.client && M.machine == src))
-			src.attack_hand(M)
+			src.interact(M)
 	if (istype(usr, /mob/ai))
 		if (!(usr in nearby))
 			if (usr.client && usr.machine==src) // && M.machine == src is omitted because if we triggered this by using the dialog, it doesn't matter if our machine changed in between triggering it and this - the dialog is probably still supposed to refresh.
-				src.attack_ai(usr)
+				src.interact(usr)
 
 /obj/proc/updateDialog()
 	var/list/nearby = viewers(1, src)
 	for(var/mob/M in nearby)
 		if ((M.client && M.machine == src))
-			src.attack_hand(M)
+			src.interact(M)
 	AutoUpdateAI(src)

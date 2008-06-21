@@ -7,13 +7,10 @@
 	var/const/prob_opens = 25
 	//TODO: implement a way to track which users have seen which false walls open, and let them always open them
 
-/turf/station/wall/false_wall/attack_paw(mob/user as mob)
-	if ((ticker && ticker.mode == "monkey"))
-		return src.attack_hand(user)
-	return
-
-/turf/station/wall/false_wall/attack_hand(mob/user as mob)
+/turf/station/wall/false_wall/interact(mob/user as mob)
 	src.add_fingerprint(user)
+	if(!src.is_dextrous || !src.is_intelligent) //only smart dextrous people can use this
+		return ..()
 	if (src.density) //door is closed
 		if (prob(prob_opens)) //it's hard to open
 			if (open()) //it successfully opens, i.e. wasn't operating
@@ -46,7 +43,7 @@
 		else
 			return ..()
 	else
-		return src.attack_hand(user)
+		return src.interact(user)
 
 /turf/station/wall/false_wall/proc/open()
 	if (src.operating)

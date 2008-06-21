@@ -143,7 +143,7 @@
 			if (P==null)
 				T = src.loc
 			else
-				
+
 				ndirs = P.get_node_dirs()
 				T = get_step(P, ndirs[2])
 	if (T==null)
@@ -1529,10 +1529,7 @@
 	else
 		flow_to_turf(gas2, ngas2, T)
 
-/obj/machinery/valve/attack_paw(mob/user)
-	attack_hand(user)
-
-/obj/machinery/valve/attack_hand(mob/user)
+/obj/machinery/valve/interact(mob/user)
 	..()
 	add_fingerprint(user)
 //	if(stat & NOPOWER) return

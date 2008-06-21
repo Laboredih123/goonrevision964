@@ -6,11 +6,11 @@
 
 /mob/carbon/proc/throw_mode_off()
 	src.in_throw_mode = 0
-	src.throw_icon.icon_state = "act_throw_off"
+	src.hud.throw.icon_state = "act_throw_off"
 
 /mob/carbon/proc/throw_mode_on()
 	src.in_throw_mode = 1
-	src.throw_icon.icon_state = "act_throw_on"
+	src.hud.throw.icon_state = "act_throw_on"
 
 /mob/carbon/proc/throw_item(atom/target)
 	src.throw_mode_off()

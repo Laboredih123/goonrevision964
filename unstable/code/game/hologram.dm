@@ -1,8 +1,9 @@
 /obj/machinery/hologram_ai/New()
 	..()
 
-/obj/machinery/hologram_ai/attack_ai(user as mob)
-	src.show_console(user)
+/obj/machinery/hologram_ai/interact(user as mob)
+	if(istype(user, /mob/silicon/ai))
+		src.show_console(user)
 	return
 
 /obj/machinery/hologram_ai/proc/render()
