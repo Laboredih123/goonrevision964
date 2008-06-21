@@ -10,7 +10,7 @@
 /datum/game_mode/virus/post_setup()
 	spawn (50)
 		var/list/mobs = list()
-		for(var/mob/human/M in world)
+		for(var/mob/carbon/M in world)
 			if (M.client && M.start)
 				mobs += M
 
@@ -18,7 +18,7 @@
 			var/amount = round(mobs.len / 3)
 			amount = min(3, amount)
 			while(amount > 0)
-				var/mob/human/H = pick(mobs)
+				var/mob/carbon/H = pick(mobs)
 				H.virus = 1
 				mobs -= H
 				amount--
@@ -29,7 +29,7 @@
 	var/humanwin = 1
 	var/area/A = locate(/area/shuttle)
 	var/list/shuttle = list(  )
-	for(var/mob/human/M in world)
+	for(var/mob/carbon/M in world)
 		var/T = M.loc
 		if (istype(T, /turf))
 			if ((T in A))

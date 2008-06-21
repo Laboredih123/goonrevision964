@@ -82,6 +82,8 @@
 			src.gasp()
 		src.take_damage(suffocation = 5)
 		return
+
+	var/T = src.loc
 	if (isobj(T))
 		var/obj/O = T
 		T = O.alter_health(src) // returns O.loc for most things, just alters their health for sleeper etc

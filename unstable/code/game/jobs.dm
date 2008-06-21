@@ -13,7 +13,7 @@
 /proc/FindOccupationCandidates(list/unassigned, job, level)
 	var/list/candidates = list()
 
-	for (var/mob/human/M in unassigned)
+	for (var/mob/carbon/M in unassigned)
 		if (level == 1 && M.occupation1 == job)
 			candidates += M
 
@@ -39,7 +39,7 @@
 	var/list/occupation_eligible = occupations.Copy()
 	occupation_choices = shuffle(occupation_choices)
 
-	for (var/mob/human/M in world)
+	for (var/mob/carbon/M in world)
 		if (M.client && M.start && !M.already_placed)
 			unassigned += M
 
@@ -57,10 +57,10 @@
 	if (unassigned.len == 0)
 		return
 
-	var/mob/human/captain_choice = null
+	var/mob/carbon/captain_choice = null
 	for (var/level = 1 to 3)
 		var/list/captains = FindOccupationCandidates(unassigned, "Captain", level)
-		var/mob/human/candidate = PickOccupationCandidate(captains)
+		var/mob/carbon/candidate = PickOccupationCandidate(captains)
 
 		if (candidate != null)
 			captain_choice = candidate
@@ -80,15 +80,15 @@
 	for (var/level = 1 to 3)
 		if (unassigned.len == 0)
 			break
-		
+
 		for (var/occupation in assistant_occupations)
 			if (unassigned.len == 0)
 				break
 			var/list/candidates = FindOccupationCandidates(unassigned, occupation, level)
-			for (var/mob/human/candidate in candidates)
+			for (var/mob/carbon/candidate in candidates)
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
-		
+
 		for (var/occupation in occupation_choices)
 			if (unassigned.len == 0)
 				break
@@ -99,7 +99,7 @@
 			var/eligiblechange = 0
 			//world << text("occupation [], level [] - [] eligible - [] candidates", level, occupation, eligible, candidates.len)
 			while (eligible--)
-				var/mob/human/candidate = PickOccupationCandidate(candidates)
+				var/mob/carbon/candidate = PickOccupationCandidate(candidates)
 				if (candidate == null)
 					break
 				//world << text("candidate []", candidate)
@@ -107,7 +107,7 @@
 				unassigned -= candidate
 				eligiblechange++
 			occupation_eligible[occupation] -= eligiblechange
-	
+
 	if (unassigned.len)
 		unassigned = shuffle(unassigned)
 		for (var/occupation in occupation_choices)
@@ -115,16 +115,16 @@
 				break
 			var/eligible = occupation_eligible[occupation]
 			while (eligible-- && unassigned.len > 0)
-				var/mob/human/candidate = unassigned[1]
+				var/mob/carbon/candidate = unassigned[1]
 				if (candidate == null)
 					break
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 
-	for (var/mob/human/M in unassigned)
+	for (var/mob/carbon/M in unassigned)
 		M.Assign_Rank(pick(assistant_occupations))
 
-	for (var/mob/ai/aiPlayer in world)
+	for (var/mob/silicon/ai/aiPlayer in world)
 		spawn(0)
 			var/randomname = pick(ai_names)
 			var/newname = input(

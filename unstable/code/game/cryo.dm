@@ -50,7 +50,7 @@
 		src.active2 = null
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["temp"])
 			src.temp = null
@@ -70,7 +70,7 @@
 			src.active1 = null
 			src.active2 = null
 		else if (href_list["login"])
-			if (istype(usr, /mob/ai))
+			if (istype(usr, /mob/silicon/ai))
 				src.active1 = null
 				src.active2 = null
 				src.authenticated = 1
@@ -116,7 +116,7 @@
 										if("fingerprint")
 											if (istype(src.active1, /datum/data/record))
 												var/t1 = input("Please input fingerprint hash:", "Med. records", src.active1.fields["id"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active1 != a1))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
 													return
 												src.active1.fields["fingerprint"] = t1
 										if("sex")
@@ -128,61 +128,61 @@
 										if("age")
 											if (istype(src.active1, /datum/data/record))
 												var/t1 = input("Please input age:", "Med. records", src.active1.fields["age"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active1 != a1))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
 													return
 												src.active1.fields["age"] = t1
 										if("mi_dis")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input minor disabilities list:", "Med. records", src.active2.fields["mi_dis"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["mi_dis"] = t1
 										if("mi_dis_d")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize minor dis.:", "Med. records", src.active2.fields["mi_dis_d"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["mi_dis_d"] = t1
 										if("ma_dis")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input major diabilities list:", "Med. records", src.active2.fields["ma_dis"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["ma_dis"] = t1
 										if("ma_dis_d")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize major dis.:", "Med. records", src.active2.fields["ma_dis_d"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["ma_dis_d"] = t1
 										if("alg")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please state allergies:", "Med. records", src.active2.fields["alg"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["alg"] = t1
 										if("alg_d")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize allergies:", "Med. records", src.active2.fields["alg_d"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["alg_d"] = t1
 										if("cdi")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please state diseases:", "Med. records", src.active2.fields["cdi"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["cdi"] = t1
 										if("cdi_d")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize diseases:", "Med. records", src.active2.fields["cdi_d"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["cdi_d"] = t1
 										if("notes")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize notes:", "Med. records", src.active2.fields["notes"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["notes"] = t1
 										if("p_stat")
@@ -291,7 +291,7 @@
 																		return
 																	var/a2 = src.active2
 																	var/t1 = input("Add Comment:", "Med. records", null, null)  as message
-																	if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+																	if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 																		return
 																	var/counter = 1
 																	while(src.active2.fields[text("com_[]", counter)])
@@ -304,7 +304,7 @@
 																	else
 																		if (href_list["search"])
 																			var/t1 = input("Search String: (Name or ID)", "Med. records", null, null)  as text
-																			if ((!( t1 ) || usr.stat || !( src.authenticated ) || usr.restrained() || ((get_dist(src, usr) > 1) && (!istype(usr, /mob/ai)))))
+																			if ((!( t1 ) || usr.stat || !( src.authenticated ) || usr.restrained() || ((get_dist(src, usr) > 1) && (!istype(usr, /mob/silicon/ai)))))
 																				return
 																			src.active1 = null
 																			src.active2 = null
@@ -405,7 +405,7 @@
 		src.active2 = null
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["temp"])
 			src.temp = null
@@ -427,7 +427,7 @@
 				src.active2 = null
 			else
 				if (href_list["login"])
-					if (istype(usr, /mob/ai))
+					if (istype(usr, /mob/silicon/ai))
 						src.active1 = null
 						src.active2 = null
 						src.authenticated = 1
@@ -476,19 +476,19 @@
 										if("name")
 											if (istype(src.active1, /datum/data/record))
 												var/t1 = input("Please input name:", "Secure. records", src.active1.fields["name"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai)))) || src.active1 != a1)
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai)))) || src.active1 != a1)
 													return
 												src.active1.fields["name"] = t1
 										if("id")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input id:", "Secure. records", src.active1.fields["id"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active1 != a1))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
 													return
 												src.active1.fields["id"] = t1
 										if("fingerprint")
 											if (istype(src.active1, /datum/data/record))
 												var/t1 = input("Please input fingerprint hash:", "Secure. records", src.active1.fields["fingerprint"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active1 != a1))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
 													return
 												src.active1.fields["fingerprint"] = t1
 										if("sex")
@@ -500,37 +500,37 @@
 										if("age")
 											if (istype(src.active1, /datum/data/record))
 												var/t1 = input("Please input age:", "Secure. records", src.active1.fields["age"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active1 != a1))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
 													return
 												src.active1.fields["age"] = t1
 										if("mi_crim")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input minor disabilities list:", "Secure. records", src.active2.fields["mi_crim"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["mi_crim"] = t1
 										if("mi_crim_d")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize minor dis.:", "Secure. records", src.active2.fields["mi_crim_d"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["mi_crim_d"] = t1
 										if("ma_crim")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input major diabilities list:", "Secure. records", src.active2.fields["ma_crim"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["ma_crim"] = t1
 										if("ma_crim_d")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize major dis.:", "Secure. records", src.active2.fields["ma_crim_d"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["ma_crim_d"] = t1
 										if("notes")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please summarize notes:", "Secure. records", src.active2.fields["notes"], null)  as message
-												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+												if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 													return
 												src.active2.fields["notes"] = t1
 										if("criminal")
@@ -670,7 +670,7 @@
 																				return
 																			var/a2 = src.active2
 																			var/t1 = input("Add Comment:", "Secure. records", null, null)  as message
-																			if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/ai))) || src.active2 != a2))
+																			if ((!( t1 ) || !( src.authenticated ) || usr.stat || usr.restrained() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active2 != a2))
 																				return
 																			var/counter = 1
 																			while(src.active2.fields[text("com_[]", counter)])
@@ -683,7 +683,7 @@
 																			else
 																				if (href_list["search_f"])
 																					var/t1 = input("Search String: (Fingerprint)", "Secure. records", null, null)  as text
-																					if ((!( t1 ) || usr.stat || !( src.authenticated ) || usr.restrained() || (get_dist(src, usr) > 1) && (!istype(usr, /mob/ai))))
+																					if ((!( t1 ) || usr.stat || !( src.authenticated ) || usr.restrained() || (get_dist(src, usr) > 1) && (!istype(usr, /mob/silicon/ai))))
 																						return
 																					src.active1 = null
 																					src.active2 = null
@@ -805,7 +805,7 @@
 	..()
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["rejuv"])
 			if (src.connected)
@@ -865,7 +865,7 @@
 		return
 	if (usr.can_use_computer())
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["cp"])
 			var/cp = text2num(href_list["cp"])
@@ -1553,7 +1553,7 @@
 		return
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["drain"])
 			//leak_to_turf()

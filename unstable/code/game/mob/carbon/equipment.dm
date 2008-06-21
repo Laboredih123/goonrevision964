@@ -46,7 +46,7 @@
 	src.UpdateClothing()
 
 /mob/carbon/proc/drop(slot)
-	/obj/item/weapon/W
+	var/obj/item/weapon/W
 	switch(slot)
 		if(SLOT_BACK)
 			W = src.back

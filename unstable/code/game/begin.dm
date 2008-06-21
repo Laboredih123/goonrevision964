@@ -5,12 +5,12 @@
 		src << "You are not authorized to enter the game."
 		return
 
-	if (!istype(usr, /mob/human) || usr.start)
+	if (!istype(usr, /mob/carbon) || usr.start)
 		usr << "You have already started!"
 		return
 
-	var/mob/human/M = usr
-	for (var/mob/human/H in world)
+	var/mob/carbon/M = usr
+	for (var/mob/carbon/H in world)
 		if (H.start && cmptext(H.rname,M.rname))
 			usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
 			return
@@ -30,7 +30,7 @@
 		var/joined_late = 1
 		M.Assign_Rank(job, joined_late)
 
-	M.verbs -= /mob/human/verb/char_setup
+	M.verbs -= /mob/carbon/verb/char_setup
 	M.start = 1
 	M.update_face()
 	M.update_body()
@@ -45,7 +45,7 @@
 		usr << "\blue There is an administrative lock on entering the game!"
 		return
 
-	if (!usr.start || !istype(usr, /mob/human))
+	if (!usr.start || !istype(usr, /mob/carbon))
 		usr << "\blue <B>You aren't ready! Use the ready verb on this pad to set up your character!</B>"
 		return
 
@@ -56,11 +56,11 @@
 		usr << "\blue Now teleporting."
 		if (ticker)
 			var/mob/H = usr
-			if (istype(H, /mob/human))
+			if (istype(H, /mob/carbon))
 				reg_dna[text("[]", H.primary.uni_identity)] = H.rname
 		return
 
-	var/mob/human/M = usr
+	var/mob/carbon/M = usr
 	var/list/start_loc = list()
 
 	var/area/A = locate(/area/arrival/start)
@@ -78,7 +78,7 @@
 
 	var/option = input(M, "Where should you start?", "Start Selector", null) in start_loc
 
-	if (!usr.start || !istype(usr, /mob/human) || usr.loc != src.loc)
+	if (!usr.start || !istype(usr, /mob/carbon) || usr.loc != src.loc)
 		return
 
 	if (ticker)
@@ -97,7 +97,7 @@
 			if (S.special == 3)
 				for(var/obj/O in M)
 					del(O)
-				var/obj/O = new /mob/monkey(S.loc)
+				var/obj/O = new /mob/carbon/monkey(S.loc)
 				M.client.mob = O
 				O.loc = S.loc
 				del(M)
@@ -109,7 +109,7 @@
 			M.loc = S
 
 /obj/begin/proc/get_dna_ready(var/mob/user as mob)
-	var/mob/human/M = user
+	var/mob/carbon/M = user
 
 	if (!M.primary)
 		var/t2

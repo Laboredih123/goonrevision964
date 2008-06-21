@@ -29,7 +29,7 @@
 		// nothing equipped, can't throw it really
 		return
 
-	u_equip(item)
+	src.u_equip(item)
 	if(src.client)
 		src.client.screen -= item
 	item.loc = src.loc

@@ -12,7 +12,7 @@
 		HAIR_STYLE_SHORT,
 		HAIR_STYLE_LONG,
 		HAIR_STYLE_CUT,
-		HAIR_BALD
+		HAIR_STYLE_BALD
 	)
 
 /datum/gene/hair_style

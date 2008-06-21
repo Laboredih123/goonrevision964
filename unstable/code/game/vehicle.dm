@@ -56,7 +56,7 @@
 /obj/machinery/vehicle/relaymove(mob/user as mob, direction)
 	if (user.stat)
 		return
-	
+
 	if ((user in src))
 		if (direction & 1)
 			src.speed = max(src.speed - 1, 1)
@@ -71,10 +71,10 @@
 
 /obj/machinery/vehicle/verb/eject()
 	set src = usr.loc
-	
+
 	if (usr.stat)
 		return
-	
+
 	var/mob/M = usr
 	M.loc = src.loc
 	if (M.client)
@@ -88,16 +88,16 @@
 
 	if (usr.stat)
 		return
-	
+
 	if (src.one_person_only && locate(/mob, src))
 		usr << "There is no room! You can only fit one person."
 		return
-	
+
 	var/mob/M = usr
 	if (M.client)
 		M.client.perspective = EYE_PERSPECTIVE
 		M.client.eye = src
-	
+
 	M.loc = src
 
 /obj/machinery/vehicle/verb/unload(var/atom/movable/A in src)
@@ -105,13 +105,13 @@
 
 	if (usr.stat)
 		return
-	
+
 	if (istype(A, /atom/movable))
 		A.loc = src.loc
 		for(var/mob/O in view(src, null))
 			if ((O.client && !(O.blinded)))
 				O << text("\blue <B> [] unloads [] from []!</B>", usr, A, src)
-		
+
 		if (ismob(A))
 			var/mob/M = A
 			if (M.client)
@@ -123,23 +123,23 @@
 
 	if (usr.stat)
 		return
-	
-	if (((istype(usr, /mob/human)) && (!(ticker) || (ticker && ticker.mode != "monkey"))))
-		var/mob/human/H = usr
-		
+
+	if (istype(usr, /mob/carbon) && usr.is_intelligent())
+		var/mob/carbon/H = usr
+
 		if ((H.pulling && !(H.pulling.anchored)))
 			if (src.one_person_only && !(istype(H.pulling, /obj/item/weapon)))
 				usr << "You may only place items in."
 			else
-				H.pulling.loc = src			
+				H.pulling.loc = src
 				if (ismob(H.pulling))
 					var/mob/M = H.pulling
 					if (M.client)
 						M.client.perspective = EYE_PERSPECTIVE
 						M.client.eye = src
-				
+
 				for(var/mob/O in viewers(src, null))
 					if ((O.client && !( O.blinded )))
 						O << text("\blue <B> [] loads [] into []!</B>", H, H.pulling, src)
-				
+
 				H.pulling = null

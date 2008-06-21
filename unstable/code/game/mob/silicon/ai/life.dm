@@ -5,7 +5,7 @@
 		if (ficheck)
 			src.take_damage(burn = ficheck * 10)
 
-	if (src.dam.total > death_threshold)
+	if (src.get_damage() > death_threshold)
 		src.death()
 
 

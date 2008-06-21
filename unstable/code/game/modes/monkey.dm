@@ -56,7 +56,7 @@
 	return 1
 
 /mob/carbon/proc/monkeyize()
-	if (src.monkeyizing)
+/*	if (src.monkeyizing)
 		return
 	src.drop_all()
 	src.monkeyizing = 1
@@ -66,7 +66,7 @@
 	var/atom/movable/overlay/animation = new /atom/movable/overlay( src.loc )
 	flick("h2monkey", src)
 	sleep(48)
-	var/mob/monkey/O = new /mob/monkey( src.loc )
+	var/mob/carbon/monkey/O = new /mob/carbon/monkey( src.loc )
 	O.start = 1
 	if (src.client)
 		src.client.mob = O
@@ -74,3 +74,4 @@
 	O << "<B>You are now a monkey.</B>"
 	del(src)
 	return
+*/

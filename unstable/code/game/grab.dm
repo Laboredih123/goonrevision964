@@ -194,55 +194,18 @@
 
 				usr.clearmap()
 
-		if("other")
-			usr.other = !( usr.other )
-		if("intent")
-			if (!( usr.intent ))
-				switch(usr.a_intent)
-					if("help")
-						usr.intent = "12,15"
-					if("disarm")
-						usr.intent = "13,15"
-					if("hurt")
-						usr.intent = "14,15"
-					if("grab")
-						usr.intent = "11,15"
-					else
-			else
-				usr.intent = null
-		if("m_intent")
-			if (!( usr.m_int ))
-				switch(usr.m_intent)
-					if("run")
-						usr.m_int = "12,14"
-					if("walk")
-						usr.m_int = "13,14"
-					if("face")
-						usr.m_int = "14,14"
-					else
-			else
-				usr.m_int = null
-		if("walk")
-			usr.m_intent = "walk"
-			usr.m_int = "13,14"
-		if("face")
-			usr.m_intent = "face"
-			usr.m_int = "14,14"
-		if("run")
-			usr.m_intent = "run"
-			usr.m_int = "12,14"
 		if("hurt")
-			usr.a_intent = "hurt"
-			usr.intent = "14,15"
+			usr.intent = "hurt"
+			usr.hud.intent.screen_loc = "14,15"
 		if("grab")
-			usr.a_intent = "grab"
-			usr.intent = "11,15"
+			usr.intent = "grab"
+			usr.hud.intent.screen_loc = "11,15"
 		if("disarm")
-			M.a_intent = "disarm"
-			M.intent = "13,15"
+			usr.intent = "disarm"
+			usr.hud.intent.screen_loc = "13,15"
 		if("help")
-			usr.a_intent = "help"
-			usr.intent = "12,15"
+			usr.intent = "help"
+			usr.hud.intent.screen_loc = "12,15"
 		if("Reset Machine")
 			usr.machine = null
 		if("internal")

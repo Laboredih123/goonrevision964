@@ -38,9 +38,9 @@
 	src.update_damage()
 
 /mob/carbon/proc/update_damage()
-	src.dam = new damage()
+	src.dam = new /datum/damage()
 	for(var/atom/organ/O in src.organs)
-		src.dam.add(x.dam)
+		src.dam.add(O.dam)
 	src.update_damage_icon()
 
 /mob/carbon/proc/update_damage_icon()

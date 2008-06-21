@@ -234,6 +234,6 @@
 
 /proc/AutoUpdateAI(obj/subject)
 	if (subject!=null)
-		for(var/mob/ai/M in world)
+		for(var/mob/silicon/ai/M in world)
 			if ((M.client && M.machine == subject))
 				subject.interact(M)

@@ -355,7 +355,7 @@
 	..()
 	if (usr.stat || stat&NOPOWER)
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["reset"])
 			src.reset()
@@ -471,7 +471,7 @@
 	..()
 	if (usr.stat || usr.restrained() )
 		return
-	if (istype(usr, /mob/ai))
+	if (istype(usr, /mob/silicon/ai))
 		usr << "\red You are unable to dispense anything, since the controls are physical levers which don't go through any other kind of input."
 		return
 

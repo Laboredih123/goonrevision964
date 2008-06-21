@@ -5,7 +5,7 @@
 
 /obj/machinery/computer/security/check_eye(var/mob/user as mob)
 
-	if ((get_dist(user, src) > 1 || !( user.canmove ) || user.blinded || !( src.current ) || !( src.current.status )) && (!istype(user, /mob/ai)))
+	if ((get_dist(user, src) > 1 || !( user.canmove ) || user.blinded || !( src.current ) || !( src.current.status )) && (!istype(user, /mob/silicon/ai)))
 		return null
 	user.reset_view(src.current)
 	return 1
@@ -93,7 +93,7 @@
 	if(stat & NOPOWER) return
 	call_shuttle_proc(usr)
 
-/mob/ai/proc/ai_camera_track()
+/mob/silicon/ai/proc/ai_camera_track()
 	set category = "AI Commands"
 	set name = "Track With Camera"
 
@@ -175,7 +175,7 @@
 
 			sleep(10)
 
-/mob/ai/proc/ai_call_shuttle()
+/mob/silicon/ai/proc/ai_call_shuttle()
 	set category = "AI Commands"
 	set name = "Call Emergency Shuttle"
 	call_shuttle_proc(src)
@@ -212,7 +212,7 @@
 
 	return
 /*
-/mob/ai/proc/ai_cancel_call()
+/mob/silicon/ai/proc/ai_cancel_call()
 	set category = "AI Commands"
 	cancel_call_proc(src)
 	return
@@ -324,7 +324,7 @@
 
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/ai))
+	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/silicon/ai))
 		usr << browse(null, "window=id_com")
 		return
 	usr.machine = src
@@ -352,10 +352,10 @@
 				src.scan = I
 		src.authenticated = 0
 	if (href_list["auth"])
-		if ((!( src.authenticated ) && (src.scan || (istype(usr, /mob/ai))) && (src.modify || src.mode)))
+		if ((!( src.authenticated ) && (src.scan || (istype(usr, /mob/silicon/ai))) && (src.modify || src.mode)))
 			if (src.check_access(src.scan))
 				src.authenticated = 1
-		else if ((!( src.authenticated ) && (istype(usr, /mob/ai))) && (!src.modify))
+		else if ((!( src.authenticated ) && (istype(usr, /mob/silicon/ai))) && (!src.modify))
 			usr << "You can't modify an ID without an ID inserted to modify. Once one is in the modify slot on the computer, you can log in."
 	if(href_list["access"] && href_list["allowed"])
 		if(src.authenticated)
@@ -376,7 +376,7 @@
 		if (src.authenticated)
 			var/t2 = src.modify
 			var/t1 = input(usr, "What name?", "ID computer", null)  as text
-			if ((src.authenticated && src.modify == t2 && (get_dist(src, usr) <= 1 || (istype(usr, /mob/ai))) && istype(src.loc, /turf)))
+			if ((src.authenticated && src.modify == t2 && (get_dist(src, usr) <= 1 || (istype(usr, /mob/silicon/ai))) && istype(src.loc, /turf)))
 				src.modify.registered = t1
 	if (href_list["mode"])
 		src.mode = text2num(href_list["mode"])
@@ -537,7 +537,7 @@
 
 	if ((usr.stat || usr.restrained()))
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["power"])
 			var/t = text2num(href_list["power"])

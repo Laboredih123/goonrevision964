@@ -443,7 +443,7 @@ About the new airlock wires panel:
 
 
 /obj/machinery/door/airlock/interact(mob/user as mob)
-	if (istype(usr, /mob/ai))
+	if (istype(usr, /mob/silicon/ai))
 		return ..()
 	else
 		if (src.isElectrified())
@@ -500,7 +500,7 @@ About the new airlock wires panel:
 		if (usr.machine==src)
 			usr.machine = null
 			return
-	if (!istype(usr, /mob/ai))
+	if (!istype(usr, /mob/silicon/ai))
 		if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 			usr.machine = src
 			if (href_list["wires"])
@@ -655,7 +655,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/attackby(C as obj, mob/user as mob)
 	//world << text("airlock attackby src [] obj [] mob []", src, C, user)
-	if (!istype(usr, /mob/ai))
+	if (!istype(usr, /mob/silicon/ai))
 		if (src.isElectrified())
 			if (src.shock(user, 75))
 				return

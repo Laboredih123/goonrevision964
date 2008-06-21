@@ -1271,67 +1271,6 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "organ"
 	var/owner = null
 	s_istate = "bio_orange"
-/atom/organ
-	name = "external"
-	icon = 'human.dmi'
-	var/d_i_state = ""
-	var/brute_dam = 0.0
-	var/burn_dam = 0.0
-	var/r_name = "chest"
-/atom/organ/chest
-	name = "chest"
-	icon_state = "chest"
-	d_i_state = "00"
-/atom/organ/diaper
-	name = "diaper"
-	icon_state = "diaper"
-	r_name = "diaper"
-	d_i_state = "00"
-/atom/organ/head
-	name = "head"
-	icon_state = "head"
-	r_name = "head"
-	d_i_state = "00"
-/atom/organ/l_arm
-	name = "l arm"
-	icon_state = "l_arm"
-	r_name = "l_arm"
-	d_i_state = "00"
-/atom/organ/l_foot
-	name = "l foot"
-	icon_state = "l_foot"
-	r_name = "l_foot"
-	d_i_state = "00"
-/atom/organ/l_hand
-	name = "l hand"
-	icon_state = "l_hand"
-	r_name = "l_hand"
-	d_i_state = "00"
-/atom/organ/l_leg
-	name = "l leg"
-	icon_state = "l_leg"
-	r_name = "l_leg"
-	d_i_state = "00"
-/atom/organ/r_arm
-	name = "r arm"
-	icon_state = "r_arm"
-	r_name = "r_arm"
-	d_i_state = "00"
-/atom/organ/r_foot
-	name = "r foot"
-	icon_state = "r_foot"
-	r_name = "r_foot"
-	d_i_state = "00"
-/atom/organ/r_hand
-	name = "r hand"
-	icon_state = "r_hand"
-	r_name = "r_hand"
-	d_i_state = "00"
-/atom/organ/r_leg
-	name = "r leg"
-	icon_state = "r_leg"
-	r_name = "r_leg"
-	d_i_state = "00"
 /obj/item/weapon/paint
 	name = "Paint Can"
 	icon_state = "paint_neutral"

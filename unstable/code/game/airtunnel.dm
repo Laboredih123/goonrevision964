@@ -264,10 +264,10 @@
 		return
 
 	if ((usr.stat || usr.restrained()))
-		if (!istype(usr, /mob/ai))
+		if (!istype(usr, /mob/silicon/ai))
 			return
 
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/ai))))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai))))
 		usr.machine = src
 		if (href_list["retract"])
 			SS13_airtunnel.retract()
@@ -294,8 +294,8 @@
 		src.updateUsrDialog()
 	return
 
-/obj/machinery/camera/interact(mob/ai/user as mob)
-	if(!istype(user, mob/ai))
+/obj/machinery/camera/interact(mob/silicon/ai/user as mob)
+	if(!istype(user, /mob/silicon/ai))
 		return ..()
 	if (src.network != user.network || !(src.status))
 		return
@@ -401,14 +401,14 @@ obj/machinery/door_control/interact(mob/user as mob)
 	..()
 
 
-	if (!user.check_dexterity())
+	if (!usr.check_intelligence())
 		return
 	if ((usr.stat || usr.restrained()))
 		return
 	if ((!( src.d1 ) || !( src.d2 )))
 		usr << "\red Error: Cannot interface with door security!"
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/ai))))
+	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai))))
 		usr.machine = src
 		if (href_list["card"])
 			if (src.scan)

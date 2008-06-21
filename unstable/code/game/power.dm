@@ -133,7 +133,7 @@
 		for(var/mob/M in nearby)
 			if ((M.client && M.machine == src))
 				src.interact(M)
-	if (istype(usr, /mob/ai))
+	if (istype(usr, /mob/silicon/ai))
 		if (!(usr in nearby))
 			if (usr.client && usr.machine==src) // && M.machine == src is omitted because if we triggered this by using the dialog, it doesn't matter if our machine changed in between triggering it and this - the dialog is probably still supposed to refresh.
 				src.interact(usr)
@@ -225,7 +225,7 @@
 /obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/user)
 
 	if(stat & BROKEN) return
-	if (istype(user, /mob/ai))
+	if (istype(user, /mob/silicon/ai))
 		return src.interact(user)
 
 	if (istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
@@ -294,7 +294,7 @@
 
 	if(stat & BROKEN) return
 
-	if(opened && (!istype(user, /mob/ai)))
+	if(opened && (!istype(user, /mob/silicon/ai)))
 		if(cell)
 			cell.loc = usr
 			cell.layer = 20
@@ -320,11 +320,11 @@
 /obj/machinery/power/apc/proc/interact(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
-		if (!istype(user, /mob/ai))
+		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
 			user << browse(null, "window=apc")
 			return
-		else if (istype(user, /mob/ai) && src.aidisabled)
+		else if (istype(user, /mob/silicon/ai) && src.aidisabled)
 			user << "AI control for this APC interface has been disabled."
 			user << browse(null, "window=apc")
 			return
@@ -332,7 +332,7 @@
 	user.machine = src
 	var/t = "<TT><B>Area Power Controller</B> ([area.name])<HR>"
 
-	if(locked && (!istype(user, /mob/ai)))
+	if(locked && (!istype(user, /mob/silicon/ai)))
 		t += "<I>(Swipe ID card to unlock inteface.)</I><BR>"
 		t += "Main breaker : <B>[operating ? "On" : "Off"]</B><BR>"
 		t += "External power : <B>[ main_status ? (main_status ==2 ? "<FONT COLOR=#004000>Good</FONT>" : "<FONT COLOR=#D09000>Low</FONT>") : "<FONT COLOR=#F00000>None</FONT>"]</B><BR>"
@@ -353,7 +353,7 @@
 		t += "<HR>Cover lock: <B>[coverlocked ? "Engaged" : "Disengaged"]</B>"
 
 	else
-		if (!istype(user, /mob/ai))
+		if (!istype(user, /mob/silicon/ai))
 			t += "<I>(Swipe ID card to lock interface.)</I><BR>"
 		t += "Main breaker: [operating ? "<B>On</B> <A href='?src=\ref[src];breaker=1'>Off</A>" : "<A href='?src=\ref[src];breaker=1'>On</A> <B>Off</B>" ]<BR>"
 		t += "External power : <B>[ main_status ? (main_status ==2 ? "<FONT COLOR=#004000>Good</FONT>" : "<FONT COLOR=#D09000>Low</FONT>") : "<FONT COLOR=#F00000>None</FONT>"]</B><BR>"
@@ -441,10 +441,10 @@
 
 	if (usr.stat || usr.restrained() )
 		return
-	if (!user.check_dexterity())
+	if (!usr.check_dexterity())
 		return
 
-	if (( (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai) && !(src.aidisabled)))
+	if (( (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai) && !(src.aidisabled)))
 
 		usr.machine = src
 		if (href_list["lock"])
@@ -869,7 +869,7 @@
 
 /obj/machinery/power/generator/proc/interact(mob/user)
 
-	if ( (get_dist(src, user) > 1 ) && (!istype(user, /mob/ai)))
+	if ( (get_dist(src, user) > 1 ) && (!istype(user, /mob/silicon/ai)))
 		user.machine = null
 		user << browse(null, "window=teg")
 		return
@@ -903,12 +903,12 @@
 
 	if (usr.stat || usr.restrained() )
 		return
-	if (!user.check_dexterity())
+	if (!usr.check_dexterity())
 		return
 
 	//world << "[href] ; [href_list[href]]"
 
-	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
 
 		if( href_list["close"] )
@@ -1777,7 +1777,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/monitor/proc/interact(mob/user)
 
 	if ( (get_dist(src, user) > 1 ) || (stat & (BROKEN|NOPOWER)) )
-		if (!istype(user, /mob/ai))
+		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
 			user << browse(null, "window=powcomp")
 			return
@@ -2006,7 +2006,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/smes/proc/interact(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
-		if (!istype(user, /mob/ai))
+		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
 			user << browse(null, "window=smes")
 			return
@@ -2042,12 +2042,12 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if (usr.stat || usr.restrained() )
 		return
-	if (!user.check_dexterity())
+	if (!usr.check_dexterity())
 		return
 
 	//world << "[href] ; [href_list[href]]"
 
-	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
 
 		if( href_list["close"] )
@@ -2276,7 +2276,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/solar_control/proc/interact(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
-		if (!istype(user, /mob/ai))
+		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
 			user << browse(null, "window=solcon")
 			return
@@ -2328,12 +2328,12 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if (usr.stat || usr.restrained() )
 		return
-	if (!user.check_dexterity())
+	if (!usr.check_dexterity())
 		return
 
 	//world << "[href] ; [href_list[href]]"
 
-	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
 
 		if( href_list["close"] )
@@ -2552,7 +2552,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/turbine/proc/interact(mob/user)
 
-	if ( (get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/ai)) )
+	if ( (get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)) )
 		user.machine = null
 		user << browse(null, "window=turbine")
 		return
@@ -2581,10 +2581,10 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		return
 	if (usr.stat || usr.restrained() )
 		return
-	if (!user.check_dexterity())
+	if (!usr.check_dexterity())
 		return
 
-	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/ai)))
+	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
 
 		if( href_list["close"] )

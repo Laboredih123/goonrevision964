@@ -154,13 +154,13 @@
 	if (src.health_icon)
 		if (src.is_dead)
 			src.health.icon_state = "health5"
-		else if (src.dam.total == 0)
+		else if (src.get_damage() == 0)
 			src.health.icon_state = "health0"
-		else if (src.dam.total <= 25)
+		else if (src.get_damage() <= 25)
 			src.health.icon_state = "health1"
-		else if (src.dam.total <= 50)
+		else if (src.get_damage() <= 50)
 			src.health.icon_state = "health2"
-		else if (src.dam.total <= 70)
+		else if (src.get_damage() <= 70)
 			src.health.icon_state = "health3"
 		else
 			src.health.icon_state = "health4"

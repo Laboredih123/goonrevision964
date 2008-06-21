@@ -28,7 +28,7 @@
 							if(U.intact)
 								O.invisibility = 101
 
-			var/mob/human/M = locate() in T
+			var/mob/carbon/M = locate() in T
 			if(M && M.invisibility == 2)
 				M.invisibility = 0
 				spawn(2)

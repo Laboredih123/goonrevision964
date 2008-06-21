@@ -35,7 +35,7 @@
 
 /obj/machinery/hologram_ai/Topic(href, href_list)
 	..()
-	if (!istype(usr, /mob/ai))
+	if (!istype(usr, /mob/silicon/ai))
 		return
 
 	if (href_list["power"])

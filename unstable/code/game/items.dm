@@ -707,7 +707,7 @@
 	..()
 	if (usr.stat || usr.restrained())
 		return
-	var/mob/human/H = usr
+	var/mob/carbon/H = usr
 	if (!( istype(H, /mob/carbon) ))
 		return 1
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
@@ -2442,7 +2442,7 @@
 /obj/item/weapon/f_card/add_fingerprint()
 
 	..()
-	if (!istype(usr, /mob/ai))
+	if (!istype(usr, /mob/silicon/ai))
 		if (src.fingerprints)
 			if (src.amount > 1)
 				var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( (ismob(src.loc) ? src.loc.loc : src.loc) )
@@ -3960,7 +3960,7 @@
 /obj/manifest/proc/manifest()
 
 	var/dat = "<B>Crew Manifest</B>:<BR>"
-	for(var/mob/human/M in world)
+	for(var/mob/carbon/M in world)
 		if (M.start)
 			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.id, /obj/item/weapon/card/id) ? text("[]", M.id.assignment) : "Unknown Position"))
 		//Foreach goto(23)
@@ -4048,7 +4048,7 @@
 			step(user, get_dir(user, src))
 			if (user.loc == src.loc)
 				user.layer = TURF_LAYER
-				M.show_viewers("[src] hides under the table!")
+				user.show_viewers("[src] hides under the table!")
 	return ..()
 
 /obj/table/CheckPass(atom/movable/O as mob|obj, target as turf)
@@ -4428,13 +4428,13 @@
 			//world << "[W].attack_self([usr])"
 			return
 		return
-	if (((!usr.canmove) && (!istype(usr, /mob/ai))) || usr.stat != 0)
+	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))) || usr.stat != 0)
 		return
 
 	if ((!( src in usr.contents ) && (((!( isturf(src) ) && (!( isturf(src.loc) ) && (src.loc && !( isturf(src.loc.loc) )))) || !( isturf(usr.loc) )) && (src.loc != usr.loc && (!( istype(src, /obj/screen) ) && !( usr.contents.Find(src.loc) ))))))
 		return
 	var/t5 = (get_dist(src, usr) <= 1 || src.loc == usr)
-	if (istype(usr, /mob/ai))
+	if (istype(usr, /mob/silicon/ai))
 		t5 = 1
 
 	if (((t5 || (W && (W.flags & 16))) && !( istype(src, /obj/screen) )))
@@ -4559,7 +4559,7 @@
 	for(var/mob/M in nearby)
 		if ((M.client && M.machine == src))
 			src.interact(M)
-	if (istype(usr, /mob/ai))
+	if (istype(usr, /mob/silicon/ai))
 		if (!(usr in nearby))
 			if (usr.client && usr.machine==src) // && M.machine == src is omitted because if we triggered this by using the dialog, it doesn't matter if our machine changed in between triggering it and this - the dialog is probably still supposed to refresh.
 				src.interact(usr)

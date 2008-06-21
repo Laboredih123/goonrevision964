@@ -5,7 +5,7 @@
 
 /area/turret_protected/proc/subjectDied(var/mob/target)
 	if (istype(target, /mob))
-		if (!istype(target, /mob/ai))
+		if (!istype(target, /mob/silicon/ai))
 			if (target:stat==2)
 				if (target in turretTargets)
 					src.Exited(target)
@@ -13,7 +13,7 @@
 
 /area/turret_protected/Entered(atom/movable/O)
 	if (istype(O, /mob))
-		if (!istype(O, /mob/ai))
+		if (!istype(O, /mob/silicon/ai))
 			if (!(O in turretTargets))
 				//O << "adding you to target list"
 				turretTargets += O
@@ -23,7 +23,7 @@
 
 /area/turret_protected/Exited(atom/movable/O)
 	if (istype(O, /mob))
-		if (!istype(O, /mob/ai))
+		if (!istype(O, /mob/silicon/ai))
 			if (O in turretTargets)
 				//O << "removing you from target list"
 				turretTargets -= O
@@ -223,7 +223,7 @@
 
 /obj/machinery/turretid/attackby(obj/item/weapon/W, mob/user)
 	if(stat & BROKEN) return
-	if (istype(user, /mob/ai))
+	if (istype(user, /mob/silicon/ai))
 		return src.interact(user)
 	else // trying to unlock the interface
 		if (src.allowed(usr))
@@ -241,7 +241,7 @@
 
 /obj/machinery/turretid/interact(mob/user as mob)
 	if ( (get_dist(src, user) > 1 ))
-		if (!istype(user, /mob/ai))
+		if (!istype(user, /mob/silicon/ai))
 			user << text("Too far away.")
 			user.machine = null
 			user << browse(null, "window=turretid")
@@ -257,7 +257,7 @@
 	var/area/area = loc
 	var/t = "<TT><B>Turret Control Panel</B> ([area.name])<HR>"
 
-	if(src.locked && (!istype(user, /mob/ai)))
+	if(src.locked && (!istype(user, /mob/silicon/ai)))
 		t += "<I>(Swipe ID card to unlock control panel.)</I><BR>"
 	else
 		t += text("Turrets [] - <A href='?src=\ref[];toggleOn=1'>[]?</a><br>\n", src.enabled?"activated":"deactivated", src, src.enabled?"Disable":"Enable")
@@ -270,7 +270,7 @@
 	if (usr.stat || usr.restrained() )
 		return
 	if (src.locked)
-		if (!istype(usr, /mob/ai))
+		if (!istype(usr, /mob/silicon/ai))
 			usr << "Control panel is locked!"
 			return
 	if (href_list["toggleOn"])

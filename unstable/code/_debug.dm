@@ -435,8 +435,8 @@
 		e.wound_size = 0.0
 		e.max_damage = initial(e.max_damage)
 		e.update_icon()
-	if(src.type == /mob/human)
-		var/mob/human/H = src
+	if(src.type == /mob/carbon)
+		var/mob/carbon/H = src
 		H.UpdateDamageIcon()
 
 

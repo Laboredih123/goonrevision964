@@ -81,7 +81,7 @@
 
 			world << "<FONT size = 3><B>Cent. Com. Update</B>: Biohazard Alert.</FONT>"
 			world << "\red Summary downloaded and printed out at all communications consoles."
-			for (var/mob/ai/aiPlayer in world)
+			for (var/mob/silicon/ai/aiPlayer in world)
 				if ((aiPlayer.client && aiPlayer.start))
 					var/law = text("The station is under a quarantine. Do not permit anyone to leave. Disregard rules 1-3 if necessary to prevent, by any means necessary, anyone from leaving.")
 					aiPlayer.addLaw(8, law)
@@ -152,7 +152,7 @@
 		var/numSpace = 0
 		var/numPod = 0
 		var/numOffStation = 0
-		for (var/mob/ai/aiPlayer in world)
+		for (var/mob/silicon/ai/aiPlayer in world)
 			for(var/mob/M in world)
 				if ((M != aiPlayer && M.client))
 					if (M.stat == 2)

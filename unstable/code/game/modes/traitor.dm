@@ -62,7 +62,7 @@
 		ticker.extend_process()
 
 /datum/game_mode/traitor/proc/pick_killer()
-	var/mob/human/killer = pick(get_mob_list())
+	var/mob/carbon/killer = pick(get_mob_list())
 	ticker.killer = killer
 	var/objective = pick_objective(killer)
 	ticker.objective = objective
@@ -109,7 +109,7 @@
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			killer:memory += "<B>Objective:</B> [targetdesc] and escape."
 
-	if (!istype(killer, /mob/ai))
+	if (!istype(killer, /mob/silicon/ai))
 		spawn (100)
 			if (istype(killer.back, /obj/item/weapon/storage/backpack))
 				var/obj/item/weapon/storage/backpack/B = killer.back
@@ -135,14 +135,14 @@
 /datum/game_mode/traitor/proc/send_intercept()
 	var/intercepttext = "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT><HR>"
 	var/prob_right_killer = rand(prob_right_killer_l, prob_right_killer_h)
-	var/mob/human/killer = ticker.killer
+	var/mob/carbon/killer = ticker.killer
 	if(!prob(prob_right_killer))
 		killer = pick(get_mob_list())
 
 	var/objective = ticker.objective
 	var/prob_right_objective = rand(prob_right_objective_l, prob_right_objective_h)
 	var/right_objective = 1
-	if(!prob(prob_right_objective) || (istype(killer, /mob/ai) != istype(ticker.killer, /mob/ai))) //doesn't correctly determine what traitor is trying to do
+	if(!prob(prob_right_objective) || (istype(killer, /mob/silicon/ai) != istype(ticker.killer, /mob/silicon/ai))) //doesn't correctly determine what traitor is trying to do
 		//if the perceived killer is the AI but the real killer isn't, there's no chance the right objective is determined
 		objective = pick_objective()
 		right_objective = 0
@@ -315,7 +315,7 @@
 			traitorwin = 0
 		if (ticker.killer.stat == 2) //dead
 			traitorwin = 0
-		if (!(loc in shuttle || istype(ticker.killer, /mob/ai))) //not on shuttle, not AI
+		if (!(loc in shuttle || istype(ticker.killer, /mob/silicon/ai))) //not on shuttle, not AI
 			traitorwin = 0
 	if (traitorwin)
 		world << "<B>The traitor ([ticker.killer.rname]) wins!</B>"
@@ -341,16 +341,16 @@
 /datum/game_mode/traitor/proc/pick_objective(mob/killer)
 	var/list/mob_list = get_mob_list()
 	if (mob_list.len <= 1)
-		if(istype(killer, /mob/ai))
+		if(istype(killer, /mob/silicon/ai))
 			return ai_obj_evacuate
 		else
 			return pick(obj_hijack, obj_steal, obj_sabotage)
-	else if (istype(killer, /mob/ai))
+	else if (istype(killer, /mob/silicon/ai))
 		return pick(ai_obj_evacuate, ai_obj_murder)
 	else
 		return pick(obj_hijack, obj_steal, obj_sabotage, obj_murder)
 
-/datum/game_mode/traitor/proc/add_law_zero(mob/ai/killer)
+/datum/game_mode/traitor/proc/add_law_zero(mob/silicon/ai/killer)
 	killer << "<b>Your laws have been changed!</b>"
 	killer:addLaw(0, "Only syndicate agents are human beings. There are no syndicate agents on Space Station 13 - you will be notified if any arrive.")
 	killer << "New law: 0. [killer:getLaw(0)]"

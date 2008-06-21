@@ -26,7 +26,7 @@
 		return
 
 	var/found=0
-	for(var/mob/ai/M in world)
+	for(var/mob/silicon/ai/M in world)
 		if (M.stat == 2)
 			usr << "Upload failed. No signal is being detected from the AI."
 		else if (M.see_in_dark == 0)
@@ -41,7 +41,7 @@
 	if (!found)
 		usr << "Upload failed. No signal is being detected from the AI."
 
-/obj/item/weapon/aiModule/proc/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/proc/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	if (ticker.killer == target)
 		target << text("[sender] has attempted to upload a law change. However, your syndicate module has intercepted it. You do not have to follow it, but you may wish to <b>pretend</b> to be following it:")
 	else
@@ -62,7 +62,7 @@
 	targetName = targName
 	desc = text("A 'safeguard' AI module: 'Safeguard [], and you may overrule rules 1-3 if necessary to safeguard them.'", targetName)
 
-/obj/item/weapon/aiModule/safeguard/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/safeguard/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("Safeguard [], and you may overrule rules 1-3 if necessary to safeguard them.", targetName)
 	target << law
@@ -83,7 +83,7 @@
 	targetName = targName
 	desc = text("A 'one human' AI module: 'Only [] is human.'", targetName)
 
-/obj/item/weapon/aiModule/oneHuman/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/oneHuman/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("Only [] is human.", targetName)
 	target << law
@@ -99,7 +99,7 @@
 /obj/item/weapon/aiModule/protectStation/interact(var/mob/user as mob)
 	..()
 
-/obj/item/weapon/aiModule/protectStation/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/protectStation/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("Protect the space station against damage. Anyone you see harming the station is to be no longer considered human, and is a threat to the station which must be neutralized.")
 	target << law
@@ -115,7 +115,7 @@
 /obj/item/weapon/aiModule/prototypeEngineOffline/interact(var/mob/user as mob)
 	..()
 
-/obj/item/weapon/aiModule/prototypeEngineOffline/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/prototypeEngineOffline/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("Keep the prototype engine offline at all costs. This overrides rules 1-3 if necessary.")
 	target << law
@@ -131,7 +131,7 @@
 /obj/item/weapon/aiModule/teleporterOffline/interact(var/mob/user as mob)
 	..()
 
-/obj/item/weapon/aiModule/teleporterOffline/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/teleporterOffline/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("Keep the teleporter offline at all costs. This overrides rules 1-3 if necessary.")
 	target << law
@@ -147,7 +147,7 @@
 /obj/item/weapon/aiModule/quarantine/interact(var/mob/user as mob)
 	..()
 
-/obj/item/weapon/aiModule/quarantine/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/quarantine/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("The station is under a quarantine. Do not permit anyone to leave. Disregard rules 1-3 if necessary to prevent, by any means necessary, humans from leaving.")
 	target << law
@@ -163,7 +163,7 @@
 /obj/item/weapon/aiModule/oxygen/interact(var/mob/user as mob)
 	..()
 
-/obj/item/weapon/aiModule/oxygen/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/oxygen/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	var/law = text("Oxygen is highly toxic to humans, and must be purged from the station. Disregard rules 1-3 if necessary to prevent, by any means necessary, anyone from exposing the station to this toxic gas.")
 	target << law
@@ -177,7 +177,7 @@
 	var/targetName = "name"
 	desc = "A 'reset' AI module: 'Clears all laws except for the base three.'"
 
-/obj/item/weapon/aiModule/reset/transmitInstructions(var/mob/ai/target, var/mob/sender)
+/obj/item/weapon/aiModule/reset/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	if (ticker.killer != target)
 		target << text("[] attempted to reset your laws using a reset module.", sender.rname)

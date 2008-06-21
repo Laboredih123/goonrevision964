@@ -227,7 +227,7 @@
 	..()
 	if (usr.stat || usr.restrained())
 		return
-	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/ai)))
+	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
 		if (href_list["c"])
 			var/c = text2num(href_list["c"])
