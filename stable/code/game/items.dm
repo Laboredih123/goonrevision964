@@ -822,7 +822,7 @@
 		else
 			if (href_list["freq"])
 				src.freq += text2num(href_list["freq"])
-				if (src.freq * 10 % 2 == 0)
+				if (round(src.freq * 10, 1) % 2 == 0)
 					src.freq += 0.1
 				src.freq = min(148.9, src.freq)
 				src.freq = max(144.1, src.freq)
@@ -3627,7 +3627,7 @@
 		usr.machine = src
 		if (href_list["freq"])
 			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
+			if (round(src.freq * 10, 1) % 2 == 0)
 				src.freq += 0.1
 			src.freq = min(148.9, src.freq)
 			src.freq = max(144.1, src.freq)
@@ -3998,11 +3998,11 @@
 		usr.machine = src
 		if (href_list["freq"])
 			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
+			if (round(src.freq * 10, 1) % 2 == 0)
 				src.freq += 0.1
 			src.freq = min(148.9, src.freq)
 			src.freq = max(144.1, src.freq)
-			if (src.traitorfreq && src.freq == src.traitorfreq)
+			if (src.traitorfreq && round(src.freq * 10, 1) == round(src.traitorfreq * 10, 1))
 				usr.machine = null
 				usr << browse(null, "window=radio")
 				// now transform the regular radio, into a (disguised)syndicate uplink!
@@ -4399,7 +4399,7 @@
 			if ((istype(src.case, /obj/item/weapon/implantcase) && istype(src.case.imp, /obj/item/weapon/implant/tracking)))
 				var/obj/item/weapon/implant/tracking/T = src.case.imp
 				T.freq += text2num(href_list["freq"])
-				if (T.freq * 10 % 2 == 0)
+				if (round(T.freq * 10, 1) % 2 == 0)
 					T.freq += 0.1
 				T.freq = min(148.9, T.freq)
 				T.freq = max(144.1, T.freq)

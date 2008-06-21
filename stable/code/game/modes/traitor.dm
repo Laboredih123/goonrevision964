@@ -118,7 +118,7 @@
 				if (freq < 145.1 || freq > 145.9)
 					freqlist += freq
 				freq += 0.2
-				if (freq * 10 % 2 == 0)
+				if (round(freq * 10, 1) % 2 == 0)
 					freq += 0.1
 			freq = freqlist[rand(1, freqlist.len)]
 			// find a radio! toolbox(es), backpack, belt, headset
