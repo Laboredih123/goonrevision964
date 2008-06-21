@@ -125,7 +125,8 @@
 
 
 /area/proc/firealert()
-
+	if(src.name == "Space") //no fire alarms in space
+		return
 	if (!( src.fire ))
 		src.fire = 1
 		src.updateicon()
