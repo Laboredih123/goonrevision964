@@ -75,19 +75,13 @@
 
 	var/list/L = list( "syringe", "pill" )
 	if ((src.item && !( L.Find(src.place) )))
-		for(var/mob/O in viewers(src.target, null))
-			O.show_message(text("\red <B>[] is trying to put \a [] on []</B>", src.source, src.item, src.target), 1)
-			//Foreach goto(401)
+		src.target.show_viewers(text("\red <B>[] is trying to put \a [] on []</B>", src.source, src.item, src.target))
 	else
 		if (src.place == "syringe")
-			for(var/mob/O in viewers(src.target, null))
-				O.show_message(text("\red <B>[] is trying to inject []!</B>", src.source, src.target), 1)
-				//Foreach goto(466)
+			src.target.show_viewers(text("\red <B>[] is trying to inject []!</B>", src.source, src.target))
 		else
 			if (src.place == "pill")
-				for(var/mob/O in viewers(src.target, null))
-					O.show_message(text("\red <B>[] is trying to force [] to swallow []!</B>", src.source, src.target, src.item), 1)
-					//Foreach goto(527)
+				src.target.show_viewers(text("\red <B>[] is trying to force [] to swallow []!</B>", src.source, src.target, src.item))
 			else
 				var/message = null
 				switch(src.place)
@@ -133,8 +127,7 @@
 						else
 							message = text("\red <B>[] is trying to set on []'s internals.</B>", src.source, src.target)
 					else
-				for(var/mob/M in viewers(src.target, null))
-					M.show_message(message, 1)
+				src.target.show_viewers(message)
 					//Foreach goto(1069)
 	spawn( 30 )
 		src.done()
@@ -151,7 +144,7 @@
 		return
 	if ((src.item && src.source.equipped() != src.item))
 		return
-	if ((src.source.restrained() || src.source.stat))
+	if ((src.source.is_handcuffed() || src.source.stat))
 		return
 	switch(src.place)
 		if("mask")
@@ -452,9 +445,7 @@
 					src.target.oxyloss -= suff
 					src.target.health = 100 - src.target.oxyloss - src.target.toxloss - src.target.fireloss - src.target.bruteloss
 				src.target.chemicals.rejuv = max(src.target.chemicals.rejuv, 10)
-				for(var/mob/O in viewers(src.source, null))
-					O.show_message(text("\red [] performs CPR on []!", src.source, src.target), 1)
-					//Foreach goto(3251)
+				src.source.show_viewers(text("\red [] performs CPR on []!", src.source, src.target))
 				src.source << "\red Repeat every 7 seconds AT LEAST."
 		if("syringe")
 			var/obj/item/weapon/syringe/S = src.item
@@ -469,9 +460,7 @@
 				return
 			S.s_time = world.time
 			var/a = S.inject(src.target)
-			for(var/mob/O in viewers(src.source, null))
-				O.show_message(text("\red [] injects [] with the syringe!", src.source, src.target), 1)
-				//Foreach goto(3407)
+			src.source.show_viewers(text("\red [] injects [] with the syringe!", src.source, src.target))
 			src.source << text("\red You inject [] units into []. The syringe contains [] units.", a, src.target, S.chem.volume())
 		if("pill")
 			var/obj/item/weapon/m_pill/S = src.item
@@ -486,8 +475,7 @@
 			S.s_time = world.time
 			var/a = S.name
 			S.ingest(src.target)
-			for(var/mob/O in viewers(src.source, null))
-				O.show_message(text("\red [] forces [] to swallow \a []!", src.source, src.target, a), 1)
+			src.source.show_viewers(text("\red [] forces [] to swallow \a []!", src.source, src.target, a))
 				//Foreach goto(3568)
 		if("pockets")
 			if (src.target.l_store)
@@ -522,8 +510,7 @@
 				else
 					if (istype(src.target.back, /obj/item/weapon/tank))
 						src.target.internal = src.target.back
-						for(var/mob/M in viewers(src.target, 1))
-							M.show_message(text("[] is now running on internals.", src.target), 1)
+						src.target.show_viewers(text("[] is now running on internals.", src.target))
 							//Foreach goto(3913)
 						src.target.internal.add_fingerprint(src.source)
 		else

@@ -1,5 +1,4 @@
 /mob/carbon/Move(a, b, flag)
-
 	if (src.buckled)
 		return
 	if (!src.can_use_hands())
@@ -20,7 +19,7 @@
 			src.pulling = null
 			return
 
-		if (!src.handcuffed())
+		if (!src.is_handcuffed())
 			var/diag = get_dir(src, src.pulling)
 			if ((diag - 1) & diag)
 			else
@@ -83,7 +82,7 @@
 
 /mob/carbon/CheckPass(mob/carbon/M as mob)
 
-	if (src.other_mobs && istype(M, mob/carbon) && M.other_mobs)
+	if (src.other_mobs && istype(M, /mob/carbon) && M.other_mobs)
 		return 1
 	else
 		return (!M.density || !src.density || src.lying)

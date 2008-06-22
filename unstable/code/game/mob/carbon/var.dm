@@ -2,16 +2,12 @@
 /var/const/LEFT = 1
 
 /mob/carbon
-	var/intent = null
-	var/a_intent = "disarm"
-	var/m_int = null
-	var/m_intent = "run"
+	var/intent = "disarm"
 
-	var/atom/movable/pulling = null
 	var/next_move = null
 	var/prev_move = null
 
-	var/other = 0
+//	var/other = 0
 	var/hand = RIGHT //the active hand - note that tons of code just says "if(hand)" or "if(!hand)", which sucks
 	var/body_name
 
@@ -20,7 +16,7 @@
 	var/sleeping = 0
 	var/resting = 0
 	var/lying = 0
-	var/canmove = 1
+	canmove = 1
 	var/timeofdeath = 0
 	var/cpr_time = 1
 	var/losebreath = 0.0
@@ -78,7 +74,7 @@
 	var/icon/lying_icon = null
 	var/now_pushing = null
 
-	var/grabbed_by = list()
+	var/list/grabbed_by = list()
 	var/datum/chemical/chemicals = null
 
 	var/const
@@ -118,38 +114,4 @@
 	var/knockout = 0
 	var/knockdown = 0
 
-/mob/carbon/New()
-	spawn (1)
-		var/atom/organ/chest/chest = new /atom/organ/chest( src )
-		chest.owner = src
-		var/atom/organ/diaper/diaper = new /atom/organ/diaper( src )
-		diaper.owner = src
-		var/atom/organ/head/head = new /atom/organ/head( src )
-		head.owner = src
-		var/atom/organ/l_arm/l_arm = new /atom/organ/l_arm( src )
-		l_arm.owner = src
-		var/atom/organ/r_arm/r_arm = new /atom/organ/r_arm( src )
-		r_arm.owner = src
-		var/atom/organ/l_hand/l_hand = new /atom/organ/l_hand( src )
-		l_hand.owner = src
-		var/atom/organ/r_hand/r_hand = new /atom/organ/r_hand( src )
-		r_hand.owner = src
-		var/atom/organ/l_leg/l_leg = new /atom/organ/l_leg( src )
-		l_leg.owner = src
-		var/atom/organ/r_leg/r_leg = new /atom/organ/r_leg( src )
-		r_leg.owner = src
-		var/atom/organ/l_foot/l_foot = new /atom/organ/l_foot( src )
-		l_foot.owner = src
-		var/atom/organ/r_foot/r_foot = new /atom/organ/r_foot( src )
-		r_foot.owner = src
-		src.organs += chest
-		src.organs += diaper
-		src.organs += head
-		src.organs += l_arm
-		src.organs += r_arm
-		src.organs += l_hand
-		src.organs += r_hand
-		src.organs += l_leg
-		src.organs += r_leg
-		src.organs += l_foot
-		src.organs += r_foot
+	var/inertia_dir = null

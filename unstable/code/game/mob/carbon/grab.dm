@@ -1,4 +1,4 @@
-/mob/carbon/var/weight = 1250000
+/mob/carbon/weight = 1250000
 /mob/carbon/var/base_weight = 1250000
 
 /mob/carbon/update_grabs()

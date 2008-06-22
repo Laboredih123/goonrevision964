@@ -18,7 +18,7 @@
 	src.loc = Trand
 
 	if (ticker && master_mode =="sandbox" && src.client.authenticated)
-		mob.CanBuild()
+		src.CanBuild()
 
 	return
 

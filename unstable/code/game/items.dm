@@ -157,7 +157,7 @@
 
 /obj/item/weapon/paper_bin/MouseDrop(mob/user as mob)
 
-	if ((user == usr && (!( usr.restrained() ) && (!( usr.stat ) && (usr.contents.Find(src) || get_dist(src, usr) <= 1)))))
+	if ((user == usr && (!( usr.is_handcuffed() ) && (!( usr.stat ) && (usr.contents.Find(src) || get_dist(src, usr) <= 1)))))
 		if (usr.hand)
 			if (!( usr.l_hand ))
 				spawn( 0 )
@@ -256,7 +256,7 @@
 /obj/item/weapon/verb/move_to_top()
 	set src in oview(1)
 
-	if(!istype(src.loc, /turf) || usr.stat || usr.restrained() )
+	if(!istype(src.loc, /turf) || usr.stat || usr.is_handcuffed() )
 		return
 
 	var/turf/T = src.loc
@@ -406,11 +406,11 @@
 	if (istype(W, /obj/item/weapon/screwdriver))
 		if (src.det_time == 30)
 			src.det_time = 30
-			user.show_message("\blue You set the flashbang for 3 second detonation time.")
+			user.think("\blue You set the flashbang for 3 second detonation time.")
 			src.desc = "It is set to detonate in 3 seconds."
 		else
 			src.det_time = 100
-			user.show_message("\blue You set the flashbang for 10 second detonation time.")
+			user.think("\blue You set the flashbang for 10 second detonation time.")
 			src.desc = "It is set to detonate in 10 seconds."
 		src.add_fingerprint(user)
 	return
@@ -555,7 +555,7 @@
 	if ( (world.time + 600) > src.l_time)
 		src.shots = 5
 	if (src.shots < 1)
-		user.show_message("\red *click* *click*", 2)
+		user.hear("\red *click* *click*", 2)
 		return
 	src.l_time = world.time
 	add_fingerprint(user)
@@ -593,7 +593,7 @@
 
 /obj/item/weapon/locator/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
@@ -705,7 +705,7 @@
 
 /obj/item/weapon/syndicate_uplink/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	var/mob/carbon/H = usr
 	if (!( istype(H, /mob/carbon) ))
@@ -841,12 +841,10 @@
 		return
 	src.add_fingerprint(user)
 	if (src.bullets < 1)
-		user.show_message("\red *click* *click*", 2)
+		user.hear("\red *click* *click*", 2)
 		return
 	src.bullets--
-	for(var/mob/O in viewers(user, null))
-		O.show_message(text("\red <B>[] fires a revolver at []!</B>", user, target), 1, "\red You hear a gunshot", 2)
-		//Foreach goto(122)
+	user.show_viewers(text("\red <B>[] fires a revolver at []!</B>", user, target))
 	var/turf/T = user.loc
 	var/turf/U = (istype(target, /atom/movable) ? target.loc : target)
 	if ((!( U ) || !( T )))
@@ -905,9 +903,7 @@
 		src.force = 30
 		..()
 		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			if ((O.client && !( O.blinded )))
-				O.show_message(text("\red <B>[] has been pistol whipped []!</B>", M, user), 1, "\red You hear someone fall", 2)
+		M.show_viewers(text("\red <B>[] has been pistol whipped []!</B>", M, user))
 			//Foreach goto(315)
 	return
 
@@ -926,7 +922,7 @@
 		return
 	src.add_fingerprint(user)
 	if (src.charges < 1)
-		user.show_message("\red *click* *click*", 2)
+		user.hear("\red *click* *click*", 2)
 		return
 	src.charges--
 	update_icon()
@@ -986,7 +982,7 @@
 		return
 	src.add_fingerprint(user)
 	if (src.charges < 1)
-		user.show_message("\red *click* *click*", 2)
+		user.hear("\red *click* *click*")
 		return
 	src.charges--
 	update_icon()
@@ -1024,16 +1020,10 @@
 	if(src.charges >= 1)
 		if (user.a_intent == "hurt")
 			if (prob(20))
-				if (M.paralysis < 10)
-					M.paralysis = 10
-			else if (M.weakened < 10)
-				M.weakened = 10
-			if (M.stuttering < 10)
-				M.stuttering = 10
+				M.knockout_until(5)
+			M.knockdown_until(10)
 			..()
-			M.stat = 1
-			for(var/mob/O in viewers(M, null))
-				O.show_message("\red <B>[M] has been knocked unconscious!</B>", 1, "\red You hear someone fall", 2)
+			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
 		else
 			if (prob(50))
 				if (M.paralysis < 60)
@@ -1044,9 +1034,7 @@
 			if (M.stuttering < 60)
 				M.stuttering = 60
 			M.stat = 1
-			for(var/mob/O in viewers(M, null))
-				if ((O.client && !( O.blinded )))
-					O.show_message("\red <B>[M] has been stunned with the taser gun by [user]!</B>", 1, "\red You hear someone fall", 2)
+			M.show_viewers("\red <B>[M] has been stunned with the taser gun by [user]!</B>")
 		src.charges--
 		update_icon()
 	else // no charges in the gun, so they just wallop the target with it
@@ -1435,10 +1423,7 @@
 	return
 
 /obj/item/weapon/card/id/attack_self(mob/user as mob)
-
-	for(var/mob/O in viewers(user, null))
-		O.show_message(text("[] shows you: \icon[] []: assignment: []", user, src, src.name, src.assignment), 1)
-		//Foreach goto(20)
+	M.show_viewers(text("[] shows you: \icon[] []: assignment: []", user, src, src.name, src.assignment))
 	src.add_fingerprint(user)
 	return
 
@@ -1590,7 +1575,7 @@
 
 /obj/item/weapon/sheet/metal/Topic(href, href_list)
 	..()
-	if ((usr.restrained() || usr.stat || usr.equipped() != src))
+	if ((usr.is_handcuffed() || usr.stat || usr.equipped() != src))
 		return
 	if (href_list["make"])
 		if (src.amount < 1)
@@ -1866,7 +1851,7 @@
 
 /obj/item/weapon/clipboard/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if (usr.contents.Find(src))
 		usr.machine = src
@@ -1995,7 +1980,7 @@
 
 /obj/item/weapon/fcardholder/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if (usr.contents.Find(src))
 		usr.machine = src
@@ -2181,18 +2166,16 @@
 	if (src.desc == "It's a normal black ink pen.")
 		return ..()
 	if (user)
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] has been stabbed with [] by [].", M, src, user), 1)
-			//Foreach goto(57)
+		M.show_viewers(text("\red [] has been stabbed with [] by [].", M, src, user))
 		var/amount = src.chem.transfer_mob(M, src.chem.maximum)
-		user.show_message(text("\red You inject [] units into the [].", amount, M))
+		user.think(text("\red You inject [] units into the [].", amount, M))
 		src.desc = "It's a normal black ink pen."
 	return
 
 /obj/item/weapon/paint/attack_self(mob/user as mob)
 
 	var/t1 = input(user, "Please select a color:", "Locking Computer", null) in list( "red", "blue", "green", "yellow", "black", "white", "neutral" )
-	if ((user.equipped() != src || user.stat || user.restrained()))
+	if ((user.equipped() != src || user.stat || user.is_handcuffed()))
 		return
 	src.color = t1
 	src.icon_state = text("paint_[]", t1)
@@ -2317,31 +2300,22 @@
 		if (istype(P, /obj/item/weapon/weldingtool))
 			var/obj/item/weapon/weldingtool/W = P
 			if ((W.welding && W.weldfuel > 0))
-				for(var/mob/O in viewers(user, null))
-					O.show_message(text("\red [] burns [] with the welding tool!", user, src), 1, "\red You hear a small burning noise", 2)
-					//Foreach goto(323)
+				user.show_viewers(text("\red [] burns [] with the welding tool!", user, src))
 				spawn( 0 )
 					src.burn(1800000.0)
 					return
 		else
 			if (istype(P, /obj/item/weapon/igniter))
-				for(var/mob/O in viewers(user, null))
-					O.show_message(text("\red [] burns [] with the igniter!", user, src), 1, "\red You hear a small burning noise", 2)
-					//Foreach goto(406)
+				usr.show_viewers(text("\red [] burns [] with the igniter!", user, src))
 				spawn( 0 )
 					src.burn(1800000.0)
 					return
 			else
 				if (istype(P, /obj/item/weapon/wirecutters))
-					for(var/mob/O in viewers(user, null))
-						O.show_message(text("\red [] starts cutting []!", user, src), 1)
-						//Foreach goto(489)
+					user.show_viewers(text("\red [] starts cutting []!", user, src))
 					sleep(50)
-					if (((src.loc == src || get_dist(src, user) <= 1) && (!( user.stat ) && !( user.restrained() ))))
-						for(var/mob/O in viewers(user, null))
-							O.show_message(text("\red [] cuts [] to pieces!", user, src), 1)
-							//Foreach goto(580)
-						//SN src = null
+					if (((src.loc == src || get_dist(src, user) <= 1) && (!( user.stat ) && !( user.is_handcuffed() ))))
+						user.show_viewers(text("\red [] cuts [] to pieces!", user, src))
 						del(src)
 						return
 	src.add_fingerprint(user)
@@ -2526,14 +2500,12 @@
 /obj/item/weapon/healthanalyzer/attack(mob/M as mob, mob/user as mob)
 	if (!user.check_dexterity())
 		return
-	for(var/mob/O in viewers(M, null))
-		O.show_message(text("\red [] has analyzed []'s vitals!", user, M), 1)
-		//Foreach goto(67)
-	user.show_message(text("\blue Analyzing Results for []:\n\t Overall Status: []", M, (M.stat > 1 ? "dead" : text("[]% healthy", M.health))), 1)
-	user.show_message(text("\blue \t Damage Specifics: []-[]-[]-[]", M.oxyloss, M.toxloss, M.fireloss, M.bruteloss), 1)
-	user.show_message("\blue Key: Suffocation/Toxin/Burns/Brute", 1)
+	M.show_viewers(text("\red [] has analyzed []'s vitals!", user, M))
+	user.see(text("\blue Analyzing Results for []:\n\t Overall Status: []", M, (M.stat > 1 ? "dead" : text("[]% healthy", M.health))))
+	user.see(text("\blue \t Damage Specifics: []-[]-[]-[]", M.oxyloss, M.toxloss, M.fireloss, M.bruteloss))
+	user.see("\blue Key: Suffocation/Toxin/Burns/Brute")
 	if (M.rejuv)
-		user.show_message(text("\blue Bloodstream Analysis located [] units of rejuvenation chemicals.", M.rejuv), 1)
+		user.see(text("\blue Bloodstream Analysis located [] units of rejuvenation chemicals.", M.rejuv))
 	src.add_fingerprint(user)
 	return
 	return
@@ -2551,13 +2523,13 @@
 		T = locate(/obj/move, T)
 	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
 	turf_total = max(turf_total, 1)
-	user.show_message("\blue <B>Results:</B>", 1)
+	user.see("\blue <B>Results:</B>")
 	var/t = ""
 	var/t1 = turf_total / CELLSTANDARD * 100
 	if ((90 < t1 && t1 < 110))
-		user.show_message(text("\blue Air Pressure: []%", t1), 1)
+		user.see(text("\blue Air Pressure: []%", t1))
 	else
-		user.show_message(text("\blue Air Pressure:\red []%", t1), 1)
+		user.see(text("\blue Air Pressure:\red []%", t1))
 	t1 = T.n2 / turf_total * 100
 	t1 = round(t1, 0.0010)
 	if ((60 < t1 && t1 < 80))
@@ -2588,8 +2560,8 @@
 		t += text("<font color=blue>N2O: []</font>", t1)
 	else
 		t += text("<font color=red>N2O: []</font>", t1)
-	user.show_message(t, 1)
-	user.show_message(text("\blue \t Temperature: []&deg;C", (T.temp-T0C) ), 1)
+	user.see(t)
+	user.see(text("\blue \t Temperature: []&deg;C", (T.temp-T0C) ))
 	src.add_fingerprint(user)
 	return
 
@@ -2795,7 +2767,7 @@
 		var/mob/M = usr
 		if (!( istype(over_object, /obj/screen) ))
 			return ..()
-		if ((!( M.restrained() ) && !( M.stat ) && M.back == src))
+		if ((!( M.is_handcuffed() ) && !( M.stat ) && M.back == src))
 			if (over_object.name == "r_hand")
 				if (!( M.r_hand ))
 					M.u_equip(src)
@@ -2830,9 +2802,7 @@
 	src.orient2hud(user)
 	W.dropped()
 	add_fingerprint(user)
-	for(var/mob/O in viewers(user, null))
-		O.show_message(text("\blue [] has added [] to []!", user, W, src), 1)
-		//Foreach goto(206)
+	user.show_viewers(text("\blue [] has added [] to []!", user, W, src))
 	return
 
 /obj/item/weapon/storage/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -2848,9 +2818,7 @@
 	src.orient2hud(user)
 	W.dropped()
 	add_fingerprint(user)
-	for(var/mob/O in viewers(user, null))
-		O.show_message(text("\blue [] has added [] to []!", user, W, src), 1)
-		//Foreach goto(139)
+	user.show_viewers(text("\blue [] has added [] to []!", user, W, src))
 	return
 
 /obj/item/weapon/storage/dropped(mob/user as mob)
@@ -2942,10 +2910,7 @@
 		else
 			M.knockout_until(time)
 		M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall.", 2)
-			//Foreach goto(169)
-		M.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
+		user.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 	return
 
 /obj/item/weapon/storage/firstaid/fire/New()
@@ -3192,9 +3157,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The igniter is ready!")
+		user.see("\blue The igniter is ready!")
 	else
-		user.show_message("\blue The igniter can now be attached!")
+		user.see("\blue The igniter can now be attached!")
 	src.add_fingerprint(user)
 	return
 
@@ -3231,9 +3196,9 @@
 	..()
 	if ((get_dist(src, usr) <= 1 || src.loc == usr))
 		if (src.status)
-			usr.show_message("The igniter is ready!")
+			usr.see("The igniter is ready!")
 		else
-			usr.show_message("The igniter can be attached!")
+			usr.see("The igniter can be attached!")
 	return
 
 /obj/item/weapon/shard/Bump()
@@ -3286,8 +3251,7 @@
 			src.density = 0
 			if (istype(M, /obj))
 				var/obj/O = M
-				for(var/mob/B in viewers(M, null))
-					B.show_message(text("\red [] has been hit by [].", M, src), 1)
+				M.show_viewers(text("\red [] has been hit by [].", M, src))
 					//Foreach goto(71)
 				O.hitby(src)
 			if (!( istype(M, /mob) ))
@@ -3357,7 +3321,7 @@
 		M.show_viewers(text("\red [] has been eyedropped with [] by [].", M, src, user))
 		var/amount = src.chem.dropper_mob(M, 1)
 		src.update_is()
-		user.show_message(text("\red You drop [] units into []'s eyes. The dropper contains [] millimeters.", amount, M, src.chem.volume()))
+		user.see(text("\red You drop [] units into []'s eyes. The dropper contains [] millimeters.", amount, M, src.chem.volume()))
 		src.add_fingerprint(user)
 	return
 
@@ -3547,13 +3511,12 @@
 	if (!( istype(M, /mob) ))
 		return
 	if ((user && src.imp))
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] has been implanted by [].", M, user), 1)
+		M.show_viewers(text("\red [] has been implanted by [].", M, user))
 			//Foreach goto(48)
 		src.imp.loc = M
 		src.imp.implanted = 1
 		src.imp = null
-		user.show_message(text("\red You implanted the implant into the [].", M))
+		user.see(text("\red You implanted the implant into the [].", M))
 		src.icon_state = "implanter0"
 	return
 
@@ -3635,7 +3598,7 @@
 			var/amount = src.chem.transfer_mob(M, 5)
 			src.update_is()
 
-			user.show_message(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.volume()))
+			user.see(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.volume()))
 	return
 
 /obj/item/weapon/brutepack/interact(mob/user as mob)
@@ -3707,11 +3670,11 @@
 			else
 				L["[com.id] (Inactive)"] = com.locked
 	var/t1 = input(user, "Please select a teleporter to lock in on.", "Hand Teleporter") in L
-	if ((user.equipped() != src || user.stat || user.restrained()))
+	if ((user.equipped() != src || user.stat || user.is_handcuffed()))
 		return
 	var/T = L[t1]
 	for(var/mob/O in hearers(user, null))
-		O.show_message("\blue Locked In", 2)
+		O.hear("\blue Locked In")
 	var/obj/portal/P = new /obj/portal( get_turf(src) )
 	P.target = find_loc(T)
 	src.add_fingerprint(user)
@@ -3795,7 +3758,7 @@
 			t1 = volume - 0.1
 		t1 = src.chem.transfer_from(B:chem, t1)
 		if (t1)
-			user.show_message(text("\blue You pour [] unit\s into the bottle. The bottle now contains [] millimeters.", round(t1, 0.1), round(src.chem.volume(), 0.1)))
+			user.see(text("\blue You pour [] unit\s into the bottle. The bottle now contains [] millimeters.", round(t1, 0.1), round(src.chem.volume(), 0.1)))
 	if (istype(B, /obj/item/weapon/syringe))
 		if (B:mode == "inject")
 			var/t1 = 5
@@ -3808,7 +3771,7 @@
 			t1 = src.chem.transfer_from(B:chem, t1)
 			B:update_is()
 			if (t1)
-				user.show_message(text("\blue You inject [] unit\s into the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+				user.see(text("\blue You inject [] unit\s into the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
 		else
 			var/t1 = 5
 			var/volume = src.chem.volume()
@@ -3820,7 +3783,7 @@
 			t1 = B:chem.transfer_from(src.chem, t1)
 			B:update_is()
 			if (t1)
-				user.show_message(text("\blue You draw [] unit\s from the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+				user.see(text("\blue You draw [] unit\s from the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
 		src.add_fingerprint(user)
 	else
 		if (istype(B, /obj/item/weapon/dropper))
@@ -3835,7 +3798,7 @@
 				t1 = src.chem.transfer_from(B:chem, t1)
 				B:update_is()
 				if (t1)
-					user.show_message(text("\blue You deposit [] unit\s into the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+					user.see(text("\blue You deposit [] unit\s into the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
 			else
 				var/t1 = 1
 				var/volume = src.chem.volume()
@@ -3847,7 +3810,7 @@
 				t1 = B:chem.transfer_from(src.chem, t1)
 				B:update_is()
 				if (t1)
-					user.show_message(text("\blue You extract [] unit\s from the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+					user.see(text("\blue You extract [] unit\s from the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
 	return
 
 /obj/item/weapon/bottle/toxins/New()
@@ -4523,7 +4486,7 @@
 			if (!( ok ))
 				return 0
 
-		if (!usr.handcuffed())
+		if (!usr.is_handcuffed())
 			if (W)
 				if (t5)
 					src.attackby(W, usr)
@@ -4541,7 +4504,7 @@
 				usr.next_move = world.time + 10
 			else
 				return
-			if (!( usr.restrained() ))
+			if (!( usr.is_handcuffed() ))
 				if ((W && !( istype(src, /obj/screen) )))
 					src.attackby(W, usr)
 

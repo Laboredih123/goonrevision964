@@ -493,7 +493,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (href_list["close"])
 		usr << browse(null, "window=airlock")

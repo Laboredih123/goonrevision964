@@ -81,9 +81,9 @@
 	..()
 	if ((get_dist(src, usr) <= 1 || src.loc == usr))
 		if (src.attachable)
-			usr.show_message("\blue The radio can be attached and modified!")
+			usr.see("\blue The radio can be attached and modified!")
 		else
-			usr.show_message("\blue The radio can not be attached or modified!")
+			usr.see("\blue The radio can not be attached or modified!")
 	return
 
 /obj/item/weapon/radio/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -92,9 +92,9 @@
 		return
 	src.b_stat = !( src.b_stat )
 	if (src.b_stat)
-		user.show_message("\blue The radio can now be attached and modified!")
+		user.see("\blue The radio can now be attached and modified!")
 	else
-		user.show_message("\blue The radio can no longer be modified or attached!")
+		user.see("\blue The radio can no longer be modified or attached!")
 	for(var/mob/M in viewers(1, src))
 		if (M.client)
 			src.attack_self(M)
@@ -154,7 +154,7 @@
 /obj/item/weapon/radio/beacon/verb/alter_signal(t as text)
 	set src in usr
 
-	if (usr.canmove && !usr.restrained())
+	if (usr.canmove && !usr.is_handcuffed())
 		src.code = t
 	if (!src.code)
 		src.code = "beacon"
@@ -187,9 +187,9 @@
 	..()
 	if ((get_dist(src, usr) <= 1 || src.loc == usr))
 		if (src.attachable)
-			usr.show_message("\blue The signaler can be attached and modified!")
+			usr.see("\blue The signaler can be attached and modified!")
 		else
-			usr.show_message("\blue The signaler can not be modified or attached!")
+			usr.see("\blue The signaler can not be modified or attached!")
 	return
 
 /obj/item/weapon/radio/signaler/attack_self(mob/user as mob, flag1)
@@ -306,9 +306,9 @@
 	if (istype(W, /obj/item/weapon/screwdriver))
 		src.e_pads = !src.e_pads
 		if (src.e_pads)
-			user.show_message("\blue The electric pads have been exposed!")
+			user.see("\blue The electric pads have been exposed!")
 		else
-			user.show_message("\blue The electric pads have been reinserted!")
+			user.see("\blue The electric pads have been reinserted!")
 		src.add_fingerprint(user)
 	else if (istype(W, /obj/item/weapon/clothing/head/helmet))
 		var/obj/item/weapon/assembly/shock_kit/A = new /obj/item/weapon/assembly/shock_kit( user )

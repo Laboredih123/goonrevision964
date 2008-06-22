@@ -516,7 +516,7 @@
 /obj/machinery/atmoalter/siphs/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((!( src.alterable )) && (!istype(usr, /mob/silicon/ai)))
 		return
@@ -589,17 +589,17 @@
 			if (src.c_status)
 				src.anchored = 0
 				src.c_status = 0
-				user.show_message("\blue You have disconnected the siphon.")
+				user.see("\blue You have disconnected the siphon.")
 				if(con)
 					con.connected = null
 			else
 				if (con && !con.connected)
 					src.anchored = 1
 					src.c_status = 3
-					user.show_message("\blue You have connected the siphon.")
+					user.see("\blue You have connected the siphon.")
 					con.connected = src
 				else
-					user.show_message("\blue There is nothing here to connect to the siphon.")
+					user.see("\blue There is nothing here to connect to the siphon.")
 
 
 		else

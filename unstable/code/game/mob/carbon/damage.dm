@@ -59,12 +59,7 @@
 
 /mob/carbon/blob_act()
 	src.showviewers("\red <B>[src] has been attacked by the blob.</B>")
-	M.take_damage(brute = rand(5, 25))
-
-/mob/carbon/death()
-	if(src.healths)
-		src.healths.icon_state = "dead"
-	return ..()
+	src.take_damage(brute = rand(5, 25))
 
 /mob/carbon/burn(fi_amount)
 

@@ -225,7 +225,7 @@
 
 /obj/machinery/atmoalter/heater/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -305,17 +305,17 @@
 			if (src.c_status)
 				src.anchored = 0
 				src.c_status = 0
-				user.show_message("\blue You have disconnected the heater.", 1)
+				user.think("\blue You have disconnected the heater.")
 				if(con)
 					con.connected = null
 			else
 				if (con && !con.connected)
 					src.anchored = 1
 					src.c_status = 3
-					user.show_message("\blue You have connected the heater.", 1)
+					user.think("\blue You have connected the heater.")
 					con.connected = src
 				else
-					user.show_message("\blue There is no connector here to attach the heater to.", 1)
+					user.think("\blue There is no connector here to attach the heater to.")
 	return
 
 
@@ -514,7 +514,7 @@ Pipe Valve Status: []<BR>
 
 /obj/machinery/atmoalter/canister/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
@@ -586,17 +586,17 @@ Pipe Valve Status: []<BR>
 			if (src.c_status)
 				src.anchored = 0
 				src.c_status = 0
-				user.show_message("\blue You have disconnected the canister.", 1)
+				user.think("\blue You have disconnected the canister.")
 				if(con)
 					con.connected = null
 			else
 				if(con && !con.connected && !destroyed)
 					src.anchored = 1
 					src.c_status = 3
-					user.show_message("\blue You have connected the canister.", 1)
+					user.think("\blue You have connected the canister.")
 					con.connected = src
 				else
-					user.show_message("\blue There is nothing here with which to connect the canister.", 1)
+					user.think("\blue There is nothing here with which to connect the canister.")
 		else
 			switch(W.damtype)
 				if("fire")

@@ -81,7 +81,7 @@
 		return 0
 	if(istype(usr, /mob/carbon))
 		var/mob/carbon/M = usr
-		if(M.is_restrained())
+		if(M.is_handcuffed())
 			return 0
 		if(get_dist(src, usr) > 1)
 			return 0
@@ -320,9 +320,9 @@
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=id_com")
 		return
-	if(usr.restrained() || usr.lying) return
+	if(usr.is_handcuffed() || usr.lying) return
 
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/silicon/ai))
 		usr << browse(null, "window=id_com")
@@ -533,9 +533,9 @@
 		return
 
 
-	if(usr.restrained() || usr.lying) return
+	if(usr.is_handcuffed() || usr.lying) return
 
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -696,7 +696,7 @@
 
 /turf/space/interact(mob/user as mob)
 
-	if ((user.restrained() || !( user.pulling )))
+	if ((user.is_handcuffed() || !( user.pulling )))
 		return
 	if (user.pulling.anchored)
 		return
@@ -744,10 +744,10 @@
 	if (locate(/obj/move, src))
 		return 1
 
-	if ((ismob(A) && src.x > 2 && src.x < (world.maxx - 1)))
-		var/mob/M = A
+	if ((istype(A, /mob/carbon) && src.x > 2 && src.x < (world.maxx - 1)))
+		var/mob/carbon/M = A
 
-		if ((!( M.restrained()) && M.canmove))
+		if ((!( M.is_handcuffed()) && M.canmove))
 			var/prob_slip = 5
 
 			if (locate(/obj/grille, oview(1, M)))

@@ -636,8 +636,6 @@
 
 	vote = new /datum/vote()
 
-	main_hud1 = new /obj/hud(  )
-	main_hud2 = new /obj/hud/hud2(  )
 	SS13_airtunnel = new /datum/air_tunnel/air_tunnel1(  )
 
 	..()
@@ -745,14 +743,13 @@
 
 	if ((!( usr ) || !( isturf(usr.loc) )) || isarea(src))		// can't point to areas anymore
 		return
-	if ((usr.stat == 0 && !( usr.restrained() )))
+	if ((usr.stat == 0 && !( usr.is_handcuffed() )))
 		var/P = new /obj/point( (isturf(src) ? src : src.loc) )
 		spawn( 20 )
 			//P = null
 			del(P)
 			return
-		for(var/mob/M in viewers(usr, null))
-			M.show_message(text("<B>[]</B> points to []", usr, src), 1)
+		usr.show_viewers(text("<B>[]</B> points to []", usr, src))
 			//Foreach goto(102)
 	return
 

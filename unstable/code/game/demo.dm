@@ -469,7 +469,7 @@
 
 /obj/machinery/dispenser/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (istype(usr, /mob/silicon/ai))
 		usr << "\red You are unable to dispense anything, since the controls are physical levers which don't go through any other kind of input."
@@ -574,7 +574,7 @@
 
 /obj/item/weapon/tank/Topic(href, href_list)
 	..()
-	if (usr.stat|| usr.restrained())
+	if (usr.stat|| usr.is_handcuffed())
 		return
 	if (src.loc == usr)
 		usr.machine = src
@@ -1259,7 +1259,7 @@
 
 /obj/secloset/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
 
-	if ((user.restrained() || user.stat))
+	if ((user.is_handcuffed() || user.stat))
 		return
 	if ((!( istype(O, /atom/movable) ) || O.anchored || get_dist(user, src) > 1 || get_dist(user, O) > 1 || user.contents.Find(src)))
 		return
@@ -1694,10 +1694,7 @@
 		W.loc = src.loc
 	else
 		src.welded = !( src.welded )
-		for(var/mob/M in viewers(user, null))
-			if (M.client)
-				M.show_message(text("\red [] has been [] by [].", src, (src.welded ? "welded shut" : "unwelded"), user), 3, "\red You hear welding.", 2)
-			//Foreach goto(82)
+		user.show_viewers(text("\red [] has been [] by [].", src, (src.welded ? "welded shut" : "unwelded"), user))
 	return
 
 /obj/closet/relaymove(mob/user as mob)
@@ -1725,7 +1722,7 @@
 
 /obj/closet/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
 
-	if ((user.restrained() || user.stat))
+	if ((user.is_handcuffed() || user.stat))
 		return
 	if ((!( istype(O, /atom/movable) ) || O.anchored || get_dist(user, src) > 1 || get_dist(user, O) > 1 || user.contents.Find(src)))
 		return
@@ -1876,7 +1873,7 @@
 /obj/stool/chair/e_chair/verb/toggle_power()
 	set src in oview(1)
 
-	if ((usr.stat || usr.restrained() || !( usr.canmove ) || usr.lying))
+	if ((usr.stat || usr.is_handcuffed() || !( usr.canmove ) || usr.lying))
 		return
 	src.on = !( src.on )
 	src.icon_state = text("e_chair[]", src.on)
@@ -1992,7 +1989,7 @@
 	if (!ticker)
 		user << "You can't buckle anyone in before the game starts."
 		return
-	if ((!( istype(M, /mob) ) || get_dist(src, user) > 1 || M.loc != src.loc || user.restrained() || usr.stat))
+	if ((!( istype(M, /mob) ) || get_dist(src, user) > 1 || M.loc != src.loc || user.is_handcuffed() || usr.stat))
 		return
 	if (M == usr)
 		for(var/mob/O in viewers(user, null))
@@ -2450,8 +2447,8 @@
 	return
 
 /turf/Entered(atom/movable/M as mob|obj)
-	if(ismob(M) && !istype(src, /turf/space))
-		var/mob/tmob = M
+	if(istype(M, /mob/carbon) && !istype(src, /turf/space))
+		var/mob/carbon/tmob = M
 		tmob.inertia_dir = 0
 	..()
 	for(var/atom/A as mob|obj|turf|area in src)
@@ -2672,7 +2669,7 @@
 				var/turf/T = user.loc
 				user << "\blue Cutting support rods."
 				sleep(40)
-				if ((user.loc == T && user.equipped() == W && !( user.stat )))
+				if ((user.loc == T && user.equipped() == W && user.is_active()))
 					src.d_state = 5
 		else if (istype(W, /obj/item/weapon/wirecutters))
 			if (src.d_state == 0)
@@ -2683,13 +2680,13 @@
 				var/turf/T = user.loc
 				user << "\blue Slicing metal cover."
 				sleep(60)
-				if ((user.loc == T && user.equipped() == W && !( user.stat )))
+				if ((user.loc == T && user.equipped() == W && user.is_active()))
 					src.d_state = 3
 			else if (src.d_state == 5)
 				var/turf/T = user.loc
 				user << "\blue Removing support rods."
 				sleep(100)
-				if ((user.loc == T && user.equipped() == W && !( user.stat )))
+				if ((user.loc == T && user.equipped() == W && user.is_active()))
 					src.d_state = 6
 					new /obj/item/weapon/rods( src )
 		else if (istype(W, /obj/item/weapon/screwdriver))
@@ -2697,27 +2694,27 @@
 				var/turf/T = user.loc
 				user << "\blue Removing support lines."
 				sleep(40)
-				if ((user.loc == T && user.equipped() == W && !( user.stat )))
+				if ((user.loc == T && user.equipped() == W && user.is_active()))
 					src.d_state = 2
 		else if (istype(W, /obj/item/weapon/crowbar))
 			if (src.d_state == 3)
 				var/turf/T = user.loc
 				user << "\blue Prying cover off."
 				sleep(100)
-				if ((user.loc == T && user.equipped() == W && !( user.stat )))
+				if ((user.loc == T && user.equipped() == W && user.is_active()))
 					src.d_state = 4
 			else if (src.d_state == 6)
 				var/turf/T = user.loc
 				user << "\blue Prying outer sheath off."
 				sleep(100)
-				if ((user.loc == T && user.equipped() == W && !( user.stat )))
+				if ((user.loc == T && user.equipped() == W && user.is_active()))
 					src.d_state = 7
 					new /obj/item/weapon/sheet/metal( src )
 		else if (istype(W, /obj/item/weapon/sheet/metal))
 			var/turf/T = user.loc
 			user << "\blue Repairing wall."
 			sleep(100)
-			if ((user.loc == T && user.equipped() == W && !( user.stat ) && src.state == 2))
+			if ((user.loc == T && user.equipped() == W && user.is_active() && src.state == 2))
 				src.d_state = 0
 				if (W:amount > 1)
 					W:amount--
@@ -2728,7 +2725,7 @@
 			user << "\blue Now dismantling girders."
 			var/turf/T = user.loc
 			sleep(100)
-			if ((user.loc == T && user.equipped() == W && !( user.stat )))
+			if ((user.loc == T && user.equipped() == W && user.is_active()))
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
@@ -3033,7 +3030,7 @@
 
 /turf/station/floor/interact(mob/user as mob)
 
-	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
+	if ((!( user.canmove ) || user.is_handcuffed() || !( user.pulling )))
 		return
 	if (user.pulling.anchored)
 		return

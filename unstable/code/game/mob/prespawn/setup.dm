@@ -5,7 +5,7 @@
 		char_job1 = "No Preference"
 		char_job2 = "No Preference"
 		char_job3 = "No Preference"
-		char_skin = SKIN_LIGHT
+		char_skin_color = SKIN_COLOR_LIGHT
 		char_hair_color = HAIR_COLOR_BROWN
 		char_hair_style = HAIR_STYLE_SHORT
 		char_last_version //md5 of changelog, to keep track of the most recent version of ss13 they've seen
@@ -20,13 +20,13 @@
 
 /mob/prespawn/New()
 	..()
-	src.verbs -= add_memory
-	src.verbs -= cancel_camera
-	src.verbs -= memory
-	src.verbs -= observe
-	src.verbs -= respawn
-	src.verbs -= say
-	src.verbs -= succumb
+	src.verbs -= /mob/verb/add_memory
+	src.verbs -= /mob/verb/cancel_camera
+	src.verbs -= /mob/verb/memory
+	src.verbs -= /mob/verb/observe
+	src.verbs -= /mob/verb/respawn
+	src.verbs -= /mob/verb/say
+	src.verbs -= /mob/verb/succumb
 
 	src.client.eye = null
 
@@ -50,7 +50,7 @@ mob/prespawn/proc/savefile_load()
 		F["job3"] >> src.char_job3
 		F["hair_color"] >> src.char_hair_color
 		F["hair_style"] >> src.char_hair_style
-		F["skin"] >> src.char_skin
+		F["skin_color"] >> src.char_skin_color
 		F["last_version"] >> src.char_last_version
 		return 1
 	else
@@ -65,7 +65,7 @@ mob/prespawn/proc/savefile_load()
 	F["job3"] << src.char_job3
 	F["hair_color"] << src.char_hair_color
 	F["hair_style"] << src.char_hair_style
-	F["skin"] << src.char_skin
+	F["skin_color"] << src.char_skin_color
 	F["last_version"] << md5(changes)
 
 /mob/prespawn/Topic(href, href_list)
@@ -75,8 +75,8 @@ mob/prespawn/proc/savefile_load()
 		src.char_name = input("What is your character's name?", "Character Generation", src.char_name) as text
 	if(href_list["gender"])
 		src.char_gender = input("Select a gender", "Character Generation", src.char_gender) in list(MALE, FEMALE)
-	if(href_list["skin"])
-		src.choose_skin()
+	if(href_list["skin_color"])
+		src.choose_skin_color()
 	if(href_list["hair_color"])
 		src.chooose_hair_color()
 	if(href_list["hair_style"])
@@ -105,7 +105,7 @@ mob/prespawn/proc/savefile_load()
 	var/vars = list(
 		"name" = src.char_name,
 		"gender" = src.char_gender,
-		"skin_tone" = src.char_skin,
+		"skin_color" = src.char_skin_color,
 		"hair_color" = src.char_hair_color,
 		"hair_style" = src.char_hair_style
 	)

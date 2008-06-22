@@ -3,7 +3,7 @@
 	src.selected = "CR"
 
 /obj/item/weapon/game_kit/MouseDrop(mob/user as mob)
-	if (user == usr && !usr.restrained() && !usr.stat && (usr.contents.Find(src) || get_dist(src, usr) <= 1))
+	if (user == usr && !usr.is_handcuffed() && !usr.stat && (usr.contents.Find(src) || get_dist(src, usr) <= 1))
 		if (usr.hand)
 			if (!usr.l_hand)
 				spawn (0)
@@ -58,7 +58,7 @@
 
 /obj/item/weapon/game_kit/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 
 	if (usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))

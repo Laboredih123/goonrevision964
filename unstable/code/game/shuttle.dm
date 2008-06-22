@@ -27,7 +27,7 @@
 	usr << "\red The console seems irreparably damaged!"
 	return
 
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	src.add_fingerprint(usr)
 	if (prison_entered)

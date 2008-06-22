@@ -68,9 +68,7 @@
 		if(1.0)
 			if (src.state >= 3)
 				if (!( src.killing ))
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has temporarily tightened his grip on []!", src.assailant, src.affecting), 1)
-						//Foreach goto(97)
+					src.assailant.show_viewers(text("\red [] has temporarily tightened his grip on []!", src.assailant, src.affecting))
 					src.assailant.next_move = world.time + 10
 					src.affecting.stunned = max(2, src.affecting.stunned)
 					src.affecting.paralysis = max(1, src.affecting.paralysis)
@@ -93,23 +91,16 @@
 				if (!( src.allow_upgrade ))
 					return
 				if (prob(75))
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has grabbed [] aggressively (now hands)!", src.assailant, src.affecting), 1)
-						//Foreach goto(121)
+					src.assailant.show_viewers(text("\red [] has grabbed [] aggressively (now hands)!", src.assailant, src.affecting))
 					src.state = 2
 					src.icon_state = "grabbed1"
 				else
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has failed to grab [] aggressively!", src.assailant, src.affecting), 1)
-						//Foreach goto(186)
-					//SN src = null
+					src.assailant.show_viewers(text("\red [] has failed to grab [] aggressively!", src.assailant, src.affecting))
 					del(src)
 					return
 			else
 				if (src.state < 3)
-					for(var/mob/O in viewers(src.assailant, null))
-						O.show_message(text("\red [] has reinforced his grip on [] (now neck)!", src.assailant, src.affecting), 1)
-						//Foreach goto(257)
+					src.assailant.show_viewers(text("\red [] has reinforced his grip on [] (now neck)!", src.assailant, src.affecting))
 					src.state = 3
 					src.icon_state = "grabbed+1"
 					if (!( src.affecting.buckled ))
@@ -120,9 +111,7 @@
 					if (src.state >= 3)
 						src.killing = !( src.killing )
 						if (src.killing)
-							for(var/mob/O in viewers(src.assailant, null))
-								O.show_message(text("\red [] has tightened his grip on []'s neck!", src.assailant, src.affecting), 1)
-								//Foreach goto(392)
+							src.assailant.show_viewers(text("\red [] has tightened his grip on []'s neck!", src.assailant, src.affecting))
 							src.assailant.next_move = world.time + 10
 							src.affecting.stunned = max(2, src.affecting.stunned)
 							src.affecting.paralysis = max(1, src.affecting.paralysis)
@@ -130,9 +119,7 @@
 							src.hud1.icon_state = "disarm/kill1"
 						else
 							src.hud1.icon_state = "disarm/kill"
-							for(var/mob/O in viewers(src.assailant, null))
-								O.show_message(text("\red [] has loosened the grip on []'s neck!", src.assailant, src.affecting), 1)
-								//Foreach goto(517)
+							src.assailant.show_viewers(text("\red [] has loosened the grip on []'s neck!", src.assailant, src.affecting))
 		else
 	return
 
@@ -209,7 +196,7 @@
 		if("Reset Machine")
 			usr.machine = null
 		if("internal")
-			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
+			if ((!( usr.stat ) && usr.canmove && !( usr.is_handcuffed() )))
 				usr.internal = null
 		if("pull")
 			usr.pulling = null
@@ -218,7 +205,7 @@
 		if("rest")
 			usr.resting = !( usr.resting )
 		if("throw")
-			if (!usr.stat && isturf(usr.loc) && !usr.restrained())
+			if (!usr.stat && isturf(usr.loc) && !usr.is_handcuffed())
 				usr.toggle_throw_mode()
 		if("drop")
 			usr.drop_item_v()
@@ -228,7 +215,7 @@
 			if (usr.next_move < world.time)
 				return
 			usr.next_move = world.time + 20
-			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
+			if ((!( usr.stat ) && usr.canmove && !( usr.is_handcuffed() )))
 				for(var/obj/O in usr.requests)
 					//O = null
 					del(O)
@@ -240,23 +227,16 @@
 					else
 						if (G.state == 2)
 							if (prob(25))
-								for(var/mob/O in viewers(usr, null))
-									O.show_message(text("\red [] has broken free of []'s grip!", usr, G.assailant), 1)
-									//Foreach goto(681)
-								//G = null
+								usr.show_viewers(text("\red [] has broken free of []'s grip!", usr, G.assailant))
 								del(G)
 						else
 							if (G.state == 2)
 								if (prob(5))
-									for(var/mob/O in viewers(usr, null))
-										O.show_message(text("\red [] has broken free of []'s headlock!", usr, G.assailant), 1)
+									usr.show_viewers(text("\red [] has broken free of []'s headlock!", usr, G.assailant))
 										//Foreach goto(762)
 									//G = null
 									del(G)
-					//Foreach goto(602)
-				for(var/mob/O in viewers(usr, null))
-					O.show_message(text("\red <B>[] resists!</B>", usr), 1)
-					//Foreach goto(824)
+				usr.show_viewers(text("\red <B>[] resists!</B>", usr))
 		else
 			src.DblClick()
 	return

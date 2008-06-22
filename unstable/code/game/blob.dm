@@ -27,7 +27,7 @@
 		src.health -= round(U.poison/200000)
 		src.update()
 		return
-	
+
 	if (istype(U, /turf/space))
 		src.health -= 8
 		src.update()
@@ -46,13 +46,13 @@
 		//if(istype(U, /turf/space) && istype(T, /turf/space))		// don't propagate into space
 		//	if( !(locate(/obj/move) in U) && !(locate(/obj/move) in T))
 		//		continue
-		
+
 		if (istype(T.loc, /area/arrival))
 			continue
-		
+
 		if (locate(/obj/move, T)) // don't propogate into movables
 			continue
-		
+
 		//if(istype(T.loc, /area/sleep_area) && prob(90))			// slow down growth in sleep area
 		//	continue
 
@@ -113,8 +113,7 @@
 
 
 /obj/blob/attackby(var/obj/item/weapon/W, var/mob/user)
-	for(var/mob/O in viewers(src, null))
-		O.show_message(text("\red <B>The blob has been attacked with [][] </B>", W, (user ? text(" by [].", user) : ".")), 1)
+	src.show_viewers(text("\red <B>The blob has been attacked with [][] </B>", W, (user ? text(" by [].", user) : ".")))
 		//Foreach goto(20)
 
 	var/damage = W.force / 4.0

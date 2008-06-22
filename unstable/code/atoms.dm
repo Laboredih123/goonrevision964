@@ -1267,10 +1267,6 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 4
 	throw_range = 20
 	w_class = 1.0
-/obj/item/weapon/organ
-	name = "organ"
-	var/owner = null
-	s_istate = "bio_orange"
 /obj/item/weapon/paint
 	name = "Paint Can"
 	icon_state = "paint_neutral"

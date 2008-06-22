@@ -1,3 +1,6 @@
+/client
+	var/lastKnownIP
+
 /client/Del()
 	world.log_access("Logout: [src.key]")
 	..()
@@ -10,7 +13,7 @@
 
 	src.authorize()
 
-	src << "\blue <B>[world.message]</B>"
+	src << "\blue <B>[world_message]</B>"
 
 	if (config.log_access)
 		for (var/mob/M in world)
@@ -24,8 +27,8 @@
 					world.log_access("Further notice: [M.key] was banned.")
 
 		if (banned.Find(src.ckey))
-		del(src)
-		return
+			del(src)
+			return
 
 	if (((world.address == src.address || !(src.address)) && !(host)))
 		host = src.key
@@ -77,34 +80,35 @@
 	..()
 
 /client/proc/reset_view(atom/A)
-
-	if (src.client)
-		if (istype(A, /atom/movable))
-			src.client.perspective = EYE_PERSPECTIVE
-			src.client.eye = A
-		else if (isturf(src.loc))
-			src.client.eye = src.client.mob
-			src.client.perspective = MOB_PERSPECTIVE
-		else
-			src.client.perspective = EYE_PERSPECTIVE
-			src.client.eye = src.loc
+	if (istype(A, /atom/movable))
+		src.perspective = EYE_PERSPECTIVE
+		src.eye = A
+	else if (isturf(src.mob.loc))
+		src.eye = src.mob
+		src.perspective = MOB_PERSPECTIVE
+	else
+		src.perspective = EYE_PERSPECTIVE
+		src.eye = src.mob.loc
 	return
 
 /client/Northeast()
-
-	src.mob.swap_hand()
+	if(istype(src.mob, /mob/carbon))
+		var/mob/carbon/M = src.mob
+		M.swap_hand()
 	return
 
 /client/Southeast()
-
-	var/obj/item/weapon/W = src.mob.equipped()
-	if (W)
-		W.attack_self(src.mob)
+	if(istype(src.mob, /mob/carbon))
+		var/mob/carbon/M = src.mob
+		var/obj/item/weapon/W = M.equipped()
+		if (W)
+			W.attack_self(M)
 	return
 
 /client/Northwest()
-
-	src.mob.drop_item_v()
+	if(istype(src.mob, /mob/carbon))
+		var/mob/carbon/M = src.mob
+		M.drop_item_v()
 	return
 
 /client/Center()
@@ -123,146 +127,136 @@
 		return
 	if (!( src.mob ))
 		return
-	if (src.mob.stat == 2)
+	if (src.mob.is_dead)
 		return
-	if (src.mob.monkeyizing)
-		return
-	if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, src.mob.grabbed_by.len)))
-		var/list/grabbing = list(  )
-		if (istype(src.mob.l_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.mob.l_hand
-			grabbing += G.affecting
-		if (istype(src.mob.r_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.mob.r_hand
-			grabbing += G.affecting
-		for(var/obj/item/weapon/grab/G in src.mob.grabbed_by)
-			if (G.state == 1)
-				if (!( grabbing.Find(G.assailant) ))
-					//G = null
-					del(G)
-			else
-				if (G.state == 2)
-					src.move_delay = world.time + 10
-					if (prob(10))
-						for(var/mob/O in viewers(src.mob, null))
-							O.show_message(text("\red [] has broken free of []'s grip!", src.mob, G.assailant), 1)
-							//Foreach goto(309)
+	if(istype(src.mob, /mob/carbon))
+		var/mob/carbon/M = src.mob
+		if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, M.grabbed_by.len)))
+			var/list/grabbing = list(  )
+			if (istype(M.l_hand, /obj/item/weapon/grab))
+				var/obj/item/weapon/grab/G = M.l_hand
+				grabbing += G.affecting
+			if (istype(M.r_hand, /obj/item/weapon/grab))
+				var/obj/item/weapon/grab/G = M.r_hand
+				grabbing += G.affecting
+			for(var/obj/item/weapon/grab/G in M.grabbed_by)
+				if (G.state == 1)
+					if (!( grabbing.Find(G.assailant) ))
 						//G = null
 						del(G)
-					else
-						return
 				else
 					if (G.state == 2)
 						src.move_delay = world.time + 10
-						if (prob(5))
-							for(var/mob/O in viewers(src.mob, null))
-								O.show_message(text("\red [] has broken free of []'s headlock!", src.mob, G.assailant), 1)
-								//Foreach goto(423)
-							//G = null
+						if (prob(10))
+							M.show_viewers(text("\red [] has broken free of []'s grip!", M, G.assailant))
 							del(G)
 						else
 							return
-			//Foreach goto(189)
-	if (src.mob.canmove)
-
-		if(src.mob.m_intent == "face")
-			src.mob.dir = direct
-
-		var/j_pack = 0
-		if ((istype(src.mob.loc, /turf/space) && !( locate(/obj/move, src.mob.loc) )))
-			if (!( src.mob.restrained() ))
-				if (!( (locate(/obj/grille, oview(1, src.mob)) || locate(/turf/station, oview(1, src.mob))) ))
-					if (istype(src.mob.back, /obj/item/weapon/tank/jetpack))
-						var/obj/item/weapon/tank/jetpack/J = src.mob.back
-						j_pack = J.allow_thrust(100, src.mob)
-						if(j_pack)
-							var/obj/effects/sparks/ion_trails/I = new /obj/effects/sparks/ion_trails( src.mob.loc )
-							flick("ion_fade", I)
-							I.icon_state = "blank"
-							src.mob.inertia_dir = 0
-							spawn( 20 )
-								//I = null
-								del(I)
+					else
+						if (G.state == 2)
+							src.move_delay = world.time + 10
+							if (prob(5))
+								M.show_viewers(text("\red [] has broken free of []'s headlock!", M, G.assailant))
+								del(G)
+							else
 								return
-						if (!( j_pack ))
+		if (M.canmove)
+
+			if(M.m_intent == "face")
+				M.dir = direct
+
+			var/j_pack = 0
+			if ((istype(M.loc, /turf/space) && !( locate(/obj/move, M.loc) )))
+				if (!( M.is_handcuffed() ))
+					if (!( (locate(/obj/grille, oview(1, M)) || locate(/turf/station, oview(1, M))) ))
+						if (istype(M.back, /obj/item/weapon/tank/jetpack))
+							var/obj/item/weapon/tank/jetpack/J = M.back
+							j_pack = J.allow_thrust(100, M)
+							if(j_pack)
+								var/obj/effects/sparks/ion_trails/I = new /obj/effects/sparks/ion_trails( M.loc )
+								flick("ion_fade", I)
+								I.icon_state = "blank"
+								M.inertia_dir = 0
+								spawn( 20 )
+									//I = null
+									del(I)
+									return
+							if (!( j_pack ))
+								return 0
+						else
 							return 0
-					else
-						return 0
+				else
+					return 0
+
+
+			if (isturf(M.loc))
+				src.move_delay = world.time
+				if ((j_pack && j_pack < 1))
+					src.move_delay += 5
+				switch(M.m_intent)
+					if("run")
+						if (M.drowsyness > 0)
+							src.move_delay += 6
+						src.move_delay += 1
+					if("face")
+						M.dir = direct
+						return
+					if("walk")
+						src.move_delay += 7
+
+
+				src.move_delay += M.m_delay()
+
+				src.move_delay += round((100 - M.health) / 20)		//*****RM fix
+
+				if (M.is_handcuffed())
+					for(var/mob/N in range(M, 1))
+						if (((N.pulling == M && (!( N.is_handcuffed() ) && N.is_active)) || locate(/obj/item/weapon/grab, M.grabbed_by.len)))
+							src << "\blue You're restrained! You can't move!"
+							return 0
+						//Foreach goto(853)
+				src.moving = 1
+				if (locate(/obj/item/weapon/grab, M))
+					src.move_delay = max(src.move_delay, world.time + 7)
+					var/list/L = M.get_members_of_grab_chain()
+					if (istype(L, /list))
+						if (L.len == 2)
+							L -= M
+							var/mob/N = L[1]
+							if ((get_dist(M, N) <= 1 || N.loc == M.loc))
+								var/turf/T = M.loc
+								. = ..()
+								if (isturf(M.loc))
+									var/diag = get_dir(M, N)
+									if ((diag - 1) & diag)
+									else
+										diag = null
+									if ((get_dist(M, N) > 1 || diag))
+										step(N, get_dir(N.loc, T))
+						else
+							for(var/mob/N in L)
+								N.other_mobs = 1
+								if (M != N)
+									N.animate_movement = 3
+								//Foreach goto(1163)
+							for(var/mob/N in L)
+								spawn( 0 )
+									step(N, direct)
+									return
+								spawn( 1 )
+									N.other_mobs = null
+									N.animate_movement = 1
+									return
+								//Foreach goto(1214)
+				else
+					. = ..()
+				src.moving = null
+				return .
 			else
-				return 0
-
-
-		if (isturf(src.mob.loc))
-			src.move_delay = world.time
-			if ((j_pack && j_pack < 1))
-				src.move_delay += 5
-			switch(src.mob.m_intent)
-				if("run")
-					if (src.mob.drowsyness > 0)
-						src.move_delay += 6
-					src.move_delay += 1
-				if("face")
-					src.mob.dir = direct
-					return
-				if("walk")
-					src.move_delay += 7
-
-
-			src.move_delay += src.mob.m_delay()
-
-			src.move_delay += round((100 - src.mob.health) / 20)		//*****RM fix
-
-			if (src.mob.handcuffed())
-				for(var/mob/M in range(src.mob, 1))
-					if (((M.pulling == src.mob && (!( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, src.mob.grabbed_by.len)))
-						src << "\blue You're restrained! You can't move!"
-						return 0
-					//Foreach goto(853)
-			src.moving = 1
-			if (locate(/obj/item/weapon/grab, src.mob))
-				src.move_delay = max(src.move_delay, world.time + 7)
-				var/list/L = src.mob.get_members_of_grab_chain()
-				if (istype(L, /list))
-					if (L.len == 2)
-						L -= src.mob
-						var/mob/M = L[1]
-						if ((get_dist(src.mob, M) <= 1 || M.loc == src.mob.loc))
-							var/turf/T = src.mob.loc
-							. = ..()
-							if (isturf(M.loc))
-								var/diag = get_dir(src.mob, M)
-								if ((diag - 1) & diag)
-								else
-									diag = null
-								if ((get_dist(src.mob, M) > 1 || diag))
-									step(M, get_dir(M.loc, T))
-					else
-						for(var/mob/M in L)
-							M.other_mobs = 1
-							if (src.mob != M)
-								M.animate_movement = 3
-							//Foreach goto(1163)
-						for(var/mob/M in L)
-							spawn( 0 )
-								step(M, direct)
-								return
-							spawn( 1 )
-								M.other_mobs = null
-								M.animate_movement = 1
-								return
-							//Foreach goto(1214)
-			else
-				. = ..()
-			src.moving = null
-			return .
-		else
-			if (isobj(src.mob.loc))
-				var/obj/O = src.mob.loc
-				if (src.mob.canmove)
-					return O.relaymove(src.mob, direct)
-	else
-		return
-	return
+				if (isobj(M.loc))
+					var/obj/O = M.loc
+					if (M.canmove)
+						return O.relaymove(M, direct)
 
 /client/proc/show_panel()
 	set name = "Administrator Panel"
@@ -270,3 +264,12 @@
 	if (src.holder)
 		src.holder.update()
 	return
+
+/client/proc/CanAdmin()
+	if (world.address == src.address)
+		return 1
+	if (src.address == "127.0.0.1")
+		return 1
+	if (!( src.address ))
+		return 1
+	return 0

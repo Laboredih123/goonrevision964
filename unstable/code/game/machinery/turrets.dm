@@ -3,12 +3,11 @@
 	name = "Turret Protected Area"
 	var/list/turretTargets = list()
 
-/area/turret_protected/proc/subjectDied(var/mob/target)
-	if (istype(target, /mob))
-		if (!istype(target, /mob/silicon/ai))
-			if (target:stat==2)
-				if (target in turretTargets)
-					src.Exited(target)
+/area/turret_protected/proc/subjectDied(mob/target)
+	if (istype(target, /mob/carbon))
+		if (target.is_dead)
+			if (target in turretTargets)
+				src.Exited(target)
 
 
 /area/turret_protected/Entered(atom/movable/O)
@@ -267,7 +266,7 @@
 
 /obj/machinery/turretid/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (src.locked)
 		if (!istype(usr, /mob/silicon/ai))

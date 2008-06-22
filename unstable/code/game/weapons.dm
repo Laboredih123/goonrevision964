@@ -229,7 +229,7 @@
 
 /obj/item/weapon/infra_sensor/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
 		usr.machine = src
@@ -277,7 +277,7 @@
 				return
 		else
 			for(var/mob/O in hearers(null, null))
-				O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+				O.hear(text("\icon[] *beep* *beep*", src))
 				//Foreach goto(58)
 	return
 
@@ -332,7 +332,7 @@
 
 /obj/item/weapon/prox_sensor/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((usr.contents.Find(src) || usr.contents.Find(src.master) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
@@ -388,7 +388,7 @@
 			return
 	else
 		for(var/mob/O in hearers(null, null))
-			O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+			O.hear(text("\icon[] *beep* *beep*", src))
 			//Foreach goto(51)
 	return
 
@@ -472,7 +472,7 @@
 
 /obj/item/weapon/infra/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.restrained())
+	if (usr.stat || usr.is_handcuffed())
 		return
 	if ((usr.contents.Find(src) || usr.contents.Find(src.master) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
@@ -541,7 +541,7 @@
 			return
 	else
 		for(var/mob/O in hearers(null, null))
-			O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+			O.hear(text("\icon[] *beep* *beep*", src))
 			//Foreach goto(51)
 	return
 
@@ -729,9 +729,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The shock pack is now secured!", 1)
+		user.see("\blue The shock pack is now secured!")
 	else
-		user.show_message("\blue The shock pack is now unsecured!", 1)
+		user.see("\blue The shock pack is now unsecured!")
 	src.add_fingerprint(user)
 	return
 
@@ -768,7 +768,7 @@
 /obj/item/weapon/assembly/time_ignite/r_signal()
 
 	for(var/mob/O in hearers(1, src.loc))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(20)
 	src.part2.ignite()
 	return
@@ -792,9 +792,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The timer is now secured!", 1)
+		user.see("\blue The timer is now secured!")
 	else
-		user.show_message("\blue The timer is now unsecured!", 1)
+		user.see("\blue The timer is now unsecured!")
 	src.part2.status = src.status
 	src.add_fingerprint(user)
 	return
@@ -834,9 +834,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The signaler is now secured!", 1)
+		user.see("\blue The signaler is now secured!")
 	else
-		user.show_message("\blue The signaler is now unsecured!", 1)
+		user.see("\blue The signaler is now unsecured!")
 	src.part1.b_stat = !( src.status )
 	src.add_fingerprint(user)
 	return
@@ -895,9 +895,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The proximity sensor is now secured!", 1)
+		user.see("\blue The proximity sensor is now secured!")
 	else
-		user.show_message("\blue The proximity sensor is now unsecured!", 1)
+		user.see("\blue The proximity sensor is now unsecured!")
 	src.part1.b_stat = !( src.status )
 	src.add_fingerprint(user)
 	return
@@ -961,9 +961,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The infrared laser is now secured!", 1)
+		user.see("\blue The infrared laser is now secured!")
 	else
-		user.show_message("\blue The infrared laser is now unsecured!", 1)
+		user.see("\blue The infrared laser is now unsecured!")
 	src.part1.b_stat = !( src.status )
 	src.add_fingerprint(user)
 	return
@@ -1053,9 +1053,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The proximity sensor is now secured! The igniter now works!", 1)
+		user.see("\blue The proximity sensor is now secured! The igniter now works!")
 	else
-		user.show_message("\blue The proximity sensor is now unsecured! The igniter will not work.", 1)
+		user.see("\blue The proximity sensor is now unsecured! The igniter will not work.")
 	src.part2.status = src.status
 	src.add_fingerprint(user)
 	return
@@ -1069,7 +1069,7 @@
 /obj/item/weapon/assembly/prox_ignite/r_signal()
 
 	for(var/mob/O in hearers(1, src.loc))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(20)
 	src.part2.ignite()
 	return
@@ -1102,9 +1102,9 @@
 		return
 	src.status = !( src.status )
 	if (src.status)
-		user.show_message("\blue The radio is now secured! The igniter now works!", 1)
+		user.see("\blue The radio is now secured! The igniter now works!")
 	else
-		user.show_message("\blue The radio is now unsecured! The igniter will not work.", 1)
+		user.see("\blue The radio is now unsecured! The igniter will not work.")
 	src.part2.status = src.status
 	src.part1.b_stat = !( src.status )
 	src.add_fingerprint(user)
@@ -1119,7 +1119,7 @@
 /obj/item/weapon/assembly/rad_ignite/r_signal()
 
 	for(var/mob/O in hearers(1, src.loc))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(20)
 	src.part2.ignite()
 	return
@@ -1153,7 +1153,7 @@
 /obj/item/weapon/assembly/m_i_ptank/verb/Arm()
 	set src in view(1)
 
-	usr.show_message("\blue The proximity sensor has been armed with a delay of 15 seconds.", 1)
+	usr.see("\blue The proximity sensor has been armed with a delay of 15 seconds.")
 
 	src.icon_state = "m_i_ptank2"
 	spawn( 150 )
@@ -1238,7 +1238,7 @@
 		src.status = 1
 		bombers -= user.ckey
 		bombers += user.ckey
-		user.show_message("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.", 1)
+		user.see("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.")
 	else
 		src.status = 0
 		user << "\blue The hole has been closed."
@@ -1255,7 +1255,7 @@
 /obj/item/weapon/assembly/m_i_ptank/r_signal()
 	//world << "miptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(19)
 
 	if ((src.status && prob(90)))
@@ -1323,7 +1323,7 @@
 		src.status = 1
 		bombers -= user.ckey
 		bombers += user.ckey
-		user.show_message("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.", 1)
+		user.see("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.")
 	else
 		src.status = 0
 		user << "\blue The hole has been closed."
@@ -1342,7 +1342,7 @@
 /obj/item/weapon/assembly/t_i_ptank/r_signal()
 	//world << "tiptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(19)
 	if ((src.status && prob(90)))
 		//world << "sent ignite() to [src.part3]"
@@ -1422,7 +1422,7 @@
 		src.status = 1
 		bombers -= user.ckey
 		bombers += user.ckey
-		user.show_message("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.", 1)
+		user.see("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.")
 	else
 		src.status = 0
 		user << "\blue The hole has been closed."
@@ -1441,7 +1441,7 @@
 /obj/item/weapon/assembly/r_i_ptank/r_signal()
 	//world << "riptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
-		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
+		O.see(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(19)
 	if ((src.status && prob(90)))
 		//world << "sent ignite() to [src.part3]"

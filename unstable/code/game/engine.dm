@@ -80,7 +80,7 @@
 /obj/machinery/computer/engine/Topic(href, href_list)
 	. = ..()
 	if(!.) return
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -126,7 +126,7 @@
 
 /turf/station/engine/interact(var/mob/user as mob)
 
-	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
+	if ((!( user.canmove ) || user.is_handcuffed() || !( user.pulling )))
 		return
 	if (user.pulling.anchored)
 		return

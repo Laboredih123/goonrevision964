@@ -263,7 +263,7 @@
 	if (!usr.check_dexterity())
 		return
 
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		if (!istype(usr, /mob/silicon/ai))
 			return
 
@@ -307,14 +307,10 @@
 	if (istype(W, /obj/item/weapon/wirecutters))
 		src.status = !( src.status )
 		if (!( src.status ))
-			for(var/mob/O in viewers(user, null))
-				O.show_message(text("\red [] has deactivated []!", user, src), 1)
-				//Foreach goto(49)
+			user.show_viewers(text("\red [] has deactivated []!", user, src))
 			src.icon_state = "camera1"
 		else
-			for(var/mob/O in viewers(user, null))
-				O.show_message(text("\red [] has reactivated []!", user, src), 1)
-				//Foreach goto(106)
+			user.show_viewers(text("\red [] has reactivated []!", user, src))
 			src.icon_state = "camera"
 	return
 
@@ -403,7 +399,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	if (!usr.check_intelligence())
 		return
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if ((!( src.d1 ) || !( src.d2 )))
 		usr << "\red Error: Cannot interface with door security!"
@@ -534,7 +530,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 /obj/machinery/autolathe/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.restrained()))
+	if ((usr.stat || usr.is_handcuffed()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
@@ -635,13 +631,13 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
 	turf_total = max(turf_total, 1)
-	usr.show_message("\blue <B>Results:</B>", 1)
+	usr.see("\blue <B>Results:</B>")
 	var/t = ""
 	var/t1 = turf_total / CELLSTANDARD * 100
 	if ((90 < t1 && t1 < 110))
-		usr.show_message(text("\blue Air Pressure: []%", t1), 1)
+		usr.see(text("\blue Air Pressure: []%", t1))
 	else
-		usr.show_message(text("\blue Air Pressure:\red []%", t1), 1)
+		usr.see(text("\blue Air Pressure:\red []%", t1))
 	t1 = T.n2 / turf_total * 100
 	t1 = round(t1, 0.0010)
 	if ((60 < t1 && t1 < 80))
@@ -672,8 +668,8 @@ obj/machinery/door_control/interact(mob/user as mob)
 		t += text("<font color=blue>NO2: []</font>", t1)
 	else
 		t += text("<font color=red>NO2: []</font>", t1)
-	usr.show_message(t, 1)
-	usr.show_message(text("\blue \t Temperature: []&deg;C", T.temp - T0C), 1)
+	usr.see(t, 1)
+	usr.see(text("\blue \t Temperature: []&deg;C", T.temp - T0C))
 	src.add_fingerprint(usr)
 	return
 

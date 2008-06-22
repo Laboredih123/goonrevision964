@@ -42,7 +42,7 @@
 
 	return
 
-/mob/carbon/get_breathed_air(/turf/T)
+/mob/carbon/get_breathed_air(turf/T)
 	var/frac_air_taken = 1.4E-4 //fraction of air in tile taken
 	if (src.health < -75.0)
 		frac_air_taken = 5.0E-5
@@ -92,7 +92,7 @@
 			T = locate(/obj/move, T)
 
 		//breathe in
-		/obj/substance/gas/G = src.get_breathing_gas(T)
+		var/obj/substance/gas/G = src.get_breathing_gas(T)
 		//process air
 		src.aircheck(G)
 		//breathe out

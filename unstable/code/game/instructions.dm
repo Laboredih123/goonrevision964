@@ -109,7 +109,7 @@
 
 /turf/station/command/floor/interact(var/mob/user as mob)
 
-	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
+	if ((!( user.canmove ) || user.is_handcuffed() || !( user.pulling )))
 		return
 	if (user.pulling.anchored)
 		return

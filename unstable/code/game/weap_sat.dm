@@ -53,7 +53,7 @@
 		else
 			src.locked = null
 	for(var/mob/O in hearers(src, null))
-		O.show_message("\blue Locked In", 2)
+		O.hear("\blue Locked In")
 	src.add_fingerprint(usr)
 	return
 
@@ -199,7 +199,7 @@
 		return
 	if (!( com.locked ))
 		for(var/mob/O in hearers(src, null))
-			O.show_message("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.", 1, "\red Error!", 2)
+			O.hear("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.")
 		return
 	var/atom/target = find_loc(com.locked)
 	var/obj/effects/sparks/O = new /obj/effects/sparks( target )
@@ -219,7 +219,7 @@
 			M.loc = locate(tx, ty, target.z)
 	else
 		for(var/mob/B in hearers(src, null))
-			B.show_message("\blue Test fire completed.", 2)
+			B.hear("\blue Test fire completed.")
 			//Foreach goto(316)
 	return
 
@@ -241,7 +241,7 @@
 		com.icon_state = "tele1"
 		use_power(5000)
 		for(var/mob/O in hearers(src, null))
-			O.show_message("\blue Teleporter engaged!", 2)
+			O.hear("\blue Teleporter engaged!")
 	src.add_fingerprint(usr)
 	src.engaged = 1
 	return
@@ -254,7 +254,7 @@
 	if (com)
 		com.icon_state = "tele0"
 		for(var/mob/O in hearers(src, null))
-			O.show_message("\blue Teleporter disengaged!", 2)
+			O.hear("\blue Teleporter disengaged!")
 	src.add_fingerprint(usr)
 	src.engaged = 0
 	return
@@ -269,7 +269,7 @@
 	if (com && !active)
 		active = 1
 		for(var/mob/O in hearers(src, null))
-			O.show_message("\blue Test firing!", 2)
+			O.hear("\blue Test firing!")
 			//Foreach goto(60)
 		com.teleport()
 		use_power(5000)

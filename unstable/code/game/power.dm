@@ -439,7 +439,7 @@
 
 	..()
 
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -901,7 +901,7 @@
 /obj/machinery/power/generator/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -1116,8 +1116,7 @@
 		else
 			new/obj/item/weapon/cable_coil(T, 1)
 
-		for(var/mob/O in viewers(src, null))
-			O.show_message("[user] cuts the cable.", 1)
+		src.show_viewers("[user] cuts the cable.")
 
 		shock(user, 50)
 
@@ -2040,7 +2039,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/smes/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -2326,7 +2325,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/solar_control/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -2579,7 +2578,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	..()
 	if(stat & BROKEN)
 		return
-	if (usr.stat || usr.restrained() )
+	if (usr.stat || usr.is_handcuffed() )
 		return
 	if (!usr.check_dexterity())
 		return

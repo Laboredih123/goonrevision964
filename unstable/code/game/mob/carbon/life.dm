@@ -38,7 +38,7 @@
 	src.check_decompression()
 
 	if (src.get_damage() > death_threshold)
-		death()
+		src.death()
 	else if (src.get_damage() > unconsciousness_threshold)
 		if (prob(1))
 			src.gasp()
@@ -61,7 +61,7 @@
 	src.blinded = null
 	if(src.antitoxs >= 1)
 		src.antitoxs -= 1
-		src.heal_damage(new datum/damage(toxin = 3))
+		src.heal_damage(toxin = 3)
 
 	src.handle_knockout()
 	src.handle_knockdown()

@@ -99,6 +99,3 @@
 				src.take_damage(brute = 5)
 				if(M.is_infectious)
 					src.infected_by(M)
-
-	else
-		debug << "BUG: M.a_intent == [M.a_intent] at line __LINE__"

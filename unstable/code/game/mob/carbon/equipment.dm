@@ -75,7 +75,7 @@
 		if(SLOT_GLOVES)
 			W = src.gloves
 			src.gloves = null
-		if(slot_helmet)
+		if(SLOT_HELMET)
 			W = src.helmet
 			src.helmet = null
 		if(SLOT_SHOES)
@@ -458,25 +458,6 @@
 		return
 	src.show_inv(usr)
 	return
-
-/mob/carbon/var/const
-	SLOT_BACK = 1
-	SLOT_MASK = 2
-	SLOT_HANDCUFFS = 3
-	SLOT_L_HAND = 4
-	SLOT_R_HAND = 5
-	SLOT_BELT = 6
-	SLOT_ID = 7
-	SLOT_GLASSES = 8
-	SLOT_GLOVES = 9
-	SLOT_HELMET = 10
-	SLOT_SHOES = 11
-	SLOT_SUIT = 12
-	SLOT_JUMPSUIT = 13
-	SLOT_L_STORE = 14
-	SLOT_R_STORE = 15
-	SLOT_HEADSET = 16
-	SLOT_IN_BACKPACK = 17
 
 /mob/carbon/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
 	//warning: icky code

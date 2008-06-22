@@ -1,7 +1,5 @@
 /mob/carbon/can_talk()
-	if(src.stat != 0)
-		return 0
-	if(src.sdisabilites & muteness)
+	if(!src.is_conscious())
 		return 0
 	if(istype(src.mask, /obj/item/weapon/clothing/mask/muzzle))
 		return 0

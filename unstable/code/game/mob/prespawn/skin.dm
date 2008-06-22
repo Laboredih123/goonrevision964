@@ -1,15 +1,15 @@
-/mob/prespawn/var/const
-	SKIN_DARK = "dark"
-	SKIN_MEDIUM = "medium"
-	SKIN_LIGHT = "light"
+/mob/var/const
+	SKIN_COLOR_DARK = "dark"
+	SKIN_COLOR_MEDIUM = "medium"
+	SKIN_COLOR_LIGHT = "light"
 
-/mob/get_skins()
+/mob/proc/get_skin_colors()
 	return list(
-		SKIN_DARK,
-		SKIN_MEDIUM,
-		SKIN_LIGHT
+		SKIN_COLOR_DARK,
+		SKIN_COLOR_MEDIUM,
+		SKIN_COLOR_LIGHT
 	)
 
 
-/mob/prespawn/proc/choose_skin()
-	src.char_skin = input("Select a skin tone", "Character Generation", src.char_skin) in get_skins()
+/mob/prespawn/proc/choose_skin_color()
+	src.char_skin_color = input("Select a skin color", "Character Generation", src.char_skin_color) in get_skin_colors()
