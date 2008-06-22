@@ -41,6 +41,8 @@
 	M.update_face()
 	M.update_body()
 
+	sleep(20) // people sometimes don't spawn, this might fix it and anyways this is all getting ripped out soon
+
 	enter()
 
 /obj/begin/proc/enter()
