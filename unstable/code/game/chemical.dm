@@ -629,14 +629,7 @@ heat is conserved between exchanges
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
-			M.eye_stat += volume * 5
-			M.eye_blurry += volume * 3
-			if (M.eye_stat >= 20)
-				M << "\red Your eyes start to burn badly!"
-				M.disabilities |= 1
-				if (prob(M.eye_stat - 20 + 1))
-					M << "\red You go blind!"
-					M.sdisabilities |= 1
+			M.take_eye_damage(volume * 5)
 		else
 			M.plasma += volume * 6
 			for(var/obj/item/weapon/implant/tracking/T in M)
@@ -658,55 +651,32 @@ heat is conserved between exchanges
 			M.stat = 1
 	return
 
-/datum/chemical/epil/injected(var/mob/M as mob, zone)
-
+/datum/chemical/epil/injected(var/mob/carbon/M as mob, zone)
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
-			M.eye_blind += volume * 5
-			M.eye_stat += volume * 2
-			M.eye_blurry += volume * 20
-			if (M.eye_stat >= 20)
-				M << "\red Your eyes start to burn badly!"
-				M.disabilities |= 1
-				if (prob(M.eye_stat - 20 + 1))
-					M << "\red You go blind!"
-					M.sdisabilities |= 1
+			M.take_eye_damage(volume * 2)
 		else
-			M.r_epil += volume * 60
+			//TODO: Make this do something
 	return
 
-/datum/chemical/ch_cou/injected(var/mob/M as mob, zone)
+/datum/chemical/ch_cou/injected(var/mob/carbon/M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
-			M.eye_blind += volume * 2
-			M.eye_stat += volume * 3
-			M.eye_blurry += volume * 20
-			M << "\red Your eyes start to burn badly!"
-			M.disabilities |= 1
-			if (prob(M.eye_stat - 20 + 1))
-				M << "\red You go blind!"
-				M.sdisabilities |= 1
+			M.take_eye_damage(volume * 2)
 		else
-			M.r_ch_cou += volume * 60
+			//TODO: Make this do something
 	return
 
-/datum/chemical/rejuv/injected(var/mob/M as mob, zone)
+/datum/chemical/rejuv/injected(var/mob/carbon/M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
-			M.eye_stat -= volume * 5
-			M.eye_blurry += volume * 5
-			M.eye_stat = max(0, M.eye_stat)
+			M.heal_eye_damage(volume * 5)
 		else
 			M.rejuv += volume * 3
-			if (M.paralysis)
-				M.paralysis = 3
-			if (M.weakened)
-				M.weakened = 3
-			if (M.stunned)
-				M.stunned = 3
+			M.knockdown_until(3)
 	return

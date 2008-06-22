@@ -240,3 +240,7 @@
 		if (prob(25))
 			src.knockdown_until(1)
 	return
+
+/mob/carbon/proc/take_eye_damage(damage)
+	//TODO: IMPLEMENT
+	return

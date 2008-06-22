@@ -32,6 +32,7 @@
 		src.r_hand = null
 	else if (W == src.l_hand)
 		src.l_hand = null
+	src.update_clothing()
 	return
 
 /mob/carbon/proc/drop_all()
@@ -43,7 +44,7 @@
 			W.loc = src.loc
 			W.dropped(src)
 			W.layer = initial(W.layer)
-	src.UpdateClothing()
+	src.update_clothing()
 
 /mob/carbon/proc/drop(slot)
 	var/obj/item/weapon/W
@@ -104,6 +105,7 @@
 		W.loc = src.loc
 		W.dropped(src)
 		W.layer = initial(W.layer)
+	src.update_clothing()
 
 /mob/carbon/db_click(text, t1)
 	var/obj/item/weapon/W = src.equipped()
@@ -235,7 +237,6 @@
 				return
 			src.u_equip(W)
 			src.r_store = W
-
 	src.update_clothing()
 	return
 
@@ -432,6 +433,7 @@
 			W.dropped(src)
 			if (W)
 				W.layer = initial(W.layer)
+	src.update_clothing()
 	return
 
 /mob/carbon/proc/swap_hand()
@@ -540,3 +542,5 @@
 		W.layer = 20
 	else
 		del(W)
+
+	src.update_clothing()

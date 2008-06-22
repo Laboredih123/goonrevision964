@@ -833,12 +833,11 @@
 		src.objective = "Success"
 		world << "<B>The Syndicate Operatives have destroyed Space Station 13!</B>"
 		for(var/mob/carbon/H in world)
-			if ((H.client && findtext(H.rname, "Syndicate ", 1, null)))
-				if (H.stat != 2)
-					world << text("<B>[] was []</B>", H.key, H.rname)
+			if ((H.client && findtext(H.spawn_name, "Syndicate ", 1, null)))
+				if (!H.is_dead)
+					world << text("<B>[] was []</B>", H.key, H.spawn_name)
 				else
-					world << text("[] was [] (Dead)", H.key, H.rname)
-			//Foreach goto(64)
+					world << text("[] was [] (Dead)", H.key, H.spawn_name)
 		src.timing = 0
 		sleep(300)
 		world.log_game("Syndicate success")
@@ -885,7 +884,7 @@
 		return 0
 
 	for (var/mob/silicon/ai/aiPlayer in world)
-		if (aiPlayer.stat!=2)
+		if (!aiPlayer.is_dead)
 			world << "<b>The AI's laws at the end of the game were:</b>"
 		else
 			world << "<b>The AI's laws when it was deactivated were:</b>"
@@ -964,71 +963,60 @@
 /datum/control/cellular/process()
 	set invisibility = 0
 	set background =1
+	do
 
-	Label_6:
+		//world << "World.contents.len [world.contents.len]"
 
-	//world << "World.contents.len [world.contents.len]"
+		time = (++time %10)
 
+		sun.calc_position()
 
-	while(!( ticker ))
-		for(var/mob/M in world)
+		//if(Debug)
+		//	world.log << "*** SoT ***"
+		//	Air()
+
+		for(var/turf/station/T in world)
+			if (T.updatecell)
+				T.updatecell()
+				if(!time)
+					T.conduction()
+		//if(Debug)
+		//	world.log << "*** EoT ***"
+		//	Air()
+
+			//Foreach goto(73)
+		sleep(3)
+		for(var/mob/carbon/M in world)
 			spawn( 0 )
-				M.UpdateClothing()
+				M.Life()
 				return
-			//Foreach goto(28)
-		sleep(10)
-
-	time = (++time %10)
-
-	sun.calc_position()
-
-	//if(Debug)
-	//	world.log << "*** SoT ***"
-	//	Air()
-
-	for(var/turf/station/T in world)
-		if (T.updatecell)
-			T.updatecell()
-			if(!time)
-				T.conduction()
-	//if(Debug)
-	//	world.log << "*** EoT ***"
-	//	Air()
-
-		//Foreach goto(73)
-	sleep(3)
-	for(var/mob/M in world)
-		spawn( 0 )
-			M.Life()
-			return
-		//Foreach goto(126)
-	sleep(3)
-	for(var/obj/move/S in world)
-		S.process()
-		//Foreach goto(167)
-	sleep(2)
-
-	//if(Debug)
-	//	world.log << "*** SoP ***"
-	//	Air()
-
-
-	for(var/obj/machinery/M in machines)
-		M.process()
-
-	for(var/obj/machinery/M in gasflowlist)
-		M.gas_flow()
-
-	for(var/datum/powernet/P in powernets)
-		P.reset()
-
-	//if(Debug)
-	//	world.log << "*** EoP ***"
-	//	Air()
-
-		//Foreach goto(213)
-	src.var_swap = !( src.var_swap )
-	if (src.processing)
+			//Foreach goto(126)
+		sleep(3)
+		for(var/obj/move/S in world)
+			S.process()
+			//Foreach goto(167)
 		sleep(2)
-		goto Label_6
-	return
+
+		//if(Debug)
+		//	world.log << "*** SoP ***"
+		//	Air()
+
+
+		for(var/obj/machinery/M in machines)
+			M.process()
+
+		for(var/obj/machinery/M in gasflowlist)
+			M.gas_flow()
+
+		for(var/datum/powernet/P in powernets)
+			P.reset()
+
+		//if(Debug)
+		//	world.log << "*** EoP ***"
+		//	Air()
+
+			//Foreach goto(213)
+		src.var_swap = !( src.var_swap )
+
+		sleep(2)
+	while (src.processing)

@@ -1,22 +1,15 @@
 /mob/carbon/Life()
+	..()
+	if(src.client)
+		src.hud.update()
 	set invisibility = 0
 	set background = 1
 
 	var/turf/T = src.loc
 
-	if (src.client)
-		src.hud.update()
-		if (src.machine)
-			if (!src.machine.check_eye(src))
-				src.reset_view(null)
-		else
-			if(!client.adminobs)
-				reset_view(null)
-
 	if (src.is_dead)
 		src.lying = 1
 		src.blinded = 1
-		src.stat = 2
 		src.canmove = 0
 		if (src.buckled)
 			src.lying = 0
@@ -33,6 +26,12 @@
 			src.mach.icon_state = "mach1"
 		else
 			src.mach.icon_state = null
+
+	var/turf/T = src.loc
+	if (istype(T, /turf))
+		var/ficheck = src.firecheck(T)
+		if (ficheck)
+			src.take_damage(burn = ficheck * 10)
 
 	src.breathe()
 	src.check_decompression()

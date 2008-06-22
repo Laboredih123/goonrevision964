@@ -960,7 +960,7 @@
 		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			M.think("\red The helmet protects you from being hit hard in the head!")
 			return
-		var/time = rand(10, 120)
+		var/time = rand(1, 12)
 		if (prob(90))
 			M.knockdown_until(time)
 		M.stat = 1
@@ -2904,7 +2904,7 @@
 		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
-		var/time = rand(10, 120)
+		var/time = rand(1, 5)
 		if (prob(90))
 			M.knockdown_until(time)
 		else
