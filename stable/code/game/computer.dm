@@ -141,6 +141,8 @@
 	for (var/mob/M in world)
 		if (istype(M, /mob/human) && istype(M:wear_id, /obj/item/weapon/card/id/syndicate))
 			continue
+		if(!istype(M.loc, /turf)) //in a closet or something, AI can't see him anyways
+			continue
 		else if (M == usr)
 			continue
 
@@ -177,9 +179,14 @@
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return
+			else if (!istype(target.loc, /turf)) //in a closet
+				usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
+				sleep(290) //because we're sleeping another second after this (a few lines down)
+				continue
 
 			var/obj/machinery/camera/C = usr:current
 			if ((C && istype(C, /obj/machinery/camera)) || C==null)
+
 				var/closestDist = -1
 				if (C!=null)
 					if (C.status)
