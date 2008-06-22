@@ -313,11 +313,11 @@
 
 	else
 		// do APC interaction
-		src.interact(user)
+		src.interaction(user)
 
 
 
-/obj/machinery/power/apc/proc/interact(mob/user)
+/obj/machinery/power/apc/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/silicon/ai))
@@ -863,11 +863,11 @@
 
 	if(stat & (BROKEN|NOPOWER)) return
 
-	interact(user)
+	interaction(user)
 
 
 
-/obj/machinery/power/generator/proc/interact(mob/user)
+/obj/machinery/power/generator/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ) && (!istype(user, /mob/silicon/ai)))
 		user.machine = null
@@ -1181,16 +1181,8 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		user << "\red <B>You feel a powerful shock course through your body!</B>"
 		sleep(1)
 
-		user.stunned = 120/prot
-		user.weakened = 20/prot
-		//Foreach goto(72)
-		for(var/mob/M in hearers(src, null))
-			if(M == user)
-				continue
-			if (!( M.blinded ))
-				M << text("\red [user.name] was shocked by the [src.name]!")
-			else
-				M << "\red You hear a heavy electrical crack."
+		user.knockdown_until(120/prot)
+		user.show_viewers((text("\red [user.name] was shocked by the [src.name]!")))
 		return 1
 	return 0
 
@@ -1770,10 +1762,10 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if(stat & (BROKEN|NOPOWER))
 		return
-	interact(user)
+	interaction(user)
 
 
-/obj/machinery/power/monitor/proc/interact(mob/user)
+/obj/machinery/power/monitor/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ) || (stat & (BROKEN|NOPOWER)) )
 		if (!istype(user, /mob/silicon/ai))
@@ -1955,7 +1947,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
-			src.interact(M)
+			src.interaction(M)
 	AutoUpdateAI(src)
 
 // called after all power processes are finished
@@ -1998,11 +1990,11 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if(stat & BROKEN) return
 
-	interact(user)
+	interaction(user)
 
 
 
-/obj/machinery/power/smes/proc/interact(mob/user)
+/obj/machinery/power/smes/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/silicon/ai))
@@ -2247,7 +2239,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if(stat & (BROKEN | NOPOWER)) return
 
-	interact(user)
+	interaction(user)
 
 /obj/machinery/power/solar_control/process()
 	lastgen = gen
@@ -2272,7 +2264,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	src.updateDialog()
 
 
-/obj/machinery/power/solar_control/proc/interact(mob/user)
+/obj/machinery/power/solar_control/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/silicon/ai))
@@ -2538,7 +2530,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
-			src.interact(M)
+			src.interaction(M)
 	AutoUpdateAI(src)
 
 /obj/machinery/power/turbine/interact(mob/user)
@@ -2547,9 +2539,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if(stat & (BROKEN | NOPOWER)) return
 
-	interact(user)
+	interaction(user)
 
-/obj/machinery/power/turbine/proc/interact(mob/user)
+/obj/machinery/power/turbine/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)) )
 		user.machine = null
@@ -2597,7 +2589,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		spawn(0)
 			for(var/mob/M in viewers(1, src))
 				if ((M.client && M.machine == src))
-					src.interact(M)
+					src.interaction(M)
 
 	else
 		usr << browse(null, "window=turbine")

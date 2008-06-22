@@ -24,39 +24,39 @@
 
 /datum/damage/proc/subtract(datum/damage/dam)
 	//returns anything left over from the subtraction, doesn't just throw away overflow
-	if(dam.brute > src.damage.brute)
-		dam.brute -= src.damage.brute
-		src.damage.brute = 0
+	if(dam.brute > src.brute)
+		dam.brute -= src.brute
+		src.brute = 0
 	else
-		src.damage.brute -= dam.brute
+		src.brute -= dam.brute
 		dam.brute = 0
 
-	if(dam.burn > src.damage.burn)
-		dam.burn -= src.damage.burn
-		src.damage.burn = 0
+	if(dam.burn > src.burn)
+		dam.burn -= src.burn
+		src.burn = 0
 	else
-		src.damage.burn -= dam.burn
+		src.burn -= dam.burn
 		dam.burn = 0
 
-	if(dam.toxin > src.damage.toxin)
-		dam.toxin -= src.damage.toxin
-		src.damage.toxin = 0
+	if(dam.toxin > src.toxin)
+		dam.toxin -= src.toxin
+		src.toxin = 0
 	else
-		src.damage.toxin -= dam.toxin
+		src.toxin -= dam.toxin
 		dam.toxin = 0
 
-	if(dam.electric > src.damage.electric)
-		dam.electric -= src.damage.electric
-		src.damage.electric = 0
+	if(dam.electric > src.electric)
+		dam.electric -= src.electric
+		src.electric = 0
 	else
-		src.damage.electric -= dam.electric
+		src.electric -= dam.electric
 		dam.electric = 0
 
-	if(dam.suffocation > src.damage.suffocation)
-		dam.suffocation -= src.damage.suffocation
-		src.damage.suffocation = 0
+	if(dam.suffocation > src.suffocation)
+		dam.suffocation -= src.suffocation
+		src.suffocation = 0
 	else
-		src.damage.suffocation -= dam.suffocation
+		src.suffocation -= dam.suffocation
 		dam.suffocation = 0
 	total()
 	return dam

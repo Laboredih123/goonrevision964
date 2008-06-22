@@ -4,10 +4,8 @@
 /mob/carbon
 	var/intent = "disarm"
 
-	var/next_move = null
-	var/prev_move = null
+	var/drowsyness = 0
 
-//	var/other = 0
 	var/hand = RIGHT //the active hand - note that tons of code just says "if(hand)" or "if(!hand)", which sucks
 	var/body_name
 
@@ -115,3 +113,5 @@
 	var/knockdown = 0
 
 	var/inertia_dir = null
+
+	var/datum/dna/dna

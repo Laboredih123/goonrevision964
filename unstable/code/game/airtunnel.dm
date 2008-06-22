@@ -302,7 +302,7 @@
 	user.current = src
 	user.reset_view(src)
 
-/obj/machinery/camera/attackby(W as obj, user as mob)
+/obj/machinery/camera/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	if (istype(W, /obj/item/weapon/wirecutters))
 		src.status = !( src.status )

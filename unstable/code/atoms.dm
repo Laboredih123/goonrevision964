@@ -5,7 +5,7 @@
 	layer = 2
 	var/level = 2
 	var/flags = FPRINT
-	var/fingerprints = null
+	var/list/fingerprints = null
 
 /atom/movable
 	layer = 3

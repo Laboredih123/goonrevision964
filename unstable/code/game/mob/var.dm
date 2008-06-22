@@ -32,3 +32,8 @@
 
 	var/canmove = 0
 	var/atom/movable/pulling = null
+
+	var/ui_mode = UI_MODE_DEFAULT
+
+	var/prev_move = 0
+	var/next_move = 0

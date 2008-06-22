@@ -61,7 +61,7 @@
 	src.showviewers("\red <B>[src] has been attacked by the blob.</B>")
 	src.take_damage(brute = rand(5, 25))
 
-/mob/carbon/burn(fi_amount)
+/mob/carbon/proc/burn(fi_amount)
 
 	var/ok = 0
 	var/atom/organ/temp
@@ -123,7 +123,7 @@
 		src.take_damage(burn = 10)
 	return
 
-/mob/carbon/check_decompression()
+/mob/carbon/proc/check_decompression()
 	if (istype(src.loc, /turf/space) && !locate(/obj/move, src.loc))
 		var/layers = 20
 		if (((istype(src.head, /obj/item/weapon/clothing/head) && src.head.flags & 4) || (istype(src.mask, /obj/item/weapon/clothing/mask) && (!( src.mask.flags & 4 ) && src.mask.flags & 8))))
@@ -134,7 +134,7 @@
 			layers -= 10
 		src.take_damage(suffocation = layers)
 
-/mob/carbon/handle_knockout()
+/mob/carbon/proc/handle_knockout()
 	src.knockout = max(src.knockout - 1, 0)
 	if(src.knockout > 0)
 		src.canmove = 0
@@ -146,10 +146,10 @@
 		src.canmove = 1
 		src.lying = 1
 
-/mob/carbon/knockout_until(time)
+/mob/carbon/proc/knockout_until(time)
 	src.knockout = max(time, src.knockout)
 
-/mob/carbon/handle_knockdown()
+/mob/carbon/proc/handle_knockdown()
 	src.knockdown = max(src.knockdown - 1, 0)
 	if (src.knockdown > 0)
 		src.canmove = 0
@@ -158,7 +158,7 @@
 		src.canmove = 1
 		src.lying = 0
 
-/mob/carbon/knockdown_until(time)
+/mob/carbon/proc/knockdown_until(time)
 	src.knockdown = max(time, src.knockdown)
 
 /mob/carbon/las_act(flag, A as obj) // get hit by a projectile - las = laser

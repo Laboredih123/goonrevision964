@@ -1,15 +1,18 @@
+/var/const/UI_MODE_DEFAULT = 1
+/var/const/UI_MODE_THROW = 2
+
 /mob/carbon/proc/toggle_throw_mode()
-	if (src.in_throw_mode)
+	if (src.ui_mode == UI_MODE_THROW)
 		throw_mode_off()
 	else
 		throw_mode_on()
 
 /mob/carbon/proc/throw_mode_off()
-	src.in_throw_mode = 0
+	src.mode = UI_MODE_DEFAULT
 	src.hud.throw.icon_state = "act_throw_off"
 
 /mob/carbon/proc/throw_mode_on()
-	src.in_throw_mode = 1
+	src.ui_mode = UI_MODE_THROW
 	src.hud.throw.icon_state = "act_throw_on"
 
 /mob/carbon/proc/throw_item(atom/target)

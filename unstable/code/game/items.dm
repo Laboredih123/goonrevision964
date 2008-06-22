@@ -1423,7 +1423,7 @@
 	return
 
 /obj/item/weapon/card/id/attack_self(mob/user as mob)
-	M.show_viewers(text("[] shows you: \icon[] []: assignment: []", user, src, src.name, src.assignment))
+	user.show_viewers(text("[] shows you: \icon[] []: assignment: []", user, src, src.name, src.assignment))
 	src.add_fingerprint(user)
 	return
 
@@ -4314,15 +4314,7 @@
 
 	return
 
-/atom/proc/hand_h(mob/user as mob)
-
-	return
-
-/atom/proc/hand_p(mob/user as mob)
-
-	return
-
-/atom/proc/hand_a(mob/user as mob)
+/atom/proc/interact_cuffed(mob/user as mob)
 
 	return
 
@@ -4333,30 +4325,24 @@
 /atom/proc/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	if (istype(W, /obj/item/weapon/f_print_scanner))
-		for(var/mob/O in viewers(src, null))
-			if ((O.client && !( O.blinded )))
-				O << text("\red [] has been scanned by [] with the []", src, user, W)
-			//Foreach goto(31)
-	else
-		if (!( istype(W, /obj/item/weapon/grab) ))
-			for(var/mob/O in viewers(src, null))
-				if ((O.client && !( O.blinded )))
-					O << text("\red <B>[] has been hit by [] with []</B>", src, user, W)
-				//Foreach goto(102)
+		user.show_viewers(text("\red [] has been scanned by [] with the []", src, user, W))
+	else if (!( istype(W, /obj/item/weapon/grab) ))
+		user.show_viewers(text("\red <B>[] has been hit by [] with []</B>", src, user, W))
 	return
 
 /atom/proc/add_fingerprint(mob/carbon/M as mob)
-
 	if (!istype(M, /mob/carbon) || !istype(M.dna, /datum/dna))
 		return 0
 	if (!(src.flags & FPRINT))
 		return
 	if (M.gloves)
 		return 0
-	src.fingerprints -= md5(M.primary.uni_identity)
+	if(!src.fingerprints)
+		src.fingerprints = list()
+	src.fingerprints -= M.get_fingerprint()
 	while(src.fingerprints.len >= 3)
 		src.fingerprints -= src.fingerprints[1]
-	src.fingerprints += md5(M.primary.uni_identity)
+	src.fingerprints += M.get_fingerprint()
 	return
 
 /atom/MouseDrop(atom/over_object as mob|obj|turf|area)
@@ -4382,16 +4368,20 @@
 		usr:lastDblClick = world.time
 
 	..()
-	if(usr.in_throw_mode)
-		return usr.throw_item(src)
-	var/obj/item/weapon/W = usr.equipped()
-	if ((W == src && usr.stat == 0))
+	if(usr.ui_mode == UI_MODE_THROW && istype(usr, /mob/carbon))
+		var/mob/carbon/M = usr
+		return M.throw_item(src)
+	var/obj/item/weapon/W = null
+	if(istype(usr, /mob/carbon))
+		var/mob/carbon/M = usr
+		W = M.equipped()
+	if ((W == src && usr.is_active()))
 		spawn( 0 )
 			W.attack_self(usr)
 			//world << "[W].attack_self([usr])"
 			return
 		return
-	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))) || usr.stat != 0)
+	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))) || !usr.is_active())
 		return
 
 	if ((!( src in usr.contents ) && (((!( isturf(src) ) && (!( isturf(src.loc) ) && (src.loc && !( isturf(src.loc.loc) )))) || !( isturf(usr.loc) )) && (src.loc != usr.loc && (!( istype(src, /obj/screen) ) && !( usr.contents.Find(src.loc) ))))))
@@ -4413,7 +4403,7 @@
 			if ( (direct - 1) & direct)
 				var/turf/T
 				switch(direct)
-					if(5.0)
+					if(NORTH & EAST)
 						T = get_step(usr, NORTH)
 						if (T.Enter(D, src))
 							D.loc = T
@@ -4427,7 +4417,7 @@
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					if(6.0)
+					if(SOUTH & EAST)
 						T = get_step(usr, SOUTH)
 						if (T.Enter(D, src))
 							D.loc = T
@@ -4441,7 +4431,7 @@
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					if(9.0)
+					if(NORTH & WEST)
 						T = get_step(usr, NORTH)
 						if (T.Enter(D, src))
 							D.loc = T
@@ -4455,7 +4445,7 @@
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					if(10.0)
+					if(SOUTH & WEST)
 						T = get_step(usr, SOUTH)
 						if (T.Enter(D, src))
 							D.loc = T

@@ -161,10 +161,6 @@
 							else
 								return
 		if (M.canmove)
-
-			if(M.m_intent == "face")
-				M.dir = direct
-
 			var/j_pack = 0
 			if ((istype(M.loc, /turf/space) && !( locate(/obj/move, M.loc) )))
 				if (!( M.is_handcuffed() ))
@@ -193,25 +189,17 @@
 				src.move_delay = world.time
 				if ((j_pack && j_pack < 1))
 					src.move_delay += 5
-				switch(M.m_intent)
-					if("run")
-						if (M.drowsyness > 0)
-							src.move_delay += 6
-						src.move_delay += 1
-					if("face")
-						M.dir = direct
-						return
-					if("walk")
-						src.move_delay += 7
-
+				if (M.drowsyness > 0)
+					src.move_delay += 6
+					src.move_delay += 1
 
 				src.move_delay += M.m_delay()
 
-				src.move_delay += round((100 - M.health) / 20)		//*****RM fix
+				src.move_delay += round(max(100 - M.get_damage(), 0) / 20)
 
 				if (M.is_handcuffed())
-					for(var/mob/N in range(M, 1))
-						if (((N.pulling == M && (!( N.is_handcuffed() ) && N.is_active)) || locate(/obj/item/weapon/grab, M.grabbed_by.len)))
+					for(var/mob/carbon/N in range(M, 1))
+						if (((N.pulling == M && N.can_use_hands()) || locate(/obj/item/weapon/grab, M.grabbed_by.len)))
 							src << "\blue You're restrained! You can't move!"
 							return 0
 						//Foreach goto(853)

@@ -87,3 +87,14 @@
 	else
 		return (!M.density || !src.density || src.lying)
 	return
+
+/mob/carbon/proc/m_delay()
+	var/tally = 0
+	if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/straight_jacket))
+		tally += 15
+	if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
+		if (src.shoes.chained)
+			tally += 15
+		else
+			tally += -1.0
+	return tally

@@ -743,7 +743,7 @@
 
 	if ((!( usr ) || !( isturf(usr.loc) )) || isarea(src))		// can't point to areas anymore
 		return
-	if ((usr.stat == 0 && !( usr.is_handcuffed() )))
+	if (usr.can_use_hands())
 		var/P = new /obj/point( (isturf(src) ? src : src.loc) )
 		spawn( 20 )
 			//P = null
