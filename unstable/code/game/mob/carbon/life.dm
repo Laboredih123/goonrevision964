@@ -59,8 +59,11 @@
 	src.rejuv = max(0, src.rejuv - 1)
 	src.blinded = null
 	if(src.antitoxs >= 1)
-		src.antitoxs -= 1
+		src.antitoxs--
 		src.heal_damage(toxin = 3)
+	if(src.plasma >= 1)
+		src.plasma--
+		src.take_damage(toxin = 1)
 
 	src.handle_knockout()
 	src.handle_knockdown()

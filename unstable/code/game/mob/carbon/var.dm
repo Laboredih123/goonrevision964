@@ -115,3 +115,5 @@
 	var/inertia_dir = null
 
 	var/datum/dna/dna
+
+	var/plasma = 0

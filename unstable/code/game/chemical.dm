@@ -624,7 +624,7 @@ heat is conserved between exchanges
 			M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
 	return
 
-/datum/chemical/l_plas/injected(var/mob/M as mob, zone)
+/datum/chemical/l_plas/injected(var/mob/carbon//M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)
