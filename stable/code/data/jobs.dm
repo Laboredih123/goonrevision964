@@ -1,5 +1,5 @@
 var/list/occupations = list(
-	"Engineer", "Engineer",	"Engineer", "Engineer",
+	"Engineer", "Engineer",
 	"Security Officer", "Security Officer", "Security Officer", "Security Officer", "Security Officer",
 	"Forensic Technician",
 	"Medical Researcher",
