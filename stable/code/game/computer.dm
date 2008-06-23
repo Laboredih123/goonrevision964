@@ -180,8 +180,8 @@
 				usr:cameraFollow = null
 				return
 			else if (!istype(target.loc, /turf)) //in a closet
-				usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
-				sleep(290) //because we're sleeping another second after this (a few lines down)
+				usr << "Target is not on or near any active cameras on the station. We'll check again in 5 seconds (unless you use the cancel-camera verb)."
+				sleep(40) //because we're sleeping another second after this (a few lines down)
 				continue
 
 			var/obj/machinery/camera/C = usr:current
@@ -212,8 +212,8 @@
 						usr.reset_view(closest)
 						//use_power(50)
 					if (zmatched == 0)
-						usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
-						sleep(290) //because we're sleeping another second after this (a few lines down)
+						usr << "Target is not on or near any active cameras on the station. We'll check again in 5 seconds (unless you use the cancel-camera verb)."
+						sleep(40) //because we're sleeping another second after this (a few lines down)
 			else
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
