@@ -244,3 +244,7 @@
 /mob/carbon/proc/take_eye_damage(damage)
 	//TODO: IMPLEMENT
 	return
+
+/mob/carbon/proc/heal_eye_damage(damage)
+	//TODO: IMPLEMENT
+	return

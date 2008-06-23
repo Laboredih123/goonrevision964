@@ -35,7 +35,7 @@
 				used += allele
 		else //
 			//fill the list with the things in attributes, one by one
-			var/unused = get_all_alleles()
+			var/list/unused = get_all_alleles()
 			var/attr_index = 1
 			while(unused.len)
 				var/allele = pick(unused)

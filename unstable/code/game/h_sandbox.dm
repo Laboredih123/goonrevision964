@@ -68,13 +68,13 @@ datum/hSB
 					if(P.can_wear_suit)
 						P.suit = new/obj/item/weapon/clothing/suit/sp_suit(P)
 						P.suit.layer = 20
-					if(P.head)
-						P.head.loc = P.loc
-						P.head.layer = initial(P.head.layer)
-						P.head = null
-					if(P.can_wear_head)
-						P.head = new/obj/item/weapon/clothing/head/s_helmet(P)
-						P.head.layer = 20
+					if(P.helmet)
+						P.helmet.loc = P.loc
+						P.helmet.layer = initial(P.helmet.layer)
+						P.helmet = null
+					if(P.can_wear_helmet)
+						P.helmet = new/obj/item/weapon/clothing/head/s_helmet(P)
+						P.helmet.layer = 20
 					if(P.mask)
 						P.mask.loc = P.loc
 						P.mask.layer = initial(P.mask.layer)

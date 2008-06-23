@@ -25,9 +25,9 @@
 		if (istype(H, /mob/carbon))
 			H.loc = O.loc
 			if (ticker.killer)
-				H.rname = text("Syndicate Operative #[]", amount + 1)
+				H.spawn_name = text("Syndicate Operative #[]", amount + 1)
 			else
-				H.rname = "Syndicate Leader"
+				H.spawn_name = "Syndicate Leader"
 				ticker.killer = H
 			H.already_placed = 1
 			//H.jumpsuit = null
@@ -42,8 +42,8 @@
 			H.gloves.layer = 20
 			H.suit = new /obj/item/weapon/clothing/suit/armor( H )
 			H.suit.layer = 20
-			H.head = new /obj/item/weapon/clothing/head/swat_hel( H )
-			H.head.layer = 20
+			H.helmet = new /obj/item/weapon/clothing/head/swat_hel( H )
+			H.helmet.layer = 20
 			H.glasses = new /obj/item/weapon/clothing/glasses/sunglasses( H )
 			H.glasses.layer = 20
 			H.back = new /obj/item/weapon/storage/backpack( H )
@@ -123,11 +123,11 @@
 		if (disk_on_shuttle)
 			world << "<FONT size = 3><B>The Research Staff has stopped the Syndicate Operatives!</B></FONT>"
 			for(var/mob/carbon/H in world)
-				if ((H.client && !( findtext(H.rname, "Syndicate ", 1) )))
+				if ((H.client && !( findtext(H.spawn_name, "Syndicate ", 1) )))
 					if (!H.is_dead)
-						world << text("<B>[] was []</B>", H.key, H.rname)
+						world << text("<B>[] was []</B>", H.key, H.spawn_name)
 					else
-						world << text("[] was [] (Dead)", H.key, H.rname)
+						world << text("[] was [] (Dead)", H.key, H.spawn_name)
 				//Foreach goto(1414)
 		else
 			world << "<FONT size = 3><B>Neutral Victory</B></FONT>"

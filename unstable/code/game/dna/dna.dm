@@ -28,7 +28,7 @@
 
 /datum/dna/canonical/proc/get_random_junk_locus()
 	while(1)
-		var/canonical_locus/L = get_random_locus()
+		var/datum/canonical_locus/L = get_random_locus()
 		if(L.is_junk)
 			return L
 

@@ -27,8 +27,8 @@
 			src.voice = src.name
 		if(!src.spawn_name)
 			src.spawn_name = src.name
-		if(src.client && src.client.LastKnownIP)
-			src.last_known_ip = src.client.LastKnownIP
+		if(src.client && src.client.last_known_ip)
+			src.last_known_ip = src.client.last_known_ip
 
 	var/canmove = 0
 	var/atom/movable/pulling = null

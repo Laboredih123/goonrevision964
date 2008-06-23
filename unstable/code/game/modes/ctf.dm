@@ -1,3 +1,7 @@
+/mob/Login()
+	..()
+	src.verbs += /mob/proc/show_ctf
+
 /mob/proc/show_ctf()
 	if (ticker)
 		usr << "Too late... The game has already started!"
@@ -167,13 +171,9 @@
 		if (!( locate(/obj/grille, B.loc) ))
 			new /obj/grille( B.loc )
 	for(var/mob/carbon/M in world)
-		M.loc = locate(/area/start)
-		if (M.start)
-			M.primary = null
-			del(M.primary)
-			for(var/obj/item/weapon/I in M)
-				del(M)
-			M.start = 0
+		var/client/C = M.client
+		C.mob = new /mob/prespawn
+		del(M)
 	world << "<B>All players have been pushed back!</B>"
 	return
 
@@ -220,7 +220,7 @@
 	var/dat = "<H1>CTF Mode Pick</H1><HR>"
 	dat += text("<B>Players (per Team): []</B><BR>\n<B>\"Please Pick a Player</B><BR>", src.play_team)
 	for(var/mob/carbon/H in src.players_left)
-		dat += text("<A href='?src=\ref[];pick=\ref[]'>[] ([])</A><BR>", src, H, H.rname, H.key)
+		dat += text("<A href='?src=\ref[];pick=\ref[]'>[] ([])</A><BR>", src, H, H.spawn_name, H.key)
 		//Foreach goto(39)
 	user << browse(dat, "window=ctf_pick")
 	return
@@ -261,7 +261,7 @@
 		world << "<B>Original Members:</B>"
 		for(var/mob/carbon/H in winner.members)
 			if (H.client)
-				world << text("\t [] ([])", H.rname, H.key)
+				world << text("\t [] ([])", H.spawn_name, H.key)
 			//Foreach goto(266)
 	return
 
@@ -468,3 +468,9 @@
 		if (H.CanAdmin())
 			src.show_screen(H)
 	return
+
+/obj/item/weapon/clipboard/attackby(obj/item/weapon/P as obj, mob/user as mob)
+	..()
+	if (istype(P, /obj/item/weapon/paper/flag))
+		if (ctf)
+			ctf.check_win(src)

@@ -18,6 +18,7 @@
 		WIRE_TRANSMIT = 4
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
 	var/listenrange = 2
+	var/b_stat = 0
 
 /obj/item/weapon/radio/beacon
 	name = "Tracking Beacon"

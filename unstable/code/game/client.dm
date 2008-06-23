@@ -1,5 +1,5 @@
 /client
-	var/lastKnownIP
+	var/last_known_ip
 
 /client/Del()
 	world.log_access("Logout: [src.key]")
@@ -8,7 +8,7 @@
 /client/New()
 	if (banned.Find(src.ckey))
 		del(src)
-	src.lastKnownIP = src.address
+	src.last_known_ip = src.address
 	world.log_access("Login: [src.key] from [src.address]")
 
 	src.authorize()

@@ -111,8 +111,8 @@
 		src.id = src.owner.can_wear_id,
 		src.suit = src.owner.can_wear_suit,
 		src.headset = src.owner.can_wear_headset,
-		src.storage1 = src.owner.can_wear_storage1,
-		src.storage2 = src.owner.can_wear_storage2
+		src.storage1 = src.owner.can_wear_l_store,
+		src.storage2 = src.owner.can_wear_r_store
 	)
 	for(var/obj/screen/x in slots)
 		if(!slots[x])
@@ -124,7 +124,7 @@
 	src.help = new /obj/screen(src, "help", null, "12,15", 19, "help")
 	src.disarm = new /obj/screen(src, "disarm", null, "13,15", 19, "disarm")
 	src.hurt = new /obj/screen(src, "hurt", null, "14,15", 19, "harm")
-	src.intent_selector = new /obj/screen(src, "intent", null, "14,15", null, "selector")
+	src.intent = new /obj/screen(src, "intent", null, "14,15", null, "selector")
 
 	src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
 		r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
@@ -141,26 +141,26 @@
 		topdither50, rightdither50, g_dither
 	)
 
-/datum/hud/carbon/update()
-	if (!src.is_dead && istype(src.mask, /obj/item/weapon/clothing/mask/gasmask))
-		src.client.screen += src.g_dither
+/datum/hud/carbon/proc/update()
+	if (!src.owner.is_dead && istype(src.owner.mask, /obj/item/weapon/clothing/mask/gasmask))
+		src.owner.client.screen += src.g_dither
 	else
-		src.client.screen -= src.g_dither
+		src.owner.client.screen -= src.g_dither
 
-	if (src.sleep_icon)
-		src.sleep_icon.icon_state = text("sleep[]", src.owner.sleeping)
-	if (src.rest_icon)
-		src.rest_icon.icon_state = text("rest[]", src.owner.resting)
-	if (src.health_icon)
-		if (src.is_dead)
+	if (src.sleep)
+		src.sleep.icon_state = text("sleep[]", src.owner.sleeping)
+	if (src.rest)
+		src.rest.icon_state = text("rest[]", src.owner.resting)
+	if (src.health)
+		if (src.owner.is_dead)
 			src.health.icon_state = "health5"
-		else if (src.get_damage() == 0)
+		else if (src.owner.get_damage() == 0)
 			src.health.icon_state = "health0"
-		else if (src.get_damage() <= 25)
+		else if (src.owner.get_damage() <= 25)
 			src.health.icon_state = "health1"
-		else if (src.get_damage() <= 50)
+		else if (src.owner.get_damage() <= 50)
 			src.health.icon_state = "health2"
-		else if (src.get_damage() <= 70)
+		else if (src.owner.get_damage() <= 70)
 			src.health.icon_state = "health3"
 		else
 			src.health.icon_state = "health4"
@@ -180,7 +180,7 @@
 		else
 			src.oxygen.icon_state = "oxy0"
 
-	if (src.blind && !src.is_dead)
+	if (src.owner.blind && !src.owner.is_dead)
 		src.blind.layer = 18
 	else
 		src.blind.layer = 0

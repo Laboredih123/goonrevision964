@@ -16,15 +16,15 @@
 
 	for(var/mob/M in world)
 		if (M.client)
-			if (M.stat != 2)
+			if (!M.is_dead)
 				var/T = M.loc
 				if ((T in A))
-					L[text("[]", M.rname)] = "shuttle"
+					L[text("[]", M.spawn_name)] = "shuttle"
 				else
 					if (istype(T, /obj/machinery/vehicle/pod))
-						L[text("[]", M.rname)] = "pod"
+						L[text("[]", M.spawn_name)] = "pod"
 					else
-						L[text("[]", M.rname)] = "alive"
+						L[text("[]", M.spawn_name)] = "alive"
 	if (L.len)
 		world << "\blue <B>The following survived the meteor attack!</B>"
 		for(var/I in L)

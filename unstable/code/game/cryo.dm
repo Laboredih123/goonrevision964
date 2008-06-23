@@ -1307,7 +1307,6 @@
 			M.oxyloss -= amount
 		else
 			M.oxyloss = 0
-		M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
 	M.paralysis -= 4
 	M.weakened -= 4
 	M.stunned -= 4

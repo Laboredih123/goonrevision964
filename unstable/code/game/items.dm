@@ -323,7 +323,7 @@
 		return
 	return
 
-/obj/item/weapon/bedsheet/attack_self(mob/user as mob)
+/obj/item/weapon/bedsheet/attack_self(mob/carbon/user as mob)
 
 	user.drop_item()
 	src.layer = 5
@@ -1046,7 +1046,7 @@
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	flick("baton_active", src)
-	if (user.a_intent == "hurt")
+	if (user.intent == "hurt")
 		M.knockdown_until(5)
 		..()
 	else
@@ -1245,7 +1245,6 @@
 	M.paralysis = 5
 	M.stunned = 15
 	M.weakened = 10
-	M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
 	..()
 	return
 
@@ -1266,7 +1265,6 @@
 
 	if (M.health > -50.0)
 		M.toxloss += M.health + 50
-	M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
 	..()
 	return
 
@@ -1281,7 +1279,6 @@
 		else
 			M.toxloss -= 20
 	M.antitoxs += 600
-	M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
 	..()
 	return
 
@@ -1851,60 +1848,63 @@
 
 /obj/item/weapon/clipboard/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.is_handcuffed()))
+	if (!usr.can_use_hands())
 		return
-	if (usr.contents.Find(src))
-		usr.machine = src
+	if(!istype(usr, /mob/carbon))
+		return
+	var/mob/carbon/N = usr
+	if (N.contents.Find(src))
+		N.machine = src
 		if (href_list["pen"])
 			if (src.pen)
-				if ((usr.hand && !( usr.l_hand )))
-					usr.l_hand = src.pen
-					src.pen.loc = usr
+				if ((N.hand && !( N.l_hand )))
+					N.l_hand = src.pen
+					src.pen.loc = N
 					src.pen.layer = 20
 					src.pen = null
-					usr.UpdateClothing()
+					N.UpdateClothing()
 				else
-					if (!( usr.r_hand ))
-						usr.r_hand = src.pen
-						src.pen.loc = usr
+					if (!( N.r_hand ))
+						N.r_hand = src.pen
+						src.pen.loc = N
 						src.pen.layer = 20
 						src.pen = null
-						usr.UpdateClothing()
+						N.UpdateClothing()
 				if (src.pen)
-					src.pen.add_fingerprint(usr)
-				src.add_fingerprint(usr)
+					src.pen.add_fingerprint(N)
+				src.add_fingerprint(N)
 		if (href_list["remove"])
 			var/obj/item/P = locate(href_list["remove"])
 			if ((P && P.loc == src))
-				if ((usr.hand && !( usr.l_hand )))
-					usr.l_hand = P
-					P.loc = usr
+				if ((N.hand && !( N.l_hand )))
+					N.l_hand = P
+					P.loc = N
 					P.layer = 20
-					usr.UpdateClothing()
+					N.UpdateClothing()
 				else
-					if (!( usr.r_hand ))
-						usr.r_hand = P
-						P.loc = usr
+					if (!( N.r_hand ))
+						N.r_hand = P
+						P.loc = N
 						P.layer = 20
-						usr.UpdateClothing()
-				P.add_fingerprint(usr)
-				src.add_fingerprint(usr)
+						N.UpdateClothing()
+				P.add_fingerprint(N)
+				src.add_fingerprint(N)
 		if (href_list["write"])
 			var/obj/item/P = locate(href_list["write"])
 			if ((P && P.loc == src))
-				if (istype(usr.r_hand, /obj/item/weapon/pen))
-					P.attackby(usr.r_hand, usr)
+				if (istype(N.r_hand, /obj/item/weapon/pen))
+					P.attackby(N.r_hand, N)
 				else
-					if (istype(usr.l_hand, /obj/item/weapon/pen))
-						P.attackby(usr.l_hand, usr)
+					if (istype(N.l_hand, /obj/item/weapon/pen))
+						P.attackby(N.l_hand, N)
 					else
 						if (istype(src.pen, /obj/item/weapon/pen))
-							P.attackby(src.pen, usr)
-			src.add_fingerprint(usr)
+							P.attackby(src.pen, N)
+			src.add_fingerprint(N)
 		if (href_list["read"])
 			var/obj/item/weapon/paper/P = locate(href_list["read"])
 			if ((P && P.loc == src))
-				usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.info), text("window=[]", P.name))
+				N << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.info), text("window=[]", P.name))
 		if (ismob(src.loc))
 			var/mob/M = src.loc
 			if (M.machine == src)
@@ -1945,9 +1945,6 @@
 		if (src.contents.len < 15)
 			user.drop_item()
 			P.loc = src
-			if (istype(P, /obj/item/weapon/paper/flag))
-				if (ctf)
-					ctf.check_win(src)
 		else
 			user << "\blue Not enough space!!!"
 	else
@@ -1957,12 +1954,12 @@
 				P.loc = src
 				src.pen = P
 		else
-			return
+			return ..()
 	src.update()
 	spawn( 0 )
 		attack_self(user)
-		return
-	return
+		return ..()
+	return ..()
 
 /obj/item/weapon/clipboard/proc/update()
 
@@ -2512,9 +2509,9 @@
 
 /obj/item/weapon/analyzer/attack_self(mob/carbon/user as mob)
 
-	if (user.stat)
+	if (!user.is_active())
 		return
-	if(!src.check_dexterity())
+	if(!user.check_dexterity())
 		return
 	var/turf/T = user.loc
 	if (!( istype(T, /turf) ))
@@ -3485,10 +3482,10 @@
 
 	if (src.uses < 1)
 		return 0
-	if (source.handcuffed)
+	if (source.handcuffs)
 		src.uses--
-		var/obj/item/weapon/W = source.handcuffed
-		source.handcuffed = null
+		var/obj/item/weapon/W = source.handcuffs
+		source.handcuffs = null
 		if (source.client)
 			source.client.screen -= W
 		if (W)
@@ -3602,25 +3599,22 @@
 	return
 
 /obj/item/weapon/brutepack/interact(mob/user as mob)
-
-	if ((user.r_hand == src || user.l_hand == src))
-		src.add_fingerprint(user)
-		var/obj/item/weapon/brutepack/F = new /obj/item/weapon/brutepack( user )
-		F.amount = 1
-		src.amount--
-		if (user.hand)
-			user.l_hand = F
-		else
-			user.r_hand = F
-		F.layer = 20
-		F.add_fingerprint(user)
-		if (src.amount < 1)
-			//SN src = null
-			del(src)
-			return
-	else
-		..()
-	return
+	if(istype(user, /mob/carbon))
+		var/mob/carbon/M = user
+		if (M.r_hand == src || M.l_hand == src)
+			src.add_fingerprint(M)
+			var/obj/item/weapon/brutepack/F = new /obj/item/weapon/brutepack(M)
+			F.amount = 1
+			src.amount--
+			if (M.hand)
+				M.l_hand = F
+			else
+				M.r_hand = F
+			F.layer = 20
+			F.add_fingerprint(M)
+			if (src.amount < 1)
+				del(src)
+	return ..()
 
 /obj/item/weapon/brutepack/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 

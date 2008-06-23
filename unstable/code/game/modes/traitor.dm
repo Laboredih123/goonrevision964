@@ -109,28 +109,29 @@
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			killer:memory += "<B>Objective:</B> [targetdesc] and escape."
 
-	if (!istype(killer, /mob/silicon/ai))
+	if (istype(killer, /mob/carbon))
 		spawn (100)
-			if (istype(killer.back, /obj/item/weapon/storage/backpack))
-				var/obj/item/weapon/storage/backpack/B = killer.back
+			var/mob/carbon/carbon_killer = killer
+			if (istype(carbon_killer.back, /obj/item/weapon/storage/backpack))
+				var/obj/item/weapon/storage/backpack/B = carbon_killer.back
 				var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink(B)
 				U.loc = B
 				B.orient2hud(killer)
-			else if (killer.jumpsuit) // No backpack, but a jumpsuit
-				if(!(killer.l_store)) // Put the radio in his left pocket, if possible
-					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(killer)
-					traitor_item.loc = killer
-					killer.l_store = traitor_item
+			else if (carbon_killer.jumpsuit) // No backpack, but a jumpsuit
+				if(!(carbon_killer.l_store)) // Put the radio in his left pocket, if possible
+					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(carbon_killer)
+					traitor_item.loc = carbon_killer
+					carbon_killer.l_store = traitor_item
 					traitor_item.layer = 20
-				else if(!(killer.r_store)) // Put the radio in his right pocket, if possible
-					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(ticker.killer)
-					traitor_item.loc = ticker.killer
-					ticker.killer.r_store = traitor_item
+				else if(!(carbon_killer.r_store)) // Put the radio in his right pocket, if possible
+					var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(carbon_killer)
+					traitor_item.loc = carbon_killer
+					carbon_killer.r_store = traitor_item
 					traitor_item.layer = 20
 				else
-					killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
+					carbon_killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
 			else
-				killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
+				carbon_killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
 
 /datum/game_mode/traitor/proc/send_intercept()
 	var/intercepttext = "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT><HR>"
@@ -208,7 +209,7 @@
 			var/stayed = 0
 			for(var/mob/M in world)
 				if ((M != ticker.killer && M.client))
-					if (M.stat == 2 || M.loc in shuttle || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
+					if (M.is_dead || M.loc in shuttle || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
 						gone++
 					else
 						stayed++
@@ -216,13 +217,13 @@
 			if (stayed > total * percentage_station_evacuate / 100)
 				traitorwin = 0
 		if(obj_hijack)
-			for(var/mob/mob in world)
-				if ((mob != ticker.killer && mob.client))
-					if (mob.stat != 2) //they're not dead
-						if (get_turf(mob) in shuttle)
+			for(var/mob/M in world)
+				if (M != ticker.killer && M.client)
+					if (!M.is_dead)
+						if (get_turf(M) in shuttle)
 							traitorwin = 0
 		if(obj_murder, ai_obj_murder)
-			if (ticker.target && ticker.target.stat != 2) //target's alive
+			if (ticker.target && !ticker.target.is_dead) //target's alive
 				traitorwin = 0
 		if(obj_steal)
 			var/list/L = list()
@@ -285,7 +286,7 @@
 					if(canisters_destroyed < canisters_total * percentage_plasma_destroy / 100)
 						traitorwin = 0
 				if(destroy_ai)
-					if(ticker.target && ticker.target.stat != 2)
+					if(ticker.target && !ticker.target.is_dead)
 						traitorwin = 0
 				if(kill_monkeys)
 					for(var/mob/carbon/M in world)
@@ -313,14 +314,14 @@
 		var/turf/loc = ticker.killer.loc
 		if (!istype(loc, /turf))
 			traitorwin = 0
-		if (ticker.killer.stat == 2) //dead
+		if (ticker.killer.is_dead) //dead
 			traitorwin = 0
 		if (!(loc in shuttle || istype(ticker.killer, /mob/silicon/ai))) //not on shuttle, not AI
 			traitorwin = 0
 	if (traitorwin)
-		world << "<B>The traitor ([ticker.killer.rname]) wins!</B>"
+		world << "<B>The traitor ([ticker.killer.spawn_name]) wins!</B>"
 	else
-		world << "<B>The Research Staff has stopped the traitor ([ticker.killer.rname]) !</B>"
+		world << "<B>The Research Staff has stopped the traitor ([ticker.killer.spawn_name]) !</B>"
 	switch(ticker.objective)
 		if(ai_obj_evacuate)
 			world << "<B>Objective: Cause the evacuation or death of at least [percentage_station_evacuate]% of the station.</B>"
@@ -358,14 +359,14 @@
 /datum/game_mode/traitor/proc/get_mob_list()
 	var/list/mobs = list()
 	for(var/mob/M in world)
-		if (M.client && M.start)
+		if (M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
 			mobs += M
 	return mobs
 
 /datum/game_mode/traitor/proc/get_human_list()
 	var/list/humans = list()
 	for(var/mob/carbon/M in world)
-		if (M.client && get_rank(M) != "AI")
+		if (M.client)
 			humans += M
 	return humans
 

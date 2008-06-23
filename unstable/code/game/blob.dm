@@ -113,7 +113,7 @@
 
 
 /obj/blob/attackby(var/obj/item/weapon/W, var/mob/user)
-	src.show_viewers(text("\red <B>The blob has been attacked with [][] </B>", W, (user ? text(" by [].", user) : ".")))
+	user.show_viewers(text("\red <B>The blob has been attacked with [][] </B>", W, (user ? text(" by [].", user) : ".")))
 		//Foreach goto(20)
 
 	var/damage = W.force / 4.0

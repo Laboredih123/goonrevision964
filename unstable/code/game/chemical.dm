@@ -607,24 +607,17 @@ heat is conserved between exchanges
 			return
 	return
 
-/datum/chemical/pl_coag/injected(var/mob/M as mob, zone)
+/datum/chemical/pl_coag/injected(mob/carbon/M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
-			M.eye_stat -= volume * 2
-			M.eye_stat = max(0, M.eye_stat)
+			M.take_eye_damage(volume * 2)
 		else
-			if (M.health >= 0)
-				if ((volume * 4) >= M.toxloss)
-					M.toxloss = 0
-				else
-					M.toxloss -= volume * 4
 			M.antitoxs += volume * 180
-			M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
 	return
 
-/datum/chemical/l_plas/injected(var/mob/carbon//M as mob, zone)
+/datum/chemical/l_plas/injected(mob/carbon/M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)
@@ -639,29 +632,17 @@ heat is conserved between exchanges
 				//Foreach goto(133)
 	return
 
-/datum/chemical/s_tox/injected(var/mob/M as mob, zone)
+/datum/chemical/s_tox/injected(mob/carbon/M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
-			M.eye_blind += volume * 10
-			M.eye_blurry += volume * 15
+			M.take_eye_damage(volume * 3)
 		else
-			M.paralysis += volume * 12
-			M.stat = 1
+			M.knockdown_until(volume)
 	return
 
-/datum/chemical/epil/injected(var/mob/carbon/M as mob, zone)
-	var/volume = src.return_property("volume")
-	switch(zone)
-		if("eye")
-			M.take_eye_damage(volume * 2)
-		else
-			//TODO: Make this do something
-	return
-
-/datum/chemical/ch_cou/injected(var/mob/carbon/M as mob, zone)
-
+/datum/chemical/epil/injected(mob/carbon/M as mob, zone)
 	var/volume = src.return_property("volume")
 	switch(zone)
 		if("eye")
@@ -670,7 +651,17 @@ heat is conserved between exchanges
 			//TODO: Make this do something
 	return
 
-/datum/chemical/rejuv/injected(var/mob/carbon/M as mob, zone)
+/datum/chemical/ch_cou/injected(mob/carbon/M as mob, zone)
+
+	var/volume = src.return_property("volume")
+	switch(zone)
+		if("eye")
+			M.take_eye_damage(volume * 2)
+		else
+			//TODO: Make this do something
+	return
+
+/datum/chemical/rejuv/injected(mob/carbon/M as mob, zone)
 
 	var/volume = src.return_property("volume")
 	switch(zone)

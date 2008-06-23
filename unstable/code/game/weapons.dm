@@ -851,7 +851,7 @@
 /obj/item/weapon/assembly/rad_time/r_signal(n, source)
 
 	if (source == src.part2)
-		src.part1.s_signal(1)
+		src.part1.send_signal()
 	return
 
 /obj/item/weapon/assembly/rad_prox/c_state(n)
@@ -912,7 +912,7 @@
 /obj/item/weapon/assembly/rad_prox/r_signal(n, source)
 
 	if (source == src.part2)
-		src.part1.s_signal(1)
+		src.part1.send_signal()
 	return
 
 /obj/item/weapon/assembly/rad_prox/Move()
@@ -978,7 +978,7 @@
 /obj/item/weapon/assembly/rad_infra/r_signal(n, source)
 
 	if (source == src.part2)
-		src.part1.s_signal(1)
+		src.part1.send_signal(1)
 	return
 
 /obj/item/weapon/assembly/rad_infra/verb/rotate()
@@ -1202,7 +1202,7 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/assembly/m_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
 		var/obj/item/weapon/assembly/prox_ignite/R = new /obj/item/weapon/assembly/prox_ignite(  )
@@ -1287,7 +1287,7 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/t_i_ptank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/assembly/t_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
 		var/obj/item/weapon/assembly/time_ignite/R = new /obj/item/weapon/assembly/time_ignite(  )
@@ -1386,7 +1386,7 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/r_i_ptank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/assembly/r_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
 		var/obj/item/weapon/assembly/rad_ignite/R = new /obj/item/weapon/assembly/rad_ignite(  )

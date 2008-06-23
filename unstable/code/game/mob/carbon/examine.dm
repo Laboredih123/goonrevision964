@@ -5,8 +5,8 @@
 	usr << "\blue This is \icon[src] <B>[src.name]</B>!"
 	if (src.jumpsuit)
 		usr << "\blue \t[src.name] is wearing \icon[src.jumpsuit] [src.jumpsuit.name]."
-	if (src.handcuffed)
-		usr << "\blue \t[src.name] is handcuffed! \icon[src.handcuffed]"
+	if (src.handcuffs)
+		usr << "\blue \t[src.name] is handcuffed! \icon[src.handcuffs]"
 	if (src.suit)
 		usr << "\blue \t[src.name] has a \icon[src.suit] [src.suit.name] on!"
 	if (src.headset)

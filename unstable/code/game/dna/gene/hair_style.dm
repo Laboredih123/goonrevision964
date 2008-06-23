@@ -16,8 +16,10 @@
 	)
 
 /datum/gene/hair_style
-	attributes = get_hair_styles()
 	default = HAIR_STYLE_SHORT
+
+	New()
+		attributes = get_hair_styles()
 
 /datum/gene/hair_style/update_mob(mob/carbon/M, attribute)
 	. = ..()

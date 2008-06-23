@@ -5,7 +5,6 @@
 
 	if (CanAdmin())
 		src << text("\blue The game ip is byond://[]:[] !", world.address, world.port)
-		src.verbs += /mob/proc/show_ctf
 		src.verbs += /proc/variables
 
 
@@ -20,7 +19,7 @@
 	if (ticker && master_mode =="sandbox" && src.client.authenticated)
 		src.CanBuild()
 
-	return
+	return ..()
 
 /mob/carbon/Logout()
 	//clear the HUD

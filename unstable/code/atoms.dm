@@ -339,14 +339,12 @@
 	flags = 2.0
 	mouse_opacity = 0
 /obj/equip_e
-	name = "equip e"
-	var/mob/source = null
+	name = "carbon-based life form"
+	var/mob/carbon/source = null
 	var/s_loc = null
 	var/t_loc = null
 	var/obj/item/item = null
 	var/place = null
-/obj/equip_e
-	name = "carbon-based life form"
 	var/mob/carbon/target = null
 /obj/grille
 	desc = "A piece of metal with evenly spaced gridlike holes in it. Blocks large object but lets small items, gas, or energy beams through."

@@ -58,7 +58,7 @@
 			if("pill")
 				return
 			if("handcuff")
-				if (!( src.target.handcuffed ))
+				if (!src.target.handcuffs)
 					//SN src = null
 					del(src)
 					return
@@ -98,7 +98,7 @@
 					if("eyes")
 						message = text("\red <B>[] is trying to take off the [] from []'s eyes!</B>", src.source, src.target.glasses, src.target)
 					if("head")
-						message = text("\red <B>[] is trying to take off the [] from []'s head!</B>", src.source, src.target.head, src.target)
+						message = text("\red <B>[] is trying to take off the [] from []'s head!</B>", src.source, src.target.helmet, src.target)
 					if("shoes")
 						message = text("\red <B>[] is trying to take off the [] from []'s feet!</B>", src.source, src.target.shoes, src.target)
 					if("belt")
@@ -144,7 +144,7 @@
 		return
 	if ((src.item && src.source.equipped() != src.item))
 		return
-	if ((src.source.is_handcuffed() || src.source.stat))
+	if (!src.source.can_use_hands())
 		return
 	switch(src.place)
 		if("mask")
@@ -237,8 +237,8 @@
 					src.target.belt = src.item
 					src.item.loc = src.target
 		if("head")
-			if (src.target.head)
-				var/obj/item/weapon/W = src.target.head
+			if (src.target.helmet)
+				var/obj/item/weapon/W = src.target.helmet
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -252,7 +252,7 @@
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
-					src.target.head = src.item
+					src.target.helmet = src.item
 					src.item.loc = src.target
 		if("shoes")
 			if (src.target.shoes)
@@ -418,8 +418,8 @@
 					src.target.back = src.item
 					src.item.loc = src.target
 		if("handcuff")
-			if (src.target.handcuffed)
-				var/obj/item/weapon/W = src.target.handcuffed
+			if (src.target.handcuffs)
+				var/obj/item/weapon/W = src.target.handcuffs
 				src.target.u_equip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
@@ -431,20 +431,18 @@
 			else
 				if (istype(src.item, /obj/item/weapon/handcuffs))
 					src.source.drop_item()
-					src.target.handcuffed = src.item
+					src.target.handcuffs = src.item
 					src.item.loc = src.target
 		if("CPR")
 			if (src.target.cpr_time >= world.time + 30)
 				//SN src = null
 				del(src)
 				return
-			if ((src.target.health >= -75.0 && src.target.health < 0))
+			if ((src.target.get_damage() >= src.target.unconsciousness_threshold && src.target.get_damage() < (src.target.death_threshold - 25)))
 				src.target.cpr_time = world.time
-				if (src.target.health >= -40.0)
-					var/suff = min(src.target.oxyloss, 5)
-					src.target.oxyloss -= suff
-					src.target.health = 100 - src.target.oxyloss - src.target.toxloss - src.target.fireloss - src.target.bruteloss
-				src.target.chemicals.rejuv = max(src.target.chemicals.rejuv, 10)
+				if (src.target.get_damage() >= -40.0)
+					src.target.heal_damage(suff = 5)
+				src.target.rejuv = max(src.target.rejuv, 10)
 				src.source.show_viewers(text("\red [] performs CPR on []!", src.source, src.target))
 				src.source << "\red Repeat every 7 seconds AT LEAST."
 		if("syringe")
@@ -514,8 +512,8 @@
 							//Foreach goto(3913)
 						src.target.internal.add_fingerprint(src.source)
 		else
-	src.source.UpdateClothing()
-	src.target.UpdateClothing()
+	src.source.update_clothing()
+	src.target.update_clothing()
 	//SN src = null
 	del(src)
 	return

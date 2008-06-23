@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE:
-DIR:
+FILE: code\game\items.dm
+DIR: code code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\modes
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -187,7 +187,6 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\silicon\ai\var.dm"
 #include "code\game\mob\silicon\ai\verbs.dm"
 #include "code\game\modes\blob.dm"
-#include "code\game\modes\ctf.dm"
 #include "code\game\modes\extended.dm"
 #include "code\game\modes\meteor.dm"
 #include "code\game\modes\monkey.dm"

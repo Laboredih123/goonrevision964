@@ -9,6 +9,7 @@
 		char_hair_color = HAIR_COLOR_BROWN
 		char_hair_style = HAIR_STYLE_SHORT
 		char_last_version //md5 of changelog, to keep track of the most recent version of ss13 they've seen
+		char_will_play_traitor = "No"
 		ready = 0
 		savefile_loc
 		const/SAVEFILE_EXTENSION = "sav"
@@ -52,6 +53,7 @@ mob/prespawn/proc/savefile_load()
 		F["hair_style"] >> src.char_hair_style
 		F["skin_color"] >> src.char_skin_color
 		F["last_version"] >> src.char_last_version
+		F["will_play_traitor"] >> src.char_will_play_traitor
 		return 1
 	else
 		return 0
@@ -67,6 +69,7 @@ mob/prespawn/proc/savefile_load()
 	F["hair_style"] << src.char_hair_style
 	F["skin_color"] << src.char_skin_color
 	F["last_version"] << md5(changes)
+	F["will_play_traitor"] << src.char_will_play_traitor
 
 /mob/prespawn/Topic(href, href_list)
 	if(src != usr)
@@ -97,6 +100,8 @@ mob/prespawn/proc/savefile_load()
 			src.char_hair_color = initial(src.char_hair_color)
 			src.char_hair_style = initial(src.char_hair_style)
 			src.skin = initial(src.skin)
+	if(href_list["willing_to_play_traitor"])
+		src.will_play_traitor = input("Would you like to be eligible for being traitor?", "Character Generation", src.will_play_traitor) in list("Yes", "No")
 	return ..()
 
 /mob/prespawn/verb/char_setup()
@@ -107,7 +112,8 @@ mob/prespawn/proc/savefile_load()
 		"gender" = src.char_gender,
 		"skin_color" = src.char_skin_color,
 		"hair_color" = src.char_hair_color,
-		"hair_style" = src.char_hair_style
+		"hair_style" = src.char_hair_style,
+		"willing_to_play_traitor" = src.will_play_traitor
 	)
 	for(var/x in vars)
 		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]:</b>"

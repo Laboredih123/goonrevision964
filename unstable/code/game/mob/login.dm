@@ -1,7 +1,6 @@
 /mob/Login()
 	if (CanAdmin())
 		src << text("\blue The game ip is byond://[]:[] !", world.address, world.port)
-		src.verbs += /mob/proc/show_ctf
 		src.verbs += /proc/variables
 	src.next_move = 1
 	if (!( isturf(src.loc) ))

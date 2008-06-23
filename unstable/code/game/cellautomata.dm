@@ -64,7 +64,7 @@
 
 			for(var/mob/CM in world)
 				if(CM.client)
-					if(config.vote_no_default || (config.vote_no_dead && CM.stat == 2) || !CM.client.authenticated)
+					if(config.vote_no_default || (config.vote_no_dead && CM.is_dead) || !CM.client.authenticated)
 						CM.client.vote = "none"
 					else
 						CM.client.vote = "default"
@@ -110,7 +110,7 @@
 		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			var/dat = "<B>Boot Player:</B><HR>"
 			for(var/mob/M in world)
-				dat += text("<A href='?src=\ref[];boot2=\ref[]'>N:[] R:[] (K:[]) (IP:[])</A><BR>", src, M, M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP)
+				dat += text("<A href='?src=\ref[];boot2=\ref[]'>N:[] R:[] (K:[]) (IP:[])</A><BR>", src, M, M.name, M.spawn_name, (M.client ? M.client : "No client"), M.last_known_ip)
 				//Foreach goto(103)
 			usr << browse(dat, "window=boot")
 	if (href_list["boot2"])
@@ -127,7 +127,7 @@
 		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			var/dat = "<B>Ban Player:</B><HR>"
 			for(var/mob/M in world)
-				dat += text("<A href='?src=\ref[];ban2=\ref[]'>N: [] R: [] (K: []) (IP: [])</A><BR>", src, M, M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP)
+				dat += text("<A href='?src=\ref[];ban2=\ref[]'>N: [] R: [] (K: []) (IP: [])</A><BR>", src, M, M.name, M.spawn_name, (M.client ? M.client : "No client"), M.last_known_ip)
 				//Foreach goto(362)
 			dat += "<HR><B>Unban Player:</B><HR>"
 			for(var/t in banned)
@@ -155,7 +155,7 @@
 		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
 			var/dat = "<B>Mute/Unmute Player:</B><HR>"
 			for(var/mob/M in world)
-				dat += text("<A href='?src=\ref[];mute2=\ref[]'>N:[] R:[] (K:[]) (IP: []) \[[]\]</A><BR>", src, M, M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP, (M.muted ? "Muted" : "Voiced"))
+				dat += text("<A href='?src=\ref[];mute2=\ref[]'>N:[] R:[] (K:[]) (IP: []) \[[]\]</A><BR>", src, M, M.name, M.spawn_name, (M.client ? M.client : "No client"), M.last_known_ip, (M.muted ? "Muted" : "Voiced"))
 				//Foreach goto(757)
 			usr << browse(dat, "window=mute")
 	if (href_list["mute2"])
@@ -241,7 +241,7 @@
 	if (href_list["l_players"])
 		var/dat = "<B>Name/Real Name/Key/IP:</B><HR>"
 		for(var/mob/M in world)
-			dat += text("N: [] R: [] (K: []) (IP: [])<BR>", M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP)
+			dat += text("N: [] R: [] (K: []) (IP: [])<BR>", M.name, M.spawn_name, (M.client ? M.client : "No client"), M.last_known_ip)
 			//Foreach goto(1602)
 		usr << browse(dat, "window=players")
 	if (href_list["g_send"])
@@ -252,7 +252,7 @@
 	if (href_list["p_send"])
 		var/dat = "<B>Who are you sending a message to?</B><HR>"
 		for(var/mob/M in world)
-			dat += "<A href='?src=\ref[usr];priv_msg=\ref[M]'>N:[M.name] R:[M.rname] (K:[(M.client ? M.client : "No client")])</A><BR>"
+			dat += "<A href='?src=\ref[usr];priv_msg=\ref[M]'>N:[M.name] R:[M.spawn_name] (K:[(M.client ? M.client : "No client")])</A><BR>"
 			//Foreach goto(1737)
 		usr << browse(dat, "window=p_send")
 

@@ -649,7 +649,7 @@
 /obj/datacore/proc/manifest()
 
 	for(var/mob/carbon/H in world)
-		if (!findtext(H.rname, "Syndicate ", 1, null))
+		if (!findtext(H.spawn_name, "Syndicate ", 1, null))
 			var/datum/data/record/G = new /datum/data/record(  )
 			var/datum/data/record/M = new /datum/data/record(  )
 			var/datum/data/record/S = new /datum/data/record(  )
@@ -658,7 +658,7 @@
 				G.fields["rank"] = C.assignment
 			else
 				G.fields["rank"] = "Unassigned"
-			G.fields["name"] = H.rname
+			G.fields["name"] = H.spawn_name
 			G.fields["id"] = text("[]", add_zero(num2hex(rand(1, 1.6777215E7)), 6))
 			M.fields["name"] = G.fields["name"]
 			M.fields["id"] = G.fields["id"]
@@ -668,11 +668,9 @@
 				G.fields["sex"] = "Female"
 			else
 				G.fields["sex"] = "Male"
-			G.fields["age"] = text("[]", H.age)
-			G.fields["fingerprint"] = text("[]", md5(H.primary.uni_identity))
+			G.fields["fingerprint"] = text("[]", H.get_fingerprint())
 			G.fields["p_stat"] = "Active"
 			G.fields["m_stat"] = "Stable"
-			M.fields["b_type"] = text("[]", H.b_type)
 			M.fields["mi_dis"] = "None"
 			M.fields["mi_dis_d"] = "No minor disabilities have been declared."
 			M.fields["ma_dis"] = "None"

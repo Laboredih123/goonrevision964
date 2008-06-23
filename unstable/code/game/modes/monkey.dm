@@ -11,7 +11,7 @@
 	spawn (50)
 		var/list/mobs = list()
 		for (var/mob/carbon/M in world)
-			if (M.client && M.start)
+			if (M.client)
 				mobs += M
 
 		if (mobs.len >= 3)
@@ -51,7 +51,7 @@
 	else
 		world << "<FONT size = 3><B>The Research Staff has stopped the monkey invasion!</B></FONT>"
 		for(var/mob/carbon/M in world)
-			if (M.client && M.appearance = APPEARANCE_HUMAN)
+			if (M.client && M.appearance == APPEARANCE_HUMAN)
 				world << text("<B>[] was [].</B>", M.key, M)
 	return 1
 

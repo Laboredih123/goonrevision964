@@ -410,7 +410,7 @@
 			var/link = x[3]
 			var/contents = x[4] ? x[4] : "Nothing"
 			dat += "<b>[desc]</b> <a href='?src=\ref[src];item=[link]'>[contents]</a>"
-	dat += "<a href='?src=\ref[src];item=[SLOT_HANDCUFFS]'>[src.handcuffed ? "" : "Not "]Handcuffed</A>"
+	dat += "<a href='?src=\ref[src];item=[SLOT_HANDCUFFS]'>[src.handcuffs ? "" : "Not "]Handcuffed</A>"
 	dat += "<a href='?src=\ref[src];item=pockets'>Empty Pockets</A>"
 	dat += "<a href='?src=\ref[src];mach_close=mob[src]'>Close</A>\n</PRE>"
 	user << browse(dat, text("window=mob[];size=300x600", src.key))
