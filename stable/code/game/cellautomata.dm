@@ -1277,7 +1277,8 @@
 					if (src.timeleft >= shuttle_time_to_arrive)
 						src.timeleft = null
 						src.timing = 0
-		spawn_meteors()
+		for(var/i = 0; i < 10; i++)
+			spawn_meteors()
 		if ((src.timeleft <= 0 && src.timing && !( prison_entered )))
 			src.timeup()
 
