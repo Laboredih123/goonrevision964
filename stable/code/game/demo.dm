@@ -1037,8 +1037,10 @@
 /obj/secloset/personal/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	if (src.opened)
+		if (istype(W, /obj/item/weapon/grab))
+			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 		user.drop_item()
-		W.loc = src.loc
+		if (W) W.loc = src.loc
 	else if (istype(W, /obj/item/weapon/card/id))
 		if(src.broken)
 			user << "\red It appears to be broken."
@@ -1256,8 +1258,10 @@
 /obj/secloset/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	if (src.opened)
+		if (istype(W, /obj/item/weapon/grab))
+			src.MouseDrop_T(W:affecting, user)	//act like they were dragged onto the closet
 		user.drop_item()
-		W.loc = src.loc
+		if (W) W.loc = src.loc
 	else if(src.broken)
 		user << "\red It appears to be broken."
 		return
@@ -1745,8 +1749,10 @@
 /obj/closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	if ((src.opened || W.damtype != "fire" || !( istype(W, /obj/item/weapon/weldingtool) )))
+		if (istype(W, /obj/item/weapon/grab))
+			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 		user.drop_item()
-		W.loc = src.loc
+		if (W) W.loc = src.loc
 	else
 		src.welded = !( src.welded )
 		for(var/mob/M in viewers(user, null))
@@ -3193,6 +3199,7 @@
 	src.poison = 7.5E7
 	res_vars()
 	return
+
 
 
 
