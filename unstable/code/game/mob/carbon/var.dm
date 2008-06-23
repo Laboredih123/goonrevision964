@@ -118,3 +118,5 @@
 	var/datum/dna/dna
 
 	var/plasma = 0
+
+	var/datum/hud/carbon/hud = new()

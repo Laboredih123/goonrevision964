@@ -3,15 +3,20 @@
 	src.selected = "CR"
 
 /obj/item/weapon/game_kit/MouseDrop(mob/user as mob)
-	if (user == usr && !usr.is_handcuffed() && !usr.stat && (usr.contents.Find(src) || get_dist(src, usr) <= 1))
-		if (usr.hand)
-			if (!usr.l_hand)
-				spawn (0)
-					src.interact(usr, 1, 1)
+	if (user == usr && usr.can_use_hands() && (usr.contents.Find(src) || get_dist(src, usr) <= 1))
+		if(istype(usr, /mob/carbon))
+			var/mob/carbon/M = usr
+			if (M.hand)
+				if (!M.l_hand)
+					spawn (0)
+						src.interact(usr, 1, 1)
+			else
+				if (!M.r_hand)
+					spawn (0)
+						src.interact(usr, 0, 1)
 		else
-			if (!usr.r_hand)
-				spawn (0)
-					src.interact(usr, 0, 1)
+			spawn(0)
+				src.interact(usr)
 
 /obj/item/weapon/game_kit/proc/update()
 	var/dat = text("<CENTER><B>Game Board</B></CENTER><BR><a href='?src=\ref[];mode=hia'>[]</a> <a href='?src=\ref[];mode=remove'>remove</a><HR><table width= 256  border= 0  height= 256  cellspacing= 0  cellpadding= 0 >", src, (src.selected ? text("Selected: []", src.selected) : "Nothing Selected"), src)
@@ -58,7 +63,7 @@
 
 /obj/item/weapon/game_kit/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.is_handcuffed()))
+	if (!usr.can_use_hands())
 		return
 
 	if (usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))

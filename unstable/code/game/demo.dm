@@ -545,8 +545,10 @@
 		src.icon_state = "o_shoes1"
 	return
 
-/obj/item/weapon/clothing/mask/muzzle/interact(mob/user as mob)
-	if (src == user.mask && src.appearance == APPEARANCE_MONKEY)
+/obj/item/weapon/clothing/mask/muzzle/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
+	if (src == user.mask && user.appearance == APPEARANCE_MONKEY)
 		return
 	else
 		..()

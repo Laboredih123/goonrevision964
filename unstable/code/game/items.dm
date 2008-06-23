@@ -182,7 +182,7 @@
 				P.loc = usr
 				P.layer = 20
 				P = null
-				usr.UpdateClothing()
+				usr.update_clothing()
 				break////
 			else
 				if (!( usr.r_hand ))
@@ -190,7 +190,7 @@
 					P.loc = usr
 					P.layer = 20
 					P = null
-					usr.UpdateClothing()
+					usr.update_clothing()
 					break////
 			////else
 			//Foreach goto(48)
@@ -386,7 +386,7 @@
 		user << "\blue The object is FAR too large!"
 	return
 
-/obj/item/weapon/gift/attack_self(mob/user as mob)
+/obj/item/weapon/gift/attack_self(mob/carbon/user as mob)
 
 	src.gift.loc = user
 	if (user.hand)
@@ -415,7 +415,7 @@
 		src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/flashbang/afterattack(atom/target as mob|obj|turf|area, mob/user as mob)
+/obj/item/weapon/flashbang/afterattack(atom/target as mob|obj|turf|area, mob/carbon/user as mob)
 
 	if (user.equipped() == src)
 		if (!( src.state ))
@@ -449,28 +449,20 @@
 				S.icon_state = "shield0"
 				//Foreach goto(72)
 		if ((get_dist(M, T) <= 2 || src.loc == M.loc || src.loc == M))
-			flick("e_flash", M.flash)
-			M.stunned = 10
-			M.weakened = 3
+			flick("e_flash", M.hud.flash)
+			M.knockdown_until(2)
 			M << "\red <B>BANG</B>"
 			if ((prob(14) || (M == src.loc && prob(70))))
-				M.ear_damage += rand(10, 20)
-			else
-				if (prob(30))
-					M.ear_damage += rand(7, 14)
-			if (!( M.paralysis ))
-				M.eye_damage += rand(10, 15)
-			if (prob(10))
-				M.eye_stat += 7
-			M.ear_deaf += 30
+				M.take_ear_damage(15)
+			else if (prob(30))
+				M.take_ear_damage(10)
+			M.take_eye_damage(5)
 			if (M == src.loc)
-				M.eye_stat += 10
-				if (prob(60))
-					M.ear_damage += 15
-					M.ear_deaf += 60
+				M.take_eye_damage(5)
+				M.take_ear_damage(5)
 		else
 			if (get_dist(M, T) <= 5)
-				flick("e_flash", M.flash)
+				flick("e_flash", M.hud.flash)
 
 				M.ear_damage += 10
 				if (!istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
@@ -479,24 +471,10 @@
 				M << "\red <B>BANG</B>"
 			else
 				if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
-					flick("flash", M.flash)
-				M.eye_damage += 2
-				M.ear_damage += 5
+					flick("flash", M.hud.flash)
+				M.take_eye_damage(2)
+				M.take_ear_damage(5)
 				M << "\red <B>BANG</B>"
-		if (M.eye_stat >= 20)
-			M << "\red Your eyes start to burn badly!"
-			M.disabilities |= 1
-			if (prob(M.eye_stat - 20 + 1))
-				M << "\red You go blind!"
-				M.sdisabilities |= 1
-		if (M.ear_damage >= 15)
-			M << "\red Your ears start to ring badly!"
-			if (prob(M.ear_damage - 10 + 5))
-				M << "\red You go deaf!"
-				M.sdisabilities |= 4
-		else
-			if (M.ear_damage >= 5)
-				M << "\red Your ears start to ring!"
 		//Foreach goto(39)
 	//SN src = null
 
@@ -532,18 +510,11 @@
 		if (!( safety ))
 			M.knockdown_until(10)
 			if (M.client)
-				if ((M.eye_stat > 15 && prob(M.eye_stat + 50)))
-					flick("e_flash", M.flash)
-					M.eye_stat += rand(1, 2)
+				M.take_eye_damage(1)
+				if (M.get_eye_damage() > 10)
+					flick("e_flash", M.hud.flash)
 				else
-					flick("flash", M.flash)
-					M.eye_stat += rand(0, 2)
-				if (M.eye_stat >= 20)
-					M << "\red You eyes start to burn badly!"
-					M.disabilities |= 1
-					if (prob(M.eye_stat - 20 + 1))
-						M << "\red You go blind!"
-						M.sdisabilities |= 1
+					flick("flash", M.hud.flash)
 		user.show_viewers(text("\red [] blinds [] with the flash!", user, M))
 
 	src.attack_self(user, 1)
@@ -562,7 +533,7 @@
 	src.shots--
 	flick("flash2", src)
 	if (!( flag ))
-		for(var/mob/M in oviewers(3))
+		for(var/mob/carbon/M in oviewers(3))
 			if (prob(50))
 				if (locate(/obj/item/weapon/cloaking_device, M))
 					for(var/obj/item/weapon/cloaking_device/S in M)
@@ -576,7 +547,7 @@
 					if (istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 						safety = 1
 				if (!( safety ))
-					flick("flash", M.flash)
+					flick("flash", M.hud.flash)
 			//Foreach goto(160)
 	return
 
@@ -951,20 +922,19 @@
 		return
 	return
 
-/obj/item/weapon/gun/energy/laser_gun/attack(mob/M as mob, mob/user as mob)
+/obj/item/weapon/gun/energy/laser_gun/attack(mob/carbon/M as mob, mob/user as mob)
 
 	..()
 	src.add_fingerprint(user)
+	if(!istype(M, /mob/carbon))
+		return
 	if ((prob(30) && !M.is_dead))
 		var/mob/carbon/H = M
-		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
-			M.think("\red The helmet protects you from being hit hard in the head!")
+		if (istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80))
+			H.think("\red The helmet protects you from being hit hard in the head!")
 			return
-		var/time = rand(1, 12)
-		if (prob(90))
-			M.knockdown_until(time)
-		M.stat = 1
-		M.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
+		H.knockdown_until(rand(1,12))
+		H.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 	return
 
 /obj/item/weapon/gun/energy/taser_gun/update_icon()
@@ -1013,26 +983,24 @@
 /obj/item/weapon/gun/energy/taser_gun/attack(mob/M as mob, mob/user as mob)
 
 	src.add_fingerprint(user)
+	if(!istype(M, /mob/carbon))
+		return ..()
 	var/mob/carbon/H = M
 	if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
-		M << "\red The helmet protects you from being hit hard in the head!"
+		H << "\red The helmet protects you from being hit hard in the head!"
 		return
 	if(src.charges >= 1)
-		if (user.a_intent == "hurt")
+		if (user.intent == "hurt")
 			if (prob(20))
-				M.knockout_until(5)
-			M.knockdown_until(10)
+				H.knockout_until(5)
+			H.knockdown_until(10)
 			..()
-			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
+			H.show_viewers("\red <B>[H] has been knocked unconscious!</B>")
 		else
 			if (prob(50))
-				if (M.paralysis < 60)
-					M.paralysis = 60
+				H.knockout_until(5)
 			else
-				if (M.weakened < 60)
-					M.weakened = 60
-			if (M.stuttering < 60)
-				M.stuttering = 60
+				H.knockdown_until(5)
 			M.stat = 1
 			M.show_viewers("\red <B>[M] has been stunned with the taser gun by [user]!</B>")
 		src.charges--
@@ -1387,7 +1355,7 @@
 	src.loc = user
 	src.layer = 20
 	add_fingerprint(user)
-	user.UpdateClothing()
+	user.update_clothing()
 	return
 
 /obj/item/weapon/wire/proc/update()
@@ -1862,14 +1830,14 @@
 					src.pen.loc = N
 					src.pen.layer = 20
 					src.pen = null
-					N.UpdateClothing()
+					N.update_clothing()
 				else
 					if (!( N.r_hand ))
 						N.r_hand = src.pen
 						src.pen.loc = N
 						src.pen.layer = 20
 						src.pen = null
-						N.UpdateClothing()
+						N.update_clothing()
 				if (src.pen)
 					src.pen.add_fingerprint(N)
 				src.add_fingerprint(N)
@@ -1880,13 +1848,13 @@
 					N.l_hand = P
 					P.loc = N
 					P.layer = 20
-					N.UpdateClothing()
+					N.update_clothing()
 				else
 					if (!( N.r_hand ))
 						N.r_hand = P
 						P.loc = N
 						P.layer = 20
-						N.UpdateClothing()
+						N.update_clothing()
 				P.add_fingerprint(N)
 				src.add_fingerprint(N)
 		if (href_list["write"])
@@ -1913,8 +1881,9 @@
 					return
 	return
 
-/obj/item/weapon/clipboard/interact(mob/user as mob)
-
+/obj/item/weapon/clipboard/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((locate(/obj/item/weapon/paper, src) && (!( user.equipped() ) && (user.l_hand == src || user.r_hand == src))))
 		var/obj/item/weapon/paper/P
 		for(P in src)
@@ -1928,7 +1897,7 @@
 			P.loc = user
 			P.layer = 20
 			P.add_fingerprint(user)
-			user.UpdateClothing()
+			user.update_clothing()
 		src.add_fingerprint(user)
 	else
 		if (user.contents.Find(src))
@@ -1939,7 +1908,7 @@
 			return ..()
 	return
 
-/obj/item/weapon/clipboard/attackby(obj/item/weapon/P as obj, mob/user as mob)
+/obj/item/weapon/clipboard/attackby(obj/item/weapon/P as obj, mob/carbon/user as mob)
 
 	if (istype(P, /obj/item/weapon/paper))
 		if (src.contents.len < 15)
@@ -1977,26 +1946,29 @@
 
 /obj/item/weapon/fcardholder/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.is_handcuffed()))
+	if (!usr.can_use_hands())
 		return
-	if (usr.contents.Find(src))
+	if(!istype(usr, /mob/carbon))
+		return
+	var/mob/carbon/user = usr
+	if (user.contents.Find(src))
 		usr.machine = src
 		if (href_list["remove"])
 			var/obj/item/P = locate(href_list["remove"])
 			if ((P && P.loc == src))
-				if ((usr.hand && !( usr.l_hand )))
-					usr.l_hand = P
+				if ((user.hand && !( user.l_hand )))
+					user.l_hand = P
 					P.loc = usr
 					P.layer = 20
-					usr.UpdateClothing()
+					user.update_clothing()
 				else
-					if (!( usr.r_hand ))
-						usr.r_hand = P
-						P.loc = usr
+					if (!( user.r_hand ))
+						user.r_hand = P
+						P.loc = user
 						P.layer = 20
-						usr.UpdateClothing()
-				src.add_fingerprint(usr)
-				P.add_fingerprint(usr)
+						user.update_clothing()
+				src.add_fingerprint(user)
+				P.add_fingerprint(user)
 			src.update()
 		if (href_list["read"])
 			var/obj/item/weapon/f_card/P = locate(href_list["read"])
@@ -2022,7 +1994,7 @@
 		return ..()
 	return
 
-/obj/item/weapon/fcardholder/attackby(obj/item/weapon/P as obj, mob/user as mob)
+/obj/item/weapon/fcardholder/attackby(obj/item/weapon/P as obj, mob/carbon/user as mob)
 
 	if (istype(P, /obj/item/weapon/f_card))
 		if (src.contents.len < 30)
@@ -2356,8 +2328,9 @@
 		return "<B>There are no fingerprints on this card.</B>"
 	return
 
-/obj/item/weapon/f_card/interact(mob/user as mob)
-
+/obj/item/weapon/f_card/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
 		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user )
@@ -2377,7 +2350,7 @@
 		..()
 	return
 
-/obj/item/weapon/f_card/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/f_card/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (istype(W, /obj/item/weapon/f_card))
 		if ((src.fingerprints || W.fingerprints))
@@ -2462,11 +2435,11 @@
 		src.amount--
 		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user.loc )
 		F.amount = 1
-		F.fingerprints = M.get_fingerprints()
+		F.fingerprints = M.get_fingerprint()
 		F.icon_state = "f_print_card1"
 		F.name = text("FPrintC- '[]'", M.name)
 		user << "\blue Done printing."
-	user << text("\blue []'s Fingerprints: []", M, M.get_fingerprints())
+	user << text("\blue []'s Fingerprints: []", M, M.get_fingerprint())
 	return
 
 /obj/item/weapon/f_print_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
@@ -2774,7 +2747,7 @@
 					if (!( M.l_hand ))
 						M.u_equip(src)
 						M.l_hand = src
-			M.UpdateClothing()
+			M.update_clothing()
 			src.add_fingerprint(usr)
 	return
 
@@ -3312,7 +3285,7 @@
 	return
 
 /obj/item/weapon/dropper/attack(mob/carbon/M as mob, mob/user as mob)
-	if(!src.check_dexterity())
+	if(!user.check_dexterity())
 		return
 	if (user)
 		M.show_viewers(text("\red [] has been eyedropped with [] by [].", M, src, user))
@@ -3390,7 +3363,7 @@
 		src.case.layer = 20
 		src.case.add_fingerprint(user)
 		src.case = null
-		user.UpdateClothing()
+		user.update_clothing()
 		src.add_fingerprint(user)
 		update()
 	else

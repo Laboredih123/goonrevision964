@@ -241,10 +241,30 @@
 			src.knockdown_until(1)
 	return
 
+/mob/carbon/var/eye_damage = 0
+
 /mob/carbon/proc/take_eye_damage(damage)
-	//TODO: IMPLEMENT
+	eye_damage += damage
+	//TODO: IMPLEMENT BLINDNESS HERE
 	return
 
 /mob/carbon/proc/heal_eye_damage(damage)
-	//TODO: IMPLEMENT
+	eye_damage = max(eye_damage - damage, 0)
 	return
+
+/mob/carbon/proc/get_eye_damage()
+	return eye_damage
+
+/mob/carbon/var/ear_damage = 0
+
+/mob/carbon/proc/take_ear_damage(damage)
+	ear_damage += damage
+	//TODO: IMPLEMENT DEAFNESS HERE
+	return
+
+/mob/carbon/proc/heal_ear_damage(damage)
+	ear_damage = max(ear_damage - damage, 0)
+	return
+
+/mob/carbon/proc/get_ear_damage()
+	return ear_damage

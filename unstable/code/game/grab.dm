@@ -52,8 +52,7 @@
 		if (!( src.affecting.buckled ))
 			src.affecting.loc = src.assailant.loc
 	if ((src.killing && src.state == 3))
-		src.affecting.stunned = max(5, src.affecting.stunned)
-		src.affecting.paralysis = max(3, src.affecting.paralysis)
+		src.affecting.knockdown_until(5)
 		src.affecting.losebreath = min(src.affecting.losebreath + 2, 3)
 	return
 
@@ -70,8 +69,7 @@
 				if (!( src.killing ))
 					src.assailant.show_viewers(text("\red [] has temporarily tightened his grip on []!", src.assailant, src.affecting))
 					src.assailant.next_move = world.time + 10
-					src.affecting.stunned = max(2, src.affecting.stunned)
-					src.affecting.paralysis = max(1, src.affecting.paralysis)
+					src.affecting.knockdown_until(2)
 					src.affecting.losebreath = min(src.affecting.losebreath + 1, 3)
 					src.last_suffocate = world.time
 					flick("disarm/killf", S)
@@ -113,8 +111,7 @@
 						if (src.killing)
 							src.assailant.show_viewers(text("\red [] has tightened his grip on []'s neck!", src.assailant, src.affecting))
 							src.assailant.next_move = world.time + 10
-							src.affecting.stunned = max(2, src.affecting.stunned)
-							src.affecting.paralysis = max(1, src.affecting.paralysis)
+							src.affecting.knockdown_until(1)
 							src.affecting.losebreath += 1
 							src.hud1.icon_state = "disarm/kill1"
 						else
