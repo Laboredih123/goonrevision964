@@ -229,7 +229,7 @@
 
 /obj/item/weapon/infra_sensor/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
 	if ((usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
 		usr.machine = src
@@ -290,8 +290,9 @@
 		src.sense()
 	return
 
-/obj/item/weapon/prox_sensor/attackby(obj/item/weapon/radio/signaler/S as obj, mob/user as mob)
-
+/obj/item/weapon/prox_sensor/attackby(obj/item/weapon/radio/signaler/S as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((!( istype(S, /obj/item/weapon/radio/signaler) ) || !( S.b_stat )))
 		return
 	var/obj/item/weapon/assembly/rad_prox/R = new /obj/item/weapon/assembly/rad_prox( user )
@@ -332,7 +333,7 @@
 
 /obj/item/weapon/prox_sensor/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
 	if ((usr.contents.Find(src) || usr.contents.Find(src.master) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
@@ -425,7 +426,7 @@
 		return
 	return
 
-/obj/item/weapon/infra/attackby(obj/item/weapon/radio/signaler/S as obj, mob/user as mob)
+/obj/item/weapon/infra/attackby(obj/item/weapon/radio/signaler/S as obj, mob/carbon/user as mob)
 
 	if ((!( istype(S, /obj/item/weapon/radio/signaler) ) || !( S.b_stat )))
 		return
@@ -472,7 +473,7 @@
 
 /obj/item/weapon/infra/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
 	if ((usr.contents.Find(src) || usr.contents.Find(src.master) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src

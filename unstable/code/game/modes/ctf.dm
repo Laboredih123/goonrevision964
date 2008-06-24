@@ -474,3 +474,48 @@
 	if (istype(P, /obj/item/weapon/paper/flag))
 		if (ctf)
 			ctf.check_win(src)
+
+/obj/item/weapon/paper/flag/burn()
+
+	return
+	return
+
+/obj/item/weapon/paper/flag/New()
+
+	..()
+	src.pixel_y = 0
+	src.pixel_x = 0
+	src.name = "flag- 'FLAG'"
+	return
+
+/obj/item/weapon/paper/flag/interact()
+
+	if ((ctf && ctf.immobile))
+		return 0
+	else
+		. = ..()
+	return
+
+/obj/item/weapon/paper/flag/attack_self(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
+	var/n_name = input(user, "What would you like to label the paper?", "Paper Labelling", null)  as text
+	n_name = copytext(n_name, 1, 32)
+	if ((src.loc == user && user.is_active()))
+		src.name = text("flag[]", (n_name ? text("- '[]'", n_name) : null))
+	src.add_fingerprint(user)
+	return
+
+/obj/item/weapon/paper/flag/attackby(P as obj, mob/user as mob)
+
+	if (istype(P, /obj/item/weapon/pen))
+		..()
+	else
+		if (istype(P, /obj/item/weapon/paint))
+			var/obj/item/weapon/paint/C = P
+			src.icon_state = text("flag_[]", C.color)
+			if (ctf)
+				ctf.check_win()
+		else
+			return
+	return

@@ -15,11 +15,11 @@
 	total()
 
 /datum/damage/proc/add(datum/damage/dam)
-	src.brute += dam.brute
-	src.burn += dam.burn
-	src.toxin += dam.toxin
-	src.electric += dam.electric
-	src.suffocation += dam.suffocation
+	src.brute += max(dam.brute, 0)
+	src.burn += max(dam.burn, 0)
+	src.toxin += max(dam.toxin, 0)
+	src.electric += max(dam.electric, 0)
+	src.suffocation += max(dam.suffocation, 0)
 	total()
 
 /datum/damage/proc/subtract(datum/damage/dam)

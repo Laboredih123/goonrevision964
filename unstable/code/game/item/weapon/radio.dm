@@ -282,7 +282,7 @@
 	return
 
 /obj/item/weapon/radio/intercom/interact(mob/user as mob)
-	if(src.can_use_machinery)
+	if(src.check_intelligence())
 		src.add_fingerprint(user)
 		spawn( 0 )
 			attack_self(user)
