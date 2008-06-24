@@ -320,10 +320,10 @@
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=id_com")
 		return
-	if(usr.is_handcuffed() || usr.lying) return
-
-	if ((usr.stat || usr.is_handcuffed()))
+	if ((!usr.can_use_hands()))
 		return
+
+	var/mob/carbon/M = usr
 	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/silicon/ai))
 		usr << browse(null, "window=id_com")
 		return
@@ -334,22 +334,24 @@
 			src.modify.loc = src.loc
 			src.modify = null
 		else
-			var/obj/item/I = usr.equipped()
-			if (istype(I, /obj/item/weapon/card/id))
-				usr.drop_item()
-				I.loc = src
-				src.modify = I
+			if(istype(M, /mob/carbon))
+				var/obj/item/I = M.equipped()
+				if (istype(I, /obj/item/weapon/card/id))
+					M.drop_item()
+					I.loc = src
+					src.modify = I
 		src.authenticated = 0
 	if (href_list["scan"])
 		if (src.scan)
 			src.scan.loc = src.loc
 			src.scan = null
 		else
-			var/obj/item/I = usr.equipped()
-			if (istype(I, /obj/item/weapon/card/id))
-				usr.drop_item()
-				I.loc = src
-				src.scan = I
+			if(istype(M, /mob/carbon))
+				var/obj/item/I = M.equipped()
+				if (istype(I, /obj/item/weapon/card/id))
+					M.drop_item()
+					I.loc = src
+					src.scan = I
 		src.authenticated = 0
 	if (href_list["auth"])
 		if ((!( src.authenticated ) && (src.scan || (istype(usr, /mob/silicon/ai))) && (src.modify || src.mode)))
@@ -533,9 +535,9 @@
 		return
 
 
-	if(usr.is_handcuffed() || usr.lying) return
+	if(!usr.can_use_hands()) return
 
-	if ((usr.stat || usr.is_handcuffed()))
+	if ((!usr.can_use_hands()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src

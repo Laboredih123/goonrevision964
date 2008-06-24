@@ -439,7 +439,7 @@
 
 	..()
 
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -901,7 +901,7 @@
 /obj/machinery/power/generator/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -2031,7 +2031,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/smes/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -2317,7 +2317,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/power/solar_control/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (!usr.check_dexterity())
 		return
@@ -2570,7 +2570,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	..()
 	if(stat & BROKEN)
 		return
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (!usr.check_dexterity())
 		return

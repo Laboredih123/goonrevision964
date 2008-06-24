@@ -445,7 +445,7 @@
 		src.hands.dir = SOUTH
 	return
 
-/mob/carbon/proc/equipped()
+/mob/carbon/equipped()
 
 	if (src.hand)
 		return src.l_hand

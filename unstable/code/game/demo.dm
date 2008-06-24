@@ -469,7 +469,7 @@
 
 /obj/machinery/dispenser/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (istype(usr, /mob/silicon/ai))
 		usr << "\red You are unable to dispense anything, since the controls are physical levers which don't go through any other kind of input."
@@ -1411,8 +1411,7 @@
 	O.loc = src.loc
 	if (user != O)
 		for(var/mob/B in viewers(user, 3))
-			if ((B.client && !( B.blinded )))
-				B << text("\red [] stuffs [] into []!", user, O, src)
+			B.see(text("\red [] stuffs [] into []!", user, O, src))
 			//Foreach goto(99)
 	return
 
@@ -1872,7 +1871,7 @@
 /obj/stool/chair/e_chair/verb/toggle_power()
 	set src in oview(1)
 
-	if ((usr.stat || usr.is_handcuffed() || !( usr.canmove ) || usr.lying))
+	if ((!usr.can_use_hands() || !( usr.canmove ) || usr.lying))
 		return
 	src.on = !( src.on )
 	src.icon_state = text("e_chair[]", src.on)

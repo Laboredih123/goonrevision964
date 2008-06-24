@@ -17,7 +17,7 @@
 
 /mob/carbon/proc/throw_item(atom/target)
 	src.throw_mode_off()
-	if(usr.stat) //they aren't conscious
+	if(!usr.is_active()) //they aren't conscious
 		return
 	if(target.type == /obj/screen) //not a place to throw it, just black or a UI element
 		// I don't think it's possible to determine where in the screen it is, unfortunately

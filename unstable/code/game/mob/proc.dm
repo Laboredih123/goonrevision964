@@ -24,3 +24,6 @@
 
 /mob/proc/is_conscious()
 	return 1
+
+/mob/proc/equipped()
+	return null

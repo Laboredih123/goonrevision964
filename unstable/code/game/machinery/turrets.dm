@@ -266,7 +266,7 @@
 
 /obj/machinery/turretid/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed() )
+	if (!usr.can_use_hands() )
 		return
 	if (src.locked)
 		if (!istype(usr, /mob/silicon/ai))

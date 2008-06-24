@@ -109,12 +109,12 @@
 		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
 	else
 		t1 = "-------"
-	var/dat = text("<TT>Microphone: []<BR>\nSpeaker: []<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\n[]</TT>", (src.broadcasting ? text("<A href='?src=\ref[];talk=0'>Engaged</A>", src) : text("<A href='?src=\ref[];talk=1'>Disengaged</A>", src)), (src.listening ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src.freq, src, src, t1)
+	var/dat = text("<TT>Microphone: []<BR>\nSpeaker: []<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\n[]</TT>", (src.transmitting ? text("<A href='?src=\ref[];talk=0'>Engaged</A>", src) : text("<A href='?src=\ref[];talk=1'>Disengaged</A>", src)), (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src.freq, src, src, t1)
 	user << browse(dat, "window=radio")
 	return
 
 /obj/item/weapon/radio/Topic(href, href_list)
-	if (usr.stat)
+	if (!usr.can_use_hands())
 		return
 	if ((usr.contents.Find(src) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -129,10 +129,10 @@
 		else if (href_list["listen"])
 			src.receiving = text2num(href_list["listen"])
 		else if (href_list["wires"])
-			var/t1 = text2num(href_list["wires"])
-			if (!istype(usr.equipped(), /obj/item/weapon/wirecutters))
-				return
-			src.wires ^= t1
+			if(istype(usr, /mob/carbon))
+				var/mob/carbon/M = usr
+				if (istype(M.equipped(), /obj/item/weapon/wirecutters))
+					src.wires ^= text2num(href_list["wires"])
 		if (!src.master)
 			if (istype(src.loc, /mob))
 				attack_self(src.loc)
@@ -180,7 +180,7 @@
 	if (!( src.wires & WIRE_TRANSMIT))
 		return
 	var/datum/message/M = new(voice = "A computer", message = num2text(src.code), language = COMPUTER_LANG)
-	src.broadcast(M)
+	src.transmit(M)
 
 /obj/item/weapon/radio/signaler/examine()
 	set src in view()
@@ -201,7 +201,7 @@
 		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
 	else
 		t1 = "-------"
-	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.listening ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.freq, src, src, src, src, src.code, src, src, t1)
+	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.freq, src, src, src, src, src.code, src, src, t1)
 	user << browse(dat, "window=radio")
 	return
 
@@ -209,80 +209,29 @@
 	return
 
 /obj/item/weapon/radio/signaler/Topic(href, href_list)
-	if (usr.stat)
+	if (!usr.can_use_hands())
 		return
 	if ((usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)))))
 		usr.machine = src
-		if (href_list["freq"])
-			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
-				src.freq += 0.1
-			src.freq = min(148.9, src.freq)
-			src.freq = max(144.1, src.freq)
+		if (href_list["code"])
+			src.code += text2num(href_list["code"])
+			src.code = round(src.code)
+			src.code = min(100, src.code)
+			src.code = max(1, src.code)
+		else if (href_list["send"])
+			var/t1 = round(text2num(href_list["send"]))
+			spawn( 0 )
+				src.send_signal(t1)
+			return
 		else
-			if (href_list["code"])
-				src.code += text2num(href_list["code"])
-				src.code = round(src.code)
-				src.code = min(100, src.code)
-				src.code = max(1, src.code)
-			else
-				if (href_list["send"])
-					var/t1 = round(text2num(href_list["send"]))
-					spawn( 0 )
-						src.send_signal(t1)
-
-						return
-				else
-					if (href_list["listen"])
-						src.listening = text2num(href_list["listen"])
-					else
-						if (href_list["wires"])
-							var/t1 = text2num(href_list["wires"])
-							if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
-								return
-							if ((!( src.b_stat ) && !( src.master )))
-								return
-							if (t1 & 1)
-								if (src.wires & 1)
-									src.wires &= 65534
-								else
-									src.wires |= 1
-							else
-								if (t1 & 2)
-									if (src.wires & 2)
-										src.wires &= 65533
-									else
-										src.wires |= 2
-								else
-									if (t1 & 4)
-										if (src.wires & 4)
-											src.wires &= 65531
-										else
-											src.wires |= 4
-		src.add_fingerprint(usr)
-		if (!( src.master ))
-			if (istype(src.loc, /mob))
-				attack_self(src.loc)
-			else
-				for(var/mob/M in viewers(1, src))
-					if (M.client)
-						src.attack_self(M)
-					//Foreach goto(501)
-		else
-			if (istype(src.master.loc, /mob))
-				src.attack_self(src.master.loc)
-			else
-				for(var/mob/M in viewers(1, src.master))
-					if (M.client)
-						src.attack_self(M)
-					//Foreach goto(577)
+			return ..()
 	else
 		usr << browse(null, "window=radio")
 		return
 	return
 
 /obj/item/weapon/radio/intercom/interact(mob/user as mob)
-	if(src.check_intelligence())
+	if(user.check_intelligence())
 		src.add_fingerprint(user)
 		spawn( 0 )
 			attack_self(user)
@@ -394,20 +343,20 @@
 		return
 	if(src.master && src.wires & WIRE_SIGNAL)
 		src.master:r_signal()
-	if ((ismob(src.loc) && src.on))
-		var/mob/Mob = src.loc
-		var/turf/T = Mob.loc
+	if ((istype(src.loc, /mob/carbon) && src.on))
+		var/mob/carbon/H = src.loc
+		var/turf/T = H.loc
 		if ((istype(T, /turf) || istype(T, /obj/move)))
-			if (Mob.moved_recently && Mob.last_move)
-				step(Mob, Mob.last_move)
-		Mob.think("\red <B>You feel a sharp shock!</B>")
-
-		Mob.knockdown_until(5)
+			if (H.moved_recently && H.last_move)
+				step(H, H.last_move)
+		H.think("\red <B>You feel a sharp shock!</B>")
+		H.knockdown_until(5)
 	return
 
-/obj/item/weapon/radio/electropack/attack_self(mob/user as mob, flag1)
-
-	if (!user.is_dextrous())
+/obj/item/weapon/radio/electropack/attack_self(mob/carbon/user as mob, flag1)
+	if(!istype(user, /mob/carbon))
+		return
+	if (!user.check_dexterity())
 		return
 	user.machine = src
 	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.freq, src, src, src, src, src.code, src, src)

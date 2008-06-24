@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\item\weapon\radio.dm
-DIR: code code\atoms code\game code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\modes
+FILE: code\game\computer.dm
+DIR: code code\atoms code\game code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\modes
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */

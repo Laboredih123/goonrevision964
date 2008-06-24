@@ -72,7 +72,7 @@
 /obj/machinery/vehicle/verb/eject()
 	set src = usr.loc
 
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 
 	var/mob/M = usr
@@ -86,7 +86,7 @@
 /obj/machinery/vehicle/verb/board()
 	set src in oview(1)
 
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 
 	if (src.one_person_only && locate(/mob, src))
@@ -103,7 +103,7 @@
 /obj/machinery/vehicle/verb/unload(var/atom/movable/A in src)
 	set src in oview(1)
 
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 
 	if (istype(A, /atom/movable))
@@ -121,7 +121,7 @@
 /obj/machinery/vehicle/verb/load()
 	set src in oview(1)
 
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 
 	if (istype(usr, /mob/carbon) && usr.is_intelligent())

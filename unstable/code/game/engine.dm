@@ -80,7 +80,7 @@
 /obj/machinery/computer/engine/Topic(href, href_list)
 	. = ..()
 	if(!.) return
-	if ((usr.stat || usr.is_handcuffed()))
+	if ((!usr.can_use_hands()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -90,7 +90,10 @@
 				src.temp = "Eject Engine?<BR><BR><B><A href='?src=\ref[src];eject2=1'>\[Swipe ID to initiate eject sequence\]</A></B><BR><A href='?src=\ref[src];temp=1'>Cancel</A>"
 
 		else if (href_list["eject2"])
-			var/obj/item/weapon/card/id/I = usr.equipped()
+			if(!istype(usr, /mob/carbon))
+				return
+			var/mob/carbon/M = usr
+			var/obj/item/weapon/card/id/I = M.equipped()
 			if (istype(I))
 				if(src.check_access(I))
 					if (engine_eject_control.status == 0)

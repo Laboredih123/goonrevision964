@@ -516,7 +516,7 @@
 /obj/machinery/atmoalter/siphs/Topic(href, href_list)
 	..()
 
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
 	if ((!( src.alterable )) && (!istype(usr, /mob/silicon/ai)))
 		return
@@ -574,7 +574,7 @@
 		return
 	return
 
-/obj/machinery/atmoalter/siphs/attackby(var/obj/W as obj, mob/user as mob)
+/obj/machinery/atmoalter/siphs/attackby(var/obj/W as obj, mob/carbon/user as mob)
 
 	if (istype(W, /obj/item/weapon/tank))
 		if (src.holding)

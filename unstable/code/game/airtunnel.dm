@@ -263,7 +263,7 @@
 	if (!usr.check_dexterity())
 		return
 
-	if ((usr.stat || usr.is_handcuffed()))
+	if ((!usr.can_use_hands()))
 		if (!istype(usr, /mob/silicon/ai))
 			return
 
@@ -399,7 +399,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	if (!usr.check_intelligence())
 		return
-	if ((usr.stat || usr.is_handcuffed()))
+	if ((!usr.can_use_hands()))
 		return
 	if ((!( src.d1 ) || !( src.d2 )))
 		usr << "\red Error: Cannot interface with door security!"
@@ -530,7 +530,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 /obj/machinery/autolathe/Topic(href, href_list)
 	..()
-	if ((usr.stat || usr.is_handcuffed()))
+	if ((!usr.can_use_hands()))
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
@@ -621,7 +621,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 /obj/machinery/alarm/examine()
 	set src in oview(1)
 
-	if (usr.stat || stat & NOPOWER)
+	if (!usr.is_conscious() || stat & NOPOWER)
 		return
 	if (!usr.check_dexterity())
 		return

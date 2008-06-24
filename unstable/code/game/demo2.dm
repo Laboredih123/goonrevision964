@@ -44,7 +44,7 @@
 /obj/machinery/computer/atmosphere/siphonswitch/verb/siphon_all()
 	set src in oview(1)
 	if(stat & NOPOWER)	return
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 	usr << "Starting all siphon systems."
 	for(var/obj/machinery/atmoalter/siphs/S in src.returnarea())
@@ -56,7 +56,7 @@
 /obj/machinery/computer/atmosphere/siphonswitch/verb/stop_all()
 	set src in oview(1)
 	if(stat & NOPOWER)	return
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 	usr << "Stopping all siphon systems."
 	for(var/obj/machinery/atmoalter/siphs/S in src.returnarea())
@@ -68,7 +68,7 @@
 /obj/machinery/computer/atmosphere/siphonswitch/verb/auto_on()
 	set src in oview(1)
 	if(stat & NOPOWER)	return
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 	usr << "Starting automatic air control systems."
 	for(var/obj/machinery/atmoalter/siphs/S in src.returnarea())
@@ -81,7 +81,7 @@
 	set src in oview(1)
 
 	if(stat & NOPOWER)	return
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 	usr << "Releasing all scrubber toxins."
 	for(var/obj/machinery/atmoalter/siphs/scrubbers/S in src.returnarea())
@@ -93,7 +93,7 @@
 /obj/machinery/computer/atmosphere/siphonswitch/verb/release_all()
 
 	if(stat & NOPOWER)	return
-	if (usr.stat)
+	if (!usr.is_active())
 		return
 	usr << "Releasing all stored air."
 	for(var/obj/machinery/atmoalter/siphs/S in src.returnarea())
@@ -225,7 +225,7 @@
 
 /obj/machinery/atmoalter/heater/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
 	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -289,7 +289,7 @@
 		return
 	return
 
-/obj/machinery/atmoalter/heater/attackby(var/obj/W as obj, var/mob/user as mob)
+/obj/machinery/atmoalter/heater/attackby(var/obj/W as obj, mob/carbon/user as mob)
 
 	if (istype(W, /obj/item/weapon/tank))
 		if (src.holding)
@@ -450,14 +450,13 @@
 	return
 
 
-/obj/machinery/atmoalter/canister/meteorhit(var/obj/O as obj)
+/obj/machinery/atmoalter/canister/meteorhit(obj/O as obj)
 
 	src.health = 0
 	healthcheck()
 	return
 
-/obj/machinery/atmoalter/canister/interact(var/mob/user as mob)
-
+/obj/machinery/atmoalter/canister/interact(mob/user as mob)
 	if (src.destroyed)
 		return
 	user.machine = src
@@ -514,7 +513,7 @@ Pipe Valve Status: []<BR>
 
 /obj/machinery/atmoalter/canister/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
 	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
@@ -568,8 +567,7 @@ Pipe Valve Status: []<BR>
 		return
 	return
 
-/obj/machinery/atmoalter/canister/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
-
+/obj/machinery/atmoalter/canister/attackby(var/obj/item/weapon/W as obj, mob/carbon/user as mob)
 	if ((istype(W, /obj/item/weapon/tank) && !( src.destroyed )))
 		if (src.holding)
 			return
