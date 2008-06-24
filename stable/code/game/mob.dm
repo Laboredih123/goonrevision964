@@ -2809,9 +2809,15 @@
 	if ((t7 && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving)))))
 		var/turf/T = src.loc
 		. = ..()
-		if (!( isturf(src.pulling.loc) ))
-			src.pulling = null
-			return
+		if (src.pulling && src.pulling.loc)
+			if(!( isturf(src.pulling.loc) ))
+				src.pulling = null
+				return
+			else
+				if(Debug)
+					world.log <<"src.pulling disappeared? at __LINE__ in mob.dm - src.pulling = [src.pulling]"
+					world.log <<"REPORT THIS"
+
 		//////
 		if (src.pulling.anchored)
 			src.pulling = null
@@ -6988,10 +6994,10 @@
 			var/list/srcs  = alarm[3]
 			if (origin in srcs)
 				srcs -= origin
-			if (srcs.len == 0) 
+			if (srcs.len == 0)
 				cleared = 1
 				L -= I
-	if (cleared) 
+	if (cleared)
 		src << text("--- [] alarm in [] has been cleared.", class, A.name)
 		if (src.viewalerts) src.ai_alerts()
 	return !cleared
