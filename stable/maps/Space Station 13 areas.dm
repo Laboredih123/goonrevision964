@@ -14,6 +14,10 @@
 	name = "North Maintenance"
 	icon_state = "green"
 
+/area/maintenance/northeast
+	name = "NorthEast Maintenance"
+	icon_state = "green"
+
 /area/maintenance/west
 	name = "West Maintenance"
 	icon_state = "green"
