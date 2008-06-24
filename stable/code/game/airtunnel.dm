@@ -649,14 +649,15 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 /obj/machinery/alarm/process()
 	var/turf/T = src.loc
 	var/area/A = T.loc
+	var/safe = 2
 
-	if(stat & NOPOWER)
+	if(stat & (NOPOWER|BROKEN))
 		icon_state = "alarm-p"
+		A.atmosalert(safe, src)
 		return
 
 	use_power(5, ENVIRON)
 
-	var/safe = 2
 	if (!( istype(T, /turf) ))
 		return
 	if (locate(/obj/move, T))
@@ -689,6 +690,14 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 	src.icon_state = text("alarm:[]", !( safe == 2 ))
 
 	return
+
+/obj/machinery/alarm/attackby(W as obj, user as mob)
+	if (istype(W, /obj/item/weapon/wirecutters))
+		stat ^= BROKEN
+		for(var/mob/O in viewers(user, null))
+			O.show_message(text("\red [] has []activated []!", user, (stat&BROKEN) ? "de" : "re", src), 1)
+		return
+	return ..()
 
 /obj/machinery/alarm/power_change()
 	if( powered(ENVIRON) )

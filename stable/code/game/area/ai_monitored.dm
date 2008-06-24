@@ -23,6 +23,7 @@
 	name = "Motion Security Camera"
 	var/list/motionTargets = list()
 	var/detectTime = 0
+	var/locked = 1
 
 /obj/machinery/camera/motion/process()
 	// motion camera event loop
@@ -51,13 +52,33 @@
 /obj/machinery/camera/motion/proc/cancelAlarm()
 	if (detectTime == -1)
 		for (var/mob/ai/aiPlayer in world)
-			aiPlayer.cancelAlarm("Motion", src.loc.loc)
+			if (status) aiPlayer.cancelAlarm("Motion", src.loc.loc)
 	detectTime = 0
 	return 1
 
 /obj/machinery/camera/motion/proc/triggerAlarm()
 	if (!detectTime) return 0
 	for (var/mob/ai/aiPlayer in world)
-		aiPlayer.triggerAlarm("Motion", src.loc.loc, src)
+		if (status) aiPlayer.triggerAlarm("Motion", src.loc.loc, src)
 	detectTime = -1
 	return 1
+
+/obj/machinery/camera/motion/attackby(W as obj, mob/user as mob)
+	if (istype(W, /obj/item/weapon/wirecutters) && locked == 1) return
+	if (istype(W, /obj/item/weapon/screwdriver))
+		var/turf/T = user.loc
+		user << text("\blue []ing the access hatch... (this is a long process)", (locked) ? "Open" : "Clos")
+		sleep(100)
+		if ((user.loc == T && user.equipped() == W && !( user.stat )))
+			src.locked ^= 1
+			user << text("\blue The access hatch is now [].", (locked) ? "closed" : "open")
+	
+	..() // call the parent to (de|re)activate
+
+	if (istype(W, /obj/item/weapon/wirecutters)) // now handle alarm on/off...
+		if (status) // ok we've just been reconnected... send an alarm!
+			detectTime = world.time - 301
+			triggerAlarm()
+		else
+			for (var/mob/ai/aiPlayer in world) // manually cancel, to not disturb internal state
+				aiPlayer.cancelAlarm("Motion", src.loc.loc)
