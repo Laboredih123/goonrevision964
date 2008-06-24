@@ -129,7 +129,9 @@ var
 	list/reg_dna = list(  )
 	list/banned = list(  )
 
-	CELLRATE = 0.002 // how quickly APCs recharge
+	CELLRATE = 0.002  // multiplier for watts per tick <> cell storage (eg: .002 means if there is a load of 1000 watts, 20 units will be taken from a cell per second)
+	CHARGELEVEL = 0.001 // Cap for how fast cells charge, as a percentage-per-tick (.001 means cellcharge is capped to 1% per second)
+
 	shuttle_z = 2	//default
 	airtunnel_start = 68 // default
 	airtunnel_stop = 68 // default

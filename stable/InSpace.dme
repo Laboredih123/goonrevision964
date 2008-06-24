@@ -4,8 +4,9 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\data\changelog.dm
-DIR: code code\data maps maps\backup
+FILE: code\atoms.dm
+DIR: code code\data code\game maps
+UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -27,7 +28,6 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "icons/ss13"
 #define FILE_DIR "interface"
 #define FILE_DIR "maps"
-#define FILE_DIR "maps/backup"
 // END_FILE_DIR
 
 // BEGIN_PREFERENCES
