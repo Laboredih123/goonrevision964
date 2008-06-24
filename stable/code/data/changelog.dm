@@ -4,7 +4,7 @@ var/changes = {"<FONT color='blue'>
 and is a testbed of proposed fixes, changes, and features.</p>
 <HR>
 
-<P><B>Modified Tuesday, June 24th 2008 (Revision ):</b><BR>
+<P><B>Modified Tuesday, June 24th 2008 (Revision 233):</b><BR>
 <ul>
 <li>Server crash where a non-player-human died has been resolved (ie: monkeys-turned-humans or logged-off-humans)</li>
 <li>You can now observe your own corpse</li>
@@ -15,7 +15,6 @@ and is a testbed of proposed fixes, changes, and features.</p>
 <li>The FLOWRATE global constant has been changed to 0.99. This should speed up gaseous flow in pipes (and therefore make the engine run smoother) but may have big unforseen consequences. Keep eyes open for bugs.</li>
 <li>Fixed engine z-level definition preventing it from ejecting</li>
 <li>Access_Medical_Records permission has been set appropriately (nobody could do it before)</li>
-<li>Added power_sinks invisible object to artificially increase room power draw</li>
 <li>There are now 3 atmos techs and 3 station techs instead of 5 and 1</li>
 <li>CO2 now does 50 damage per second, and it takes 5 seconds to knock you out (instead of just being an insta-kill)</li>
 <li>Added beer to the game, complete with HARM and HURT effects (when clicking on both yourself and others). It'll need some tweaking in the damage-dishing department before it becomes a common fixture on maps (it's a bit too powerful right now)</li>
@@ -30,7 +29,7 @@ and is a testbed of proposed fixes, changes, and features.</p>
 <li>Fixed a bug that affected intercept-sending in traitor mode.</li>
 <li>Fixed a bug that threw errors server side when playing with your belt</li>
 <li>New area type - "AI Monitored" - with accompanying new "Motion Detection" camera. This will throw a warning to the AI player if anybody enters (currently in use in EVA storage)</li>
-<li>Motion cameras can be deactivated now (10 seconds + screwdriver)</li>
+<li>Motion cameras can be deactivated now (screwdriver for 10 seconds, then wriecutters)</li>
 <li>The AI is now notified if Oxygen or FireAlarms are tripped.</li>
 <li>Monkeyizing sometimes threw an exception error - now fixed.</li>
 <li>Fixed bug that stopped DNA_ADD to work correctly (it tried to add the data to the other disk)</li>
@@ -43,7 +42,6 @@ and is a testbed of proposed fixes, changes, and features.</p>
 <li>Made the endgame explosion in blob mode do more damage (to compensate for the bigger map)</li>
 <li>Fire alarms no longer go off in space</li>
 <li>Re-added the ENTER Verb in case you have trouble spawning</li>
-<li>Added a two second delay between accepting READY and ENTER verbs to hopefully fix a spawning problem</li>
 <li>VOTE_NO_DEAD is now defaulted to OFF</li>
 <li>AI can no longer "Follow" people hiding in closets (or similarly hidden)</li>
 <li>Meteor mode now has 10x the meteors</li>
@@ -56,7 +54,6 @@ and is a testbed of proposed fixes, changes, and features.</p>
 <li>Chaplain job fixes</li>
 <li>APCs now have customizable cell capacities in the mapmaker(this will break old map power grids but is an easy fix)</li>
 <li>APCs now have 3 "power draw" attributes in the mapmaker that allows you to artificially pump up the rooms power consumption</li>
-<li>Removed previously-introduced power_sink object</li>
 <li>Added the most recent map changes to the SVN.</li>
 </ul>
 </p>
