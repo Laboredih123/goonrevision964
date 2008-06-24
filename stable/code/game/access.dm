@@ -183,4 +183,4 @@
 			return "access technical storage"
 
 /proc/get_all_jobs()
-	return list("Research Assistant", "Staff Assistant", "Medical Assistant", "Technical Assistant", "Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Medical Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Station Technician", "Atmospheric Technician")
+	return uniquelist(occupations + assistant_occupations)
