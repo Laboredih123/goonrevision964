@@ -2121,7 +2121,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "celltop"
 	density = 1
 	var/obj/machinery/line_in = null
-	var/mob/occupant = null
+	var/mob/carbon/occupant = null
 	var/obj/substance/gas/gas = null
 	var/obj/substance/gas/ngas = null
 	anchored = 1.0

@@ -329,7 +329,7 @@
 
 /obj/machinery/firealarm/interact(mob/user as mob)
 
-	if(user.stat || stat&NOPOWER) return
+	if(!user.can_use_hands() || stat&NOPOWER) return
 
 	user.machine = src
 	var/area/A = src.loc
@@ -353,7 +353,7 @@
 
 /obj/machinery/firealarm/Topic(href, href_list)
 	..()
-	if (usr.stat || stat&NOPOWER)
+	if (!usr.can_use_hands() || stat&NOPOWER)
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src

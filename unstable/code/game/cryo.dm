@@ -416,11 +416,13 @@
 				src.scan.loc = src.loc
 				src.scan = null
 			else
-				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
-					usr.drop_item()
-					I.loc = src
-					src.scan = I
+				if(istype(usr, /mob/carbon))
+					var/mob/carbon/M = usr
+					var/obj/item/I = M.equipped()
+					if (istype(I, /obj/item/weapon/card/id))
+						M.drop_item()
+						I.loc = src
+						src.scan = I
 		else
 			if (href_list["logout"])
 				src.authenticated = null
@@ -707,7 +709,7 @@
 																				else
 																					if (href_list["search"])
 																						var/t1 = input("Search String: (Name or ID)", "Secure. records", null, null)  as text
-																						if ((!( t1 ) || usr.stat || !( src.authenticated ) || usr.is_handcuffed() || get_dist(src, usr) > 1))
+																						if ((!( t1 ) || !usr.can_use_hands() || !( src.authenticated ) || get_dist(src, usr) > 1))
 																							return
 																						src.active1 = null
 																						src.active2 = null
@@ -829,7 +831,7 @@
 
 	user.machine = src
 
-	if (istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer))
+	if (user.check_intelligence())
 		var/d1
 		if (locate(/obj/item/weapon/flasks, src))
 			var/counter = 1
@@ -863,9 +865,7 @@
 
 /obj/machinery/freezer/Topic(href, href_list)
 	..()
-	if (!usr.check_dexterity())
-		return
-	if (usr.can_use_computer())
+	if (!usr.check_intelligence())
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
@@ -1093,7 +1093,7 @@
 	return gas
 
 
-/obj/machinery/freezer/attackby(obj/item/weapon/flasks/F as obj, mob/user as mob)
+/obj/machinery/freezer/attackby(obj/item/weapon/flasks/F as obj, mob/carbon/user as mob)
 
 	if (!( istype(F, /obj/item/weapon/flasks) ))
 		return
@@ -1450,7 +1450,7 @@
 /obj/machinery/cryo_cell/verb/move_eject()
 	set src in oview(1)
 
-	if (usr.stat != 0)
+	if (!usr.can_use_hands())
 		return
 	src.go_out()
 	add_fingerprint(usr)
@@ -1459,7 +1459,7 @@
 /obj/machinery/cryo_cell/verb/move_inside()
 	set src in oview(1)
 
-	if (usr.stat != 0 || stat & NOPOWER)
+	if (!usr.can_use_hands() || stat & NOPOWER)
 		return
 	if (src.occupant)
 		usr << "\blue <B>The cell is already occupied!</B>"
@@ -1513,7 +1513,7 @@
 		return
 
 	user.machine = src
-	if (istype(user, /mob/silicon/ai) || (istype(user, /mob/carbon) && user:can_use_computer))
+	if (user.check_intelligence())
 		var/dat = "<font color='blue'> <B>System Statistics:</B></FONT><BR>"
 		if (src.gas.temperature > T0C)
 			dat += text("<font color='red'>\tTemperature (&deg;C): [] (MUST be below 0, add coolant to mixture)</FONT><BR>", round(src.gas.temperature-T0C, 0.1))
@@ -1531,26 +1531,23 @@
 		if (src.occupant)
 			dat += "<font color='blue'><B>Occupant Statistics:</B></FONT><BR>"
 			var/t1
-			switch(src.occupant.stat)
-				if(0.0)
-					t1 = "Conscious"
-				if(1.0)
-					t1 = "Unconscious"
-				if(2.0)
-					t1 = "*dead*"
-				else
-			dat += text("[]\tHealth %: [] ([])</FONT><BR>", (src.occupant.health > 50 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.health, t1)
-			dat += text("[]\t-Respiratory Damage %: []</FONT><BR>", (src.occupant.oxyloss < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.oxyloss)
-			dat += text("[]\t-Toxin Content %: []</FONT><BR>", (src.occupant.toxloss < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.toxloss)
-			dat += text("[]\t-Burn Severity %: []</FONT>", (src.occupant.fireloss < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.fireloss)
+			if(src.occupant.is_dead)
+				t1 = "*dead*"
+			else if(src.occupant.knockout)
+				t1 = "Unconscious"
+			else
+				t1 = "Conscious"
+			dat += text("[]\tHealth %: [] ([])</FONT><BR>", (src.occupant.get_damage() < 50 ? "<font color='blue'>" : "<font color='red'>"), (src.occupant.death_threshold - src.occupant.get_damage())/src.occupant.death_threshold, t1)
+			dat += text("[]\t-Respiratory Damage %: []</FONT><BR>", (src.occupant.dam.suffocation < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.suffocation)
+			dat += text("[]\t-Toxin Content %: []</FONT><BR>", (src.occupant.dam.toxin < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.toxin)
+			dat += text("[]\t-Burn Severity %: []</FONT>", (src.occupant.dam.burn < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.burn)
 		dat += text("<BR><BR><A href='?src=\ref[];mach_close=cryo'>Close</A>", user)
 		user << browse(dat, "window=cryo;size=400x500")
-	return
 
 
 /obj/machinery/cryo_cell/Topic(href, href_list)
 	..()
-	if (!usr.can_use_computer())
+	if (!usr.check_intelligence())
 		return
 	if ((!usr.can_use_hands()))
 		return
@@ -1609,19 +1606,19 @@
 
 /obj/machinery/cryo_cell/relaymove(mob/user as mob)
 
-	if (user.stat)
+	if (!user.can_use_hands())
 		return
 	src.go_out()
 	return
 
-/obj/machinery/cryo_cell/alter_health(mob/M as mob)
+/obj/machinery/cryo_cell/alter_health(mob/carbon/M as mob)
 
 	if(stat & NOPOWER)
 		return
 	if (M.is_dead)
 		return
 
-	M.knockdown += 5
+	M.knockdown_until(20)
 
 	if(src.ngas.oxygen >= 1)
 		src.ngas.oxygen--

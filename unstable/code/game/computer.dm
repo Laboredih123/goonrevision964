@@ -5,8 +5,12 @@
 
 /obj/machinery/computer/security/check_eye(var/mob/user as mob)
 
-	if ((get_dist(user, src) > 1 || !( user.canmove ) || user.blinded || !( src.current ) || !( src.current.status )) && (!istype(user, /mob/silicon/ai)))
+	if ((get_dist(user, src) > 1 || !( user.canmove ) || !( src.current ) || !( src.current.status )) && (!istype(user, /mob/silicon/ai)))
 		return null
+	if(istype(user, /mob/carbon))
+		var/mob/carbon/M = user
+		if(M.blind)
+			return null
 	user.reset_view(src.current)
 	return 1
 	return
@@ -75,14 +79,11 @@
 
 /obj/machinery/computer/Topic(href, href_list)
 	..()
-	if(!usr.can_use_computer)
+	if(!usr.check_intelligence())
 		return 0
-	if(!usr.is_conscious())
+	if(!usr.can_use_hands())
 		return 0
 	if(istype(usr, /mob/carbon))
-		var/mob/carbon/M = usr
-		if(M.is_handcuffed())
-			return 0
 		if(get_dist(src, usr) > 1)
 			return 0
 	return 1

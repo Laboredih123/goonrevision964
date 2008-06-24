@@ -27,3 +27,6 @@
 
 /mob/proc/equipped()
 	return null
+
+/mob/proc/abiotic()
+	return 1

@@ -35,3 +35,27 @@
 	if(src.knockout > 0)
 		return 0
 	return ..()
+
+/mob/carbon/abiotic()
+	if (src.l_hand && !( src.l_hand.abstract ))
+		return 1
+	if (src.r_hand && !( src.r_hand.abstract ))
+		return 1
+	if (src.back)
+		return 1
+	if (src.mask)
+		return 1
+	if (src.helmet)
+		return 1
+	if (src.shoes)
+		return 1
+	if (src.jumpsuit)
+		return 1
+	if (src.suit)
+		return 1
+	if (src.headset)
+		return 1
+	if (src.glasses)
+		return 1
+	if (src.gloves)
+		return 1

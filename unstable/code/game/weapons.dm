@@ -59,7 +59,7 @@
 
 /obj/machinery/nuclearbomb/Topic(href, href_list)
 	..()
-	if (!istype(usr, /mob/carbon) || !usr.can_use_computer())
+	if (!usr.check_intelligence())
 		return
 	if (!usr.check_computer())
 		return

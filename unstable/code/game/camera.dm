@@ -17,6 +17,10 @@
 /obj/machinery/computer/security/interact(var/mob/user as mob)
 	if (stat & (NOPOWER|BROKEN))
 		return
+	if(istype(user, /mob/carbon))
+		var/mob/carbon/M = user
+		if(M.blind)
+			return
 
 	user.machine = src
 
@@ -44,7 +48,7 @@
 		user.machine = null
 		return 0
 
-	if ((get_dist(user, src) > 1 || user.machine != src || user.blinded || !( user.canmove ) || !( C.status )) && (!istype(user, /mob/silicon/ai)))
+	if ((get_dist(user, src) > 1 || user.machine != src || !( user.canmove ) || !( C.status )) && (!istype(user, /mob/silicon/ai)))
 		return 0
 	else
 		src.current = C
