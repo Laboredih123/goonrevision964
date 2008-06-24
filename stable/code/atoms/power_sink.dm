@@ -4,7 +4,7 @@
 	var/lighting_used = 100
 
 	process()
-		if(!stat & NOPOWER)
+		if(!(stat & NOPOWER))
 			use_power(environ_used, ENVIRON)
 			use_power(equip_used, EQUIP)
 			use_power(lighting_used, LIGHT)
