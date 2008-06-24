@@ -259,7 +259,7 @@
 /obj/item/weapon/verb/move_to_top()
 	set src in oview(1)
 
-	if(!istype(src.loc, /turf) || usr.stat || usr.is_handcuffed() )
+	if(!istype(src.loc, /turf) || !usr.can_use_hands())
 		return
 
 	var/turf/T = src.loc
@@ -308,13 +308,13 @@
 		M.think("\red Your armor softened the blow.")
 		dam /= 2
 
-	if (prob(dam.brute + M.dam.brute/5)) //knock 'em out
-		if(M.conscious())
+	if (prob(dam + M.dam.brute/5)) //knock 'em out
+		if(M.is_conscious())
 			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
-		var/time = rand(10, 120)
+		var/time = rand(1, 12)
 		M.knockout_until(time)
 
-	src.take_damage(brute = dam)
+	M.take_damage(brute = dam)
 	src.add_fingerprint(attacker)
 	return
 
@@ -356,8 +356,9 @@
 	usr << text("There is about [] square units of paper left!", src.amount)
 	return
 
-/obj/item/weapon/wrapping_paper/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
+/obj/item/weapon/wrapping_paper/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (!( locate(/obj/table, src.loc) ))
 		user << "\blue You MUST put the paper on a table!"
 	if (W.w_class < 4)
@@ -679,11 +680,11 @@
 
 /obj/item/weapon/syndicate_uplink/Topic(href, href_list)
 	..()
-	if (usr.stat || usr.is_handcuffed())
+	if (!usr.can_use_hands())
+		return
+	if(!istype(usr, /mob/carbon))
 		return
 	var/mob/carbon/H = usr
-	if (!( istype(H, /mob/carbon) ))
-		return 1
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
 		if (href_list["item_emag"])
@@ -1318,10 +1319,11 @@
 	..()
 	return
 
-/obj/item/weapon/interact(mob/user as mob)
-
+/obj/item/weapon/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (istype(src.loc, /obj/item/weapon/storage))
-		for(var/mob/M in range(1, src.loc))
+		for(var/mob/carbon/M in range(1, src.loc))
 			if (M.s_active == src.loc)
 				if (M.client)
 					M.client.screen -= src
@@ -1713,8 +1715,9 @@
 		return
 	return
 
-/obj/item/weapon/sheet/rglass/interact(mob/user as mob)
-
+/obj/item/weapon/sheet/rglass/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
 		var/obj/item/weapon/sheet/rglass/F = new /obj/item/weapon/sheet/rglass( user )
@@ -2499,7 +2502,7 @@
 			L += G.gift:return_inv()
 	return L
 
-/obj/item/weapon/storage/proc/show_to(mob/user as mob)
+/obj/item/weapon/storage/proc/show_to(mob/carbon/user as mob)
 
 	user.client.screen -= src.boxes
 	user.client.screen -= src.closer
@@ -2519,7 +2522,7 @@
 	user.client.screen -= src.contents
 	return
 
-/obj/item/weapon/storage/proc/close(mob/user as mob)
+/obj/item/weapon/storage/proc/close(mob/carbon/user as mob)
 
 	src.hide_from(user)
 	user.s_active = null
@@ -2541,7 +2544,7 @@
 	src.closer.screen_loc = text("[],[]", mx, my)
 	return
 
-/obj/item/weapon/storage/proc/orient2hud(mob/user as mob)
+/obj/item/weapon/storage/proc/orient2hud(mob/carbon/user as mob)
 
 	if (src == user.l_hand)
 		src.orient_objs(3, 11, 3, 4)
@@ -2684,7 +2687,9 @@
 	if (src.loc != usr)
 		return
 	if (usr.check_dexterity())
-		var/mob/M = usr
+		var/mob/carbon/M = usr
+		if(!istype(usr, /mob/carbon))
+			return
 		if (!( istype(over_object, /obj/screen) ))
 			return ..()
 		if ((M.can_use_hands() && M.back == src))
@@ -2701,7 +2706,7 @@
 			src.add_fingerprint(usr)
 	return
 
-/obj/item/weapon/storage/backpack/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/storage/backpack/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (src.contents.len >= 7)
 		return
@@ -2725,7 +2730,7 @@
 	user.show_viewers(text("\blue [] has added [] to []!", user, W, src))
 	return
 
-/obj/item/weapon/storage/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/storage/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (src.contents.len >= 7)
 		return
@@ -2749,21 +2754,25 @@
 /obj/item/weapon/storage/MouseDrop(over_object, src_location, over_location)
 
 	..()
-	if ((over_object == usr && (get_dist(src, usr) <= 1 || usr.contents.Find(src))))
-		if (usr.s_active)
-			usr.s_active.close(usr)
-		src.show_to(usr)
+	if(!istype(usr, /mob/carbon))
+		return
+	var/mob/carbon/user = usr
+	if ((over_object == user && (get_dist(src, user) <= 1 || user.contents.Find(src))))
+		if (user.s_active)
+			user.s_active.close(user)
+		src.show_to(user)
 	return
 
-/obj/item/weapon/storage/interact(mob/user as mob)
-
+/obj/item/weapon/storage/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (src.loc == user)
 		if (user.s_active)
 			user.s_active.close(user)
 		src.show_to(user)
 	else
 		..()
-		for(var/mob/M in range(1))
+		for(var/mob/carbon/M in range(1))
 			if (M.s_active == src)
 				src.close(M)
 			//Foreach goto(76)
@@ -2813,10 +2822,10 @@
 
 	return
 
-/obj/item/weapon/storage/toolbox/attack(mob/M as mob, mob/user as mob)
+/obj/item/weapon/storage/toolbox/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 
 	..()
-	if ((prob(30) && M.stat < 2))
+	if ((prob(30) && !M.is_dead))
 		var/mob/carbon/H = M
 
 		// ******* Check
@@ -2826,10 +2835,9 @@
 			return
 		var/time = rand(1, 5)
 		if (prob(90))
-			M.knockdown_until(time)
-		else
 			M.knockout_until(time)
-		M.stat = 1
+		else
+			M.knockdown_until(time)
 		user.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 	return
 
@@ -2908,8 +2916,9 @@
 	src.pixel_y = rand(1, 14)
 	return
 
-/obj/item/weapon/tile/interact(mob/user as mob)
-
+/obj/item/weapon/tile/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
 		var/obj/item/weapon/tile/F = new /obj/item/weapon/tile( user )
@@ -2942,9 +2951,10 @@
 	W.health = 100
 	return
 
-/obj/item/weapon/tile/attack_self(mob/user as mob)
-
-	if (usr.stat)
+/obj/item/weapon/tile/attack_self(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
+	if (!user.can_use_hands())
 		return
 	var/T = user.loc
 	if (!( istype(T, /turf) ))

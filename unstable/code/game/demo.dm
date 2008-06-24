@@ -565,7 +565,7 @@
 			src.gas.turf_add(T, -1.0)
 		del(src)
 
-/obj/item/weapon/tank/attack_self(mob/user as mob)
+/obj/item/weapon/tank/attack_self(mob/carbon/user as mob)
 
 	user.machine = src
 	if (!( src.gas ))
@@ -576,23 +576,26 @@
 
 /obj/item/weapon/tank/Topic(href, href_list)
 	..()
-	if (usr.stat|| usr.is_handcuffed())
+	if (!usr.can_use_hands())
 		return
-	if (src.loc == usr)
-		usr.machine = src
+	if(!istype(usr, /mob/carbon))
+		return
+	var/mob/carbon/user = usr
+	if (src.loc == user)
+		user.machine = src
 		if (href_list["cp"])
 			var/cp = text2num(href_list["cp"])
 			src.i_used += cp
 			src.i_used = min(max(round(src.i_used), 0), 10000)
-		if ((href_list["stat"] && src.loc == usr))
-			if (usr.internal != src && usr.mask && (usr.mask.flags & MASKINTERNALS))
-				usr.internal = src
-				usr << "\blue Now running on internals!"
+		if ((href_list["stat"] && src.loc == user))
+			if (user.internal != src && user.mask && (user.mask.flags & MASKINTERNALS))
+				user.internal = src
+				user << "\blue Now running on internals!"
 			else
-				if(usr.internal)
-					usr << "\blue No longer running on internals!"
-				usr.internal = null
-		src.add_fingerprint(usr)
+				if(user.internal)
+					user << "\blue No longer running on internals!"
+				user.internal = null
+		src.add_fingerprint(user)
 		for(var/mob/M in viewers(1, src.loc))
 			if ((M.client && M.machine == src))
 				src.attack_self(M)
@@ -615,25 +618,22 @@
 /obj/item/weapon/tank/attack(mob/M as mob, mob/user as mob)
 
 	..()
+	if(!istype(M, /mob/carbon))
+		return
 	if (prob(30) && !M.is_dead)
 		var/mob/carbon/human/H = M
 
 // ******* Check
 
 		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
-			M << "\red The helmet protects you from being hit hard in the head!"
+			H << "\red The helmet protects you from being hit hard in the head!"
 			return
-		var/time = rand(10, 120)
+		var/time = rand(1, 12)
 		if (prob(90))
-			if (M.paralysis < time)
-				M.paralysis = time
+			H.knockout_until(time)
 		else
-			if (M.stunned < time)
-				M.stunned = time
-		M.stat = 1
+			H.knockdown_until(time)
 		M.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
-			//Foreach goto(169)
-		M << text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120)
 	return
 
 /obj/item/weapon/tank/New()
@@ -697,16 +697,12 @@
 		return 1
 	if (G.plasma > 10)
 		if (user)
-			var/d = G.plasma / 2
-			d = min(abs(user.health + 100), d, 25)
-			user.fireloss += d
-			user.health = 100 - user.oxyloss - user.toxloss - user.fireloss - user.bruteloss
-		return (G.oxygen >= 75 ? 0.5 : 0)
+			var/d = min(G.plasma / 2, 25)
+			user.take_damage(burn = d)
+	if (G.oxygen >= 75)
+		return 0.5
 	else
-		if (G.oxygen >= 75)
-			return 0.5
-		else
-			return 0
+		return 0
 	//G = null
 	del(G)
 	return
@@ -805,8 +801,8 @@
 	if(src.master)
 		src.master.loc = null
 
-	for(var/mob/M in range(T))
-		flick("flash", M.flash)
+	for(var/mob/carbon/M in range(T))
+		flick("flash", M.hud.flash)
 		//Foreach goto(732)
 	//var/m_range = 2
 	var/m_range = round(strength / 387)
@@ -856,8 +852,9 @@
 
 
 
-/obj/item/weapon/tank/plasmatank/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
+/obj/item/weapon/tank/plasmatank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (istype(W, /obj/item/weapon/assembly/rad_ignite))
 		var/obj/item/weapon/assembly/rad_ignite/S = W
 		if (!( S.status ))

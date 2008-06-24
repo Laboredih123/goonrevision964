@@ -30,3 +30,8 @@
 			src.hud.hand.dir = NORTH
 		else
 			src.hud.hand.dir = SOUTH
+
+/mob/carbon/is_conscious()
+	if(src.knockout > 0)
+		return 0
+	return ..()

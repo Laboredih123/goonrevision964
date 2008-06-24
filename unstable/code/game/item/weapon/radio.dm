@@ -296,14 +296,18 @@
 			usr << "\blue The electric pads are exposed!"
 	return
 
-/obj/item/weapon/radio/electropack/interact(mob/user as mob)
+/obj/item/weapon/radio/electropack/interact(mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (src == user.back)
 		user << "\blue You need help taking this off!"
 		return
 	else
 		..()
 
-/obj/item/weapon/radio/electropack/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/radio/electropack/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (istype(W, /obj/item/weapon/screwdriver))
 		src.e_pads = !src.e_pads
 		if (src.e_pads)
@@ -381,7 +385,7 @@
 		return
 	return
 
-/obj/item/weapon/radio/signaler/receive(datum/message/M, freq)
+/obj/item/weapon/radio/electropack/receive(datum/message/M, freq)
 	if (freq != src.freq || !M || !(src.wires & WIRE_RECEIVE))
 		return
 	if(M.language != COMPUTER_LANG)
@@ -391,15 +395,14 @@
 	if(src.master && src.wires & WIRE_SIGNAL)
 		src.master:r_signal()
 	if ((ismob(src.loc) && src.on))
-		var/mob/M = src.loc
-		var/turf/T = M.loc
+		var/mob/Mob = src.loc
+		var/turf/T = Mob.loc
 		if ((istype(T, /turf) || istype(T, /obj/move)))
-			if (M.moved_recently && M.last_move)
-				step(M, M.last_move)
-		M.think("\red <B>You feel a sharp shock!</B>")
+			if (Mob.moved_recently && Mob.last_move)
+				step(Mob, Mob.last_move)
+		Mob.think("\red <B>You feel a sharp shock!</B>")
 
-		if (M.weakened < 10)
-			M.weakened = 10
+		Mob.knockdown_until(5)
 	return
 
 /obj/item/weapon/radio/electropack/attack_self(mob/user as mob, flag1)

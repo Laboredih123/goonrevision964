@@ -598,9 +598,9 @@
 		return
 	return
 
-/obj/item/weapon/timer/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
-
+/obj/item/weapon/timer/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if (istype(W, /obj/item/weapon/radio/signaler) )
 		var/obj/item/weapon/radio/signaler/S = W
 		if(!S.b_stat)
@@ -658,7 +658,8 @@
 
 /obj/item/weapon/timer/Topic(href, href_list)
 	..()
-	if (usr.stat)
+
+	if (!usr.can_use_hands())
 		return
 	if ((usr.contents.Find(src) || usr.contents.Find(src.master) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src

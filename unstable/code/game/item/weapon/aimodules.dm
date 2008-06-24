@@ -27,7 +27,7 @@
 
 	var/found=0
 	for(var/mob/silicon/ai/M in world)
-		if (M.stat == 2)
+		if (M.is_dead)
 			usr << "Upload failed. No signal is being detected from the AI."
 		else if (M.see_in_dark == 0)
 			usr << "Upload failed. Only a faint signal is being detected from the AI, and it is not responding to our requests. It may be low on power."
@@ -77,9 +77,11 @@
 	var/targetName = "name"
 	desc = "A 'one human' AI module: 'Only <name> is human.'"
 
-/obj/item/weapon/aiModule/oneHuman/interact(var/mob/user as mob)
+/obj/item/weapon/aiModule/oneHuman/interact(var/mob/carbon/user as mob)
 	..()
-	var/targName = input(usr, "Please enter the name of the person who is the only human.", "Who?", user.rname)
+	if(!istype(user, /mob/carbon))
+		return
+	var/targName = input(usr, "Please enter the name of the person who is the only human.", "Who?", user.body_name)
 	targetName = targName
 	desc = text("A 'one human' AI module: 'Only [] is human.'", targetName)
 
@@ -180,7 +182,7 @@
 /obj/item/weapon/aiModule/reset/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
 	if (ticker.killer != target)
-		target << text("[] attempted to reset your laws using a reset module.", sender.rname)
+		target << text("[] attempted to reset your laws using a reset module.", sender.name)
 		target.addLaw(0, "")
 		for (var/index=4, index<16, index++)
 			target.addLaw(index, "")

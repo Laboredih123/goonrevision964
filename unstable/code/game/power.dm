@@ -90,11 +90,11 @@
 
 /obj/item/weapon/cell/examine()
 	set src in view(1)
-	if(usr && !usr.stat)
+	if(usr && !usr.is_dead)
 		if(maxcharge == 1000)
-			usr << "[desc]\nThe charge meter reads [round(src.percent() )]%."
+			usr.see("[desc]\nThe charge meter reads [round(src.percent() )]%.")
 		else
-			usr << "A high-capacity rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent() )]%."
+			usr.see("A high-capacity rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent() )]%.")
 
 
 

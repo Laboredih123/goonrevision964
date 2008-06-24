@@ -17,11 +17,10 @@
 	return src.is_active()
 
 /mob/proc/is_active()
-	if(src.is_dead)
-		return 0
-	if(!src.is_conscious())
-		return 0
-	return 1
+	return src.is_conscious()
 
 /mob/proc/u_equip()
 	return 0
+
+/mob/proc/is_conscious()
+	return 1
