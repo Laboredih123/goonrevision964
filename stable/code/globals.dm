@@ -129,8 +129,7 @@ var
 	list/reg_dna = list(  )
 	list/banned = list(  )
 
-
-        //
+	CELLRATE = 0.002 // how quickly APCs recharge
 	shuttle_z = 2	//default
 	airtunnel_start = 68 // default
 	airtunnel_stop = 68 // default

@@ -4,8 +4,9 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\verbs\ooc.dm
-DIR: code code\atoms code\game code\game\area code\game\item code\game\item\weapon code\game\machinery code\game\modes code\game\verbs icons\ss13 maps
+FILE: maps\Space Station 13.dmp
+DIR: maps
+UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -27,6 +28,7 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "icons/ss13"
 #define FILE_DIR "interface"
 #define FILE_DIR "maps"
+#define FILE_DIR "maps/backup"
 // END_FILE_DIR
 
 // BEGIN_PREFERENCES
@@ -50,7 +52,6 @@ AUTO_FILE_DIR: ON
 #include "code\atoms\closet.dm"
 #include "code\atoms\configuration.dm"
 #include "code\atoms\false_wall.dm"
-#include "code\atoms\power_sink.dm"
 #include "code\atoms\secure_closet.dm"
 #include "code\atoms\sun.dm"
 #include "code\atoms\turf.dm"
@@ -125,6 +126,7 @@ AUTO_FILE_DIR: ON
 #include "maps\Space Station 13 areas.dm"
 #include "maps\Space Station 13.dmp"
 // END_INCLUDE
+
 
 
 

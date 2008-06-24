@@ -61,7 +61,7 @@
 
 // the power cell
 // charge from 0 to 100%
-// fits in PDU to provide backup power
+// fits in APC to provide backup power
 
 /obj/item/weapon/cell/New()
 	..()
@@ -74,7 +74,7 @@
 
 /obj/item/weapon/cell/proc/updateicon()
 
-	if(maxcharge == 1000)
+	if(maxcharge <= 2500)
 		icon_state = "cell"
 	else
 		icon_state = "hpcell"
@@ -94,12 +94,10 @@
 /obj/item/weapon/cell/examine()
 	set src in view(1)
 	if(usr && !usr.stat)
-		if(maxcharge == 1000)
-			usr << "[desc]\nThe charge meter reads [round(src.percent() )]%."
+		if(maxcharge <= 2500)
+			usr << "[desc]\nThe manufacturer's label states this cell has a power rating of [maxcharge], and that you should not swallow it.\nThe charge meter reads [round(src.percent() )]%."
 		else
-			usr << "A high-capacity rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent() )]%."
-
-
+			usr << "This power cell has an exciting chrome finish, as it is an uber-capacity cell type! It has a power rating of [maxcharge]!!!\nThe charge meter reads [round(src.percent() )]%."
 
 // common helper procs for all power machines
 
@@ -161,13 +159,11 @@
 	pixel_x = (tdir & 3)? 0 : (tdir == 4 ? 24 : -24)
 	pixel_y = (tdir & 3)? (tdir ==1 ? 24 : -24) : 0
 
-
 	// is starting with a power cell installed, create it and set its charge level
 	if(cell_type)
 		src.cell = new/obj/item/weapon/cell(src)
-		cell.maxcharge = cell_type==1 ? 1000 : 2500				// if type=2, make a hp cell
+		cell.maxcharge = cell_type	// cell_type is maximum charge (old default was 1000 or 2500 (values one and two respectively)
 		cell.charge = start_charge * cell.maxcharge / 100.0 		// (convert percentage to actual value)
-
 
 	var/area/A = src.loc.loc
 
@@ -533,6 +529,13 @@
 	if(!area.requires_power)
 		return
 
+	if (equipment > 1) // off=0, off auto=1, on=2, on auto=3
+		use_power(src.equip_consumption, EQUIP)
+	if (lighting > 1) // off=0, off auto=1, on=2, on auto=3
+		use_power(src.light_consumption, LIGHT)
+	if (environ > 1) // off=0, off auto=1, on=2, on auto=3
+		use_power(src.environ_consumption, ENVIRON)
+
 	area.calc_lighting()
 
 	lastused_light = area.usage(LIGHT)
@@ -542,13 +545,11 @@
 
 	lastused_total = lastused_light + lastused_equip + lastused_environ
 
-
 	//store states to update icon if any change
 	var/last_lt = lighting
 	var/last_eq = equipment
 	var/last_en = environ
 	var/last_ch = charging
-
 
 	var/excess = surplus()
 
@@ -570,8 +571,6 @@
 		var/cellused = min(cell.charge, CELLRATE * lastused_total)	// clamp deduction to a max, amount left in cell
 
 		cell.charge -= cellused
-
-
 
 		// set channels depending on how much charge we have left
 

@@ -1,8 +1,65 @@
 var/changes = {"<FONT color='blue'>
-<P><B>Current Version: KURPER'S VERSION NUMBER THREE!</b></p>
+<P><B>Current Version: KURPER'S VERSION NUMBER FOUR!</b></p>
 <P>This version is a fork of Rick's currently running server,
 and is a testbed of proposed fixes, changes, and features.</p>
 <HR>
+
+<P><B>Modified Tuesday, June 24th 2008 (Revision ):</b><BR>
+<ul>
+<li>Server crash where a non-player-human died has been resolved (ie: monkeys-turned-humans or logged-off-humans)</li>
+<li>You can now observe your own corpse</li>
+<li>Examining someone will now show what is on their belt and glove slots</li>
+<li>You can now examine yourself</li>
+<li>OOC and SAY verbs now have a character limit of 1024 (so you can type long sonnets)</li>
+<li>Emptying Pockets before game start caused a server error; no longer the case</li>
+<li>The FLOWRATE global constant has been changed to 0.99. This should speed up gaseous flow in pipes (and therefore make the engine run smoother) but may have big unforseen consequences. Keep eyes open for bugs.</li>
+<li>Fixed engine z-level definition preventing it from ejecting</li>
+<li>Access_Medical_Records permission has been set appropriately (nobody could do it before)</li>
+<li>Added power_sinks invisible object to artificially increase room power draw</li>
+<li>There are now 3 atmos techs and 3 station techs instead of 5 and 1</li>
+<li>CO2 now does 50 damage per second, and it takes 5 seconds to knock you out (instead of just being an insta-kill)</li>
+<li>Added beer to the game, complete with HARM and HURT effects (when clicking on both yourself and others). It'll need some tweaking in the damage-dishing department before it becomes a common fixture on maps (it's a bit too powerful right now)</li>
+<li>Admins can now manually authorize pubbies to enter the game (and to make them monkeys)</li>
+<li>The traitor's radio is now hidden inside a normal radio device, so that you cannot figure out who the traitor is just by looking at his inventory.</li>
+<li>Camera view now allows you to read papers one square away (AI and security terminals)</li>
+<li>Camera view can papers more than one square away in a garbled state (similar to monkey reading)</li>
+<li>Camera view can not see papers in people's hands, however, people can now hold papers up to the cameras (by clicking on them) which pops up a window on the AI's screen</li>
+<li>Camera views are now cancelled when the camera is cut (it used to stay on until you switched)</li>
+<li>Level 3 Biohazard closets no longer come with gas masks, oxygen, gloves, or lab coats.</li>
+<li>Medical closets no longer come with gloves.</li>
+<li>Fixed a bug that affected intercept-sending in traitor mode.</li>
+<li>Fixed a bug that threw errors server side when playing with your belt</li>
+<li>New area type - "AI Monitored" - with accompanying new "Motion Detection" camera. This will throw a warning to the AI player if anybody enters (currently in use in EVA storage)</li>
+<li>Motion cameras can be deactivated now (10 seconds + screwdriver)</li>
+<li>The AI is now notified if Oxygen or FireAlarms are tripped.</li>
+<li>Monkeyizing sometimes threw an exception error - now fixed.</li>
+<li>Fixed bug that stopped DNA_ADD to work correctly (it tried to add the data to the other disk)</li>
+<li>The radio is no longer lockable in Nuke mode</li>
+<li>Access levels are no longer reset when giving a custom job (to make it easier to give yourself Captain access and rename it after)</li>
+<li>Fixed the ADMINHELP verb for this fork</li>
+<li>Fixed a bug where you would stop in space if you laid down</li>
+<li>Head of Research now has security access (so he can leave the bridge)</li>
+<li>Fixed a floating point error that made radios go to 148.2 instead of 148.1</li>
+<li>Made the endgame explosion in blob mode do more damage (to compensate for the bigger map)</li>
+<li>Fire alarms no longer go off in space</li>
+<li>Re-added the ENTER Verb in case you have trouble spawning</li>
+<li>Added a two second delay between accepting READY and ENTER verbs to hopefully fix a spawning problem</li>
+<li>VOTE_NO_DEAD is now defaulted to OFF</li>
+<li>AI can no longer "Follow" people hiding in closets (or similarly hidden)</li>
+<li>Meteor mode now has 10x the meteors</li>
+<li>There are now 2 Engineering positions</li>
+<li>Clicking on closets with grab activated threw errors; now fixed</li>
+<li>All security and forensic officers now have security_records access</li>
+<li>The AI 'wander-off-camera' delay is now 5 seconds instead of 30</li>
+<li>You can now wirecut atmos alert panels</li>
+<li>Fixed a bug with AI cameras</li>
+<li>Chaplain job fixes</li>
+<li>APCs now have customizable cell capacities in the mapmaker(this will break old map power grids but is an easy fix)</li>
+<li>APCs now have 3 "power draw" attributes in the mapmaker that allows you to artificially pump up the rooms power consumption</li>
+<li>Removed previously-introduced power_sink object</li>
+<li>Added the most recent map changes to the SVN.</li>
+</ul>
+</p>
 
 <p><B>Modified Thursday, June 19th 2008 (Revision 172):</b><BR>
 <ul>

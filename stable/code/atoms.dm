@@ -2015,8 +2015,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throwforce = 7.0
 	w_class = 2.0
 
-#define CELLRATE 0.002
-
 /obj/item/weapon/cell
 	name = "power cell"
 	desc = "A rechargable electrochemical power cell."
@@ -2888,7 +2886,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/area/area
 	var/obj/item/weapon/cell/cell
 	var/start_charge = 90				// initial cell charge %
-	var/cell_type = 1					// 0=no cell, 1=regular, 2=high-cap (x5)
+	var/cell_type = 2500				// 0=no cell, 1=regular, 2=high-cap (x5) <- old, now it's just 0=no cell, otherwise dictate cellcapacity by changing this value. 1 used to be 1000, 2 was 2500
 	var/opened = 0
 	var/lighting = 3
 	var/equipment = 3
@@ -2907,6 +2905,9 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/lastused_environ = 0
 	var/lastused_total = 0
 	var/main_status = 0
+	var/light_consumption = 0
+	var/equip_consumption = 0
+	var/environ_consumption = 0
 	netnum = -1		// set so that APCs aren't found as powernet nodes
 
 /obj/machinery/power/terminal
