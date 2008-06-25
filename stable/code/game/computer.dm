@@ -159,7 +159,7 @@
 	var/target_name = input(usr, "Which creature should you track?") as null|anything in creatures
 
 	if (!target_name)
-		usr << "Nothing is trackable."
+		usr:cameraFollow = null
 		return
 
 	var/mob/target = creatures[target_name]
@@ -171,9 +171,7 @@
 
 	spawn (0)
 		while (usr:cameraFollow == target)
-			if (usr.machine == null)
-				usr:cameraFollow = null
-				usr << "Follow camera mode ended."
+			if (usr:cameraFollow == null)
 				return
 			else if (istype(target, /mob/human) && istype(target:wear_id, /obj/item/weapon/card/id/syndicate))
 				usr << "Follow camera mode ended."
