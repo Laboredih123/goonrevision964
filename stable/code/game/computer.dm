@@ -179,7 +179,7 @@
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return
-			else if (!istype(target.loc, /turf)) //in a closet
+			else if (!target || !istype(target.loc, /turf)) //in a closet
 				usr << "Target is not on or near any active cameras on the station. We'll check again in 5 seconds (unless you use the cancel-camera verb)."
 				sleep(40) //because we're sleeping another second after this (a few lines down)
 				continue
