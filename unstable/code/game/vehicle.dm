@@ -54,7 +54,7 @@
 	return
 
 /obj/machinery/vehicle/relaymove(mob/user as mob, direction)
-	if (user.stat)
+	if (!user.is_active())
 		return
 
 	if ((user in src))
@@ -108,9 +108,7 @@
 
 	if (istype(A, /atom/movable))
 		A.loc = src.loc
-		for(var/mob/O in view(src, null))
-			if ((O.client && !(O.blinded)))
-				O << text("\blue <B> [] unloads [] from []!</B>", usr, A, src)
+		usr.show_viewers(text("\blue <B> [] unloads [] from []!</B>", usr, A, src))
 
 		if (ismob(A))
 			var/mob/M = A
@@ -124,7 +122,7 @@
 	if (!usr.is_active())
 		return
 
-	if (istype(usr, /mob/carbon) && usr.is_intelligent())
+	if (istype(usr, /mob/carbon) && usr.check_intelligence())
 		var/mob/carbon/H = usr
 
 		if ((H.pulling && !(H.pulling.anchored)))
@@ -138,8 +136,6 @@
 						M.client.perspective = EYE_PERSPECTIVE
 						M.client.eye = src
 
-				for(var/mob/O in viewers(src, null))
-					if ((O.client && !( O.blinded )))
-						O << text("\blue <B> [] loads [] into []!</B>", H, H.pulling, src)
+				usr.show_viewers(text("\blue <B> [] loads [] into []!</B>", H, H.pulling, src))
 
 				H.pulling = null

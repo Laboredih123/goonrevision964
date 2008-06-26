@@ -1166,7 +1166,7 @@
 /obj/machinery/sleeper/verb/eject()
 	set src in oview(1)
 
-	if (usr.stat != 0)
+	if (!usr.is_active())
 		return
 	src.go_out()
 	add_fingerprint(usr)

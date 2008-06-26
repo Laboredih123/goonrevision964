@@ -411,11 +411,13 @@ obj/machinery/door_control/interact(mob/user as mob)
 				src.scan.loc = src.loc
 				src.scan = null
 			else
-				var/obj/item/weapon/card/id/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
-					usr.drop_item()
-					I.loc = src
-					src.scan = I
+				if(istype(usr, /mob/carbon))
+					var/mob/carbon/M = usr
+					var/obj/item/weapon/card/id/I = M.equipped()
+					if (istype(I, /obj/item/weapon/card/id))
+						M.drop_item()
+						I.loc = src
+						src.scan = I
 		if (href_list["door1"])
 			if (src.scan)
 				if (src.check_access(src.scan))

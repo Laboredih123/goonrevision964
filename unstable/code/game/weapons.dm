@@ -61,8 +61,6 @@
 	..()
 	if (!usr.check_intelligence())
 		return
-	if (!usr.check_computer())
-		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
 		if (href_list["auth"])
@@ -71,11 +69,13 @@
 				src.yes_code = 0
 				src.auth = null
 			else
-				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/disk/nuclear))
-					usr.drop_item()
-					I.loc = src
-					src.auth = I
+				if(istype(usr, /mob/carbon))
+					var/mob/carbon/M = usr
+					var/obj/item/I = M.equipped()
+					if (istype(I, /obj/item/weapon/disk/nuclear))
+						M.drop_item()
+						I.loc = src
+						src.auth = I
 		if (src.auth)
 			if (href_list["type"])
 				if (href_list["type"] == "E")

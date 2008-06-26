@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\weapons.dm
+FILE: code\game\cryo.dm
 DIR: code code\atoms code\game code\game\dna code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\modes
 UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
