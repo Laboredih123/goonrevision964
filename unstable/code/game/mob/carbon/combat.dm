@@ -48,16 +48,20 @@
 	else if(M.a_intent == "disarm")
 		if(!M.can_use_hands())
 			return
-		var/randn = rand(1, 100)
-		if (randn <= 25)
-			if (!src.lying)
-				src.weakened = 2
-				src.show_viewers("\red <B>[M] has pushed down [src]!</B>")
-		else if (randn <= 60)
-			src.drop_item()
-			src.show_viewers("\red <B>[M] has disarmed [src]!</B>")
+		if(!M.has_super_strength())
+			var/randn = rand(1, 100)
+			if (randn <= 25)
+				if (!src.lying)
+					src.show_viewers("\red <B>[M] has pushed down [src]!</B>")
+				src.knockdown_until(3)
+			else if (randn <= 60)
+				src.drop_item()
+				src.show_viewers("\red <B>[M] has disarmed [src]!</B>")
+			else
+				src.show_viewers("\red <B>[M] has attempted to disarm [src]!</B>")
 		else
-			src.show_viewers("\red <B>[M] has attempted to disarm [src]!</B>")
+			src.knockout_until(20)
+			src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>
 	else if(M.a_intent == "harm")
 		if(M.attack_type == ATTACK_BITE)
 			if(M.is_muzzled())
@@ -83,19 +87,26 @@
 		else if(M.attack_type == ATTACK_PUNCH)
 			if (M.can_use_hands())
 				return
-			var/success = 1
-			if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(50))
-				success = 0
-			else if(istype(src.suit, /obj/item/weapon/clothing/suit/armor) && prob(60))
-				success = 0
-			else if(istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit) && prob(80))
-				success = 0
-			else if(prob(25))
-				success = 0
-			if(!success)
-				src.show_viewers("\red <b>[M] has attempted to punch [src]!</b>")
+			if(!M.has_super_strength())
+				var/success = 1
+				if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(50))
+					success = 0
+				else if(istype(src.suit, /obj/item/weapon/clothing/suit/armor) && prob(60))
+					success = 0
+				else if(istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit) && prob(80))
+					success = 0
+				else if(prob(25))
+					success = 0
+				if(!success)
+					src.show_viewers("\red <b>[M] has attempted to punch [src]!</b>")
+				else
+					src.show_viewers("\red <B>[M] has punched [src]!</B>")
+					src.take_damage(brute = 5)
+					if(M.is_infectious)
+						src.infected_by(M)
 			else
-				src.show_viewers("\red <B>[M] has punched [src]!</B>")
-				src.take_damage(brute = 5)
+				src.knockout_until(20)
+				src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>
+				src.take_damage(brute = 20)
 				if(M.is_infectious)
-					src.infected_by(M)
+						src.infected_by(M)
