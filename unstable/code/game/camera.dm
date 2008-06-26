@@ -19,7 +19,7 @@
 		return
 	if(istype(user, /mob/carbon))
 		var/mob/carbon/M = user
-		if(M.blind)
+		if(M.is_blind)
 			return
 
 	user.machine = src

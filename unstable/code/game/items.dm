@@ -3854,9 +3854,7 @@
 
 	var/dat = "<B>Crew Manifest</B>:<BR>"
 	for(var/mob/carbon/M in world)
-		if (M.start)
-			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.id, /obj/item/weapon/card/id) ? text("[]", M.id.assignment) : "Unknown Position"))
-		//Foreach goto(23)
+		dat += text("    <B>[]</B> -  []<BR>", M.spawn_name, (istype(M.id, /obj/item/weapon/card/id) ? text("[]", M.id.assignment) : "Unknown Position"))
 	var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
 	P.info = dat
 	P.name = "paper- 'Crew Manifest'"
@@ -3930,13 +3928,13 @@
 		new /obj/item/weapon/table_parts( src.loc )
 		del(src)
 
-/obj/table/interact_cuffed(mob/user as mob)
-	if(src.appearance == APPEARANCE_MONKEY)
+/obj/table/interact_cuffed(mob/carbon/user as mob)
+	if(user.appearance == APPEARANCE_MONKEY)
 		return src.interact(user)
 	return
 
-/obj/table/interact(mob/user as mob)
-	if(src.appearance == APPEARANCE_MONKEY)
+/obj/table/interact(mob/carbon/user as mob)
+	if(istype(user, /mob/carbon) && user.appearance == APPEARANCE_MONKEY)
 		if (!( locate(/obj/table, user.loc) ))
 			step(user, get_dir(user, src))
 			if (user.loc == src.loc)
@@ -3952,8 +3950,9 @@
 		return 0
 	return
 
-/obj/table/MouseDrop_T(obj/O as obj, mob/user as mob)
-
+/obj/table/MouseDrop_T(obj/O as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
 		return
 	user.drop_item()
@@ -3961,7 +3960,7 @@
 		step(O, get_dir(O, src))
 	return
 
-/obj/table/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/table/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (istype(W, /obj/item/weapon/wrench))
 		new /obj/item/weapon/table_parts( src.loc )
@@ -4007,8 +4006,9 @@
 		return 0
 	return
 
-/obj/rack/MouseDrop_T(obj/O as obj, mob/user as mob)
-
+/obj/rack/MouseDrop_T(obj/O as obj, mob/carbon/user as mob)
+	if(!istype(user, /mob/carbon))
+		return
 	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
 		return
 	user.drop_item()
@@ -4016,7 +4016,7 @@
 		step(O, get_dir(O, src))
 	return
 
-/obj/rack/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/rack/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (istype(W, /obj/item/weapon/wrench))
 		new /obj/item/weapon/rack_parts( src.loc )

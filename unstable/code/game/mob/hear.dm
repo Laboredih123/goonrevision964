@@ -2,17 +2,11 @@
 /var/const/ENGLISH_LANG = 2
 /var/const/COMPUTER_LANG = 3
 
-/mob/proc/hear(message)
-	if(src.deaf)
-		return
-	if(src.stat == 1 || src.sleeping == 0)
-		src << "<i>You hear a faint noise.</i>"
-		return 1
-	else
-		src << message
-		return 1
+/mob/hear(message)
+	src << message
+	return 1
 
-/mob/proc/hear_message(datum/message/M, atom/source)
+/mob/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
 	if(source in view(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
 		name += " (disguised as [source.name])"

@@ -37,3 +37,5 @@
 
 	var/prev_move = 0
 	var/next_move = 0
+
+	var/list/languages = new()

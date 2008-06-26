@@ -164,76 +164,78 @@
 
 /obj/screen/Click()
 	//world << "o/s/Click: [src.name]"
-
+	if(!istype(usr, /mob/carbon))
+		return
+	var/mob/carbon/user = usr
 	switch(src.name)
 		if("map")
 
-			usr.clearmap()
+			user.clearmap()
 		if("maprefresh")
-			var/obj/machinery/computer/security/seccomp = usr.machine
+			var/obj/machinery/computer/security/seccomp = user.machine
 
 			if(seccomp!=null)
-				seccomp.drawmap(usr)
+				seccomp.drawmap(user)
 			else
 
-				usr.clearmap()
+				user.clearmap()
 
 		if("hurt")
-			usr.intent = "hurt"
-			usr.hud.intent.screen_loc = "14,15"
+			user.intent = "hurt"
+			user.hud.intent.screen_loc = "14,15"
 		if("grab")
-			usr.intent = "grab"
-			usr.hud.intent.screen_loc = "11,15"
+			user.intent = "grab"
+			user.hud.intent.screen_loc = "11,15"
 		if("disarm")
-			usr.intent = "disarm"
-			usr.hud.intent.screen_loc = "13,15"
+			user.intent = "disarm"
+			user.hud.intent.screen_loc = "13,15"
 		if("help")
-			usr.intent = "help"
-			usr.hud.intent.screen_loc = "12,15"
+			user.intent = "help"
+			user.hud.intent.screen_loc = "12,15"
 		if("Reset Machine")
-			usr.machine = null
+			user.machine = null
 		if("internal")
-			if ((!( usr.stat ) && usr.canmove && !( usr.is_handcuffed() )))
-				usr.internal = null
+			if (user.can_use_hands())
+				user.internal = null
 		if("pull")
-			usr.pulling = null
+			user.pulling = null
 		if("sleep")
-			usr.sleeping = !( usr.sleeping )
+			user.sleeping = !( user.sleeping )
 		if("rest")
-			usr.resting = !( usr.resting )
+			user.resting = !( user.resting )
 		if("throw")
-			if (!usr.stat && isturf(usr.loc) && !usr.is_handcuffed())
-				usr.toggle_throw_mode()
+			if (isturf(user.loc) && user.can_use_hands())
+				user.toggle_throw_mode()
 		if("drop")
-			usr.drop_item_v()
+			user.drop_item_v()
 		if("swap")
-			usr.swap_hand()
+			user.swap_hand()
 		if("resist")
-			if (usr.next_move < world.time)
+			if (user.next_move < world.time)
 				return
-			usr.next_move = world.time + 20
-			if ((!( usr.stat ) && usr.canmove && !( usr.is_handcuffed() )))
-				for(var/obj/O in usr.requests)
+			user.next_move = world.time + 20
+			if (user.can_use_hands())
+				for(var/obj/O in user.requests)
 					//O = null
 					del(O)
 					//Foreach goto(557)
-				for(var/obj/item/weapon/grab/G in usr.grabbed_by)
+				for(var/obj/item/weapon/grab/G in user.grabbed_by)
 					if (G.state == 1)
 						//G = null
 						del(G)
 					else
 						if (G.state == 2)
 							if (prob(25))
-								usr.show_viewers(text("\red [] has broken free of []'s grip!", usr, G.assailant))
+								user.show_viewers(text("\red [] has broken free of []'s grip!", user, G.assailant))
 								del(G)
 						else
 							if (G.state == 2)
 								if (prob(5))
-									usr.show_viewers(text("\red [] has broken free of []'s headlock!", usr, G.assailant))
+									user.show_viewers(text("\red [] has broken free of []'s headlock!", user, G.assailant))
 										//Foreach goto(762)
 									//G = null
 									del(G)
-				usr.show_viewers(text("\red <B>[] resists!</B>", usr))
+				user.show_viewers(text("\red <B>[] resists!</B>", user))
 		else
 			src.DblClick()
 	return

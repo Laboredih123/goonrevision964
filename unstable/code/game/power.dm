@@ -29,7 +29,7 @@
 
 /obj/machinery/light_switch/examine()
 	set src in oview(1)
-	if(usr && !usr.stat)
+	if(usr && usr.is_active())
 		usr << "A light switch. It is [on? "on" : "off"]."
 
 
@@ -187,7 +187,7 @@
 
 	if(stat & BROKEN) return
 
-	if(usr && !usr.stat)
+	if(usr && usr.is_active())
 		usr << "A control terminal for the area electrical systems."
 		if(opened)
 			usr << "The cover is open and the power cell is [ cell ? "installed" : "missing"]."
@@ -222,7 +222,7 @@
 
 //attack with an item - open/close cover, insert cell, or (un)lock interface
 
-/obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/carbon/user)
 
 	if(stat & BROKEN) return
 	if (istype(user, /mob/silicon/ai))
@@ -288,7 +288,7 @@
 
 // attack with hand - remove cell (if cover open) or interact with the APC
 
-/obj/machinery/power/apc/interact(mob/user)
+/obj/machinery/power/apc/interact(mob/carbon/user)
 
 	add_fingerprint(user)
 
@@ -1116,7 +1116,7 @@
 		else
 			new/obj/item/weapon/cable_coil(T, 1)
 
-		src.show_viewers("[user] cuts the cable.")
+		user.show_viewers("[user] cuts the cable.")
 
 		shock(user, 50)
 

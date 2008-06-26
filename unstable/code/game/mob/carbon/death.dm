@@ -4,4 +4,7 @@
 	if(src.hud && src.hud.health)
 		src.hud.health.icon_state = "health5"
 	src.lying = 1
+	src.hud.blind.layer = 0
+	src.timeofdeath = world.time
+
 	return ..()

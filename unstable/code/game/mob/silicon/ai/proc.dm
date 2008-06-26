@@ -3,3 +3,8 @@
 		return null
 	user.reset_view(src.current)
 	return 1
+
+/mob/silicon/ai/is_active()
+	if(src.has_power)
+		return ..()
+	return 0

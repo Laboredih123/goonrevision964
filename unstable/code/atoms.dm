@@ -2499,7 +2499,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'Cryogenic2.dmi'
 	icon_state = "sleeper_0"
 	density = 1
-	var/mob/occupant = null
+	var/mob/carbon/occupant = null
 	anchored = 1.0
 /obj/machinery/teleport
 	name = "teleport"

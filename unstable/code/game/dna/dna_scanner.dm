@@ -19,7 +19,7 @@
 /obj/machinery/dna_scanner/verb/eject()
 	set src in oview(1)
 
-	if (!usr.is_conscious)
+	if (!usr.is_conscious())
 		return
 	src.go_out()
 	add_fingerprint(usr)
@@ -28,7 +28,7 @@
 /obj/machinery/dna_scanner/verb/move_inside()
 	set src in oview(1)
 
-	if (!usr.is_conscious)
+	if (!usr.is_active())
 		return
 	if (src.occupant)
 		usr << "\blue <B>The scanner is already occupied!</B>"

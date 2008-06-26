@@ -81,7 +81,7 @@ mob/prespawn/proc/savefile_load()
 	if(href_list["skin_color"])
 		src.choose_skin_color()
 	if(href_list["hair_color"])
-		src.chooose_hair_color()
+		src.choose_hair_color()
 	if(href_list["hair_style"])
 		src.choose_hair_style()
 	if(href_list["job"])
@@ -99,13 +99,12 @@ mob/prespawn/proc/savefile_load()
 			src.char_job3 = initial(src.char_job3)
 			src.char_hair_color = initial(src.char_hair_color)
 			src.char_hair_style = initial(src.char_hair_style)
-			src.skin = initial(src.skin)
+			src.char_skin_color = initial(src.char_skin_color)
 	if(href_list["willing_to_play_traitor"])
-		src.will_play_traitor = input("Would you like to be eligible for being traitor?", "Character Generation", src.will_play_traitor) in list("Yes", "No")
+		src.char_will_play_traitor = input("Would you like to be eligible for being traitor?", "Character Generation", src.char_will_play_traitor) in list("Yes", "No")
 	return ..()
 
 /mob/prespawn/verb/char_setup()
-	var/list/destructive = assistant_occupations.Copy()
 	var/dat = "<html><body>"
 	var/vars = list(
 		"name" = src.char_name,
@@ -113,7 +112,7 @@ mob/prespawn/proc/savefile_load()
 		"skin_color" = src.char_skin_color,
 		"hair_color" = src.char_hair_color,
 		"hair_style" = src.char_hair_style,
-		"willing_to_play_traitor" = src.will_play_traitor
+		"willing_to_play_traitor" = src.char_will_play_traitor
 	)
 	for(var/x in vars)
 		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]:</b>"
@@ -122,11 +121,11 @@ mob/prespawn/proc/savefile_load()
 	dat += "<hr>"
 
 	dat += "<b>Occupation Choices</b>:<br>"
-	dat += "First Choice: <a href=\"byond://?src=\ref[src];job=1\">[src.job1 == "No Preference" ? "No Preference" : "<b>[src.job1]</b>"]</a><br>"
-	if (src.job1 != "No Preference")
-		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.job2 == "No Preference" ? "No Preference" : "<b>[src.job2]</b>"]</a><br>"
-		if (src.occupation2 != "No Preference")
-			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.job3 == "No Preference" ? "No Preference" : "<b>[src.job2]</b>"]</a><br>"
+	dat += "First Choice: <a href=\"byond://?src=\ref[src];job=1\">[src.char_job1 == "No Preference" ? "No Preference" : "<b>[src.char_job1]</b>"]</a><br>"
+	if (src.char_job1 != "No Preference")
+		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.char_job2 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
+		if (src.char_job2 != "No Preference")
+			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.char_job3 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
 
 	dat += "<a href='byond://?src=\ref[src];done=1'>Ready</a><br>"
 	dat += "<a href='byond://?src=\ref[src];reset=1'>Reset</a><br>"

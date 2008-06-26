@@ -68,6 +68,6 @@
 
 /proc/findname(msg)
 	for(var/mob/M in world)
-		if (M.rname == msg)
+		if (M.spawn_name == msg)
 			return 1
 	return 0

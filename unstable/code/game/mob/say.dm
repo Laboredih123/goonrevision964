@@ -5,8 +5,8 @@
 	if(src.muted)
 		return
 	for(var/mob/M in world)
-		if (M.stat == 2)
-			M << "<b>[src.rname]</b> <i>(dead)</i>: [message]"
+		if (M.is_dead)
+			M << "<b>[src.spawn_name]</b> <i>(dead)</i>: [message]"
 
 /mob/proc/stutter(txt)
 	var/s = ""

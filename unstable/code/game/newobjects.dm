@@ -5,7 +5,7 @@
 
 
 
-/obj/machinery/cell_charger/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/cell_charger/attackby(obj/item/weapon/W, mob/carbon/user)
 
 	if(stat & BROKEN) return
 
@@ -45,8 +45,9 @@
 
 
 
-/obj/machinery/cell_charger/interact(mob/user)
-
+/obj/machinery/cell_charger/interact(mob/carbon/user)
+	if(!istype(user, /mob/carbon))
+		return
 	add_fingerprint(user)
 
 	if(stat & BROKEN) return

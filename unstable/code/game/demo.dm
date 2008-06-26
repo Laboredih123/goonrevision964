@@ -988,7 +988,7 @@
 	new /obj/item/weapon/radio/headset( src )
 	return
 
-/obj/secloset/personal/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/secloset/personal/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (src.opened)
 		user.drop_item()
@@ -1001,9 +1001,7 @@
 		if (src.allowed(user) || !src.registered || (istype(W, /obj/item/weapon/card/id) && src.registered == I.registered))
 			//they can open all lockers, or nobody owns this, or they own this locker
 			src.locked = !( src.locked )
-			for(var/mob/O in viewers(user, 3))
-				if ((O.client && !( O.blinded )))
-					O << text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user)
+			user.show_viewers(text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user))
 			src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
 			if (!src.registered)
 				src.registered = I.registered
@@ -1016,9 +1014,7 @@
 		src.desc = "It appears to be broken."
 		src.icon = 'secloset_broken.dmi'
 		src.icon_state = "secloset0"
-		for(var/mob/O in viewers(user, 3))
-			if ((O.client && !( O.blinded )))
-				O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
+		user.show_viewers(text("\blue The locker has been broken by [user] with an electromagnetic card!"))
 	else
 		user << "\red Access Denied"
 	return
@@ -1207,7 +1203,7 @@
 		return
 	return
 
-/obj/secloset/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/secloset/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (src.opened)
 		user.drop_item()
@@ -1217,25 +1213,21 @@
 		return
 	else if(src.allowed(user))
 		src.locked = !( src.locked )
-		for(var/mob/O in viewers(user, 3))
-			if ((O.client && !( O.blinded )))
-				O << text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user)
+		user.show_viewers(text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user))
 		src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
 	else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
 		src.broken = 1
 		src.locked = 0
 		src.icon = 'secloset_broken.dmi'
 		src.icon_state = "secloset0"
-		for(var/mob/O in viewers(user, 3))
-			if ((O.client && !( O.blinded )))
-				O << text("\blue The locker has been broken by [user] with an electromagnetic card!")
+		user.show_viewers(text("\blue The locker has been broken by [user] with an electromagnetic card!"))
 	else
 		user << "\red Access Denied"
 	return
 
 /obj/secloset/relaymove(mob/user as mob)
 
-	if (user.stat)
+	if (!user.is_active())
 		return
 	if (!( src.locked ))
 		for(var/obj/item/I in src)
@@ -1258,16 +1250,13 @@
 
 /obj/secloset/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
 
-	if ((user.is_handcuffed() || user.stat))
+	if (!user.can_use_hands())
 		return
 	if ((!( istype(O, /atom/movable) ) || O.anchored || get_dist(user, src) > 1 || get_dist(user, O) > 1 || user.contents.Find(src)))
 		return
 	step_towards(O, src.loc)
 	if (user != O)
-		for(var/mob/B in viewers(user, 3))
-			if ((B.client && !( B.blinded )))
-				B << text("\red [] stuffs [] into []!", user, O, src)
-			//Foreach goto(115)
+		user.show_viewers(text("\red [] stuffs [] into []!", user, O, src))
 	src.add_fingerprint(user)
 	return
 
@@ -1363,7 +1352,7 @@
 
 /obj/morgue/relaymove(mob/user as mob)
 
-	if (user.stat)
+	if (!user.is_active())
 		return
 	src.connected = new /obj/m_tray( src.loc )
 	step(src.connected, EAST)
@@ -1685,7 +1674,7 @@
 		return
 	return
 
-/obj/closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/closet/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if ((src.opened || W.damtype != "fire" || !( istype(W, /obj/item/weapon/weldingtool) )))
 		user.drop_item()
@@ -1697,7 +1686,7 @@
 
 /obj/closet/relaymove(mob/user as mob)
 
-	if (user.stat)
+	if (!user.is_active())
 		return
 	if (!( src.welded ))
 		for(var/obj/item/I in src)
@@ -1714,31 +1703,22 @@
 	else
 		user << "\blue It's welded shut!"
 		for(var/mob/M in hearers(src, null))
-			M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
+			M.hear(text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M))))
 			//Foreach goto(170)
 	return
 
 /obj/closet/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
 
-	if ((user.is_handcuffed() || user.stat))
+	if (!user.can_use_hands())
 		return
 	if ((!( istype(O, /atom/movable) ) || O.anchored || get_dist(user, src) > 1 || get_dist(user, O) > 1 || user.contents.Find(src)))
 		return
-	/*
-	 * Patch Submitted by shadowlord13, to fix Bug #1936685.
-	 */
 	if (user.loc==null) // just in case someone manages to get a closet into the blue light dimension, as unlikely as that seems
 		return
 	if (!istype(user.loc, /turf)) // are you in a container/closet/pod/etc?
 		return
-	/*
-	 * End Patch by shadowlord13
-	 */
 	step_towards(O, src.loc)
-	for(var/mob/M in viewers(user, null))
-		if ((M.client && !( M.blinded )))
-			M << text("\red [] stuffs [] into []!", user, O, src)
-		//Foreach goto(104)
+	user.show_viewers(text("\red [] stuffs [] into []!", user, O, src))
 	src.add_fingerprint(user)
 	return
 
@@ -1750,7 +1730,7 @@
 			for(var/obj/item/I in src)
 				I.loc = src.loc
 				//Foreach goto(43)
-			for(var/mob/M in src)
+			for(var/mob/carbon/M in src)
 				if (!( M.buckled ))
 					M.loc = src.loc
 					if (M.client)
@@ -1871,7 +1851,7 @@
 /obj/stool/chair/e_chair/verb/toggle_power()
 	set src in oview(1)
 
-	if ((!usr.can_use_hands() || !( usr.canmove ) || usr.lying))
+	if (!usr.can_use_hands())
 		return
 	src.on = !( src.on )
 	src.icon_state = text("e_chair[]", src.on)
@@ -1904,18 +1884,18 @@
 
 	flick("e_chairs", src)
 	flick("e_chairos", src.overl)
-	for(var/mob/M in src.loc)
+	for(var/mob/carbon/M in src.loc)
 		M.burn(7.5E7)
 		M << "\red <B>You feel a deep shock course through your body!</B>"
 		sleep(1)
 		M.burn(7.5E7)
-		M.stunned = 600
+		M.knockdown_until(50)
 		//Foreach goto(72)
-	for(var/mob/M in hearers(src, null))
-		if (!( M.blinded ))
-			M << "\red The electric chair went off!"
+	for(var/mob/carbon/M in hearers(src, null))
+		if (!( M.is_blind ))
+			M.see("\red The electric chair went off!")
 		else
-			M << "\red You hear a deep sharp shock."
+			M.hear("\red You hear a deep sharp shock.")
 		//Foreach goto(142)
 
 	A.power_light = light
@@ -1926,7 +1906,7 @@
 /obj/stool/chair/ex_act(severity)
 
 	if (severity < 4)
-		for(var/mob/M in src.loc)
+		for(var/mob/carbon/M in src.loc)
 			M.buckled = null
 			//Foreach goto(28)
 	switch(severity)
@@ -1950,7 +1930,7 @@
 /obj/stool/chair/blob_act()
 
 	if (prob(50))
-		for(var/mob/M in src.loc)
+		for(var/mob/carbon/M in src.loc)
 			M.buckled = null
 			//Foreach goto(28)
 	if(prob(50))
@@ -1966,7 +1946,7 @@
 
 /obj/stool/chair/Del()
 
-	for(var/mob/M in src.loc)
+	for(var/mob/carbon/M in src.loc)
 		if (M.buckled == src)
 			M.buckled = null
 		//Foreach goto(17)
@@ -1983,22 +1963,15 @@
 		src.layer = OBJ_LAYER
 	return
 
-/obj/stool/chair/MouseDrop_T(mob/M as mob, mob/user as mob)
+/obj/stool/chair/MouseDrop_T(mob/carbon/M as mob, mob/user as mob)
 	if (!ticker)
 		user << "You can't buckle anyone in before the game starts."
-		return
-	if ((!( istype(M, /mob) ) || get_dist(src, user) > 1 || M.loc != src.loc || user.is_handcuffed() || usr.stat))
+	if ((!( istype(M, /mob/carbon) ) || get_dist(src, user) > 1 || M.loc != src.loc || user.can_use_hands()))
 		return
 	if (M == usr)
-		for(var/mob/O in viewers(user, null))
-			if ((O.client && !( O.blinded )))
-				O << text("\blue [] buckles in!", user)
-			//Foreach goto(83)
+		M.show_viewers(text("\blue [] buckles in!", user))
 	else
-		for(var/mob/O in viewers(user, null))
-			if ((O.client && !( O.blinded )))
-				O << text("\blue [] is buckled in by []!", M, user)
-			//Foreach goto(137)
+		M.show_viewers(text("\blue [] is buckled in by []!", M, user))
 	M.anchored = 1
 	M.buckled = src
 	M.loc = src.loc
@@ -2008,22 +1981,15 @@
 /obj/stool/chair/interact(mob/user as mob)
 	if(!user.check_intelligence())
 		return
-	for(var/mob/M in src.loc)
+	for(var/mob/carbon/M in src.loc)
 		if (M.buckled)
 			if (M != user)
-				for(var/mob/O in viewers(user, null))
-					if ((O.client && !( O.blinded )))
-						O << text("\blue [] is unbuckled by [].", M, user)
-					//Foreach goto(64)
+				M.show_viewers(text("\blue [] is unbuckled by [].", M, user))
 			else
-				for(var/mob/O in viewers(user, null))
-					if ((O.client && !( O.blinded )))
-						O << text("\blue [] unbuckles.", M)
-					//Foreach goto(123)
+				M.show_viewers(text("\blue [] unbuckles.", M))
 			M.anchored = 0
 			M.buckled = null
 			src.add_fingerprint(user)
-		//Foreach goto(17)
 	return
 
 

@@ -1175,7 +1175,7 @@
 /obj/machinery/sleeper/verb/move_inside()
 	set src in oview(1)
 
-	if (usr.stat != 0)
+	if (!usr.is_active())
 		return
 	if (src.occupant)
 		usr << "\blue <B>The sleeper is already occupied!</B>"
@@ -1251,20 +1251,18 @@
 	if (src.occupant)
 		user << text("\blue <B>Occupant ([]) Statistics:</B>", src.occupant)
 		var/t1
-		switch(src.occupant.stat)
-			if(0.0)
-				t1 = "Conscious"
-			if(1.0)
-				t1 = "Unconscious"
-			if(2.0)
-				t1 = "*dead*"
-			else
-		user << text("[]\t Health %: [] ([])", (src.occupant.health > 50 ? "\blue " : "\red "), src.occupant.health, t1)
-		user << text("[]\t -Respiratory Damage %: []", (src.occupant.oxyloss < 60 ? "\blue " : "\red "), src.occupant.oxyloss)
-		user << text("[]\t -Toxin Content %: []", (src.occupant.toxloss < 60 ? "\blue " : "\red "), src.occupant.toxloss)
-		user << text("[]\t -Burn Severity %: []", (src.occupant.fireloss < 60 ? "\blue " : "\red "), src.occupant.fireloss)
+		if(src.occupant.is_dead)
+			t1 = "*dead*"
+		else if(!src.occupant.is_conscious())
+			t1 = "Unconscious"
+		else
+			t1 = "Conscious"
+		user << text("[]\tHealth %: [] ([])</FONT><BR>", (src.occupant.get_damage() < 50 ? "<font color='blue'>" : "<font color='red'>"), (src.occupant.death_threshold - src.occupant.get_damage())/src.occupant.death_threshold, t1)
+		user << text("[]\t-Respiratory Damage %: []</FONT><BR>", (src.occupant.dam.suffocation < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.suffocation)
+		user << text("[]\t-Toxin Content %: []</FONT><BR>", (src.occupant.dam.toxin < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.toxin)
+		user << text("[]\t-Burn Severity %: []</FONT>", (src.occupant.dam.burn < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.burn)
 		user << "\blue Expected time till occupant can safely awake: (note: If health is below 20% these times are inaccurate)"
-		user << text("\blue \t [] second\s (if around 1 or 2 the sleeper is keeping them asleep.)", src.occupant.paralysis / 5)
+		user << text("\blue \t [] second\s (if around 1 or 2 the sleeper is keeping them asleep.)", src.occupant.knockdown)
 	else
 		user << "\blue There is no one inside!"
 	return
@@ -1301,25 +1299,11 @@
 		else
 	return
 
-/obj/machinery/sleeper/alter_health(mob/M as mob)
+/obj/machinery/sleeper/alter_health(mob/carbon/M as mob)
 
-	if (M.health > 0)
-		if (M.oxyloss >= 10)
-			var/amount = max(0.15, 1)
-			M.oxyloss -= amount
-		else
-			M.oxyloss = 0
-	M.paralysis -= 4
-	M.weakened -= 4
-	M.stunned -= 4
-	if (M.paralysis <= 1)
-		M.paralysis = 3
-	if (M.weakened <= 1)
-		M.weakened = 3
-	if (M.stunned <= 1)
-		M.stunned = 3
-	if (M.rejuv < 3)
-		M.rejuv = 4
+	if (M.get_damage() < M.unconsciousness_threshold)
+		M.heal_damage(suffocation = 1)
+	M.knockout_until(2)
 	return
 
 /obj/machinery/cryo_cell/ex_act(severity)
@@ -1533,7 +1517,7 @@
 			var/t1
 			if(src.occupant.is_dead)
 				t1 = "*dead*"
-			else if(src.occupant.knockout)
+			else if(!src.occupant.is_conscious())
 				t1 = "Unconscious"
 			else
 				t1 = "Conscious"
@@ -1657,14 +1641,6 @@
 
 	usr << text("The flask is []% full", (src.oxygen + src.plasma + src.coolant) * 100 / 500)
 	usr << "The flask can ONLY store liquids."
-	return
-
-/mob/carbon/abiotic()
-
-	if ((src.l_hand && !( src.l_hand.abstract )) || (src.r_hand && !( src.r_hand.abstract )) || (src.back || src.mask || src.head || src.shoes || src.jumpsuit || src.suit || src.headset || src.glasses || src.gloves))
-		return 1
-	else
-		return 0
 	return
 
 /datum/data/function/proc/reset()

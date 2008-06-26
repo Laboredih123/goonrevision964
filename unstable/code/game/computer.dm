@@ -9,7 +9,7 @@
 		return null
 	if(istype(user, /mob/carbon))
 		var/mob/carbon/M = user
-		if(M.blind)
+		if(M.is_blind)
 			return null
 	user.reset_view(src.current)
 	return 1
@@ -101,8 +101,8 @@
 	var/list/names = list()
 	var/list/namecounts = list()
 	var/list/creatures = list()
-	for (var/mob/M in world)
-		if (istype(M, /mob/carbon) && istype(M.id, /obj/item/weapon/card/id/syndicate))
+	for (var/mob/carbon/M in world)
+		if (istype(M.id, /obj/item/weapon/card/id/syndicate))
 			continue
 		else if (M == usr)
 			continue
@@ -123,7 +123,7 @@
 		usr << "Nothing is trackable."
 		return
 
-	var/mob/target = creatures[target_name]
+	var/mob/carbon/target = creatures[target_name]
 
 	usr:cameraFollow = target
 	usr << text("Now tracking [] on camera.", target.name)
@@ -136,7 +136,7 @@
 				usr:cameraFollow = null
 				usr << "Follow camera mode ended."
 				return
-			else if (istype(target, /mob/carbon) && istype(target.id, /obj/item/weapon/card/id/syndicate))
+			else if (istype(target.id, /obj/item/weapon/card/id/syndicate))
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return

@@ -7,7 +7,7 @@ obj/machinery/recharger
 	var
 		obj/item/weapon/gun/energy/charging = null
 
-	attackby(obj/item/weapon/G as obj, mob/user as mob)
+	attackby(obj/item/weapon/G as obj, mob/carbon/user as mob)
 		if (src.charging)
 			return
 		if (istype(G, /obj/item/weapon/gun/energy))
@@ -16,7 +16,9 @@ obj/machinery/recharger
 			src.charging = G
 
 	interact(mob/user as mob)
-		if(!src.check_intelligence())
+		if(!user.check_intelligence())
+			return
+		if(!istype(user, /mob/carbon))
 			return
 		src.add_fingerprint(user)
 		if (src.charging)

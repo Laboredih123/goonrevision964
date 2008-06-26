@@ -48,7 +48,7 @@
 	else if(M.a_intent == "disarm")
 		if(!M.can_use_hands())
 			return
-		if(!M.has_super_strength())
+		if(!M.has_super_strength)
 			var/randn = rand(1, 100)
 			if (randn <= 25)
 				if (!src.lying)
@@ -61,7 +61,7 @@
 				src.show_viewers("\red <B>[M] has attempted to disarm [src]!</B>")
 		else
 			src.knockout_until(20)
-			src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>
+			src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>")
 	else if(M.a_intent == "harm")
 		if(M.attack_type == ATTACK_BITE)
 			if(M.is_muzzled())
@@ -87,7 +87,7 @@
 		else if(M.attack_type == ATTACK_PUNCH)
 			if (M.can_use_hands())
 				return
-			if(!M.has_super_strength())
+			if(!M.has_super_strength)
 				var/success = 1
 				if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(50))
 					success = 0
@@ -106,7 +106,7 @@
 						src.infected_by(M)
 			else
 				src.knockout_until(20)
-				src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>
+				src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>")
 				src.take_damage(brute = 20)
 				if(M.is_infectious)
-						src.infected_by(M)
+					src.infected_by(M)

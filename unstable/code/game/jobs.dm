@@ -13,14 +13,14 @@
 /proc/FindOccupationCandidates(list/unassigned, job, level)
 	var/list/candidates = list()
 
-	for (var/mob/carbon/M in unassigned)
-		if (level == 1 && M.occupation1 == job)
+	for (var/mob/prespawn/M in unassigned)
+		if (level == 1 && M.char_job1 == job)
 			candidates += M
 
-		if (level == 2 && M.occupation2 == job)
+		if (level == 2 && M.char_job2 == job)
 			candidates += M
 
-		if (level == 3 && M.occupation3 == job)
+		if (level == 3 && M.char_job3 == job)
 			candidates += M
 
 	return candidates
@@ -39,28 +39,28 @@
 	var/list/occupation_eligible = occupations.Copy()
 	occupation_choices = shuffle(occupation_choices)
 
-	for (var/mob/carbon/M in world)
-		if (M.client && M.start && !M.already_placed)
+	for (var/mob/prespawn/M in world)
+		if (M.client && M.ready && !M.already_placed)
 			unassigned += M
 
 			// If someone picked AI before it was disabled, or has a saved profile with it
 			// on a game that now lacks it, this will make sure they don't become the AI,
 			// by changing that choice to Captain.
 			if (!config.allow_ai)
-				if (M.occupation1 == "AI")
-					M.occupation1 = "Captain"
-				if (M.occupation2 == "AI")
-					M.occupation2 = "Captain"
-				if (M.occupation3 == "AI")
-					M.occupation3 = "Captain"
+				if (M.char_job1 == "AI")
+					M.char_job1 = "Captain"
+				if (M.char_job2 == "AI")
+					M.char_job2 = "Captain"
+				if (M.char_job3 == "AI")
+					M.char_job3 = "Captain"
 
 	if (unassigned.len == 0)
 		return
 
-	var/mob/carbon/captain_choice = null
+	var/mob/prespawn/captain_choice = null
 	for (var/level = 1 to 3)
 		var/list/captains = FindOccupationCandidates(unassigned, "Captain", level)
-		var/mob/carbon/candidate = PickOccupationCandidate(captains)
+		var/mob/prespawn/candidate = PickOccupationCandidate(captains)
 
 		if (candidate != null)
 			captain_choice = candidate
@@ -85,7 +85,7 @@
 			if (unassigned.len == 0)
 				break
 			var/list/candidates = FindOccupationCandidates(unassigned, occupation, level)
-			for (var/mob/carbon/candidate in candidates)
+			for (var/mob/prespawn/candidate in candidates)
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 
@@ -99,7 +99,7 @@
 			var/eligiblechange = 0
 			//world << text("occupation [], level [] - [] eligible - [] candidates", level, occupation, eligible, candidates.len)
 			while (eligible--)
-				var/mob/carbon/candidate = PickOccupationCandidate(candidates)
+				var/mob/prespawn/candidate = PickOccupationCandidate(candidates)
 				if (candidate == null)
 					break
 				//world << text("candidate []", candidate)
@@ -115,13 +115,13 @@
 				break
 			var/eligible = occupation_eligible[occupation]
 			while (eligible-- && unassigned.len > 0)
-				var/mob/carbon/candidate = unassigned[1]
+				var/mob/prespawn/candidate = unassigned[1]
 				if (candidate == null)
 					break
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 
-	for (var/mob/carbon/M in unassigned)
+	for (var/mob/prespawn/M in unassigned)
 		M.Assign_Rank(pick(assistant_occupations))
 
 	for (var/mob/silicon/ai/aiPlayer in world)
@@ -139,9 +139,10 @@
 				if (length(newname) >= 26)
 					newname = copytext(newname, 1, 26)
 				newname = dd_replacetext(newname, ">", "'")
-				aiPlayer.rname = newname
+				aiPlayer.spawn_name = newname
 				aiPlayer.name = newname
+				aiPlayer.voice = newname
 
-			world << text("<b>[] is the AI!</b>", aiPlayer.rname)
+			world << text("<b>[] is the AI!</b>", aiPlayer.name)
 
 	return

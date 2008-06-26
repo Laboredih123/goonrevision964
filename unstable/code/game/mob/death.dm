@@ -1,11 +1,8 @@
 /mob/proc/death()
 	src.is_dead = 1
 	src.canmove = 0
-	src.lying = 1
-	src.timeofdeath = world.time
 
 	//let dead people see anything, there's no resurrection any more anyways
-	src.blind.layer = 0
 	src.sight |= SEE_TURFS
 	src.sight |= SEE_MOBS
 	src.sight |= SEE_INFRA

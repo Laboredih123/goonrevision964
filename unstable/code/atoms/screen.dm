@@ -1,5 +1,6 @@
-/obj/screen/interact(mob/user as mob, using)
-	return user.db_click(src.name, using)
+/obj/screen/interact(mob/carbon/user as mob, using)
+	if(istype(user, /mob/carbon))
+		return user.db_click(src.name, using)
 
 /obj/screen/New(owner, name = null, dir = null, screen_loc = null, layer = null, icon_state = null, mouse_not_opaque = 0)
 	..(owner)

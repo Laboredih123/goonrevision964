@@ -180,7 +180,7 @@
 		else
 			src.oxygen.icon_state = "oxy0"
 
-	if (src.owner.blind && !src.owner.is_dead)
+	if (src.owner.is_blind && !src.owner.is_dead)
 		src.blind.layer = 18
 	else
 		src.blind.layer = 0

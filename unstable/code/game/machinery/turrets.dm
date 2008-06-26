@@ -121,7 +121,7 @@
 						var/mob/target = pick(tarea.turretTargets)
 						src.dir = get_dir(src, target)
 						if (src.enabled)
-							if (target.stat!=2)
+							if (!target.is_dead)
 								src.shootAt(target)
 							else
 								tarea.subjectDied(target)
