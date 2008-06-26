@@ -47,7 +47,6 @@
 	if(src.appearance == APPEARANCE_HUMAN)
 		src.body_standing = list()
 		src.body_lying = list()
-		var/icon/dam_icon
 		for(var/atom/organ/O in src.organs)
 			body_standing += O.dam_icon_standing
 			body_lying += O.dam_icon_lying
@@ -61,7 +60,7 @@
 	src.showviewers("\red <B>[src] has been attacked by the blob.</B>")
 	src.take_damage(brute = rand(5, 25))
 
-/mob/carbon/proc/burn(fi_amount)
+/mob/carbon/burn(fi_amount)
 
 	var/ok = 0
 	var/atom/organ/temp
@@ -90,17 +89,17 @@
 			if (src.shoes.burn(fi_amount))
 				still_burning &=  ~src.shoes.fire_protect
 	if (still_burning & 1)
-		if (src.head)
-			if (src.head.burn(fi_amount))
-				still_burning &=  ~src.head.fire_protect
+		if (src.helmet)
+			if (src.helmet.burn(fi_amount))
+				still_burning &=  ~src.helmet.fire_protect
 	if (still_burning & 1)
 		if (src.mask)
 			if (src.mask.burn(fi_amount))
 				still_burning &=  ~src.mask.fire_protect
 
 	if (still_burning)
-		if ((src.fire && src.stat != 2))
-			flick("fire1", src.fire)
+		if ((src.hud && src.hud.fire && !src.is_dead))
+			flick("fire1", src.hud.fire)
 	if (still_burning & 1)
 		if (src.glasses)
 			src.glasses.burn(fi_amount)
@@ -126,7 +125,7 @@
 /mob/carbon/proc/check_decompression()
 	if (istype(src.loc, /turf/space) && !locate(/obj/move, src.loc))
 		var/layers = 20
-		if (((istype(src.head, /obj/item/weapon/clothing/head) && src.head.flags & 4) || (istype(src.mask, /obj/item/weapon/clothing/mask) && (!( src.mask.flags & 4 ) && src.mask.flags & 8))))
+		if (((istype(src.helmet, /obj/item/weapon/clothing/head) && src.helmet.flags & 4) || (istype(src.mask, /obj/item/weapon/clothing/mask) && (!( src.mask.flags & 4 ) && src.mask.flags & 8))))
 			layers -= 5
 		if (istype(src.jumpsuit, /obj/item/weapon/clothing/under))
 			layers -= 5
@@ -139,7 +138,7 @@
 	if(src.knockout > 0)
 		src.canmove = 0
 		src.lying = 1
-		src.blinded = 1
+		src.is_blind = 1
 		src.drop(SLOT_L_HAND)
 		src.drop(SLOT_R_HAND)
 	else

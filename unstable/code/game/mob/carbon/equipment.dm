@@ -264,25 +264,6 @@
 			src.overlays += src.face
 		src.overlays += src.body_standing
 
-	if (src.client)
-		src.client.screen -= src.hud_used.other
-		src.client.screen -= src.hud_used.intents
-		src.client.screen -= src.hud_used.mov_int
-		src.client.screen += src.hud_used.other
-		if (src.i_select)
-			if (src.intent)
-				src.client.screen += src.hud_used.intents
-				src.i_select.screen_loc = src.intent
-			else
-				src.i_select.screen_loc = null
-		if (src.m_select)
-			if (src.m_int)
-				src.client.screen += src.hud_used.mov_int
-				src.m_select.screen_loc = src.m_int
-			else
-				src.m_select.screen_loc = null
-
-
 	var/suffix = src.lying ? "2" : null
 	var/icons = list()
 	icons[src.gloves] = "4,2"
@@ -365,7 +346,7 @@
 
 	return
 
-/mob/carbon/update_name()
+/mob/carbon/proc/update_name()
 	if ((src.mask && !(src.mask.see_face)) || (src.head && !(src.head.see_face))) // can't see the face
 		if(src.id && src.id.registered)
 			src.name = src.id.registered
@@ -377,7 +358,7 @@
 		else
 			src.name = src.rname
 
-/mob/carbon/update_invisibility()
+/mob/carbon/proc/update_invisibility()
 	src.invisibility = 0
 	for(var/obj/item/weapon/cloaking_device/S in src)
 		if (S.active)
@@ -385,7 +366,7 @@
 			src.overlays += image("icon" = 'mob.dmi', "icon_state" = "shield", "layer" = MOB_LAYER)
 			return
 
-/mob/carbon/show_inv(mob/user as mob)
+/mob/carbon/proc/show_inv(mob/user as mob)
 
 	user.machine = src
 	var/dat = "<PRE>\n<B><FONT size=3>[src.name]</FONT></B>"

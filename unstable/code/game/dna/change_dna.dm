@@ -1,12 +1,11 @@
 /mob/carbon/proc/change_dna(datum/dna/D)
 	src.dna = D
-
+	src.update_body()
+	src.update_face()
 
 /mob/carbon/proc/update_body()
 
-	//src.stand_icon = null
 	del(src.stand_icon)
-	//src.lying_icon = null
 	del(src.lying_icon)
 	src.stand_icon = new /icon( 'human.dmi', "blank" )
 	src.lying_icon = new /icon( 'human.dmi', "blank" )
@@ -14,12 +13,12 @@
 		src.stand_icon.Blend(new /icon( 'human.dmi', text("[]", t) ), 3)
 		src.lying_icon.Blend(new /icon( 'human.dmi', text("[]2", t) ), 3)
 		//Foreach goto(95)
-	if (src.s_tone >= 0)
-		src.stand_icon.Blend(rgb(src.s_tone, src.s_tone, src.s_tone), 0)
-		src.lying_icon.Blend(rgb(src.s_tone, src.s_tone, src.s_tone), 0)
-	else
-		src.stand_icon.Blend(rgb( -src.s_tone,  -src.s_tone,  -src.s_tone), 1)
-		src.lying_icon.Blend(rgb( -src.s_tone,  -src.s_tone,  -src.s_tone), 1)
+	if (src.skin_color == SKIN_COLOR_MEDIUM)
+		src.stand_icon.Blend(rgb(100,100,100), 0)
+		src.lying_icon.Blend(rgb(100,100,100), 0)
+	else if(src.skin_color == SKIN_COLOR_DARK)
+		src.stand_icon.Blend(rgb(200,200,200), 0)
+		src.lying_icon.Blend(rgb(200,200,200), 0)
 	src.stand_icon.Blend(new /icon( 'human.dmi', "diaper" ), 3)
 	src.lying_icon.Blend(new /icon( 'human.dmi', "diaper2" ), 3)
 	if (src.gender == "female")
@@ -29,36 +28,16 @@
 
 	return
 
-/mob/carbon/proc/update_face()
+/mob/carbon/proc/hair_color_rgb(color)
+	if(color == HAIR_COLOR_GREY)
+		return rgb(200,200,200)
+	else if(color == HAIR_COLOR_BLACK)
+		return rgb(255,255,255)
 
-	//src.face = null
+/mob/carbon/proc/update_face()
 	del(src.face)
-	//src.face2 = null
 	del(src.face2)
-	var/icon/I = new/icon("icon" = 'mob.dmi', "icon_state" = "eyes")
-	var/icon/I2 = new/icon("icon" = 'mob.dmi', "icon_state" = "eyes2")
-	var/icon/F = new/icon("icon" = 'mob.dmi', "icon_state" = text("[]", src.h_style_r))
-	var/icon/F2 = new/icon("icon" = 'mob.dmi', "icon_state" = text("[]2", src.h_style_r))
-	F.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), 0)
-	F2.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), 0)
-	I.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), 0)
-	I2.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), 0)
-	I.Blend(F, 3)
-	I2.Blend(F2, 3)
-	F = new/icon("icon" = 'human.dmi', "icon_state" = "mouth")
-	F2 = new/icon("icon" = 'human.dmi', "icon_state" = "mouth2")
-	I.Blend(F, 3)
-	I2.Blend(F2, 3)
-	//F = null
-	del(F)
-	//F2 = null
-	del(F2)
-	src.face = new /image(  )
-	src.face2 = new /image(  )
-	src.face.icon = I
-	src.face2.icon = I2
-	//I = null
-	del(I)
-	//I2 = null
-	del(I2)
-	return
+	src.face = new/icon("icon" = 'mob.dmi', "icon_state" = src.hair_style)
+	src.face2 = new/icon("icon" = 'mob.dmi', "icon_state" = "[src.hair_style]2")
+	face.Blend(hair_color_rgb(src.hair_color), ICON_OVERLAY)
+	face2.Blend(hair_color_rgb(src.hair_color), ICON_OVERLAY)

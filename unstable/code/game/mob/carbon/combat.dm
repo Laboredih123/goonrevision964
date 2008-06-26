@@ -45,7 +45,7 @@
 		src.grabbed_by += G
 		G.synch()
 		src.show_viewers("\red [M] has grabbed [src] passively!")
-	else if(M.a_intent == "disarm")
+	else if(M.intent == "disarm")
 		if(!M.can_use_hands())
 			return
 		if(!M.has_super_strength)
@@ -62,7 +62,7 @@
 		else
 			src.knockout_until(20)
 			src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>")
-	else if(M.a_intent == "harm")
+	else if(M.intent == "harm")
 		if(M.attack_type == ATTACK_BITE)
 			if(M.is_muzzled())
 				return

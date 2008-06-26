@@ -5,8 +5,6 @@
 	..(brute, burn, suffocation, toxin, electric)
 
 /mob/silicon/ex_act(severity)
-	flick("flash", src.flash)
-
 	switch(severity)
 		if(1.0)
 			src.take_damage(brute = 100, burn = 100)

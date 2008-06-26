@@ -8,7 +8,7 @@
 		throw_mode_on()
 
 /mob/carbon/proc/throw_mode_off()
-	src.mode = UI_MODE_DEFAULT
+	src.ui_mode = UI_MODE_DEFAULT
 	src.hud.throw.icon_state = "act_throw_off"
 
 /mob/carbon/proc/throw_mode_on()

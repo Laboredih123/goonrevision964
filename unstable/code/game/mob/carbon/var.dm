@@ -120,3 +120,12 @@
 	var/plasma = 0
 
 	var/datum/hud/carbon/hud = new()
+
+	var/skin_color = SKIN_COLOR_LIGHT
+	var/has_super_strength = 0
+	var/is_infectious = 0
+
+	var/icon/face = null
+	var/icon/face2 = null
+
+	var/sl_gas_breathed = 0
