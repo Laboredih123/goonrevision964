@@ -36,7 +36,6 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "icons/ss13"
 #define FILE_DIR "interface"
 #define FILE_DIR "maps"
-#define FILE_DIR "maps/backup"
 // END_FILE_DIR
 
 // BEGIN_PREFERENCES

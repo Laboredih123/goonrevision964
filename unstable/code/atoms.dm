@@ -1895,7 +1895,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/status = 1.0
 	anchored = 1.0
 	var/invuln = null
-
+/obj/machinery/camera/motion
 /obj/machinery/circulator
 	name = "circulator/heat exchanger"
 	desc = "A gas circulator pump and heat exchanger."
