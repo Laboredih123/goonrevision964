@@ -1,7 +1,9 @@
 /area
 	var/fire = null
+	var/atmos = 1
+	var/poweralm = 1
 	level = null
-	name = "area"
+	name = "Space"
 	icon = 'areas.dmi'
 	icon_state = "unknown"
 	layer = 10
@@ -24,265 +26,36 @@
 	var/area/linked = null
 	var/no_air = null
 
-/area/aircontrol
-	name = "aircontrol"
-	linkarea = "airintake"
+/area/engine/
 
-/area/airintake
-	name = "air intake"
+/area/turret_protected/
 
-/area/airtunnel1
-	name = "airtunnel"
+/area/arrival/start
+	name = "Arrival Area"
+	icon_state = "start"
 
-/area/bridge
-	name = "bridge"
-	icon_state = "bridge"
-
-/area/crew_quarters
-	name = "crew quarters"
-
-/area/decontamination
-	name = "decontamination"
-
-/area/dummy
-	name = "dummy"
-
-/area/engine
-	name = "engine"
-	icon_state = "engine"
-
-/area/engine_access
-	name = "engine access"
-
-/area/escapezone
-	name = "escape zone"
-
-/area/hallway
-	name = "hallway"
-
-/area/hallway/bridge_access
-	name = "bridge access"
-
-/area/hallway/central_hallway
-	name = "central hallway"
-
-/area/hallway/east_airlock
-	name = "east airlock"
-
-/area/hallway/lab_access
-	name = "lab access"
-
-/area/hallway/lounge_hallway
-	name = "lounge hallway"
-
-/area/lounge
-	name = "lounge"
-
-/area/medical
-	name = "medical bay"
-
-/area/medicalresearch
-	name = "medical research"
-
-/area/medicalstorage
-	name = "medical storage"
-
-/area/oxygen_storage
-	name = "gas storage"
-
-/area/security
-	name = "security"
-	linkarea = "brig"
+/area/arrival/shuttle
+	name = "Arrival Shuttle"
+	icon_state = "shuttle"
 
 /area/shuttle
 	requires_power = 0
-	name = "shuttle"
+	name = "Escape Shuttle"
+	icon_state = "shuttle"
 
-/area/shuttle_airlock
-	name = "shuttle airlock"
+// === Trying to remove these areas:
 
-/area/shuttle_docking_arm
-	name = "shuttle docking arm"
+/area/airtunnel1/      // referenced in airtunnel.dm:759
 
-/area/shuttle_prison
-	name = "prison shuttle"
-	requires_power = 0
+/area/dummy/           // Referenced in engine.dm:261
 
-/area/arrival/start
-	name = "arrival area"
+/area/shuttle_prison/  // referenced in shuttle.dm:57 and :86
 
-/area/arrival/shuttle
-	name = "arrival shuttle"
-
-/area/solar_control_primary
-	name = "primary solar power control"
-
-/area/solar_control_secondary
-	name = "secondary solar power control"
-
-/area/start
+/area/start            // will be unused once kurper gets his login interface patch done
 	name = "start area"
+	icon_state = "start"
 
-/area/supply_station
-	name = "supply station"
-
-/area/testlab1
-	name = "testlab1"
-
-/area/testlab2
-	name = "testlab2"
-
-/area/testlab3
-	name = "testlab3"
-
-/area/testlab4
-	name = "testlab4"
-
-/area/aux_engine
-	name = "aux. engine"
-
-/area/toolstorage
-	name = "tool storage"
-
-/area/tech_storage
-	name = "technical storage"
-
-/area/toxinlab
-	name = "toxin lab"
-
-/area/vehicles
-	requires_power = 0
-
-/area/vehicles/shuttle1
-
-/area/vehicles/shuttle2
-
-/area/vehicles/shuttle3
-
-/area/sleep_area_annexe
-	name = "sleep area annexe"
-
-/area/south_access
-	name = "southern access corridor"
-
-/area/turret_protected/ai_upload
-	name = "AI upload core"
-
-/area/turret_protected/ai_upload_storage
-	name = "AI upload storage"
-
-/area/turret_protected/ai_upload_foyer
-	name = "AI upload foyer"
-
-/area/transport_tube
-	name = "transport tube"
-
-/area/secure_storage
-	name = "secure stores"
-
-/area/emergency_storage
-	name = "emergency stores"
-
-/area/morgue
-	name = "morgue"
-
-/area/repair_bay
-	name = "repair bay"
-
-/area/engine/engine_gas_storage
-	name = "engine gas storage"
-	icon_state = "engine_gas_storage"
-
-/area/engine/engine_storage
-	name = "engine storage"
-	icon_state = "engine_storage"
-
-/area/engine/engine_hallway
-	name = "engine hallway"
-	icon_state = "engine_hallway"
-
-/area/engine/engine_medical
-	name = "engine medical center"
-	icon_state = "engine_medical"
-
-/area/engine/generator
-	name = "generator room"
-	icon_state = "generator"
-
-/area/engine/combustion
-	name = "combustion chamber"
-	icon_state = "combustion"
-
-/area/engine/engine_control
-	name = "engine control"
-	icon_state = "engine_control"
-
-/area/engine/engine_mon
-	name = "engine monitoring"
-	icon_state = "engine_monitoring"
-
-/area/engine/prototype_engine
-	name = "prototype engine"
-	icon_state = "prototype_engine"
-
-/area/station_teleport
-	name = "teleporter"
-	icon_state = "teleporter"
-
-/area/chapel
-	name = "chapel"
-	icon_state = "chapel"
-
-/area/chapel_storage
-	name = "chapel storage"
-	icon_state = "chapel"
-
-/area/attack_ship
-	name = "attack ship"
-
-/area/security_sub
-	name = "security annexe"
-
-/area/aux_storage
-	name = "aux. storage"
-
-/area/eva_storage
-	name = "EVA storage"
-
-/area/weapon_sat
-	name = "weapon sat"
-	requires_power = 0
-
-/area/med_sat
-	name = "med. sat"
-	requires_power = 0
-
-/area/secret_base
-	name = "secret base"
-	no_air = 1
-	power_equip = 0
-	power_light = 0
-	power_environ = 0
-
-/area/prison
-	name = "prison"
-	requires_power = 1
-
-/area/control_station
-	name = "control station"
-	requires_power = 0
-
-/area/brig
-	name = "brig"
-
-/area/syndicate_station
-	name = "syndicate mini-station"
-
-/area/turret_protected/ai_satellite
-	name = "AI Satellite"
-
-/area/turret_protected/ai_satellite_exterior
-	name = "AI Satellite Protected Zone"
+// ===
 
 /area/New()
 	..()
@@ -309,7 +82,7 @@
 	spawn(15)
 		src.power_change()		// all machines set to current power level, also updates lighting icon
 
-/area/vehicles/New()
+/* /area/vehicles/New()
 	..()
 	sleep(1)
 	var/obj/shut_controller/S = new /obj/shut_controller(  )
@@ -318,10 +91,42 @@
 		S.parts += O
 		O.master = S
 		//Foreach goto(42)
+	return */
+
+/area/proc/atmosalert(var/state, var/obj/machinery/alarm/source)
+	// state 2 == normal, 1 == recovering, 0 == alarm
+	var/list/cameras = list()
+	for (var/obj/machinery/camera/C in src)
+		cameras += C
+	for (var/mob/silicon/ai/aiPlayer in world)
+		// maybe it'll just be easier to check the retval from trigger/cancel
+		if (state == 0)
+			// send off a trigger
+			aiPlayer.triggerAlarm("Atmosphere", src, cameras, source)
+			atmos = 0
+		else if (state == 2)
+			var/retval = aiPlayer.cancelAlarm("Atmosphere", src, source)
+			if (retval == 0) // alarm(s) cleared
+				atmos = 1
+	return 1
+
+/area/proc/poweralert(var/state, var/source)
+	if (state != poweralm)
+		poweralm = state
+		var/list/cameras = list()
+		for (var/obj/machinery/camera/C in src)
+			cameras += C
+		for (var/mob/silicon/ai/aiPlayer in world)
+			if (state == 1)
+				aiPlayer.cancelAlarm("Power", src, source)
+			else
+				aiPlayer.triggerAlarm("Power", src, cameras, source)
 	return
 
-/area/proc/firealert()
 
+/area/proc/firealert()
+	if(src.name == "Space") //no fire alarms in space
+		return
 	if (!( src.fire ))
 		src.fire = 1
 		src.updateicon()
@@ -331,9 +136,26 @@
 				spawn( 0 )
 					D.closefire()
 					return
-			//Foreach goto(74)
+		var/list/cameras = list()
+		for (var/obj/machinery/camera/C in src)
+			cameras += C
+		for (var/mob/silicon/ai/aiPlayer in world)
+			aiPlayer.triggerAlarm("Fire", src, cameras, src)
 	return
 
+/area/proc/firereset()
+	if (src.fire)
+		src.fire = 0
+		src.mouse_opacity = 0
+		src.updateicon()
+		for(var/obj/machinery/door/firedoor/D in src)
+			if (D.density)
+				spawn( 0 )
+					D.openfire()
+					return
+		for (var/mob/silicon/ai/aiPlayer in world)
+			aiPlayer.cancelAlarm("Fire", src, src)
+	return
 
 /area/proc/updateicon()
 	if ((fire || eject) && power_environ)
@@ -352,6 +174,12 @@
 		luminosity = 1;
 	else
 		luminosity = 0;
+
+/*
+#define EQUIP 1
+#define LIGHT 2
+#define ENVIRON 3
+*/
 
 /area/proc/powered(var/chan)		// return true if the area has power to given channel
 	if(!requires_power)
@@ -426,4 +254,7 @@
 /area/proc/calc_lighting()
 	if(lightswitch && power_light)
 		used_light += numturfs * LIGHTING_POWER
+
+
+
 

@@ -179,7 +179,7 @@
 	var/footer = "<HR><A href='?src=\ref[vote];voter=\ref[src];vclose=1'>Close</A></BODY></HTML>"
 
 
-	if(config.vote_no_dead && usr.stat == 2)
+	if(config.vote_no_dead && usr.is_dead)
 		text += "Voting while dead has been disallowed."
 		text += footer
 		usr << browse(text, "window=vote")

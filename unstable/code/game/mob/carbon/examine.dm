@@ -1,5 +1,5 @@
 /mob/carbon/examine()
-	set src in viewers()
+	set src in view()
 
 	usr << "\blue *---------*"
 	usr << "\blue This is \icon[src] <B>[src.name]</B>!"
@@ -20,17 +20,17 @@
 	if (src.back)
 		usr << "\blue [src.name] has a \icon[src.back] [src.back] on \his[src] back!"
 	if (src.id)
-		if ((src.id.registered != src.rname && get_dist(src, usr) <= 1 && prob(10)))
+		if ((src.id.registered != src.body_name && get_dist(src, usr) <= 1 && prob(10)))
 			usr << "\blue [src.name] is wearing \icon[src.id] [src.id.name] yet doesn't seem to be that person!!!"
 		else
 			usr << "\blue [src.name] is wearing \icon[src.id] [src.id.name]!"
-	if (src.damage.brute)
-		if (src.damage.brute < 30)
+	if (src.dam.brute)
+		if (src.dam.brute < 30)
 			usr << "\red [src.name] looks slightly bruised!"
 		else
 			usr << "\red <B>[src.name] looks severely bruised!</B>"
-	if (src.damage.burn)
-		if (src.damage.burn < 30)
+	if (src.dam.burn)
+		if (src.dam.burn < 30)
 			usr << "\red [src.name] looks slightly burnt!"
 		else
 			usr << "\red <B>[src.name] looks severely burnt!</B>"

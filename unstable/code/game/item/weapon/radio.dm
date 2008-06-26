@@ -167,7 +167,7 @@
 	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.
 	if (freq != src.freq || !M || !(src.wires & WIRE_RECEIVE))
 		return
-	if(M.language != COMPUTER_LANG)
+	if(M.language != LANGUAGE_COMPUTER)
 		return
 	if(text2num(M.text) != src.code)
 		return
@@ -179,7 +179,7 @@
 /obj/item/weapon/radio/signaler/proc/send_signal()
 	if (!( src.wires & WIRE_TRANSMIT))
 		return
-	var/datum/message/M = new(voice = "A computer", message = num2text(src.code), language = COMPUTER_LANG)
+	var/datum/message/M = new(voice = "A computer", message = num2text(src.code), language = LANGUAGE_COMPUTER)
 	src.transmit(M)
 
 /obj/item/weapon/radio/signaler/examine()
@@ -337,7 +337,7 @@
 /obj/item/weapon/radio/electropack/receive(datum/message/M, freq)
 	if (freq != src.freq || !M || !(src.wires & WIRE_RECEIVE))
 		return
-	if(M.language != COMPUTER_LANG)
+	if(M.language != LANGUAGE_COMPUTER)
 		return
 	if(text2num(M.text) != src.code)
 		return

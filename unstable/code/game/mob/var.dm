@@ -38,4 +38,5 @@
 	var/prev_move = 0
 	var/next_move = 0
 
-	var/list/languages = new()
+	var/list/languages = list()
+	var/curr_language = null

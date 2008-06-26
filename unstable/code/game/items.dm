@@ -3557,7 +3557,7 @@
 		return
 	if(!user.check_dexterity())
 		return
-	M.show_viewers("\red [user] has applied the [] to []")
+	M.show_viewers("\red [user] has applied the [src] to [M]")
 	M.heal_damage(brute = 60)
 	src.amount--
 	return

@@ -4,17 +4,19 @@
 
 
 /mob/carbon/interact_cuffed(mob/carbon/M as mob)
-	if((M.a_intent == "hurt" || M.a_intent == "disarm") && M.attack_type == ATTACK_BITE) //can still bite while cuffed
+	if((M.intent == "hurt" || M.intent == "disarm") && M.attack_type == ATTACK_BITE) //can still bite while cuffed
 		return src.interact(M)
 	return
 
-/mob/carbon/interact(mob/M as mob)
-	if(M.is_dead())
+/mob/carbon/interact(mob/carbon/M as mob)
+	if(M.is_dead)
+		return
+	if(!istype(M, /mob/carbon))
 		return
 	if (src.jumpsuit)
 		src.jumpsuit.add_fingerprint(M)
-	if (M.a_intent == "help")
-		if (src.get_damage() > src.unconsciouness_threshold)
+	if (M.intent == "help")
+		if (src.get_damage() > src.unconsciousness_threshold)
 			src.sleeping = 0
 			src.resting = 0
 			src.show_viewers("\blue [M] shakes [src] trying to wake \him[src] up!")
@@ -31,7 +33,7 @@
 			src.requests += O
 			spawn( 0 )
 				O.process()
-	else if(M.a_intent == "grab")
+	else if(M.intent == "grab")
 		if (M == src)
 			return
 		var/obj/item/weapon/grab/G = new /obj/item/weapon/grab( M )

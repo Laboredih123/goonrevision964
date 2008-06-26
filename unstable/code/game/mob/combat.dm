@@ -1,4 +1,4 @@
-/mob/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/mob/carbon/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (locate(/obj/item/weapon/grab, src))
 		var/mob/safe = null

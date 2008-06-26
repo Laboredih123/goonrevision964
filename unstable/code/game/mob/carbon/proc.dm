@@ -23,14 +23,6 @@
 		return 0
 	return ..()
 
-/mob/carbon/proc/swap_hand()
-	src.hand = !( src.hand )
-	if(src.hud && src.hud.hand)
-		if (!( src.hand ))
-			src.hud.hand.dir = NORTH
-		else
-			src.hud.hand.dir = SOUTH
-
 /mob/carbon/is_conscious()
 	if(src.knockout > 0)
 		return 0
@@ -59,3 +51,10 @@
 		return 1
 	if (src.gloves)
 		return 1
+
+/mob/carbon/verb/succumb()
+	set hidden = 1
+
+	if (src.get_damage() > src.unconsciousness_threshold)
+		src.take_damage(suffocation = 200)
+		usr << "\blue You have given up life and succumbed to death."

@@ -25,10 +25,10 @@
 			else
 				diag = null
 			if ((get_dist(src, src.pulling) > 1 || diag))
-				if (ismob(src.pulling))
-					var/mob/M = src.pulling
+				if (istype(src.pulling, /mob/carbon))
+					var/mob/carbon/M = src.pulling
 					var/ok = 1
-					if (locate(/obj/item/weapon/grab, M.grabbed_by.len))
+					if (locate(/obj/item/weapon/grab, M.grabbed_by))
 						if (prob(75))
 							var/obj/item/weapon/grab/G = pick(M.grabbed_by)
 							if (istype(G, /obj/item/weapon/grab))
@@ -90,7 +90,7 @@
 
 /mob/carbon/proc/m_delay()
 	var/tally = 0
-	if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/straight_jacket))
+	if (istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
 		tally += 15
 	if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
 		if (src.shoes.chained)

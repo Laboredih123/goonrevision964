@@ -1,6 +1,6 @@
-/var/const/MONKEY_LANG = 1
-/var/const/ENGLISH_LANG = 2
-/var/const/COMPUTER_LANG = 3
+/var/const/LANGUAGE_MONKEY = 1
+/var/const/LANGUAGE_ENGLISH = 2
+/var/const/LANGUAGE_COMPUTER = 3
 
 /mob/hear(message)
 	src << message
@@ -22,11 +22,11 @@
 	var/list/replaced_words = list()
 	var/list/language_words
 	switch(language)
-		if(MONKEY_LANG)
+		if(LANGUAGE_MONKEY)
 			language_words = get_monkey_words()
-		if(ENGLISH_LANG)
+		if(LANGUAGE_ENGLISH)
 			language_words = get_english_words()
-		if(COMPUTER_LANG)
+		if(LANGUAGE_COMPUTER)
 			language_words = get_computer_words()
 	for(var/word in words)
 		if(!word) //blank string (occurs when multiple spaces are in a row) isn't replaced

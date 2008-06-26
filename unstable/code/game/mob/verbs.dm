@@ -27,13 +27,6 @@
 	src << browse(text("[]", changes), "window=changes")
 	return
 
-/mob/verb/succumb()
-	set hidden = 1
-
-	if (src.get_damage() > src.unconsciousness_threshold)
-		src.take_damage(suffocation = 200)
-		usr << "\blue You have given up life and succumbed to death."
-
 /mob/verb/observe()
 	set name = "Observe"
 	var/is_admin = 0
@@ -60,10 +53,8 @@
 			namecounts[name] = 1
 		creatures[name] = D
 	for (var/mob/M in world)
-		if (usr == M)
-			continue
 		if(!istype(M, /mob/carbon) && !istype(M, /mob/silicon)) //don't show prespawn people, etc
-
+			continue
 		var/name = M.name
 
 		if (name in names)
@@ -73,10 +64,10 @@
 			names.Add(name)
 			namecounts[name] = 1
 
-		if (M.rname && M.rname != M.name) //they're in disguise!
-			name += " \[[M.rname]\]"
+		if (M.spawn_name && M.spawn_name != M.name) //they're in disguise!
+			name += " \[[M.spawn_name]\]"
 
-		if (M.stat == 2)
+		if (M.is_dead)
 			name += " \[dead\]"
 
 		creatures[name] = M

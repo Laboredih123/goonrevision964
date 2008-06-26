@@ -781,24 +781,22 @@
 /obj/machinery/computer/sleep_console/interact(mob/user as mob)
 
 	if (src.connected)
-		var/mob/occupant = src.connected.occupant
+		var/mob/carbon/occupant = src.connected.occupant
 		var/dat = "<font color='blue'><B>Occupant Statistics:</B></FONT><BR>"
 		if (occupant)
 			var/t1
-			switch(occupant.stat)
-				if(0.0)
-					t1 = "Conscious"
-				if(1.0)
-					t1 = "Unconscious"
-				if(2.0)
-					t1 = "*dead*"
-				else
-			dat += text("[]\tHealth %: [] ([])</FONT><BR>", (occupant.health > 50 ? "<font color='blue'>" : "<font color='red'>"), occupant.health, t1)
-			dat += text("[]\t-Respiratory Damage %: []</FONT><BR>", (occupant.oxyloss < 60 ? "<font color='blue'>" : "<font color='red'>"), occupant.oxyloss)
-			dat += text("[]\t-Toxin Content %: []</FONT><BR>", (occupant.toxloss < 60 ? "<font color='blue'>" : "<font color='red'>"), occupant.toxloss)
-			dat += text("[]\t-Burn Severity %: []</FONT><BR>", (occupant.fireloss < 60 ? "<font color='blue'>" : "<font color='red'>"), occupant.fireloss)
-			dat += text("<BR>Paralysis Summary %: [] ([] seconds left!)</FONT><BR>", occupant.paralysis, round(occupant.paralysis / 4))
-			dat += text("<HR><A href='?src=\ref[];refresh=1'>Refresh</A><BR><A href='?src=\ref[];rejuv=1'>Inject Rejuvenators</A>", src, src)
+			if(occupant.is_dead)
+				t1 = "*dead*"
+			else if(!occupant.is_conscious())
+				t1 = "Unconscious"
+			else
+				t1 = "Conscious"
+			dat += text("[]\tHealth %: [] ([])</FONT><BR>", (occupant.get_damage() < 50 ? "<font color='blue'>" : "<font color='red'>"), (occupant.death_threshold - occupant.get_damage())/occupant.death_threshold, t1)
+			dat += text("[]\t-Respiratory Damage %: []</FONT><BR>", (occupant.dam.suffocation < 60 ? "<font color='blue'>" : "<font color='red'>"), occupant.dam.suffocation)
+			dat += text("[]\t-Toxin Content %: []</FONT><BR>", (occupant.dam.toxin < 60 ? "<font color='blue'>" : "<font color='red'>"), occupant.dam.toxin)
+			dat += text("[]\t-Burn Severity %: []</FONT>", (occupant.dam.burn < 60 ? "<font color='blue'>" : "<font color='red'>"), occupant.dam.burn)
+			dat += "\blue Expected time till occupant can safely awake: (note: If health is below 20% these times are inaccurate)"
+			dat += text("\blue \t [] second\s (if around 1 or 2 the sleeper is keeping them asleep.)", occupant.knockdown)
 		else
 			dat += "The sleeper is empty."
 		dat += text("<BR><BR><A href='?src=\ref[];mach_close=sleeper'>Close</A>", user)

@@ -17,7 +17,6 @@
 	density = 0
 	icon = null
 	icon_state = null
-	loc = null
 
 /mob/prespawn/New()
 	..()
@@ -27,7 +26,6 @@
 	src.verbs -= /mob/verb/observe
 	src.verbs -= /mob/verb/respawn
 	src.verbs -= /mob/verb/say
-	src.verbs -= /mob/verb/succumb
 
 	src.client.eye = null
 

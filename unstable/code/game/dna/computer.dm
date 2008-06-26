@@ -49,7 +49,7 @@
 	if(href_list["scan_buf"])
 		src.state = STATE_SCANNING
 		src.primary_buf = text2num(href_list["scan_buf"])
-		buffers[primary_buf]
+		//buffers[primary_buf]
 
 
 	src.updateUsrDialog()

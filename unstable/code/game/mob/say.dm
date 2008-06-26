@@ -39,7 +39,7 @@
 	txt = copytext(txt, 1, 256)
 	world.log_say("[src.name]/[src.key] : [txt]")
 
-	if(src.stat == 2)
+	if(src.is_dead)
 		return src.say_dead(html_encode(txt))
 
 	if(!src.can_say())
@@ -63,11 +63,11 @@
 
 	if (hear_range == 1)
 		txt = "<I>[txt]</I>"
-	if (src.stuttering)
+	if (src.is_stuttering())
 		txt = stutter(txt)
 	txt = html_encode(txt)
 
-	var/datum/message = new(text = txt, language = src.language, voice = src.rname)
+	var/datum/message = new(text = txt, language = src.curr_language, voice = src.voice)
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(usr, txt)
@@ -75,3 +75,6 @@
 		spawn(0)
 			if (O)
 				O.hear_message(usr, message)
+
+/mob/proc/is_stuttering()
+	return 0

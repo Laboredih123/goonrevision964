@@ -1,16 +1,15 @@
 /mob/carbon/weight = 1250000
 /mob/carbon/var/base_weight = 1250000
 
-/mob/carbon/update_grabs()
+/mob/carbon/proc/update_grabs()
 	src.pixel_y = 0
 	src.pixel_x = 0
-	src.weight = src.baseweight
+	src.weight = src.base_weight
 	if (istype(src.l_hand, /obj/item/weapon/grab))
 		src.weight += src.l_hand:affecting.base_weight
 	if (istype(src.r_hand, /obj/item/weapon/grab))
 		src.weight += src.r_hand:affecting.base_weight
 	if (locate(/obj/item/weapon/grab, src.grabbed_by))
-		var/a_grabs = 0
 		for(var/obj/item/weapon/grab/G in src.grabbed_by)
 			G.process()
 			if (G)

@@ -56,7 +56,7 @@
 
 /mob/carbon/verb/clap()
 	set name = ".clap"
-	if(src.can_use_hands)
+	if(src.can_use_hands())
 		src.emote("claps", SENSE_SOUND & SENSE_SIGHT)
 
 /mob/carbon/verb/cry()
@@ -169,7 +169,7 @@
 
 /mob/carbon/verb/shake()
 	set name = ".shake"
-	src.emote("shakes \his[src] head")
+	src.emote("shakes [src.gender == MALE ? "his" : "her"] head")
 
 /mob/carbon/verb/shiver()
 	set name = ".shiver"
@@ -214,5 +214,5 @@
 
 /mob/carbon/verb/tail()
 	set name = ".tail"
-	if(src.has_tail)
-		src.emote("waves \his[src] tail")
+	if(src.appearance == APPEARANCE_MONKEY)
+		src.emote("waves [src.gender == MALE ? "his" : "her"] tail")

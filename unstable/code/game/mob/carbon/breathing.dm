@@ -42,11 +42,11 @@
 
 	return
 
-/mob/carbon/get_breathed_air(turf/T)
+/mob/carbon/proc/get_breathed_air(turf/T)
 	var/frac_air_taken = 1.4E-4 //fraction of air in tile taken
-	if (src.health < -75.0)
+	if (src.get_damage() + 25 > src.death_threshold)
 		frac_air_taken = 5.0E-5
-	else if (src.health < -50.0)
+	else if (src.get_damage() + 50 > src.death_threshold)
 		frac_air_taken = 1.0E-4
 
 	var/turf_total = T.oxygen + T.poison + T.sl_gas + T.co2 + T.n2
@@ -54,23 +54,23 @@
 	G.maximum = 10000
 	if (src.internal)
 		src.internal.process(src, G)
-		if (src.internal_icon)
-			src.internal_icon.icon_state = "internal1"
+		if (src.hud && src.hud.internal)
+			src.hud.internal.icon_state = "internal1"
 
-		if (src.mask.flags & HALFMASK && (!istype(src.head, /obj/item/weapon/clothing/head) || !( src.head.flags & HEADSPACE )))
+		if (src.mask.flags & HALFMASK && (!istype(src.helmet, /obj/item/weapon/clothing/head) || !( src.helmet.flags & HEADSPACE )))
 			//only get half of air from internals
 			G.turf_add(T, G.tot_gas() * 0.5)
 			G.turf_take(T, frac_air_taken / 2 * turf_total - G.tot_gas())
 	else
-		if (src.internal_icon)
-			src.internal_icon.icon_state = "internal0"
+		if (src.hud && src.hud.internal)
+			src.hud.internal.icon_state = "internal0"
 		G.turf_take(T, frac_air_taken * turf_total)
 
 	if (G.tot_gas() > max_air_breathed)
 		G.turf_add(T, G.tot_gas() - max_air_breathed)
 	return G
 
-/mob/carbon/breathe()
+/mob/carbon/proc/breathe()
 	if (src.internal && !src.contents.Find(src.internal))
 		src.internal = null
 	if (!src.mask || ! (src.mask.flags | MASKINTERNALS))
@@ -92,7 +92,7 @@
 			T = locate(/obj/move, T)
 
 		//breathe in
-		var/obj/substance/gas/G = src.get_breathing_gas(T)
+		var/obj/substance/gas/G = src.get_breathed_air(T)
 		//process air
 		src.aircheck(G)
 		//breathe out

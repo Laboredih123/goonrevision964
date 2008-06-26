@@ -14,4 +14,4 @@
 		src.see_invisible = 0
 
 	if (istype(src.glasses, /obj/item/weapon/clothing/glasses/blindfold))
-		src.blinded = 1
+		src.is_blind = 1

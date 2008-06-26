@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE:
+DIR:
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -30,6 +36,7 @@
 #define FILE_DIR "icons/ss13"
 #define FILE_DIR "interface"
 #define FILE_DIR "maps"
+#define FILE_DIR "maps/backup"
 // END_FILE_DIR
 
 // BEGIN_PREFERENCES
@@ -175,6 +182,7 @@
 #include "code\game\mob\prespawn\skin.dm"
 #include "code\game\mob\silicon\damage.dm"
 #include "code\game\mob\silicon\examine.dm"
+#include "code\game\mob\silicon\ai\alerts.dm"
 #include "code\game\mob\silicon\ai\damage.dm"
 #include "code\game\mob\silicon\ai\laws.dm"
 #include "code\game\mob\silicon\ai\life.dm"
@@ -196,6 +204,7 @@
 #include "code\game\verbs\suicide.dm"
 #include "code\game\verbs\who.dm"
 #include "interface\skin.dmf"
+#include "maps\Space Station 13 areas.dm"
 #include "maps\Space Station 13.dmp"
 // END_INCLUDE
 

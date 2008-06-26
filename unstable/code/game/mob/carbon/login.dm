@@ -23,4 +23,4 @@
 
 /mob/carbon/Logout()
 	//clear the HUD
-	src.hud.del()
+	del(src.hud)

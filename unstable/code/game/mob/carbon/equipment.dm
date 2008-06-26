@@ -8,8 +8,8 @@
 		src.gloves = null
 	else if (W == src.glasses)
 		src.glasses = null
-	else if (W == src.head)
-		src.head = null
+	else if (W == src.helmet)
+		src.helmet = null
 	else if (W == src.shoes)
 		src.shoes = null
 	else if (W == src.belt)
@@ -347,16 +347,16 @@
 	return
 
 /mob/carbon/proc/update_name()
-	if ((src.mask && !(src.mask.see_face)) || (src.head && !(src.head.see_face))) // can't see the face
+	if ((src.mask && !(src.mask.see_face)) || (src.helmet && !(src.helmet.see_face))) // can't see the face
 		if(src.id && src.id.registered)
 			src.name = src.id.registered
 		else
 			src.name = "Unknown"
 	else
-		if (src.id && src.id.registered != src.rname)
-			src.name = "[src.rname] (as [src.id.registered])"
+		if (src.id && src.id.registered != src.body_name)
+			src.name = "[src.body_name] (as [src.id.registered])"
 		else
-			src.name = src.rname
+			src.name = src.body_name
 
 /mob/carbon/proc/update_invisibility()
 	src.invisibility = 0
@@ -397,7 +397,7 @@
 	return
 
 /mob/carbon/proc/drop_item_v()
-	if (src.is_conscious && !src.knockdown)
+	if (src.is_active())
 		drop_item()
 	return
 
@@ -420,9 +420,9 @@
 
 	src.hand = !( src.hand )
 	if (!( src.hand ))
-		src.hands.dir = NORTH
+		src.hud.hand.dir = NORTH
 	else
-		src.hands.dir = SOUTH
+		src.hud.hand.dir = SOUTH
 	return
 
 /mob/carbon/equipped()
@@ -485,8 +485,8 @@
 				src.gloves = W
 				equipped = 1
 		if(SLOT_HELMET)
-			if(!src.head && src.can_wear_helmet)
-				src.head = W
+			if(!src.helmet && src.can_wear_helmet)
+				src.helmet = W
 				equipped = 1
 		if(SLOT_SHOES)
 			if(!src.shoes && src.can_wear_shoes)
@@ -508,8 +508,8 @@
 			if(!src.r_store && src.can_wear_r_store && src.jumpsuit)
 				src.r_store = W
 				equipped = 1
-		if(SLOT_HEADSET && src.can_wear_headset)
-			if(!src.headset)
+		if(SLOT_HEADSET)
+			if(!src.headset && src.can_wear_headset)
 				src.headset = W
 				equipped = 1
 		if(SLOT_IN_BACKPACK)

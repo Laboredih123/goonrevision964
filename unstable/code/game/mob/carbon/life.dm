@@ -1,37 +1,30 @@
 /mob/carbon/Life()
-	..()
-	if(src.client)
-		src.hud.update()
 	set invisibility = 0
 	set background = 1
 
-	var/turf/T = src.loc
+	..()
+	if(src.client)
+		src.hud.update()
 
 	if (src.is_dead)
 		src.lying = 1
-		src.blinded = 1
+		src.is_blind = 1
 		src.canmove = 0
 		if (src.buckled)
 			src.lying = 0
 		return
 
-	src.blinded = 0
+	src.is_blind = 0
 
 	if (!src.m_flag)
 		src.moved_recently = 0
 	src.m_flag = null
 
-	if (src.mach)
+	if (src.hud.machine)
 		if (src.machine)
-			src.mach.icon_state = "mach1"
+			src.hud.machine.icon_state = "mach1"
 		else
-			src.mach.icon_state = null
-
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		var/ficheck = src.firecheck(T)
-		if (ficheck)
-			src.take_damage(burn = ficheck * 10)
+			src.hud.machine.icon_state = null
 
 	src.breathe()
 	src.check_decompression()
@@ -57,7 +50,6 @@
 		src.knockdown_until(5)
 
 	src.rejuv = max(0, src.rejuv - 1)
-	src.blinded = null
 	if(src.antitoxs >= 1)
 		src.antitoxs--
 		src.heal_damage(toxin = 3)

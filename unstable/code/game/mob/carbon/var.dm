@@ -22,7 +22,9 @@
 	var/obj/stool/chair/buckled = null
 	var/obj/item/weapon/tank/internal = null
 	var/obj/item/weapon/storage/s_active = null
+
 	var/obj/item/weapon/handcuffs/handcuffs = null
+	var/can_wear_handcuffs = 0
 
 	var/obj/item/weapon/l_hand = null
 	var/can_wear_l_hand = 0
@@ -129,3 +131,5 @@
 	var/icon/face2 = null
 
 	var/sl_gas_breathed = 0
+
+	var/is_dextrous = 0

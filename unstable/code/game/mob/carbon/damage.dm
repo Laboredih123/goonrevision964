@@ -1,6 +1,6 @@
 /mob/carbon/ex_act(severity)
 
-	flick("flash", src.flash)
+	flick("flash", src.hud.flash)
 	var/brute_loss = 0
 	var/burn_loss = 0
 	var/ear_loss = 0
@@ -14,13 +14,14 @@
 			burn_loss = 60
 			ear_loss = 30
 			if (prob(50))
-				src.paralysis += 30
+				src.knockdown_until(5)
 		if(3)
 			brute_loss = 30
 			ear_loss = 15
 			if (prob(50))
-				src.paralysis += 10
+				src.knockdown_until(2)
 	src.take_damage(brute = brute_loss, burn = burn_loss)
+	src.take_ear_damage(ear_loss)
 	return
 
 /mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
@@ -57,13 +58,10 @@
 	return pick(src.organs)
 
 /mob/carbon/blob_act()
-	src.showviewers("\red <B>[src] has been attacked by the blob.</B>")
+	src.show_viewers("\red <B>[src] has been attacked by the blob.</B>")
 	src.take_damage(brute = rand(5, 25))
 
 /mob/carbon/burn(fi_amount)
-
-	var/ok = 0
-	var/atom/organ/temp
 	if (src.r_hand)
 		src.r_hand.burn(fi_amount)
 	if (src.l_hand)
