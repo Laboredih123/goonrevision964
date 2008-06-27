@@ -13,9 +13,10 @@
 	else if(istype(source, /obj/item/weapon/radio))
 		name += " broadcasts \icon[source]"
 	var/text = M.text
-	if(!M.language in src.languages)
+	if(M.language && !(M.language in src.languages))
 		text = replace_language(text, M.language)
 	src.hear("<b>[speaker_name]</b>: [text]")
+	return 1
 
 /mob/proc/replace_language(message, language)
 	var/list/words = dd_text2list(message, " ")

@@ -249,8 +249,14 @@
 
 /mob/carbon/proc/update_clothing_icons()
 	if (!( src.jumpsuit ))
-		for(var/x in list(SLOT_R_STORE, SLOT_L_STORE, SLOT_ID, SLOT_BELT))
-			src.drop(x)
+		if(src.belt)
+			src.drop(SLOT_BELT)
+		if(src.id)
+			src.drop(SLOT_ID)
+		if(src.l_store)
+			src.drop(SLOT_L_STORE)
+		if(src.r_store)
+			src.drop(SLOT_R_STORE)
 	src.overlays = null
 
 	if (src.lying)

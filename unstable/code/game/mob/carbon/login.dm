@@ -1,20 +1,13 @@
 /mob/carbon/Login()
 	//add the HUD
+	src.hud = new(src)
+
 	world.update_stat()
 	src.next_move = 1
 
 	if (CanAdmin())
 		src << text("\blue The game ip is byond://[]:[] !", world.address, world.port)
 		src.verbs += /proc/variables
-
-
-	var/area/A = locate(/area/start)
-	var/list/L = list()
-	for(var/turf/T in A)
-		if(T.isempty())
-			L += T
-	var/turf/Trand = pick(L)
-	src.loc = Trand
 
 	if (ticker && master_mode =="sandbox" && src.client.authenticated)
 		src.CanBuild()

@@ -26,13 +26,13 @@
 
 /mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
 	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
-	var/atom/organ/O = src.choose_organ()
-	if (istype(O, /atom/organ))
+	var/datum/organ/O = src.choose_organ()
+	if (istype(O, /datum/organ))
 		O.take_damage(dam)
 		src.update_damage()
 
 /mob/carbon/heal_damage(datum/damage/dam)
-	for(var/atom/organ/O in src.organs)
+	for(var/datum/organ/O in src.organs)
 		dam = O.heal_damage(dam) //returns a smaller damage, or null if it's all used up
 		if(!dam) //all done!
 			break
@@ -40,7 +40,7 @@
 
 /mob/carbon/proc/update_damage()
 	src.dam = new /datum/damage()
-	for(var/atom/organ/O in src.organs)
+	for(var/datum/organ/O in src.organs)
 		src.dam.add(O.dam)
 	src.update_damage_icon()
 
@@ -48,7 +48,7 @@
 	if(src.appearance == APPEARANCE_HUMAN)
 		src.body_standing = list()
 		src.body_lying = list()
-		for(var/atom/organ/O in src.organs)
+		for(var/datum/organ/O in src.organs)
 			body_standing += O.dam_icon_standing
 			body_lying += O.dam_icon_lying
 	else

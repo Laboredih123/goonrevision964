@@ -20,7 +20,7 @@
 		src.moved_recently = 0
 	src.m_flag = null
 
-	if (src.hud.machine)
+	if (src.hud && src.hud.machine)
 		if (src.machine)
 			src.hud.machine.icon_state = "mach1"
 		else

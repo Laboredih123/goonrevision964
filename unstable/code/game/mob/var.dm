@@ -40,3 +40,6 @@
 
 	var/list/languages = list()
 	var/curr_language = null
+
+	icon = 'monkey.dmi'
+	icon_state = "monkey1"

@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE:
-DIR:
+FILE: code\game\mob\carbon\emote.dm
+DIR: code code\atoms code\game code\game\item code\game\item\weapon code\game\mob code\game\mob\carbon code\game\mob\carbon\monkey code\game\mob\prespawn code\game\modes maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -177,6 +177,8 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\prespawn\hair_color.dm"
 #include "code\game\mob\prespawn\hair_style.dm"
 #include "code\game\mob\prespawn\job.dm"
+#include "code\game\mob\prespawn\login.dm"
+#include "code\game\mob\prespawn\say.dm"
 #include "code\game\mob\prespawn\setup.dm"
 #include "code\game\mob\prespawn\skin.dm"
 #include "code\game\mob\silicon\damage.dm"

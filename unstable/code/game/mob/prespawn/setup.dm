@@ -11,7 +11,7 @@
 		char_last_version //md5 of changelog, to keep track of the most recent version of ss13 they've seen
 		char_will_play_traitor = "No"
 		ready = 0
-		savefile_loc
+		savefile_loc = null
 		const/SAVEFILE_EXTENSION = "sav"
 	opacity = 0
 	density = 0
@@ -19,27 +19,18 @@
 	icon_state = null
 
 /mob/prespawn/New()
+	world << "new prespawn"
 	..()
 	src.verbs -= /mob/verb/add_memory
 	src.verbs -= /mob/verb/cancel_camera
 	src.verbs -= /mob/verb/memory
 	src.verbs -= /mob/verb/observe
 	src.verbs -= /mob/verb/respawn
-	src.verbs -= /mob/verb/say
-
-	src.client.eye = null
-
-	src.savefile_loc = "savefiles/[savefile_ver]/[src.ckey].[SAVEFILE_EXTENSION]"
-	src.savefile_load()
-
-	if(!src.char_last_version || src.char_last_version != md5(changes)) //they havent seen this changelog
-		src.changes()
-
-	src.char_setup()
 
 	return
 
 mob/prespawn/proc/savefile_load()
+	world << src.savefile_loc
 	if (fexists(src.savefile_loc))
 		var/savefile/F = new /savefile(src.savefile_loc)
 		F["name"] >> src.char_name
@@ -54,6 +45,7 @@ mob/prespawn/proc/savefile_load()
 		F["will_play_traitor"] >> src.char_will_play_traitor
 		return 1
 	else
+		world << "no file"
 		return 0
 
 /mob/prespawn/proc/savefile_write()
@@ -72,22 +64,43 @@ mob/prespawn/proc/savefile_load()
 /mob/prespawn/Topic(href, href_list)
 	if(src != usr)
 		return ..()
-	if(href_list["name"])
-		src.char_name = input("What is your character's name?", "Character Generation", src.char_name) as text
-	if(href_list["gender"])
-		src.char_gender = input("Select a gender", "Character Generation", src.char_gender) in list(MALE, FEMALE)
-	if(href_list["skin_color"])
-		src.choose_skin_color()
-	if(href_list["hair_color"])
-		src.choose_hair_color()
-	if(href_list["hair_style"])
-		src.choose_hair_style()
-	if(href_list["job"])
-		src.choose_job(text2num(href_list["job"]))
 	if(href_list["ready"])
+		for (var/mob/carbon/H in world)
+			if (cmptext(H.spawn_name, src.char_name))
+				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
+				return
 		src.ready = 1
 		savefile_write()
-	if(href_list["reset"])
+		src << browse(null, "window=mob_occupations;size=300x600")
+		if (ticker)
+			var/list/L = assistant_occupations
+			var/job
+			if (L.Find(src.char_job1))
+				job = src.char_job1
+			else if (L.Find(src.char_job2))
+				job = src.char_job2
+			else if (L.Find(src.char_job3))
+				job = src.char_job3
+			else
+				job = pick(L)
+			var/joined_late = 1
+			src.Assign_Rank(job, joined_late)
+
+		return ..()
+	if(href_list["name"])
+		src.char_name = input("What is your character's name?", "Character Generation", src.char_name) as text
+	else if(href_list["gender"])
+		src.char_gender = input("Select a gender", "Character Generation", src.char_gender) in list(MALE, FEMALE)
+	else if(href_list["skin_color"])
+		src.choose_skin_color()
+	else if(href_list["hair_color"])
+		src.choose_hair_color()
+	else if(href_list["hair_style"])
+		src.choose_hair_style()
+	else if(href_list["job"])
+		src.choose_job(text2num(href_list["job"]))
+
+	else if(href_list["reset"])
 		var/loaded = src.savefile_load()
 		if(!loaded)
 			src.char_name = initial(src.char_name)
@@ -98,11 +111,34 @@ mob/prespawn/proc/savefile_load()
 			src.char_hair_color = initial(src.char_hair_color)
 			src.char_hair_style = initial(src.char_hair_style)
 			src.char_skin_color = initial(src.char_skin_color)
-	if(href_list["willing_to_play_traitor"])
+	else if(href_list["willing_to_play_traitor"])
 		src.char_will_play_traitor = input("Would you like to be eligible for being traitor?", "Character Generation", src.char_will_play_traitor) in list("Yes", "No")
-	return ..()
+	else
+		return ..()
+	spawn()
+		char_setup()
 
 /mob/prespawn/verb/char_setup()
+	if(!src.char_name)
+		if(src.client)
+			src.char_name = src.client.key
+		else
+			src.char_name = "Cool Person"
+	if(!(src.char_gender in list(MALE, FEMALE)))
+		src.char_gender = MALE
+	if(!(src.char_skin_color in get_skin_colors()))
+		src.char_skin_color = SKIN_COLOR_LIGHT
+	if(!(src.char_hair_color in get_hair_colors()))
+		src.char_hair_color = HAIR_COLOR_BROWN
+	if(!(src.char_hair_style in get_hair_styles()))
+		src.char_hair_style = HAIR_STYLE_SHORT
+	if(!(src.char_will_play_traitor in list("Yes", "No")))
+		src.char_will_play_traitor = "No"
+	if(!(src.char_job1))
+		src.char_job1 = "No Preference"
+		src.char_job2 = "No Preference"
+		src.char_job3 = "No Preference"
+
 	var/dat = "<html><body>"
 	var/vars = list(
 		"name" = src.char_name,
@@ -113,8 +149,8 @@ mob/prespawn/proc/savefile_load()
 		"willing_to_play_traitor" = src.char_will_play_traitor
 	)
 	for(var/x in vars)
-		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]:</b>"
-		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[vars[x]]</b></a><br>"
+		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]: </b>"
+		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[capitalize(vars[x])]</b></a><br>"
 
 	dat += "<hr>"
 
@@ -125,7 +161,7 @@ mob/prespawn/proc/savefile_load()
 		if (src.char_job2 != "No Preference")
 			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.char_job3 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
 
-	dat += "<a href='byond://?src=\ref[src];done=1'>Ready</a><br>"
+	dat += "<a href='byond://?src=\ref[src];ready=1'>Ready</a><br>"
 	dat += "<a href='byond://?src=\ref[src];reset=1'>Reset</a><br>"
 	dat += "</body></html>"
 	src << browse(dat, "window=mob_occupations;size=300x600")

@@ -428,7 +428,7 @@
 	if(stat > 1) stat=0
 	disabilities = initial(disabilities)
 	sdisabilities = initial(sdisabilities)
-	for(var/atom/organ/e in src)
+	for(var/datum/organ/e in src)
 		e.brute_dam = 0.0
 		e.burn_dam = 0.0
 		e.bandaged = 0.0

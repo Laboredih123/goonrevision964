@@ -35,6 +35,8 @@
 /mob/verb/say(txt as text)
 	if(!txt)
 		return
+	if(!src.curr_language)
+		return
 	txt = sanitize(txt)
 	txt = copytext(txt, 1, 256)
 	world.log_say("[src.name]/[src.key] : [txt]")
@@ -67,7 +69,8 @@
 		txt = stutter(txt)
 	txt = html_encode(txt)
 
-	var/datum/message = new(text = txt, language = src.curr_language, voice = src.voice)
+
+	var/datum/message = new(src.voice, txt, src.curr_language)
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(usr, txt)

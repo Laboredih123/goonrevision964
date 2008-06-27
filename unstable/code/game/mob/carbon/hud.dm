@@ -45,6 +45,9 @@
 	var/obj/screen/rightdither50
 
 /datum/hud/carbon/New(mob/carbon/owner)
+	if(!owner)
+		del(src)
+		return
 	src.owner = owner
 
 	//overlays
@@ -72,10 +75,10 @@
 	src.pull = new /obj/screen(src, "pull", null, "15,1", null, "pull0")
 
 	//indicators
-	src.oxygen = new /obj/screen(src, "oxygen", null, "15,2", null, "oxy0")
-	src.toxin = new /obj/screen(src, "toxin", null, "15,10", null, "toxin0")
-	src.internal = new /obj/screen(src, "internal", null, "15,14", null, "internal0")
 	src.fire = new /obj/screen(src, "fire", null, "15,8", null, "fire0")
+	src.toxin = new /obj/screen(src, "toxin", null, "15,10", null, "toxin0")
+	src.oxygen = new /obj/screen(src, "oxygen", null, "15,12", null, "oxy0")
+	src.internal = new /obj/screen(src, "internal", null, "15,14", null, "internal0")
 	src.health = new /obj/screen(src, "health", null, "15,5", null, "health0")
 
 	// inventory stuff

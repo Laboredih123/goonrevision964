@@ -17,8 +17,8 @@
 // that instance is at /var/datum/dna/canonical/canonical_dna
 /datum/dna/canonical/New()
 	//make the loci
-	for(var/i = 0; i < NUM_CHROMOSOMES; i++)
-		for(var/j = 0; j < NUM_LOCI; j++)
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
 			data[i][j] = new /datum/canonical_locus()
 
 	//assign genes to them

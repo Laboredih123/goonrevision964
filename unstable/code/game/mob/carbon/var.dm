@@ -121,7 +121,7 @@
 
 	var/plasma = 0
 
-	var/datum/hud/carbon/hud = new()
+	var/datum/hud/carbon/hud = null
 
 	var/skin_color = SKIN_COLOR_LIGHT
 	var/has_super_strength = 0

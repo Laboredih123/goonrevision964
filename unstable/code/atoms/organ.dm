@@ -1,25 +1,24 @@
-/atom/organ
-	name = "chest"
-	icon = 'human.dmi'
+/datum/organ
+	var/name = "chest"
 	var/datum/damage/dam = new /datum/damage()
 	var/icon/dam_icon_standing = null
 	var/icon/dam_icon_lying = null
 	var/curr_damage_state = null
 
-/atom/organ/New(name)
+/datum/organ/New(name)
 	src.name = name
 
-/atom/organ/proc/take_damage(brute, burn, suffocation, toxin, electric)
+/datum/organ/proc/take_damage(brute, burn, suffocation, toxin, electric)
 	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
 	src.dam.add(dam)
 	src.update_icons()
 
-/atom/organ/proc/heal_damage(brute, burn, suffocation, toxin, electric)
+/datum/organ/proc/heal_damage(brute, burn, suffocation, toxin, electric)
 	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
 	src.dam.subtract(dam)
 	src.update_icons()
 
-/atom/organ/proc/get_damage_state()
+/datum/organ/proc/get_damage_state()
 	var/burn = 0
 	var/brute = 0
 
@@ -43,7 +42,7 @@
 
 	return "[brute][burn]"
 
-/atom/organ/proc/update_icons()
+/datum/organ/proc/update_icons()
 	var/new_damage_state = src.get_damage_state()
 	if(new_damage_state == curr_damage_state)
 		return

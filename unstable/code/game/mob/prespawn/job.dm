@@ -1,7 +1,7 @@
 //TODO: make all this use a list instead of 3 variables
 
 /mob/prespawn/proc/choose_job(job_num)
-	var/jobs = uniquelist(occupations + assistant_occupations + "Captain")
+	var/jobs = uniquelist(list("Captain") + occupations + assistant_occupations + "No Preference")
 	var/curr_job = null
 	switch(job_num)
 		if(1)
