@@ -39,44 +39,43 @@
 	var/can_wear_mask = 1
 
 	var/obj/item/weapon/clothing/suit/suit = null
-	var/can_wear_suit = 1
+	var/can_wear_suit = 0
 
 	var/obj/item/weapon/clothing/under/jumpsuit = null
-	var/can_wear_jumpsuit = 1
+	var/can_wear_jumpsuit = 0
 
 	var/obj/item/weapon/radio/headset/headset = null
-	var/can_wear_headset = 1
+	var/can_wear_headset = 0
 
 	var/obj/item/weapon/clothing/shoes/shoes = null
-	var/can_wear_shoes = 1
+	var/can_wear_shoes = 0
 
 	var/obj/item/weapon/belt = null
-	var/can_wear_belt = 1
+	var/can_wear_belt = 0
 
 	var/obj/item/weapon/clothing/gloves/gloves = null
-	var/can_wear_gloves = 1
+	var/can_wear_gloves = 0
 
 	var/obj/item/weapon/clothing/glasses/glasses = null
-	var/can_wear_glasses = 1
+	var/can_wear_glasses = 0
 
 	var/obj/item/weapon/clothing/head/helmet = null
-	var/can_wear_helmet = 1
+	var/can_wear_helmet = 0
 
 	var/obj/item/weapon/card/id/id = null
-	var/can_wear_id = 1
+	var/can_wear_id = 0
 
 	var/obj/item/weapon/r_store = null
-	var/can_wear_r_store = 1
+	var/can_wear_r_store = 0
 
 	var/obj/item/weapon/l_store = null
-	var/can_wear_l_store = 1
+	var/can_wear_l_store = 0
 
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
 	var/now_pushing = null
 
 	var/list/grabbed_by = list()
-	var/datum/chemical/chemicals = null
 
 	var/const
 		SLOT_BACK = 1
@@ -117,7 +116,7 @@
 
 	var/inertia_dir = null
 
-	var/datum/dna/dna
+	var/datum/dna/dna = null
 
 	var/plasma = 0
 
@@ -133,3 +132,4 @@
 	var/sl_gas_breathed = 0
 
 	var/is_dextrous = 0
+	is_intelligent = 0

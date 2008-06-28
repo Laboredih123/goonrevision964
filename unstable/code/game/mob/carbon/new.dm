@@ -20,3 +20,6 @@
 	src.organs += new /datum/organ("r_leg")
 	src.organs += new /datum/organ("l_foot")
 	src.organs += new /datum/organ("r_foot")
+
+	src.dna = new /datum/dna(src)
+	src.dna.apply(src)

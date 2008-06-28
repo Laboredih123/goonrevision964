@@ -301,14 +301,6 @@
 	var/list/general = list(  )
 	var/list/security = list(  )
 
-/obj/dna
-	name = "dna"
-	var/spec_identity = null
-	var/r_spec_identity = null
-	var/use_enzyme = null
-	var/struc_enzyme = null
-	var/uni_identity = null
-	var/n_chromo = null
 /obj/effects
 	name = "effects"
 	mouse_opacity = 0

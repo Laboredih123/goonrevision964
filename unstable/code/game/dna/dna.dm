@@ -3,6 +3,9 @@
 	var/const/NUM_LOCI = 10
 	var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
+/datum/dna/New(mob/carbon/M)
+
+
 /datum/dna/proc/mutate()
 	for(var/list/chromosome in data)
 		for(var/i = 1; i <= chromosome.len; i++)
