@@ -16,4 +16,5 @@
 
 /mob/carbon/Logout()
 	//clear the HUD
-	del(src.hud)
+	if(src.hud)
+		del(src.hud)

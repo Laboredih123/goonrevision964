@@ -1,10 +1,8 @@
 /mob/carbon/death()
-	if(src.client && src.hud && src.hud.blind)
-		src.hud.blind.layer = 0
-	if(src.hud && src.hud.health)
-		src.hud.health.icon_state = "health5"
+	if(src.hud)
+		del(src.hud)
 	src.lying = 1
-	src.hud.blind.layer = 0
+
 	src.timeofdeath = world.time
 
 	return ..()

@@ -1,11 +1,11 @@
-/mob/var/const
+/var/const
 	HAIR_COLOR_BROWN = "brown"
 	HAIR_COLOR_BLACK = "black"
 	HAIR_COLOR_WHITE = "white"
 	HAIR_COLOR_GREY = "grey"
 	HAIR_COLOR_BLOND = "blond"
 
-/mob/proc/get_hair_colors()
+/proc/get_hair_colors()
 	return list(
 		HAIR_COLOR_BROWN,
 		HAIR_COLOR_BLACK,

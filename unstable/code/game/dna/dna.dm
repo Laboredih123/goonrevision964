@@ -4,7 +4,11 @@
 	var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
 /datum/dna/New(mob/carbon/M)
-
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
+			var/datum/canonical_locus/L = canonical_dna.data[i][j]
+			var/datum/gene/G = L.associated_gene
+			src.data[i][j] = G.pick_allele(M, L)
 
 /datum/dna/proc/mutate()
 	for(var/list/chromosome in data)
@@ -25,6 +29,8 @@
 			else
 				genes[G] = L.alleles[src.data[i][j]] //the attribute associated with the allele this guy has
 	for(var/datum/gene/G in genes)
+		G.pre_apply(M)
+	for(var/datum/gene/G in genes)
 		G.apply(M, genes[G])
 
 
@@ -33,9 +39,9 @@
 // that instance is at /var/datum/dna/canonical/canonical_dna
 /datum/dna/canonical/New()
 	//make the loci
-	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
-		for(var/j = 1; j <= NUM_LOCI; j++)
-			data[i][j] = new /datum/canonical_locus()
+	for(var/list/chromosome in data)
+		for(var/i = 1; i <= chromosome.len; i++)
+			chromosome[j] = new /datum/canonical_locus()
 
 	//assign genes to them
 	var/genes = typesof(/datum/gene)

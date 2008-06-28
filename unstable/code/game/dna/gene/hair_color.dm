@@ -1,19 +1,11 @@
 /datum/gene/hair_color
-	var/const
-		BROWN = "brown"
-		BLACK = "black"
-		WHITE = "white"
-		GREY = "grey"
-		BLOND = "blond"
-	attributes = list(
-		BROWN,
-		BLACK,
-		WHITE,
-		GREY,
-		BLOND
-	)
-	default = GREY
+	default = HAIR_COLOR_GREY
 
-/datum/gene/hair_style/apply(mob/carbon/M, attribute)
-	. = ..()
-	if(!.) return
+/datum/gene/hair_color/New()
+	attributes = get_hair_colors()
+
+/datum/gene/hair_color/apply(mob/carbon/M, attribute)
+	M.hair_color = attribute
+
+/datum/gene/hair_color/pick_attribute(mob/carbon/M)
+	return M.hair_color
