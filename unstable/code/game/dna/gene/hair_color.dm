@@ -14,6 +14,6 @@
 	)
 	default = GREY
 
-/datum/gene/hair_style/update_mob(mob/carbon/M, attribute)
+/datum/gene/hair_style/apply(mob/carbon/M, attribute)
 	. = ..()
 	if(!.) return

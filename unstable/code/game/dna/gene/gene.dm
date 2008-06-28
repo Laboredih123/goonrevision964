@@ -11,7 +11,7 @@
 	//if it's not, give each of the attributes one allele and give the rest to fill_with
 	var/fill_with = null
 
-/datum/gene/proc/update_mob(mob/carbon/M, attribute) //grants attribute number "attribute" to M
+/datum/gene/proc/apply(mob/carbon/M, attribute) //grants attribute number "attribute" to M
 	if(!istype(M, /mob/carbon))
 		return 0
 	return 1

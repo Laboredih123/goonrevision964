@@ -112,7 +112,7 @@
 	icon_state = "medbay"
 
 /area/medical/research
-	name = "Medical Research"
+	name = "Genetic Research"
 	icon_state = "medresearch"
 
 /area/medical/morgue

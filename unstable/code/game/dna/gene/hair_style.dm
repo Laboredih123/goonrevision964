@@ -21,7 +21,7 @@
 	New()
 		attributes = get_hair_styles()
 
-/datum/gene/hair_style/update_mob(mob/carbon/M, attribute)
+/datum/gene/hair_style/apply(mob/carbon/M, attribute)
 	. = ..()
 	if(!.) return
 	M.hair_style = attribute

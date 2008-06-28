@@ -10,6 +10,19 @@
 			if(prob(1))
 				chromosome[i] = pick_allele()
 
+/datum/dna/proc/apply(mob/M)
+	var/list/genes = list()
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
+			var/datum/canonical_locus/L = canonical_dna.data[i][j]
+			var/datum/gene/G = L.associated_gene
+			if(genes[G])
+				if(genes[G] != L.alleles[src.data[i][j]])
+					L.alleles[src.data[i][j]] = G.default
+			else
+				genes[G] = L.alleles[src.data[i][j]] //the attribute associated with the allele this guy has
+	for(var/datum/gene/G in genes)
+		G.apply(M, genes[G])
 
 
 // canonical DNA - effectively a singleton, with data on all the loci and their associated genes

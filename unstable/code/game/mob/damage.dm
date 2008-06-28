@@ -13,7 +13,7 @@
 
 /mob/blob_act()
 	src.show_viewers("\red <B>[src] has been attacked by the blob.</B>")
-	src.take_damage(new /datum/damage(brute = rand(5,25)))
+	src.take_damage(brute = rand(5,25))
 
 /mob/meteorhit(obj/O)
 	for(var/mob/M in viewers(src, null))

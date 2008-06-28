@@ -25,7 +25,7 @@
 	return
 
 /mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
-	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
+	var/datum/damage/dam = new /datum/damage(brute = brute, burn = burn, suffocation = suffocation, toxin = toxin, electric = electric)
 	var/datum/organ/O = src.choose_organ()
 	if (istype(O, /datum/organ))
 		O.take_damage(dam)

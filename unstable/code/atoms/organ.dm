@@ -8,13 +8,11 @@
 /datum/organ/New(name)
 	src.name = name
 
-/datum/organ/proc/take_damage(brute, burn, suffocation, toxin, electric)
-	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
+/datum/organ/proc/take_damage(datum/damage/dam)
 	src.dam.add(dam)
 	src.update_icons()
 
-/datum/organ/proc/heal_damage(brute, burn, suffocation, toxin, electric)
-	var/datum/damage/dam = new(brute, burn, suffocation, toxin, electric)
+/datum/organ/proc/heal_damage(datum/damage/dam)
 	src.dam.subtract(dam)
 	src.update_icons()
 
