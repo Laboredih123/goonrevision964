@@ -453,7 +453,8 @@
 				S.icon_state = "shield0"
 				//Foreach goto(72)
 		if ((get_dist(M, T) <= 2 || src.loc == M.loc || src.loc == M))
-			flick("e_flash", M.hud.flash)
+			if(M.hud && M.hud.flash)
+				flick("e_flash", M.hud.flash)
 			M.knockdown_until(2)
 			M << "\red <B>BANG</B>"
 			if ((prob(14) || (M == src.loc && prob(70))))
@@ -466,7 +467,8 @@
 				M.take_ear_damage(5)
 		else
 			if (get_dist(M, T) <= 5)
-				flick("e_flash", M.hud.flash)
+				if(M.hud && M.hud.flash)
+					flick("e_flash", M.hud.flash)
 
 				M.ear_damage += 10
 				if (!istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
@@ -475,7 +477,8 @@
 				M << "\red <B>BANG</B>"
 			else
 				if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
-					flick("flash", M.hud.flash)
+					if(M.hud && M.hud.flash)
+						flick("flash", M.hud.flash)
 				M.take_eye_damage(2)
 				M.take_ear_damage(5)
 				M << "\red <B>BANG</B>"
@@ -516,9 +519,11 @@
 			if (M.client)
 				M.take_eye_damage(1)
 				if (M.get_eye_damage() > 10)
-					flick("e_flash", M.hud.flash)
+					if(M.hud && M.hud.flash)
+						flick("e_flash", M.hud.flash)
 				else
-					flick("flash", M.hud.flash)
+					if(M.hud && M.hud.flash)
+						flick("flash", M.hud.flash)
 		user.show_viewers(text("\red [] blinds [] with the flash!", user, M))
 
 	src.attack_self(user, 1)
@@ -551,7 +556,8 @@
 					if (istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 						safety = 1
 				if (!( safety ))
-					flick("flash", M.hud.flash)
+					if(M.hud && M.hud.flash)
+						flick("flash", M.hud.flash)
 			//Foreach goto(160)
 	return
 

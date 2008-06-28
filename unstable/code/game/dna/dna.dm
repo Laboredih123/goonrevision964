@@ -7,8 +7,9 @@
 	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
 		for(var/j = 1; j <= NUM_LOCI; j++)
 			var/datum/canonical_locus/L = canonical_dna.data[i][j]
-			var/datum/gene/G = L.associated_gene
-			src.data[i][j] = G.pick_allele(M, L)
+			if(L.associated_gene)
+				var/datum/gene/G = L.associated_gene
+				src.data[i][j] = G.pick_allele(M, L)
 
 /datum/dna/proc/mutate()
 	for(var/list/chromosome in data)
@@ -41,7 +42,7 @@
 	//make the loci
 	for(var/list/chromosome in data)
 		for(var/i = 1; i <= chromosome.len; i++)
-			chromosome[j] = new /datum/canonical_locus()
+			chromosome[i] = new /datum/canonical_locus()
 
 	//assign genes to them
 	var/genes = typesof(/datum/gene)

@@ -129,18 +129,20 @@
 	src.hurt = new /obj/screen(src, "hurt", null, "14,15", 19, "harm")
 	src.intent = new /obj/screen(src, "intent", null, "14,15", null, "selector")
 
-	src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
-		r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
-		storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
-		pull, internal, oxygen, intent, toxin, fire, health
-	)
+	if(src.owner && src.owner.client && src.owner.client.screen)
+		src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
+			r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
+			storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
+			pull, internal, oxygen, intent, toxin, fire, health
+		)
 
 /datum/hud/carbon/Del()
-	src.owner.client.screen -= list(vitals, actions, drop, throw, swap, resist, mask, back,
-		r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
-		storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
-		pull, internal, oxygen, intent, toxin, fire, health, vimpaired, g_dither
-	)
+	if(src.owner && src.owner.client && src.owner.client.screen)
+		src.owner.client.screen -= list(vitals, actions, drop, throw, swap, resist, mask, back,
+			r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
+			storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
+			pull, internal, oxygen, intent, toxin, fire, health, vimpaired, g_dither
+		)
 
 /datum/hud/carbon/proc/update()
 	if (!src.owner.is_dead && istype(src.owner.mask, /obj/item/weapon/clothing/mask/gasmask))

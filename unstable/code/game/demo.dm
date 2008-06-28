@@ -621,7 +621,7 @@
 	if(!istype(M, /mob/carbon))
 		return
 	if (prob(30) && !M.is_dead)
-		var/mob/carbon/human/H = M
+		var/mob/carbon/H = M
 
 // ******* Check
 
@@ -802,7 +802,8 @@
 		src.master.loc = null
 
 	for(var/mob/carbon/M in range(T))
-		flick("flash", M.hud.flash)
+		if(M.hud && M.hud.flash)
+			flick("flash", M.hud.flash)
 		//Foreach goto(732)
 	//var/m_range = 2
 	var/m_range = round(strength / 387)

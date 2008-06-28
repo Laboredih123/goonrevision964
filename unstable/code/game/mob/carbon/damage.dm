@@ -1,6 +1,6 @@
 /mob/carbon/ex_act(severity)
-
-	flick("flash", src.hud.flash)
+	if(src.hud && src.hud.flash)
+		flick("flash", src.hud.flash)
 	var/brute_loss = 0
 	var/burn_loss = 0
 	var/ear_loss = 0

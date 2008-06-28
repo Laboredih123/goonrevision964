@@ -9,7 +9,7 @@
 	var/turf/T = src.loc
 	if (locate(/obj/move, T))
 		T = locate(/obj/move, T)
-	if (!((src.hud.oxygen && src.hud.oxygen.icon_state == "oxy0") || (istype(T, /turf) || istype(T, /obj/move)) && T.oxygen > 0))
+	if (!((src.hud && src.hud.oxygen && src.hud.oxygen.icon_state == "oxy0") || (istype(T, /turf) || istype(T, /obj/move)) && T.oxygen > 0))
 		return 0
 
 	return ..()

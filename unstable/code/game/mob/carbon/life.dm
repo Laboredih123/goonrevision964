@@ -3,7 +3,7 @@
 	set background = 1
 
 	..()
-	if(src.client)
+	if(src.client && src.hud)
 		src.hud.update()
 
 	if (src.is_dead)

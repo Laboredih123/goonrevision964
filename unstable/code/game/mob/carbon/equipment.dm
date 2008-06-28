@@ -440,13 +440,12 @@
 	return
 
 /mob/carbon/proc/swap_hand()
-
 	src.hand = !( src.hand )
-	if (!( src.hand ))
-		src.hud.hand.dir = NORTH
-	else
-		src.hud.hand.dir = SOUTH
-	return
+	if(src.hud && src.hud.hand)
+		if (!( src.hand ))
+			src.hud.hand.dir = NORTH
+		else
+			src.hud.hand.dir = SOUTH
 
 /mob/carbon/equipped()
 
