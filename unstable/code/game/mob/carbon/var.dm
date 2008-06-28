@@ -24,52 +24,52 @@
 	var/obj/item/weapon/storage/s_active = null
 
 	var/obj/item/weapon/handcuffs/handcuffs = null
-	var/can_wear_handcuffs = 0
+	var/can_wear_handcuffs = 1
 
 	var/obj/item/weapon/l_hand = null
-	var/can_wear_l_hand = 0
+	var/can_wear_l_hand = 1
 
 	var/obj/item/weapon/r_hand = null
-	var/can_wear_r_hand = 0
+	var/can_wear_r_hand = 1
 
 	var/obj/item/weapon/back = null
-	var/can_wear_back = 0
+	var/can_wear_back = 1
 
 	var/obj/item/weapon/clothing/mask/mask = null
-	var/can_wear_mask = 0
+	var/can_wear_mask = 1
 
 	var/obj/item/weapon/clothing/suit/suit = null
-	var/can_wear_suit = 0
+	var/can_wear_suit = 1
 
 	var/obj/item/weapon/clothing/under/jumpsuit = null
-	var/can_wear_jumpsuit = 0
+	var/can_wear_jumpsuit = 1
 
 	var/obj/item/weapon/radio/headset/headset = null
-	var/can_wear_headset = 0
+	var/can_wear_headset = 1
 
 	var/obj/item/weapon/clothing/shoes/shoes = null
-	var/can_wear_shoes = 0
+	var/can_wear_shoes = 1
 
 	var/obj/item/weapon/belt = null
-	var/can_wear_belt = 0
+	var/can_wear_belt = 1
 
 	var/obj/item/weapon/clothing/gloves/gloves = null
-	var/can_wear_gloves = 0
+	var/can_wear_gloves = 1
 
 	var/obj/item/weapon/clothing/glasses/glasses = null
-	var/can_wear_glasses = 0
+	var/can_wear_glasses = 1
 
 	var/obj/item/weapon/clothing/head/helmet = null
-	var/can_wear_helmet = 0
+	var/can_wear_helmet = 1
 
 	var/obj/item/weapon/card/id/id = null
-	var/can_wear_id = 0
+	var/can_wear_id = 1
 
 	var/obj/item/weapon/r_store = null
-	var/can_wear_r_store = 0
+	var/can_wear_r_store = 1
 
 	var/obj/item/weapon/l_store = null
-	var/can_wear_l_store = 0
+	var/can_wear_l_store = 1
 
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null

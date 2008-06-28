@@ -150,6 +150,7 @@
 	src << "<B>You are the [rank].</B>"
 
 	M.client = src.client
+	M.update_clothing()
 	del(src)
 
 /proc/AutoUpdateAI(obj/subject)

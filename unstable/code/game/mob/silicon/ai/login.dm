@@ -7,3 +7,4 @@
 	src << "Currently right-click functions will not work for the AI (except examine), and will either be replaced with dialogs or won't be usable by the AI."
 	src.showLaws(0)
 	src << "<b>These laws may be changed by other players, or by you being the traitor.</b>"
+	src.reset_view()

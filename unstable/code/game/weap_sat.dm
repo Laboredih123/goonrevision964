@@ -223,7 +223,7 @@
 			//Foreach goto(316)
 	return
 
-/obj/machinery/teleport/station/attackby(/obj/item/weapon/W)
+/obj/machinery/teleport/station/attackby(obj/item/weapon/W)
 	src.interact()
 
 /obj/machinery/teleport/station/interact()

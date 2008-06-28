@@ -119,6 +119,7 @@
 		if (src.mask)
 			if (emptyHand)
 				src.mask.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/mask) ))
 			return
@@ -128,6 +129,7 @@
 		if (src.back)
 			if (emptyHand)
 				src.back.DblClick()
+			src.update_clothing()
 			return
 		if (!istype(W, /obj/item/weapon))
 			return
@@ -139,6 +141,7 @@
 		if (src.headset)
 			if (emptyHand)
 				src.headset.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/radio/headset) ))
 			return
@@ -148,6 +151,7 @@
 		if (src.suit)
 			if (emptyHand)
 				src.suit.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/suit) ))
 			return
@@ -157,6 +161,7 @@
 		if (src.gloves)
 			if (emptyHand)
 				src.gloves.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/gloves) ))
 			return
@@ -166,6 +171,7 @@
 		if (src.shoes)
 			if (emptyHand)
 				src.shoes.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/shoes) ))
 			return
@@ -175,6 +181,7 @@
 		if ((src.belt || !( istype(W, /obj/item/weapon) )))
 			if (emptyHand)
 				src.belt.DblClick()
+			src.update_clothing()
 			return
 		if (!( W.flags & ONBELT ))
 			return
@@ -184,6 +191,7 @@
 		if (src.glasses)
 			if (emptyHand)
 				src.glasses.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/glasses) ))
 			return
@@ -193,6 +201,7 @@
 		if (src.helmet)
 			if (emptyHand)
 				src.helmet.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/head) ))
 			return
@@ -202,6 +211,7 @@
 		if (src.jumpsuit)
 			if (emptyHand)
 				src.jumpsuit.DblClick()
+			src.update_clothing()
 			return
 		if (!( istype(W, /obj/item/weapon/clothing/under) ))
 			return
@@ -211,6 +221,7 @@
 		if (src.id)
 			if (emptyHand)
 				src.id.DblClick()
+			src.update_clothing()
 			return
 		if (!src.jumpsuit)
 			return
@@ -222,6 +233,7 @@
 		if (src.l_store)
 			if (emptyHand)
 				src.l_store.DblClick()
+			src.update_clothing()
 			return
 		if ((!( istype(W, /obj/item/weapon) ) || W.w_class >= 3 || !( src.jumpsuit )))
 			return
@@ -231,6 +243,7 @@
 		if (src.r_store)
 			if (emptyHand)
 				src.r_store.DblClick()
+			src.update_clothing()
 			return
 		if ((!( istype(W, /obj/item/weapon) ) || W.w_class >= 3 || !( src.jumpsuit )))
 			return
@@ -290,7 +303,7 @@
 		var/type = W.s_istate
 		if (!type)
 			type = W.icon_state
-		src.overlays += image("icon" = iconsource, "icon_state" = "[type][suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "[type][suffix]", "layer" = MOB_LAYER)
 		W.screen_loc = icons[W]
 
 	if (src.jumpsuit && istype(src.jumpsuit, /obj/item/weapon/clothing/under))
@@ -300,7 +313,7 @@
 		src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[color][suffix]", "layer" = MOB_LAYER)
 		src.jumpsuit.screen_loc = "2,2"
 	if (src.id)
-		src.overlays += image("icon" = iconsource, "icon_state" = "id[suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[suffix]", "layer" = MOB_LAYER)
 		src.id.screen_loc = "1,1"
 	if (src.l_hand)
 		var/type = src.l_hand.s_istate
@@ -313,7 +326,7 @@
 		if (!type)
 			type = src.r_hand.icon_state
 		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[type]", "layer" = MOB_LAYER)
-		src.r_hand.screen_loc = "3,2"
+		src.r_hand.screen_loc = "1,2"
 
 	if (src.l_store)
 		src.l_store.screen_loc = "4,1"
@@ -419,6 +432,10 @@
 			W.dropped(src)
 			if (W)
 				W.layer = initial(W.layer)
+		if(src.hand == LEFT)
+			src.l_hand = null
+		else
+			src.r_hand = null
 	src.update_clothing()
 	return
 

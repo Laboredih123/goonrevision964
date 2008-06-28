@@ -187,8 +187,6 @@
 					target = pick_sab_target()
 				intercepttext += "\red <B>Perceived objective: [get_sab_desc(target)] ([prob_right_target]% certainty)</B><BR>"
 
-	intercepttext += "\red <B>Transmission names enemy operative: [killer] ([prob_right_killer]% certainty)</B><BR>"
-
 	for (var/obj/machinery/computer/communications/comm in world)
 		if (!(comm.stat & (BROKEN | NOPOWER)) && istype(comm.loc.loc, /area/bridge)) //it works
 			//only send it to the one on the bridge, because engineers don't need to know and security can just come to the bridge

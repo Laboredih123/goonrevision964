@@ -7,11 +7,16 @@
 	var/total = 0
 
 /datum/damage/New(brute, burn, toxin, electric, suffocation)
-	src.brute = brute
-	src.burn = burn
-	src.toxin = toxin
-	src.electric = electric
-	src.suffocation = suffocation
+	if(brute)
+		src.brute = brute
+	if(burn)
+		src.burn = burn
+	if(toxin)
+		src.toxin = toxin
+	if(electric)
+		src.electric = electric
+	if(suffocation)
+		src.suffocation = suffocation
 	total()
 
 /datum/damage/proc/add(datum/damage/dam)
@@ -62,4 +67,4 @@
 	return dam
 
 /datum/damage/proc/total()
-	total = src.brute + src.burn + src.toxin + src.electric + src.suffocation
+	src.total = src.brute + src.burn + src.toxin + src.electric + src.suffocation

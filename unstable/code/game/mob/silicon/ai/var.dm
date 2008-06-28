@@ -8,3 +8,4 @@
 	var/list/laws = list()
 	var/has_power = 1
 	languages = list(LANGUAGE_ENGLISH, LANGUAGE_COMPUTER)
+	curr_language = LANGUAGE_COMPUTER

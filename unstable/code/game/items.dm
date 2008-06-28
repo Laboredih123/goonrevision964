@@ -4333,7 +4333,7 @@
 			if ( (direct - 1) & direct)
 				var/turf/T
 				switch(direct)
-					if(NORTH & EAST)
+					if(NORTHEAST)
 						T = get_step(usr, NORTH)
 						if (T.Enter(D, src))
 							D.loc = T
@@ -4347,7 +4347,7 @@
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					if(SOUTH & EAST)
+					if(SOUTHEAST)
 						T = get_step(usr, SOUTH)
 						if (T.Enter(D, src))
 							D.loc = T
@@ -4361,7 +4361,7 @@
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					if(NORTH & WEST)
+					if(NORTHWEST)
 						T = get_step(usr, NORTH)
 						if (T.Enter(D, src))
 							D.loc = T
@@ -4375,7 +4375,7 @@
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					if(SOUTH & WEST)
+					if(SOUTHWEST)
 						T = get_step(usr, SOUTH)
 						if (T.Enter(D, src))
 							D.loc = T

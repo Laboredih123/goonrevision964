@@ -32,7 +32,7 @@
 mob/prespawn/proc/savefile_load()
 	world << src.savefile_loc
 	if (fexists(src.savefile_loc))
-		var/savefile/F = new /savefile(src.savefile_loc)
+		var/savefile/F = new /savefile(src.savefile_loc, -1)
 		F["name"] >> src.char_name
 		F["gender"] >> src.char_gender
 		F["job1"] >> src.char_job1
@@ -49,7 +49,7 @@ mob/prespawn/proc/savefile_load()
 		return 0
 
 /mob/prespawn/proc/savefile_write()
-	var/savefile/F = new /savefile(src.savefile_loc)
+	var/savefile/F = new /savefile(src.savefile_loc, -1)
 	F["name"] << src.char_name
 	F["gender"] << src.char_gender
 	F["job1"] << src.char_job1
@@ -71,7 +71,7 @@ mob/prespawn/proc/savefile_load()
 				return
 		src.ready = 1
 		savefile_write()
-		src << browse(null, "window=mob_occupations;size=300x600")
+		src << browse(null, "window=mob_occupations")
 		if (ticker)
 			var/list/L = assistant_occupations
 			var/job
@@ -161,8 +161,8 @@ mob/prespawn/proc/savefile_load()
 		if (src.char_job2 != "No Preference")
 			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.char_job3 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
 
-	dat += "<a href='byond://?src=\ref[src];ready=1'>Ready</a><br>"
-	dat += "<a href='byond://?src=\ref[src];reset=1'>Reset</a><br>"
+	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
+	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
 	dat += "</body></html>"
-	src << browse(dat, "window=mob_occupations;size=300x600")
+	src << browse(dat, "window=mob_occupations;size=300x600;can_close=0")
 	return

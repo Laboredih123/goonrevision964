@@ -39,10 +39,7 @@
 	var/obj/screen/toxin
 	var/obj/screen/fire
 	var/obj/screen/health
-	var/obj/screen/leftdither50
-	var/obj/screen/bottomdither50
-	var/obj/screen/topdither50
-	var/obj/screen/rightdither50
+	var/list/vimpaired
 
 /datum/hud/carbon/New(mob/carbon/owner)
 	if(!owner)
@@ -53,10 +50,13 @@
 	//overlays
 	src.g_dither = new /obj/screen(src, "Mask", null, "1,1 to 15,15", 18, "dither12g", 1)
 	//src.blurry = new /obj/screen(src, "Blurry", null, "1,1 to 15,15", 17, "blurry", 1)
-	src.leftdither50 = new /obj/screen(src, null, null, "1,1 to 5,15", 17, "dither50", 1)
-	src.bottomdither50 = new /obj/screen(src, null, null, "5,1 to 10,5", 17, "dither50", 1)
-	src.topdither50 = new /obj/screen(src, null, null, "6,11 to 10,15", 17, "dither50", 1)
-	src.rightdither50 = new /obj/screen(src, null, null, "11,1 to 15,15", 17, "dither50", 1)
+
+	src.vimpaired = list()
+	src.vimpaired += new /obj/screen(src, null, null, "1,1 to 5,15", 17, "dither50", 1)
+	src.vimpaired += new /obj/screen(src, null, null, "5,1 to 10,5", 17, "dither50", 1)
+	src.vimpaired += new /obj/screen(src, null, null, "6,11 to 10,15", 17, "dither50", 1)
+	src.vimpaired += new /obj/screen(src, null, null, "11,1 to 15,15", 17, "dither50", 1)
+
 	src.flash = new /obj/screen(src, "flash", null, "1,1 to 15,5", 17, "blank")
 	src.blind = new /obj/screen(src, " ", null, "1,1 to 15,5", 0, "black")
 
@@ -119,7 +119,7 @@
 	)
 	for(var/obj/screen/x in slots)
 		if(!slots[x])
-			x.icon_state = "block"
+			x.icon_state = "blocked"
 			x.name = "blocked"
 
 	// intents
@@ -132,16 +132,14 @@
 	src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
 		r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
 		storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
-		pull, internal, oxygen, intent, toxin, fire, health, leftdither50, bottomdither50,
-		topdither50, rightdither50
+		pull, internal, oxygen, intent, toxin, fire, health
 	)
 
 /datum/hud/carbon/Del()
 	src.owner.client.screen -= list(vitals, actions, drop, throw, swap, resist, mask, back,
 		r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
 		storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
-		pull, internal, oxygen, intent, toxin, fire, health, leftdither50, bottomdither50,
-		topdither50, rightdither50, g_dither
+		pull, internal, oxygen, intent, toxin, fire, health, vimpaired, g_dither
 	)
 
 /datum/hud/carbon/proc/update()
