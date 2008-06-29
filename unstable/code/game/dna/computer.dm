@@ -5,14 +5,16 @@
 	var/mode = null
 	var/temp = null
 	var/obj/machinery/dna_scanner/connected_scanner = null
-	var/state = null
+	var/state = STATE_DEFAULT
 	var/primary_buf = null
 	var/secondary_buf = null
 	var/const/NUM_BUFFERS = 10
 	var/list/buffers[NUM_BUFFERS]
 	var/const
-		STATE_SCAN_INPUT = 1
-		STATE_SCANNING
+		STATE_DEFAULT = 1
+		STATE_NO_OCCUPANT_ERROR = 2
+		STATE_SCAN_MENU = 3
+		STATE_SCANNING = 4
 
 /obj/machinery/computer/dna/New()
 	..()
@@ -29,10 +31,12 @@
 		return
 
 	user.machine = src
-
-	var/dat = "<I>Please Insert the cards into the slots</I>"
-	if (src.temp)
-		dat = "[src.temp]<BR><BR><A href='?src=\ref[src];clear=1'>Clear Message</A>"
+	var/dat = "<html><head><title>DNA Machine</title></head><body>"
+	switch(src.state)
+		if(STATE_DEFAULT)
+			dat += "<a href='?src=\ref[src];scan=1'>Scan Occupant</a><br>"
+			dat += "<a href='?src=\ref[src];scan=1'></a><br>"
+	dat += "</body></html>"
 	user << browse(dat, "window=dna_comp")
 	src.add_fingerprint(usr)
 
@@ -41,11 +45,13 @@
 	if(!.)
 		return
 
-	if (href_list["locked"])
+	if (href_list["scan"])
 		if (src.connected_scanner && src.connected_scanner.occupant)
-			src.connected_scanner.locked = !( src.connected_scanner.locked )
-	if(href_list["scan"])
-		src.state = STATE_SCAN_INPUT
+			src.state = STATE_SCANNING
+		else
+			src.state = STATE_NO_OCCUPANT_ERROR
+	if(href_list[""])
+		src.state = STATE_SCAN_MENU
 	if(href_list["scan_buf"])
 		src.state = STATE_SCANNING
 		src.primary_buf = text2num(href_list["scan_buf"])

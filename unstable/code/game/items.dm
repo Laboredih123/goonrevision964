@@ -4419,10 +4419,10 @@
 				if (W)
 					W.afterattack(src, usr, (t5 ? 1 : 0))
 			else
-				if(!istype(src, /obj/item) || istype(usr, /mob/carbon))
+				if(src.is_ai_interactable || istype(usr, /mob/carbon))
 					src.interact(usr)
 		else
-			if(!istype(src, /obj/item) || istype(usr, /mob/carbon))
+			if(istype(usr, /mob/carbon))
 				src.interact_cuffed(usr)
 
 	else

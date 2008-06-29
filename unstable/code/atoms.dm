@@ -6,6 +6,7 @@
 	var/level = 2
 	var/flags = FPRINT
 	var/list/fingerprints = null
+	var/is_ai_interactable = 0
 
 /atom/movable
 	layer = 3
@@ -1738,6 +1739,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/h_dir = 0		// used for heat-exchange
 	var/capmult = 0
 	var/stat = 0
+	is_ai_interactable = 1
 
 /obj/machinery/alarm
 	name = "alarm"
@@ -2852,6 +2854,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/visible = 1.0
 	var/operating = null
 	anchored = 1.0
+	is_ai_interactable = 1
 /obj/sp_start
 	name = "sp start"
 	icon = 'grashaboras.dmi'

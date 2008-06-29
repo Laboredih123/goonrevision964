@@ -44,6 +44,7 @@
 	anchored = 1
 	var/number = 0
 	listenrange = 7
+	is_ai_interactable = 1
 /obj/item/weapon/radio/signaler
 	name = "Remote Signaling Device"
 	icon_state = "signaler"
@@ -179,7 +180,7 @@
 /obj/item/weapon/radio/signaler/proc/send_signal()
 	if (!( src.wires & WIRE_TRANSMIT))
 		return
-	var/datum/message/M = new(voice = "A computer", message = num2text(src.code), language = LANGUAGE_COMPUTER)
+	var/datum/message/M = new(voice = "A computer", text = num2text(src.code), language = LANGUAGE_COMPUTER)
 	src.transmit(M)
 
 /obj/item/weapon/radio/signaler/examine()

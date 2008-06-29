@@ -34,3 +34,5 @@
 			continue
 		replaced_words += pick(language_words)
 	return dd_list2text(replaced_words, " ")
+
+/mob/proc/switch_language(language in src.languages)

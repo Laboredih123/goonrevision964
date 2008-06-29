@@ -70,7 +70,7 @@
 	txt = html_encode(txt)
 
 
-	var/datum/message = new(src.voice, txt, src.curr_language)
+	var/datum/message = new(voice = src.voice, text = txt, language = src.curr_language)
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(usr, txt)
