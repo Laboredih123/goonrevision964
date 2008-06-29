@@ -33,6 +33,6 @@
 		suiciding = 1
 		viewers(src) << "\red <b>[src] is powering down. It looks like \he's trying to commit suicide.</b>"
 		//put em at -175
-		src.take_damage(electricity = 175 - src.get_damage())
+		src.take_damage(electric = 175 - src.get_damage())
 		spawn(200) //let them suicide again in 20 seconds
 			src.suiciding = 0

@@ -986,7 +986,7 @@
 
 			//Foreach goto(73)
 		sleep(3)
-		for(var/mob/carbon/M in world)
+		for(var/mob/M in world)
 			spawn( 0 )
 				M.Life()
 				return
