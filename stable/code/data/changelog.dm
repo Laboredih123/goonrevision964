@@ -1,7 +1,6 @@
 var/changes = {"<FONT color='blue'>
-<P><B>Current Version: KURPER'S VERSION NUMBER FOUR!</b></p>
-<P>This version is a fork of Rick's currently running server,
-and is a testbed of proposed fixes, changes, and features.</p>
+<P><B>Current Version: Goon 0.5 Prerelase</b></p>
+<P>This version is a testbed of proposed fixes, changes, and features.</p>
 <HR>
 
 <P><B>Modified Tuesday, June 24th 2008 (Revision 233):</b><BR>

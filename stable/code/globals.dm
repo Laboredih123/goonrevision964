@@ -97,7 +97,7 @@
 var
 	world_message = "Welcome to SS13!"
 	savefile_ver = "3"
-	SS13_version = "40.93.2H9.5 - B12+Gibbed modified"
+	SS13_version = "Goon 0.5 prerelease"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	datum/control/gameticker/ticker = null

@@ -1203,6 +1203,23 @@
 				world.log << "[++n] : [M.name] ([M.client.key]) at [M.loc.loc] ([M.x],[M.y],[M.z]) : [M.client.inactivity/10.0]s"
 			*/
 		return n
+	else if (T == "status")
+		var/list/s = list()
+		s["version"] = SS13_version
+		s["mode"] = master_mode
+		s["respawn"] = abandon_allowed
+		s["enter"] = enter_allowed
+		s["vote"] = config.allow_vote_mode
+		s["ai"] = config.allow_ai
+		s["host"] = host ? host : null
+		s["players"] = list()
+		var/n = 0
+		for(var/mob/M in world)
+			if(M.client)
+				s["player[n]"] = M.client.key
+				n++
+		s["players"] = n
+		return list2params(s)
 
 /mob/proc/CanAdmin()
 	if (world.address == src.client.address)
