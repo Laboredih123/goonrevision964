@@ -31,7 +31,8 @@
 		O.take_damage(dam)
 		src.update_damage()
 
-/mob/carbon/heal_damage(datum/damage/dam)
+/mob/carbon/heal_damage(brute, burn, suffocation, toxin, electric)
+	var/datum/damage/dam = new /datum/damage(brute = brute, burn = burn, suffocation = suffocation, toxin = toxin, electric = electric)
 	for(var/datum/organ/O in src.organs)
 		dam = O.heal_damage(dam) //returns a smaller damage, or null if it's all used up
 		if(!dam) //all done!

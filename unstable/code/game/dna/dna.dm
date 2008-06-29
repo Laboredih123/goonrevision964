@@ -18,7 +18,7 @@
 			if(prob(1))
 				chromosome[i] = pick_allele()
 
-/datum/dna/proc/apply(mob/M)
+/datum/dna/proc/apply(mob/carbon/M)
 	var/list/genes = list()
 	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
 		for(var/j = 1; j <= NUM_LOCI; j++)
@@ -33,6 +33,8 @@
 		G.pre_apply(M)
 	for(var/datum/gene/G in genes)
 		G.apply(M, genes[G])
+	M.update_body()
+	M.update_face()
 
 
 // canonical DNA - effectively a singleton, with data on all the loci and their associated genes

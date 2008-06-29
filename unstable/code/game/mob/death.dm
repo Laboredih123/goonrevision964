@@ -22,6 +22,10 @@
 				ticker.check_win()
 			else
 				spawn( 300 )
-					world.log_game("Rebooting because of no live players")
-					world.Reboot()
+					for(var/mob/M in world)
+						if (M.client && !M.is_dead)
+							cancel = 1
+					if (!cancel)
+						world.log_game("Rebooting because of no live players")
+						world.Reboot()
 	return ..()

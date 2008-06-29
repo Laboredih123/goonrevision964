@@ -4,7 +4,6 @@
 	src.update_face()
 
 /mob/carbon/proc/update_body()
-
 	del(src.stand_icon)
 	del(src.lying_icon)
 	src.stand_icon = new /icon( 'human.dmi', "blank" )

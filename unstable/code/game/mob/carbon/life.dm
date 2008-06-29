@@ -57,6 +57,13 @@
 		src.plasma--
 		src.take_damage(toxin = 1)
 
+	if (src.drowsyness > 0)
+		src.drowsyness--
+		if(prob(5))
+			src.sleeping = 1
+			src.knockout += 5
+
+
 	src.handle_knockout()
 	src.handle_knockdown()
 

@@ -191,11 +191,11 @@
 					src.move_delay += 5
 				if (M.drowsyness > 0)
 					src.move_delay += 6
-					src.move_delay += 1
+				src.move_delay += 1
 
 				src.move_delay += M.m_delay()
 
-				src.move_delay += round(max(100 - M.get_damage(), 0) / 20)
+				src.move_delay += round(M.get_damage() / 20)
 
 				if (M.is_handcuffed())
 					for(var/mob/carbon/N in range(M, 1))

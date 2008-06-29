@@ -33,7 +33,7 @@
 			src.knockdown_until(3)
 			src.take_damage(suffocation = 2)
 
-		src.sl_gas_breathed = min(0, src.sl_gas_breathed - 5)
+		src.sl_gas_breathed = max(0, src.sl_gas_breathed - 5)
 		src.sl_gas_breathed += a_sl_gas
 		if (src.sl_gas_breathed > 50)
 			src.knockdown_until(3)
