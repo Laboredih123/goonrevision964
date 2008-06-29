@@ -16,8 +16,6 @@
 		src.on = src.area.lightswitch
 		updateicon()
 
-
-
 /obj/machinery/light_switch/proc/updateicon()
 	if(stat & NOPOWER)
 		icon_state = "light-p"
@@ -31,7 +29,6 @@
 	set src in oview(1)
 	if(usr && usr.is_active())
 		usr << "A light switch. It is [on? "on" : "off"]."
-
 
 /obj/machinery/light_switch/interact(mob/user)
 
@@ -58,7 +55,7 @@
 
 // the power cell
 // charge from 0 to 100%
-// fits in PDU to provide backup power
+// fits in APC to provide backup power
 
 /obj/item/weapon/cell/New()
 	..()
@@ -68,10 +65,9 @@
 	spawn(5)
 		updateicon()
 
-
 /obj/item/weapon/cell/proc/updateicon()
 
-	if(maxcharge == 1000)
+	if(maxcharge <= 2500)
 		icon_state = "cell"
 	else
 		icon_state = "hpcell"
@@ -91,10 +87,10 @@
 /obj/item/weapon/cell/examine()
 	set src in view(1)
 	if(usr && !usr.is_dead)
-		if(maxcharge == 1000)
-			usr.see("[desc]\nThe charge meter reads [round(src.percent() )]%.")
-		else
+		if(maxcharge <= 2500)
 			usr.see("A high-capacity rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent() )]%.")
+		else
+			usr.see("This power cell has an exciting chrome finish, as it is an uber-capacity cell type! It has a power rating of [maxcharge]!!!\nThe charge meter reads [round(src.percent() )]%.")
 
 
 
@@ -162,7 +158,7 @@
 	// is starting with a power cell installed, create it and set its charge level
 	if(cell_type)
 		src.cell = new/obj/item/weapon/cell(src)
-		cell.maxcharge = cell_type==1 ? 1000 : 2500				// if type=2, make a hp cell
+		cell.maxcharge = cell_type	// (old type 1 = 1000, 2=2500, now just enter the value you need)
 		cell.charge = start_charge * cell.maxcharge / 100.0 		// (convert percentage to actual value)
 
 
@@ -315,8 +311,6 @@
 		// do APC interaction
 		src.interaction(user)
 
-
-
 /obj/machinery/power/apc/proc/interaction(mob/user)
 
 	if ( (get_dist(src, user) > 1 ))
@@ -405,8 +399,6 @@
 			if(3)
 				t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (On)</B>"
 
-
-
 		t += "<BR>Total load: [lastused_light + lastused_equip + lastused_environ] W</PRE>"
 		t += "<HR>Cover lock: [coverlocked ? "<B><A href='?src=\ref[src];lock=1'>Engaged</A></B>" : "<B><A href='?src=\ref[src];lock=1'>Disengaged</A></B>"]"
 
@@ -419,9 +411,6 @@
 /obj/machinery/power/apc/proc/report()
 	return "[area.name] : [equipment]/[lighting]/[environ] ([lastused_equip+lastused_light+lastused_environ]) : [cell? cell.percent() : "N/C"] ([charging])"
 
-
-
-
 /obj/machinery/power/apc/proc/update()
 	if(operating)
 		area.power_light = (lighting > 1)
@@ -433,7 +422,6 @@
 		area.power_environ = 0
 
 	area.power_change()
-
 
 /obj/machinery/power/apc/Topic(href, href_list)
 
@@ -488,7 +476,6 @@
 			usr.machine = null
 			return
 
-
 		src.updateUsrDialog()
 
 	else
@@ -496,10 +483,6 @@
 		usr.machine = null
 
 	return
-
-
-
-#define CHARGELEVEL 500
 
 /obj/machinery/power/apc/surplus()
 	if(terminal)
@@ -525,6 +508,13 @@
 	if(!area.requires_power)
 		return
 
+	if (equipment > 1) // off=0, off auto=1, on=2, on auto=3
+		use_power(src.equip_consumption, EQUIP)
+	if (lighting > 1) // off=0, off auto=1, on=2, on auto=3
+		use_power(src.light_consumption, LIGHT)
+	if (environ > 1) // off=0, off auto=1, on=2, on auto=3
+		use_power(src.environ_consumption, ENVIRON)
+
 	area.calc_lighting()
 
 	lastused_light = area.usage(LIGHT)
@@ -534,13 +524,11 @@
 
 	lastused_total = lastused_light + lastused_equip + lastused_environ
 
-
 	//store states to update icon if any change
 	var/last_lt = lighting
 	var/last_eq = equipment
 	var/last_en = environ
 	var/last_ch = charging
-
 
 	var/excess = surplus()
 
@@ -560,37 +548,12 @@
 		// draw power from cell as before
 
 		var/cellused = min(cell.charge, CELLRATE * lastused_total)	// clamp deduction to a max, amount left in cell
-
 		cell.charge -= cellused
-
-
-
-		// set channels depending on how much charge we have left
-
-
-		if(cell.charge <= 0)					// zero charge, turn all off
-			equipment = autoset(equipment, 2)
-			lighting = autoset(lighting, 2)
-			environ = autoset(environ, 2)
-		else if(cell.percent() < 15)				// <15%, turn off lighting & equipment
-			equipment = autoset(equipment, 2)
-			lighting = autoset(lighting, 2)
-			environ = autoset(environ, 1)
-		else if(cell.percent() < 30)			// <30%, turn off equipment
-			equipment = autoset(equipment, 2)
-			lighting = autoset(lighting, 1)
-			environ = autoset(environ, 1)
-		else									// otherwise all can be on
-			equipment = autoset(equipment, 1)
-			lighting = autoset(lighting, 1)
-			environ = autoset(environ, 1)
-
 
 		if(excess > 0 || perapc > lastused_total)		// if power excess, or enough anyway, recharge the cell
 														// by the same amount just used
 
 			cell.charge = min(cell.maxcharge, cell.charge + cellused)
-
 			add_load(cellused/CELLRATE)		// add the load used to recharge the cell
 
 
@@ -599,55 +562,67 @@
 			if( (cell.charge/CELLRATE+perapc) >= lastused_total)		// can we draw enough from cell+grid to cover last usage?
 
 				cell.charge = min(cell.maxcharge, cell.charge + CELLRATE * perapc)	//recharge with what we can
-
 				add_load(perapc)		// so draw what we can from the grid
 				charging = 0
 
-			else	// not enough!
-				charging = 0			// kill everything
+			else	// not enough power available to run the last tick!
+				charging = 0
 				chargecount = 0
+				// This turns everything off in the case that there is still a charge left on the battery, just not enough to run the room.
 				equipment = autoset(equipment, 0)
 				lighting = autoset(lighting, 0)
 				environ = autoset(environ, 0)
 
+		// set channels depending on how much charge we have left
 
+		if(cell.charge <= 0)					// zero charge, turn all off
+			equipment = autoset(equipment, 0)
+			lighting = autoset(lighting, 0)
+			environ = autoset(environ, 0)
+			area.poweralert(0, src)
+		else if(cell.percent() < 15)			// <15%, turn off lighting & equipment
+			equipment = autoset(equipment, 2)
+			lighting = autoset(lighting, 2)
+			environ = autoset(environ, 1)
+			area.poweralert(0, src)
+		else if(cell.percent() < 30)			// <30%, turn off equipment
+			equipment = autoset(equipment, 2)
+			lighting = autoset(lighting, 1)
+			environ = autoset(environ, 1)
+			area.poweralert(0, src)
+		else									// otherwise all can be on
+			equipment = autoset(equipment, 1)
+			lighting = autoset(lighting, 1)
+			environ = autoset(environ, 1)
+			if(cell.percent() > 75)
+				area.poweralert(1, src)
 
 		// now trickle-charge the cell
 
-
 		if(chargemode && charging == 1)
 			if(excess > 0)		// check to make sure we have enough to charge
-
-				var/ch = min(CHARGELEVEL, (cell.maxcharge - cell.charge)/CELLRATE )	// clamp charging to max free in cell
-
-				ch = min(ch, perapc)	// clamp charging to our share
-
-				add_load(CHARGELEVEL)
-
-				cell.charge += ch * CELLRATE		// actually recharge the cell
+				// Max charge is perapc share, capped to cell capacity, or % per second constant (Whichever is smallest)
+				var/ch = min(perapc, (cell.maxcharge - cell.charge), (cell.maxcharge*CHARGELEVEL))
+				add_load(ch) // Removes the power we're taking from the grid
+				cell.charge += ch // actually recharge the cell
 
 			else
-
 				charging = 0		// stop charging
 				chargecount = 0
-
-
 
 		// show cell as fully charged if so
 
 		if(cell.charge >= cell.maxcharge)
 			charging = 2
 
-
 		if(chargemode)
 			if(!charging)
-				if(excess > CHARGELEVEL)
+				if(excess > cell.maxcharge*CHARGELEVEL)
 					chargecount++
 				else
 					chargecount = 0
 
-
-				if(chargecount == 5)
+				if(chargecount == 10)
 
 					chargecount = 0
 					charging = 1
@@ -656,30 +631,20 @@
 			charging = 0
 			chargecount = 0
 
-
-
-
-	else
-		// no cell
-
-		// for now, switch everything off
+	else // no cell, switch everything off
 
 		charging = 0
 		chargecount = 0
 		equipment = autoset(equipment, 0)
 		lighting = autoset(lighting, 0)
 		environ = autoset(environ, 0)
-
-
+		area.poweralert(0, src)
 
 	// update icon & area power if anything changed
-
 
 	if(last_lt != lighting || last_eq != equipment || last_en != environ || last_ch != charging)
 		updateicon()
 		update()
-
-
 
 	src.updateDialog()
 
