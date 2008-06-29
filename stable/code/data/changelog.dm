@@ -3,6 +3,23 @@ var/changes = {"<FONT color='blue'>
 <P>This version is a testbed of proposed fixes, changes, and features.</p>
 <HR>
 
+<P><B>Modified Saturday, June 28th 2008 (Revision 243+):</b><BR>
+Note that Kurper stopped updating SVN as of revision 243 so some of these changes will not appear until the /unstable fork is released (soon!)
+<ul>
+<li>Fixed up a bug while moving and pulling items</li>
+<li>Fixed typo in airlock code</li>
+<li>Added power-drain variables to APCs in the mapmaker. This lets the mapmaker cause artificial power drain in each room.</li>
+<li>PowerCells are now of custom-capacity (set in mapmaker)</li>
+<li>PowerCells with storage greater than 2500 units now count as high capacity (was 1000)</li>
+<li>Because of the above changes, removed the artificial "powersink" object from the game</li>
+<li>Fixed exception error thrown when cameras stop existing</li>
+<li>The AI camera no longer resets when using computers</li>
+<li>Added the Black Firesuit and Heavy Armor to the code so they can be used in the map</li>
+<li>Added a Digital Valve object that the AI can control</li>
+<li>Fixed cannister storage capacities so their filled % can be set properly in mapmaker</li>
+</ul>
+</p>
+
 <P><B>Modified Tuesday, June 24th 2008 (Revision 233):</b><BR>
 <ul>
 <li>Server crash where a non-player-human died has been resolved (ie: monkeys-turned-humans or logged-off-humans)</li>

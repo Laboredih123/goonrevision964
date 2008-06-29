@@ -74,6 +74,10 @@
 	name = "Head of Staff's Quarters"
 	icon_state = "crew_quarters"
 
+/area/engine/engine_smes
+	name = "Engine SMES Room"
+	icon_state = "engine"
+
 /area/engine/engine_walls
 	name = "Engine Walls"
 	icon_state = "engine"

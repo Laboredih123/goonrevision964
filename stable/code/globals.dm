@@ -118,7 +118,7 @@ var
 	obj/hud/hud2/main_hud2 = null
 	ooc_allowed = 1
 	dna_ident = 1
-	abandon_allowed = 1
+	abandon_allowed = 0
 	enter_allowed = 1
 	shuttle_frozen = 0
 	prison_entered = null
