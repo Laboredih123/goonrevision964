@@ -1427,13 +1427,16 @@
 		if(4,8)
 			p_dir = 12
 
+/obj/machinery/valve/mvalve/New()
 	icon_state = "valve[open]"
+
+/obj/machinery/valve/dvalve/New()
+	icon_state = "dvalve[open]"
 
 /obj/machinery/valve/examine()
 	set src in oview(1)
 
 	usr << "[desc] It is [ open? "open" : "closed"]."
-
 
 
 /obj/machinery/valve/buildnodes()
@@ -1449,15 +1452,12 @@
 
 	return
 
-
 /obj/machinery/valve/gas_flow()
 
 	gas1.replace_by(ngas1)
 	gas2.replace_by(ngas2)
 
-
 /obj/machinery/valve/process()
-
 
 	var/delta_gt
 
@@ -1494,9 +1494,6 @@
 			ngas2.add_delta(ndelta)
 			ngas1.sub_delta(ndelta)
 
-
-
-
 /obj/machinery/valve/get_gas_val(from)
 	if(from == vnode2)
 		return gas2.tot_gas()/capmult
@@ -1511,7 +1508,6 @@
 /obj/machinery/valve/proc/leak_to_turf(var/port)
 
 	var/turf/T
-
 
 	switch(port)
 		if(1)
@@ -1529,12 +1525,9 @@
 	else
 		flow_to_turf(gas2, ngas2, T)
 
-/obj/machinery/valve/interact(mob/user)
+/obj/machinery/valve/mvalve/interact(mob/user)
 	..()
 	add_fingerprint(user)
-//	if(stat & NOPOWER) return
-
-//	use_power(5)
 
 	if(!open)		// now opening
 		flick("valve01", src)
@@ -1543,6 +1536,21 @@
 	else			// now closing
 		flick("valve10", src)
 		icon_state = "valve0"
+		sleep(10)
+	open = !open
+
+/obj/machinery/valve/dvalve/interact(mob/user)
+	..()
+	add_fingerprint(user)
+	if(stat & NOPOWER) return
+
+	if(!open)		// now opening
+		flick("dvalve01", src)
+		icon_state = "dvalve1"
+		sleep(10)
+	else			// now closing
+		flick("dvalve10", src)
+		icon_state = "dvalve0"
 		sleep(10)
 	open = !open
 

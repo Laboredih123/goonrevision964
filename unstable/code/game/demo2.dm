@@ -630,38 +630,39 @@ Pipe Valve Status: []<BR>
 
 	..()
 	src.update_icon()
-	src.gas.plasma = 9.0E7*filled
+	src.gas.plasma = src.maximum*filled
 	return
 
 /obj/machinery/atmoalter/canister/oxygencanister/New()
 
 	..()
-	src.gas.oxygen = 1.0E8*filled
+	src.gas.oxygen = src.maximum*filled
 	return
 
 /obj/machinery/atmoalter/canister/anesthcanister/New()
 
 	..()
-	src.gas.sl_gas = 1.0E8*filled
+	src.gas.sl_gas = src.maximum*filled
 	return
 
 /obj/machinery/atmoalter/canister/n2canister/New()
 
 	..()
-	src.gas.n2 = 1.0E8*filled
+	src.gas.n2 = src.maximum*filled
 	return
 
 /obj/machinery/atmoalter/canister/co2canister/New()
 
 	..()
-	src.gas.co2 = 1.0E8*filled
+	src.gas.co2 = src.maximum*filled
 	return
 
 
 /obj/machinery/atmoalter/canister/aircanister/New()
 
 	..()
-	src.gas.oxygen = 2.1e7*filled
-	src.gas.n2 = 7.9e7*filled
+	src.gas.oxygen = (src.maximum*0.25)*filled
+	src.gas.n2 = (src.maximum*0.75)*filled
 	return
+
 
