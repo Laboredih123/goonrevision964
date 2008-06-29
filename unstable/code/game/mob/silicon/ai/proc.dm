@@ -5,6 +5,8 @@
 	return 1
 
 /mob/silicon/ai/is_active()
-	if(src.has_power)
-		return ..()
-	return 0
+	if(!src.has_power)
+		return 0
+	if(src.get_damage() > src.unconsciousness_threshold)
+		return 0
+	return ..()

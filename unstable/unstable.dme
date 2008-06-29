@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: maps\Space Station 13.dmp
-DIR: code code\atoms code\data code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\prespawn code\game\mob\silicon maps
+FILE: code\game\mob\silicon\ai\life.dm
+DIR: code code\atoms code\data code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\prespawn code\game\mob\silicon code\game\mob\silicon\ai code\game\verbs
 UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON

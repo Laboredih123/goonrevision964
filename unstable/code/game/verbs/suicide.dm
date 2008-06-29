@@ -31,7 +31,7 @@
 
 	if(confirm == "Yes")
 		suiciding = 1
-		viewers(src) << "\red <b>[src] is holding \his breath. It looks like \he's trying to commit suicide.</b>"
+		viewers(src) << "\red <b>[src] is powering down. It looks like \he's trying to commit suicide.</b>"
 		//put em at -175
 		src.take_damage(electricity = 175 - src.get_damage())
 		spawn(200) //let them suicide again in 20 seconds

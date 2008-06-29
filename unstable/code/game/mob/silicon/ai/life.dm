@@ -7,6 +7,10 @@
 
 	if (src.get_damage() > death_threshold)
 		src.death()
+		return
+	else if (src.get_damage() > unconsciousness_threshold)
+		src.take_damage(electric = 5)
+		return
 
 	if (src.client)
 		src.has_power = 0
@@ -66,7 +70,7 @@
 						src.addLaw(index, "")
 					spawn(50)
 						while ((src:aiRestorePowerRoutine!=0) && !src.is_dead)
-							src.take_damage(electric = 1)
+							src.take_damage(electric = 5)
 							sleep(50)
 
 					spawn(20)

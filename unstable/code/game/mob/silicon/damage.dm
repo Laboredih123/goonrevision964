@@ -1,7 +1,6 @@
 /mob/silicon/take_damage(brute, burn, suffocation, toxin, electric)
 	toxin = 0
 	suffocation = 0
-	electric *= 10
 	..(brute, burn, suffocation, toxin, electric)
 
 /mob/silicon/ex_act(severity)
