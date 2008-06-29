@@ -12,6 +12,7 @@
 	var/list/mapobjs = list()
 
 	var/death_threshold = 200
+	var/unconsciousness_threshold = 100
 	var/is_intelligent = 1
 
 	var/is_dead = 0

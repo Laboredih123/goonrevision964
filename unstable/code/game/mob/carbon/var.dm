@@ -107,7 +107,6 @@
 	var/list/organs = list()
 
 	var/blackout_threshold = 80
-	var/unconsciousness_threshold = 100
 
 	var/attack_type = ATTACK_BITE
 
