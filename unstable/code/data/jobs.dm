@@ -5,11 +5,12 @@ var/list/occupations = list(
 	"Genetic Researcher",
 	"Research Technician",
 	"Toxin Researcher",
-	"Atmospheric Technician", "Atmospheric Technician",
+	"Atmospheric Technician", "Atmospheric Technician", "Atmospheric Technician",
 	"Medical Doctor",
-	"Station Technician",
+	"Station Technician", "Station Technician", "Station Technician",
 	"Head of Personnel",
 	"Head of Research",
+	"Chaplain",
 	"AI")
 
 var/list/assistant_occupations = list(
