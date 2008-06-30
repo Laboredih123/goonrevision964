@@ -358,7 +358,6 @@
 	anchored = 1.0
 	opacity = 0
 	density = 1
-
 /obj/hud
 	name = "hud"
 	var/adding = null

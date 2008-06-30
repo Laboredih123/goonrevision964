@@ -16,6 +16,7 @@
 	var/is_intelligent = 1
 
 	var/is_dead = 0
+	var/be_syndicate = "No"
 
 	var/last_known_ip = null
 

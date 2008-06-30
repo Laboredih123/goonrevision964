@@ -9,9 +9,12 @@
 
 /datum/game_mode/nuclear/pre_setup()
 	var/list/mobs = list(  )
+	var/list/synd_list = list ()
 	for(var/mob/carbon/M in world)
 		if (M.client)
 			mobs += M
+			if(M.be_syndicate)
+				synd_list += M
 	var/obj/O = locate("landmark*CTF-rogue")
 	var/amount = 1
 	if (mobs.len >= 4)
@@ -20,7 +23,12 @@
 	amount = min(5, amount)
 	while(amount > 0)
 		amount--
-		var/mob/carbon/H = pick(mobs)
+		var/mob/carbon/human/H = null
+		if(synd_list.len < 1)
+			H = pick(mobs)
+		else
+			H = pick(synd_list)
+			synd_list -= H
 		mobs -= H
 		if (istype(H, /mob/carbon))
 			H.loc = O.loc

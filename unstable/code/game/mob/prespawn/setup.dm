@@ -9,7 +9,7 @@
 		char_hair_color = HAIR_COLOR_BROWN
 		char_hair_style = HAIR_STYLE_SHORT
 		char_last_version //md5 of changelog, to keep track of the most recent version of ss13 they've seen
-		char_will_play_traitor = "No"
+		char_be_syndicate = "No"
 		ready = 0
 		savefile_loc = null
 		const/SAVEFILE_EXTENSION = "sav"
@@ -41,8 +41,8 @@ mob/prespawn/proc/savefile_load()
 		F["hair_color"] >> src.char_hair_color
 		F["hair_style"] >> src.char_hair_style
 		F["skin_color"] >> src.char_skin_color
+		F["be_syndicate"] >> src.char_be_syndicate
 		F["last_version"] >> src.char_last_version
-		F["will_play_traitor"] >> src.char_will_play_traitor
 		return 1
 	else
 		world << "no file"
@@ -58,8 +58,8 @@ mob/prespawn/proc/savefile_load()
 	F["hair_color"] << src.char_hair_color
 	F["hair_style"] << src.char_hair_style
 	F["skin_color"] << src.char_skin_color
+	F["be_syndicate"] << src.char_be_syndicate
 	F["last_version"] << md5(changes)
-	F["will_play_traitor"] << src.char_will_play_traitor
 
 /mob/prespawn/Topic(href, href_list)
 	if(src != usr)
@@ -111,8 +111,8 @@ mob/prespawn/proc/savefile_load()
 			src.char_hair_color = initial(src.char_hair_color)
 			src.char_hair_style = initial(src.char_hair_style)
 			src.char_skin_color = initial(src.char_skin_color)
-	else if(href_list["willing_to_play_traitor"])
-		src.char_will_play_traitor = input("Would you like to be eligible for being traitor?", "Character Generation", src.char_will_play_traitor) in list("Yes", "No")
+	else if(href_list["prefer_syndicate"])
+		src.char_be_syndicate = input("Would you like to be eligible for playing as Syndicate?", "Character Generation", src.char_be_syndicate) in list("Yes", "No")
 	else
 		return ..()
 	spawn()
@@ -132,8 +132,8 @@ mob/prespawn/proc/savefile_load()
 		src.char_hair_color = HAIR_COLOR_BROWN
 	if(!(src.char_hair_style in get_hair_styles()))
 		src.char_hair_style = HAIR_STYLE_SHORT
-	if(!(src.char_will_play_traitor in list("Yes", "No")))
-		src.char_will_play_traitor = "No"
+	if(!(src.char_be_syndicate in list("Yes", "No")))
+		src.char_be_syndicate = "No"
 	if(!(src.char_job1))
 		src.char_job1 = "No Preference"
 		src.char_job2 = "No Preference"
@@ -146,12 +146,12 @@ mob/prespawn/proc/savefile_load()
 		"skin_color" = src.char_skin_color,
 		"hair_color" = src.char_hair_color,
 		"hair_style" = src.char_hair_style,
-		"willing_to_play_traitor" = src.char_will_play_traitor
+		"prefer_syndicate" = src.char_be_syndicate
 	)
 	for(var/x in vars)
 		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]: </b>"
 		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[capitalize(vars[x])]</b></a><br>"
-
+//	dat += text("Prefer Syndicate: <a href=\"byond://?src=\ref[];char_be_syndicate=[]\"><b>[]</b></a><br>", src, src.char_be_syndicate, src.char_be_syndicate)
 	dat += "<hr>"
 
 	dat += "<b>Occupation Choices</b>:<br>"
@@ -160,7 +160,7 @@ mob/prespawn/proc/savefile_load()
 		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.char_job2 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
 		if (src.char_job2 != "No Preference")
 			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.char_job3 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
-
+	dat += "<hr>"
 	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
 	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
 	dat += "</body></html>"

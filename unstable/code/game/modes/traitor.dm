@@ -62,7 +62,12 @@
 		ticker.extend_process()
 
 /datum/game_mode/traitor/proc/pick_killer()
-	var/mob/carbon/killer = pick(get_mob_list())
+	var/mob/carbon/killer
+	var/list/synd_list = get_synd_list()
+	if(synd_list.len < 1)
+		killer = pick(get_mob_list())
+	else
+		killer = pick(synd_list)
 	ticker.killer = killer
 	var/objective = pick_objective(killer)
 	ticker.objective = objective
@@ -359,6 +364,14 @@
 	for(var/mob/M in world)
 		if (M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
 			mobs += M
+	return mobs
+
+/datum/game_mode/traitor/proc/get_synd_list()
+	var/list/mobs = list()
+	for(var/mob/M in world)
+		if (M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
+			if(M.be_syndicate)
+				mobs += M
 	return mobs
 
 /datum/game_mode/traitor/proc/get_human_list()
