@@ -34,8 +34,14 @@
 	var/dat = "<html><head><title>DNA Machine</title></head><body>"
 	switch(src.state)
 		if(STATE_DEFAULT)
-			dat += "<a href='?src=\ref[src];scan=1'>Scan Occupant</a><br>"
-			dat += "<a href='?src=\ref[src];scan=1'></a><br>"
+			dat += "<a href='?src=\ref[src];operation=scan-menu'>Scan Occupant DNA</a><br>"
+			dat += "<a href='?src=\ref[src];operation=replace'>Replace Occupant DNA</a><br>"
+			dat += "<a href='?src=\ref[src];operation=merge'>Merge DNA</a><br>"
+			dat += "<a href='?src=\ref[src];operation=view'>View DNA</a><br>"
+		if(STATE_NO_OCCUPANT_ERROR)
+			dat += "No occupant!<br><br><a href='?src=\ref[src];main=1'>Main Menu</a>"
+		if(STATE_SCAN_MENU)
+			dat += ""
 	dat += "</body></html>"
 	user << browse(dat, "window=dna_comp")
 	src.add_fingerprint(usr)
@@ -44,18 +50,16 @@
 	. = ..()
 	if(!.)
 		return
-
-	if (href_list["scan"])
-		if (src.connected_scanner && src.connected_scanner.occupant)
-			src.state = STATE_SCANNING
-		else
-			src.state = STATE_NO_OCCUPANT_ERROR
-	if(href_list[""])
-		src.state = STATE_SCAN_MENU
-	if(href_list["scan_buf"])
-		src.state = STATE_SCANNING
-		src.primary_buf = text2num(href_list["scan_buf"])
-		//buffers[primary_buf]
+	if(!href_list["operation"])
+		return
+	switch(href_list["operation"])
+		if("main")
+			src.state = STATE_DEFAULT
+		if("scan-menu")
+			if (src.connected_scanner && src.connected_scanner.occupant)
+				src.state = STATE_SCAN_MENU
+			else
+				src.state = STATE_NO_OCCUPANT_ERROR
 
 
 	src.updateUsrDialog()

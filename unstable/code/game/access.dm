@@ -8,6 +8,9 @@
 // That's it! Now you can make doors on your map require that permission. Don't worry about things like
 // making it show up in the ID computer - it will automatically. This is the only file you have to edit.
 
+//TODO: add the new station engineer position, etc
+//TODO: give access_atmospherics to people
+
 /var/const
 	access_security = 1
 	access_brig = 2
@@ -35,6 +38,7 @@
 	access_all_personal_lockers = 24
 	access_chaplain_office = 25
 	access_tech_storage = 26
+	access_atmospherics = 27
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
@@ -56,12 +60,12 @@
 	//check if it doesn't require any access at all
 	if(src.check_access(null))
 		return 1
+	//AI can do whatever he wants
 	if(istype(M, /mob/silicon/ai))
-		//AI can do whatever he wants
 		return 1
 	else if(istype(M, /mob/carbon))
-		//if they are holding or wearing a card that has access, that works
 		var/mob/carbon/C = M
+		//if they are holding or wearing a card that has access, that works
 		if(src.check_access(C.equipped()) || src.check_access(C.id))
 			return 1
 	return 0

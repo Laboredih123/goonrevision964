@@ -22,7 +22,7 @@
 		del(src)
 		return
 
-	var/mob/carbon/human/M = new(startloc)
+	var/mob/carbon/human/M = new(startloc, src.char_name)
 
 	M.equip_if_possible(new /obj/item/weapon/radio/headset(M), M.SLOT_HEADSET)
 	M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), M.SLOT_BACK)

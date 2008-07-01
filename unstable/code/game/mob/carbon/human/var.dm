@@ -11,5 +11,6 @@
 	can_wear_gloves = 1
 	can_wear_glasses = 1
 	can_wear_id = 1
+	can_wear_belt = 1
 	is_dextrous = 1
 	is_intelligent = 1

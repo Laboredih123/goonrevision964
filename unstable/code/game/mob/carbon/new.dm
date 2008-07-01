@@ -1,5 +1,5 @@
-/mob/carbon/New()
-	..()
+/mob/carbon/New(loc, name)
+	..(loc, name)
 	if(!src.loc)
 		var/area/A = locate(/area/arrival/start)
 		var/list/L = list(  )
@@ -21,5 +21,8 @@
 	src.organs += new /datum/organ("l_foot")
 	src.organs += new /datum/organ("r_foot")
 
+	src.body_name = name
+
 	src.dna = new /datum/dna(src)
 	src.dna.apply(src)
+	src.dna.register(src)

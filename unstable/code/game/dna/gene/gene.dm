@@ -21,7 +21,7 @@
 	proc/apply(mob/carbon/M, attribute) //grants attribute to M
 		return
 
-	proc/pick_allele(mob/carbon/M, datum/canonical_locus/L)
+	proc/choose_allele(mob/carbon/M, datum/canonical_locus/L)
 		var/attribute = src.pick_attribute(M)
 		if(attribute == default)
 			return L.default_allele
@@ -35,17 +35,19 @@
 
 	proc/associate_with_loci(datum/dna/canonical/D)
 		for(var/i = 0; i < src.num_loci; i++)
-			var/datum/canonical_locus/locus = D.get_random_junk_locus()
-			locus.is_junk = 0
-			locus.associated_gene = src
+			var/datum/canonical_locus/L = D.get_random_junk_locus()
+			src.associate_with_locus(L)
 
-			//fill with the default value
-			for(var/allele in get_all_alleles())
-				locus.alleles[allele] = default
+	proc/associate_with_locus(datum/canonical_locus/L)
+		L.associated_gene = src
 
-			//add in 1 copy each of the rest
-			var/used = list()
-			for(var/attr in attributes)
-				var/allele = pick_allele_except(used)
-				locus.alleles[allele] = attr
-				used += allele
+		//fill with the default value
+		for(var/allele in get_all_alleles())
+			L.alleles[allele] = default
+
+		//add in 1 copy each of the rest
+		var/used = list()
+		for(var/attr in src.attributes)
+			var/allele = pick_allele_except(used)
+			L.alleles[allele] = attr
+			used += allele
