@@ -82,7 +82,6 @@
 	..()
 	if(src.z != 1 || src.loc == src.dest)
 		del(src)
-		world << "at dest [src.loc.x] [src.loc.y]"
 		return
 	return
 

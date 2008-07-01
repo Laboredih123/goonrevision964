@@ -46,7 +46,6 @@
 	del(src)
 
 /obj/machinery/vehicle/Bump(var/atom/A)
-	//world << "[src] bumped into [A]"
 	spawn (0)
 		..()
 		src.speed = 0

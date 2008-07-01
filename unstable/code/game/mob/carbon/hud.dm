@@ -86,7 +86,7 @@
 	src.mask = new /obj/screen(src, "mask", NORTH, "2,3", 19, "equip")
 	src.back = new /obj/screen(src, "back", NORTHEAST, "3,3", 19, "equip")
 	src.r_hand = new /obj/screen(src, "r_hand", WEST, "1,2", 19, "equip")
-	src.jumpsuit = new /obj/screen(src, "i_clothing", null, "2,2", 19, "center")
+	src.jumpsuit = new /obj/screen(src, "jumpsuit", null, "2,2", 19, "center")
 	src.l_hand = new /obj/screen(src, "l_hand", EAST, "3,2", 19, "equip")
 	src.gloves = new /obj/screen(src, "gloves", null, "4,2", 19, "gloves")
 	src.shoes = new /obj/screen(src, "shoes", null, "5,2", 19, "shoes")

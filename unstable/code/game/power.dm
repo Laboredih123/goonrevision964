@@ -871,7 +871,6 @@
 	if (!usr.check_dexterity())
 		return
 
-	//world << "[href] ; [href_list[href]]"
 
 	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
@@ -2001,8 +2000,6 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	if (!usr.check_dexterity())
 		return
 
-	//world << "[href] ; [href_list[href]]"
-
 	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
 
@@ -2286,8 +2283,6 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		return
 	if (!usr.check_dexterity())
 		return
-
-	//world << "[href] ; [href_list[href]]"
 
 	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 

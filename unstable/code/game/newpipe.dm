@@ -367,15 +367,7 @@
 /obj/machinery/pipes/proc/explode()
 
 	//*****
-//	world << "pipe [src] at [x],[y],[z] exploded"
-
-//	src.gas.turf_add(src.loc, -1.0)
 	return
-
-
-/*
-/obj/machinery/pipes/process()
-*/
 
 /obj/machinery/pipes/New()
 

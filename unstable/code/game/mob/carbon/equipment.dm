@@ -4,6 +4,7 @@
 	else if (W == src.jumpsuit)
 		for(var/x in list(SLOT_R_STORE, SLOT_L_STORE, SLOT_ID, SLOT_BELT))
 			src.drop(x)
+		src.jumpsuit = null
 	else if (W == src.gloves)
 		src.gloves = null
 	else if (W == src.glasses)
@@ -207,7 +208,7 @@
 			return
 		src.u_equip(W)
 		src.helmet = W
-	if(text == "i_clothing" && src.can_wear_jumpsuit)
+	if(text == "jumpsuit" && src.can_wear_jumpsuit)
 		if (src.jumpsuit)
 			if (emptyHand)
 				src.jumpsuit.DblClick()
@@ -284,27 +285,6 @@
 		src.overlays += src.body_standing
 
 	var/suffix = src.lying ? "2" : null
-	var/icons = list()
-	icons[src.gloves] = "4,2"
-	icons[src.shoes] = "5,2"
-	icons[src.glasses] = "6,2"
-	icons[src.helmet] = "7,2"
-	icons[src.belt] = "8,2"
-
-	icons[src.suit] = "2,1"
-	icons[src.mask] = "2,3"
-	icons[src.headset] = "3,1"
-	icons[src.r_hand] = "1,2"
-	icons[src.l_hand] = "3,2"
-
-	var/iconsource = src.appearance == APPEARANCE_MONKEY ? 'monkey.dmi' : 'mob.dmi'
-
-	for(var/obj/item/weapon/W in icons)
-		var/type = W.s_istate
-		if (!type)
-			type = W.icon_state
-		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "[type][suffix]", "layer" = MOB_LAYER)
-		W.screen_loc = icons[W]
 
 	if (src.jumpsuit && istype(src.jumpsuit, /obj/item/weapon/clothing/under))
 		var/color = src.jumpsuit.color
@@ -312,20 +292,39 @@
 			color = src.icon_state
 		src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[color][suffix]", "layer" = MOB_LAYER)
 		src.jumpsuit.screen_loc = "2,2"
+	var/icons = list()
+	icons[src.suit] = "2,1"
+	icons[src.headset] = "3,1"
+	icons[src.mask] = "2,3"
+
+	icons[src.gloves] = "4,2"
+	icons[src.shoes] = "5,2"
+	icons[src.glasses] = "6,2"
+	icons[src.helmet] = "7,2"
+	icons[src.belt] = "8,2"
+
+
+	var/iconsource = src.appearance == APPEARANCE_MONKEY ? 'monkey.dmi' : 'mob.dmi'
+	for(var/obj/item/weapon/W in icons)
+		var/w_type = W.s_istate
+		if (!w_type)
+			w_type = W.icon_state
+		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "[w_type][suffix]", "layer" = MOB_LAYER)
+		W.screen_loc = icons[W]
 	if (src.id)
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[suffix]", "layer" = MOB_LAYER)
 		src.id.screen_loc = "1,1"
 	if (src.l_hand)
-		var/type = src.l_hand.s_istate
-		if (!type)
-			type = src.l_hand.icon_state
-		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = "[type]", "layer" = MOB_LAYER)
+		var/w_type = src.l_hand.s_istate
+		if (!w_type)
+			w_type = src.l_hand.icon_state
+		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
 		src.l_hand.screen_loc = "3,2"
 	if (src.r_hand)
-		var/type = src.r_hand.s_istate
-		if (!type)
-			type = src.r_hand.icon_state
-		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[type]", "layer" = MOB_LAYER)
+		var/w_type = src.r_hand.s_istate
+		if (!w_type)
+			w_type = src.r_hand.icon_state
+		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
 		src.r_hand.screen_loc = "1,2"
 
 	if (src.l_store)

@@ -35,17 +35,20 @@
 		G.pre_apply(M)
 	for(var/datum/gene/G in genes)
 		G.apply(M, genes[G])
-	M.update_body()
-	M.update_face()
+
 	var/name = src.check_registered()
 	if(name)
-		M.name = name
 		M.body_name = name
 		M.voice = name
 	else
-		M.name = "Unknown"
+		M.body_name = "Unknown"
+		M.voice = "Unknown"
 
-var/list/registered_dna = list()
+	M.update_body()
+	M.update_face()
+
+
+/var/list/registered_dna = list()
 
 /datum/dna/proc/hash()
 	var/s = ""

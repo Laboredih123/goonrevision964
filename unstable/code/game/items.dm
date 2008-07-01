@@ -4314,7 +4314,6 @@
 	if ((W == src && usr.is_active()))
 		spawn( 0 )
 			W.attack_self(usr)
-			//world << "[W].attack_self([usr])"
 			return
 		return
 	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))) || !usr.is_active())

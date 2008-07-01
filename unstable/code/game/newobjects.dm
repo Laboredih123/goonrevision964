@@ -31,7 +31,6 @@
 	if(charging && !(stat & (BROKEN|NOPOWER)) )
 
 		var/newlevel = 	round( charging.percent() * 4.0 / 99 )
-		//world << "nl: [newlevel]"
 
 		if(chargelevel != newlevel)
 
@@ -70,8 +69,6 @@
 
 
 /obj/machinery/cell_charger/process()
-
-	//world << "ccpt [charging] [stat]"
 	if(!charging || (stat & (BROKEN|NOPOWER)) )
 		return
 
@@ -79,12 +76,7 @@
 
 	newch = min(newch, charging.maxcharge)
 
-
-
 	use_power((newch - charging.charge) / CELLRATE)
-
-
-	//world << "ccpt: [newch], used [(newch - charging.charge) / CELLRATE]"
 
 	charging.charge = newch
 

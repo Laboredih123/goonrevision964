@@ -23,7 +23,7 @@
 	if (src.gender == "female")
 		src.stand_icon.Blend(new /icon( 'human.dmi', "f_add" ), 3)
 		src.lying_icon.Blend(new /icon( 'human.dmi', "f_add2" ), 3)
-
+	src.icon = src.stand_icon
 
 	return
 
@@ -32,6 +32,10 @@
 		return rgb(200,200,200)
 	else if(color == HAIR_COLOR_BLACK)
 		return rgb(255,255,255)
+	else if(color == HAIR_COLOR_BROWN)
+		return rgb(150, 70, 20)
+	else if(color == HAIR_COLOR_BLOND)
+		return rgb(220, 210, 190)
 
 /mob/carbon/proc/update_face()
 	del(src.face)
@@ -40,3 +44,5 @@
 	src.face2 = new/icon("icon" = 'mob.dmi', "icon_state" = "[src.hair_style]2")
 	face.Blend(hair_color_rgb(src.hair_color), ICON_OVERLAY)
 	face2.Blend(hair_color_rgb(src.hair_color), ICON_OVERLAY)
+	src.stand_icon.Blend(face, ICON_OVERLAY)
+	src.lying_icon.Blend(face2, ICON_OVERLAY)

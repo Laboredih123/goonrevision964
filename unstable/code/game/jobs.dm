@@ -73,7 +73,7 @@
 		unassigned -= captain_choice
 
 	if (captain_choice == null)
-		world << text("Captainship not forced on someone since this is a one-player game.")
+		world << "Captainship not forced on someone since this is a one-player game."
 	else
 		captain_choice.Assign_Rank("Captain")
 
@@ -97,12 +97,10 @@
 				continue
 			var/list/candidates = FindOccupationCandidates(unassigned, occupation, level)
 			var/eligiblechange = 0
-			//world << text("occupation [], level [] - [] eligible - [] candidates", level, occupation, eligible, candidates.len)
 			while (eligible--)
 				var/mob/prespawn/candidate = PickOccupationCandidate(candidates)
 				if (candidate == null)
 					break
-				//world << text("candidate []", candidate)
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 				eligiblechange++
