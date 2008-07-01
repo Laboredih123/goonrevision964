@@ -3,7 +3,7 @@
 
 	if (src.authenticating)
 		return
-	
+
 	if (!config.enable_authentication)
 		src.authenticated = 1
 		return
@@ -30,7 +30,7 @@
 			if (code == "ok" && account)
 				src.verbs -= /client/proc/authorize
 				src.authenticated = account
-				src << "Key authorized, hello [html_encode(account)]!."
+				src << "Key authorized, hello [html_encode(account)]!"
 				success = 1
 			else if (code == "banned")
 				banned.Add(src.ckey)

@@ -21,8 +21,6 @@
 	src.organs += new /datum/organ("l_foot")
 	src.organs += new /datum/organ("r_foot")
 
-	src.body_name = name
-
 	src.dna = new /datum/dna(src)
-	src.dna.apply(src)
 	src.dna.register(src)
+	src.dna.apply(src)

@@ -30,12 +30,12 @@
 				if(genes[G] != L.alleles[src.data[i][j]])
 					L.alleles[src.data[i][j]] = G.default
 			else
-				genes[G] = L.alleles[src.data[i][j]] //the attribute associated with the allele this guy has
+				var/x = src.data[i][j]
+				genes[G] = L.alleles[x] //the attribute associated with the allele this guy has
 	for(var/datum/gene/G in genes)
 		G.pre_apply(M)
 	for(var/datum/gene/G in genes)
 		G.apply(M, genes[G])
-
 	var/name = src.check_registered()
 	if(name)
 		M.body_name = name
@@ -43,7 +43,6 @@
 	else
 		M.body_name = "Unknown"
 		M.voice = "Unknown"
-
 	M.update_body()
 	M.update_face()
 
@@ -59,7 +58,7 @@
 
 /datum/dna/proc/register(mob/carbon/M)
 	//registers this DNA as belonging to this mob, so if someone else gets it later they get this name, etc
-	registered_dna[src.hash()] = M.name
+	registered_dna[src.hash()] = M.spawn_name
 
 
 /datum/dna/proc/check_registered()
@@ -75,10 +74,10 @@
 /datum/dna/canonical/New()
 	//make the loci
 	var/datum/gene/junk = new()
-	for(var/list/chromosome in data)
-		for(var/i = 1; i <= chromosome.len; i++)
-			chromosome[i] = new /datum/canonical_locus()
-			junk.associate_with_locus(chromosome[i])
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
+			data[i][j] = new /datum/canonical_locus()
+			junk.associate_with_locus(data[i][j])
 
 	//assign genes to them
 	var/genetypes = typesof(/datum/gene)

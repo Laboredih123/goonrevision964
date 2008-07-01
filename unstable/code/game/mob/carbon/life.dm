@@ -12,6 +12,10 @@
 		src.canmove = 0
 		if (src.buckled)
 			src.lying = 0
+		if(src.lying)
+			src.icon = src.lying_icon
+		else
+			src.icon = src.stand_icon
 		return
 
 	src.is_blind = 0
@@ -73,4 +77,8 @@
 
 	src.update_grabs()
 
+	if(src.lying)
+		src.icon = src.lying_icon
+	else
+		src.icon = src.stand_icon
 	return

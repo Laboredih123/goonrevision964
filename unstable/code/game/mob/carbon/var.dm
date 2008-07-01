@@ -71,8 +71,8 @@
 	var/obj/item/weapon/l_store = null
 	var/can_wear_l_store = 0
 
-	var/icon/stand_icon = null
-	var/icon/lying_icon = null
+	var/icon/stand_icon
+	var/icon/lying_icon
 	var/now_pushing = null
 
 	var/list/grabbed_by = list()

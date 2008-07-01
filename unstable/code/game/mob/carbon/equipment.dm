@@ -258,10 +258,6 @@
 	src.update_clothing_icons()
 
 /mob/carbon/proc/update_clothing_functions()
-	src.update_vision()
-
-
-/mob/carbon/proc/update_clothing_icons()
 	if (!( src.jumpsuit ))
 		if(src.belt)
 			src.drop(SLOT_BELT)
@@ -271,6 +267,17 @@
 			src.drop(SLOT_L_STORE)
 		if(src.r_store)
 			src.drop(SLOT_R_STORE)
+
+	if(!src.can_use_hands())
+		src.pulling = null
+		src.drop_item(SLOT_L_HAND)
+		src.drop_item(SLOT_R_HAND)
+
+	src.update_invisibility()
+	src.update_vision()
+	src.update_name()
+
+/mob/carbon/proc/update_clothing_icons()
 	src.overlays = null
 
 	if (src.lying)
@@ -332,14 +339,6 @@
 	if (src.r_store)
 		src.r_store.screen_loc = "5,1"
 
-
-	if (src.suit && istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
-		//can't hold things if you're wearing a straitjacket!
-		src.drop_item(SLOT_L_HAND)
-		src.drop_item(SLOT_R_HAND)
-
-	src.update_name()
-
 	if (src.back)
 		var/elect = ""
 		if (istype(src.back, /obj/item/weapon/radio/electropack))
@@ -348,13 +347,10 @@
 		src.back.screen_loc = "3,3"
 
 	if (src.handcuffs)
-		src.pulling = null
 		src.overlays += image("icon" = iconsource, "icon_state" = "handcuff[suffix]", "layer" = MOB_LAYER)
 	if (src.client)
 		src.client.screen -= src.contents
 		src.client.screen += src.contents
-
-	src.update_invisibility()
 
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))

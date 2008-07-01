@@ -19,7 +19,6 @@
 	icon_state = null
 
 /mob/prespawn/New()
-	world << "new prespawn"
 	..()
 	src.verbs -= /mob/verb/add_memory
 	src.verbs -= /mob/verb/cancel_camera
@@ -30,7 +29,6 @@
 	return
 
 mob/prespawn/proc/savefile_load()
-	world << src.savefile_loc
 	if (fexists(src.savefile_loc))
 		var/savefile/F = new /savefile(src.savefile_loc, -1)
 		F["name"] >> src.char_name

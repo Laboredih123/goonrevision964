@@ -5,5 +5,5 @@
 	var/is_junk = 1
 
 	New()
-		if(!default_allele)
-			default_allele = pick_allele()
+		if(!src.default_allele)
+			src.default_allele = pick_allele()
