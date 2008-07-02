@@ -18,6 +18,8 @@
 			src.icon = src.stand_icon
 		return
 
+	src.canmove = 1
+
 	src.is_blind = src.is_perma_blind
 
 	if (!src.m_flag)

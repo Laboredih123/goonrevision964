@@ -1,4 +1,4 @@
-/var/const/RANDOMIZE_DNA = 0 //DEBUG PURPOSES ONLY
+/var/const/RANDOMIZE_DNA = 1 //DEBUG PURPOSES ONLY
 //TODO: MAKE THIS NOT ZERO
 
 /datum/dna
@@ -7,13 +7,18 @@
 	var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
 /datum/dna/New(mob/carbon/M)
-	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
-		for(var/j = 1; j <= NUM_LOCI; j++)
-			var/datum/canonical_locus/L = canonical_dna.data[i][j]
-			if(L.associated_gene)
-				var/datum/gene/G = L.associated_gene
-				src.data[i][j] = G.choose_allele(M, L)
-			if(L.is_junk && prob(5)) //everyone gets a few random mutations
+	if(M)
+		for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+			for(var/j = 1; j <= NUM_LOCI; j++)
+				var/datum/canonical_locus/L = canonical_dna.data[i][j]
+				if(L.associated_gene)
+					var/datum/gene/G = L.associated_gene
+					src.data[i][j] = G.choose_allele(M, L)
+				if(L.is_junk && prob(5)) //everyone gets a few random mutations
+					src.data[i][j] = pick_allele()
+	else
+		for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+			for(var/j = 1; j <= NUM_LOCI; j++)
 				src.data[i][j] = pick_allele()
 
 /datum/dna/proc/mutate()
@@ -85,7 +90,9 @@
 	//assign genes to them
 	var/genetypes = typesof(/datum/gene)
 	genetypes -= /datum/gene //get rid of junk one
-	var/list/genes = newlist(genetypes)
+	var/list/genes = list()
+	for(var/genetype in genetypes)
+		genes += new genetype
 	for(var/datum/gene/G in genes)
 		G.associate_with_loci(src)
 

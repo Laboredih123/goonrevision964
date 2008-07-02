@@ -4,7 +4,7 @@
 	icon_state = "scanner_0"
 	density = 1
 	var/locked = 0.0
-	var/mob/occupant = null
+	var/mob/carbon/occupant = null
 	anchored = 1.0
 
 /obj/machinery/dna_scanner/allow_drop()

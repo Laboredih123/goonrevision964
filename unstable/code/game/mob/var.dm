@@ -47,3 +47,5 @@
 	var/is_perma_deaf = 0
 	var/is_blind = 0
 	var/is_perma_blind = 0
+
+	density = 1

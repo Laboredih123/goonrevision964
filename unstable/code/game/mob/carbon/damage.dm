@@ -140,9 +140,6 @@
 		src.is_blind = 1
 		src.drop(SLOT_L_HAND)
 		src.drop(SLOT_R_HAND)
-	else
-		src.canmove = 1
-		src.lying = 1
 
 /mob/carbon/proc/knockout_until(time)
 	src.knockout = max(time, src.knockout)
@@ -152,9 +149,6 @@
 	if (src.knockdown > 0)
 		src.canmove = 0
 		src.lying = 1
-	else
-		src.canmove = 1
-		src.lying = 0
 
 /mob/carbon/proc/knockdown_until(time)
 	src.knockdown = max(time, src.knockdown)

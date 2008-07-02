@@ -37,6 +37,7 @@
 		for(var/i = 0; i < src.num_loci; i++)
 			var/datum/canonical_locus/L = D.get_random_junk_locus()
 			src.associate_with_locus(L)
+			L.is_junk = 0
 
 	proc/associate_with_locus(datum/canonical_locus/L)
 		L.associated_gene = src

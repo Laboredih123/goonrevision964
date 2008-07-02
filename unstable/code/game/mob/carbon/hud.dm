@@ -58,7 +58,7 @@
 	src.vimpaired += new /obj/screen(src, null, null, "11,1 to 15,15", 17, "dither50", 1)
 
 	src.flash = new /obj/screen(src, "flash", null, "1,1 to 15,15", 17, "blank")
-	src.blind = new /obj/screen(src, " ", null, "1,1 to 15,5", 0, "black")
+	src.blind = new /obj/screen(src, " ", null, "1,1 to 15,15", 0, "black")
 
 	// bars along sides
 	src.vitals = new /obj/screen(src, "vitals", SOUTH, "15,1 to 15,15", 19)

@@ -106,7 +106,7 @@
 		W.loc = src.loc
 		W.dropped(src)
 		W.layer = initial(W.layer)
-	src.update_clothing()
+		src.update_clothing()
 
 /mob/carbon/proc/db_click(text, t1)
 	var/obj/item/weapon/W = src.equipped()
@@ -270,8 +270,8 @@
 
 	if(!src.can_use_hands())
 		src.pulling = null
-		src.drop_item(SLOT_L_HAND)
-		src.drop_item(SLOT_R_HAND)
+		src.drop(SLOT_L_HAND)
+		src.drop(SLOT_R_HAND)
 
 	src.update_invisibility()
 	src.update_vision()

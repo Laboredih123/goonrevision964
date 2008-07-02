@@ -84,7 +84,7 @@
 	if(!usr.can_use_hands())
 		return 0
 	if(istype(usr, /mob/carbon))
-		if(get_dist(src, usr) > 1)
+		if(usr not in viewers(src, 1))
 			return 0
 	return 1
 
