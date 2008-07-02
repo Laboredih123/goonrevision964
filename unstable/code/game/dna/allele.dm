@@ -38,7 +38,14 @@
 	)
 
 /proc/pick_allele()
-	return pick(get_all_alleles())
+	if(RANDOMIZE_DNA)
+		return pick(get_all_alleles())
+	else
+		return ALLELE_AA
 
 /proc/pick_allele_except(val)
-	return pick(get_all_alleles() - val)
+	if(RANDOMIZE_DNA)
+		return pick(get_all_alleles() - val)
+	else
+		var/list/L = get_all_alleles() - val
+		return L[1]

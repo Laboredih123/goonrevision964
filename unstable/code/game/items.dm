@@ -4247,12 +4247,10 @@
 	return
 
 /atom/proc/interact(mob/user as mob)
-
-	return
+	return 1
 
 /atom/proc/interact_cuffed(mob/user as mob)
-
-	return
+	return 1
 
 /atom/proc/hitby(obj/item/weapon/W as obj)
 

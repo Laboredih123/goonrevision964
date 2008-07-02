@@ -2431,31 +2431,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	can_maximize_speed = 1
 	one_person_only = 1
 
-/obj/machinery/restruct
-	name = "DNA Physical Restructurization Accelerator"
-	icon = 'Cryogenic2.dmi'
-	icon_state = "restruct_0"
-	density = 1
-	var/locked = 0.0
-	var/mob/occupant = null
-	anchored = 1.0
-/obj/machinery/scan_console
-	name = "DNA Scanner Access Console"
-	icon = 'Cryogenic2.dmi'
-	icon_state = "scannerconsole"
-	density = 1
-	var/obj/item/weapon/card/data/scan = null
-	var/func = ""
-	var/data = ""
-	var/special = ""
-	var/status = null
-	var/prog_p1 = null
-	var/prog_p2 = null
-	var/prog_p3 = null
-	var/prog_p4 = null
-	var/temp = null
-	var/obj/machinery/dna_scanner/connected = null
-	anchored = 1.0
 /obj/machinery/sec_lock
 	name = "Security Pad"
 	icon = 'stationobjs.dmi'

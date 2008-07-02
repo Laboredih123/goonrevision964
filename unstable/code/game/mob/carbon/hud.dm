@@ -57,7 +57,7 @@
 	src.vimpaired += new /obj/screen(src, null, null, "6,11 to 10,15", 17, "dither50", 1)
 	src.vimpaired += new /obj/screen(src, null, null, "11,1 to 15,15", 17, "dither50", 1)
 
-	src.flash = new /obj/screen(src, "flash", null, "1,1 to 15,5", 17, "blank")
+	src.flash = new /obj/screen(src, "flash", null, "1,1 to 15,15", 17, "blank")
 	src.blind = new /obj/screen(src, " ", null, "1,1 to 15,5", 0, "black")
 
 	// bars along sides
@@ -99,7 +99,7 @@
 	src.storage1 = new /obj/screen(src, "storage1", null, "4,1", 19, "block")
 	src.storage2 = new /obj/screen(src, "storage2", null, "5,1", 19, "block")
 
-	// make the slots they can't use have the "block" icon
+	// make the slots they can't use have the "blocked" icon
 	var/list/slots = list(
 		src.mask = src.owner.can_wear_mask,
 		src.back = src.owner.can_wear_back,

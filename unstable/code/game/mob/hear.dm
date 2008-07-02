@@ -3,8 +3,10 @@
 /var/const/LANGUAGE_COMPUTER = 3
 
 /mob/hear(message)
-	src << message
-	return 1
+	if(!src.is_deaf)
+		src << message
+		return 1
+	return 0
 
 /mob/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
@@ -15,8 +17,7 @@
 	var/text = M.text
 	if(M.language && !(M.language in src.languages))
 		text = replace_language(text, M.language)
-	src.hear("<b>[speaker_name]</b>: [text]")
-	return 1
+	return src.hear("<b>[speaker_name]</b>: [text]")
 
 /mob/proc/replace_language(message, language)
 	var/list/words = dd_text2list(message, " ")

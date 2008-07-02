@@ -243,7 +243,9 @@
 
 /mob/carbon/proc/take_eye_damage(damage)
 	eye_damage += damage
-	//TODO: IMPLEMENT BLINDNESS HERE
+	if(eye_damage > 50)
+		src.is_perma_blind = 1
+		src.is_blind = 1
 	return
 
 /mob/carbon/proc/heal_eye_damage(damage)
@@ -257,7 +259,9 @@
 
 /mob/carbon/proc/take_ear_damage(damage)
 	ear_damage += damage
-	//TODO: IMPLEMENT DEAFNESS HERE
+	if(ear_damage > 50)
+		src.is_perma_deaf = 1
+		src.is_deaf = 1
 	return
 
 /mob/carbon/proc/heal_ear_damage(damage)

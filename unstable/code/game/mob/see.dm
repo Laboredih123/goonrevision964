@@ -1,6 +1,8 @@
 /mob/proc/see(message)
 	if(!src.is_conscious())
-		return
+		return 0
+	if(src.is_blind)
+		return 0
 	src << message
 	return 1
 

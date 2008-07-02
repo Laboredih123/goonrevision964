@@ -1,3 +1,6 @@
+/var/const/RANDOMIZE_DNA = 0 //DEBUG PURPOSES ONLY
+//TODO: MAKE THIS NOT ZERO
+
 /datum/dna
 	var/const/NUM_CHROMOSOMES = 23
 	var/const/NUM_LOCI = 10
@@ -76,8 +79,8 @@
 	var/datum/gene/junk = new()
 	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
 		for(var/j = 1; j <= NUM_LOCI; j++)
-			data[i][j] = new /datum/canonical_locus()
-			junk.associate_with_locus(data[i][j])
+			src.data[i][j] = new /datum/canonical_locus()
+			junk.associate_with_locus(src.data[i][j])
 
 	//assign genes to them
 	var/genetypes = typesof(/datum/gene)
@@ -89,10 +92,17 @@
 
 
 /datum/dna/canonical/proc/get_random_junk_locus()
-	while(1)
-		var/datum/canonical_locus/L = get_random_locus()
-		if(L.is_junk)
-			return L
+	if(RANDOMIZE_DNA)
+		while(1)
+			var/datum/canonical_locus/L = get_random_locus()
+			if(L.is_junk)
+				return L
+	else
+		for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+			for(var/j = 1; j <= NUM_LOCI; j++)
+				var/datum/canonical_locus/L = data[i][j]
+				if(L.is_junk)
+					return L
 
 /datum/dna/canonical/proc/get_random_locus()
 	var/chromosome = pick(src.data)

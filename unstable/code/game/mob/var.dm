@@ -42,3 +42,8 @@
 
 	var/list/languages = list()
 	var/curr_language = null
+
+	var/is_deaf = 0
+	var/is_perma_deaf = 0
+	var/is_blind = 0
+	var/is_perma_blind = 0

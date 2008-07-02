@@ -20,7 +20,7 @@
 			M.appearance = attribute
 		if(M.appearance == APPEARANCE_MONKEY) //TODO: update the icons so monkeys CAN wear jumpsuits, etc
 			//right now the DNA system is kind of silly because there's no icons for "monkey wearing jumpsuit"
-			//so it just has to be uniformly disallowed
+			//so it just has to be uniformly (lol) disallowed
 			M.can_wear_jumpsuit = 0
 			M.can_wear_suit = 0
 			M.can_wear_l_store = 0

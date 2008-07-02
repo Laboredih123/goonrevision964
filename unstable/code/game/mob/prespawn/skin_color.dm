@@ -1,9 +1,9 @@
-/mob/var/const
+/var/const
 	SKIN_COLOR_DARK = "dark"
 	SKIN_COLOR_MEDIUM = "medium"
 	SKIN_COLOR_LIGHT = "light"
 
-/mob/proc/get_skin_colors()
+/proc/get_skin_colors()
 	return list(
 		SKIN_COLOR_DARK,
 		SKIN_COLOR_MEDIUM,

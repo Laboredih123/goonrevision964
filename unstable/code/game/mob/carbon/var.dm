@@ -9,7 +9,6 @@
 	var/hand = RIGHT //the active hand - note that tons of code just says "if(hand)" or "if(!hand)", which sucks
 	var/body_name
 
-	var/is_blind = 0
 	var/rejuv = 0
 	var/antitoxs = 0
 	var/sleeping = 0

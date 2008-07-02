@@ -18,7 +18,7 @@
 			src.icon = src.stand_icon
 		return
 
-	src.is_blind = 0
+	src.is_blind = src.is_perma_blind
 
 	if (!src.m_flag)
 		src.moved_recently = 0
@@ -28,7 +28,7 @@
 		if (src.machine)
 			src.hud.machine.icon_state = "mach1"
 		else
-			src.hud.machine.icon_state = null
+			src.hud.machine.icon_state = "blank"
 
 	src.breathe()
 	src.check_decompression()

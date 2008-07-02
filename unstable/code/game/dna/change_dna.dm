@@ -43,6 +43,10 @@
 		return rgb(150, 70, 20)
 	else if(color == HAIR_COLOR_BLOND)
 		return rgb(220, 210, 190)
+	else if(color == HAIR_COLOR_WHITE)
+		return rgb(255, 255, 255)
+	else
+		return rgb(255, 255, 255)
 
 /mob/carbon/proc/update_face()
 	if(src.appearance == APPEARANCE_HUMAN)
