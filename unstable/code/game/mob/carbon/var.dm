@@ -121,7 +121,6 @@
 	var/datum/hud/carbon/hud = null
 
 	var/skin_color = SKIN_COLOR_LIGHT
-	var/has_super_strength = 0
 	var/is_infectious = 0
 
 	var/icon/face = null
@@ -131,3 +130,8 @@
 
 	var/is_dextrous = 0
 	is_intelligent = 0
+
+	var/has_super_strength = 0
+	var/is_fire_immune = 0
+	var/has_xray_vision = 0
+	var/is_telepathic = 0

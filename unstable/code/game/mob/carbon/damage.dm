@@ -25,6 +25,8 @@
 	return
 
 /mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
+	if(src.is_fire_immune)
+		burn = 0
 	var/datum/damage/dam = new /datum/damage(brute = brute, burn = burn, suffocation = suffocation, toxin = toxin, electric = electric)
 	var/datum/organ/O = src.choose_organ()
 	if (istype(O, /datum/organ))

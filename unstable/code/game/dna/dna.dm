@@ -22,6 +22,9 @@ var/const/NUM_LOCI = 10
 				src.data[i][j] = pick_allele()
 
 /datum/dna/proc/mutate()
+	//75% chance of no mutation at all
+	if(!prob(75))
+		return
 	for(var/list/chromosome in src.data)
 		for(var/i = 1; i <= chromosome.len; i++)
 			//1% chance of mutating any given locus
@@ -43,7 +46,6 @@ var/const/NUM_LOCI = 10
 	for(var/datum/gene/G in genes)
 		G.pre_apply(M)
 	for(var/datum/gene/G in genes)
-		world << "giving [M.name] attr [genes[G]]"
 		G.apply(M, genes[G])
 	var/name = src.check_registered()
 	if(name)

@@ -15,9 +15,12 @@
 		if (src.gender == "female")
 			src.stand_icon.Blend(new /icon( 'human.dmi', "f_add" ), ICON_OVERLAY)
 			src.lying_icon.Blend(new /icon( 'human.dmi', "f_add2" ), ICON_OVERLAY)
-	else
+	else if(src.appearance == APPEARANCE_MONKEY)
 		src.stand_icon = new /icon('monkey.dmi', "monkey1")
 		src.lying_icon = new /icon('monkey.dmi', "monkey0")
+	else
+		src.stand_icon = new /icon('quivering_mass.dmi')
+		src.lying_icon = new /icon('quivering_mass.dmi')
 
 	if(src.lying)
 		src.icon = src.lying_icon
@@ -49,6 +52,3 @@
 		face2.Blend(hair_color_rgb(src.hair_color), ICON_ADD)
 		src.stand_icon.Blend(face, ICON_OVERLAY)
 		src.lying_icon.Blend(face2, ICON_OVERLAY)
-
-/mob/verb/monkey()
-	new /mob/carbon/monkey(src.loc, "bob")

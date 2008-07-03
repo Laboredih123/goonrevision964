@@ -74,10 +74,15 @@
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(usr, txt)
+	var/heard = list()
 	for(var/obj/O as obj|mob in view(hear_range))
 		spawn(0)
 			if (O)
 				O.hear_message(usr, message)
+				heard += O
+	for(var/mob/carbon/M in world)
+		if(!(M in heard) && M.is_telepathic)
+			M.hear_message(usr, message)
 
 /mob/proc/is_stuttering()
 	return 0
