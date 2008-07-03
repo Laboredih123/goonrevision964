@@ -84,7 +84,7 @@
 	if(!usr.can_use_hands())
 		return 0
 	if(istype(usr, /mob/carbon))
-		if(!usr in viewers(src, 1))
+		if(!usr in viewers(1))
 			return 0
 	return 1
 

@@ -1,10 +1,10 @@
 /var/const/RANDOMIZE_DNA = 1 //DEBUG PURPOSES ONLY
 //TODO: MAKE THIS NOT ZERO
 
-/datum/dna
-	var/const/NUM_CHROMOSOMES = 23
-	var/const/NUM_LOCI = 10
-	var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
+var/const/NUM_CHROMOSOMES = 23
+var/const/NUM_LOCI = 10
+
+/datum/dna/var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
 /datum/dna/New(mob/carbon/M)
 	if(M)

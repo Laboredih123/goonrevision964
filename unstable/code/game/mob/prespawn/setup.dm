@@ -66,6 +66,7 @@ mob/prespawn/proc/savefile_load()
 		for (var/mob/carbon/H in world)
 			if (cmptext(H.spawn_name, src.char_name))
 				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
+				//TODO: make this work properly before spawning
 				return
 		src.ready = 1
 		savefile_write()
@@ -85,7 +86,7 @@ mob/prespawn/proc/savefile_load()
 			src.Assign_Rank(job, joined_late)
 
 		return ..()
-	if(href_list["name"])
+	else if(href_list["name"])
 		src.char_name = input("What is your character's name?", "Character Generation", src.char_name) as text
 	else if(href_list["gender"])
 		src.char_gender = input("Select a gender", "Character Generation", src.char_gender) in list(MALE, FEMALE)
@@ -97,7 +98,6 @@ mob/prespawn/proc/savefile_load()
 		src.choose_hair_style()
 	else if(href_list["job"])
 		src.choose_job(text2num(href_list["job"]))
-
 	else if(href_list["reset"])
 		var/loaded = src.savefile_load()
 		if(!loaded)
@@ -149,7 +149,6 @@ mob/prespawn/proc/savefile_load()
 	for(var/x in vars)
 		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]: </b>"
 		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[capitalize(vars[x])]</b></a><br>"
-//	dat += text("Prefer Syndicate: <a href=\"byond://?src=\ref[];char_be_syndicate=[]\"><b>[]</b></a><br>", src, src.char_be_syndicate, src.char_be_syndicate)
 	dat += "<hr>"
 
 	dat += "<b>Occupation Choices</b>:<br>"

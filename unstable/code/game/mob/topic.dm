@@ -1,10 +1,7 @@
 /mob/Topic(href, href_list)
 	if (href_list["mach_close"])
-		var/t1 = text("window=[]", href_list["mach_close"])
 		src.machine = null
-		src << browse(null, t1)
-
-
+		src << browse(null, "window=[href_list["mach_close"]]")
 	if(href_list["priv_msg"])
 		var/mob/M = locate(href_list["priv_msg"])
 		if(M)
@@ -21,6 +18,4 @@
 				usr << "\blue Reply PM to-<B><A href='?src=\ref[usr];priv_msg=\ref[M]'>[M.key]</A></B>: [t]"
 
 			world.log_admin("PM: [usr.key]->[M.key] : [t]")
-
-	..()
-	return
+	return ..()
