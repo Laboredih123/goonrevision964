@@ -4,9 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\dna\computer.dm
-DIR: code code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\prespawn code\game\mob\silicon code\game\mob\silicon\ai code\game\modes icons icons\ss13
-UPDATE_OBJ_TREE: ON
+FILE: code\game\dna\gene\appearance.dm
+DIR: code code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\prespawn code\game\mob\silicon code\game\mob\silicon\ai code\game\modes icons icons\ss13
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -121,6 +120,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\dna\locus.dm"
 #include "code\game\dna\gene\appearance.dm"
 #include "code\game\dna\gene\blobbishness.dm"
+#include "code\game\dna\gene\gender.dm"
 #include "code\game\dna\gene\gene.dm"
 #include "code\game\dna\gene\hair_color.dm"
 #include "code\game\dna\gene\hair_style.dm"

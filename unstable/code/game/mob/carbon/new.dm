@@ -1,4 +1,4 @@
-/mob/carbon/New(loc, name)
+/mob/carbon/New(loc, name, hair_color, hair_style, skin_color, gender)
 	..(loc, name)
 	if(!src.loc)
 		var/area/A = locate(/area/arrival/start)
@@ -8,6 +8,14 @@
 				L += T
 		var/turf/Trand = pick(L)
 		src.loc = Trand
+	if(hair_color)
+		src.hair_color = hair_color
+	if(hair_style)
+		src.hair_style = hair_style
+	if(skin_color)
+		src.skin_color = skin_color
+	if(gender)
+		src.gender = gender
 
 	src.organs += new /datum/organ("chest")
 	src.organs += new /datum/organ("diaper")

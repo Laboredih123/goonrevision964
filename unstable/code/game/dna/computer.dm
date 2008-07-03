@@ -5,6 +5,8 @@
 	var/obj/machinery/dna_scanner/connected_scanner = null
 	var/state = STATE_DEFAULT
 	var/datum/dna_buffer/primary_buf = null
+	var/datum/dna_buffer/secondary_buf = null
+	var/datum/dna_buffer/output_buf = null
 	var/pos_chromosome = 0
 	var/pos_locus = 0
 	var/pct_complete = 0
@@ -24,9 +26,16 @@
 		STATE_VIEW_MENU_BUF = 11
 		STATE_VIEW_MENU_CHROM = 12
 		STATE_VIEW = 13
+		STATE_SPLICE_MENU = 14
+		STATE_SPLICE_MENU_BUF1 = 15
+		STATE_SPLICE_MENU_BUF2 = 16
+		STATE_SPLICE_MENU_BUF_OUT = 17
+		STATE_SPLICE_MENU_CHROM = 18
+		STATE_SPLICE = 19
 
-		SCAN_SPEED = 5 //5 loci/second
-		REPLACE_SPEED = 5 //5 loci/second
+		SCAN_SPEED = 50 //5 loci/second
+		//TODO: adjust to be lower
+		REPLACE_SPEED = 50 //5 loci/second
 
 /obj/machinery/computer/dna/New()
 	..()
@@ -102,11 +111,68 @@
 			dat += "Chromosome #[src.pos_chromosome]"
 			for(var/i = 1; i <= NUM_LOCI; i++)
 				dat += "<br>Locus #[i]: [primary_buf.contents.data[pos_chromosome][i]]"
+			dat += "<br>"
 			if(src.pos_chromosome > 1)
-				dat += "<br><a href='?src=\ref[src];operation=view-chromosome;chromosome-num=[src.pos_chromosome - 1]'>"
+				dat += "<a href='?src=\ref[src];operation=view-chromosome;chromosome-num=[src.pos_chromosome - 1]'>"
 				dat += "Previous chromosome</a>"
+			dat += "<br>"
 			if(src.pos_chromosome < NUM_CHROMOSOMES)
-				dat += "<br><a href='?src=\ref[src];operation=view-chromosome;chromosome-num=[src.pos_chromosome + 1]'>"
+				dat += "<a href='?src=\ref[src];operation=view-chromosome;chromosome-num=[src.pos_chromosome + 1]'>"
+				dat += "Next chromosome</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_SPLICE_MENU_BUF1)
+			dat += "Please choose the main buffer to splice from."
+			for(var/i = 1; i <= buffers.len; i++)
+				var/datum/dna_buffer/buffer = src.buffers[i]
+				if(buffer.contents)
+					dat += "<br><a href='?src=\ref[src];operation=splice-buffer-primary;buffer-num=[i]'>"
+					dat += "Buffer #[i] ([buffer.desc])</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_SPLICE_MENU_BUF2)
+			dat += "Please choose the secondary buffer to splice from."
+			for(var/i = 1; i <= buffers.len; i++)
+				var/datum/dna_buffer/buffer = src.buffers[i]
+				if(buffer != src.primary_buf && buffer.contents)
+					dat += "<br><a href='?src=\ref[src];operation=splice-buffer-secondary;buffer-num=[i]'>"
+					dat += "Buffer #[i] ([buffer.desc])</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_SPLICE_MENU_BUF_OUT)
+			dat += "Please choose the buffer to splice into."
+			for(var/i = 1; i <= buffers.len; i++)
+				var/datum/dna_buffer/buffer = src.buffers[i]
+				if(buffer != src.primary_buf && buffer != src.secondary_buf)
+					dat += "<br><a href='?src=\ref[src];operation=splice-buffer-output;buffer-num=[i]'>"
+					dat += "Buffer #[i] ([buffer.desc])</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_SPLICE_MENU_CHROM)
+			dat += "Please choose a chromosome."
+			for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+				dat += "<br><a href='?src=\ref[src];operation=splice-chromosome;chromosome-num=[i]'>"
+				dat += "Chromosome #[i]</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_SPLICE)
+			dat += "Chromosome #[src.pos_chromosome]"
+			dat += "<table>"
+			dat += "<tr><th>Locus</th><th>Primary</th><th>Secondary</th><th>Output</th></tr>"
+			for(var/i = 1; i <= NUM_LOCI; i++)
+				dat += "<tr>"
+				dat += "<th>Locus #[i]</th>"
+				for(var/allele in list(primary_buf.contents.data[pos_chromosome][i], secondary_buf.contents.data[pos_chromosome][i]))
+					if(allele == output_buf.contents.data[pos_chromosome][i])
+						dat += "<td><b>[primary_buf.contents.data[pos_chromosome][i]]</b></td>"
+					else
+						dat += "<td><a href='?src=\ref[src];operation=splice-chromosome;chromosome-num=[src.pos_chromosome];"
+						dat += "locus-num=[i];locus-contents=[allele]'>[allele]</a></td>"
+				dat += "<td>[output_buf.contents.data[pos_chromosome][i]]</td>"
+				dat += "</tr>"
+			dat += "</table>"
+			dat += "<br>"
+			if(src.pos_chromosome > 1)
+				dat += "<a href='?src=\ref[src];operation=splice-chromosome;chromosome-num=[src.pos_chromosome - 1]'>"
+				dat += "Previous chromosome</a>"
+			dat += "<br>"
+			if(src.pos_chromosome < NUM_CHROMOSOMES)
+				dat += "<a href='?src=\ref[src];operation=splice-chromosome;chromosome-num=[src.pos_chromosome + 1]'>"
 				dat += "Next chromosome</a>"
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
 	dat += "<br><br><a href='?src=\ref[user];mach_close=computer'>Close</a>"
@@ -172,16 +238,29 @@
 				src.state = STATE_EMPTY_BUFFER
 		if("view-chromosome")
 			src.pos_chromosome = text2num(href_list["chromosome-num"])
-			if(src.primary_buf.contents)
-				src.state = STATE_VIEW
-			else
-				src.state = STATE_EMPTY_BUFFER
+			src.state = STATE_VIEW
+		if("splice-menu")
+			src.state = STATE_SPLICE_MENU_BUF1
+		if("splice-buffer-primary")
+			src.primary_buf = buffers[text2num(href_list["buffer-num"])]
+			src.state = STATE_SPLICE_MENU_BUF2
+		if("splice-buffer-secondary")
+			src.secondary_buf = buffers[text2num(href_list["buffer-num"])]
+			src.state = STATE_SPLICE_MENU_BUF_OUT
+		if("splice-buffer-output")
+			src.output_buf = buffers[text2num(href_list["buffer-num"])]
+			src.output_buf.contents = src.primary_buf.contents.copy()
+			src.state = STATE_SPLICE_MENU_CHROM
+		if("splice-chromosome")
+			src.pos_chromosome = text2num(href_list["chromosome-num"])
+			src.state = STATE_SPLICE
+			if(href_list["locus-num"] && href_list["locus-contents"])
+				src.output_buf.contents.data[src.pos_chromosome][text2num(href_list["locus-num"])] = href_list["locus-contents"]
 	src.updateUsrDialog()
 	return
 
 /obj/machinery/computer/dna/process()
 	if(src.state != STATE_SCANNING && src.state != STATE_REPLACING)
-		src.updateDialog()
 		return
 	if(!src.connected_scanner)
 		src.state = STATE_NO_SCANNER

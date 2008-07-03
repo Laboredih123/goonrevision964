@@ -43,6 +43,7 @@ var/const/NUM_LOCI = 10
 	for(var/datum/gene/G in genes)
 		G.pre_apply(M)
 	for(var/datum/gene/G in genes)
+		world << "giving [M.name] attr [genes[G]]"
 		G.apply(M, genes[G])
 	var/name = src.check_registered()
 	if(name)
@@ -53,6 +54,13 @@ var/const/NUM_LOCI = 10
 		M.voice = "Unknown"
 	M.update_body()
 	M.update_face()
+
+/datum/dna/proc/copy()
+	var/datum/dna/copy = new()
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
+			copy.data[i][j] = src.data[i][j]
+	return copy
 
 
 /var/list/registered_dna = list()
