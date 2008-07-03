@@ -10,10 +10,19 @@
 		src.loc = Trand
 	if(hair_color)
 		src.hair_color = hair_color
+	else if(!src.hair_color)
+		src.hair_color = pick(get_hair_colors())
+
 	if(hair_style)
 		src.hair_style = hair_style
+	else
+		src.hair_style = pick(get_hair_styles())
+
 	if(skin_color)
 		src.skin_color = skin_color
+	else
+		src.skin_color = pick(get_skin_colors())
+
 	if(gender)
 		src.gender = gender
 

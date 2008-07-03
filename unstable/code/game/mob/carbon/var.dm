@@ -96,8 +96,10 @@
 		SLOT_IN_BACKPACK = 18
 
 
-	var/hair_color = HAIR_COLOR_BROWN
-	var/hair_style = HAIR_STYLE_SHORT
+	var/hair_color
+	var/hair_style
+	var/skin_color
+
 	var/appearance = APPEARANCE_MONKEY
 	var/cameraFollow = null
 
@@ -120,7 +122,6 @@
 
 	var/datum/hud/carbon/hud = null
 
-	var/skin_color = SKIN_COLOR_LIGHT
 	var/is_infectious = 0
 
 	var/icon/face = null
