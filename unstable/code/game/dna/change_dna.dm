@@ -26,6 +26,8 @@
 		src.icon = src.lying_icon
 	else
 		src.icon = src.stand_icon
+
+	src.update_name()
 	return
 
 /mob/carbon/proc/hair_color_rgb(color)

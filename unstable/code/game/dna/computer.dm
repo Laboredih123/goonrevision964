@@ -189,6 +189,7 @@
 			dat += "Exposing occupant to gamma radiation..."
 		if(STATE_GAMMA_DONE)
 			dat += "Gamma radiation complete!"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
 	dat += "<br><br><a href='?src=\ref[user];mach_close=computer'>Close</a>"
 	dat += "</body></html>"
 	user << browse(dat, "window=computer;size=400x500")
