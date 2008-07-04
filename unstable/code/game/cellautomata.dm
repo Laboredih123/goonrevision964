@@ -364,7 +364,6 @@
 <A href='?src=\ref[src];secrets2=list_bombers'>Show a list of all people who made a bomb</A><BR>
 <A href='?src=\ref[src];secrets2=check_antagonist'>Show the key of the traitor</A><BR>
 <A href='?src=\ref[src];secrets2=toxic'>Toxic Air (WARNING: dangerous)</A><BR>
-<A href='?src=\ref[src];secrets2=monkey'>Turn all humans into monkies</A><BR>
 <A href='?src=\ref[src];secrets2=power'>Make all areas powered</A><BR>
 <A href='?src=\ref[src];secrets2=wave'>Spawn a wave of meteors</A><BR>"}
 
@@ -445,12 +444,6 @@
 							alert("There is no traitor.", null, null, null, null, null)
 					else
 						alert("The game has not started yet.", null, null, null, null, null)
-				if("monkey")
-					world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
-					for(var/mob/carbon/H in world)
-						H.monkeyize()
-						//Foreach goto(3504)
-					ok = 1
 				if("power")
 					world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
 

@@ -13,16 +13,33 @@
 		for (var/mob/carbon/M in world)
 			if (M.client)
 				mobs += M
-
+		var/list/monkeyed = list()
 		if (mobs.len >= 3)
 			var/amount = round((mobs.len - 1) / 3) + 1
 			amount = min(4, amount)
 			while (amount > 0)
 				var/mob/carbon/M = pick(mobs)
-				M.monkeyize()
 				mobs -= M
+				monkeyed += M
 				amount--
-
+		//find the "infectious" and "monkey appearance" loci
+		for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+			for(var/j = 1; j <= NUM_LOCI; j++)
+				var/datum/canonical_locus/L = canonical_dna.data[i][j]
+				if(!L.associated_gene)
+					break
+				if(istype(L.associated_gene, /datum/gene/appearance))
+					for(var/allele in L.alleles)
+						if(L.alleles[allele] != APPEARANCE_MONKEY)
+							break
+						for(var/mob/carbon/M in monkeyed)
+							M.dna.data[i][j] = allele
+				if(istype(L.associated_gene, /datum/gene/infectious))
+					for(var/allele in L.alleles)
+						if(L.alleles[allele] != INFECTIOUS)
+							break
+						for(var/mob/carbon/M in monkeyed)
+							M.dna.data[i][j] = allele
 	spawn (0)
 		ticker.extend_process()
 
@@ -54,24 +71,3 @@
 			if (M.client && M.appearance == APPEARANCE_HUMAN)
 				world << text("<B>[] was [].</B>", M.key, M)
 	return 1
-
-/mob/carbon/proc/monkeyize()
-/*	if (src.monkeyizing)
-		return
-	src.drop_all()
-	src.monkeyizing = 1
-	src.canmove = 0
-	src.icon = null
-	src.invisibility = 100
-	var/atom/movable/overlay/animation = new /atom/movable/overlay( src.loc )
-	flick("h2monkey", src)
-	sleep(48)
-	var/mob/carbon/monkey/O = new /mob/carbon/monkey( src.loc )
-	O.start = 1
-	if (src.client)
-		src.client.mob = O
-	O.loc = src.loc
-	O << "<B>You are now a monkey.</B>"
-	del(src)
-	return
-*/

@@ -38,7 +38,9 @@ var/const/NUM_LOCI = 10
 			var/datum/canonical_locus/L = canonical_dna.data[i][j]
 			var/datum/gene/G = L.associated_gene
 			if(genes[G])
-				if(genes[G] != L.alleles[src.data[i][j]])
+				if(genes[G] != L.alleles[src.data[i][j]]) //reset it to default if it conflicts with the original
+					//for instance, if you had one "long hair" allele and one "short hair" allele for a two-part
+					//attribute, it would go to the default (bald)
 					L.alleles[src.data[i][j]] = G.default
 			else
 				var/x = src.data[i][j]
