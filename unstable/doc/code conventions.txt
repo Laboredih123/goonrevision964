@@ -4,7 +4,7 @@ Variable names and function names are lowercase, underscore-separated.
 
 Constants are all caps, underscore-separated.
 
-#defined constants should not be used unless there is no other way - make them /var/const if you have to, but encapsulate them if you can. For instance, a constant that only affects traitor mode should go in /datum/game_mode/traitor/var/const, generally. The awful design of the existing codebase might mean this isn't always possible. The same goes for functions, of course - in particular, try not to clutter up /obj, /atom, or /datum, because there are probably a few thousand items on the map all of which would be duplicating that data or code. That means crazy lag.
+#defined constants should not be used unless there is no other way - make them /var/const if you have to, but encapsulate them if you can. For instance, a constant that only affects traitor mode should go in /datum/game_mode/traitor/var/const, generally. The awful design of the existing codebase might mean this isn't always possible. The same goes for functions, of course - in particular, try not to clutter up /obj, /atom, or /datum with non-const vars, because there are probably a few thousand items on the map all of which would be duplicating that. That means crazy lag. (I'm not certain whether procs and consts are duplicated for each instance of a type, but I hope not.)
 
 A function name with initial capitalization should be a built-in important one like New(), Del(), Bump(), etc.
 
@@ -12,17 +12,22 @@ Try to use sensible names for things.
 
 Put a space between // and text - // butts not //butts
 
-New variables should not be grouped under a var block like this:
+New variables and procs should not be grouped under a var block like this:
 /mob/carbon/human
 	var
 		var1 = "4"
 		var2 = "4"
 		var3 = "4"
+	proc
+		do_stuff()
+			return
 Instead, do:
 /mob/carbon/human
 	var/var1 = "4"
 	var/var2 = "4"
 	var/var3 = "4"
+	proc/do_stuff()
+		return
 For one thing, this makes it easier to search for their declaration. Ideally, order variables by type (inherited or new), then in alphabetical order. Unless it really doesn't make sense, default values should be provided.
 
 An exception to this is constants. It's perfectly OK to do:
@@ -39,16 +44,18 @@ Also for readability, use src.[var] rather than just [var], even when it's not n
 
 You should use [] to embed expressions into text strings, as opposed to text(). If you run across a text() in the course of editing, change it to use [].
 
-(Note: The following rule is the opposite of OpenSS13's. This is intentional.)
-Declare procedures and stuff in the full form - 
-/mob/carbon/human/proc/do_stuff()
+When overriding procedures and variables, use the full form - 
+/mob/carbon/human/do_stuff()
 rather than
 /mob/carbon/human
+	do_stuff()
+You can use the shortened form in the initial declaration:
+/mob/carbon/human
 	proc/do_stuff()
+	var/can_do_stuff
 This makes searching through the codebase for things easier.
-Note that in the future, as the codebase becomes more organized and less awful, this will change.
 
-Do not put var/ in front of arguments or "as [whatever]" after them (unless it's a verb).
+Do not put var/ in front of arguments. Only put "as [whatever]" after them if it's a verb - the compile ignores it, and it provides a false sense of security.
 Bad:
 /mob/carbon/proc/do_stuff(var/x as text, var/y as num)
 Good:

@@ -68,22 +68,29 @@
 		if(M.attack_type == ATTACK_BITE)
 			if(M.is_muzzled())
 				return
-			var/success = 1
-			if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(95))
-				success = 0
-			else if(istype(src.suit, /obj/item/weapon/clothing/suit/armor) && prob(60))
-				success = 0
-			else if(istype(src.suit, /obj/item/weapon/clothing/suit/bio_suit) && prob(90))
-				success = 0
-			else if(istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit) && prob(95))
-				success = 0
-			else if(prob(25))
-				success = 0
-			if(!success)
-				src.show_viewers("\red <b>[M] has attempted to bite [src]!</b>")
+			if(!M.has_super_strength)
+				var/success = 1
+				if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(95))
+					success = 0
+				else if(istype(src.suit, /obj/item/weapon/clothing/suit/armor) && prob(60))
+					success = 0
+				else if(istype(src.suit, /obj/item/weapon/clothing/suit/bio_suit) && prob(90))
+					success = 0
+				else if(istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit) && prob(95))
+					success = 0
+				else if(prob(25))
+					success = 0
+				if(!success)
+					src.show_viewers("\red <b>[M] has attempted to bite [src]!</b>")
+				else
+					src.show_viewers("\red <B>[M] has bitten [src]!</B>")
+					src.take_damage(brute = 5)
+					if(M.is_infectious)
+						src.infected_by(M)
 			else
-				src.show_viewers("\red <B>[M] has bitten [src]!</B>")
-				src.take_damage(brute = 5)
+				src.knockout_until(20)
+				src.show_viewers("\red <b>[M] has bitten [src] with superhuman strength!</b>")
+				src.take_damage(brute = 20)
 				if(M.is_infectious)
 					src.infected_by(M)
 		else if(M.attack_type == ATTACK_PUNCH)
