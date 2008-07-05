@@ -1,6 +1,7 @@
-/var/const/LANGUAGE_MONKEY = 1
-/var/const/LANGUAGE_ENGLISH = 2
-/var/const/LANGUAGE_COMPUTER = 3
+/var/const/LANGUAGE_NONE = "None"
+/var/const/LANGUAGE_MONKEY = "Monkey"
+/var/const/LANGUAGE_ENGLISH = "English"
+/var/const/LANGUAGE_COMPUTER = "Computer"
 
 /mob/hear(message)
 	if(!src.is_deaf)
@@ -15,7 +16,9 @@
 	else if(istype(source, /obj/item/weapon/radio))
 		name += " broadcasts \icon[source]"
 	var/text = M.text
-	if(M.language && !(M.language in src.languages))
+	if(!M.language)
+		return
+	if(!(M.language in src.languages) || M.language == LANGUAGE_NONE)
 		text = replace_language(text, M.language)
 	return src.hear("<b>[speaker_name]</b>: [text]")
 
@@ -30,10 +33,13 @@
 			language_words = get_english_words()
 		if(LANGUAGE_COMPUTER)
 			language_words = get_computer_words()
+		if(LANGUAGE_NONE)
+			language_words = get_none_words()
 	for(var/word in words)
 		if(!word) //blank string (occurs when multiple spaces are in a row) isn't replaced
 			continue
 		replaced_words += pick(language_words)
 	return dd_list2text(replaced_words, " ")
 
-/mob/proc/switch_language(language in src.languages)
+/mob/verb/switch_language(language in src.languages)
+	src.curr_language = language

@@ -136,3 +136,9 @@
 	var/is_fire_immune = 0
 	var/has_xray_vision = 0
 	var/is_telepathic = 0
+
+	languages = list(LANGUAGE_MONKEY)
+	curr_language = LANGUAGE_MONKEY
+
+	icon = 'monkey.dmi'
+	icon_state = "monkey1"

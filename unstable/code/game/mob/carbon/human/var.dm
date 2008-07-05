@@ -14,3 +14,6 @@
 	can_wear_belt = 1
 	is_dextrous = 1
 	is_intelligent = 1
+
+	languages = list(LANGUAGE_ENGLISH)
+	curr_language = LANGUAGE_ENGLISH

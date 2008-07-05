@@ -25,6 +25,7 @@
 	src.verbs -= /mob/verb/memory
 	src.verbs -= /mob/verb/observe
 	src.verbs -= /mob/verb/respawn
+	src.verbs -= /mob/verb/switch_language
 
 	return
 

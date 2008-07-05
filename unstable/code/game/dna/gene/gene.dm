@@ -44,7 +44,7 @@
 
 		//fill with the default value
 		for(var/allele in get_all_alleles())
-			L.alleles[allele] = default
+			L.alleles[allele] = src.default
 
 		//add in 1 copy each of the rest
 		var/used = list()

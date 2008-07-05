@@ -35,8 +35,6 @@
 /mob/verb/say(txt as text)
 	if(!txt)
 		return
-	if(!src.curr_language)
-		return
 	txt = sanitize(txt)
 	txt = copytext(txt, 1, 256)
 	world.log_say("[src.name]/[src.key] : [txt]")
@@ -70,7 +68,7 @@
 	txt = html_encode(txt)
 
 
-	var/datum/message = new(voice = src.voice, text = txt, language = src.curr_language)
+	var/datum/message = new /datum/message(src.voice, txt, src.curr_language)
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(usr, txt)
@@ -78,11 +76,11 @@
 	for(var/obj/O as obj|mob in view(hear_range))
 		spawn(0)
 			if (O)
-				O.hear_message(usr, message)
+				O.hear_message(message, usr)
 				heard += O
 	for(var/mob/carbon/M in world)
 		if(!(M in heard) && M.is_telepathic)
-			M.hear_message(usr, message)
+			M.hear_message(message, usr)
 
 /mob/proc/is_stuttering()
 	return 0

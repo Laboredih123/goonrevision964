@@ -47,3 +47,11 @@
 		"1110",
 		"1111"
 	)
+
+/mob/proc/get_none_words()
+	return list(
+		"ugh",
+		"eurgh",
+		"augh",
+		"gruh"
+	)

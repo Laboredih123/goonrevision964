@@ -32,7 +32,7 @@
 			M.can_wear_id = 0
 			M.is_intelligent = 0
 			M.is_dextrous = 0
-			M.languages = list()
+			M.languages = list(LANGUAGE_NONE)
 
 	pick_attribute(mob/carbon/M)
 		if(M.appearance == APPEARANCE_QUIVERING_MASS)

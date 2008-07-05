@@ -298,7 +298,7 @@
 		return
 	M.show_viewers("\red <B>[M] has been attacked with [src][attacker ? " by [attacker]." : "."] </B>")
 	var/dam = src.force
-	if(!istype(/mob/carbon/, M))
+	if(!istype(M, /mob/carbon))
 		M.take_damage(brute = dam)
 		return
 	if ((M.helmet && M.helmet.brute_protect & 1) || (M.mask && M.mask.brute_protect & 1) && prob(5))

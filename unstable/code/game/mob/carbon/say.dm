@@ -32,9 +32,3 @@
 		if(prob(50))
 			return 1
 	return 0
-
-/mob/carbon/say(txt as text)
-	if(!src.curr_language)
-		src.moan()
-	else
-		return ..()

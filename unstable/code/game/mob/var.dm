@@ -40,8 +40,8 @@
 	var/prev_move = 0
 	var/next_move = 0
 
-	var/list/languages = list()
-	var/curr_language = null
+	var/list/languages = list(LANGUAGE_NONE)
+	var/curr_language = LANGUAGE_NONE
 
 	var/is_deaf = 0
 	var/is_perma_deaf = 0

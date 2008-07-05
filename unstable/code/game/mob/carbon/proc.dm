@@ -58,3 +58,6 @@
 	if (src.get_damage() > src.unconsciousness_threshold)
 		src.take_damage(suffocation = 200)
 		usr << "\blue You have given up life and succumbed to death."
+
+/mob/carbon/verb/show_dna()
+	variables(canonical_dna)
