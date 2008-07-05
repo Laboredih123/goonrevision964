@@ -61,3 +61,13 @@
 
 /mob/carbon/verb/show_dna()
 	variables(canonical_dna)
+
+/mob/carbon/verb/show_genes()
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
+			var/datum/canonical_locus/L = canonical_dna.data[i][j]
+			if(!L.is_junk && L.associated_gene)
+				usr << "at [i],[j] is [L.associated_gene.type]"
+				for(var/a in L.alleles)
+					if(L.alleles[a] != L.associated_gene.default)
+						usr << "\tSet to [a] for [L.alleles[a]]"
