@@ -362,10 +362,20 @@
 
 /mob/carbon/proc/update_name()
 	if ((src.mask && !(src.mask.see_face)) || (src.helmet && !(src.helmet.see_face))) // can't see the face
+		src.name = "Unknown"
 		if(src.id && src.id.registered)
 			src.name = src.id.registered
-		else
-			src.name = "Unknown"
+			return
+		if (istype(src.l_hand, /obj/item/weapon/card/id))
+			var/obj/item/weapon/card/id/C = src.l_hand
+			if (C.registered)
+				src.name = C.registered
+				return
+		else if (istype(src.r_hand, /obj/item/weapon/card/id))
+			var/obj/item/weapon/card/id/C = src.r_hand
+			if (C.registered)
+				src.name = C.registered
+				return
 	else
 		if (src.id && src.id.registered != src.body_name)
 			src.name = "[src.body_name] (as [src.id.registered])"
