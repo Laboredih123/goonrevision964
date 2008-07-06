@@ -89,16 +89,10 @@
 	switch(job)
 		if("Chaplain")
 			return list(access_morgue, access_chaplain_office)
-		if("Research Assistant")
-			return list(access_tox, access_medlab)
-		if("Staff Assistant")
-			return list(access_security)
-		if("Medical Assistant")
-			return list(access_medical_supplies, access_morgue)
-		if("Technical Assistant")
-			return list(access_maint_tunnels, access_external_airlocks)
-		if("Engineer")
-			return list(access_engine, access_eject_engine)
+		if("Assistant")
+			return list(access_medlab, access_maint_tunnels, access_external_airlocks)
+		if("Station Engineer")
+			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs)
 		if("Forensic Technician")
 			return list(access_security, access_forensics_lockers, access_morgue)
 		if("Research Technician")
@@ -121,8 +115,6 @@
 						access_security_records, access_tox, access_tox_storage, access_medlab, access_engine,
 						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
 						access_all_personal_lockers, access_chaplain_office)
-		if("Station Technician")
-			return list(access_maint_tunnels, access_external_airlocks, access_apcs, access_all_personal_lockers)
 		if("Atmospheric Technician")
 			return list(access_maint_tunnels, access_emergency_storage)
 		else
@@ -189,4 +181,4 @@
 			return "access chaplain's office"
 
 /proc/get_all_jobs()
-	return list("Research Assistant", "Staff Assistant", "Medical Assistant", "Technical Assistant", "Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Station Technician", "Atmospheric Technician", "Chaplain")
+	return list("Assistant", "Station Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
