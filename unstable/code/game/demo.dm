@@ -40,6 +40,7 @@
 		sleep(6)
 		src.operating = null
 		open()
+		src.stat |= EMAGGED
 		return 1
 	if (src.allowed(user))
 		if (src.density)

@@ -215,10 +215,10 @@ About the new airlock wires panel:
 	return ((src.wires & wireFlag) == 0)
 
 /obj/machinery/door/airlock/proc/canAIControl()
-	return ((src.aiControlDisabled!=1) && (!src.isAllPowerCut()));
+	return (!(src.stat & EMAGGED) && (src.aiControlDisabled!=1) && (!src.isAllPowerCut()));
 
 /obj/machinery/door/airlock/proc/canAIHack()
-	return ((src.aiControlDisabled==1) && (!src.isAllPowerCut()));
+	return (!(src.stat & EMAGGED) && (src.aiControlDisabled==1) && (!src.isAllPowerCut()));
 
 /obj/machinery/door/airlock/proc/arePowerSystemsOn()
 	return (src.secondsMainPowerLost==0 || src.secondsBackupPowerLost==0)
@@ -729,7 +729,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/open()
 
-	if (src.blocked || src.locked || (!src.arePowerSystemsOn()) || (stat & NOPOWER))
+	if (src.blocked || src.locked || (!src.arePowerSystemsOn()) || (stat & NOPOWER|EMAGGED))
 		return
 	use_power(50)
 	if (src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
@@ -739,7 +739,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/close()
 
-	if (src.blocked || (!src.arePowerSystemsOn()) || (stat & NOPOWER))
+	if (src.blocked || (!src.arePowerSystemsOn()) || (stat & NOPOWER|EMAGGED))
 		return
 	use_power(50)
 	..()

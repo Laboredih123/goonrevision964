@@ -47,3 +47,4 @@
 #define NOPOWER 1 << 1
 #define POWEROFF 1 << 2	// tbd
 #define MAINT 1 << 3	// under maintaince
+#define EMAGGED 16 // is something (such as airlocks!) emagged?
