@@ -556,6 +556,8 @@
 		features += master_mode
 	else if (!ticker)
 		features += "<b>STARTING</b>"
+		src.status += ": [dd_list2text(features, ", ")]"
+		return
 
 	if (config && config.enable_authentication)
 		features += "goon only"
@@ -574,6 +576,8 @@
 
 	if (host)
 		features += "hosted by <b>[host]</b>"
+	else if (config && config.hostedby)
+		features += "hosted by <b>[config.hostedby]</b>"
 
 	if (features)
 		src.status += ": [dd_list2text(features, ", ")]"
@@ -626,6 +630,9 @@
 
 	config = new /datum/configuration()
 	config.load("config.txt")
+
+	// apply some settings from config..
+	abandon_allowed = config.respawn
 
 	vote = new /datum/vote()
 
