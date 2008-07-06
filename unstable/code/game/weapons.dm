@@ -1204,8 +1204,13 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+/obj/item/weapon/assembly/m_i_ptank/examine()
+	..()
+	src.part3.examine()
 
+/obj/item/weapon/assembly/m_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	if(istype(W, /obj/item/weapon/analyzer))
+		src.part3.attackby(W, user)
 	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
 		var/obj/item/weapon/assembly/prox_ignite/R = new /obj/item/weapon/assembly/prox_ignite(  )
 		R.part1 = src.part1
@@ -1290,7 +1295,8 @@
 	return
 
 /obj/item/weapon/assembly/t_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
-
+	if(istype(W, /obj/item/weapon/analyzer))
+		src.part3.attackby(W, user)
 	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
 		var/obj/item/weapon/assembly/time_ignite/R = new /obj/item/weapon/assembly/time_ignite(  )
 		R.part1 = src.part1
@@ -1333,6 +1339,10 @@
 
 	src.add_fingerprint(user)
 	return
+
+/obj/item/weapon/assembly/t_i_ptank/examine()
+	..()
+	src.part3.examine()
 
 /obj/item/weapon/assembly/t_i_ptank/attack_self(mob/user as mob)
 
@@ -1388,8 +1398,14 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/r_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+/obj/item/weapon/assembly/m_i_ptank/examine()
+	..()
+	src.part3.examine()
 
+
+/obj/item/weapon/assembly/r_i_ptank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	if(istype(W, /obj/item/weapon/analyzer))
+		src.part3.attackby(W, user)
 	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
 		var/obj/item/weapon/assembly/rad_ignite/R = new /obj/item/weapon/assembly/rad_ignite(  )
 		R.part1 = src.part1

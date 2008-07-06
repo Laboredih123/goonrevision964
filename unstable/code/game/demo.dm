@@ -637,6 +637,35 @@
 		M.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 	return
 
+/obj/item/weapon/tank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	var/obj/item/weapon/icon = src
+	if (istype(src.loc, /obj/item/weapon/assembly))
+		icon = src.loc
+	if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
+		for (var/mob/O in viewers(user, null))
+			O << "\red [user] has used the analyzer on \icon[icon]"
+		var/total = src.gas.tot_gas()
+		var/t1 = 0
+
+		user << "\blue Results of analysis of \icon[icon]"
+		if (total)
+			user << "\blue Overall: [total] / [src.gas.maximum]"
+			t1 = round( src.gas.n2 / total * 100 , 0.0010)
+			user << "\blue Nitrogen: [t1]%"
+			t1 = round( src.gas.oxygen / total * 100 , 0.0010)
+			user << "\blue Oxygen: [t1]%"
+			t1 = round( src.gas.plasma / total * 100 , 0.0010)
+			user << "\blue Plasma: [t1]%"
+			t1 = round( src.gas.co2 / total * 100 , 0.0010)
+			user << "\blue CO2: [t1]%"
+			t1 = round( src.gas.sl_gas / total * 100 , 0.0010)
+			user << "\blue N2O: [t1]%"
+			user << text("\blue Temperature: []&deg;C", src.gas.temperature-T0C)
+		else
+			user << "\blue Tank is empty!"
+		src.add_fingerprint(user)
+	return
+
 /obj/item/weapon/tank/New()
 
 	..()
@@ -662,10 +691,21 @@
 	return
 
 /obj/item/weapon/tank/examine()
-	set src in view(1)
-
-	if(src)
-		usr << text("\blue The \icon[] contains [] unit\s of gas.", src, src.gas.tot_gas())
+	var/obj/item/weapon/icon = src
+	if (istype(src.loc, /obj/item/weapon/assembly))
+		icon = src.loc
+	if (get_dist(src, usr) > 1)
+		if (icon == src)
+			usr << "\blue It's a \icon[icon]! If you want any more information you'll need to get closer."
+		return
+	var/foo = src.gas.temperature-T0C
+	if (foo < 20) foo = "cold"
+	else if (foo == 20)  foo = "room temperature"
+	else if (foo > 20 && foo < 300) foo = "lukewarm"
+	else if (foo >= 300 && foo < 450) foo = "warm"
+	else if (foo >= 450 && foo < 500) foo = "hot"
+	else foo = "dangerously hot"
+	usr << text("\blue The \icon[] contains [] unit\s of [] gas.", icon, src.gas.tot_gas(), foo)
 	return
 
 /obj/item/weapon/tank/oxygentank/New()
@@ -855,6 +895,8 @@
 
 
 /obj/item/weapon/tank/plasmatank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+	..()
+
 	if(!istype(user, /mob/carbon))
 		return
 	if (istype(W, /obj/item/weapon/assembly/rad_ignite))
