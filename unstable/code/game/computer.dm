@@ -364,16 +364,14 @@
 		if(src.authenticated)
 			var/access_type = text2num(href_list["access"])
 			var/access_allowed = text2num(href_list["allowed"])
-			if(access_type in get_all_accesses())
+			if(access_type in get_all_accesses() && access_allowed == 1)
 				src.modify.access -= access_type
-				if(access_allowed == 1)
-					src.modify.access += access_type
+				src.modify.access += access_type
 	if (href_list["assign"])
 		if (src.authenticated)
 			var/t1 = href_list["assign"]
 			if(t1 == "Custom")
 				t1 = input("Enter a custom job assignment.","Assignment")
-			src.modify.access = get_access(t1)
 			src.modify.assignment = t1
 	if (href_list["reg"])
 		if (src.authenticated)
