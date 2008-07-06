@@ -77,9 +77,9 @@
 	var/eye_name = null
 
 	if (is_admin)
-		eye_name = input("Please, select a player!", "Admin Observe", null, null) as null|anything in creatures
+		eye_name = input("Please select a player!", "Admin Observe") as null|anything in creatures
 	else
-		eye_name = input("Please, select a player!", "Observe", null, null) as null|anything in creatures
+		eye_name = input("Please select a player!", "Observe") as null|anything in creatures
 
 	if (!eye_name)
 		return
@@ -99,6 +99,15 @@
 			src.client.eye = eye
 		else
 			src.client.eye = src.client.mob
+
+	if (src.is_dead)
+		src.sight |= SEE_TURFS
+		src.sight |= SEE_MOBS
+		src.sight |= SEE_INFRA
+		src.sight |= SEE_OBJS
+		src.see_in_dark = 8
+		src.see_invisible = 2
+		src.see_infrared = 8
 
 /mob/verb/cancel_camera()
 	set name = "Cancel Camera View"
