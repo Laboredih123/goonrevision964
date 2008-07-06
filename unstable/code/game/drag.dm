@@ -459,7 +459,7 @@
 			S.s_time = world.time
 			var/a = S.inject(src.target)
 			src.source.show_viewers(text("\red [] injects [] with the syringe!", src.source, src.target))
-			src.source << text("\red You inject [] units into []. The syringe contains [] units.", a, src.target, S.chem.volume())
+			src.source << text("\red You inject [] units into []. The syringe contains [] units.", a, src.target, round(S.chem.volume(), 0.1))
 		if("pill")
 			var/obj/item/weapon/m_pill/S = src.item
 			if (!( istype(S, /obj/item/weapon/m_pill) ))

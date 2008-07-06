@@ -3481,15 +3481,14 @@
 
 	var/amount = 5
 	var/volume = src.chem.volume()
-	if (volume < 0.01)
+	if (volume < 0.1)
 		return
 	else
 		if (volume < 5.01)
 			amount = volume - 0.01
-	amount = src.chem.transfer_mob(M, amount)
+	src.chem.transfer_mob(M, amount)
 	src.update_is()
 	return amount
-	return
 
 /obj/item/weapon/syringe/dropped()
 
@@ -3535,8 +3534,7 @@
 				//Foreach goto(192)
 			var/amount = src.chem.transfer_mob(M, 5)
 			src.update_is()
-
-			user.see(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.volume()))
+			user.see(text("\red You inject [] units into the []. The syringe contains [] units.", amount, M, round(src.chem.volume(), 0.1)))
 	return
 
 /obj/item/weapon/brutepack/interact(mob/user as mob)
