@@ -48,3 +48,5 @@
 #define POWEROFF 1 << 2	// tbd
 #define MAINT 1 << 3	// under maintaince
 #define EMAGGED 16 // is something (such as airlocks!) emagged?
+
+#define ENGINE_EJECT_Z 6

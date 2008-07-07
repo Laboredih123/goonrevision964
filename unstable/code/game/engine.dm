@@ -1,5 +1,3 @@
-#define ENGINE_EJECT_Z 6
-
 /obj/machinery/computer/engine/req_access = list(access_eject_engine)
 
 /obj/machinery/computer/engine/ex_act(severity)
