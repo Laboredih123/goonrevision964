@@ -7,7 +7,7 @@
 
 /mob/hear(message)
 	if(!src.is_deaf)
-		src << copytext(msg, 1, MAX_MESSAGE_LEN)
+		src << copytext(message, 1, MAX_MESSAGE_LEN)
 		return 1
 	return 0
 

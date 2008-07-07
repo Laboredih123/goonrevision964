@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\computer.dm
-DIR: code code\data code\game code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\modes
+FILE: code\game\items.dm
+DIR: code code\data code\game code\game\dna code\game\dna\gene code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\modes code\game\verbs
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -16,6 +16,7 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "code/atoms"
 #define FILE_DIR "code/data"
 #define FILE_DIR "code/game"
+#define FILE_DIR "code/game/area"
 #define FILE_DIR "code/game/dna"
 #define FILE_DIR "code/game/dna/gene"
 #define FILE_DIR "code/game/item"

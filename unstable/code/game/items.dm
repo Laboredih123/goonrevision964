@@ -630,7 +630,7 @@
 		else
 			if (href_list["freq"])
 				src.freq += text2num(href_list["freq"])
-				if (src.freq * 10 % 2 == 0)
+				if (round(src.freq * 10, 1) % 2 == 0)
 					src.freq += 0.1
 				src.freq = min(148.9, src.freq)
 				src.freq = max(144.1, src.freq)
