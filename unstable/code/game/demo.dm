@@ -1502,14 +1502,10 @@
 
 	..()
 	sleep(2)
-	new /obj/item/weapon/tank/oxygentank( src )
-	new /obj/item/weapon/clothing/mask/gasmask( src )
 	new /obj/item/weapon/clothing/suit/bio_suit( src )
 	new /obj/item/weapon/clothing/under/white( src )
 	new /obj/item/weapon/clothing/shoes/white( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
 	new /obj/item/weapon/clothing/head/bio_hood( src )
-	new /obj/item/weapon/clothing/suit/labcoat(src)
 
 	return
 
@@ -1653,7 +1649,6 @@
 	new /obj/item/weapon/clothing/shoes/white( src )
 	new /obj/item/weapon/clothing/shoes/white( src )
 	new /obj/item/weapon/clothing/shoes/white( src )
-	new /obj/item/weapon/storage/lglo_kit( src )
 	new /obj/item/weapon/storage/stma_kit( src )
 	new /obj/item/weapon/clothing/suit/labcoat(src)
 	new /obj/item/weapon/clothing/suit/labcoat(src)
