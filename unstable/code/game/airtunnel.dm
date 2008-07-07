@@ -616,7 +616,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 /obj/machinery/alarm/process()
 
-	if(stat & NOPOWER)
+	if(stat & (NOPOWER|BROKEN))
 		icon_state = "alarm-p"
 		return
 
@@ -654,6 +654,14 @@ obj/machinery/door_control/interact(mob/user as mob)
 	src.icon_state = text("alarm:[]", !( safe == 2 ))
 
 	return
+
+/obj/machinery/alarm/attackby(W as obj, user as mob)
+	if (istype(W, /obj/item/weapon/wirecutters))
+		stat ^= BROKEN
+		for(var/mob/O in viewers(user, null))
+			O.see(text("\red [] has []activated []!", user, (stat&BROKEN) ? "de" : "re", src))
+		return
+	return ..()
 
 /obj/machinery/alarm/power_change()
 	if( powered(ENVIRON) )
