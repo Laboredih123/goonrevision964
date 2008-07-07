@@ -72,7 +72,6 @@ Airlock index -> wire color are { 9, 4, 6, 7, 5, 8, 1, 2, 3 }.
 	var/aiHacking = 0
 	var/obj/machinery/door/airlock/closeOther = null
 	var/closeOtherId = null
-	req_access = list(4,6)
 
 /*
 About the new airlock wires panel:
