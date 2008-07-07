@@ -2277,6 +2277,12 @@
 	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 	return
 
+/obj/item/weapon/paper/interact(var/mob/silicon/ai/user)
+	if(!istype(user, /mob/silicon/ai))
+		return ..()
+	if (get_dist(src, user.current) < 2)
+		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+
 /obj/item/weapon/paper/Map/examine()
 	set src in view()
 
