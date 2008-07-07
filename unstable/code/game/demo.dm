@@ -3040,38 +3040,39 @@
 	return
 
 /turf/station/floor/attackby(obj/item/weapon/C as obj, mob/user as mob)
+{
+	if(!C)		return
+	if(!user)	return
 
-	if (istype(C, /obj/item/weapon/crowbar))
-		if (src.health > 100)
-			src.health = 100
-			src.burnt = 1
-			src.intact = 0
-			levelupdate()
-			new /obj/item/weapon/tile( src )
-			src.icon_state = text("Floor[]", (src.burnt ? "1" : ""))
-	else if (istype(C, /obj/item/weapon/tile))
-		if (src.health <= 100)
-			src.intact = 1
-			levelupdate()
-			src.health = 150
-			src.burnt = 0
-			if (src.firelevel >= 900000.0)
-				src.icon_state = "burning"
-				src.luminosity = 2
-			else
-				src.icon_state = "Floor"
-			var/obj/item/weapon/tile/T = C
-			T.amount--
-			if (T.amount < 1)
-				//T = null
-				del(T)
-	else if (istype(C, /obj/item/weapon/cable_coil) )
+	if(istype(C, /obj/item/weapon/crowbar))
+		if (src.health <= 100) return
+		src.health	= 100
+		src.burnt	= 1
+		src.intact	= 0
+		levelupdate()
+		new /obj/item/weapon/tile(src)
+		src.icon_state = text("Floor[]", (src.burnt ? "1" : ""))
+		return
+
+	if(istype(C, /obj/item/weapon/tile))
+		if(src.health > 100) return
+		src.health	= 150
+		src.burnt	= 0
+		src.intact	= 1
+		levelupdate()
+		if (src.firelevel >= 900000.0)
+			src.icon_state = "burning"
+			src.luminosity = 2
+		else
+			src.icon_state = "Floor"
+		var/obj/item/weapon/tile/T = C
+		if(--T.amount < 1)	del(T)
+		return
+
+	if(istype(C, /obj/item/weapon/cable_coil) )
 		var/obj/item/weapon/cable_coil/coil = C
 		coil.turf_place(src, user)
-
-	//else if (istype(C, /obj/item/weapon/sheet/r_metal))
-
-	return
+}
 
 /turf/station/floor/unburn()
 
