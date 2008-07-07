@@ -36,7 +36,7 @@
 	if(!txt)
 		return
 	txt = sanitize(txt)
-	txt = copytext(txt, 1, 256)
+	txt = copytext(txt, 1, 1024)
 	world.log_say("[src.name]/[src.key] : [txt]")
 
 	if(src.is_dead)
