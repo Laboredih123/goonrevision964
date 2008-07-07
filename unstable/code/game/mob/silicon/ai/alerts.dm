@@ -4,7 +4,8 @@
 		src.machine = null
 		src.reset_view(null)
 		return 0
-	if (stat == 2 || !C.status || C.network != src.network) return 0
+	if (!src.is_active() || !C.status || C.network != src.network)
+		return 0
 
 	// ok, we're alive, camera is good and in our network...
 
@@ -14,7 +15,7 @@
 	return 1
 
 /mob/silicon/ai/proc/triggerAlarm(var/class, area/A, var/O, var/alarmsource)
-	if (stat == 2)
+	if (!src.is_active())
 		return 1
 	var/list/L = src.alarms[class]
 	for (var/I in L)
@@ -107,4 +108,4 @@
 	set category = "AI Commands"
 	set name = "Show Camera List"
 
-	attack_ai(src)
+	src.interact(src)

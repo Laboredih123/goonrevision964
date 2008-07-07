@@ -680,7 +680,10 @@
 		if (src.temp)
 			dat = text("[]<BR><BR><A href='?src=\ref[];temp=1'>Clear</A>", src.temp, src)
 		else
-			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>\n<A href='?src=\ref[];lock=1'>Lock</A><BR>\n<HR>\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, src, src)
+			var/dat2 = ""
+			if (src.origradio)
+				dat2 = text("\n<A href='?src=\ref[];lock=1'>Lock</A><BR>\n<HR>", src)
+			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>[]\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, dat2, src)
 	user << browse(dat, "window=radio")
 	return
 

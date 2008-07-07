@@ -84,5 +84,5 @@
 		switchCamera(null)
 		return 0
 
-	switchCamera(C)
+	switchCamera(t)
 	return
