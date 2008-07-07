@@ -417,7 +417,7 @@
 /datum/game_mode/traitor/proc/get_target_desc(mob/target) //return a useful string describing the target
 	var/targetrank = null
 	for(var/datum/data/record/R in data_core.general)
-		if (R.fields["name"] == ticker.target.name)
+		if (R.fields["name"] == target.name)
 			targetrank = R.fields["rank"]
 	return "[target.name] the [targetrank]"
 
