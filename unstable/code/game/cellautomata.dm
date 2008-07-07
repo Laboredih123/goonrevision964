@@ -241,30 +241,19 @@
 	if (href_list["l_players"])
 		var/dat = "<table><tr><th>Name</th><th>Spawn name</th><th>Client</th><th>IP</th><th>Authorized?</th></tr>"
 		for(var/mob/M in world)
-			var/foo = ""
-				if (ismob(M) && M.client)
-					if(!M.client.authenticated && !M.client.authenticating)
-						foo += text("\[ <A HREF='?src=\ref[];adminauth=\ref[]'>Authorize</A> | ", src, M)
-					else
-						foo += text("\[ <B>Authorized</B> | ")
-					if(!istype(M, /mob/monkey))
-						foo += text("<A HREF='?src=\ref[];monkeyone=\ref[]'>Monkeyize</A> \]", src, M)
-					else
-						foo += text("<B>Monkeyized</B> \]")
-
-				dat += "<tr>"
-				dat += "<td>[M.name]</td>"
-				dat += "<td>[M.spawn_name]</td>"
-				dat += "<td>[M.client ? M.client : "No client"]</td>"
-				dat += "<td>[M.last_known_ip]</td>"
-				if(M.client)
-					if(!M.client.authenticated && !M.client.authenticating)
-						dat += "<td><a href='?src=\ref[src];adminauth=\ref[M]'>Authorize</a>"
-					else
-						dat += "<td>Authorized</td>"
+			dat += "<tr>"
+			dat += "<td>[M.name]</td>"
+			dat += "<td>[M.spawn_name]</td>"
+			dat += "<td>[M.client ? M.client : "No client"]</td>"
+			dat += "<td>[M.last_known_ip]</td>"
+			if(M.client)
+				if(!M.client.authenticated && !M.client.authenticating)
+					dat += "<td><a href='?src=\ref[src];adminauth=\ref[M]'>Authorize</a>"
 				else
-					dat += "<td>No client</td>"
-				dat += "</tr>"
+					dat += "<td>Authorized</td>"
+			else
+				dat += "<td>No client</td>"
+			dat += "</tr>"
 		dat += "</table>"
 		usr << browse(dat, "window=players")
 	if (href_list["adminauth"])
@@ -273,7 +262,7 @@
 			if (ismob(M) && !M.client.authenticated && !M.client.authenticating)
 				M.client.verbs -= /client/proc/authorize
 				M.client.authenticated = text("admin/[]", usr.client.authenticated)
-				world.log_admin(text("ADMIN: [] authorized []", usr.key, M.rname))
+				world.log_admin(text("ADMIN: [] authorized []", usr.key, M.spawn_name))
 				M.client << text("You have been authorized by []", usr.key)
 	if (href_list["g_send"])
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message
@@ -281,7 +270,7 @@
 			world << "\blue <B>[usr.key] Announces:</B>\n \t [t]"
 			world.log_admin("Announce: [usr.key] : [t]")
 	if (href_list["p_send"])
-		var/dat = "<B>Who are you sending a message to?</B><HR>"
+		var/dat = "<B>To whom are you sending a message?</B><HR>"
 		for(var/mob/M in world)
 			dat += "<A href='?src=\ref[usr];priv_msg=\ref[M]'>N:[M.name] R:[M.spawn_name] (K:[(M.client ? M.client : "No client")])</A><BR>"
 			//Foreach goto(1737)

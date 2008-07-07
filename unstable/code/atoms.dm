@@ -1540,8 +1540,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	flags = 322.0
 	force = 8.0
 	w_class = 4.0
-
-
 /obj/item/weapon/storage/trackimp_kit
 	name = "Tracking Implant Kit"
 	icon_state = "imp_kit"
@@ -1567,6 +1565,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	s_istate = "electronic"
 	throw_speed = 4
 	throw_range = 20
+	var/traitorfreq = 0.0
+	var/obj/item/weapon/radio/origradio = null
 /obj/item/weapon/syringe
 	name = "syringe"
 	icon_state = "syringe_0"

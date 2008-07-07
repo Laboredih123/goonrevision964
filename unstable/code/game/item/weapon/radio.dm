@@ -19,7 +19,8 @@
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
 	var/listenrange = 2
 	var/b_stat = 0
-
+	var/traitorfreq = 0.0
+	var/obj/item/weapon/syndicate_uplink/traitorradio = null
 /obj/item/weapon/radio/beacon
 	name = "Tracking Beacon"
 	icon_state = "beacon"
