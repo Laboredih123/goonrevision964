@@ -46,11 +46,15 @@ datum/hSB
 				hsbpanel += "- <a href=\"?\ref[src];hsb=hsbobj\">Spawn Object</a><br><br>"
 			usr << browse(hsbpanel, "window=hsbpanel")
 	Topic(href, href_list)
-		if(!(src.owner == usr.ckey)) return
+		if(!(src.owner == usr.ckey))
+			return
+		if(!usr) //it doesn't seem like this should be possible, but it's happened at least once
+			return
 		if(href_list["hsb"])
 			switch(href_list["hsb"])
 				if("hsbtobj")
-					if(!admin) return
+					if(!admin)
+						return
 					if(hsboxspawn)
 						world << "<b>Sandbox:  [usr.key] has disabled object spawning!</b>"
 						hsboxspawn = 0
@@ -102,7 +106,7 @@ datum/hSB
 				if("hsbairlock")
 					var/obj/machinery/door/hsb = new/obj/machinery/door/airlock
 
-					//TODO: make this better, with an HTML window or something instead of 15 popups
+					//TODO: make this better, with an HTML window or something instead of 30 popups
 					hsb.req_access = list()
 					var/accesses = get_all_accesses()
 					for(var/A in accesses)
