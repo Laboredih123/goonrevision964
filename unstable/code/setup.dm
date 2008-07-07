@@ -13,7 +13,7 @@
 #define NORMPIPERATE 40					//pipe-insulation rate divisor
 #define HEATPIPERATE 8					//heat-exch pipe insulation
 
-#define FLOWFRAC 0.5				// fraction of gas transfered per process
+#define FLOWFRAC 0.99				// fraction of gas transfered per process
 
 
 //FLAGS BITMASK
@@ -49,4 +49,4 @@
 #define MAINT 1 << 3	// under maintaince
 #define EMAGGED 16 // is something (such as airlocks!) emagged?
 
-#define ENGINE_EJECT_Z 6
+#define ENGINE_EJECT_Z 2
