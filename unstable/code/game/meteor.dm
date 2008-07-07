@@ -2,7 +2,7 @@
 //set to at least 100 unless you want evarr ruining every round
 
 /var/const/meteors_in_wave = 400
-/var/const/meteors_in_small_wave = 5
+/var/const/meteors_in_small_wave = 1
 
 /proc/meteor_wave()
 	if(!ticker || wavesecret)
@@ -16,7 +16,7 @@
 		wavesecret = 0
 
 /proc/spawn_meteors()
-	for(var/i = 0 to meteors_in_small_wave)
+	for(var/i = 0; i < meteors_in_small_wave; i++)
 		spawn(0)
 			spawn_meteor()
 
