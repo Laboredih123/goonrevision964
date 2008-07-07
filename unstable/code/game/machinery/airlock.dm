@@ -567,7 +567,7 @@ About the new airlock wires panel:
 				if (5)
 					//un-electrify door
 					if (src.isWireCut(AIRLOCK_WIRE_ELECTRIFY))
-						usr += text("Can't un-electrify the airlock - The electrification wire is cut.<br>\n")
+						usr << text("Can't un-electrify the airlock - The electrification wire is cut.<br>\n")
 					else if (src.secondsElectrified==-1)
 						src.secondsElectrified = 0
 					else if (src.secondsElectrified>0)
