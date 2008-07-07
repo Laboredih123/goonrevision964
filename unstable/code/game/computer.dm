@@ -104,7 +104,7 @@
 	for (var/mob/carbon/M in world)
 		if (istype(M.id, /obj/item/weapon/card/id/syndicate))
 			continue
-		else if (M == usr)
+		if(!istype(M.loc, /turf)) //in a closet or something, AI can't see him anyways
 			continue
 
 		var/name = M.name
@@ -138,6 +138,10 @@
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return
+			else if (!istype(target.loc, /turf)) //in a closet
+				usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
+				sleep(40) //because we're sleeping another second after this (a few lines down)
+				continue
 
 			var/obj/machinery/camera/C = usr:current
 			if ((C && istype(C, /obj/machinery/camera)) || C==null)
@@ -167,7 +171,7 @@
 						//use_power(50)
 					if (zmatched == 0)
 						usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
-						sleep(290) //because we're sleeping another second after this (a few lines down)
+						sleep(40) //because we're sleeping another second after this (a few lines down)
 			else
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
