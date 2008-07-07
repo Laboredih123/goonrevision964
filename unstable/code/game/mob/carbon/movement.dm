@@ -11,9 +11,15 @@
 	if (!is_being_pulled && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving))))
 		var/turf/T = src.loc
 		. = ..()
-		if (!isturf(src.pulling.loc))
-			src.pulling = null
-			return
+		if (src.pulling && src.pulling.loc)
+			if(!( isturf(src.pulling.loc) ))
+				src.pulling = null
+				return
+			else
+				if(Debug)
+					world.log <<"src.pulling disappeared? at __LINE__ in mob.dm - src = [src], src.pulling = [src.pulling]"
+					world.log <<"REPORT THIS"
+
 
 		if (src.pulling.anchored)
 			src.pulling = null
