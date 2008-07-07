@@ -34,16 +34,14 @@
 	if(stat & (NOPOWER|BROKEN) )
 		return
 
-	var/list/L = list(  )
+	var/list/L = list()
 	for(var/obj/item/weapon/radio/beacon/R in world)
 		var/turf/T = find_loc(R)
-		if (!( T ))
-			continue //goto(26)
-		var/t1 = text("-[],[],[]", T.x, T.y, T.z)
-		t1 = text("[][]", R.text, t1)
-		L[t1] = R
-	var/t1 = input("Please select a location to lock in.", "Locking Computer") in L
-	var/R = L[t1]
+		if (!T)
+			continue
+		L[T.loc.name] = R
+	var/desc = input("Please select a location to lock in.", "Locking Computer") in L
+	var/R = L[desc]
 	if (prob(50))
 		src.locked = R
 	else
