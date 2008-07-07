@@ -387,17 +387,7 @@
 	A = A.loc
 	if (!( istype(A, /area) ))
 		return
-	A.fire = 0
-	A.mouse_opacity = 0
-	A.updateicon()
-
-	for(var/obj/machinery/door/firedoor/D in A)
-		if (D.density)
-			spawn( 0 )
-				D.openfire()
-				return
-		//Foreach goto(93)
-	return
+	A.firereset()
 
 /obj/machinery/firealarm/proc/alarm()
 

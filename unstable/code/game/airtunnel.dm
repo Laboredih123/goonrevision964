@@ -620,23 +620,39 @@ obj/machinery/door_control/interact(mob/user as mob)
 		icon_state = "alarm-p"
 		return
 
+	var/turf/T = src.loc
+	var/area/A = T.loc
+
 	use_power(5, ENVIRON)
 
-	var/safe = 1
-	var/turf/T = src.loc
+	var/safe = 2
+
 	if (!( istype(T, /turf) ))
 		return
 	if (locate(/obj/move, T))
 		T = locate(/obj/move, T)
 	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
 	turf_total = max(turf_total, 1)
-	var/t1 = turf_total / CELLSTANDARD * 100
-	if (!( (90 < t1 && t1 < 110) ))
-		safe = 0
-	t1 = T.oxygen / turf_total * 100
-	if (!( (20 < t1 && t1 < 30) ))
-		safe = 0
-	src.icon_state = text("alarm:[]", !( safe ))
+
+	var/P    = turf_total / CELLSTANDARD // pressure in bar
+
+	var/ppO2   = P * (T.oxygen / turf_total)
+	var/ppCO2  = P * (T.co2 / turf_total)
+	var/ppPlas = P * (T.poison / turf_total)
+
+	// world.log << "[A.name] : P = [P] | FO2 = [FO2] | ppO2 = [ppO2]"
+	if (P < 0.90 || P > 1.10) // pressure alarm
+		safe = (P < 0.75 || P > 1.25) ? 0 : 1
+	if (safe && (ppO2 < 0.19 || ppO2 > 0.23)) // O2 alarm
+		safe = (ppO2 < 0.17 || ppO2 > 0.25) ? 0 : 1
+	if (safe && (ppCO2 > 0.05)) // CO2 alarm
+		safe = (ppCO2 > 0.1) ? 0 : 1
+	if (safe && (ppPlas > 0.05)) // Plasma alarm
+		safe = (ppPlas > 0.1) ? 0 : 1
+
+	A.atmosalert(safe, src)
+	src.icon_state = text("alarm:[]", !( safe == 2 ))
+
 	return
 
 /obj/machinery/alarm/power_change()

@@ -80,26 +80,9 @@
 
 	var/t = input(user, "Which camera should you change to?") as null|anything in D
 
-	if (!t)
-		user.machine = null
-		user.reset_view(null)
+	if (!t || t == "Cancel")
+		switchCamera(null)
 		return 0
 
-	var/obj/machinery/camera/C = D[t]
-
-	if (t == "Cancel")
-		user.machine = null
-		user.reset_view(null)
-		return 0
-
-	//if (user.machine != src || !( C.status ))
-	if (!( C.status ))
-
-		return 0
-	else
-		src.current = C
-		//use_power(50)
-		spawn( 5 )
-			src.interact(user)
-			return
+	switchCamera(C)
 	return
