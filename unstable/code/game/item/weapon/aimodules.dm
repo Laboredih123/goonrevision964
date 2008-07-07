@@ -15,7 +15,10 @@
 	throw_range = 15
 
 /obj/machinery/computer/aiupload/attackby(obj/item/weapon/aiModule/module as obj, mob/user as mob)
-	module.install(src)
+	if(istype(module, /obj/item/weapon/aiModule))
+		module.install(src)
+	else
+		return ..()
 
 /obj/item/weapon/aiModule/proc/install(var/obj/machinery/computer/aiupload/comp)
 	if(comp.stat & NOPOWER)
