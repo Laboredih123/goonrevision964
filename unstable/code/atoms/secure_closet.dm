@@ -7,7 +7,6 @@
 	var/opened = 0.0
 	var/locked = 1.0
 	var/broken = 0
-	anchored = 1.0
 /obj/secloset/animal
 	name = "Animal Control"
 	req_access = access_medical_supplies
