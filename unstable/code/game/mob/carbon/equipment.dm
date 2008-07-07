@@ -184,7 +184,7 @@
 				src.belt.DblClick()
 			src.update_clothing()
 			return
-		if (!W.flags || !( W.flags & ONBELT ))
+		if (!W || !W.flags || !( W.flags & ONBELT ))
 			return
 		src.u_equip(W)
 		src.belt = W
