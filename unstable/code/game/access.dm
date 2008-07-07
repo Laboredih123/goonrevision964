@@ -109,12 +109,13 @@
 			return list(access_tox, access_tox_storage)
 		if("Head of Research")
 			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_medlab,
-			            access_teleporter, access_heads, access_medical_records)
+			            access_teleporter, access_heads, access_medical_records, access_tech_storage, access_security)
 		if("Head of Personnel")
 			return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
 						access_security_records, access_tox, access_tox_storage, access_medlab, access_engine,
 						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
-						access_all_personal_lockers, access_chaplain_office, access_medical_records)
+						access_all_personal_lockers, access_chaplain_office, access_medical_records, access_tech_storage,
+						access_atmospherics)
 		if("Atmospheric Technician")
 			return list(access_maint_tunnels, access_emergency_storage)
 		else
