@@ -179,7 +179,7 @@
 		src.u_equip(W)
 		src.shoes = W
 	if(text == "belt" && src.can_wear_belt)
-		if ((src.belt || !( istype(W, /obj/item/weapon) )))
+		if (src.belt)
 			if (emptyHand)
 				src.belt.DblClick()
 			src.update_clothing()
