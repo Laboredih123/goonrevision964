@@ -98,23 +98,23 @@
 		if("Research Technician")
 			return list(access_medical_supplies, access_tox, access_tox_storage, access_medlab)
 		if("Medical Doctor")
-			return list(access_medical_supplies, access_morgue)
+			return list(access_medical_supplies, access_morgue, access_medical_records)
 		if("Captain")
 			return get_all_accesses()
 		if("Security Officer")
 			return list(access_security, access_brig, access_security_lockers)
 		if("Genetic Researcher")
-			return list(access_medical_supplies, access_morgue, access_medlab)
+			return list(access_medical_supplies, access_morgue, access_medlab, access_medical_records)
 		if("Toxin Researcher")
 			return list(access_tox, access_tox_storage)
 		if("Head of Research")
 			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_medlab,
-			            access_teleporter, access_heads)
+			            access_teleporter, access_heads, access_medical_records)
 		if("Head of Personnel")
 			return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
 						access_security_records, access_tox, access_tox_storage, access_medlab, access_engine,
 						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
-						access_all_personal_lockers, access_chaplain_office)
+						access_all_personal_lockers, access_chaplain_office, access_medical_records)
 		if("Atmospheric Technician")
 			return list(access_maint_tunnels, access_emergency_storage)
 		else
