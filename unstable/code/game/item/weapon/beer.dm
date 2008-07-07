@@ -2,19 +2,20 @@
 	name = "Space Beer"
 	icon_state = "beer"
 	var/amount = 10
-/obj/item/weapon/bottle/beer/attack(mob/M as mob, mob/user as mob)
-
-	if (user.a_intent == "hurt")
+/obj/item/weapon/bottle/beer/attack(mob/carbon/M as mob, mob/carbon/user as mob)
+	if(!istype(M, /mob/carbon))
+		return ..()
+	if (user.intent == "hurt")
 		if (src.icon_state == "broken_beer")
 			if (M == user)
 				user << "\red <B>You go to rub your eyes with your hand, forgetting you are holding a broken beer bottle!</b>"
 			else
 				user << "\red <B>You jab [M] in the face with your broken beer bottle!</b>"
 				M << "\red <B>[user] gouges your face with their broken beer bottle!</b>"
-			M.stunned += rand(0,5)
-			M.bruteloss += 30
-			M.eye_blurry += rand(0,20)
-			M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
+			M.knockdown_until(rand(0,5))
+			M.take_damage(brute = 30)
+			//TODO: blurry vision
+
 
 		else // Bottle is not broken, intent is hurt
 			if (M == user)
@@ -22,20 +23,18 @@
 			else
 				user << "\red <B>You smash the beer bottle over [M]s head!</b>"
 				M << "\red <B>[user] smashes a beer bottle over your head!</b>"
-			M.bruteloss += 10
-			M.stunned += rand(0,5)
+			M.take_damage(brute = 10)
+			M.knockdown_until(rand(0,5))
 			if (prob(40))
 				if (user != M)
 					user << "\red <B>The bottle shatters!</b>"
 				M << "\red <B>The bottle shatters!</b>"
-				M.eye_blurry += rand(0,(10-src.amount)) // blur the eyes according to how much beer was left in there
+				//TODO: M.eye_blurry += rand(0,(10-src.amount)) // blur the eyes according to how much beer was left in there
 				src.amount = 0
 				src.icon_state = "broken_beer"
-				M.stunned += rand(0,5)
+				M.knockdown_until(rand(0,10))
 
-				M.bruteloss += 10
-				M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
-
+				M.take_damage(brute = 10)
 	else // Intent = not hurt
 		if (src.icon_state == "broken_beer")
 			if (M == user)
@@ -58,9 +57,9 @@
 				else
 					user << "\blue <B>You helpfully force a gulp of beer down [M]s throat!</b>"
 					M << "\blue <B>[user] helpfully forces a gulp of beer down your throat!</b>"
-				M.stunned += rand(0,5)
-				M.weakened += rand(0,10)
-				M.eye_blurry += rand(0,6)
+				M.knockout_until(rand(0,5))
+				M.knockdown_until(rand(0,5))
+				//TODO: M.eye_blurry += rand(0,6)
 				if ((prob(20) && M.drowsyness < 30))
 					M.drowsyness += 5
 					M.drowsyness = min(M.drowsyness, 30)
@@ -68,8 +67,7 @@
 	if (src.icon_state == "broken_beer")
 		if (prob(20))
 			user << "\blue <B>Sadly, the broken beer bottle disintegrates in your hand, giving you some minor lacerations. A single tear drops from the corner of your eye.</b>"
-			user.bruteloss += 10
-			user.health = 100 - user.oxyloss - user.toxloss - user.fireloss - user.bruteloss
+			user.take_damage(brute = 10)
 			del(src)
 	else
 		if (prob(5))
