@@ -668,8 +668,6 @@
 	spawn (0)
 		sleep(900)		//*****RM was 900
 		Label_482:
-		if (ctf)
-			return
 		if (going && (!ticker))
 			ticker = new /datum/control/gameticker(  )
 			spawn( 0 )

@@ -109,7 +109,6 @@ var
 
 	persistent_file = "mode.txt"
 
-	obj/ctf_assist/ctf = null
 	nuke_code = null
 	poll_controller = null
 	datum/engine_eject/engine_eject_control = null

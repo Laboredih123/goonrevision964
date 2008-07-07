@@ -269,25 +269,6 @@
 	anchored = 1.0
 	flags = 2.0
 
-/obj/ctf_assist
-	name = "ctf assist"
-	var/play_team = 4.0
-	var/picker = null
-	var/picking = null
-	var/paint_cans = 0.0
-	var/immobile = 0.0
-	var/neutral_replace = 0.0
-	var/ejectengine = 1.0
-	var/autodress = 1.0
-	var/barriertime = 3.0
-	var/wintype = "None"
-	var/starting = 0.0
-
-	var/list/avail_colors = list( "red", "blue", "green", "yellow", "black", "white" )
-	var/list/avail_bases = list( "Engine", "CR", "Lounge", "Atmo", "Medical" )
-	var/list/pickers_left = list(  )
-	var/list/players_left = list(  )
-
 /obj/d_girders
 	name = "Displaced girders"
 	icon = 'stationobjs.dmi'
@@ -2907,16 +2888,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "alone"
 	density = 1
 	anchored = 1.0
-/obj/team
-	name = "team"
-	var/captain = null
-	var/obj/ctf_assist/master = null
-	var/color = null
-	var/base = null
-	var/max_players = 20.0
-
-	var/list/members = list(  )
-
 /obj/watertank
 	name = "watertank"
 	icon = 'stationobjs.dmi'

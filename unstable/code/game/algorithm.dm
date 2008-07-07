@@ -12,7 +12,7 @@
 	var/startloc = null
 	if(!joined_late)
 		var/obj/S = locate("start*[rank]")
-		if ((istype(S, /obj/start) && istype(S.loc, /turf) && !( ctf )))
+		if (istype(S, /obj/start) && istype(S.loc, /turf))
 			startloc = S.loc
 
 	if (rank == "AI")

@@ -64,6 +64,13 @@ mob/prespawn/proc/savefile_load()
 	if(src != usr)
 		return ..()
 	if(href_list["ready"])
+		if (!usr.client.authenticated)
+			src << "You are not authorized to enter the game. If you are not a member of the Something Awful forums, you aren't allowed to play on this server. If you are, visit http://byond.lljk.net and register your username."
+			return
+		if (!enter_allowed)
+			usr << "\blue There is an administrative lock on entering the game!"
+			return
+		world.log_game("[usr.key] entered as [usr.name]")
 		for (var/mob/carbon/H in world)
 			if (cmptext(H.spawn_name, src.char_name))
 				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."

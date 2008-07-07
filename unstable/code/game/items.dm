@@ -4142,8 +4142,6 @@
 /obj/barrier/New()
 
 	var/t = 1800
-	if (ctf)
-		t = round(ctf.barriertime * 600)
 	spawn( t )
 		//SN src = null
 		del(src)
