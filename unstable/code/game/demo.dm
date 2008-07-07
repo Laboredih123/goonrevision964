@@ -2677,7 +2677,7 @@
 				var/turf/T = user.loc
 				user << "\blue Cutting support rods."
 				sleep(40)
-				if ((user.loc == T && user.equipped() == W && user.is_active()))
+				if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 					src.d_state = 5
 		else if (istype(W, /obj/item/weapon/wirecutters))
 			if (src.d_state == 0)
@@ -2688,13 +2688,13 @@
 				var/turf/T = user.loc
 				user << "\blue Slicing metal cover."
 				sleep(60)
-				if ((user.loc == T && user.equipped() == W && user.is_active()))
+				if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 					src.d_state = 3
 			else if (src.d_state == 5)
 				var/turf/T = user.loc
 				user << "\blue Removing support rods."
 				sleep(100)
-				if ((user.loc == T && user.equipped() == W && user.is_active()))
+				if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 					src.d_state = 6
 					new /obj/item/weapon/rods( src )
 		else if (istype(W, /obj/item/weapon/screwdriver))
@@ -2702,27 +2702,27 @@
 				var/turf/T = user.loc
 				user << "\blue Removing support lines."
 				sleep(40)
-				if ((user.loc == T && user.equipped() == W && user.is_active()))
+				if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 					src.d_state = 2
 		else if (istype(W, /obj/item/weapon/crowbar))
 			if (src.d_state == 3)
 				var/turf/T = user.loc
 				user << "\blue Prying cover off."
 				sleep(100)
-				if ((user.loc == T && user.equipped() == W && user.is_active()))
+				if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 					src.d_state = 4
 			else if (src.d_state == 6)
 				var/turf/T = user.loc
 				user << "\blue Prying outer sheath off."
 				sleep(100)
-				if ((user.loc == T && user.equipped() == W && user.is_active()))
+				if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 					src.d_state = 7
 					new /obj/item/weapon/sheet/metal( src )
 		else if (istype(W, /obj/item/weapon/sheet/metal))
 			var/turf/T = user.loc
 			user << "\blue Repairing wall."
 			sleep(100)
-			if ((user.loc == T && user.equipped() == W && user.is_active() && src.state == 2))
+			if ((user.loc == T && user.equipped() == W && user.is_active() && src.state == 2 && istype(src, /turf/station/r_wall))
 				src.d_state = 0
 				if (W:amount > 1)
 					W:amount--
@@ -2733,7 +2733,7 @@
 			user << "\blue Now dismantling girders."
 			var/turf/T = user.loc
 			sleep(100)
-			if ((user.loc == T && user.equipped() == W && user.is_active()))
+			if ((user.loc == T && user.equipped() == W && user.is_active() && istype(src, /turf/station/r_wall))
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
@@ -2782,7 +2782,6 @@
 		if(2.0)
 			if (prob(50))
 				src.opacity = 0
-				src.density = 0
 				src.updatecell = 1
 				buildlinks()
 				src.state = 1
@@ -2805,7 +2804,6 @@
 		if(3.0)
 			if (prob(25))
 				src.opacity = 0
-				src.density = 0
 				src.updatecell = 1
 				buildlinks()
 				src.intact = 0
@@ -2832,7 +2830,6 @@
 			F.levelupdate()
 		else
 			src.opacity = 0
-			src.density = 0
 			src.updatecell = 1
 			buildlinks()
 			src.state = 1
@@ -2865,7 +2862,7 @@
 		var/turf/T = user.loc
 		if (!( istype(T, /turf) ))
 			return
-		user << "\blue Now dissembling the reinforced girders. Please stand still. This is a long process."
+		user << "\blue Now dissembling the girders. Please stand still. This is a long process."
 		sleep(100)
 		if (!( istype(src, /turf/station/wall) ))
 			return
@@ -2925,7 +2922,6 @@
 		sleep(100)
 		if ((user.loc == T && src.state == 2 && user.equipped() == W))
 			src.opacity = 0
-			src.density = 0
 			src.updatecell = 1
 			buildlinks()
 			src.state = 1
@@ -2969,7 +2965,6 @@
 		if (src.state == 2)
 			src.state = 1
 			src.opacity = 0
-			src.density = 0
 			src.updatecell = 1
 			buildlinks()
 			src.firelevel = 11
