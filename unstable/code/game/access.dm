@@ -126,7 +126,8 @@
 	            access_security_records, access_medical_supplies, access_medical_records, access_morgue, access_tox,
 	            access_tox_storage, access_medlab, access_engine, access_eject_engine, access_maint_tunnels,
 	            access_external_airlocks, access_emergency_storage, access_apcs, access_change_ids, access_ai_upload,
-	            access_teleporter, access_eva, access_heads, access_captain, access_all_personal_lockers, access_chaplain_office)
+	            access_teleporter, access_eva, access_heads, access_captain, access_all_personal_lockers,
+	            access_chaplain_office, access_tech_storage, access_atmospherics)
 
 /proc/get_access_desc(A)
 	switch(A)

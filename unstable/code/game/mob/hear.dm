@@ -3,9 +3,11 @@
 /var/const/LANGUAGE_ENGLISH = "English"
 /var/const/LANGUAGE_COMPUTER = "Computer"
 
+/var/const/MAX_MESSAGE_LEN = 1024
+
 /mob/hear(message)
 	if(!src.is_deaf)
-		src << message
+		src << copytext(msg, 1, MAX_MESSAGE_LEN)
 		return 1
 	return 0
 

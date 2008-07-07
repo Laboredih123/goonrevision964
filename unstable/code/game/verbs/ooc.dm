@@ -16,7 +16,7 @@
 	world.log_ooc("[src.name]/[src.key] : [msg]")
 
 	msg = sanitize(msg)
-	msg = html_encode(copytext(msg, 1, 1024))
+	msg = html_encode(copytext(msg, 1, MAX_MESSAGE_LEN))
 
 	if (!msg)
 		return
