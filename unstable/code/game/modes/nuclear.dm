@@ -50,7 +50,7 @@
 			H.gloves.layer = 20
 			H.suit = new /obj/item/weapon/clothing/suit/armor( H )
 			H.suit.layer = 20
-			H.helmet = new /obj/item/weapon/clothing/head/swat_hel( H )
+			H.helmet = new /obj/item/weapon/clothing/head/helmet/swat_hel( H )
 			H.helmet.layer = 20
 			H.glasses = new /obj/item/weapon/clothing/glasses/sunglasses( H )
 			H.glasses.layer = 20

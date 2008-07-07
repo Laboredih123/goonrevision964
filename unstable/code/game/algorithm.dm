@@ -63,7 +63,7 @@
 			M.equip_if_possible(new /obj/item/weapon/clothing/under/darkgreen(M), M.SLOT_JUMPSUIT)
 			M.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(M), M.SLOT_SUIT)
 			M.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(M), M.SLOT_SHOES)
-			M.equip_if_possible(new /obj/item/weapon/clothing/head/swat_hel(M), M.SLOT_HELMET)
+			M.equip_if_possible(new /obj/item/weapon/clothing/head/helmet/swat_hel(M), M.SLOT_HELMET)
 			M.equip_if_possible(new /obj/item/weapon/clothing/glasses/sunglasses(M), M.SLOT_GLASSES)
 			M.equip_if_possible(new /obj/item/weapon/gun/energy/taser_gun(M), M.SLOT_BELT)
 			M.equip_if_possible(new /obj/item/weapon/gun/energy/laser_gun(M), M.SLOT_IN_BACKPACK)

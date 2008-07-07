@@ -1122,7 +1122,7 @@
 	new /obj/item/weapon/clothing/shoes/brown( src )
 	new /obj/item/weapon/clothing/glasses/sunglasses( src )
 	new /obj/item/weapon/clothing/suit/armor( src )
-	new /obj/item/weapon/clothing/head/swat_hel( src )
+	new /obj/item/weapon/clothing/head/helmet/swat_hel( src )
 	return
 
 /obj/secloset/animal/New()
