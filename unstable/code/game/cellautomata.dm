@@ -239,11 +239,42 @@
 			//Foreach goto(1525)
 		usr << browse(dat, "window=keys")
 	if (href_list["l_players"])
-		var/dat = "<B>Name/Real Name/Key/IP:</B><HR>"
+		var/dat = "<table><tr><th>Name</th><th>Spawn name</th><th>Client</th><th>IP</th><th>Authorized?</th></tr>"
 		for(var/mob/M in world)
-			dat += text("N: [] R: [] (K: []) (IP: [])<BR>", M.name, M.spawn_name, (M.client ? M.client : "No client"), M.last_known_ip)
-			//Foreach goto(1602)
+			var/foo = ""
+				if (ismob(M) && M.client)
+					if(!M.client.authenticated && !M.client.authenticating)
+						foo += text("\[ <A HREF='?src=\ref[];adminauth=\ref[]'>Authorize</A> | ", src, M)
+					else
+						foo += text("\[ <B>Authorized</B> | ")
+					if(!istype(M, /mob/monkey))
+						foo += text("<A HREF='?src=\ref[];monkeyone=\ref[]'>Monkeyize</A> \]", src, M)
+					else
+						foo += text("<B>Monkeyized</B> \]")
+
+				dat += "<tr>"
+				dat += "<td>[M.name]</td>"
+				dat += "<td>[M.spawn_name]</td>"
+				dat += "<td>[M.client ? M.client : "No client"]</td>"
+				dat += "<td>[M.last_known_ip]</td>"
+				if(M.client)
+					if(!M.client.authenticated && !M.client.authenticating)
+						dat += "<td><a href='?src=\ref[src];adminauth=\ref[M]'>Authorize</a>"
+					else
+						dat += "<td>Authorized</td>"
+				else
+					dat += "<td>No client</td>"
+				dat += "</tr>"
+		dat += "</table>"
 		usr << browse(dat, "window=players")
+	if (href_list["adminauth"])
+		if ((src.rank in list( "Moderator", "Supervisor", "Administrator", "Major Administrator", "Primary Administrator" )))
+			var/mob/M = locate(href_list["adminauth"])
+			if (ismob(M) && !M.client.authenticated && !M.client.authenticating)
+				M.client.verbs -= /client/proc/authorize
+				M.client.authenticated = text("admin/[]", usr.client.authenticated)
+				world.log_admin(text("ADMIN: [] authorized []", usr.key, M.rname))
+				M.client << text("You have been authorized by []", usr.key)
 	if (href_list["g_send"])
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message
 		if (t)
