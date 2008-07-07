@@ -1255,16 +1255,16 @@
 	else if(src.broken)
 		user << "\red It appears to be broken."
 		return
-	else if(src.allowed(user))
-		src.locked = !( src.locked )
-		user.show_viewers(text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user))
-		src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
 	else if(istype(W, /obj/item/weapon/card/emag) && !src.broken)
 		src.broken = 1
 		src.locked = 0
 		src.icon = 'secloset_broken.dmi'
 		src.icon_state = "secloset0"
 		user.show_viewers(text("\blue The locker has been broken by [user] with an electromagnetic card!"))
+	else if(src.allowed(user))
+		src.locked = !( src.locked )
+		user.show_viewers(text("\blue The locker has been []locked by [].", (src.locked ? null : "un"), user))
+		src.icon_state = text("[]secloset0", (src.locked ? "1" : null))
 	else
 		user << "\red Access Denied"
 	return
