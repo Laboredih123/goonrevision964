@@ -81,7 +81,6 @@
 	var/skin_color
 
 	var/appearance = APPEARANCE_MONKEY
-	var/cameraFollow = null
 
 	var/list/body_standing = list()
 	var/list/body_lying = list()

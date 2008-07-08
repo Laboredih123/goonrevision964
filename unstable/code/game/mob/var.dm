@@ -49,3 +49,5 @@
 	var/is_perma_blind = 0
 
 	density = 1
+
+	var/cameraFollow = null
