@@ -3693,12 +3693,34 @@
 		src.force = 15
 		src.damtype = "fire"
 		src.icon_state = "welder1"
+		spawn() //start fires while it's lit
+			src.process()
 	else
 		user << "\blue Not welding anymore."
 		src.force = 3
 		src.damtype = "brute"
 		src.icon_state = "welder"
 	return
+
+/obj/item/weapon/weldingtool/var/processing = 0
+
+/obj/item/weapon/weldingtool/proc/process()
+	if(src.processing) //already doing this
+		return
+	src.processing = 1
+
+	while(src.welding)
+		var/turf/location = src.loc
+		if(istype(location, /mob/carbon))
+			var/mob/carbon/M = location
+			if(M.l_hand == src || M.r_hand == src)
+				location = M.loc
+
+		if(isturf(location)) //start a fire if possible
+			location.firelevel = location.poison + 1
+
+		sleep(10)
+	processing = 0	//we're done
 
 /obj/manifest/New()
 
