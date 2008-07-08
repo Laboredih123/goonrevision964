@@ -69,3 +69,5 @@ Don't put the result of an if on the same line as the if, like so:
 if(x) y()
 It's moderately icky, and nearly all the existing code puts it on two lines. Sure, it makes the code less compact, but the code isn't even remotely compact anyways and never will be. Consistency is more important. This applies even to return statements - don't do this:
 if(x) return
+
+no brackets
