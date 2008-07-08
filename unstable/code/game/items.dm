@@ -4140,13 +4140,11 @@
 	return DblClick()
 
 /atom/DblClick()
-
-	if (world.time <= usr:lastDblClick+2)
-		//world << "BLOCKED atom.DblClick() on [src] by [usr] : src.type is [src.type]"
+	if(!usr.is_active())
 		return
-	else
-		//world << "atom.DblClick() on [src] by [usr] : src.type is [src.type]"
-		usr:lastDblClick = world.time
+	if (world.time <= usr:lastDblClick+2)
+		return
+	usr:lastDblClick = world.time
 
 	..()
 	if(usr.ui_mode == UI_MODE_THROW && istype(usr, /mob/carbon))
@@ -4156,12 +4154,12 @@
 	if(istype(usr, /mob/carbon))
 		var/mob/carbon/M = usr
 		W = M.equipped()
-	if ((W == src && usr.is_active()))
+	if (W == src)
 		spawn( 0 )
 			W.attack_self(usr)
 			return
 		return
-	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))) || !usr.is_active())
+	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))))
 		return
 
 	if ((!( src in usr.contents ) && (((!( isturf(src) ) && (!( isturf(src.loc) ) && (src.loc && !( isturf(src.loc.loc) )))) || !( isturf(usr.loc) )) && (src.loc != usr.loc && (!( istype(src, /obj/screen) ) && !( usr.contents.Find(src.loc) ))))))
