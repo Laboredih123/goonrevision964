@@ -4188,7 +4188,7 @@
 							T = src.loc
 							if (T.Enter(D, src))
 								ok = 1
-						else
+						if(!ok)
 							T = get_step(usr, EAST)
 							if (T.Enter(D, src))
 								D.loc = T
@@ -4202,7 +4202,7 @@
 							T = src.loc
 							if (T.Enter(D, src))
 								ok = 1
-						else
+						if(!ok)
 							T = get_step(usr, EAST)
 							if (T.Enter(D, src))
 								D.loc = T
@@ -4216,7 +4216,7 @@
 							T = src.loc
 							if (T.Enter(D, src))
 								ok = 1
-						else
+						if(!ok)
 							T = get_step(usr, WEST)
 							if (T.Enter(D, src))
 								D.loc = T
@@ -4230,14 +4230,13 @@
 							T = src.loc
 							if (T.Enter(D, src))
 								ok = 1
-						else
+						if(!ok)
 							T = get_step(usr, WEST)
 							if (T.Enter(D, src))
 								D.loc = T
 								T = src.loc
 								if (T.Enter(D, src))
 									ok = 1
-					else
 			else
 				if (src.loc.Enter(D, src))
 					ok = 1
