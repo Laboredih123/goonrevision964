@@ -35,10 +35,10 @@
 	var/endy
 
 	if(startedge & NORTH)
-		starty = world.maxy
+		starty = world.maxy - 2
 		endy = 1
 	else if(startedge & SOUTH)
-		starty = 1
+		starty = 3
 		endy = world.maxy
 	else
 		starty = rand(1, world.maxy)
@@ -46,7 +46,7 @@
 
 	if(startedge & WEST)
 		startx = 3 // because of the dumb way the z-level code works
-		endx = 1
+		endx = world.maxx
 	else if(startedge & EAST)
 		startx = world.maxx - 2 // because of the dumb way the z-level code works
 		endx = 1

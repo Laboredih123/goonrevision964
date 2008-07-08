@@ -310,7 +310,7 @@
 					var/canisters_total = 0
 					var/canisters_destroyed = 0
 					for(var/obj/machinery/atmoalter/canister/poisoncanister/canister in world)
-						if(canister.z == 1 || istype(canister.loc.loc, /area/engine)) //only care about ones from station
+						if(canister.z == 1 || istype(canister.loc.loc, /area/engine)) //only care about ones from station (including ones ejected from engine)
 							canisters_total++
 							if(canister.destroyed)
 								canisters_destroyed++

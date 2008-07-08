@@ -796,15 +796,39 @@
 					else
 						M.inertia_dir = M.last_move
 						step(M, M.inertia_dir)
-	if (src.x <= 2 && src.z < world.maxz)
-		A.z++
+	if (src.x <= 2)
+		if(istype(A, /obj/meteor))
+			del(A)
+			return
+		A.z = 3
 		A.x = world.maxx - 2
 		spawn (0)
 			if ((A && A.loc))
 				A.loc.Entered(A)
-	else if (A.x >= (world.maxx - 1) && A.z > 1)
-		A.z--
+	else if (A.x >= (world.maxx - 1))
+		if(istype(A, /obj/meteor))
+			del(A)
+			return
+		A.z = 3
 		A.x = 3
+		spawn (0)
+			if ((A && A.loc))
+				A.loc.Entered(A)
+	else if (src.y <= 2)
+		if(istype(A, /obj/meteor))
+			del(A)
+			return
+		A.z = 3
+		A.y = world.maxy - 2
+		spawn (0)
+			if ((A && A.loc))
+				A.loc.Entered(A)
+	else if (A.y >= (world.maxy - 1))
+		if(istype(A, /obj/meteor))
+			del(A)
+			return
+		A.z = 3
+		A.y = 3
 		spawn (0)
 			if ((A && A.loc))
 				A.loc.Entered(A)
