@@ -1127,10 +1127,6 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "freedom"
 	var/uses = 1.0
 	color = "r"
-/obj/item/weapon/implant/tracking
-	name = "tracking"
-	var/freq = 145.1
-	var/id = 1.0
 /obj/item/weapon/implantcase
 	name = "Glass Case"
 	icon_state = "implantcase-0"
@@ -1548,7 +1544,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	s_istate = "electronic"
 	throw_speed = 4
 	throw_range = 20
-	var/traitorfreq = 0.0
+	var/traitorfreq = 0
 	var/obj/item/weapon/radio/origradio = null
 /obj/item/weapon/syringe
 	name = "syringe"

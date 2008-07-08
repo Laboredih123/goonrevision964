@@ -117,15 +117,13 @@
 	if (istype(killer, /mob/carbon))
 		spawn (100)
 			// generate list of radio freqs
-			var/freq = 144.1
+			var/freq = 1441
 			var/list/freqlist = list()
-			while (freq <= 148.9)
-				if (freq < 145.1 || freq > 145.9)
+			while (freq <= 1489)
+				if (freq < 1451 || freq > 1459)
 					freqlist += freq
-				freq += 0.2
-				if (round(freq * 10, 1) % 2 == 0)
-					freq += 0.1
-			freq = freqlist[rand(1, freqlist.len)]
+				freq += 2
+			freq = pick(freqlist)
 			// find a radio! toolbox(es), backpack, belt, headset
 			var/loc = ""
 			var/obj/item/weapon/radio/R = null
@@ -165,7 +163,7 @@
 				T.name = R.name
 				T.icon_state = R.icon_state
 				T.origradio = R
-				killer << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [freq] to unlock it's hidden features."
+				killer << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [round(freq/10, 0.1)] to unlock it's hidden features."
 				killer:memory += "<BR><B>Radio Freq:</B> [freq] ([R.name] [loc])."
 
 /datum/game_mode/traitor/proc/send_intercept()

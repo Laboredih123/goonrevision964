@@ -1,7 +1,7 @@
 /obj/item/weapon/radio
 	name = "Station Bounced Radio"
 	icon_state = "radio"
-	var/freq = 145.9
+	var/freq = 1459
 	var/wires = WIRE_SIGNAL | WIRE_RECEIVE | WIRE_TRANSMIT
 	var/attachable = 0
 	var/last_transmission
@@ -19,7 +19,7 @@
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
 	var/listenrange = 2
 	var/b_stat = 0
-	var/traitorfreq = 0.0
+	var/traitorfreq = 0
 	var/obj/item/weapon/syndicate_uplink/traitorradio = null
 /obj/item/weapon/radio/beacon
 	name = "Tracking Beacon"
@@ -31,7 +31,7 @@
 	var/code = 2
 	var/on = 0
 	var/e_pads = 0
-	freq = 144.9
+	freq = 1449
 	w_class = 5
 	flags = ONBACK | TABLEPASS | FPRINT
 	s_istate = "electropack"
@@ -51,10 +51,11 @@
 	icon_state = "signaler"
 	var/code = 30
 	w_class = 1
-	freq = 145.7
+	freq = 1457
 	var/delay = 0
 
-
+/obj/item/weapon/radio/proc/get_freq_text()
+	return round(src.freq/10, 0.1)
 
 /obj/item/weapon/radio/proc/receive(datum/message/M, freq)
 	if (freq != src.freq || !M || !src.receiving || !(src.wires & WIRE_RECEIVE))
@@ -111,7 +112,7 @@
 		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
 	else
 		t1 = "-------"
-	var/dat = text("<TT>Microphone: []<BR>\nSpeaker: []<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\n[]</TT>", (src.transmitting ? text("<A href='?src=\ref[];talk=0'>Engaged</A>", src) : text("<A href='?src=\ref[];talk=1'>Disengaged</A>", src)), (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src.freq, src, src, t1)
+	var/dat = text("<TT>Microphone: []<BR>\nSpeaker: []<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\n[]</TT>", (src.transmitting ? text("<A href='?src=\ref[];talk=0'>Engaged</A>", src) : text("<A href='?src=\ref[];talk=1'>Disengaged</A>", src)), (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src.get_freq_text(), src, src, t1)
 	user << browse(dat, "window=radio")
 	return
 
@@ -122,10 +123,30 @@
 		usr.machine = src
 		if (href_list["freq"])
 			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
-				src.freq += 0.1
-			src.freq = min(148.9, src.freq)
-			src.freq = max(144.1, src.freq)
+			src.freq = min(1489, src.freq)
+			src.freq = max(1441, src.freq)
+			if (src.traitorfreq && src.freq == src.traitorfreq)
+				usr.machine = null
+				usr << browse(null, "window=radio")
+				// now transform the regular radio, into a (disguised)syndicate uplink!
+				var/obj/item/weapon/syndicate_uplink/T = src.traitorradio
+				var/obj/item/weapon/radio/R = src
+				R.loc = T
+				T.loc = usr
+				R.layer = 0
+				if (usr.client)
+					usr.client.screen -= R
+				var/mob/carbon/user = usr
+				if (user.r_hand == R)
+					user.u_equip(R)
+					user.equip_if_possible(T, SLOT_R_HAND)
+				else
+					user.u_equip(R)
+					user.equip_if_possible(T, SLOT_L_HAND)
+				R.loc = T
+				T.layer = 20
+				T.attack_self(user)
+				return
 		else if (href_list["talk"])
 			src.transmitting = text2num(href_list["talk"])
 		else if (href_list["listen"])
@@ -203,7 +224,7 @@
 		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
 	else
 		t1 = "-------"
-	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.freq, src, src, src, src, src.code, src, src, t1)
+	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.get_freq_text(), src, src, src, src, src.code, src, src, t1)
 	user << browse(dat, "window=radio")
 	return
 
@@ -303,10 +324,8 @@
 		usr.machine = src
 		if (href_list["freq"])
 			src.freq += text2num(href_list["freq"])
-			if (src.freq * 10 % 2 == 0)
-				src.freq += 0.1
-			src.freq = min(148.9, src.freq)
-			src.freq = max(144.1, src.freq)
+			src.freq = min(1489, src.freq)
+			src.freq = max(1441, src.freq)
 		else if (href_list["code"])
 			src.code += text2num(href_list["code"])
 			src.code = round(src.code)
@@ -361,6 +380,6 @@
 	if (!user.check_dexterity())
 		return
 	user.machine = src
-	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.freq, src, src, src, src, src.code, src, src)
+	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.get_freq_text(), src, src, src, src, src.code, src, src)
 	user << browse(dat, "window=radio")
 	return

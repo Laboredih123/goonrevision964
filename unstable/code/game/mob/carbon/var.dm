@@ -76,26 +76,6 @@
 
 	var/list/grabbed_by = list()
 
-	var/const
-		SLOT_BACK = 1
-		SLOT_MASK = 2
-		SLOT_HANDCUFFS = 3
-		SLOT_L_HAND = 4
-		SLOT_R_HAND = 5
-		SLOT_BELT = 6
-		SLOT_ID = 7
-		SLOT_GLASSES = 9
-		SLOT_GLOVES = 10
-		SLOT_HELMET = 11
-		SLOT_SHOES = 12
-		SLOT_SUIT = 13
-		SLOT_JUMPSUIT = 14
-		SLOT_L_STORE = 15
-		SLOT_R_STORE = 16
-		SLOT_HEADSET = 17
-		SLOT_IN_BACKPACK = 18
-
-
 	var/hair_color
 	var/hair_style
 	var/skin_color
