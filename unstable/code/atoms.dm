@@ -793,12 +793,6 @@
 	s_istate = "armor"
 	s_fire = 1.875E7
 	brute_protect = 6.0
-/obj/item/weapon/clothing/suit/heavy_armor
-	name = "heavy armor"
-	icon_state = "swat_suit"
-	s_istate = "swat_suit"
-	s_fire = 1.875E7
-	brute_protect = 6.25
 /obj/item/weapon/clothing/suit/bio_suit
 	name = "bio suit"
 	desc = "A suit that protects against biological contamination."
@@ -818,17 +812,6 @@
 	h_filter = 6.0
 	a_filter = 4.0
 	s_istate = "fire_suit"
-	flags = FPRINT | TABLEPASS
-	s_fire = 7.5E7
-	fire_protect = 126.0
-/obj/item/weapon/clothing/suit/black_firesuit
-	name = "black firesuit"
-	desc = "A suit that protects against extreme fire and heat."
-	icon_state = "ro_suit"
-	fb_filter = 6.0
-	h_filter = 6.0
-	a_filter = 4.0
-	s_istate = "ro_suit"
 	flags = FPRINT | TABLEPASS
 	s_fire = 7.5E7
 	fire_protect = 126.0
