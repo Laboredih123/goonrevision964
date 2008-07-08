@@ -96,6 +96,29 @@
 				return 0
 	return 1
 
+// same procs, for the alternate windoors
+/obj/machinery/door/window/alt/CheckPass(atom/movable/O as mob|obj, target as turf)
+
+	if (src.density)
+		var/direct = get_dir(O, target)
+		if ((direct == SOUTH && src.dir & 12))
+			return 0
+		else
+			if ((direct == EAST && src.dir & 3))
+				return 0
+	return 1
+
+/obj/machinery/door/window/alt/CheckExit(atom/movable/O as mob|obj, target as turf)
+
+	if (src.density)
+		var/direct = get_dir(O, target)
+		if ((direct == NORTH && src.dir & 12))
+			return 0
+		else
+			if ((direct == WEST && src.dir & 3))
+				return 0
+	return 1
+
 
 /obj/machinery/door/firedoor/open()
 	usr << "This is a remote firedoor!"
