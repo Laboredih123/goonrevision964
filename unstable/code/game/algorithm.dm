@@ -22,6 +22,9 @@
 		del(src)
 		return
 
+	if (rank == "Medical Doctor")
+		src.char_name = addtext("Dr. ",src.char_name)
+
 	var/mob/carbon/human/M = new(startloc, src.char_name, src.char_hair_color, src.char_hair_style, src.char_skin_color, src.char_gender)
 
 	M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
