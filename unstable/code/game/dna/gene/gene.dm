@@ -47,7 +47,7 @@
 			L.alleles[allele] = src.default
 
 		//add in 1 copy each of the rest
-		var/used = list()
+		var/used = list(L.default_allele)
 		for(var/attr in src.attributes)
 			var/allele = pick_allele_except(used)
 			L.alleles[allele] = attr
