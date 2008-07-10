@@ -2030,7 +2030,7 @@
 /obj/stool/chair/MouseDrop_T(mob/carbon/M as mob, mob/user as mob)
 	if (!ticker)
 		user << "You can't buckle anyone in before the game starts."
-	if ((!( istype(M, /mob/carbon) ) || get_dist(src, user) > 1 || M.loc != src.loc || user.can_use_hands()))
+	if (!istype(M, /mob/carbon) || get_dist(src, user) > 1 || M.loc != src.loc || !user.can_use_hands())
 		return
 	if (M == usr)
 		M.show_viewers(text("\blue [] buckles in!", user))
