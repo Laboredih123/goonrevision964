@@ -3752,7 +3752,7 @@
 				location = M.loc
 
 		if(isturf(location)) //start a fire if possible
-			location.firelevel = location.poison + 1
+			location.firelevel = max(location.firelevel, location.poison + 1)
 
 		sleep(10)
 	processing = 0	//we're done
