@@ -84,6 +84,7 @@
 	if(src.lying)
 		src.icon = src.lying_icon
 		src.update_clothing()
+		src.canmove = 0
 	else
 		src.icon = src.stand_icon
 		src.update_clothing()
