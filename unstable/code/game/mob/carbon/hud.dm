@@ -107,7 +107,7 @@
 	src.help = new /obj/screen(src, "help", null, "12,15", 19, "help")
 	src.disarm = new /obj/screen(src, "disarm", null, "13,15", 19, "disarm")
 	src.hurt = new /obj/screen(src, "hurt", null, "14,15", 19, "harm")
-	src.intent = new /obj/screen(src, "intent", null, "14,15", null, "selector")
+	src.intent = new /obj/screen(src, "intent", null, "13,15", null, "selector")
 
 	if(src.owner && src.owner.client && src.owner.client.screen)
 		src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
