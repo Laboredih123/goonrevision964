@@ -5,7 +5,8 @@
 	var/visible = 1
 	var/const/delay = 15
 	var/const/prob_opens = 25
-	//TODO: implement a way to track which users have seen which false walls open, and let them always open them
+	var/list/known_by = list()
+	oxygen = O2STANDARD
 
 /turf/station/wall/false_wall/interact(mob/carbon/user as mob)
 	if(!istype(user, /mob/carbon))
@@ -13,10 +14,16 @@
 	src.add_fingerprint(user)
 	if(!user.is_dextrous || !user.is_intelligent) //only smart dextrous people can use this
 		return ..()
+	var/known = (user in known_by)
+
 	if (src.density) //door is closed
-		if (prob(prob_opens)) //it's hard to open
+		if (known)
+			if (open())
+				user << "\blue The wall slides open." //lack of exclamation mark reflects nonchalance
+		else if (prob(prob_opens)) //it's hard to open
 			if (open()) //it successfully opens, i.e. wasn't operating
 				user << "\blue The wall slides open!"
+				known_by += user
 		else
 			return ..()
 	else
@@ -27,10 +34,11 @@
 /turf/station/wall/false_wall/attackby(obj/item/weapon/screwdriver/S as obj, mob/user as mob)
 	src.add_fingerprint(user)
 	if (istype(S, /obj/item/weapon/screwdriver))
-		//try to disassemble the false wall
-		if (!src.density || prob(prob_opens)) //without this, you can detect a false wall just by going down the line with screwdrivers
-			//if it's already open, you can disassemble it no problem
-			if (src.density) //if it was closed, let them know that they did something
+		var/known = (user in known_by)
+ 		//try to disassemble the false wall
+		if (!src.density || known || prob(prob_opens)) //without this, you can detect a false wall just by going down the line with screwdrivers
+ 			//if it's already open, you can disassemble it no problem
+			if (src.density && !known) //if it was closed, let them know that they did something
 				user << "\blue It was a false wall!"
 			//disassemble it
 			user << "\blue Now dismantling false wall."

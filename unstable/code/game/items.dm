@@ -4024,13 +4024,12 @@
 			//W = null
 			del(W)
 			return
-		new /turf/station/wall/false_wall( src.loc )
+		var/turf/station/wall/false_wall/fwall = new /turf/station/wall/false_wall( src.loc )
+		fwall.known_by += user
+		user << "False wall constructed."
 		W:amount--
 		if (W:amount < 1)
-			//W = null
 			del(W)
-		user << "\blue Keep in mind when you open it that it MAY be difficult to slide at first so keep trying."
-		//SN src = null
 		del(src)
 		return
 	else
