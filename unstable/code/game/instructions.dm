@@ -42,7 +42,9 @@
 	return
 
 /obj/machinery/computer/hologram_comp/Topic(href, href_list)
-	..()
+	. = ..()
+	if(!.)
+		return
 	if (get_dist(src, usr) <= 1)
 		flick("holo_console1", src)
 		if (href_list["power"])

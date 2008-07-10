@@ -258,14 +258,9 @@
 	return
 
 /obj/machinery/computer/airtunnel/Topic(href, href_list)
-	..()
-
-	if (!usr.check_dexterity())
+	. = ..()
+	if(!.)
 		return
-
-	if ((!usr.can_use_hands()))
-		if (!istype(usr, /mob/silicon/ai))
-			return
 
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf)) || (istype(usr, /mob/silicon/ai))))
 		usr.machine = src

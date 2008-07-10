@@ -319,11 +319,10 @@
 
 /obj/machinery/computer/card/Topic(href, href_list)
 	. = ..()
-	if(!.) return
+	if(!.)
+		return
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=id_com")
-		return
-	if ((!usr.can_use_hands()))
 		return
 
 	var/mob/carbon/M = usr
@@ -529,7 +528,8 @@
 
 /obj/machinery/computer/pod/Topic(href, href_list)
 	. = ..()
-	if(!.) return
+	if(!.)
+		return
 
 	if(stat & (NOPOWER|BROKEN))
 		usr << browse(null, "window=computer")

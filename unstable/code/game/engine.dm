@@ -77,8 +77,7 @@
 
 /obj/machinery/computer/engine/Topic(href, href_list)
 	. = ..()
-	if(!.) return
-	if ((!usr.can_use_hands()))
+	if(!.)
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src

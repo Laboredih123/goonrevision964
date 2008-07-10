@@ -43,7 +43,9 @@
 	return
 
 /obj/machinery/computer/med_data/Topic(href, href_list)
-	..()
+	. = ..()
+	if(!.)
+		return
 	if (!( data_core.general.Find(src.active1) ))
 		src.active1 = null
 	if (!( data_core.medical.Find(src.active2) ))
@@ -398,7 +400,9 @@
 	return
 
 /obj/machinery/computer/secure_data/Topic(href, href_list)
-	..()
+	. = ..()
+	if(!.)
+		return
 	if(stat & (NOPOWER|BROKEN) )
 		return
 	if (!( data_core.general.Find(src.active1) ))
@@ -804,8 +808,8 @@
 	return
 
 /obj/machinery/computer/sleep_console/Topic(href, href_list)
-	..()
-	if ((!usr.can_use_hands()))
+	. = ..()
+	if(!.)
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 		usr.machine = src
