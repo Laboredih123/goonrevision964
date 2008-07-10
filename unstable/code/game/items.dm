@@ -2403,7 +2403,7 @@
 	if (!user.check_dexterity())
 		return
 	M.show_viewers(text("\red [] has analyzed []'s vitals!", user, M))
-	user.see(text("\blue Analyzing Results for []:\n\t Overall Status: []", M, (M.is_dead ? "dead" : text("[]% healthy", (M.death_threshold - M.get_damage())/M.death_threshold))))
+	user.see(text("\blue Analyzing Results for []:\n\t Overall Status: []", M, (M.is_dead ? "dead" : text("[]% healthy", (M.death_threshold - M.get_damage())/M.death_threshold * 100))))
 	user.see(text("\blue \t Damage Specifics:"))
 	user.see("\blue Suffocation: [M.dam.suffocation]")
 	user.see("\blue Toxin: [M.dam.toxin]")
