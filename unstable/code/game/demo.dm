@@ -1344,7 +1344,9 @@
 		for(var/obj/item/I in src.loc)
 			if (!( I.anchored ))
 				I.loc = src
-		for(var/mob/M in src.loc)
+		for(var/mob/carbon/M in src.loc)
+			if (M.buckled)
+				continue
 			if (M.client)
 				M.client.perspective = EYE_PERSPECTIVE
 				M.client.eye = src
@@ -1791,11 +1793,10 @@
 				I.loc = src.loc
 				//Foreach goto(43)
 			for(var/mob/carbon/M in src)
-				if (!( M.buckled ))
-					M.loc = src.loc
-					if (M.client)
-						M.client.eye = M.client.mob
-						M.client.perspective = MOB_PERSPECTIVE
+				M.loc = src.loc
+				if (M.client)
+					M.client.eye = M.client.mob
+					M.client.perspective = MOB_PERSPECTIVE
 			src.icon_state = src.icon_opened
 			src.opened = 1
 		else
@@ -1805,12 +1806,13 @@
 			if (!( I.anchored ))
 				I.loc = src
 			//Foreach goto(187)
-		for(var/mob/M in src.loc)
+		for(var/mob/carbon/M in src.loc)
+			if (M.buckled)
+				continue
 			if (M.client)
 				M.client.perspective = EYE_PERSPECTIVE
 				M.client.eye = src
 			M.loc = src
-			//Foreach goto(237)
 		src.icon_state = src.icon_closed
 		src.opened = 0
 	return
@@ -2030,7 +2032,7 @@
 /obj/stool/chair/MouseDrop_T(mob/carbon/M as mob, mob/user as mob)
 	if (!ticker)
 		user << "You can't buckle anyone in before the game starts."
-	if (!istype(M, /mob/carbon) || get_dist(src, user) > 1 || M.loc != src.loc || !user.can_use_hands())
+	if ((!( istype(M, /mob/carbon) ) || get_dist(src, user) > 1 || M.loc != src.loc || !user.can_use_hands()))
 		return
 	if (M == usr)
 		M.show_viewers(text("\blue [] buckles in!", user))
@@ -2055,6 +2057,42 @@
 			M.buckled = null
 			src.add_fingerprint(user)
 	return
+
+/obj/stool/bed/Del()
+	for(var/mob/carbon/M in src.loc)
+		if (M.buckled == src)
+			M.buckled = null
+	..()
+	return
+
+/obj/stool/bed/MouseDrop_T(mob/carbon/M as mob, mob/user as mob)
+	if (!ticker)
+		user << "You can't buckle anyone in before the game starts."
+	if ((!( istype(M, /mob/carbon) ) || get_dist(src, user) > 1 || M.loc != src.loc || !user.can_use_hands()))
+		return
+	if (M == usr)
+		M.show_viewers(text("\blue [] buckles in!", user))
+	else
+		M.show_viewers(text("\blue [] is buckled in by []!", M, user))
+	M.anchored = 1
+	M.buckled = src
+	M.loc = src.loc
+	M.knockdown_until(0)
+	src.add_fingerprint(user)
+	return
+
+/obj/stool/bed/interact(mob/user as mob)
+	if(!user.check_intelligence())
+		return
+	for(var/mob/carbon/M in src.loc)
+		if (M.buckled)
+			if (M != user)
+				M.show_viewers(text("\blue [] is unbuckled by [].", M, user))
+			else
+				M.show_viewers(text("\blue [] unbuckles.", M))
+			M.anchored = 0
+			M.buckled = null
+			src.add_fingerprint(user)
 
 
 /obj/grille/New()

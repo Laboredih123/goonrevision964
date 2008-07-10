@@ -11,7 +11,7 @@
 		src.is_blind = 1
 		src.canmove = 0
 		if (src.buckled)
-			src.lying = 0
+			src.lying = (istype(src.buckled, /obj/stool/bed)) ? 1 : 0
 		if(src.lying)
 			src.icon = src.lying_icon
 			src.update_clothing()
@@ -76,8 +76,10 @@
 	src.handle_knockdown()
 
 	if (src.buckled)
-		src.lying = 0
-	src.density = !src.lying
+		src.lying = (istype(src.buckled, /obj/stool/bed)) ? 1 : 0
+		src.density = 1
+	else
+		src.density = !src.lying
 
 	src.update_grabs()
 

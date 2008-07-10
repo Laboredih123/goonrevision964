@@ -1423,6 +1423,8 @@
 		F.add_fingerprint(user)
 		if (src.amount < 1)
 			//SN src = null
+			user.u_equip(src)
+			user.update_clothing()
 			del(src)
 			return
 	else
@@ -1430,7 +1432,7 @@
 	src.force = 5
 	return
 
-/obj/item/weapon/sheet/metal/attackby(obj/item/weapon/sheet/metal/W as obj, mob/user as mob)
+/obj/item/weapon/sheet/metal/attackby(obj/item/weapon/sheet/metal/W as obj, mob/carbon/user as mob)
 
 	if (!( istype(W, /obj/item/weapon/sheet/metal) ))
 		return
@@ -1442,6 +1444,8 @@
 	else
 		W.amount += src.amount
 		//SN src = null
+		user.u_equip(src)
+		user.update_clothing()
 		del(src)
 		return
 	return
@@ -1559,7 +1563,10 @@
 				W.buildlinks()
 		if (src.amount <= 0)
 			//SN src = null
+			user.u_equip(src)
+			user.update_clothing()
 			del(src)
+			user << browse(null, "window=met_sheet")
 			return
 	spawn( 0 )
 		src.attack_self(usr)

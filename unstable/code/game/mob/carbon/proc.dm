@@ -18,7 +18,7 @@
 /mob/carbon/can_use_hands()
 	if(src.is_handcuffed())
 		return 0
-	if(src.buckled)
+	if(src.buckled && istype(src.buckled, /obj/stool/bed)) // buckling does not restrict hands
 		return 0
 	return ..()
 
