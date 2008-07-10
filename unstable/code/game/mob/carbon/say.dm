@@ -15,6 +15,8 @@
 	return ..()
 
 /mob/carbon/get_radio(id)
+	if(!src.is_active())
+		return null
 	if(id == "r") //radio in their right hand
 		return src.r_hand
 	if(id == "l")
@@ -24,8 +26,7 @@
 	return ..()
 
 /mob/carbon/get_default_radio()
-	if(src.headset)
-		return src.headset
+	return get_radio("h")
 
 /mob/carbon/is_stuttering()
 	if(src.knockdown > 0)

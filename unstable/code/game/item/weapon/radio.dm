@@ -60,22 +60,24 @@
 /obj/item/weapon/radio/proc/receive(datum/message/M, freq)
 	if (freq != src.freq || !M || !src.receiving || !(src.wires & WIRE_RECEIVE))
 		return
-	for(var/atom/A in hearers(listenrange))
+	if(istype(src.loc, /mob))
+		src.loc.hear_message(M, src)
+	for(var/atom/A in oview(src.listenrange, src))
 		A.hear_message(M, src)
 
 /obj/item/weapon/radio/proc/transmit(datum/message/M)
 	if(!(src.wires & WIRE_TRANSMIT))
 		return
-	if(last_transmission && world.time < last_transmission + TRANSMISSION_DELAY)
+	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
 		return
 	last_transmission = world.time
 	for(var/obj/item/weapon/radio/R in world)
 		R.receive(M, src.freq)
 
-/obj/item/weapon/radio/talk_into(datum/message/M, source)
+/obj/item/weapon/radio/talk_into(datum/message/M, atom/source)
 	src.transmit(M, source)
 
-/obj/item/weapon/radio/hear_message(datum/message/M, source)
+/obj/item/weapon/radio/hear_message(datum/message/M, atom/source)
 	if (src.transmitting)
 		src.talk_into(M, source)
 
@@ -175,6 +177,9 @@
 /obj/item/weapon/radio/beacon/talk_into()
 	return
 
+/obj/item/weapon/radio/beacon/receive()
+	return
+
 /obj/item/weapon/radio/beacon/verb/alter_signal(t as text)
 	set src in usr
 
@@ -185,6 +190,8 @@
 	src.add_fingerprint(usr)
 	return
 
+/obj/item/weapon/radio/beacon/interact()
+	return
 
 /obj/item/weapon/radio/signaler/receive(datum/message/M, freq)
 	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.

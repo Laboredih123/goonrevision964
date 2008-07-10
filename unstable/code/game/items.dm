@@ -276,7 +276,7 @@
 
 	return
 
-/obj/item/weapon/proc/talk_into(mob/M as mob, text)
+/obj/item/weapon/proc/talk_into(datum/message/M, atom/source)
 
 	return
 

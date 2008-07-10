@@ -21,6 +21,8 @@
 	return null
 
 /mob/proc/get_radio(id)
+	if(!src.is_active())
+		return null
 	if(id == "w") // just whispering
 		return null
 	if(id == "i") //intercom
@@ -47,11 +49,11 @@
 
 	var/obj/item/weapon/radio/target = null
 	var/hear_range = null
-	if (findtext(txt, "/") == 1) //default target
+	if (findtext(txt, ";") == 1) //default target
 		//for a human, it's their headset
 		//for AI, it's radio #2
 		//should be the most common use case, because just using a slash is the easiest thing to type
-		//say "/ words" or say "/words"
+		//say "; words" or say ";words"
 		txt = copytext(txt, 2)
 		target = src.get_default_radio()
 		hear_range = 1
@@ -61,17 +63,18 @@
 		target = src.get_radio(copytext(txt, 2, 3))
 		hear_range = 1
 
-	if (hear_range == 1)
-		txt = "<I>[txt]</I>"
 	if (src.is_stuttering())
 		txt = stutter(txt)
 	txt = html_encode(txt)
+	if (hear_range == 1)
+		txt = "<i>[txt]</i>"
+
 
 
 	var/datum/message = new /datum/message(src.voice, txt, src.curr_language)
 
 	if(target && istype(target, /obj/item/weapon/radio))
-		target.talk_into(usr, txt)
+		target.talk_into(message, usr)
 	var/heard = list()
 	for(var/obj/O as obj|mob in view(hear_range))
 		spawn(0)

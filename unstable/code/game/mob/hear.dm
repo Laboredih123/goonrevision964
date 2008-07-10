@@ -14,9 +14,9 @@
 /mob/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
 	if(source in view(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
-		name += " (disguised as [source.name])"
+		speaker_name += " (disguised as [source.name])"
 	else if(istype(source, /obj/item/weapon/radio))
-		name += " broadcasts \icon[source]"
+		speaker_name += " broadcasts \icon[source]"
 	var/text = M.text
 	if(!M.language)
 		return
