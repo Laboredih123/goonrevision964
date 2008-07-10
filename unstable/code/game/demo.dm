@@ -1272,7 +1272,8 @@
 		if (istype(W, /obj/item/weapon/grab))
 			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 		user.drop_item()
-		if (W) W.loc = src.loc
+		if (W)
+			W.loc = src.loc
 	else if(src.broken)
 		user << "\red It appears to be broken."
 		return
@@ -1318,6 +1319,8 @@
 	if (!user.can_use_hands())
 		return
 	if ((!( istype(O, /atom/movable) ) || O.anchored || get_dist(user, src) > 1 || get_dist(user, O) > 1 || user.contents.Find(src)))
+		return
+	if(!src.opened)
 		return
 	step_towards(O, src.loc)
 	if (user != O)
@@ -1738,13 +1741,17 @@
 
 /obj/closet/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
-	if ((src.opened || W.damtype != "fire" || !( istype(W, /obj/item/weapon/weldingtool) )))
+	if (src.opened)
+		if (istype(W, /obj/item/weapon/grab))
+			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 		user.drop_item()
-		W.loc = src.loc
-	else
+		if (W)
+			W.loc = src.loc
+	else if(W.damtype == "fire" && istype(W, /obj/item/weapon/weldingtool))
 		src.welded = !( src.welded )
 		user.show_viewers(text("\red [] has been [] by [].", src, (src.welded ? "welded shut" : "unwelded"), user))
-	return
+	else
+		src.interact(user)
 
 /obj/closet/relaymove(mob/user as mob)
 
@@ -1778,6 +1785,8 @@
 	if (user.loc==null) // just in case someone manages to get a closet into the blue light dimension, as unlikely as that seems
 		return
 	if (!istype(user.loc, /turf)) // are you in a container/closet/pod/etc?
+		return
+	if(!src.opened)
 		return
 	step_towards(O, src.loc)
 	user.show_viewers(text("\red [] stuffs [] into []!", user, O, src))
