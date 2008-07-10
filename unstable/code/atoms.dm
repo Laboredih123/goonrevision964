@@ -2570,6 +2570,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/equip_consumption = 0
 	var/environ_consumption = 0
 	netnum = -1		// set so that APCs aren't found as powernet nodes
+	req_access = list(access_apcs)
 /obj/machinery/power/terminal
 	name = "terminal"
 	icon_state = "term"
