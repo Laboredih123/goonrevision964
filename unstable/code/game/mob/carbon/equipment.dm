@@ -302,14 +302,8 @@
 	src.overlays = null
 
 	if (src.lying)
-		src.icon = src.lying_icon
-		if (src.face2)
-			src.overlays += src.face2
 		src.overlays += src.body_lying
 	else
-		src.icon = src.stand_icon
-		if (src.face)
-			src.overlays += src.face
 		src.overlays += src.body_standing
 
 	var/suffix = src.lying ? "2" : null
