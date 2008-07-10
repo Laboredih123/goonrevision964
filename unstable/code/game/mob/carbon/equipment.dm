@@ -407,6 +407,8 @@
 	else
 		if (src.id && src.id.registered != src.body_name)
 			src.name = "[src.body_name] (as [src.id.registered])"
+		else if(!src.id && src.get_damage() > 500)
+			src.name = "Unknown" //so damaged that they can't be identified
 		else
 			src.name = src.body_name
 

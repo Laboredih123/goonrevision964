@@ -55,6 +55,7 @@
 	for(var/datum/organ/O in src.organs)
 		src.dam.add(O.dam)
 	src.update_damage_icon()
+	src.update_name()
 
 /mob/carbon/proc/update_damage_icon()
 	if(src.appearance == APPEARANCE_HUMAN)
