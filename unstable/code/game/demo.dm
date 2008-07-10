@@ -1308,9 +1308,9 @@
 		src.opened = 1
 	else
 		user << "\blue It's welded shut!"
-		for(var/mob/M in hearers(src, null))
-			M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
-			//Foreach goto(170)
+		if(usr.can_use_hands()) //handcuffed folk can't bang
+			for(var/mob/M in hearers(src, null))
+				M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
 	return
 
 /obj/secloset/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
@@ -1762,9 +1762,9 @@
 		src.opened = 1
 	else
 		user << "\blue It's welded shut!"
-		for(var/mob/M in hearers(src, null))
-			M.hear(text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M))))
-			//Foreach goto(170)
+		if(user.can_use_hands()) //handcuffed folks can't bang
+			for(var/mob/M in hearers(src, null))
+				M.hear(text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M))))
 	return
 
 /obj/closet/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
