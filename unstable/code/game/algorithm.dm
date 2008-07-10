@@ -33,7 +33,6 @@
 		if("Chaplain")
 			M.equip_if_possible(new /obj/item/weapon/clothing/under/black(M), SLOT_JUMPSUIT)
 			M.equip_if_possible(new /obj/item/weapon/clothing/shoes/black(M), SLOT_SHOES)
-			M.equip_if_possible(new /obj/item/weapon/clothing/gloves/latex(M), SLOT_GLOVES)
 		if("Assistant")
 			M.equip_if_possible(new /obj/item/weapon/clothing/under/white(M), SLOT_JUMPSUIT)
 			M.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(M), SLOT_SHOES)

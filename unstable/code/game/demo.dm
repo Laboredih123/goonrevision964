@@ -1199,7 +1199,6 @@
 	new /obj/item/weapon/clothing/suit/bio_suit( src )
 	new /obj/item/weapon/clothing/under/white( src )
 	new /obj/item/weapon/clothing/shoes/white( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
 	new /obj/item/weapon/clothing/head/bio_hood( src )
 	new /obj/item/weapon/clothing/suit/labcoat(src)
 
