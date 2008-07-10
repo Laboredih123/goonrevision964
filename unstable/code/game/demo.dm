@@ -1032,6 +1032,10 @@
 		return 1
 	return
 
+/obj/secloset/hear_message(datum/message/M, atom/source)
+	for(var/atom/A in src)
+		A.hear_message(M, source)
+
 /obj/secloset/personal/var/registered = null
 /obj/secloset/personal/req_access = list(access_all_personal_lockers)
 
@@ -1810,6 +1814,10 @@
 		src.icon_state = src.icon_closed
 		src.opened = 0
 	return
+
+/obj/closet/hear_message(datum/message/M, atom/source)
+	for(var/atom/A in src)
+		A.hear_message(M, source)
 
 /obj/closet/CheckPass(O as mob|obj, target as turf)
 

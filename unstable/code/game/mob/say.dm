@@ -76,7 +76,8 @@
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(message, usr)
 	var/heard = list()
-	for(var/obj/O as obj|mob in view(hear_range))
+	var/turf/T = get_turf(src) //if you're in a closet, people can still hear you talk
+	for(var/obj/O as obj|mob in view(hear_range, T))
 		spawn(0)
 			if (O)
 				O.hear_message(message, usr)

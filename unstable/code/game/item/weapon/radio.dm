@@ -60,6 +60,8 @@
 /obj/item/weapon/radio/proc/receive(datum/message/M, freq)
 	if (freq != src.freq || !M || !src.receiving || !(src.wires & WIRE_RECEIVE))
 		return
+	if(!istype(src.loc, /turf) && (!istype(src.loc, /mob) || !istype(src.loc.loc, /turf))) //closets block reception
+		return
 	if(istype(src.loc, /mob))
 		src.loc.hear_message(M, src)
 	for(var/atom/A in oview(src.listenrange, src))
@@ -71,8 +73,9 @@
 	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
 		return
 	last_transmission = world.time
-	for(var/obj/item/weapon/radio/R in world)
-		R.receive(M, src.freq)
+	if(istype(src.loc, /turf) || (istype(src.loc, /mob) && istype(src.loc.loc, /turf))) //closets block transmission
+		for(var/obj/item/weapon/radio/R in world)
+			R.receive(M, src.freq)
 
 /obj/item/weapon/radio/talk_into(datum/message/M, atom/source)
 	src.transmit(M, source)
