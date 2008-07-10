@@ -1240,9 +1240,8 @@
 		return
 	return
 
-/obj/item/weapon/handcuffs/attack(mob/M as mob, mob/carbon/user as mob)
-
-	if (user.check_dexterity())
+/obj/item/weapon/handcuffs/attack(mob/carbon/M as mob, mob/carbon/user as mob)
+	if (!user.check_dexterity())
 		return
 	var/obj/equip_e/O = new /obj/equip_e()
 	O.source = user
@@ -1250,7 +1249,7 @@
 	O.item = user.equipped()
 	O.s_loc = user.loc
 	O.t_loc = M.loc
-	O.place = "handcuff"
+	O.place = SLOT_HANDCUFFS
 	M.requests += O
 	spawn( 0 )
 		O.process()
