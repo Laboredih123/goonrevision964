@@ -5,7 +5,7 @@
 	..()
 	if(src.client && src.hud)
 		src.hud.update()
-
+	src.lying = 0
 	if (src.is_dead)
 		src.lying = 1
 		src.is_blind = 1
