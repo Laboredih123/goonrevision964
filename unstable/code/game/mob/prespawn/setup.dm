@@ -125,7 +125,7 @@ mob/prespawn/proc/savefile_load()
 		char_setup()
 
 /mob/prespawn/verb/char_setup()
-	if(!src.char_name)
+	if(!trim(src.char_name))
 		if(src.client)
 			src.char_name = src.client.key
 		else
