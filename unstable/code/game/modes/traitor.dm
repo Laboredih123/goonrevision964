@@ -14,8 +14,6 @@
 	var/const/prob_right_sab_target_l = 40 // lower bound on probability of naming right sabotage target
 	var/const/prob_right_sab_target_h = 80 // upper bound on probability of naming right sabotage target
 
-	var/const/prob_right_killer_l = 20 //lower bound on probability of naming the right operative
-	var/const/prob_right_killer_h = 50 //upper bound on probability of naming the right operative
 	var/const/prob_right_objective_l = 60 //lower bound on probability of determining the objective correctly
 	var/const/prob_right_objective_h = 80 //upper bound on probability of determining the objective correctly
 
@@ -168,16 +166,11 @@
 
 /datum/game_mode/traitor/proc/send_intercept()
 	var/intercepttext = "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT><HR>"
-	var/prob_right_killer = rand(prob_right_killer_l, prob_right_killer_h)
-	var/mob/carbon/killer = ticker.killer
-	if(!prob(prob_right_killer))
-		killer = pick(get_mob_list())
 
 	var/objective = ticker.objective
 	var/prob_right_objective = rand(prob_right_objective_l, prob_right_objective_h)
 	var/right_objective = 1
-	if(!prob(prob_right_objective) || (istype(killer, /mob/silicon/ai) != istype(ticker.killer, /mob/silicon/ai))) //doesn't correctly determine what traitor is trying to do
-		//if the perceived killer is the AI but the real killer isn't, there's no chance the right objective is determined
+	if(!prob(prob_right_objective))
 		objective = pick_objective()
 		right_objective = 0
 	switch (objective)
@@ -195,7 +188,7 @@
 				if (prob(prob_right_target) && right_objective) //will never get the right target if there is no target
 					target = ticker.target
 				else
-					target = pick_human_except(killer) //can't think the killer is the same thing as the target
+					target = pick(get_human_list()) //can't think the killer is the same thing as the target
 				intercepttext += "\red <B>Perceived target: [get_target_desc(target)] ([prob_right_target]% certainty)</B><BR>"
 
 		if(obj_steal)
@@ -203,10 +196,10 @@
 			if (prob(prob_int_item))
 				var/prob_right_item = rand(prob_right_item_l, prob_right_item_h)
 				var/target = null
-				if (right_objective && ticker.theft_obj in get_pickable_items(killer) && prob(prob_right_item)) //will never get the right target if it's the wrong objective or wouldn't be consistent with the given killer
+				if (right_objective && prob(prob_right_item)) //will never get the right target if it's the wrong objective or wouldn't be consistent with the given killer
 					target = ticker.theft_obj
 				else
-					target = pick(get_pickable_items(killer))
+					target = pick(get_pickable_items())
 				intercepttext += "\red <B>Perceived target: [get_item_desc(target)] ([prob_right_item]% certainty)</B><BR>"
 
 		if (obj_sabotage)
