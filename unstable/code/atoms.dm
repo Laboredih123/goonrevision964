@@ -2280,6 +2280,28 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "digital valve"
 	icon_state = "dvalve0"
 	desc = "A digital gas valve."
+/obj/machinery/oneway
+	name = "one-way pipe"
+	desc = "A Pipe that only passes gas in one direction."
+	var/obj/substance/gas/gas1 = null
+	var/obj/substance/gas/ngas1 = null
+	var/obj/substance/gas/gas2 = null
+	var/obj/substance/gas/ngas2 = null
+	var/capacity = 6000000.0
+	var/obj/machinery/node1 = null
+	var/obj/machinery/node2 = null
+	var/obj/machinery/vnode1 = null
+	var/obj/machinery/vnode2 = null
+	anchored = 1.0
+	capmult = 2
+	icon = 'pipes.dmi'
+	icon_state = "one-way"
+/obj/machinery/oneway/pipepump
+	name = "Pipe pump"
+	desc = "A machine that pushes gas as hard as it can from one side to the other."
+	icon = 'pipes2.dmi'
+	icon_state = "pipepump-run"
+	var/rate = 6000000.0
 /obj/machinery/manifold
 	name = "manifold"
 	icon = 'pipes.dmi'
