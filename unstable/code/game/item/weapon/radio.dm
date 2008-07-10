@@ -39,6 +39,7 @@
 	name = "Radio Headset"
 	icon_state = "headset"
 	listenrange = 1
+	s_istate = "headset"
 /obj/item/weapon/radio/intercom
 	name = "Station Intercom (Radio)"
 	icon_state = "intercom"
