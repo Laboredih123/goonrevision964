@@ -301,6 +301,7 @@
 	if(!istype(M, /mob/carbon))
 		M.take_damage(brute = dam)
 		return
+	var/dismember = null
 	if ((M.helmet && M.helmet.brute_protect & 1) || (M.mask && M.mask.brute_protect & 1) && prob(5))
 		M.think("\red Your helmet softened the blow.")
 		dam /= 2
@@ -313,8 +314,11 @@
 			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
 		var/time = rand(1, 12)
 		M.knockout_until(time)
-
-	M.take_damage(brute = dam)
+	if (attacker.has_super_strength)
+		dismember = dam/2
+	if (istype(src, /obj/item/weapon/wirecutters))
+		dismember = 4
+	M.take_damage(brute = dam, dismember = dismember)
 	src.add_fingerprint(attacker)
 	return
 
@@ -2330,6 +2334,8 @@
 	if (!istype(M, /mob/carbon) || !istype(M.dna, /datum/dna) ||  M.gloves)
 		user << text("\blue Unable to locate any fingerprints on []!", M)
 		return 0
+	if ((M.appearance == APPEARANCE_HUMAN) && !M.can_wear_gloves)
+		user << "\blue [M] has no hands!"
 	else
 		if ((src.amount < 1 && src.printing))
 			user << text("\blue Fingerprints scanned on []. Need more cards to print.", M)
@@ -2349,6 +2355,22 @@
 /obj/item/weapon/f_print_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
 
 	src.add_fingerprint(user)
+	if (istype(A, /obj/item/weapon/limb))
+		var/obj/item/weapon/limb/O = A
+		if (O.fingerprint)
+			if (src.amount < 1 && src.printing)
+				user << "\blue Fingerprints scanned on [A]. Need more cards to print."
+				src.printing = 0
+			src.icon_state = text("f_print_scanner[]", src.printing)
+			if (src.printing)
+				src.amount--
+				var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user.loc )
+				F.amount = 1
+				F.fingerprints = O.fingerprint
+				F.icon_state = "f_print_card1"
+				F.name = text("FPrintC- '[]'", O.name)
+				user << "\blue Done printing."
+			user << text("\blue []'s Fingerprints: []", O, O.fingerprint)
 	if (!( A.fingerprints ))
 		user << "\blue Unable to locate any fingerprints!"
 		return 0

@@ -2,8 +2,11 @@
 	if(src.appearance == APPEARANCE_HUMAN)
 		del(src.stand_icon)
 		del(src.lying_icon)
-		src.stand_icon = new /icon( 'human.dmi', "[src.gender]")
-		src.lying_icon = new /icon( 'human.dmi', "[src.gender]-d")
+		src.stand_icon = new /icon( 'human.dmi', "blank" )
+		src.lying_icon = new /icon( 'human.dmi', "blank" )
+		for(var/t in src.organs) // update/show only those organs that are currently attached
+			src.stand_icon.Blend(new /icon( 'human.dmi', text("[]", t) ), 3)
+			src.lying_icon.Blend(new /icon( 'human.dmi', text("[]2", t) ), 3)
 		if (src.skin_color == SKIN_COLOR_DARK)
 			src.stand_icon.Blend(rgb(100,100,100), ICON_MULTIPLY)
 			src.lying_icon.Blend(rgb(100,100,100), ICON_MULTIPLY)

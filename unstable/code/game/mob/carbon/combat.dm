@@ -90,7 +90,7 @@
 			else
 				src.knockout_until(20)
 				src.show_viewers("\red <b>[M] has bitten [src] with superhuman strength!</b>")
-				src.take_damage(brute = 20)
+				src.take_damage(brute = 20, dismember = 4)
 				if(M.is_infectious)
 					src.infected_by(M)
 		else if(M.attack_type == ATTACK_PUNCH)

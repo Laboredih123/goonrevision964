@@ -4,32 +4,41 @@
 	var/brute_loss = 0
 	var/burn_loss = 0
 	var/ear_loss = 0
+	var/limb_loss = 0
 	switch(severity)
 		if(1)
 			brute_loss = 100
 			burn_loss = 100
 			ear_loss = 50
+			limb_loss = 75
 		if(2)
 			brute_loss = 60
 			burn_loss = 60
 			ear_loss = 30
+			limb_loss = 40
 			if (prob(50))
 				src.knockdown_until(5)
 		if(3)
 			brute_loss = 30
 			ear_loss = 15
+			limb_loss = 15
 			if (prob(50))
 				src.knockdown_until(2)
-	src.take_damage(brute = brute_loss, burn = burn_loss)
+	src.take_damage(brute = brute_loss, burn = burn_loss, dismember = limb_loss)
 	src.take_ear_damage(ear_loss)
 	return
 
-/mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
+/mob/carbon/take_damage(brute, burn, suffocation, toxin, electric, dismember)
 	if(src.is_fire_immune)
 		burn = 0
 	var/datum/damage/dam = new /datum/damage(brute = brute, burn = burn, suffocation = suffocation, toxin = toxin, electric = electric)
 	var/datum/organ/O = src.choose_organ()
 	if (istype(O, /datum/organ))
+		if (src.appearance == APPEARANCE_HUMAN && !(O.name == "chest" || O.name == "diaper") && prob(dismember))
+			src.sever(O)
+			if (O.name == "head")
+				src.death()
+				return
 		O.take_damage(dam)
 		src.update_damage()
 
