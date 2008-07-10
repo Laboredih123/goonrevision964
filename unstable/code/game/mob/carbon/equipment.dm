@@ -16,6 +16,8 @@
 	SLOT_R_STORE = 16
 	SLOT_HEADSET = 17
 	SLOT_IN_BACKPACK = 18
+	SLOT_INTERNAL = 19
+	SLOT_IN_POCKETS = 20
 
 /mob/carbon/u_equip(obj/item/weapon/W as obj)
 	if (W == src.suit)
@@ -415,36 +417,6 @@
 			src.invisibility = 2
 			src.overlays += image("icon" = 'mob.dmi', "icon_state" = "shield", "layer" = MOB_LAYER)
 			return
-
-/mob/carbon/proc/show_inv(mob/user as mob)
-
-	user.machine = src
-	var/dat = "<PRE>\n<B><FONT size=3>[src.name]</FONT></B>"
-	var/L = list(
-		list(src.can_wear_helmet, "Helmet", SLOT_HELMET, src.helmet),
-		list(src.can_wear_mask, "Mask", SLOT_MASK, src.mask),
-		list(src.can_wear_glasses, "Glasses", SLOT_GLASSES, src.glasses),
-		list(src.can_wear_headset, "Headset", SLOT_HEADSET, src.headset),
-		list(src.can_wear_gloves, "Gloves", SLOT_GLOVES, src.gloves),
-		list(src.can_wear_l_hand, "Left Hand", SLOT_L_HAND, src.l_hand),
-		list(src.can_wear_r_hand, "Right Hand", SLOT_R_HAND, src.r_hand),
-		list(src.can_wear_suit, "Suit", SLOT_SUIT, src.suit),
-		list(src.can_wear_jumpsuit, "Jumpsuit", SLOT_JUMPSUIT, src.jumpsuit),
-		list(src.can_wear_belt, "Belt", SLOT_BELT, src.belt),
-		list(src.can_wear_id, "ID", SLOT_ID, src.id)
-	)
-	for(var/x in L)
-		var/can_wear = x[1]
-		if(can_wear)
-			var/desc = x[2]
-			var/link = x[3]
-			var/contents = x[4] ? x[4] : "Nothing"
-			dat += "<b>[desc]</b> <a href='?src=\ref[src];item=[link]'>[contents]</a>"
-	dat += "<a href='?src=\ref[src];item=[SLOT_HANDCUFFS]'>[src.handcuffs ? "" : "Not "]Handcuffed</A>"
-	dat += "<a href='?src=\ref[src];item=pockets'>Empty Pockets</A>"
-	dat += "<a href='?src=\ref[src];mach_close=mob[src]'>Close</A>\n</PRE>"
-	user << browse(dat, text("window=mob[];size=300x600", src.key))
-	return
 
 /mob/carbon/proc/drop_item_v()
 	if (src.is_active())

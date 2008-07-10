@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\mob\carbon\equipment.dm
-DIR: code code\data code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\silicon code\game\mob\silicon\ai icons icons\ss13
+FILE: code\game\drag.dm
+DIR: code code\data code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\silicon code\game\mob\silicon\ai
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -186,6 +186,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\carbon\proc.dm"
 #include "code\game\mob\carbon\say.dm"
 #include "code\game\mob\carbon\see.dm"
+#include "code\game\mob\carbon\show_inv.dm"
 #include "code\game\mob\carbon\stat.dm"
 #include "code\game\mob\carbon\var.dm"
 #include "code\game\mob\carbon\vision.dm"
