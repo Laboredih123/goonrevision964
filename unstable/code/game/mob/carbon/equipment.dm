@@ -332,8 +332,6 @@
 	icons[src.shoes] = "5,2"
 	icons[src.glasses] = "6,2"
 	icons[src.helmet] = "7,2"
-	icons[src.belt] = "8,2"
-
 
 	var/iconsource = src.appearance == APPEARANCE_MONKEY ? 'monkey.dmi' : 'mob.dmi'
 	for(var/obj/item/weapon/W in icons)
@@ -361,7 +359,12 @@
 			w_type = src.r_hand.icon_state
 		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
 		src.r_hand.screen_loc = "1,2"
-
+	if (src.belt)
+		var/w_type = src.belt.s_istate
+		if (!w_type)
+			w_type = src.belt.icon_state
+		src.overlays += image("icon" = 'belt.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
+		src.belt.screen_loc = "8,2"
 	if (src.l_store)
 		src.l_store.screen_loc = "4,1"
 	if (src.r_store)
