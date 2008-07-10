@@ -602,6 +602,7 @@
 /obj/item/weapon/clothing/glasses
 	name = "glasses"
 	w_class = 2.0
+	flags = GLASSESCOVERSEYES
 	s_fire = 7.5E7
 /obj/item/weapon/clothing/glasses/blindfold
 	name = "blindfold"
@@ -678,14 +679,14 @@
 	name = "bio hood"
 	icon_state = "bio_hood"
 	fb_filter = 9.0
-	flags = 262.0
+	flags = FPRINT|TABLEPASS|HEADSPACE|HEADCOVERSEYES|HEADCOVERSMOUTH
 	see_face = 0.0
 	s_fire = 1.875E7
 	fire_protect = 1.0
 /obj/item/weapon/clothing/head/helmet
 	name = "helmet"
 	icon_state = "helmet"
-	flags = 266.0
+	flags = FPRINT|TABLEPASS|SUITSPACE|HEADCOVERSEYES
 	s_istate = "helmet"
 	s_fire = 6.75E7
 	fire_protect = 1.0
@@ -693,7 +694,7 @@
 /obj/item/weapon/clothing/head/s_helmet
 	name = "s helmet"
 	icon_state = "s_helmet"
-	flags = 262.0
+	flags = FPRINT|TABLEPASS|HEADSPACE|HEADCOVERSEYES|HEADCOVERSMOUTH
 	see_face = 0.0
 	s_istate = "s_helmet"
 	s_fire = 5.625E7
@@ -701,7 +702,7 @@
 /obj/item/weapon/clothing/head/helmet/swat_hel
 	name = "swat hel"
 	icon_state = "swat_hel"
-	flags = 270.0
+	flags = FPRINT|TABLEPASS|SUITSPACE|HEADSPACE|HEADCOVERSEYES
 	s_istate = "swat_hel"
 /obj/item/weapon/clothing/head/wig
 	name = "wig"
@@ -711,7 +712,7 @@
 	name = "gasmask"
 	desc = "A close-fitting mask that can filter some environmental toxins or be connected to an air supply."
 	icon_state = "mask"
-	flags = 266.0
+	flags = FPRINT|TABLEPASS|SUITSPACE|MASKCOVERSMOUTH|MASKCOVERSEYES
 	w_class = 3.0
 	fb_filter = 5.0
 	a_filter = 6.0
@@ -723,7 +724,7 @@
 	desc = "This mask does not work very well in low pressure environments."
 	name = "Medical Mask"
 	icon_state = "m_mask"
-	flags = 270.0
+	flags = FPRINT|TABLEPASS|SUITSPACE|HEADSPACE|MASKCOVERSMOUTH
 	w_class = 3.0
 	fb_filter = 4.0
 	a_filter = 6.0
@@ -732,6 +733,7 @@
 /obj/item/weapon/clothing/mask/muzzle
 	name = "muzzle"
 	icon_state = "muzzle"
+	flags = FPRINT|TABLEPASS|MASKCOVERSMOUTH
 	w_class = 2.0
 	a_filter = 3.0
 	s_istate = "muzzle"
@@ -739,7 +741,7 @@
 /obj/item/weapon/clothing/mask/robot
 	name = "Robot Mask"
 	icon_state = "r_head"
-	flags = 266.0
+	flags = FPRINT|TABLEPASS|SUITSPACE|MASKCOVERSMOUTH|MASKCOVERSEYES
 	w_class = 3.0
 	fb_filter = 5.0
 	a_filter = 6.0
@@ -754,7 +756,7 @@
 	name = "Sterile Mask"
 	icon_state = "s_mask"
 	w_class = 1.0
-	flags = 262.0
+	flags = FPRINT|TABLEPASS|HEADSPACE|MASKCOVERSMOUTH
 	fb_filter = 5.0
 	a_filter = 6.0
 	s_istate = "s_mask"

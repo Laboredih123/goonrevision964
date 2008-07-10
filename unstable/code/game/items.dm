@@ -1064,6 +1064,7 @@
 				del(P)
 			W.add_fingerprint(user)
 			src.add_fingerprint(user)
+			user.update_clothing()
 	else
 		return ..()
 	return
@@ -1137,6 +1138,9 @@
 
 /obj/item/weapon/m_pill/attack(mob/carbon/M as mob, mob/user as mob)
 	if(!istype(M, /mob/carbon))
+		return
+	if ((M.helmet && M.helmet.flags & HEADCOVERSMOUTH) || (M.mask && M.mask.flags & MASKCOVERSMOUTH))
+		user.think("\blue You're going to need to remove [(user == M) ? "your" : "their"] mask/helmet first.")
 		return
 	if (user != M )
 		M.show_viewers(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
@@ -3225,11 +3229,14 @@
 /obj/item/weapon/dropper/attack(mob/carbon/M as mob, mob/user as mob)
 	if(!user.check_dexterity())
 		return
+	if ((M.helmet && M.helmet.flags & HEADCOVERSEYES) || (M.mask && M.mask.flags & MASKCOVERSEYES) || (M.glasses && M.glasses.flags & GLASSESCOVERSEYES))
+		user.think("\blue You're going to need to remove [(user == M) ? "your" : "their"] glasses/mask/helmet first.")
+		return
 	if (user)
 		M.show_viewers(text("\red [] has been eyedropped with [] by [].", M, src, user))
 		var/amount = src.chem.dropper_mob(M, 1)
 		src.update_is()
-		user.see(text("\red You drop [] units into []'s eyes. The dropper contains [] millimeters.", amount, M, src.chem.volume()))
+		user.see("\red You drop [amount] units into [M]'s eyes. The dropper contains [src.chem.volume()] units.")
 		src.add_fingerprint(user)
 	return
 

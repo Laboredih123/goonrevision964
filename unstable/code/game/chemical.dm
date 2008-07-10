@@ -114,6 +114,7 @@
 	if (!( ismob(M) ))
 		return
 	var/obj/substance/chemical/S = src.split(amount)
+	. = S.volume()
 	for(var/item in S.chemicals)
 		var/datum/chemical/C = S.chemicals[item]
 		if (istype(C, /datum/chemical))

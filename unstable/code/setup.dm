@@ -34,6 +34,11 @@
 #define ONBELT 1 << 7		// can be put in belt slot
 #define FPRINT 1 << 8		// takes a fingerprint
 #define WINDOW 1 << 9		// window or window/door
+#define GLASSESCOVERSEYES 1 << 10 // glasses/masks/headwear covering certain parts of the face
+#define MASKCOVERSEYES 1 << 10
+#define HEADCOVERSEYES 1 << 10
+#define MASKCOVERSMOUTH 1 << 11
+#define HEADCOVERSMOUTH 1 << 11
 
 // channel numbers for power
 
