@@ -1,7 +1,7 @@
 /mob/carbon/proc/update_body()
+	del(src.stand_icon)
+	del(src.lying_icon)
 	if(src.appearance == APPEARANCE_HUMAN)
-		del(src.stand_icon)
-		del(src.lying_icon)
 		src.stand_icon = new /icon( 'human.dmi', "blank" )
 		src.lying_icon = new /icon( 'human.dmi', "blank" )
 		for(var/t in src.organs) // update/show only those organs that are currently attached

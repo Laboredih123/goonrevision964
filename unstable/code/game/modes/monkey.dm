@@ -14,32 +14,19 @@
 			if (M.client)
 				mobs += M
 		var/list/monkeyed = list()
-		if (mobs.len >= 3)
-			var/amount = round((mobs.len - 1) / 3) + 1
-			amount = min(4, amount)
-			while (amount > 0)
-				var/mob/carbon/M = pick(mobs)
-				mobs -= M
-				monkeyed += M
-				amount--
-		//find the "infectious" and "monkey appearance" loci
-		for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
-			for(var/j = 1; j <= NUM_LOCI; j++)
-				var/datum/canonical_locus/L = canonical_dna.data[i][j]
-				if(!L.associated_gene)
-					break
-				if(istype(L.associated_gene, /datum/gene/appearance))
-					for(var/allele in L.alleles)
-						if(L.alleles[allele] != APPEARANCE_MONKEY)
-							break
-						for(var/mob/carbon/M in monkeyed)
-							M.dna.data[i][j] = allele
-				if(istype(L.associated_gene, /datum/gene/infectious))
-					for(var/allele in L.alleles)
-						if(L.alleles[allele] != INFECTIOUS)
-							break
-						for(var/mob/carbon/M in monkeyed)
-							M.dna.data[i][j] = allele
+		var/amount = round((mobs.len - 1) / 3) + 1
+		amount = min(4, amount)
+		while (amount > 0)
+			var/mob/carbon/M = pick(mobs)
+			mobs -= M
+			monkeyed += M
+			amount--
+		for(var/mob/carbon/M in monkeyed)
+			M.appearance = APPEARANCE_MONKEY
+			M.is_infectious = 1
+			M.dna = new /datum/dna(M)
+			M.dna.register(M)
+			M.dna.apply(M)
 	spawn (0)
 		ticker.extend_process()
 
