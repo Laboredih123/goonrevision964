@@ -1,5 +1,6 @@
 /datum/gene/skin_color
 	default = SKIN_COLOR_LIGHT
+	is_noticeable = 1
 
 	New()
 		attributes = get_skin_colors()

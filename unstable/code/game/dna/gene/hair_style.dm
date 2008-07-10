@@ -1,5 +1,6 @@
 /datum/gene/hair_style
 	default = HAIR_STYLE_SHORT
+	is_noticeable = 1
 
 	New()
 		attributes = get_hair_styles()

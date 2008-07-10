@@ -15,7 +15,7 @@
 	ALLELE_TC = "TC"
 	ALLELE_TG = "TG"
 	ALLELE_TT = "TT"
-	TOTAL_NUM_ALLELES = 16
+	NUM_ALLELES = 16
 
 /proc/get_all_alleles()
 	return list(

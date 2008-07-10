@@ -1,5 +1,6 @@
 /datum/gene/gender
 	default = MALE
+	is_noticeable = 1
 
 	New()
 		attributes = list(MALE, FEMALE)

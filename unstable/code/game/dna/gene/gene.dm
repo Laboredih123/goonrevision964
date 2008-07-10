@@ -6,6 +6,9 @@
 	var/list/attributes = list(JUNK)
 	var/num_loci = 1
 
+	// if this is set to 1, changing this gene makes you "unknown"
+	var/is_noticeable = 0
+
 	// what you get if you choose an otherwise unassigned allele for this
 	var/default = JUNK
 

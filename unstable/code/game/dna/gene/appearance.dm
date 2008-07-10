@@ -8,6 +8,7 @@
 
 /datum/gene/appearance
 	default = APPEARANCE_MONKEY
+	is_noticeable = 1
 
 	New()
 		attributes = list(APPEARANCE_MONKEY, APPEARANCE_HUMAN)

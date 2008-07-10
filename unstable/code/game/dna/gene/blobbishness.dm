@@ -5,6 +5,7 @@
 /datum/gene/blobbishness
 	default = APPEARANCE_QUIVERING_MASS
 	num_loci = 4
+	is_noticeable = 1
 
 	New()
 		attributes = list(APPEARANCE_QUIVERING_MASS, JUNK)

@@ -1,5 +1,5 @@
-var/const/NUM_CHROMOSOMES = 23
-var/const/NUM_LOCI = 10
+/var/const/NUM_CHROMOSOMES = 23
+/var/const/NUM_LOCI = 10
 
 /datum/dna/var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 
@@ -11,8 +11,6 @@ var/const/NUM_LOCI = 10
 				if(L.associated_gene)
 					var/datum/gene/G = L.associated_gene
 					src.data[i][j] = G.choose_allele(M, L)
-				if(L.is_junk && prob(5)) //everyone gets a few random mutations
-					src.data[i][j] = pick_allele()
 	else
 		for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
 			for(var/j = 1; j <= NUM_LOCI; j++)
@@ -68,9 +66,11 @@ var/const/NUM_LOCI = 10
 
 /datum/dna/proc/hash()
 	var/s = ""
-	for(var/list/chromosome in src.data)
-		for(var/allele in chromosome)
-			s += allele
+	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+		for(var/j = 1; j <= NUM_LOCI; j++)
+			var/datum/canonical_locus/L = canonical_dna.data[i][j]
+			if(L.associated_gene && L.associated_gene.is_noticeable)
+				s += src.data[i][j]
 	return md5(s)
 
 /datum/dna/proc/register(mob/carbon/M)
@@ -88,6 +88,8 @@ var/const/NUM_LOCI = 10
 // canonical DNA - effectively a singleton, with data on all the loci and their associated genes
 // one instance of this is created when the world is, no more are after that
 // that instance is at /var/datum/dna/canonical/canonical_dna
+/datum/dna/canonical/var/NUM_UNIQUE_GENES = 5 //number of completely random genes, unique for each person
+
 /datum/dna/canonical/New()
 	//make the loci
 	var/datum/gene/junk = new()
@@ -98,14 +100,14 @@ var/const/NUM_LOCI = 10
 
 	//assign genes to them
 	var/genetypes = typesof(/datum/gene)
-	genetypes -= /datum/gene //get rid of junk one
+	for(var/i = 1; i < NUM_UNIQUE_GENES; i++) //one less than NUM_UNIQUE_GENES - typesof already adds it once
+		genetypes += /datum/gene/unique
+	genetypes -= /datum/gene //get rid of base type, it's junk
 	var/list/genes = list()
 	for(var/genetype in genetypes)
 		genes += new genetype
 	for(var/datum/gene/G in genes)
 		G.associate_with_loci(src)
-
-
 
 /datum/dna/canonical/proc/get_random_junk_locus()
 	while(1)

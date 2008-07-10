@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\mob\say.dm
-DIR: code code\data code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\silicon code\game\mob\silicon\ai code\game\modes maps
+FILE: code\game\dna\dna.dm
+DIR: code code\data code\game code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\silicon code\game\mob\silicon\ai
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -133,6 +133,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\dna\gene\skin_color.dm"
 #include "code\game\dna\gene\super_strength.dm"
 #include "code\game\dna\gene\telepathy.dm"
+#include "code\game\dna\gene\unique.dm"
 #include "code\game\dna\gene\xray_vision.dm"
 #include "code\game\item\weapon\aimodules.dm"
 #include "code\game\item\weapon\beer.dm"

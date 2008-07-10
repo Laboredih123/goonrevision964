@@ -1,5 +1,6 @@
 /datum/gene/hair_color
 	default = HAIR_COLOR_GREY
+	is_noticeable = 1
 
 	New()
 		attributes = get_hair_colors()
