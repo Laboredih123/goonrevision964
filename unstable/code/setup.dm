@@ -47,6 +47,12 @@
 #define NOPOWER 1 << 1
 #define POWEROFF 1 << 2	// tbd
 #define MAINT 1 << 3	// under maintaince
-#define EMAGGED 16 // is something (such as airlocks!) emagged?
+#define EMAGGED 1 << 4 // is something (such as airlocks!) emagged?
 
 #define ENGINE_EJECT_Z 2
+
+#define GAS_O2 1 << 0
+#define GAS_N2 1 << 1
+#define GAS_PL 1 << 2
+#define GAS_CO2 1 << 3
+#define GAS_N2O 1 << 4

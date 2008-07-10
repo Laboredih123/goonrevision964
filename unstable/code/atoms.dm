@@ -2303,6 +2303,34 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 	capmult = 3
 
+/obj/machinery/pipefilter
+	name = "pipe filter"
+	icon = 'pipes2.dmi'
+	icon_state = "filter"
+	desc = "A three-port gas filter."
+	anchored = 1
+	dir = 2
+	p_dir = 14
+	capmult = 3
+	var/capacity = 6000000.0
+	var/n1dir
+	var/n2dir
+
+	var/obj/substance/gas/gas = null
+	var/obj/substance/gas/ngas = null
+
+	var/f_mask = 0
+	var/f_per = 0
+	var/obj/substance/gas/f_gas = null
+	var/obj/substance/gas/f_ngas = null
+
+	var/obj/machinery/node1 = null
+	var/obj/machinery/node2 = null
+	var/obj/machinery/node3 = null
+
+	var/obj/machinery/vnode1
+	var/obj/machinery/vnode2
+	var/obj/machinery/vnode3
 
 /obj/machinery/junction
 	name = "junction"

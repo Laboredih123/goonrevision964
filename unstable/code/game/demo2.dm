@@ -576,35 +576,54 @@ Pipe Valve Status: []<BR>
 		T.loc = src
 		src.holding = T
 		update_icon()
-	else
-		if ((istype(W, /obj/item/weapon/wrench)))
-			var/obj/machinery/connector/con = locate(/obj/machinery/connector, src.loc)
+	else if ((istype(W, /obj/item/weapon/wrench)))
+		var/obj/machinery/connector/con = locate(/obj/machinery/connector, src.loc)
 
-
-			if (src.c_status)
-				src.anchored = 0
-				src.c_status = 0
-				user.think("\blue You have disconnected the canister.")
-				if(con)
-					con.connected = null
-			else
-				if(con && !con.connected && !destroyed)
-					src.anchored = 1
-					src.c_status = 3
-					user.think("\blue You have connected the canister.")
-					con.connected = src
-				else
-					user.think("\blue There is nothing here with which to connect the canister.")
+		if (src.c_status)
+			src.anchored = 0
+			src.c_status = 0
+			user.think("\blue You have disconnected the canister.")
+			if(con)
+				con.connected = null
+		else if(con && !con.connected && !destroyed)
+			src.anchored = 1
+			src.c_status = 3
+			user.think("\blue You have connected the canister.")
+			con.connected = src
 		else
-			switch(W.damtype)
-				if("fire")
-					src.health -= W.force
-				if("brute")
-					src.health -= W.force * 0.5
-				else
-			src.healthcheck()
-			..()
-	return
+			user.think("\blue There is nothing here with which to connect the canister.")
+	else if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
+		for (var/mob/O in viewers(user, null))
+			O.see("\red [user] has used an analyzer on [src].")
+		var/total = src.gas.tot_gas()
+		var/t1 = 0
+		var/dat = "\blue Results of analysis of [src]:\n"
+		if (total)
+			dat += "\blue Overall: [total] / [src.gas.maximum]\n"
+			t1 = round( src.gas.n2 / total * 100 , 0.0010)
+			dat += "\blue Nitrogen: [t1]%\n"
+			t1 = round( src.gas.oxygen / total * 100 , 0.0010)
+			dat += "\blue Oxygen: [t1]%\n"
+			t1 = round( src.gas.plasma / total * 100 , 0.0010)
+			dat += "\blue Plasma: [t1]%\n"
+			t1 = round( src.gas.co2 / total * 100 , 0.0010)
+			dat += "\blue CO2: [t1]%\n"
+			t1 = round( src.gas.sl_gas / total * 100 , 0.0010)
+			dat += "\blue N2O: [t1]%\n"
+			dat += "\blue Temperature: [src.gas.temperature-T0C]&deg;C"
+		else
+			dat += "\blue Canister is empty!"
+		user.think(dat)
+		src.add_fingerprint(user)
+	else
+		switch(W.damtype)
+			if("fire")
+				src.health -= W.force
+			if("brute")
+				src.health -= W.force * 0.5
+			else
+		src.healthcheck()
+		..()
 
 /obj/machinery/atmoalter/canister/las_act(flag)
 
