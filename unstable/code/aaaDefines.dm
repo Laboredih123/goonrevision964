@@ -1,12 +1,9 @@
 #include "atoms.dm"
 
-//*****
 /atom/proc/burn(fi_amount)
-
 	return
 
 /atom/movable/Move()
-
 	var/atom/A = src.loc
 	. = ..()
 	src.move_speed = world.time - src.l_move_time

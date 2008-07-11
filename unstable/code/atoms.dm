@@ -1,4 +1,3 @@
-#include "setup.dm"
 #include "data\stylesheet.dm"
 
 /atom
@@ -339,22 +338,6 @@
 	anchored = 1.0
 	opacity = 0
 	density = 1
-/obj/hud
-	name = "hud"
-	var/adding = null
-	var/other = null
-	var/intents = null
-	var/mov_int = null
-	var/mon_blo = null
-	var/m_ints = null
-	var/vimpaired = null
-	var/obj/screen/g_dither = null
-	var/obj/screen/blurry = null
-	var/h_type = /obj/screen
-	var/list/darkMask = null
-/obj/hud/hud2
-	name = "hud2"
-	h_type = /obj/screen/screen2
 /obj/item
 	name = "item"
 	var/w_class = 3.0

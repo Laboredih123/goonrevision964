@@ -175,11 +175,6 @@
 	else
 		luminosity = 0;
 
-/*
-#define EQUIP 1
-#define LIGHT 2
-#define ENVIRON 3
-*/
 
 /area/proc/powered(var/chan)		// return true if the area has power to given channel
 	if(!requires_power)

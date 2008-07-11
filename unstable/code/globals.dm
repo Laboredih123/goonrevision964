@@ -183,3 +183,68 @@ world
 
 	//visibility = 0
 	//loop_checks = 0
+
+
+var/const
+	CELLSTANDARD = 3600000.0		// gas capacity of cell at STP
+	O2STANDARD = 756000.0			// O2 standard value (21%)
+	N2STANDARD = 2844000.0		// N2 standard value (79%)
+
+	T0C = 273.15					// 0degC
+	T20C = 293.15					// 20degC
+
+	FIREOFFSET = 505				//bias for starting firelevel
+	FIREQUOT = 15000				//divisor to get target temp from firelevel
+	FIRERATE = 5					//divisor of temp difference rate of change
+
+	NORMPIPERATE = 40					//pipe-insulation rate divisor
+	HEATPIPERATE = 8					//heat-exch pipe insulation
+
+	FLOWFRAC = 0.99				// fraction of gas transfered per process
+
+
+//FLAGS BITMASK
+	ONBACK = 1			// can be put in back slot
+	TABLEPASS = 1 << 1	// can pass by a table or rack
+	HALFMASK = 1 << 2		// mask only gets 1/2 of air supply from internals
+
+	HEADSPACE = 1 << 2	// head wear protects against space
+
+	MASKINTERNALS = 1 << 3// mask allows internals
+	SUITSPACE = 1 << 3	// suit protects against space
+
+	USEDELAY = 1 << 4		// 1 second extra delay on use
+	// 1 << 5 is an unused flag, because shields don't exist any more
+	// 1 << 6 is an unused flag, because everything's drivable by a mass driver now
+	// Don't reuse them until the flags are all cleaned up (using the #defined things rather than magic numbers)
+	// because some things probably still have them set
+	ONBELT = 1 << 7		// can be put in belt slot
+	FPRINT = 1 << 8		// takes a fingerprint
+	WINDOW = 1 << 9		// window or window/door
+	GLASSESCOVERSEYES = 1 << 10 // glasses/masks/headwear covering certain parts of the face
+	MASKCOVERSEYES = 1 << 10
+	HEADCOVERSEYES = 1 << 10
+	MASKCOVERSMOUTH = 1 << 11
+	HEADCOVERSMOUTH = 1 << 11
+
+	// channel numbers for power
+
+	EQUIP = 1
+	LIGHT = 2
+	ENVIRON = 3
+	TOTAL = 4	//for total power used only
+
+	// bitflags for machine stat variable
+	BROKEN = 1
+	NOPOWER = 1 << 1
+	POWEROFF = 1 << 2	// tbd
+	MAINT = 1 << 3	// under maintaince
+	EMAGGED = 1 << 4 // is something (such as airlocks!) emagged?
+
+	ENGINE_EJECT_Z = 2
+
+	GAS_O2 = 1 << 0
+	GAS_N2 = 1 << 1
+	GAS_PL = 1 << 2
+	GAS_CO2 = 1 << 3
+	GAS_N2O = 1 << 4

@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\dna\dna.dm
-DIR: code code\atoms code\data code\game code\game\dna code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\modes icons icons\ss13 maps
+FILE: code\game\machinery\airlock.dm
+DIR: code code\data code\game code\game\machinery
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -50,10 +50,7 @@ AUTO_FILE_DIR: ON
 #include "code\globals.dm"
 #include "code\helpers.dm"
 #include "code\hexadecimal.dm"
-#include "code\inverthtml.dm"
 #include "code\logging.dm"
-#include "code\setup.dm"
-#include "code\texthandling.dm"
 #include "code\atoms\chemical.dm"
 #include "code\atoms\client.dm"
 #include "code\atoms\closet.dm"
