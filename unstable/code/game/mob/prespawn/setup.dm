@@ -164,7 +164,7 @@ mob/prespawn/proc/savefile_load()
 	if (src.char_job1 != "No Preference")
 		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.char_job2 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
 		if (src.char_job2 != "No Preference")
-			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.char_job3 == "No Preference" ? "No Preference" : "<b>[src.char_job2]</b>"]</a><br>"
+			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.char_job3 == "No Preference" ? "No Preference" : "<b>[src.char_job3]</b>"]</a><br>"
 	dat += "<hr>"
 	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
 	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
