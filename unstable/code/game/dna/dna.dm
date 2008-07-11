@@ -54,6 +54,28 @@
 	M.update_body()
 	M.update_face()
 
+	//check what they can wear, drop what they can't
+	var/list/L = list(
+		list(M.can_wear_back, M.back, SLOT_BACK),
+		list(M.can_wear_mask, M.mask, SLOT_MASK),
+		list(M.can_wear_l_hand, M.l_hand, SLOT_L_HAND),
+		list(M.can_wear_r_hand, M.r_hand, SLOT_R_HAND),
+		list(M.can_wear_belt, M.belt, SLOT_BELT),
+		list(M.can_wear_id, M.id, SLOT_ID),
+		list(M.can_wear_glasses, M.glasses, SLOT_GLASSES),
+		list(M.can_wear_gloves, M.gloves, SLOT_GLOVES),
+		list(M.can_wear_helmet, M.helmet, SLOT_HELMET),
+		list(M.can_wear_shoes, M.shoes, SLOT_SHOES),
+		list(M.can_wear_suit, M.suit, SLOT_SUIT),
+		list(M.can_wear_jumpsuit, M.jumpsuit, SLOT_JUMPSUIT),
+		list(M.can_wear_l_store, M.l_store, SLOT_L_STORE),
+		list(M.can_wear_r_store, M.r_store, SLOT_R_STORE),
+		list(M.can_wear_headset, M.headset, SLOT_HEADSET)
+	)
+	for(var/slot in L)
+		if(!slot[1] && slot[2])
+			M.drop(slot[3])
+
 /datum/dna/proc/copy()
 	var/datum/dna/copy = new()
 	for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
