@@ -34,6 +34,9 @@
 		host = src.key
 		world.update_stat()
 
+	winset(src,"mainwindow.saybutton","is-checked = true")
+	winset(src,"mainwindow.input","command=\"!say \\\"\"")
+
 	spawn (50)
 		if (src.CanAdmin())
 			src.holder = new /obj/admins(src)
