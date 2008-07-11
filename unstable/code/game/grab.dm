@@ -229,7 +229,7 @@
 								user.show_viewers(text("\red [] has broken free of []'s grip!", user, G.assailant))
 								del(G)
 						else
-							if (G.state == 2)
+							if (G.state == 3)
 								if (prob(5))
 									user.show_viewers(text("\red [] has broken free of []'s headlock!", user, G.assailant))
 										//Foreach goto(762)

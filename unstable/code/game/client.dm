@@ -131,7 +131,7 @@
 		return
 	if(istype(src.mob, /mob/carbon))
 		var/mob/carbon/M = src.mob
-		if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, M.grabbed_by.len)))
+		if (locate(/obj/item/weapon/grab, M.grabbed_by))
 			var/list/grabbing = list(  )
 			if (istype(M.l_hand, /obj/item/weapon/grab))
 				var/obj/item/weapon/grab/G = M.l_hand
@@ -153,7 +153,7 @@
 						else
 							return
 					else
-						if (G.state == 2)
+						if (G.state == 3)
 							src.move_delay = world.time + 10
 							if (prob(5))
 								M.show_viewers(text("\red [] has broken free of []'s headlock!", M, G.assailant))
