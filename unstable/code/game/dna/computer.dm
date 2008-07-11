@@ -36,6 +36,9 @@
 		STATE_GAMMA_MENU = 20
 		STATE_GAMMA = 21
 		STATE_GAMMA_DONE = 22
+		STATE_DIFF_MENU_BUF1 = 23
+		STATE_DIFF_MENU_BUF2 = 24
+		STATE_DIFF_DONE = 25
 
 		SCAN_SPEED = 50 //loci/second
 		//TODO: adjust to be lower
@@ -66,6 +69,8 @@
 			dat += "<a href='?src=\ref[src];operation=gamma-menu'>Subject Occupant to Gamma Radiation</a><br>"
 			dat += "<a href='?src=\ref[src];operation=splice-menu'>Splice DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=view-menu'>View DNA</a><br>"
+
+			dat += "<a href='?src=\ref[src];operation=diff-menu'>Compare DNA</a><br>"
 		if(STATE_NO_OCCUPANT)
 			dat += "No occupant!"
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
@@ -190,6 +195,36 @@
 		if(STATE_GAMMA_DONE)
 			dat += "Gamma radiation complete!"
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_DIFF_MENU_BUF1)
+			dat += "Please choose the first buffer to compare."
+			for(var/i = 1; i <= buffers.len; i++)
+				var/datum/dna_buffer/buffer = src.buffers[i]
+				if(buffer.contents)
+					dat += "<br><a href='?src=\ref[src];operation=diff-buffer-primary;buffer-num=[i]'>"
+					dat += "Buffer #[i] ([buffer.desc])</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_DIFF_MENU_BUF2)
+			dat += "Please choose the second buffer to compare."
+			for(var/i = 1; i <= buffers.len; i++)
+				var/datum/dna_buffer/buffer = src.buffers[i]
+				if(buffer != src.primary_buf && buffer.contents)
+					dat += "<br><a href='?src=\ref[src];operation=diff-buffer-secondary;buffer-num=[i]'>"
+					dat += "Buffer #[i] ([buffer.desc])</a>"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_DIFF_DONE)
+			dat += "Comparison Complete!<BR>Differences:"
+			var/dat2 = ""
+			for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+				var/dat3 = ""
+				for (var/j = 1; j <= NUM_LOCI; j++)
+					// dat3 += "<BR>Locus #[j]"
+					if (primary_buf.contents.data[i][j] != secondary_buf.contents.data[i][j])
+						dat3 += "<BR>Locus #[j] [primary_buf.contents.data[i][j]] - [secondary_buf.contents.data[i][j]]"
+				if (dat3 != "")
+					dat2 += "<BR><BR>Chromosome #[i][dat3]"
+			dat += (dat2 != "") ? dat2 : "<BR><BR>None Found"
+
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
 	dat += "<br><br><a href='?src=\ref[user];mach_close=computer'>Close</a>"
 	dat += "</body></html>"
 	user << browse(dat, "window=computer;size=400x500")
@@ -286,6 +321,14 @@
 			else
 				src.state = STATE_GAMMA
 				src.secs_gamma = text2num(href_list["num-secs"])
+		if("diff-menu")
+			src.state = STATE_DIFF_MENU_BUF1
+		if("diff-buffer-primary")
+			src.primary_buf = buffers[text2num(href_list["buffer-num"])]
+			src.state = STATE_DIFF_MENU_BUF2
+		if("diff-buffer-secondary")
+			src.secondary_buf = buffers[text2num(href_list["buffer-num"])]
+			src.state = STATE_DIFF_DONE
 
 	src.updateUsrDialog()
 	return
