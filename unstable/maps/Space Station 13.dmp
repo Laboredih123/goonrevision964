@@ -27,7 +27,7 @@
 "aA" = (/obj/closet/coffin,/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_ne_red_tiled"},/area/chapel/office)
 "aB" = (/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_nw_red_tiled"},/area/chapel/office)
 "aC" = (/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_ne_red_tiled"},/area/chapel/office)
-"aD" = (/obj/stool/chair{name = "Toilet"},/obj/start{name = "Chaplain"},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_nw_red_tiled"},/area/chapel/office)
+"aD" = (/obj/start{name = "Chaplain"},/obj/stool/chair,/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_nw_red_tiled"},/area/chapel/office)
 "aE" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/paper_bin,/obj/item/weapon/radio/intercom{name = "Station Intercom (Chapel)"; pixel_x = 27; pixel_y = 0; freq = 1481},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_ne_red_tiled"},/area/chapel/office)
 "aF" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/research)
 "aG" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/research)
