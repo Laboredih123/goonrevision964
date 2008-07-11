@@ -90,4 +90,11 @@
 	else
 		src.icon = src.stand_icon
 		src.update_clothing()
+
+	if(!src.client)
+		if (src.is_active() && src.canmove && prob(10) && isturf(src.loc))
+			step(src, pick(NORTH, SOUTH, EAST, WEST))
+		if (prob(1) && src.is_conscious())
+			pick(src.shiver(), src.sigh(), src.yawn(), src.cough(), src.tail())
+
 	return

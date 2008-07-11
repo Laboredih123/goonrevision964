@@ -8,14 +8,14 @@
 		medium = SENSE_SIGHT
 	var/list/mobs_seen = list()
 	if(medium & SENSE_SIGHT)
-		for(var/mob/M in (viewers() + src))
-			if(!M in mobs_seen)
-				if(M.see("[src] [message]"))
+		for(var/mob/M in viewers(src))
+			if(!(M in mobs_seen))
+				if(M.see("[src] [message]."))
 					mobs_seen += M
 	if(medium & SENSE_SOUND)
-		for(var/mob/M in (hearers() + src))
-			if(!M in mobs_seen)
-				if(M.hear("someone [message]"))
+		for(var/mob/M in hearers(src))
+			if(!(M in mobs_seen))
+				if(M.hear("someone [message]."))
 					mobs_seen += M
 
 /mob/carbon/verb/emote_help()
