@@ -22,7 +22,7 @@
 	access_morgue = 8
 	access_tox = 9
 	access_tox_storage = 10
-	access_medlab = 11
+	access_genetics = 11
 	access_engine = 12
 	access_eject_engine = 13
 	access_maint_tunnels = 14
@@ -90,13 +90,13 @@
 		if("Chaplain")
 			return list(access_morgue, access_chaplain_office)
 		if("Assistant")
-			return list(access_medlab, access_maint_tunnels, access_external_airlocks)
+			return list(access_genetics, access_maint_tunnels, access_external_airlocks)
 		if("Station Engineer")
 			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs)
 		if("Forensic Technician")
 			return list(access_security, access_forensics_lockers, access_morgue)
 		if("Research Technician")
-			return list(access_medical_supplies, access_tox, access_tox_storage, access_medlab)
+			return list(access_medical_supplies, access_tox, access_tox_storage, access_genetics)
 		if("Medical Doctor")
 			return list(access_medical_supplies, access_morgue, access_medical_records)
 		if("Captain")
@@ -104,15 +104,15 @@
 		if("Security Officer")
 			return list(access_security, access_brig, access_security_lockers)
 		if("Genetic Researcher")
-			return list(access_medical_supplies, access_morgue, access_medlab, access_medical_records)
+			return list(access_medical_supplies, access_morgue, access_genetics, access_medical_records)
 		if("Toxin Researcher")
 			return list(access_tox, access_tox_storage)
 		if("Head of Research")
-			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_medlab,
+			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_genetics,
 			            access_teleporter, access_heads, access_medical_records, access_tech_storage, access_security)
 		if("Head of Personnel")
 			return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
-						access_security_records, access_tox, access_tox_storage, access_medlab, access_engine,
+						access_security_records, access_tox, access_tox_storage, access_genetics, access_engine,
 						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
 						access_all_personal_lockers, access_chaplain_office, access_medical_records, access_tech_storage,
 						access_atmospherics)
@@ -124,7 +124,7 @@
 /proc/get_all_accesses()
 	return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
 	            access_security_records, access_medical_supplies, access_medical_records, access_morgue, access_tox,
-	            access_tox_storage, access_medlab, access_engine, access_eject_engine, access_maint_tunnels,
+	            access_tox_storage, access_genetics, access_engine, access_eject_engine, access_maint_tunnels,
 	            access_external_airlocks, access_emergency_storage, access_apcs, access_change_ids, access_ai_upload,
 	            access_teleporter, access_eva, access_heads, access_captain, access_all_personal_lockers,
 	            access_chaplain_office, access_tech_storage, access_atmospherics)
@@ -151,8 +151,8 @@
 			return "access toxins"
 		if(access_tox_storage)
 			return "access toxins storage"
-		if(access_medlab)
-			return "access medlab"
+		if(access_genetics)
+			return "access genetics"
 		if(access_engine)
 			return "access the engine"
 		if(access_eject_engine)
