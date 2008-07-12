@@ -307,15 +307,12 @@
 		src.overlays += src.body_standing
 
 	var/suffix = src.lying ? "2" : null
-	var/icon/tempicon
 
 	if (src.jumpsuit && istype(src.jumpsuit, /obj/item/weapon/clothing/under))
 		var/color = src.jumpsuit.color
 		if (!color)
 			color = src.icon_state
-		tempicon = src.check_clothing_icons(suffix)										//
-		tempicon.Blend(new /icon('uniforms.dmi', "[color][suffix]"), ICON_MULTIPLY)	// Same thing for uniforms
-		src.overlays += image(tempicon, "layer" = MOB_LAYER)						//
+		src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[color][suffix]", "layer" = MOB_LAYER)
 		src.jumpsuit.screen_loc = "2,2"
 	var/icons = list()
 	icons[src.suit] = "2,1"
@@ -332,11 +329,7 @@
 		var/w_type = W.s_istate
 		if (!w_type)
 			w_type = W.icon_state
-
-		tempicon = src.check_clothing_icons(suffix)								// Hides those parts of clothing
-		tempicon.Blend(new /icon('mob.dmi', "[w_type][suffix]"), ICON_MULTIPLY)	// that have no limbs under
-		src.overlays += image(tempicon, "layer" = MOB_LAYER)					//
-
+		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "[w_type][suffix]", "layer" = MOB_LAYER)
 		W.screen_loc = icons[W]
 	if (src.id)
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[suffix]", "layer" = MOB_LAYER)

@@ -9,10 +9,6 @@
 		return 1
 	if(istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
 		return 1
-	if (src.hand && !src.can_wear_l_hand)		//
-		return 1								// Having no hand is same as it being
-	if (!src.hand && !src.can_wear_r_hand)		// handcuffed, easier to implement this way
-		return 1								//
 	return ..()
 
 /mob/carbon/can_use_hands()

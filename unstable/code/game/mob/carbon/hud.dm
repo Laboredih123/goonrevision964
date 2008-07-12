@@ -100,7 +100,27 @@
 	src.storage2 = new /obj/screen(src, "storage2", null, "5,1", 19, "block")
 
 	// make the slots they can't use have the "blocked" icon
-	update_slots()
+	var/list/slots = list(
+		src.mask = src.owner.can_wear_mask,
+		src.back = src.owner.can_wear_back,
+		src.r_hand = src.owner.can_wear_r_hand,
+		src.jumpsuit = src.owner.can_wear_jumpsuit,
+		src.l_hand = src.owner.can_wear_l_hand,
+		src.gloves = src.owner.can_wear_gloves,
+		src.shoes = src.owner.can_wear_shoes,
+		src.glasses = src.owner.can_wear_glasses,
+		src.helmet = src.owner.can_wear_helmet,
+		src.belt = src.owner.can_wear_belt,
+		src.id = src.owner.can_wear_id,
+		src.suit = src.owner.can_wear_suit,
+		src.headset = src.owner.can_wear_headset,
+		src.storage1 = src.owner.can_wear_l_store,
+		src.storage2 = src.owner.can_wear_r_store
+	)
+	for(var/obj/screen/x in slots)
+		if(!slots[x])
+			x.icon_state = "blocked"
+			x.name = "blocked"
 
 	// intents
 	src.grab = new /obj/screen(src, "grab", null, "11,15", 19, "grab")
@@ -167,28 +187,3 @@
 		src.blind.layer = 18
 	else
 		src.blind.layer = 0
-
-/datum/hud/carbon/proc/update_slots()
-	if (!src.owner.client)
-		return
-	var/list/slots = list(
-		src.mask = src.owner.can_wear_mask,
-		src.back = src.owner.can_wear_back,
-		src.r_hand = src.owner.can_wear_r_hand,
-		src.jumpsuit = src.owner.can_wear_jumpsuit,
-		src.l_hand = src.owner.can_wear_l_hand,
-		src.gloves = src.owner.can_wear_gloves,
-		src.shoes = src.owner.can_wear_shoes,
-		src.glasses = src.owner.can_wear_glasses,
-		src.helmet = src.owner.can_wear_helmet,
-		src.belt = src.owner.can_wear_belt,
-		src.id = src.owner.can_wear_id,
-		src.suit = src.owner.can_wear_suit,
-		src.headset = src.owner.can_wear_headset,
-		src.storage1 = src.owner.can_wear_l_store,
-		src.storage2 = src.owner.can_wear_r_store
-	)
-	for(var/obj/screen/x in slots)
-		if(!slots[x])
-			x.icon_state = "blocked"
-			x.name = "blocked"

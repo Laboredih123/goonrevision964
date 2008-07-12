@@ -111,8 +111,6 @@
 	var/is_dextrous = 0
 	is_intelligent = 0
 
-	var/list/lostorgans = list() // organs be gone
-
 	var/has_super_strength = 0
 	var/is_fire_immune = 0
 	var/has_xray_vision = 0
