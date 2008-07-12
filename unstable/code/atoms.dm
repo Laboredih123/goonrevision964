@@ -337,7 +337,7 @@
 	icon_state = "securearea"
 	anchored = 1.0
 	opacity = 0
-	density = 1
+	density = 0
 /obj/item
 	name = "item"
 	var/w_class = 3.0
