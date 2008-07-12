@@ -2140,9 +2140,10 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	updateicon()
 
 /obj/machinery/power/solar/meteorhit()
-
-	broken()
-	return
+	if(stat & BROKEN)
+		broken()
+	else
+		del(src)
 
 /obj/machinery/power/solar/ex_act(severity)
 
