@@ -6,7 +6,6 @@
 	var/flags = FPRINT
 	var/list/fingerprints = null
 	var/is_ai_interactable = 0
-
 /atom/movable
 	layer = 3
 	var/last_move = null
@@ -2946,3 +2945,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	weight = 2500000.0
 	anchored = 1.0
 	flags = 512.0
+
+
+/obj/item/weapon/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
+/mob/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
