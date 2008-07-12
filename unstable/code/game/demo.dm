@@ -2166,24 +2166,22 @@
 /obj/grille/attackby(obj/item/weapon/W, mob/user)
 
 	if (istype(W, /obj/item/weapon/wirecutters))
-		if(!shock(user, 100))
-			src.health = 0
+		shock(user, 100)
+		src.health = 0
 	else if ((istype(W, /obj/item/weapon/screwdriver) && (istype(src.loc, /turf/station) || src.anchored)))
-		if(!shock(user, 50))
-			src.anchored = !( src.anchored )
-			user << (src.anchored ? "You have fastened the grille to the floor." : "You have unfastened the grill.")
+		shock(user, 50)
+		src.anchored = !( src.anchored )
+		user << (src.anchored ? "You have fastened the grille to the floor." : "You have unfastened the grill.")
 	else if(istype(W, /obj/item/weapon/shard))	// can't get a shock by attacking with glass shard
-
 		src.health -= W.force * 0.1
 
 	else						// anything else, chance of a shock
-		if(!shock(user, 70))
-			switch(W.damtype)
-				if("fire")
-					src.health -= W.force
-				if("brute")
-					src.health -= W.force * 0.1
-
+		shock(user, 70)
+		switch(W.damtype)
+			if("fire")
+				src.health -= W.force
+			if("brute")
+				src.health -= W.force * 0.1
 
 	src.healthcheck()
 	..()
