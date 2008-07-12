@@ -306,7 +306,7 @@
 "fT" = (/obj/item/weapon/flasks/coolant,/obj/item/weapon/flasks/oxygen,/obj/item/weapon/flasks/plasma,/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/obj/window{dir = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
 "fU" = (/obj/window{dir = 1},/obj/secloset/medical1{anchored = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
 "fV" = (/obj/cable,/obj/window{dir = 1},/obj/machinery/computer/med_data{req_access = null; req_access_txt = "7"},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
-"fW" = (/obj/item/weapon/tank/anesthetic,/obj/machinery/firealarm{pixel_y = 31},/obj/item/weapon/clothing/mask/m_mask,/obj/window{dir = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
+"fW" = (/obj/item/weapon/tank/anesthetic,/obj/item/weapon/clothing/mask/m_mask,/obj/window{dir = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
 "fX" = (/obj/machinery/camera{c_tag = "Medical Office"},/obj/window{dir = 1},/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
 "fY" = (/obj/machinery/door/firedoor,/turf/station/floor{icon_state = "Floor2"},/area/medical/medbay)
 "fZ" = (/obj/machinery/door/firedoor,/turf/station/command/floor{icon_state = "Floor2"},/area/medical/medbay)
