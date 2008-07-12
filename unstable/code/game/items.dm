@@ -4064,29 +4064,28 @@
 	if (src.icon_state == "portal1")
 		return
 	if (!( src.target ))
-		//SN src = null
 		del(src)
 		return
-	var/obj/effects/sparks/O = new /obj/effects/sparks( src.target )
-	O.dir = pick(1, 2, 4, 8)
-	spawn( 0 )
-		O.Life()
-		return
 	if (istype(M, /atom/movable))
-		var/tx = src.target.x + rand(-5.0, 5)
-		var/ty = src.y + rand(-5.0, 5)
-		if (prob(10))
+		if (prob(10)) //teleport gone bad!
 			src.icon_state = "portal1"
 			if (ismob(M))
 				M.ex_act(2)
 			else
 				M.ex_act(1)
-		if (rand(1, 1000) <= 10)
+
+		if (prob(1)) //teleport gone VERY bad
 			M << "\red You see a fainting blue light."
 			M.loc = null
+			return
 		else
+			var/tx = src.target.x + rand(-5, 5)
+			var/ty = src.y + rand(-5, 5)
 			M.loc = locate(tx, ty, src.target.z)
-	return
+		var/obj/effects/sparks/O = new /obj/effects/sparks(M)
+		O.dir = pick(NORTH, SOUTH, EAST, WEST)
+		spawn( 0 )
+			O.Life()
 
 /obj/effects/water/New()
 

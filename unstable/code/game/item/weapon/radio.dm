@@ -194,7 +194,10 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/item/weapon/radio/beacon/interact()
+/obj/item/weapon/radio/beacon/attack_self()
+	return
+
+/obj/item/weapon/radio/beacon/attackby()
 	return
 
 /obj/item/weapon/radio/signaler/receive(datum/message/M, freq)

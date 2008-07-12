@@ -199,26 +199,23 @@
 		for(var/mob/O in hearers(src, null))
 			O.hear("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.")
 		return
-	var/atom/target = find_loc(com.locked)
-	var/obj/effects/sparks/O = new /obj/effects/sparks( target )
-	O.dir = pick(NORTH, SOUTH, EAST, WEST)
-	spawn( 0 )
-		O.Life()
-		return
 	if (istype(M, /atom/movable))
-		if (prob(0.1))
-			M << "\red You see a fainting blue light."
-			M.loc = null
-		else
-			var/tx = target.x + rand(-2.0, 2)
-			var/ty = target.y + rand(-2.0, 2)
-			tx = max(min(tx, world.maxx), 1)
-			ty = max(min(ty, world.maxy), 1)
-			M.loc = locate(tx, ty, target.z)
+		var/tx = com.locked.x + rand(-2.0, 2)
+		var/ty = com.locked.y + rand(-2.0, 2)
+		tx = max(min(tx, world.maxx), 1)
+		ty = max(min(ty, world.maxy), 1)
+		M.loc = locate(tx, ty, com.locked.z)
+		var/obj/effects/sparks/O = new /obj/effects/sparks(M)
+		O.dir = pick(NORTH, SOUTH, EAST, WEST)
+		spawn( 0 )
+			O.Life()
 	else
+		var/obj/effects/sparks/O = new /obj/effects/sparks(com.locked)
+		O.dir = pick(NORTH, SOUTH, EAST, WEST)
+		spawn( 0 )
+			O.Life()
 		for(var/mob/B in hearers(src, null))
 			B.hear("\blue Test fire completed.")
-			//Foreach goto(316)
 	return
 
 /obj/machinery/teleport/station/attackby(obj/item/weapon/W)
