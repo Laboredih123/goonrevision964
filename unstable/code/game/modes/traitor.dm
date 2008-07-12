@@ -220,6 +220,9 @@
 			intercept.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
 			intercept.info = intercepttext
 
+			comm.messagetitle.Add("Cent. Com. Comm. Intercept Summary")
+			comm.messagetext.Add(intercepttext)
+
 	world << "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT>"
 	world << "\red Summary downloaded and printed out at communications consoles."
 
