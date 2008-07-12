@@ -92,7 +92,7 @@
 		if("Assistant")
 			return list(access_genetics, access_maint_tunnels, access_external_airlocks)
 		if("Station Engineer")
-			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs)
+			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs, access_tech_storage)
 		if("Forensic Technician")
 			return list(access_security, access_forensics_lockers, access_morgue)
 		if("Research Technician")
@@ -117,7 +117,7 @@
 						access_all_personal_lockers, access_chaplain_office, access_medical_records, access_tech_storage,
 						access_atmospherics)
 		if("Atmospheric Technician")
-			return list(access_maint_tunnels, access_emergency_storage)
+			return list(access_maint_tunnels, access_emergency_storage, access_atmospherics)
 		else
 			return list()
 
