@@ -206,6 +206,7 @@
 	src.health = 0
 	src.stat |= BROKEN
 	src.icon_state = "destroyed_target_prism"
+	src.density = 0
 	if (cover!=null)
 		del(cover)
 
