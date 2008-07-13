@@ -35,11 +35,17 @@
 		return
 
 	var/list/L = list()
+	var/list/areaindex = list()
 	for(var/obj/item/weapon/radio/beacon/R in world)
 		var/turf/T = find_loc(R)
 		if (!T)
 			continue
-		L[T.loc.name] = R
+		var/tmpname = T.loc.name
+		if(areaindex[tmpname])
+			tmpname = "[tmpname] ([++areaindex[tmpname]])"
+		else
+			areaindex[tmpname] = 1
+		L[tmpname] = R
 	var/desc = input("Please select a location to lock in.", "Locking Computer") in L
 	var/R = L[desc]
 	if (prob(50))
@@ -66,24 +72,14 @@
 	return
 
 /proc/find_loc(obj/R as obj)
-
 	if (!( R ))
 		return null
-
 	var/turf/T = R.loc
-
 	while(!( istype(T, /turf) ))
 		T = T.loc
-
-		if(!T)
+		if(!T || istype(T, /area))
 			return null
-
-		if (istype(T, /area))
-			return null
-
-
 	return T
-	return
 
 /obj/machinery/computer/data/ex_act(severity)
 
@@ -200,15 +196,7 @@
 			O.hear("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.")
 		return
 	if (istype(M, /atom/movable))
-		var/tx = com.locked.x + rand(-2.0, 2)
-		var/ty = com.locked.y + rand(-2.0, 2)
-		tx = max(min(tx, world.maxx), 1)
-		ty = max(min(ty, world.maxy), 1)
-		M.loc = locate(tx, ty, com.locked.z)
-		var/obj/effects/sparks/O = new /obj/effects/sparks(M)
-		O.dir = pick(NORTH, SOUTH, EAST, WEST)
-		spawn( 0 )
-			O.Life()
+		do_teleport(M, com.locked, 2)
 	else
 		var/obj/effects/sparks/O = new /obj/effects/sparks(com.locked)
 		O.dir = pick(NORTH, SOUTH, EAST, WEST)
@@ -217,6 +205,23 @@
 		for(var/mob/B in hearers(src, null))
 			B.hear("\blue Test fire completed.")
 	return
+
+/proc/do_teleport(atom/movable/M as mob|obj, atom/destination, precision)
+	var/turf/destturf = find_loc(destination)
+
+	var/tx = destturf.x + rand(precision * -1, precision)
+	var/ty = destturf.y + rand(precision * -1, precision)
+
+	var/tmploc = locate(tx, ty, destination.z)
+	if(tx == destturf.x && ty == destturf.y && (istype(destination.loc, /obj/closet) || istype(destination.loc, /obj/secloset)))
+		tmploc = destination.loc
+
+	M.loc = tmploc
+
+	var/obj/effects/sparks/O = new /obj/effects/sparks(M)
+	O.dir = pick(NORTH, SOUTH, EAST, WEST)
+	spawn( 0 )
+		O.Life()
 
 /obj/machinery/teleport/station/attackby(obj/item/weapon/W)
 	src.interact()

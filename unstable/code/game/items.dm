@@ -3473,7 +3473,7 @@
 	for(var/mob/O in hearers(user, null))
 		O.hear("\blue Locked In")
 	var/obj/portal/P = new /obj/portal( get_turf(src) )
-	P.target = find_loc(T)
+	P.target = T
 	src.add_fingerprint(user)
 	return
 
@@ -4073,19 +4073,15 @@
 				M.ex_act(2)
 			else
 				M.ex_act(1)
-
+			var/obj/effects/sparks/O = new /obj/effects/sparks(M)
+			O.dir = pick(NORTH, SOUTH, EAST, WEST)
+			spawn( 0 )
+				O.Life()
 		if (prob(1)) //teleport gone VERY bad
 			M << "\red You see a fainting blue light."
 			M.loc = null
-			return
 		else
-			var/tx = src.target.x + rand(-5, 5)
-			var/ty = src.y + rand(-5, 5)
-			M.loc = locate(tx, ty, src.target.z)
-		var/obj/effects/sparks/O = new /obj/effects/sparks(M)
-		O.dir = pick(NORTH, SOUTH, EAST, WEST)
-		spawn( 0 )
-			O.Life()
+			do_teleport(M, src.target, 5)
 
 /obj/effects/water/New()
 
