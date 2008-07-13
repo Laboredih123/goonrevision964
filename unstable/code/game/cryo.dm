@@ -80,13 +80,13 @@
 				src.authenticated = 1
 				src.rank = "AI"
 				src.screen = 1
-		else if (istype(src.scan, /obj/item/weapon/card/id))
-			src.active1 = null
-			src.active2 = null
-			if (src.check_access(src.scan))
-				src.authenticated = src.scan.registered
-				src.rank = src.scan.assignment
-				src.screen = 1
+			else if (istype(src.scan, /obj/item/weapon/card/id))
+				src.active1 = null
+				src.active2 = null
+				if (src.check_access(src.scan))
+					src.authenticated = src.scan.registered
+					src.rank = src.scan.assignment
+					src.screen = 1
 		if (src.authenticated)
 			if (href_list["list"])
 				src.screen = 2
