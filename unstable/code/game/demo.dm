@@ -64,15 +64,16 @@
 		return
 	if (src.operating)
 		return
-	if (src.density && src.allowed(AM))
-		open()
-		if(src.check_access(null))
-			sleep(50)
-		else //secure doors close faster
-			sleep(20)
-		close()
-
-	return
+	if (!src.density)
+		return
+	if(!src.allowed(AM))
+		return
+	open()
+	if(src.check_access(null))
+		sleep(50)
+	else //secure doors close faster
+		sleep(20)
+	close()
 
 /obj/machinery/door/window/CheckPass(atom/movable/O as mob|obj, target as turf)
 
