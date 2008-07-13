@@ -136,17 +136,18 @@
 
 		//assign remaining non-terrible jobs
 		if (unassigned.len)
+			var/list/remaining_occupations = list()
 			for (var/occupation in occupation_choices)
-				var/num_available = occupation_choices[occupation]
-				if (num_available == 0)
-					continue
-				for(var/i = 0; i < num_available; i++)
-					if (unassigned.len == 0)
-						break
-					var/mob/prespawn/candidate = pick(unassigned)
-					unassigned -= candidate
-					semiassigned[candidate] = occupation
-					occupation_choices[occupation]--
+				for(var/i = 0; i < occupation_choices[occupation]; i++)
+					remaining_occupations += occupation
+			shuffle(remaining_occupations)
+			for(var/occupation in remaining_occupations)
+				if (!unassigned.len)
+					break
+				var/mob/prespawn/candidate = pick(unassigned)
+				unassigned -= candidate
+				semiassigned[candidate] = occupation
+				occupation_choices[occupation]--
 
 		for (var/mob/prespawn/M in unassigned)
 			unassigned -= M
