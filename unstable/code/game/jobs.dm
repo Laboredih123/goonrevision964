@@ -54,7 +54,7 @@
 	var/list/assigned = list()
 
 	var/list/occupation_choices = list()
-	for(var/i in occupations)
+	for(var/i in (occupations + "Captain"))
 		if(occupation_choices[i])
 			occupation_choices[i]++
 		else
