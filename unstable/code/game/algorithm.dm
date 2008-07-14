@@ -11,7 +11,16 @@
 /mob/prespawn/proc/Assign_Rank(rank, joined_late)
 	var/startloc = null
 	if(!joined_late)
-		var/obj/S = locate("start*[rank]")
+		var/obj/S = null
+		for(var/obj/start/sloc in world)
+			if (sloc.name != rank) 
+				continue
+			if (locate(/mob) in sloc.loc)
+				continue
+			S = sloc
+			break
+		if (!S)
+			S = locate("start*[rank]") // use old stype
 		if (istype(S, /obj/start) && istype(S.loc, /turf))
 			startloc = S.loc
 
