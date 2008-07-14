@@ -866,29 +866,54 @@
 /datum/control/gameticker/proc/timeup()
 
 
-	var/A = locate(/area/shuttle)
+	var/area/A = locate(/area/shuttle)
 	if (src.shuttle_location == shuttle_z)
+		
+		var/list/srcturfs = list()
+		var/list/dstturfs = list()
+		var/throwx = 0
+
 		for(var/turf/T in A)
-
 			if (T.z == shuttle_z)
-				for(var/atom/movable/AM as mob|obj in T)
-					AM.z = 1
-					//Foreach goto(79)
-				var/turf/U = locate(T.x, T.y, shuttle_z)
-				U.oxygen = T.oxygen
-				U.oldoxy = T.oldoxy
-				U.tmpoxy = T.tmpoxy
-				U.poison = T.poison
-				U.oldpoison = T.oldpoison
-				U.tmppoison = T.tmppoison
-				U.co2 = T.co2
-				U.oldco2 = T.oldco2
-				U.tmpco2 = T.tmpco2
+				srcturfs += T
+			else
+				dstturfs += T
+			if(T.x > throwx)
+				throwx = T.x
 
-				U.buildlinks()
-				//T = null
-				del(T)
-			//Foreach goto(45)
+		// hey you, get out of the way!
+		for(var/turf/T in dstturfs)
+			// find the turf to move things to
+			var/turf/D = locate(throwx, T.y, 1)
+			var/turf/E = get_step(D, EAST)
+			for(var/atom/movable/AM as mob|obj in T)
+				// east! the mobs go east!
+				AM.Move(D)
+				spawn(0)
+					AM.throw_at(E, 1, 1)
+					return
+		for(var/turf/T in srcturfs)
+			for(var/atom/movable/AM as mob|obj in T)
+				// first of all, erase any non-space turfs in the zone in
+				var/turf/U = locate(T.x, T.y, 1)
+				if(!istype(U, /turf/space))
+					var/turf/space/S = new /turf/space( locate(U.x, U.y, U.z) )
+					A.contents -= S
+					A.contents += S
+				AM.z = 1
+			var/turf/U = locate(T.x, T.y, shuttle_z)
+			U.oxygen = T.oxygen
+			U.oldoxy = T.oldoxy
+			U.tmpoxy = T.tmpoxy
+			U.poison = T.poison
+			U.oldpoison = T.oldpoison
+			U.tmppoison = T.tmppoison
+			U.co2 = T.co2
+			U.oldco2 = T.oldco2
+			U.tmpco2 = T.tmpco2
+
+			U.buildlinks()
+			del(T)
 		src.timeleft = shuttle_time_in_station
 		src.shuttle_location = 1
 		world << "<B>The emergency shuttle has docked with the station! You have [ticker.timeleft/600] minutes to board the shuttle.</B>"
