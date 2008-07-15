@@ -230,6 +230,23 @@
 
 	return
 
+/obj/item/weapon/attackby(obj/item/weapon/W as obj, mob/user)
+	// handle putting things into pockets/belt
+	var/mob/carbon/MC = user
+	if(src.loc == MC && MC.equipped() == W)
+		// so the user's holding the target and the attacker
+		var/loc = null
+		if(MC.belt == src) loc = "belt"
+		if(MC.l_store == src) loc = "storage1"
+		if(MC.r_store == src) loc = "storage2"
+
+		if(loc)
+			. = null
+			. = MC.db_click(loc, null)
+			if(.)
+				return
+	return ..()
+
 /obj/item/weapon/ex_act(severity)
 
 	switch(severity)
@@ -3734,6 +3751,16 @@
 
 		sleep(10)
 	processing = 0	//we're done
+
+/obj/item/weapon/card/id/attackby(obj/item/weapon/W as obj, mob/user)
+	. = null
+	if (W.loc == user && src.loc == user && istype(src, /obj/item/weapon/card/id) && istype(W, /obj/item/weapon/card/id) && istype(user, /mob/carbon))
+		var/mob/carbon/MC = user
+		. = MC.db_click("id", null)
+		if (.)
+			return
+	return ..()
+
 
 /obj/manifest/New()
 

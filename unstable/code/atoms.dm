@@ -458,7 +458,7 @@
 /obj/item/weapon/assembly/shock_kit
 	name = "Shock Kit"
 	icon_state = "shock_kit"
-	var/obj/item/weapon/clothing/head/helmet/part1 = null
+	var/obj/item/weapon/clothing/head/part1 = null
 	var/obj/item/weapon/radio/electropack/part2 = null
 	status = 0.0
 	w_class = 5.0
@@ -573,6 +573,7 @@
 	w_class = 2.0
 /obj/item/weapon/clothing
 	name = "clothing"
+	var/clothing_name = "clothing"
 	var/a_filter = 0.0
 	var/fb_filter = 0.0
 	var/h_filter = 0.0
@@ -583,6 +584,7 @@
 	var/fire_protect = 0.0
 /obj/item/weapon/clothing/glasses
 	name = "glasses"
+	clothing_name = "eyes"
 	w_class = 2.0
 	flags = GLASSESCOVERSEYES
 	s_fire = 7.5E7
@@ -609,6 +611,7 @@
 	s_istate = "glasses"
 /obj/item/weapon/clothing/gloves
 	name = "gloves"
+	clothing_name = "gloves"
 	w_class = 2.0
 	s_fire = 1.875E7
 	var/elec_protect = 1
@@ -657,6 +660,7 @@
 
 /obj/item/weapon/clothing/head
 	name = "head"
+	clothing_name = "head"
 /obj/item/weapon/clothing/head/bio_hood
 	name = "bio hood"
 	icon_state = "bio_hood"
@@ -690,6 +694,7 @@
 	name = "wig"
 /obj/item/weapon/clothing/mask
 	name = "mask"
+	clothing_name = "mask"
 /obj/item/weapon/clothing/mask/gasmask
 	name = "gasmask"
 	desc = "A close-fitting mask that can filter some environmental toxins or be connected to an air supply."
@@ -745,6 +750,7 @@
 	s_fire = 1.875E7
 /obj/item/weapon/clothing/shoes
 	name = "shoes"
+	clothing_name = "shoes"
 	var/chained = 0.0
 	fb_filter = 1.0
 	s_fire = 3.75E7
@@ -771,6 +777,7 @@
 	fb_filter = 5.0
 /obj/item/weapon/clothing/suit
 	name = "suit"
+	clothing_name = "o_clothing"
 /obj/item/weapon/clothing/suit/armor
 	name = "armor"
 	icon_state = "armor"
@@ -847,6 +854,7 @@ obj/item/weapon/clothing/suit/labcoat
 	fire_protect = 126.0
 /obj/item/weapon/clothing/under
 	name = "under"
+	clothing_name = "jumpsuit"
 	s_fire = 1.875E7
 	fb_filter = 1.0
 	fire_protect = 46.0

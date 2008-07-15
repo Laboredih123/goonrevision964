@@ -519,6 +519,18 @@
 		return
 	return
 
+/obj/item/weapon/clothing/attackby(obj/item/weapon/W as obj, mob/user)
+
+	if (istype(W, /obj/item/weapon/clothing) && istype(user, /mob/carbon))
+		var/obj/item/weapon/clothing/WC = W
+		. = null
+		if (W.loc == user && src.loc == user && src.clothing_name == WC.clothing_name && src.clothing_name != "clothing")
+			var/mob/carbon/MC = user
+			. = MC.db_click(src.clothing_name, null)
+			if (.)
+				return
+	return ..()
+
 /obj/item/weapon/clothing/burn(fi_amount)
 
 	if (fi_amount > src.s_fire)
@@ -552,6 +564,7 @@
 	return
 
 /obj/item/weapon/clothing/shoes/orange/attackby(H as obj, loc)
+	..()
 
 	if ((istype(H, /obj/item/weapon/handcuffs) && !( src.chained )))
 		//H = null

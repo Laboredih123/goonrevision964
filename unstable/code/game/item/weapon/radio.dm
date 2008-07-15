@@ -200,6 +200,15 @@
 /obj/item/weapon/radio/beacon/attackby()
 	return
 
+/obj/item/weapon/radio/headset/attackby(obj/item/weapon/W as obj, mob/user)
+	. = null
+	if (W.loc == user && src.loc == user && src.type == W.type && istype(user, /mob/carbon))
+		var/mob/carbon/MC = user
+		. = MC.db_click("headset", null)
+		if (.)
+			return
+	return ..()
+
 /obj/item/weapon/radio/signaler/receive(datum/message/M, freq)
 	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.
 	if (freq != src.freq || !M || !(src.wires & WIRE_RECEIVE))

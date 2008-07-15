@@ -42,6 +42,7 @@
 
 	var/obj/item/weapon/clothing/under/jumpsuit = null
 	var/can_wear_jumpsuit = 0
+	var/changingjumpsuit = 0
 
 	var/obj/item/weapon/radio/headset/headset = null
 	var/can_wear_headset = 0
