@@ -3487,7 +3487,7 @@
 	if (user.equipped() != src || !user.can_use_hands())
 		return
 	var/T = L[t1]
-	for(var/mob/O in hearers(user, null))
+	for(var/mob/O in hearers(user))
 		O.hear("\blue Locked In")
 	var/obj/portal/P = new /obj/portal( get_turf(src) )
 	P.target = T

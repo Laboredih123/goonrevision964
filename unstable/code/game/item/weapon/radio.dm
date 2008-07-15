@@ -3,7 +3,6 @@
 	icon_state = "radio"
 	var/freq = 1459
 	var/wires = WIRE_SIGNAL | WIRE_RECEIVE | WIRE_TRANSMIT
-	var/attachable = 0
 	var/last_transmission
 	var/transmitting = 0
 	var/receiving = 1
@@ -54,6 +53,7 @@
 	w_class = 1
 	freq = 1457
 	var/delay = 0
+	var/airlock_wire = null
 
 /obj/item/weapon/radio/proc/get_freq_text()
 	return round(src.freq/10, 0.1)
@@ -90,25 +90,10 @@
 
 	..()
 	if ((get_dist(src, usr) <= 1 || src.loc == usr))
-		if (src.attachable)
+		if (src.b_stat)
 			usr.see("\blue The radio can be attached and modified!")
 		else
 			usr.see("\blue The radio can not be attached or modified!")
-	return
-
-/obj/item/weapon/radio/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	user.machine = src
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
-		return
-	src.b_stat = !( src.b_stat )
-	if (src.b_stat)
-		user.see("\blue The radio can now be attached and modified!")
-	else
-		user.see("\blue The radio can no longer be modified or attached!")
-	for(var/mob/M in viewers(1, src))
-		if (M.client)
-			src.attack_self(M)
-	src.add_fingerprint(user)
 	return
 
 /obj/item/weapon/radio/attack_self(mob/user as mob)
@@ -209,6 +194,18 @@
 			return
 	return ..()
 
+/obj/item/weapon/radio/signaler/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	user.machine = src
+	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+		return ..()
+	src.b_stat = !( src.b_stat )
+	if (src.b_stat)
+		user.see("\blue The radio can now be attached and modified!")
+	else
+		user.see("\blue The radio can no longer be modified or attached!")
+	src.add_fingerprint(user)
+	return ..()
+
 /obj/item/weapon/radio/signaler/receive(datum/message/M, freq)
 	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.
 	if (freq != src.freq || !M || !(src.wires & WIRE_RECEIVE))
@@ -219,7 +216,10 @@
 		return
 	if(src.master && src.wires & WIRE_SIGNAL)
 		src.master:r_signal()
-	for(var/atom/A in hearers(2))
+	if(istype(src.loc, /obj/machinery/door/airlock) && src.airlock_wire)
+		var/obj/machinery/door/airlock/A = src.loc
+		A.pulse(src.airlock_wire)
+	for(var/atom/A in hearers(2, src))
 		A.hear("\icon[src] *beep beep*")
 
 /obj/item/weapon/radio/signaler/proc/send_signal()
@@ -233,7 +233,7 @@
 
 	..()
 	if ((get_dist(src, usr) <= 1 || src.loc == usr))
-		if (src.attachable)
+		if (src.b_stat)
 			usr.see("\blue The signaler can be attached and modified!")
 		else
 			usr.see("\blue The signaler can not be modified or attached!")

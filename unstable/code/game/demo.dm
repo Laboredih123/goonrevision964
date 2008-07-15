@@ -24,16 +24,13 @@
 /obj/machinery/door/interact(mob/user as mob)
 	return src.attackby(user, user)
 
-/obj/machinery/door/proc/acceptsIDs()
+/obj/machinery/door/proc/requiresID()
 	return 1
 
 /obj/machinery/door/attackby(obj/item/I as obj, mob/user as mob)
 	if (src.operating)
 		return
 	src.add_fingerprint(user)
-	if (!src.acceptsIDs())
-		//don't care who they are or what they have, act as if they're NOTHING
-		user = null
 	if (src.density && istype(I, /obj/item/weapon/card/emag))
 		src.operating = 1
 		flick("door_spark", src)
@@ -42,7 +39,7 @@
 		open()
 		src.stat |= EMAGGED
 		return 1
-	if (src.allowed(user))
+	if (!src.requiresID() || src.allowed(user))
 		if (src.density)
 			open()
 		else
@@ -1324,7 +1321,7 @@
 	else
 		user << "\blue It's welded shut!"
 		if(usr.can_use_hands()) //handcuffed folk can't bang
-			for(var/mob/M in hearers(src, null))
+			for(var/mob/M in hearers(src))
 				M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
 	return
 
@@ -1786,7 +1783,7 @@
 	else
 		user << "\blue It's welded shut!"
 		if(user.can_use_hands()) //handcuffed folks can't bang
-			for(var/mob/M in hearers(src, null))
+			for(var/mob/M in hearers(src))
 				M.hear(text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M))))
 	return
 
@@ -1980,7 +1977,7 @@
 		M.burn(7.5E7)
 		M.knockdown_until(50)
 		//Foreach goto(72)
-	for(var/mob/carbon/M in hearers(src, null))
+	for(var/mob/carbon/M in hearers(src))
 		if (!( M.is_blind ))
 			M.see("\red The electric chair went off!")
 		else
