@@ -567,17 +567,9 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Space Station 13";
-	src.status += " ([SS13_version])"
+	src.status = "Goon Station 13 [SS13_version]"
 
 	var/list/features = list()
-
-	if (ticker && master_mode)
-		features += master_mode
-	else if (!ticker)
-		features += "<b>STARTING</b>"
-		src.status += ": [dd_list2text(features, ", ")]"
-		return
 
 	if (config && config.enable_authentication)
 		features += "goon only"
@@ -586,21 +578,28 @@
 		features += "closed"
 
 	if (abandon_allowed)
-		features += abandon_allowed ? "respawn" : "no respawn"
+		features += "respawn"
 
 	if (config && config.allow_vote_mode)
 		features += "vote"
 
-	if (config && config.allow_ai)
-		features += "AI allowed"
-
-	if (host)
-		features += "hosted by <b>[host]</b>"
-	else if (config && config.hostedby)
-		features += "hosted by <b>[config.hostedby]</b>"
-
 	if (features)
 		src.status += ": [dd_list2text(features, ", ")]"
+
+	src.status += "<br>"
+
+	if (ticker && master_mode)
+		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
+	else if (!ticker)
+		features += "<b>STARTING</b>"
+
+	if (host)
+		src.status += ", Host: <b>[host]</b>"
+	else if (config && config.hostedby)
+		src.status += ", Host: <b>[config.hostedby]</b>"
+
+
+
 
 /world/New()
 	src.update_stat()
@@ -863,7 +862,7 @@
 
 	var/area/A = locate(/area/shuttle)
 	if (src.shuttle_location == shuttle_z)
-		
+
 		var/list/srcturfs = list()
 		var/list/dstturfs = list()
 		var/throwx = 0
