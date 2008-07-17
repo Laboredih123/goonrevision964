@@ -711,16 +711,11 @@
 	else if (T == "reboot" && master)
 		world.log << "TOPIC: Remote reboot from master ([addr])"
 		world.Reboot()
-	else if (T == "reboot45246")
-		return "nice try faggot"
 	else if(T == "players")
 		var/n = 0
 		for(var/mob/M in world)
-			n++
-			/*
 			if(M.client)
-				world.log << "[++n] : [M.name] ([M.client.key]) at [M.loc.loc] ([M.x],[M.y],[M.z]) : [M.client.inactivity/10.0]s"
-			*/
+				n++
 		return n
 
 /mob/proc/CanAdmin()
