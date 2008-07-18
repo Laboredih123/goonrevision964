@@ -132,10 +132,11 @@
 		src.updateicon()
 		src.mouse_opacity = 0
 		for(var/obj/machinery/door/firedoor/D in src)
-			if (!( D.density ))
-				spawn( 0 )
-					D.closefire()
-					return
+			if(D.operating)
+				D.nextstate = CLOSED
+			else if(!D.density)
+				spawn()
+					D.close()
 		var/list/cameras = list()
 		for (var/obj/machinery/camera/C in src)
 			cameras += C
@@ -149,10 +150,11 @@
 		src.mouse_opacity = 0
 		src.updateicon()
 		for(var/obj/machinery/door/firedoor/D in src)
-			if (D.density)
-				spawn( 0 )
-					D.openfire()
-					return
+			if(D.operating)
+				D.nextstate = OPEN
+			else if(D.density)
+				spawn()
+					D.open()
 		for (var/mob/silicon/ai/aiPlayer in world)
 			aiPlayer.cancelAlarm("Fire", src, src)
 	return
