@@ -2,7 +2,7 @@
 	var/list/new_occupations = list()
 
 	for(var/occupation in occupations)
-		if (!(new_occupations.Find(occupation)))
+		if (!(occupation in new_occupations))
 			new_occupations[occupation] = 1
 		else
 			new_occupations[occupation] += 1
@@ -53,12 +53,10 @@
 	var/list/semiassigned = list()
 	var/list/assigned = list()
 
-	var/list/occupation_choices = list()
-	for(var/i in (occupations + "Captain"))
-		if(occupation_choices[i])
-			occupation_choices[i]++
-		else
-			occupation_choices[i] = 1
+	var/list/occupation_choices = occupations.Copy()
+	occupation_choices["Captain"] = 1
+	if(!config.allow_ai)
+		occupation_choices -= "AI"
 
 	for (var/mob/prespawn/M in world)
 		if (M.client && M.ready && !M.already_placed)
@@ -100,6 +98,8 @@
 			"Station Engineer",
 			"Medical Doctor"
 		)
+		if(!config.allow_ai)
+			necessaryjobs -= "AI"
 		for(var/job in necessaryjobs)
 			// first check that nobody already has this job
 			// if people do, pick a random one of them to perma-have it
@@ -161,7 +161,10 @@
 	else if(unassigned.len == 1) //don't require a captain or do any of this complex stuff with just one person
 		//it makes it harder to test things like being AI
 		var/mob/prespawn/M = unassigned[1]
-		M.Assign_Rank(M.char_job1)
+		if(M.char_job1 && !(M.char_job1 == "AI" && !config.allow_ai))
+			M.Assign_Rank(M.char_job1)
+		else
+			M.Assign_Rank("Captain")
 
 	for (var/mob/silicon/ai/aiPlayer in world)
 		spawn(0)
