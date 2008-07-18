@@ -581,6 +581,8 @@
 	else if (config && config.hostedby)
 		src.status += ", Host: <b>[config.hostedby]</b>"
 
+	src.status += "<br>"
+
 	var/list/features = list()
 
 	if (config && config.enable_authentication)
@@ -590,10 +592,10 @@
 		features += "closed"
 
 	if (abandon_allowed)
-		features += "respawn"
+		features += "respawning"
 
 	if (config && config.allow_vote_mode)
-		features += "vote"
+		features += "voting"
 
 	if (features)
 		src.status += "\[[dd_list2text(features, ", ")]"
