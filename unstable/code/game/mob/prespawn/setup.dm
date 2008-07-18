@@ -44,7 +44,6 @@ mob/prespawn/proc/savefile_load()
 		F["last_version"] >> src.char_last_version
 		return 1
 	else
-		world << "no file"
 		return 0
 
 /mob/prespawn/proc/savefile_write()
