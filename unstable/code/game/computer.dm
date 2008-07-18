@@ -280,15 +280,15 @@
 		return
 	var/dat = "<head><title>Communications Console</title></head><body>"
 	if (ticker.timing == 1)
-		dat += "<B>Emergency shuttle</B>\n<BR>\nETA: [(!ticker.timeleft) ? "10:00" : "[ticker.timeleft / 600 % 60]:[ticker.timeleft / 100 % 6][ticker.timeleft / 10 % 10]"]<BR>" 
-		
+		dat += "<B>Emergency shuttle</B>\n<BR>\nETA: [(!ticker.timeleft) ? "10:00" : "[ticker.timeleft / 600 % 60]:[ticker.timeleft / 100 % 6][ticker.timeleft / 10 % 10]"]<BR>"
+
 	if (istype(user, /mob/silicon/ai))
 		var/dat2 = src.interact_ai(user) // give the AI a different interact proc to limit its access
 		if(dat2)
 			dat +=  dat2
 			user << browse(dat, "window=communications;size=400x500")
 		return
-	
+
 	switch(src.state)
 		if(STATE_DEFAULT)
 			if (src.authenticated)
@@ -816,7 +816,7 @@
 /obj/datacore/proc/manifest()
 
 	for(var/mob/carbon/H in world)
-		if (!findtext(H.spawn_name, "Syndicate ", 1, null))
+		if (!findtext(H.spawn_name, "Syndicate ", 1, null) && H.client)
 			var/datum/data/record/G = new /datum/data/record(  )
 			var/datum/data/record/M = new /datum/data/record(  )
 			var/datum/data/record/S = new /datum/data/record(  )
@@ -835,7 +835,7 @@
 				G.fields["sex"] = "Female"
 			else
 				G.fields["sex"] = "Male"
-			G.fields["fingerprint"] = text("[]", H.get_fingerprint())
+			G.fields["fingerprint"] = text("[]", H.fingerprint)
 			G.fields["p_stat"] = "Active"
 			G.fields["m_stat"] = "Stable"
 			M.fields["mi_dis"] = "None"

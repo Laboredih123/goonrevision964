@@ -97,8 +97,10 @@
 
 /datum/dna/proc/register(mob/carbon/M)
 	//registers this DNA as belonging to this mob, so if someone else gets it later they get this name, etc
-	registered_dna[src.hash()] = M.spawn_name
-
+	var/hash = src.hash()
+	registered_dna[hash] = M.spawn_name
+	M.fingerprint = hex2num(copytext(hash, 1, 5)) //truncate to 5 or less digits (between 0 and 16^4)
+	//doing hex2num on the whole thing introduces stupid floating point crap, so truncate the hash BEFORE hex2num
 
 /datum/dna/proc/check_registered()
 	var/hash = src.hash()

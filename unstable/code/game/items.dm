@@ -2253,10 +2253,8 @@
 
 	if (src.fingerprints)
 		var/dat = "<B>Fingerprints on Card</B><HR>"
-		var/L = params2list(src.fingerprints)
-		for(var/i in L)
+		for(var/i in src.fingerprints)
 			dat += text("[]<BR>", i)
-			//Foreach goto(41)
 		return dat
 	else
 		return "<B>There are no fingerprints on this card.</B>"
@@ -2369,11 +2367,11 @@
 		src.amount--
 		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user.loc )
 		F.amount = 1
-		F.fingerprints = M.get_fingerprint()
+		F.fingerprints = M.fingerprint
 		F.icon_state = "f_print_card1"
 		F.name = text("FPrintC- '[]'", M.name)
 		user << "\blue Done printing."
-	user << text("\blue []'s Fingerprints: []", M, M.get_fingerprint())
+	user << text("\blue []'s Fingerprints: []", M, M.fingerprint)
 	return
 
 /obj/item/weapon/f_print_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
@@ -2394,9 +2392,8 @@
 		F.fingerprints = A.fingerprints
 		F.icon_state = "f_print_card1"
 		user << "\blue Done printing."
-	var/list/L = params2list(A.fingerprints)
-	user << text("\blue Isolated [] fingerprints.", L.len)
-	for(var/i in L)
+	user << text("\blue Isolated [] fingerprints.", A.fingerprints.len)
+	for(var/i in A.fingerprints)
 		user << text("\blue \t []", i)
 		//Foreach goto(186)
 	return
@@ -4181,10 +4178,10 @@
 		return 0
 	if(!src.fingerprints)
 		src.fingerprints = list()
-	src.fingerprints -= M.get_fingerprint()
+	src.fingerprints -= M.fingerprint
 	while(src.fingerprints.len >= 3)
 		src.fingerprints -= src.fingerprints[1]
-	src.fingerprints += M.get_fingerprint()
+	src.fingerprints += M.fingerprint
 	return
 
 /atom/MouseDrop(atom/over_object as mob|obj|turf|area)

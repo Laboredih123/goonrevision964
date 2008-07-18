@@ -122,3 +122,5 @@
 
 	icon = 'monkey.dmi'
 	icon_state = "monkey1"
+
+	var/fingerprint = null
