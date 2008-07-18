@@ -85,8 +85,8 @@
 			if ("vote_period")
 				config.vote_period = text2num(value)
 
-			if ("allow_ai")
-				config.allow_ai = 1
+			if ("disallow_ai")
+				config.allow_ai = 0
 
 			if ("authentication")
 				config.enable_authentication = 1

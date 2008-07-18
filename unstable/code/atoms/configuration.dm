@@ -17,6 +17,6 @@
 	var/list/modes = list()				// allowed modes
 	var/list/votable_modes = list()		// votable modes
 	var/list/probabilities = list()		// relative probability of each mode
-	var/allow_ai = 0					// allow ai job
+	var/allow_ai = 1					// allow ai job
 	var/hostedby = null
 	var/respawn = 1
