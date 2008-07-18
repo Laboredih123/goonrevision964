@@ -9,7 +9,7 @@
 		char_hair_color = HAIR_COLOR_BROWN
 		char_hair_style = HAIR_STYLE_SHORT
 		char_last_version //md5 of changelog, to keep track of the most recent version of ss13 they've seen
-		char_be_syndicate = "No"
+		char_be_syndicate = "Yes"
 		ready = 0
 		savefile_loc = null
 		const/SAVEFILE_EXTENSION = "sav"
