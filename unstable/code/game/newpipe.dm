@@ -1045,11 +1045,11 @@
 
 /obj/machinery/connector/examine()
 	set src in oview(1)
-
+	..()
 	if(connected)
-		usr << "A pipe connector for gas equipment. It is connected to \an [connected.name]."
+		usr << "It is connected to \an [connected.name]."
 	else
-		usr << "A pipe connector for gas equipment. It is unconnected."
+		usr << "It is unconnected."
 
 
 
@@ -1674,7 +1674,7 @@
 		sleep(10)
 	open = !open
 
-// one way pipe 
+// one way pipe
 
 /obj/machinery/oneway/New()
 	..()
@@ -1784,7 +1784,7 @@
 
 /obj/machinery/oneway/pipepump/proc/updateicon()
 	icon_state = "pipepump-[(stat & NOPOWER) ? "stop" : "run"]"
-	
+
 
 /obj/machinery/oneway/pipepump/power_change()
 	..()
