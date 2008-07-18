@@ -6,7 +6,6 @@
 	var/const/delay = 15
 	var/const/prob_opens = 25
 	var/list/known_by = list()
-	oxygen = O2STANDARD
 
 /turf/station/wall/false_wall/interact(mob/carbon/user as mob)
 	if(!istype(user, /mob/carbon))
@@ -43,7 +42,6 @@
 			//disassemble it
 			user << "\blue Now dismantling false wall."
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-			F.oxygen = O2STANDARD
 			//a false wall turns into a sheet of metal and displaced girders
 			new /obj/item/weapon/sheet/metal( F )
 			new /obj/d_girders( F )

@@ -2498,7 +2498,6 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				F.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -2722,7 +2721,6 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				F.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -2855,7 +2853,6 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-			F.oxygen = O2STANDARD
 			new /obj/item/weapon/sheet/metal( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
@@ -2873,7 +2870,6 @@
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
 
-			F.oxygen = O2STANDARD
 			new /obj/d_girders( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
@@ -2889,7 +2885,6 @@
 			src.state = 0
 			//var/turf/station/r_wall/F = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
 			var/turf/station/r_wall/F = src.ReplaceWithRWall()
-			F.oxygen = O2STANDARD
 			F.icon_state = "r_girder"
 			F.state = 1
 			F.opacity = 0
@@ -2932,7 +2927,6 @@
 			src.opacity = 1
 			src.updatecell = 0
 			src.intact = 1
-			src.oxygen = O2STANDARD
 			src.updatecell = 1
 			src.levelupdate()
 			src.buildlinks()
@@ -2960,7 +2954,7 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				F.oxygen = O2STANDARD
+
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
