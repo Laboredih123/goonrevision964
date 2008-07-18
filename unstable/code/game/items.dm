@@ -4085,7 +4085,8 @@
 	return
 
 /obj/portal/proc/teleport(atom/movable/M as mob|obj)
-
+	if(istype(M, /obj/effects)) //sparks don't teleport
+		return
 	if (M.anchored)
 		return
 	if (src.icon_state == "portal1")
