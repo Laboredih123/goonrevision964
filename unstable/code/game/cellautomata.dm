@@ -567,7 +567,19 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Goon Station 13 [SS13_version]"
+	src.status = "Goon Station 13 [SS13_version]\]"
+
+	src.status += "<br>"
+
+	if (ticker && master_mode)
+		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
+	else if (!ticker)
+		src.status += "<b>STARTING</b>"
+
+	if (host)
+		src.status += ", Host: <b>[host]</b>"
+	else if (config && config.hostedby)
+		src.status += ", Host: <b>[config.hostedby]</b>"
 
 	var/list/features = list()
 
@@ -584,19 +596,7 @@
 		features += "vote"
 
 	if (features)
-		src.status += ": [dd_list2text(features, ", ")]"
-
-	src.status += "<br>"
-
-	if (ticker && master_mode)
-		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
-	else if (!ticker)
-		features += "<b>STARTING</b>"
-
-	if (host)
-		src.status += ", Host: <b>[host]</b>"
-	else if (config && config.hostedby)
-		src.status += ", Host: <b>[config.hostedby]</b>"
+		src.status += "\[[dd_list2text(features, ", ")]"
 
 
 
