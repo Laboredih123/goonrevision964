@@ -4106,8 +4106,9 @@
 			spawn( 0 )
 				O.Life()
 		if (prob(1)) //teleport gone VERY bad
-			M << "\red You see a fainting blue light."
-			M.loc = null
+			M.x = rand(1, world.maxx)
+			M.y = rand(1, world.maxy)
+			M.z = 3
 		else
 			do_teleport(M, src.target, 5)
 
