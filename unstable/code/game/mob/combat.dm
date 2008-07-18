@@ -12,6 +12,5 @@
 				safe = G.affecting
 		if (safe)
 			return safe.attackby(W, user)
-	..()
 	spawn( 0 )
 		W.attack(src, user)

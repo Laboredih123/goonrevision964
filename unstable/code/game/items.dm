@@ -469,6 +469,7 @@
 				S.active = 0
 				S.icon_state = "shield0"
 				//Foreach goto(72)
+			M.update_clothing()
 		if ((get_dist(M, T) <= 2 || src.loc == M.loc || src.loc == M))
 			if(M.hud && M.hud.flash)
 				flick("e_flash", M.hud.flash)
@@ -566,6 +567,7 @@
 						S.active = 0
 						S.icon_state = "shield0"
 						//Foreach goto(201)
+					M.update_clothing()
 			if (M.client)
 				var/safety = null
 				if (istype(M, /mob/carbon))
@@ -723,7 +725,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/cloaking_device/attack_self(mob/user as mob)
+/obj/item/weapon/cloaking_device/attack_self(mob/carbon/user as mob)
 
 	src.active = !( src.active )
 	if (src.active)
@@ -735,6 +737,7 @@
 		src.force = 3
 		src.icon_state = "shield0"
 	src.add_fingerprint(user)
+	user.update_clothing()
 	return
 
 /obj/item/weapon/ammo/proc/update_icon()

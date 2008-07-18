@@ -459,7 +459,9 @@
 			spawn( 0 )
 				src.show_inv(M)
 				return
-
+	for(var/obj/item/weapon/cloaking_device/S in src)
+		if (S.active)
+			src.overlays += image("icon" = 'mob.dmi', "icon_state" = "shield", "layer" = MOB_LAYER)
 	return
 
 /mob/carbon/proc/update_name()
@@ -491,7 +493,6 @@
 	for(var/obj/item/weapon/cloaking_device/S in src)
 		if (S.active)
 			src.invisibility = 2
-			src.overlays += image("icon" = 'mob.dmi', "icon_state" = "shield", "layer" = MOB_LAYER)
 			return
 
 /mob/carbon/proc/drop_item_v()

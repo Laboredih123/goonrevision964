@@ -162,6 +162,7 @@
 		if (S.active)
 			S.active = 0
 			S.icon_state = "shield0"
+		src.update_clothing()
 	if (locate(/obj/item/weapon/grab, src))
 		var/mob/safe = null
 		if (istype(src.l_hand, /obj/item/weapon/grab))
