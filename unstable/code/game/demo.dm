@@ -2624,6 +2624,11 @@
 	else
 		A = src.loc
 		W = new /turf/station/floor( locate(src.x, src.y, src.z) )
+	W.oxygen = src.oxygen
+	W.poison = src.poison
+	W.sl_gas = src.sl_gas
+	W.n2 = src.n2
+	W.co2 = src.co2
 	if (istype(A, /area))
 		if (A!=world.area)
 			A.contents -= W
@@ -2646,6 +2651,11 @@
 /turf/proc/ReplaceWithWall()
 	var oldAreaArea = src.loc
 	var/turf/station/wall/S = new /turf/station/wall( locate(src.x, src.y, src.z) )
+	S.oxygen = src.oxygen
+	S.poison = src.poison
+	S.sl_gas = src.sl_gas
+	S.n2 = src.n2
+	S.co2 = src.co2
 	if (oldAreaArea==world.area)
 		if (istype(src, /turf/station/wall) || istype(src, /turf/station/r_wall) || istype(src, /turf/space))
 			S.previousArea = src:previousArea
@@ -2659,6 +2669,11 @@
 /turf/proc/ReplaceWithRWall()
 	var oldAreaArea = src.loc
 	var/turf/station/r_wall/S = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
+	S.oxygen = src.oxygen
+	S.poison = src.poison
+	S.sl_gas = src.sl_gas
+	S.n2 = src.n2
+	S.co2 = src.co2
 	if (oldAreaArea==world.area)
 		if (istype(src, /turf/station/wall) || istype(src, /turf/station/r_wall) || istype(src, /turf/space))
 			S.previousArea = src:previousArea

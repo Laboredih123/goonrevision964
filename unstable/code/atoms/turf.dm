@@ -146,8 +146,3 @@
 	density = 1
 	var/state = 2
 	updatecell = 0
-	oxygen = 0.0
-	n2 = 0.0
-	checkfire = 0
-	oldoxy = 0.0
-	oldpoison = 0.0
