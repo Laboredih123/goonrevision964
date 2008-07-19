@@ -2667,7 +2667,7 @@
 			if (src.d_state == 0)
 				src.d_state = 1
 				new /obj/item/weapon/rods( src )
-		else if (istype(W, /obj/item/weapon/weldingtool))
+		else if (istype(W, /obj/item/weapon/weldingtool) && W:welding)
 			if (src.d_state == 2)
 				var/turf/T = user.loc
 				user << "\blue Slicing metal cover."
