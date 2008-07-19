@@ -155,6 +155,15 @@
 	var/grille = 0
 	var/mach = 0
 
+/datum/substance/gas
+	var/temp = T20C
+	var/nitrogen = 0.0
+	var/oxygen = 0.0
+	var/plasma = 0.0
+	var/no2	= 0.0
+	var/co2	= 0.0
+	var/maximum = -1.0
+
 /datum/powernet
 	var/list/cables = list()	// all cables & junctions
 	var/list/nodes = list()		// all APCs & sources
@@ -1554,7 +1563,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/tank
 	name = "tank"
 	var/maximum = null
-	var/obj/substance/gas/gas = null
+	var/datum/substance/gas/gas = null
 	var/i_used = 100
 	flags = 323.0
 	weight = 1000000.0
@@ -1717,7 +1726,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/machinery/atmoalter
 	name = "atmoalter"
-	var/obj/substance/gas/gas = null
+	var/datum/substance/gas/gas = null
 	var/maximum
 	var/t_status
 	var/t_per
@@ -1859,10 +1868,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/side = 1 // 1=left 2=right
 	var/status = 0
 	var/rate = 1000000
-	var/obj/substance/gas/gas1 = null
-	var/obj/substance/gas/ngas1 = null
-	var/obj/substance/gas/gas2 = null
-	var/obj/substance/gas/ngas2 = null
+	var/datum/substance/gas/gas1 = null
+	var/datum/substance/gas/ngas1 = null
+	var/datum/substance/gas/gas2 = null
+	var/datum/substance/gas/ngas2 = null
 
 	var/capacity = 6000000.0
 	var/obj/machinery/node1 = null
@@ -2046,10 +2055,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 	var/obj/machinery/vnode = null
 
-	var/obj/substance/gas/gas = null
-	var/obj/substance/gas/ngas = null
+	var/datum/substance/gas/gas = null
+	var/datum/substance/gas/ngas = null
 
-	//var/obj/substance/gas/agas
+	//var/datum/substance/gas/agas
 
 	var/capacity = 6000000.0
 	capmult = 2
@@ -2064,8 +2073,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	p_dir = 2
 	var/obj/machinery/node
 	var/obj/machinery/vnode
-	var/obj/substance/gas/gas
-	var/obj/substance/gas/ngas
+	var/datum/substance/gas/gas
+	var/datum/substance/gas/ngas
 	var/capacity = 6000000
 	capmult = 2
 
@@ -2079,8 +2088,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	p_dir = 2
 	var/obj/machinery/node
 	var/obj/machinery/vnode
-	var/obj/substance/gas/gas
-	var/obj/substance/gas/ngas
+	var/datum/substance/gas/gas
+	var/datum/substance/gas/ngas
 	var/capacity = 6000000
 	capmult = 2
 
@@ -2092,8 +2101,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	density = 1
 	var/obj/machinery/line_in = null
 	var/mob/carbon/occupant = null
-	var/obj/substance/gas/gas = null
-	var/obj/substance/gas/ngas = null
+	var/datum/substance/gas/gas = null
+	var/datum/substance/gas/ngas = null
 	anchored = 1.0
 	p_dir = 8.0
 	capmult = 1
@@ -2175,10 +2184,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/status = 0.0
 	var/t_flags = 3.0
 	var/transfer = 0.0
-	var/temperature = 60.0+T0C
+	var/temp = T0C + 60
 
-	var/obj/substance/gas/gas
-	var/obj/substance/gas/ngas
+	var/datum/substance/gas/gas
+	var/datum/substance/gas/ngas
 	p_dir = 4.0
 	anchored = 1.0
 	capmult = 1
@@ -2256,10 +2265,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/obj/item/weapon/disk/nuclear/auth = null
 	flags = FPRINT
 /obj/machinery/valve
-	var/obj/substance/gas/gas1 = null
-	var/obj/substance/gas/ngas1 = null
-	var/obj/substance/gas/gas2 = null
-	var/obj/substance/gas/ngas2 = null
+	var/datum/substance/gas/gas1 = null
+	var/datum/substance/gas/ngas1 = null
+	var/datum/substance/gas/gas2 = null
+	var/datum/substance/gas/ngas2 = null
 	var/capacity = 6000000.0
 	var/obj/machinery/node1 = null
 	var/obj/machinery/node2 = null
@@ -2282,10 +2291,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/oneway
 	name = "one-way pipe"
 	desc = "A Pipe that only passes gas in one direction."
-	var/obj/substance/gas/gas1 = null
-	var/obj/substance/gas/ngas1 = null
-	var/obj/substance/gas/gas2 = null
-	var/obj/substance/gas/ngas2 = null
+	var/datum/substance/gas/gas1 = null
+	var/datum/substance/gas/ngas1 = null
+	var/datum/substance/gas/gas2 = null
+	var/datum/substance/gas/ngas2 = null
 	var/capacity = 6000000.0
 	var/obj/machinery/node1 = null
 	var/obj/machinery/node2 = null
@@ -2312,8 +2321,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/n1dir
 	var/n2dir
 
-	var/obj/substance/gas/gas = null
-	var/obj/substance/gas/ngas = null
+	var/datum/substance/gas/gas = null
+	var/datum/substance/gas/ngas = null
 	var/capacity = 6000000.0
 	var/obj/machinery/node1 = null
 	var/obj/machinery/node2 = null
@@ -2339,13 +2348,13 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/n1dir
 	var/n2dir
 
-	var/obj/substance/gas/gas = null
-	var/obj/substance/gas/ngas = null
+	var/datum/substance/gas/gas = null
+	var/datum/substance/gas/ngas = null
 
 	var/f_mask = 0
 	var/f_per = 0
-	var/obj/substance/gas/f_gas = null
-	var/obj/substance/gas/f_ngas = null
+	var/datum/substance/gas/f_gas = null
+	var/datum/substance/gas/f_ngas = null
 
 	var/obj/machinery/node1 = null
 	var/obj/machinery/node2 = null
@@ -2365,8 +2374,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	dir = 2
 	p_dir = 3
 
-	var/obj/substance/gas/gas = null
-	var/obj/substance/gas/ngas = null
+	var/datum/substance/gas/gas = null
+	var/datum/substance/gas/ngas = null
 	var/obj/machinery/node1 = null
 	var/obj/machinery/node2 = null
 
@@ -2396,8 +2405,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "pipeline"
 	var/list/nodes = list()
 	var/numnodes = 0
-	var/obj/substance/gas/gas = null
-	var/obj/substance/gas/ngas = null
+	var/datum/substance/gas/gas = null
+	var/datum/substance/gas/ngas = null
 
 	var/obj/machinery/vnode1
 	var/obj/machinery/vnode2
@@ -2675,7 +2684,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1
 	density = 1
 	var/obj/machinery/power/turbine/turbine
-	var/obj/substance/gas/gas
+	var/datum/substance/gas/gas
 	var/turf/inturf
 	var/starter = 0
 	var/rpm = 0
@@ -2741,32 +2750,19 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/move
 	name = "move"
 	icon = 'shuttle.dmi'
+	var/datum/substance/gas/gas		=	new /datum/substance/gas
+	var/datum/substance/gas/phase1	=	new /datum/substance/gas	// old
+	var/datum/substance/gas/phase2	=	new /datum/substance/gas	// tmp
+	// backwards compatability
+	var/oxygen=O2STANDARD
+	var/n2=N2STANDARD
+	var/temp=T20C
+	var/poison=0
+
 	var/master = null
 	var/tx = null
 	var/ty = null
-	var/oxygen = O2STANDARD
-	var/oldoxy = null
-	var/tmpoxy = null
-	var/oldpoison = null
-	var/tmppoison = null
-	var/poison = 0.0
-	var/co2 = 0.0
-	var/oldco2 = null
-	var/tmpco2 = null
-	var/sl_gas = 0.0
-	var/osl_gas = null
-	var/tsl_gas = null
-	var/n2 = N2STANDARD
-	var/on2 = null
-	var/tn2 = null
-
-	var/temp = T20C
-	var/otemp
-	var/ttemp
-
 	var/firelevel = 0.0
-	var/airdir = null
-	var/airforce = null
 	var/checkfire = 1.0
 	var/updatecell = 1.0
 	anchored = 1.0
@@ -2907,7 +2903,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/substance
 	name = "substance"
 	var/maximum
-	var/temperature
+	var/temp
 	var/co2
 	var/n2
 	var/oxygen
@@ -2916,19 +2912,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/substance/chemical
 	name = "chemical"
 	maximum = null
-
 	var/list/chemicals = list(  )		// contains /datum/chemical
 
-
-/obj/substance/gas
-	name = "gas"
-	temperature = T20C
-	co2 = 0.0
-	n2 = 0.0
-	oxygen = 0.0
-	plasma = 0.0
-	sl_gas = 0.0
-	maximum = -1.0
 /obj/table
 	name = "table"
 	icon = 'table.dmi'

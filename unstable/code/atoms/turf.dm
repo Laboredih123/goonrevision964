@@ -1,65 +1,30 @@
 /turf
 	icon = 'turfs.dmi'
+	var/datum/substance/gas/gas		=	new /datum/substance/gas
+	var/datum/substance/gas/phase1	=	new /datum/substance/gas	//	old
+	var/datum/substance/gas/phase2	=	new /datum/substance/gas	//	tmp
+	//backwards compatability
+	var/oxygen=O2STANDARD
+	var/n2=N2STANDARD
+	var/poison=0
+	var/temp=T20C
+
 	var/intact = 0
 	var/firelevel = null
-	var/oxygen = O2STANDARD
-	var/oldoxy = null
-	var/tmpoxy = null
-	var/oldpoison = null
-	var/tmppoison = null
-	var/poison = 0.0
-	var/co2 = 0.0
-	var/oldco2 = null
-	var/tmpco2 = null
-	var/sl_gas = 0.0
-	var/osl_gas = null
-	var/tsl_gas = null
-	var/n2 = N2STANDARD
-	var/on2 = null
-	var/tn2 = null
-	var/temp = T20C
-	var/otemp
-	var/ttemp
-
-	var/airdir = null
-	var/airforce = null
 	var/checkfire = 1.0
-	var/atmoalt = null
+	var/atmoalt	= null
 	var/updatecell = null
 	level = 1.0
-
-
-	// the turfs to the N,S,E & W
-	var/turf/linkN
-	var/turf/linkS
-	var/turf/linkE
-	var/turf/linkW
-
-	// whether those turfs are air-connected
-	var/airN
-	var/airS
-	var/airE
-	var/airW
-
-	// whether to use special conduction heat transfer (through windows only)
-
-	var/condN
-	var/condS
-	var/condE
-	var/condW
 
 /turf/space
 	name = "space"
 	icon_state = "space"
 	var/previousArea = null
 	updatecell = 1.0
-	oxygen = 0.0
-	n2 = 0.0
 	checkfire = 0
-	oldoxy = 0.0
-	oldpoison = 0.0
-	// CMB radiation temperature+
-	temp = 2.7
+
+	oxygen = 0
+	n2 = 0
 
 /turf/station
 	name = "station"

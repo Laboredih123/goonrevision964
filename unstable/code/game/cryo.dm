@@ -861,7 +861,7 @@
 			t2 = text("Cooling-[] <A href = '?src=\ref[];cool=0'>Stop</A>", src.c_used, src)
 		else
 			t2 = text("<A href = '?src=\ref[];cool=1'>Cool</A> Stopped", src)
-		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><BR>\n\t\t<B>Temperature</B>: []<BR>\n\t\t<B>Transfer Status</B>: []<BR>\n\t\t   <B>Chemicals Used</B>: []<BR>\n\t\t<B>Freezer status</B>: []<BR>\n\t\t   <A href='?src=\ref[];cp=-5'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=5'>+</A><BR>\n<BR>\n\t[]<BR>\n<BR>\n<BR>\n\t<A href='?src=\ref[];mach_close=freezer'>Close</A><BR>\n\t</TT></BODY></HTML>", src.temperature-T0C, (src.transfer ? text("Transfering <A href='?src=\ref[];transfer=0'>Stop</A>", src) : text("<A href='?src=\ref[];transfer=1'>Transfer</A> Stopped", src)), t1, t2, src, src, src.c_used, src, src, d1, user)
+		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><BR>\n\t\t<B>Temperature</B>: []<BR>\n\t\t<B>Transfer Status</B>: []<BR>\n\t\t   <B>Chemicals Used</B>: []<BR>\n\t\t<B>Freezer status</B>: []<BR>\n\t\t   <A href='?src=\ref[];cp=-5'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=5'>+</A><BR>\n<BR>\n\t[]<BR>\n<BR>\n<BR>\n\t<A href='?src=\ref[];mach_close=freezer'>Close</A><BR>\n\t</TT></BODY></HTML>", src.temp-T0C, (src.transfer ? text("Transfering <A href='?src=\ref[];transfer=0'>Stop</A>", src) : text("<A href='?src=\ref[];transfer=1'>Transfer</A> Stopped", src)), t1, t2, src, src, src.c_used, src, src, d1, user)
 		user << browse(dat, "window=freezer;size=400x500")
 	return
 
@@ -950,10 +950,10 @@
 				else
 					u_cool = 0
 	if (u_cool)
-		src.temperature = max((-100.0+T0C), src.temperature - (u_cool * 5) )
+		src.temp = max((-100.0+T0C), src.temp - (u_cool * 5) )
 		use_power(200)
 
-	src.temperature = min(src.temperature + 5, 20+T0C)
+	src.temp = min(src.temp + 5, 20+T0C)
 	if (src.transfer)
 		var/u_oxy = 0
 		var/u_pla = 0
@@ -1008,13 +1008,13 @@
 			if ( (u_oxy + u_pla) > 0)
 				ngas.oxygen += u_oxy
 				ngas.plasma += u_pla
-				ngas.temperature = src.temperature
+				ngas.temp = src.temp
 	if (ngas.oxygen!=0 || ngas.plasma!=0)
 		spawn( 1 )
 			if (src.line_out)
 
 				if(vnode)
-					var/delta_gt = FLOWFRAC * ( vnode.get_gas_val(src) - gas.tot_gas() / capmult)
+					var/delta_gt = FLOWFRAC * ( vnode.get_gas_val(src) - gas.total() / capmult)
 					calc_delta( src, gas, ngas, vnode, delta_gt)
 				else
 					leak_to_turf()
@@ -1064,8 +1064,8 @@
 	new /obj/item/weapon/flasks/plasma( src )
 	rebuild_overlay()
 
-	gas = new/obj/substance/gas()
-	ngas = new/obj/substance/gas()
+	gas = new/datum/substance/gas()
+	ngas = new/datum/substance/gas()
 
 	gasflowlist += src
 	/*spawn( 50 )
@@ -1089,11 +1089,9 @@
 
 
 /obj/machinery/freezer/get_gas_val(from)
-	return gas.tot_gas()
-
+	return gas.total()
 /obj/machinery/freezer/get_gas(from)
 	return gas
-
 
 /obj/machinery/freezer/attackby(obj/item/weapon/flasks/F as obj, mob/carbon/user as mob)
 
@@ -1362,10 +1360,10 @@
 
 	add_overlays()
 
-	src.gas = new /obj/substance/gas( null )
-	gas.temperature = T20C
-	src.ngas = new /obj/substance/gas (null)
-	ngas.temperature = T20C
+	src.gas = new /datum/substance/gas( null )
+	gas.temp = T20C
+	src.ngas = new /datum/substance/gas (null)
+	ngas.temp = T20C
 
 	gasflowlist += src
 
@@ -1388,7 +1386,7 @@
 /obj/machinery/cryo_cell/process()
 
 	if(vnode)
-		var/delta_gt = FLOWFRAC * ( vnode.get_gas_val(src) - gas.tot_gas() / capmult)
+		var/delta_gt = FLOWFRAC * ( vnode.get_gas_val(src) - gas.total() / capmult)
 		calc_delta( src, gas, ngas, vnode, delta_gt)
 	else
 		leak_to_turf()
@@ -1425,11 +1423,9 @@
 
 
 /obj/machinery/cryo_cell/get_gas_val(from)
-	return gas.tot_gas()
-
+	return gas.total()
 /obj/machinery/cryo_cell/get_gas(from)
 	return gas
-
 /obj/machinery/cryo_cell/gas_flow()
 	gas.replace_by(ngas)
 
@@ -1501,10 +1497,10 @@
 	user.machine = src
 	if (user.check_intelligence())
 		var/dat = "<font color='blue'> <B>System Statistics:</B></FONT><BR>"
-		if (src.gas.temperature > T0C)
-			dat += text("<font color='red'>\tTemperature (&deg;C): [] (MUST be below 0, add coolant to mixture)</FONT><BR>", round(src.gas.temperature-T0C, 0.1))
+		if (src.gas.temp > T0C)
+			dat += text("<font color='red'>\tTemperature (&deg;C): [] (MUST be below 0, add coolant to mixture)</FONT><BR>", round(src.gas.temp-T0C, 0.1))
 		else
-			dat += text("<font color='blue'>\tTemperature (&deg;C): [] </FONT><BR>", round(src.gas.temperature-T0C, 0.1))
+			dat += text("<font color='blue'>\tTemperature (&deg;C): [] </FONT><BR>", round(src.gas.temp-T0C, 0.1))
 		if (src.gas.plasma < 1)
 			dat += text("<font color='red'>\tPlasma Units: [] (Add plasma to mixture!)</FONT><BR>", round(src.gas.plasma, 0.1))
 		else
@@ -1610,12 +1606,12 @@
 		src.ngas.oxygen--
 		M.heal_damage(suffocation = 5)
 
-	if (src.gas.temperature < T0C && src.gas.plasma >= 1)
+	if (src.gas.temp < T0C && src.gas.plasma >= 1)
 		M.heal_damage(toxin = 5, brute = 5, burn = 5)
 		src.ngas.plasma--
 
-	if (src.gas.temperature < (60+T0C))
-		src.gas.temperature = min(src.gas.temperature + 1, 60+T0C)
+	if (src.gas.temp < (60+T0C))
+		src.gas.temp = min(src.gas.temp + 1, 60+T0C)
 	src.updateDialog()
 	return
 
@@ -1623,7 +1619,7 @@
 /*
 /obj/machinery/cryo_cell/receive_gas(S as obj, source as obj)
 
-	if (!( istype(S, /obj/substance/gas) ))
+	if (!( istype(S, /datum/substance/gas) ))
 		//S = null
 		del(S)
 		return

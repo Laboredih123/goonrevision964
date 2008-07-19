@@ -185,7 +185,7 @@
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
 		if (T.firelevel < 900000.0)
-			T.firelevel = T.poison
+			T.firelevel = T.gas.plasma
 
 	return
 
@@ -489,7 +489,7 @@
 	user.machine = src
 	if (!( src.gas ))
 		return
-	var/dat = text("<TT><B>Tank</B><BR>\n<FONT color = 'blue'><B>Contains/Capacity</B> [] / []</FONT><BR>\nInterals Valve: <A href='?src=\ref[];stat=1'>[] Gas Flow</A><BR>\n\t<A href='?src=\ref[];cp=-50'>-</A> <A href='?src=\ref[];cp=-5'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=5'>+</A> <A href='?src=\ref[];cp=50'>+</A><BR>\n<BR>\n<A href='?src=\ref[];mach_close=tank'>Close</A>\n</TT>", src.gas.tot_gas(), src.maximum, src, ((src.loc == user && user.internal == src) ? "Stop" : "Restore"), src, src, src, src.i_used, src, src, src, user)
+	var/dat = text("<TT><B>Tank</B><BR>\n<FONT color = 'blue'><B>Contains/Capacity</B> [] / []</FONT><BR>\nInterals Valve: <A href='?src=\ref[];stat=1'>[] Gas Flow</A><BR>\n\t<A href='?src=\ref[];cp=-50'>-</A> <A href='?src=\ref[];cp=-5'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=5'>+</A> <A href='?src=\ref[];cp=50'>+</A><BR>\n<BR>\n<A href='?src=\ref[];mach_close=tank'>Close</A>\n</TT>", src.gas.total(), src.maximum, src, ((src.loc == user && user.internal == src) ? "Stop" : "Restore"), src, src, src, src.i_used, src, src, src, user)
 	user << browse(dat, "window=tank;size=600x300")
 	return
 
@@ -523,10 +523,10 @@
 		return
 	return
 
-/obj/item/weapon/tank/proc/process(mob/M as mob, obj/substance/gas/G as obj)
+/obj/item/weapon/tank/proc/process(mob/M as mob, datum/substance/gas/G as obj)
 
 	var/amount = src.i_used
-	var/total = src.gas.tot_gas()
+	var/total = src.gas.total()
 	if (amount > total)
 		amount = total
 	if (total > 0)
@@ -562,13 +562,13 @@
 	if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
 		for (var/mob/O in viewers(user, null))
 			O << "\red [user] has used the analyzer on \icon[icon]"
-		var/total = src.gas.tot_gas()
+		var/total = src.gas.total()
 		var/t1 = 0
 
 		user << "\blue Results of analysis of \icon[icon]"
 		if (total)
 			user << "\blue Overall: [total] / [src.gas.maximum]"
-			t1 = round( src.gas.n2 / total * 100 , 0.0010)
+			t1 = round( src.gas.nitrogen / total * 100 , 0.0010)
 			user << "\blue Nitrogen: [t1]%"
 			t1 = round( src.gas.oxygen / total * 100 , 0.0010)
 			user << "\blue Oxygen: [t1]%"
@@ -576,9 +576,9 @@
 			user << "\blue Plasma: [t1]%"
 			t1 = round( src.gas.co2 / total * 100 , 0.0010)
 			user << "\blue CO2: [t1]%"
-			t1 = round( src.gas.sl_gas / total * 100 , 0.0010)
+			t1 = round( src.gas.no2 / total * 100 , 0.0010)
 			user << "\blue N2O: [t1]%"
-			user << text("\blue Temperature: []&deg;C", src.gas.temperature-T0C)
+			user << text("\blue Temperature: []&deg;C", src.gas.temp-T0C)
 		else
 			user << "\blue Tank is empty!"
 		src.add_fingerprint(user)
@@ -587,7 +587,7 @@
 /obj/item/weapon/tank/New()
 
 	..()
-	src.gas = new /obj/substance/gas( src )
+	src.gas = new /datum/substance/gas( src )
 	src.gas.maximum = src.maximum
 	return
 
@@ -601,8 +601,8 @@
 /obj/item/weapon/tank/burn(fi_amount)
 
 	if(src.gas)
-		if ( (fi_amount * src.gas.tot_gas()) > (src.maximum * 3.75E7) )
-			src.gas.turf_add(get_turf(src.loc), src.gas.tot_gas())
+		if ( (fi_amount * src.gas.total()) > (src.maximum * 3.75E7) )
+			src.gas.turf_add(get_turf(src.loc), src.gas.total())
 		//SN src = null
 			del(src)
 			return
@@ -610,20 +610,26 @@
 
 /obj/item/weapon/tank/examine()
 	var/obj/item/weapon/icon = src
-	if (istype(src.loc, /obj/item/weapon/assembly))
-		icon = src.loc
-	if (get_dist(src, usr) > 1)
-		if (icon == src)
+	if(istype(src.loc, /obj/item/weapon/assembly))	icon = src.loc
+	if(get_dist(src, usr) > 1)
+		if(icon == src)
 			usr << "\blue It's a \icon[icon]! If you want any more information you'll need to get closer."
 		return
-	var/foo = src.gas.temperature-T0C
-	if (foo < 20) foo = "cold"
-	else if (foo == 20)  foo = "room temperature"
-	else if (foo > 20 && foo < 300) foo = "lukewarm"
-	else if (foo >= 300 && foo < 450) foo = "warm"
-	else if (foo >= 450 && foo < 500) foo = "hot"
-	else foo = "dangerously hot"
-	usr << text("\blue The \icon[] contains [] unit\s of [] gas.", icon, src.gas.tot_gas(), foo)
+
+	var/temp = src.gas.temp-T0C
+	if(temp < 20)
+		temp = "cold"
+	else if(temp == 20)
+		temp = "room temperature"
+	else if(temp < 300)
+		temp = "lukewarm"
+	else if(temp < 450)
+		temp = "warm"
+	else if(temp < 500)
+		temp = "hot"
+	else
+		temp = "dangerously hot"
+	usr << text("\blue The \icon[] contains [] unit\s of [] gas.", icon, src.gas.total(), temp)
 	return
 
 /obj/item/weapon/tank/oxygentank/New()
@@ -648,9 +654,9 @@
 
 	if (!( src.on ))
 		return 0
-	if ((num < 1 || src.gas.tot_gas() < num))
+	if ((num < 1 || src.gas.total() < num))
 		return 0
-	var/obj/substance/gas/G = new /obj/substance/gas(  )
+	var/datum/substance/gas/G = new /datum/substance/gas(  )
 	G.transfer_from(src.gas, num)
 	if (G.oxygen >= 100)
 		return 1
@@ -669,44 +675,44 @@
 /obj/item/weapon/tank/anesthetic/New()
 
 	..()
-	src.gas.sl_gas = 700000
+	src.gas.no2 = 700000
 	src.gas.oxygen = 1000000
 	return
 
 /obj/item/weapon/tank/plasmatank/proc/release()
 	var/turf/T = get_turf(src.loc)
-	T.poison += src.gas.plasma * src.gas.temperature / 25.0
-	T.oxygen += src.gas.oxygen * src.gas.temperature / 25.0
-	T.n2 += src.gas.n2 * src.gas.temperature / 25.0
-	T.sl_gas += src.gas.sl_gas * src.gas.temperature / 25.0
-	T.res_vars()
+	T.gas.plasma += src.gas.plasma * src.gas.temp / 25.0
+	T.gas.oxygen += src.gas.oxygen * src.gas.temp / 25.0
+	T.gas.nitrogen += src.gas.nitrogen * src.gas.temp / 25.0
+	T.gas.no2 += src.gas.no2 * src.gas.temp / 25.0
+	T.reset_phases()
 
 	src.gas.plasma = 0
 	src.gas.oxygen = 0
-	src.gas.n2 = 0
-	src.gas.sl_gas = 0
+	src.gas.nitrogen = 0
+	src.gas.no2 = 0
 
-	var/temp = src.gas.temperature
+	var/temp = src.gas.temp
 	spawn(10)
 		T.firelevel = temp * 3600.0
-		T.res_vars()
+		T.reset_phases()
 
 
 
 /obj/item/weapon/tank/plasmatank/proc/ignite()
 
-	var/strength = ((src.gas.plasma + src.gas.oxygen/2.0) / 1600000.0) * src.gas.temperature
-	//if ((src.gas.plasma < 1600000.0 || src.gas.temperature < 773))		//500degC
+	var/strength = ((src.gas.plasma + src.gas.oxygen/2.0) / 1600000.0) * src.gas.temp
+	//if ((src.gas.plasma < 1600000.0 || src.gas.temp < 773))		//500degC
 	if (strength < 773.0)
 		var/turf/T = get_turf(src.loc)
-		T.poison += src.gas.plasma
-		T.firelevel = T.poison
-		T.res_vars()
+		T.gas.plasma += src.gas.plasma
+		T.firelevel = T.gas.plasma
+		T.reset_phases()
 
 		if(src.master)
 			src.master.loc = null
 
-		//if ((src.gas.temperature > (450+T0C) && src.gas.plasma == 1600000.0))
+		//if ((src.gas.temp > (450+T0C) && src.gas.plasma == 1600000.0))
 		if (strength > (450+T0C))
 			var/turf/sw = locate(max(T.x - 4, 1), max(T.y - 4, 1), T.z)
 			var/turf/ne = locate(min(T.x + 4, world.maxx), min(T.y + 4, world.maxy), T.z)
@@ -728,7 +734,7 @@
 			makepowernets()
 
 		else
-			//if ((src.gas.temperature > (300+T0C) && src.gas.plasma == 1600000.0))
+			//if ((src.gas.temp > (300+T0C) && src.gas.plasma == 1600000.0))
 			if (strength > (300+T0C))
 				var/turf/sw = locate(max(T.x - 4, 1), max(T.y - 4, 1), T.z)
 				var/turf/ne = locate(min(T.x + 4, world.maxx), min(T.y + 4, world.maxy), T.z)
@@ -2445,20 +2451,13 @@
 
 
 /turf/proc/levelupdate()
-
-
 	for(var/obj/O in src)
 		if(O.level == 1)
 			O.hide(src.intact)
 
-
 /turf/station/r_wall/updatecell()
-
-	if (src.state == 2)
-		return
-	else
+	if(src.state != 2)
 		..()
-	return
 
 /turf/station/r_wall/proc/update()
 
@@ -2498,6 +2497,7 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
+				F.gas.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -2517,11 +2517,7 @@
 	else
 		A = src.loc
 		W = new /turf/station/floor( locate(src.x, src.y, src.z) )
-	W.oxygen = src.oxygen
-	W.poison = src.poison
-	W.sl_gas = src.sl_gas
-	W.n2 = src.n2
-	W.co2 = src.co2
+	W.gas.copy_all(src.gas)
 	if (istype(A, /area))
 		if (A!=world.area)
 			A.contents -= W
@@ -2544,11 +2540,7 @@
 /turf/proc/ReplaceWithWall()
 	var oldAreaArea = src.loc
 	var/turf/station/wall/S = new /turf/station/wall( locate(src.x, src.y, src.z) )
-	S.oxygen = src.oxygen
-	S.poison = src.poison
-	S.sl_gas = src.sl_gas
-	S.n2 = src.n2
-	S.co2 = src.co2
+	S.gas.copy_all(src.gas)
 	if (oldAreaArea==world.area)
 		if (istype(src, /turf/station/wall) || istype(src, /turf/station/r_wall) || istype(src, /turf/space))
 			S.previousArea = src:previousArea
@@ -2562,11 +2554,7 @@
 /turf/proc/ReplaceWithRWall()
 	var oldAreaArea = src.loc
 	var/turf/station/r_wall/S = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
-	S.oxygen = src.oxygen
-	S.poison = src.poison
-	S.sl_gas = src.sl_gas
-	S.n2 = src.n2
-	S.co2 = src.co2
+	S.gas.copy_all(src.gas)
 	if (oldAreaArea==world.area)
 		if (istype(src, /turf/station/wall) || istype(src, /turf/station/r_wall) || istype(src, /turf/space))
 			S.previousArea = src:previousArea
@@ -2721,6 +2709,7 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
+				F.gas.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -2745,13 +2734,8 @@
 	return
 
 /turf/station/wall/updatecell()
-
-	if (src.state == 2)
-		return
-	else
+	if(src.state != 2)
 		..()
-	return
-
 
 /turf/station/wall/ex_act(severity)
 
@@ -2853,6 +2837,7 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
+			F.gas.oxygen = O2STANDARD
 			new /obj/item/weapon/sheet/metal( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
@@ -2870,6 +2855,7 @@
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
 
+			F.gas.oxygen = O2STANDARD
 			new /obj/d_girders( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
@@ -2885,6 +2871,7 @@
 			src.state = 0
 			//var/turf/station/r_wall/F = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
 			var/turf/station/r_wall/F = src.ReplaceWithRWall()
+			F.gas.oxygen = O2STANDARD
 			F.icon_state = "r_girder"
 			F.state = 1
 			F.opacity = 0
@@ -2927,6 +2914,7 @@
 			src.opacity = 1
 			src.updatecell = 0
 			src.intact = 1
+			src.gas.oxygen = O2STANDARD
 			src.updatecell = 1
 			src.levelupdate()
 			src.buildlinks()
@@ -2954,7 +2942,7 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-
+				F.gas.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -3070,34 +3058,20 @@
 	return
 
 /turf/station/floor/updatecell()
-
 	..()
-	if (src.checkfire)
-		if (src.firelevel >= 2700000.0)
-			src.health--
-		if (src.health <= 0)
-			src.burnt = 1
-			src.intact = 0
-			levelupdate()
-			//SN src = null
-			del(src)
-			return
-		else
-			if (src.health <= 100)
-				src.burnt = 1
-				src.intact = 0
-				levelupdate()
-	return
+	if(!src.checkfire)
+		return
+	if(src.firelevel > 2700000.0)
+		src.health--
+	src.burnt = 1
+	src.intact = 0
+	levelupdate()
+	if(src.health <= 0)
+		del(src)
+
 
 /turf/station/floor/plasma_test/updatecell()
-
 	..()
-	src.poison = 7.5E7
-	res_vars()
-	return
-
-
-
-
-
+	src.gas.plasma = 7.5E7
+	reset_phases()
 

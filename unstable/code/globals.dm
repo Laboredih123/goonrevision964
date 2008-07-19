@@ -188,10 +188,11 @@ world
 var/const
 	CELLSTANDARD = 3600000.0		// gas capacity of cell at STP
 	O2STANDARD = 756000.0			// O2 standard value (21%)
-	N2STANDARD = 2844000.0		// N2 standard value (79%)
+	N2STANDARD = 2844000.0			// N2 standard value (79%)
 
-	T0C = 273.15					// 0degC
-	T20C = 293.15					// 20degC
+	T0C		= 273.15				// 0 deg C - frozen water
+	T20C	= 293.15				// 20 deg C - normal temp
+	TCMB	= 2.7					// -270 deg C - space temp
 
 	FIREOFFSET = 505				//bias for starting firelevel
 	FIREQUOT = 15000				//divisor to get target temp from firelevel

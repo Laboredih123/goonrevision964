@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\areas.dm
+FILE: code\game\cell_process.dm
 DIR: code code\atoms code\game code\game\machinery maps
 UPDATE_OBJ_TREE: ON
 MAP_ICON_TYPE: 0

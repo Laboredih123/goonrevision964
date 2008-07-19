@@ -312,7 +312,7 @@
 		step_to(src, T, null)
 		T = src.loc
 		if (istype(T, /turf))
-			T.firelevel = T.poison
+			T.firelevel = T.gas.plasma
 	spawn( 3 )
 		src.Life()
 		return
@@ -340,7 +340,7 @@
 		step_to(src, T, null)
 		T = src.loc
 		if (istype(T, /turf))
-			T.firelevel = T.poison
+			T.firelevel = T.gas.plasma
 	spawn( 3 )
 		src.Life()
 		return
@@ -351,14 +351,14 @@
 	..()
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		T.firelevel = T.poison
+		T.firelevel = T.gas.plasma
 	return
 
 /obj/effects/sparks/Del()
 
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		T.firelevel = T.poison
+		T.firelevel = T.gas.plasma
 	..()
 	return
 
@@ -367,7 +367,7 @@
 	..()
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		T.firelevel = T.poison
+		T.firelevel = T.gas.plasma
 	return
 
 /obj/laser/Bump()

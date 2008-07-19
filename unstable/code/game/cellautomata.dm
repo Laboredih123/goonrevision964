@@ -606,9 +606,6 @@
 /world/New()
 	src.update_stat()
 
-	for (var/turf/T in world)
-		T.updatelinks()
-
 	makepipelines()
 	makepowernets()
 
@@ -768,18 +765,13 @@
 	return
 
 /turf/proc/updatecell()
-
 	return
-
 /turf/proc/conduction()
 	return
-
 /turf/proc/cachecell()
-
 	return
 
 /datum/control/proc/process()
-
 	return
 
 /datum/control/gameticker/proc/meteor_process()
@@ -871,11 +863,16 @@
 
 		for(var/turf/T in A)
 			if (T.z == shuttle_z)
+				for(var/atom/movable/AM as mob|obj in T)
+					AM.z = 1
+				var/turf/U = locate(T.x, T.y, shuttle_z)
+				U.phase1.copy_cop(T.phase1)
+				U.phase2.copy_cop(T.phase2)
+				U.gas.copy_cop(T.gas)
 				srcturfs += T
 			else
 				dstturfs += T
-			if(T.x > throwx)
-				throwx = T.x
+			throwx = max(throwx,T.x)
 
 		// hey you, get out of the way!
 		for(var/turf/T in dstturfs)
@@ -898,17 +895,9 @@
 					A.contents += S
 				AM.z = 1
 			var/turf/U = locate(T.x, T.y, shuttle_z)
-			U.oxygen = T.oxygen
-			U.oldoxy = T.oldoxy
-			U.tmpoxy = T.tmpoxy
-			U.poison = T.poison
-			U.oldpoison = T.oldpoison
-			U.tmppoison = T.tmppoison
-			U.co2 = T.co2
-			U.oldco2 = T.oldco2
-			U.tmpco2 = T.tmpco2
-
-			U.buildlinks()
+			U.phase1.copy_cop(T.phase1)
+			U.phase2.copy_cop(T.phase2)
+			U.gas.copy_cop(T.gas)
 			del(T)
 		src.timeleft = shuttle_time_in_station
 		src.shuttle_location = 1
@@ -937,15 +926,9 @@
 					AM.z = shuttle_z
 					//Foreach goto(2483)
 				var/turf/U = locate(T.x, T.y, shuttle_z)
-				U.oxygen = T.oxygen
-				U.oldoxy = T.oldoxy
-				U.tmpoxy = T.tmpoxy
-				U.poison = T.poison
-				U.oldpoison = T.oldpoison
-				U.tmppoison = T.tmppoison
-				U.co2 = T.co2
-				U.oldco2 = T.oldco2
-				U.tmpco2 = T.tmpco2
+				U.gas.copy_cop(T.gas)
+				U.phase1.copy_cop(T.phase1)
+				U.phase2.copy_cop(T.phase2)
 
 				U.buildlinks()
 				//T = null
@@ -1040,13 +1023,10 @@
 		//	world.log << "*** SoP ***"
 		//	Air()
 
-
 		for(var/obj/machinery/M in machines)
 			M.process()
-
 		for(var/obj/machinery/M in gasflowlist)
 			M.gas_flow()
-
 		for(var/datum/powernet/P in powernets)
 			P.reset()
 

@@ -4,96 +4,107 @@
 /mob/carbon/var/taking_tox_damage = 0
 /mob/carbon/var/taking_suff_damage = 0
 
+/mob/carbon/proc/aircheck(datum/substance/gas/G as obj)
+	if(!G)
+		return
+	src.taking_tox_damage = 0
+	src.taking_suff_damage = 0
 
-/mob/carbon/proc/aircheck(obj/substance/gas/G as obj)
-	if (G)
-		taking_tox_damage = 0
-		taking_suff_damage = 0
-		var/a_oxygen = G.oxygen * 0.7
-		var/a_plasma = G.plasma
-		var/a_sl_gas = G.sl_gas * 0.7
-		G.oxygen -= a_oxygen
-		G.plasma -= a_plasma
-		G.sl_gas -= a_sl_gas
-		if (a_oxygen < oxygen_needed)
-			src.take_damage(suffocation = round( (oxygen_needed - a_oxygen) / 5 ) + 1)
-			src.taking_suff_damage = 1
-		if (a_plasma > 5)
-			var/plasma_dam = round(a_plasma / 10) + 1
-			if ((src.mask && src.mask.a_filter >= 4))
-				plasma_dam = max(plasma_dam - 40, 0)
-			if(plasma_dam > 0)
-				src.take_damage(toxin = plasma_dam)
-				src.taking_tox_damage = 1
+	var/a_oxygen = G.oxygen * 0.7
+	var/a_plasma = G.plasma
+	var/a_no2_gas = G.no2 * 0.7
 
-		src.co2_breathed = min(0, src.co2_breathed - 5)
-		src.co2_breathed += G.co2
-		if(src.co2_breathed > 50)
-			src.co2_breathed -= 50
-			src.knockdown_until(3)
-			src.take_damage(suffocation = 2)
+	G.oxygen -= a_oxygen
+	G.plasma = 0
+	G.no2 -= a_no2_gas
 
-		src.sl_gas_breathed = max(0, src.sl_gas_breathed - 5)
-		src.sl_gas_breathed += a_sl_gas
-		if (src.sl_gas_breathed > 50)
-			src.knockdown_until(3)
+	if(a_oxygen < oxygen_needed)
+		src.take_damage(suffocation = round((oxygen_needed - a_oxygen) / 5) + 1)
+		src.taking_suff_damage = 1
+	if(a_plasma > 5)
+		var/plasma_dam = round(a_plasma/10) + 1
+		if(src.mask && src.mask.a_filter >= 4)
+			plasma_dam = max(plasma_dam - 40, 0)
+		if(plasma_dam > 0)
+			src.take_damage(toxin = plasma_dam)
+			src.taking_tox_damage = 1
+	src.co2_breathed = min(0, src.co2_breathed - 5)
+	src.co2_breathed += G.co2
+	if(src.co2_breathed > 50)
+		src.co2_breathed -= 50
+		src.knockdown_until(3)
+		src.take_damage(suffocation = 2)
 
-		G.co2 += a_oxygen //breathe out!
+	src.no2_breathed = max(0, src.no2_breathed - 5)
+	src.no2_breathed += a_no2_gas
+	if (src.no2_breathed > 50)
+		src.knockdown_until(3)
 
-	return
+	G.co2 += a_oxygen //breathe out!
 
 /mob/carbon/proc/get_breathed_air(turf/T)
-	var/frac_air_taken = 1.4E-4 //fraction of air in tile taken
-	if (src.get_damage() + 25 > src.death_threshold)
-		frac_air_taken = 5.0E-5
-	else if (src.get_damage() + 50 > src.death_threshold)
-		frac_air_taken = 1.0E-4
-
-	var/turf_total = T.oxygen + T.poison + T.sl_gas + T.co2 + T.n2
-	var/obj/substance/gas/G = new /obj/substance/gas(  )
+	// aircheck uses oxygen * 70%, factor is 1/70%
+	var/oxy_required = oxygen_needed * 1.43	// = 95.81	-	require 15% oxygen at STP
+	var/max_breathed = max_air_breathed
+	if(src.get_damage()+25 > src.death_threshold)
+		max_breathed *= 0.55 // require 27% oxygen
+	else if(src.get_damage()+50 > src.death_threshold)
+		max_breathed *= 0.75 // require 20% oxygen
+	var/datum/substance/gas/G = new()
 	G.maximum = 10000
-	if (src.internal)
-		src.internal.process(src, G)
-		if (src.hud && src.hud.internal)
-			src.hud.internal.icon_state = "internal1"
 
-		if (src.mask.flags & HALFMASK && (!istype(src.helmet, /obj/item/weapon/clothing/head) || !( src.helmet.flags & HEADSPACE )))
-			//only get half of air from internals
-			G.turf_add(T, G.tot_gas() * 0.5)
-			G.turf_take(T, frac_air_taken / 2 * turf_total - G.tot_gas())
+	if(!T.gas.oxygen) // No air? Take a deep, deep breath
+		G.turf_take(T, max_breathed)
+		return G
+
+	var/turf_total = T.gas.total()
+	var/oxygen_rate = turf_total / T.gas.oxygen
+	if(src.hud && src.hud.internal)
+		src.hud.internal.icon_state = "internal1"
+
+	if(!src.internal)
+		G.turf_take(T, max(max_breathed,oxy_required*oxygen_rate))
 	else
-		if (src.hud && src.hud.internal)
-			src.hud.internal.icon_state = "internal0"
-		G.turf_take(T, frac_air_taken * turf_total)
+		src.internal.process(src, G)	//	transfer gasses from internals to G
+		if(src.mask.flags & HALFMASK)
+			if(!istype(src.helmet, /obj/item/weapon/clothing/head) || !(src.helmet.flags & HEADSPACE))
+				//half the air from internals is wasted
+				G.turf_add(T, G.total() * 0.5)
 
-	if (G.tot_gas() > max_air_breathed)
-		G.turf_add(T, G.tot_gas() - max_air_breathed)
+				//	pull the rest required from the room
+				if(G.oxygen < oxy_required)
+					if(max_breathed > G.total())
+						G.turf_take(T, max_breathed - G.total())
+
+	if(G.total() > max_breathed)
+		G.turf_add(T, G.total() - max_breathed)
 	return G
 
 /mob/carbon/proc/breathe()
-	if (src.internal && !src.contents.Find(src.internal))
+	if(src.internal && !src.contents.Find(src.internal))
 		src.internal = null
-	if (!src.mask || ! (src.mask.flags | MASKINTERNALS))
+	if(!src.mask || ! (src.mask.flags | MASKINTERNALS))
 		src.internal = null
 
 	if (src.losebreath > 0)
 		src.losebreath--
-		if (prob(5))
+		if(prob(5))
 			src.gasp()
 		src.take_damage(suffocation = 5)
 		return
 
 	var/T = src.loc
-	if (isobj(T))
+	if(isobj(T))
 		var/obj/O = T
 		T = O.alter_health(src) // returns O.loc for most things, just alters their health for sleeper etc
-	if (isturf(T))
-		if (locate(/obj/move, T))
+	if(isturf(T))
+		if(locate(/obj/move, T))
 			T = locate(/obj/move, T)
 
 		//breathe in
-		var/obj/substance/gas/G = src.get_breathed_air(T)
+		var/datum/substance/gas/G = src.get_breathed_air(T)
 		//process air
 		src.aircheck(G)
 		//breathe out
-		G.turf_add(T, G.tot_gas())
+		G.turf_add(T)
+

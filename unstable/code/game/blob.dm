@@ -23,8 +23,8 @@
 		if(U.density == 1)
 			del(src)
 
-	if(U.poison> 200000)
-		src.health -= round(U.poison/200000)
+	if(U.gas.plasma> 200000)
+		src.health -= round(U.gas.plasma/200000)
 		src.update()
 		return
 
@@ -32,7 +32,7 @@
 		src.health -= 8
 		src.update()
 
-	var/p = health * (U.n2/11376000 + U.oxygen/1008000 + U.co2/200)
+	var/p = health * (U.gas.nitrogen/11376000 + U.gas.oxygen/1008000 + U.gas.co2/200)
 
 	if(!istype(U, /turf/space))
 		p+=3

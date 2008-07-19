@@ -71,9 +71,9 @@
 		for(var/turf/T in src)		// count the number of turfs (for lighting calc)
 			numturfs++				// spawned with a delay so turfs can finish loading
 			if(no_air)
-				T.oxygen = 0		// remove air if so specified for this area
-				T.n2 = 0
-				T.res_vars()
+				T.gas.oxygen = 0		// remove air if so specified for this area
+				T.gas.nitrogen = 0
+				T.reset_phases()
 
 		if(linkarea)
 			linked = locate(text2path("/area/[linkarea]"))		// area linked to this for power calcs

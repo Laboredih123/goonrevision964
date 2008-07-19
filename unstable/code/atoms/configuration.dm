@@ -5,6 +5,7 @@
 	var/log_admin = 0					// log admin actions
 	var/log_game = 0					// log game events
 	var/log_vote = 0					// log voting
+	var/log_file = 0					// saves logfile to disk
 	var/allow_vote_restart = 0 			// allow votes to restart
 	var/allow_vote_mode = 0				// allow votes to change mode
 	var/vote_delay = 600				// minimum time between voting sessions (seconds, 10 minute default)

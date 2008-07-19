@@ -220,25 +220,10 @@
 
 		for(var/atom/movable/AM as mob|obj in T)
 			AM.loc = S
-			S.oxygen = T.oxygen
-			S.oldoxy = T.oldoxy
-			S.tmpoxy = T.tmpoxy
-			S.poison = T.poison
-			S.oldpoison = T.oldpoison
-			S.tmppoison = T.tmppoison
-			S.co2 = T.co2
-			S.oldco2 = T.oldco2
-			S.tmpco2 = T.tmpco2
-			S.sl_gas = T.sl_gas
-			S.osl_gas = T.osl_gas
-			S.tsl_gas = T.tsl_gas
-			S.n2 = T.n2
-			S.on2 = T.on2
-			S.tn2 = T.tn2
-			S.temp = T.temp
-			S.ttemp = T.ttemp
-			S.otemp = T.otemp
-			//Foreach goto(100)
+			S.gas.copy_gas(T.gas)
+			S.phase1.copy_all(T.phase1)
+			S.phase2.copy_all(T.phase2)
+
 			S.buildlinks()
 
 
@@ -318,31 +303,31 @@
 
 	var/turf/T = src.loc
 
-	var/turf_total = T.tot_gas()
+	var/turf_total = T.gas.total()
 
 	var/t1 = add_tspace("[round(turf_total / CELLSTANDARD * 100, 0.1)]%",6)
-	t += "<PRE>Pressure: [t1] Temperature: [round(T.temp - T0C,0.1)]&deg;C<BR>"
+	t += "<PRE>Pressure: [t1] Temperature: [round(T.gas.temp - T0C,0.1)]&deg;C<BR>"
 
 	if(turf_total == 0)
 		t+="O2: 0 N2: 0 CO2: 0><BR>Plasma: 0 N20: 0"
 	else
-		t1 = add_tspace(round(T.oxygen/turf_total * 100, 0.1),5)
+		t1 = add_tspace(round(T.gas.oxygen/turf_total * 100, 0.1),5)
 
 		t += "O2: [t1] "
 
-		t1 = add_tspace(round(T.n2/turf_total * 100, 0.1),5)
+		t1 = add_tspace(round(T.gas.nitrogen/turf_total * 100, 0.1),5)
 
 		t += "N2: [t1] "
 
-		t1 = add_tspace(round(T.co2/turf_total * 100, 0.01),5)
+		t1 = add_tspace(round(T.gas.co2/turf_total * 100, 0.01),5)
 
 		t += "CO2: [t1]<BR>"
 
-		t1 = add_tspace(round(T.poison/turf_total * 100, 0.001),5)
+		t1 = add_tspace(round(T.gas.plasma/turf_total * 100, 0.001),5)
 
 		t += "Plasma: [t1] "
 
-		t1 = add_tspace(round(T.sl_gas/turf_total * 100, 0.001),5)
+		t1 = add_tspace(round(T.gas.no2/turf_total * 100, 0.001),5)
 
 		t += "N2O: [t1]"
 

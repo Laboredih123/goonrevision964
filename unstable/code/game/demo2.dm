@@ -131,16 +131,16 @@
 	else
 		T = null
 	if (src.h_status)
-		var/t1 = src.gas.tot_gas()
-		if ((t1 > 0 && src.gas.temperature < (src.h_tar+T0C)))
+		var/t1 = src.gas.total()
+		if ((t1 > 0 && src.gas.temp < (src.h_tar+T0C)))
 			var/increase = src.heatrate / t1
-			var/n_temp = src.gas.temperature + increase
-			src.gas.temperature = min(n_temp, (src.h_tar+T0C))
+			var/n_temp = src.gas.temp + increase
+			src.gas.temp = min(n_temp, (src.h_tar+T0C))
 			use_power( src.h_tar*8)
 	switch(src.t_status)
 		if(1.0)
 			if (src.holding)
-				var/t1 = src.gas.tot_gas()
+				var/t1 = src.gas.total()
 				var/t2 = t1
 				var/t = src.t_per
 				if (src.t_per > t2)
@@ -150,7 +150,7 @@
 				src.t_status = 3
 		if(2.0)
 			if (src.holding)
-				var/t1 = src.gas.tot_gas()
+				var/t1 = src.gas.total()
 				var/t2 = src.maximum - t1
 				var/t = src.t_per
 				if (src.t_per > t2)
@@ -186,7 +186,7 @@
 /obj/machinery/atmoalter/heater/New()
 
 	..()
-	src.gas = new /obj/substance/gas( src )
+	src.gas = new /datum/substance/gas( src )
 	src.gas.maximum = src.maximum
 	return
 
@@ -219,7 +219,7 @@
 			ct = text("<A href='?src=\ref[];c=1'>Release</A> <A href='?src=\ref[];c=2'>Accept</A> Stopped", src, src)
 		else
 			ct = "Disconnected"
-	var/dat = text("<TT><B>Canister Valves</B><BR>\n<FONT color = 'blue'><B>Contains/Capacity</B> [] / []</FONT><BR>\nUpper Valve Status: [][]<BR>\n\t<A href='?src=\ref[];tp=-[]'>M</A> <A href='?src=\ref[];tp=-10000'>-</A> <A href='?src=\ref[];tp=-1000'>-</A> <A href='?src=\ref[];tp=-100'>-</A> <A href='?src=\ref[];tp=-1'>-</A> [] <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=100'>+</A> <A href='?src=\ref[];tp=1000'>+</A> <A href='?src=\ref[];tp=10000'>+</A> <A href='?src=\ref[];tp=[]'>M</A><BR>\nHeater Status: [] - []<BR>\n\tTrg Tmp: <A href='?src=\ref[];ht=-50'>-</A> <A href='?src=\ref[];ht=-5'>-</A> <A href='?src=\ref[];ht=-1'>-</A> [] <A href='?src=\ref[];ht=1'>+</A> <A href='?src=\ref[];ht=5'>+</A> <A href='?src=\ref[];ht=50'>+</A><BR>\n<BR>\nPipe Valve Status: []<BR>\n\t<A href='?src=\ref[];cp=-[]'>M</A> <A href='?src=\ref[];cp=-10000'>-</A> <A href='?src=\ref[];cp=-1000'>-</A> <A href='?src=\ref[];cp=-100'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=100'>+</A> <A href='?src=\ref[];cp=1000'>+</A> <A href='?src=\ref[];cp=10000'>+</A> <A href='?src=\ref[];cp=[]'>M</A><BR>\n<BR>\n<A href='?src=\ref[];mach_close=canister'>Close</A><BR>\n</TT>", src.gas.tot_gas(), src.maximum, tt, (src.holding ? text("<BR><A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.tot_gas()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ht, (src.gas.tot_gas() ? (src.gas.temperature-T0C) : 20), src, src, src, src.h_tar, src, src, src, ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
+	var/dat = text("<TT><B>Canister Valves</B><BR>\n<FONT color = 'blue'><B>Contains/Capacity</B> [] / []</FONT><BR>\nUpper Valve Status: [][]<BR>\n\t<A href='?src=\ref[];tp=-[]'>M</A> <A href='?src=\ref[];tp=-10000'>-</A> <A href='?src=\ref[];tp=-1000'>-</A> <A href='?src=\ref[];tp=-100'>-</A> <A href='?src=\ref[];tp=-1'>-</A> [] <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=100'>+</A> <A href='?src=\ref[];tp=1000'>+</A> <A href='?src=\ref[];tp=10000'>+</A> <A href='?src=\ref[];tp=[]'>M</A><BR>\nHeater Status: [] - []<BR>\n\tTrg Tmp: <A href='?src=\ref[];ht=-50'>-</A> <A href='?src=\ref[];ht=-5'>-</A> <A href='?src=\ref[];ht=-1'>-</A> [] <A href='?src=\ref[];ht=1'>+</A> <A href='?src=\ref[];ht=5'>+</A> <A href='?src=\ref[];ht=50'>+</A><BR>\n<BR>\nPipe Valve Status: []<BR>\n\t<A href='?src=\ref[];cp=-[]'>M</A> <A href='?src=\ref[];cp=-10000'>-</A> <A href='?src=\ref[];cp=-1000'>-</A> <A href='?src=\ref[];cp=-100'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=100'>+</A> <A href='?src=\ref[];cp=1000'>+</A> <A href='?src=\ref[];cp=10000'>+</A> <A href='?src=\ref[];cp=[]'>M</A><BR>\n<BR>\n<A href='?src=\ref[];mach_close=canister'>Close</A><BR>\n</TT>", src.gas.total(), src.maximum, tt, (src.holding ? text("<BR><A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.total()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ht, (src.gas.total() ? (src.gas.temp-T0C) : 20), src, src, src, src.h_tar, src, src, src, ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
 	user << browse(dat, "window=canister;size=600x300")
 	return
 
@@ -321,7 +321,7 @@
 
 /obj/machinery/atmoalter/canister/proc/update_icon()
 
-	var/air_in = src.gas.tot_gas()
+	var/air_in = src.gas.total()
 
 	src.overlays = 0
 
@@ -373,7 +373,7 @@
 	switch(src.t_status)
 		if(1.0)
 			if (src.holding)
-				var/t1 = src.gas.tot_gas()
+				var/t1 = src.gas.total()
 				var/t2 = t1
 				var/t = src.t_per
 				if (src.t_per > t2)
@@ -381,7 +381,7 @@
 				src.holding.gas.transfer_from(src.gas, t)
 			else
 				if (T)
-					var/t1 = src.gas.tot_gas()
+					var/t1 = src.gas.total()
 					var/t2 = t1
 					var/t = src.t_per
 					if (src.t_per > t2)
@@ -390,7 +390,7 @@
 			src.update_icon()
 		if(2.0)
 			if (src.holding)
-				var/t1 = src.gas.tot_gas()
+				var/t1 = src.gas.total()
 				var/t2 = src.maximum - t1
 				var/t = src.t_per
 				if (src.t_per > t2)
@@ -429,12 +429,11 @@
 /obj/machinery/atmoalter/canister/New()
 
 	..()
-	src.gas = new /obj/substance/gas( src )
+	src.gas = new /datum/substance/gas( src )
 	src.gas.maximum = src.maximum
 	return
 
-/obj/machinery/atmoalter/canister/get_gas()
-	return gas
+/obj/machinery/atmoalter/canister/get_gas()				{		return gas		}
 
 
 /obj/machinery/atmoalter/canister/burn(fi_amount)
@@ -482,9 +481,9 @@
 
 
 	var/dat = {"<TT><B>Canister Valves</B><BR>
-<FONT color = 'blue'><B>Contains/Capacity</B> [num2text(src.gas.tot_gas(), 20)] / [num2text(src.maximum, 20)]</FONT><BR>
+<FONT color = 'blue'><B>Contains/Capacity</B> [num2text(src.gas.total(), 20)] / [num2text(src.maximum, 20)]</FONT><BR>
 Upper Valve Status: [tt]<BR>
-\t[(src.holding ? "<A href='?src=\ref[src];tank=1'>Tank ([src.holding.gas.tot_gas()]</A>)" : null)]<BR>
+\t[(src.holding ? "<A href='?src=\ref[src];tank=1'>Tank ([src.holding.gas.total()]</A>)" : null)]<BR>
 \t<A href='?src=\ref[src];tp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];tp=-10000'>-</A> <A href='?src=\ref[src];tp=-1000'>-</A> <A href='?src=\ref[src];tp=-100'>-</A> <A href='?src=\ref[src];tp=-1'>-</A> [src.t_per] <A href='?src=\ref[src];tp=1'>+</A> <A href='?src=\ref[src];tp=100'>+</A> <A href='?src=\ref[src];tp=1000'>+</A> <A href='?src=\ref[src];tp=10000'>+</A> <A href='?src=\ref[src];tp=[num2text(1000000.0, 7)]'>M</A><BR>
 Pipe Valve Status: [ct]<BR>
 \t<A href='?src=\ref[src];cp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];cp=-10000'>-</A> <A href='?src=\ref[src];cp=-1000'>-</A> <A href='?src=\ref[src];cp=-100'>-</A> <A href='?src=\ref[src];cp=-1'>-</A> [src.c_per] <A href='?src=\ref[src];cp=1'>+</A> <A href='?src=\ref[src];cp=100'>+</A> <A href='?src=\ref[src];cp=1000'>+</A> <A href='?src=\ref[src];cp=10000'>+</A> <A href='?src=\ref[src];cp=[num2text(1000000.0, 7)]'>M</A><BR>
@@ -505,7 +504,7 @@ Pipe Valve Status: []<BR>
 \t<A href='?src=\ref[];cp=-[]'>M</A> <A href='?src=\ref[];cp=-10000'>-</A> <A href='?src=\ref[];cp=-1000'>-</A> <A href='?src=\ref[];cp=-100'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=100'>+</A> <A href='?src=\ref[];cp=1000'>+</A> <A href='?src=\ref[];cp=10000'>+</A> <A href='?src=\ref[];cp=[]'>M</A><BR>
 <BR>
 <A href='?src=\ref[];mach_close=canister'>Close</A><BR>
-</TT>"}, num2text(src.gas.tot_gas(), 20), num2text(src.maximum, 20), tt, (src.holding ? text("<A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.tot_gas()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
+</TT>"}, num2text(src.gas.total(), 20), num2text(src.maximum, 20), tt, (src.holding ? text("<A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.total()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
 
 */
 	user << browse(dat, "window=canister;size=600x300")
@@ -595,12 +594,12 @@ Pipe Valve Status: []<BR>
 	else if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
 		for (var/mob/O in viewers(user, null))
 			O.see("\red [user] has used an analyzer on [src].")
-		var/total = src.gas.tot_gas()
+		var/total = src.gas.total()
 		var/t1 = 0
 		var/dat = "\blue Results of analysis of [src]:\n"
 		if (total)
 			dat += "\blue Overall: [total] / [src.gas.maximum]\n"
-			t1 = round( src.gas.n2 / total * 100 , 0.0010)
+			t1 = round( src.gas.nitrogen / total * 100 , 0.0010)
 			dat += "\blue Nitrogen: [t1]%\n"
 			t1 = round( src.gas.oxygen / total * 100 , 0.0010)
 			dat += "\blue Oxygen: [t1]%\n"
@@ -608,9 +607,9 @@ Pipe Valve Status: []<BR>
 			dat += "\blue Plasma: [t1]%\n"
 			t1 = round( src.gas.co2 / total * 100 , 0.0010)
 			dat += "\blue CO2: [t1]%\n"
-			t1 = round( src.gas.sl_gas / total * 100 , 0.0010)
+			t1 = round( src.gas.no2 / total * 100 , 0.0010)
 			dat += "\blue N2O: [t1]%\n"
-			dat += "\blue Temperature: [src.gas.temperature-T0C]&deg;C"
+			dat += "\blue Temperature: [src.gas.temp-T0C]&deg;C"
 		else
 			dat += "\blue Canister is empty!"
 		user.think(dat)
@@ -637,7 +636,7 @@ Pipe Valve Status: []<BR>
 		if (!( istype(T, /turf) ))
 			return
 		else
-			T.firelevel = T.poison
+			T.firelevel = T.gas.plasma
 	else
 		src.health = 0
 		spawn( 0 )
@@ -661,13 +660,13 @@ Pipe Valve Status: []<BR>
 /obj/machinery/atmoalter/canister/anesthcanister/New()
 
 	..()
-	src.gas.sl_gas = src.maximum*filled
+	src.gas.no2 = src.maximum*filled
 	return
 
 /obj/machinery/atmoalter/canister/n2canister/New()
 
 	..()
-	src.gas.n2 = src.maximum*filled
+	src.gas.nitrogen = src.maximum*filled
 	return
 
 /obj/machinery/atmoalter/canister/co2canister/New()
@@ -681,7 +680,7 @@ Pipe Valve Status: []<BR>
 
 	..()
 	src.gas.oxygen = (src.maximum*0.25)*filled
-	src.gas.n2 = (src.maximum*0.75)*filled
+	src.gas.nitrogen = (src.maximum*0.75)*filled
 	return
 
 

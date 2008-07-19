@@ -97,14 +97,12 @@
 	return
 
 /turf/station/command/floor/updatecell()
-
-	src.oxygen = O2STANDARD
-	src.firelevel = 0
-	src.co2 = 0
-	src.poison = 0
-	src.sl_gas = 0
-	src.n2 = N2STANDARD
-	return
+	src.firelevel		= 0
+	src.gas.co2			= 0
+	src.gas.no2			= 0
+	src.gas.plasma		= 0
+	src.gas.oxygen		= O2STANDARD
+	src.gas.nitrogen	= N2STANDARD
 
 /turf/station/command/conduction()
 	return

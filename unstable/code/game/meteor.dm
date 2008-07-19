@@ -78,7 +78,7 @@
 /obj/meteor/Move()
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		T.firelevel = T.poison + 5
+		T.firelevel = T.gas.plasma + 5
 	..()
 	if(src.z != 1 || src.loc == src.dest)
 		del(src)
@@ -92,7 +92,7 @@
 		if (--src.hits <= 0)
 			if(prob(15) && !istype(A, /obj/grille))
 				var/obj/item/weapon/tank/plasmatank/pt = new /obj/item/weapon/tank/plasmatank( src )
-				pt.gas.temperature = 475+T0C
+				pt.gas.temp = 475+T0C
 				pt.ignite()
 				//this is pretty crazy, but it seems to be the easiest way to get an explosion
 			del(src)

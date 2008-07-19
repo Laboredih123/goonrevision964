@@ -272,15 +272,15 @@
 				if(plasma_bomb)
 					for(var/obj/item/weapon/assembly/r_i_ptank/O in L)
 						var/obj/item/weapon/tank/plasmatank/P = O.part3
-						if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773)) // 500 degrees Celsius
+						if ((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773)) // 500 degrees Celsius
 							traitorwin = 1
 					for(var/obj/item/weapon/assembly/t_i_ptank/O in L)
 						var/obj/item/weapon/tank/plasmatank/P = O.part3
-						if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773))
+						if ((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773))
 							traitorwin = 1
 					for(var/obj/item/weapon/assembly/m_i_ptank/O in L)
 						var/obj/item/weapon/tank/plasmatank/P = O.part3
-						if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773))
+						if ((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773))
 							traitorwin = 1
 				if(hand_tele)
 					for(var/obj/item/weapon/hand_tele/O in L)

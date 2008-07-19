@@ -462,7 +462,7 @@
 /obj/item/weapon/flashbang/proc/prime()
 	//TODO: handle flashbangs in closets properly
 	var/turf/T = get_turf(src)
-	T.firelevel = T.poison
+	T.firelevel = T.gas.plasma
 	for(var/mob/carbon/M in viewers(T))
 		if (locate(/obj/item/weapon/cloaking_device, M))
 			for(var/obj/item/weapon/cloaking_device/S in M)
@@ -583,8 +583,8 @@
 /obj/item/weapon/syndicate_uplink/proc/explode()
 
 	var/turf/T = get_turf(src.loc)
-	T.firelevel = T.poison
-	T.res_vars()
+	T.firelevel = T.gas.plasma
+	T.reset_phases()
 	var/sw = locate(max(T.x - 4, 1), max(T.y - 4, 1), T.z)
 	var/ne = locate(min(T.x + 4, world.maxx), min(T.y + 4, world.maxy), T.z)
 	for(var/turf/U in block(sw, ne))
@@ -2427,47 +2427,46 @@
 		return
 	if (locate(/obj/move, T))
 		T = locate(/obj/move, T)
-	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
-	turf_total = max(turf_total, 1)
-	user.see("\blue <B>Results:</B>")
+	var/turf_total = max(T.gas.total(), 1) / 100
+	usr.see("\blue <B>Results:</B>")
 	var/t = ""
-	var/t1 = turf_total / CELLSTANDARD * 100
-	if ((90 < t1 && t1 < 110))
-		user.see(text("\blue Air Pressure: []%", t1))
+	var/t1 = turf_total / CELLSTANDARD * 10000
+	if(90 > t1 || t1 > 110)
+		t += text("\blue Air Pressure: []%", t1)
 	else
-		user.see(text("\blue Air Pressure:\red []%", t1))
-	t1 = T.n2 / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if ((60 < t1 && t1 < 80))
+		t += text("\blue Air Pressure:\red []%", t1)
+
+	t1 = round(T.gas.nitrogen / turf_total,0.0010)
+	if(60 > t1 || t1 >  80)
 		t += text("<font color=blue>Nitrogen: []</font> ", t1)
 	else
 		t += text("<font color=red>Nitrogen: []</font> ", t1)
-	t1 = T.oxygen / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if ((20 < t1 && t1 < 24))
+
+	t1 = round(T.gas.oxygen / turf_total, 0.0010)
+	if(20 > t1 || t1 > 24)
 		t += text("<font color=blue>Oxygen: []</font> ", t1)
 	else
 		t += text("<font color=red>Oxygen: []</font> ", t1)
-	t1 = T.poison / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if (t1 < 0.5)
+
+	t1 = round(T.gas.plasma / turf_total, 0.0010)
+	if(t1 > 0.5)
 		t += text("<font color=blue>Plasma: []</font> ", t1)
 	else
 		t += text("<font color=red>Plasma: []</font> ", t1)
-	t1 = T.co2 / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if (t1 < 1)
+
+	t1 = round(T.gas.co2 / turf_total, 0.0010)
+	if(t1 > 1)
 		t += text("<font color=blue>CO2: []</font> ", t1)
 	else
 		t += text("<font color=red>CO2: []</font> ", t1)
-	t1 = T.sl_gas / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if (t1 < 5)
-		t += text("<font color=blue>N2O: []</font>", t1)
+
+	t1 = round(T.gas.no2 / turf_total, 0.0010)
+	if(t1 > 5)
+		t += text("<font color=blue>NO2: []</font>", t1)
 	else
-		t += text("<font color=red>N2O: []</font>", t1)
+		t += text("<font color=red>NO2: []</font>", t1)
 	user.see(t)
-	user.see(text("\blue \t Temperature: []&deg;C", (T.temp-T0C) ))
+	user.see(text("\blue \t Temperature: []&deg;C", (T.gas.temp-T0C) ))
 	src.add_fingerprint(user)
 	return
 
@@ -2926,8 +2925,8 @@
 
 	W.burnt = 1
 	W.intact = 0
-	W.oxygen = 0
-	W.n2 = 0
+	W.gas.oxygen = 0
+	W.gas.nitrogen = 0
 	W.buildlinks()
 	W.levelupdate()
 	W.icon_state = "Floor1"
@@ -3100,7 +3099,7 @@
 			if (!( istype(T, /turf) ))
 				return
 		if (T.firelevel < 900000.0)
-			T.firelevel = T.poison
+			T.firelevel = T.gas.plasma
 	return
 
 /obj/item/weapon/igniter/examine()
@@ -3708,7 +3707,7 @@
 		var/turf/location = user.loc
 		if (!( istype(location, /turf) ))
 			return
-		location.firelevel = location.poison + 1
+		location.firelevel = location.gas.plasma + 1
 	return
 
 /obj/item/weapon/weldingtool/attack_self(mob/user as mob)
@@ -3747,7 +3746,7 @@
 				location = M.loc
 
 		if(isturf(location)) //start a fire if possible
-			location.firelevel = max(location.firelevel, location.poison + 1)
+			location.firelevel = max(location.firelevel, location.gas.plasma + 1)
 
 		sleep(10)
 	processing = 0	//we're done
@@ -3970,14 +3969,14 @@
 		if(2.0)
 			if(prob(25))
 				var/turf/T = src.loc
-				T.poison += 1600000
-				T.oxygen += 1600000
+				T.gas.plasma += 1600000
+				T.gas.oxygen += 1600000
 			del(src)
 		if(3.0)
 			if(prob(5))
 				var/turf/T = src.loc
-				T.poison += 1600000
-				T.oxygen += 1600000
+				T.gas.plasma += 1600000
+				T.gas.oxygen += 1600000
 				//SN src = null
 				del(src)
 				return
@@ -3987,8 +3986,8 @@
 /obj/weldfueltank/blob_act()
 	if(prob(25))
 		var/turf/T = src.loc
-		T.poison += 1600000
-		T.oxygen += 1600000
+		T.gas.plasma += 1600000
+		T.gas.oxygen += 1600000
 		del(src)
 
 /obj/watertank/attackby(obj/item/weapon/extinguisher/W as obj, mob/user as mob)

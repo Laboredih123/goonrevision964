@@ -109,7 +109,7 @@
 				p2.master = R
 				p3.master = R
 				R.status = 1
-				p3.gas.temperature = 500 +T0C
+				p3.gas.temp = 500 +T0C
 				p2.status = 1
 				del(A)
 				continue

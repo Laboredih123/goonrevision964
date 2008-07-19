@@ -610,7 +610,6 @@ obj/machinery/door_control/interact(mob/user as mob)
 	return
 
 /obj/machinery/alarm/process()
-
 	if(stat & (NOPOWER|BROKEN))
 		icon_state = "alarm-p"
 		return
@@ -622,33 +621,28 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	var/safe = 2
 
-	if (!( istype(T, /turf) ))
+	if(!istype(T, /turf))
 		return
-	if (locate(/obj/move, T))
+	if(locate(/obj/move, T))
 		T = locate(/obj/move, T)
-	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
-	turf_total = max(turf_total, 1)
 
-	var/P    = turf_total / CELLSTANDARD // pressure in bar
+	var/turf_total = max(T.gas.total(), 1)
+	var/pressure = turf_total / CELLSTANDARD // pressure in bar
+	var/ppOxygen = T.gas.oxygen / turf_total
+	var/ppPlasma = T.gas.plasma / turf_total
+	var/ppCarbon = T.gas.co2 / turf_total
 
-	var/ppO2   = P * (T.oxygen / turf_total)
-	var/ppCO2  = P * (T.co2 / turf_total)
-	var/ppPlas = P * (T.poison / turf_total)
-
-	// world.log << "[A.name] : P = [P] | FO2 = [FO2] | ppO2 = [ppO2]"
-	if (P < 0.90 || P > 1.10) // pressure alarm
-		safe = (P < 0.75 || P > 1.25) ? 0 : 1
-	if (safe && (ppO2 < 0.19 || ppO2 > 0.23)) // O2 alarm
-		safe = (ppO2 < 0.17 || ppO2 > 0.25) ? 0 : 1
-	if (safe && (ppCO2 > 0.05)) // CO2 alarm
-		safe = (ppCO2 > 0.1) ? 0 : 1
-	if (safe && (ppPlas > 0.05)) // Plasma alarm
-		safe = (ppPlas > 0.1) ? 0 : 1
+	if(0.90 < pressure || pressure > 1.10)
+		safe = 0
+	else if(0.19 < ppOxygen || ppOxygen > 0.23)
+		safe = 0
+	else if(ppPlasma > 0.05)
+		safe = 0
+	else if(ppCarbon > 0.05)
+		safe = 0
 
 	A.atmosalert(safe, src)
-	src.icon_state = text("alarm:[]", !( safe == 2 ))
-
-	return
+	src.icon_state = text("alarm:[]", safe)
 
 /obj/machinery/alarm/attackby(W as obj, user as mob)
 	if (istype(W, /obj/item/weapon/wirecutters))
@@ -676,47 +670,47 @@ obj/machinery/door_control/interact(mob/user as mob)
 	if (!( istype(T, /turf) ))
 		return
 
-	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
-	turf_total = max(turf_total, 1)
+	var/turf_total = max(T.gas.total(), 1) / 100
 	usr.see("\blue <B>Results:</B>")
 	var/t = ""
-	var/t1 = turf_total / CELLSTANDARD * 100
-	if ((90 < t1 && t1 < 110))
-		usr.see(text("\blue Air Pressure: []%", t1))
+
+	var/t1 = turf_total / CELLSTANDARD * 10000
+	if(90 > t1 || t1 > 110)
+		t += text("\blue Air Pressure: []%", t1)
 	else
-		usr.see(text("\blue Air Pressure:\red []%", t1))
-	t1 = T.n2 / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if ((60 < t1 && t1 < 80))
-		t += text("<font color=blue>Nitrogen: []</font> ", t1)
+		t += text("\blue Air Pressure:\red []%", t1)
+
+	t1 = round(T.gas.nitrogen / turf_total,0.0010)
+	if(60 > t1 || t1 >  80)
+		t += text("\blue Nitrogen: []% ", t1)
 	else
-		t += text("<font color=red>Nitrogen: []</font> ", t1)
-	t1 = T.oxygen / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if ((20 < t1 && t1 < 24))
-		t += text("<font color=blue>Oxygen: []</font> ", t1)
+		t += text("\blue Nitrogen: \red[]% ", t1)
+	t1 = round(T.gas.oxygen / turf_total, 0.0010)
+	if(20 > t1 || t1 > 24)
+		t += text("\blue Oxygen: []% ", t1)
 	else
-		t += text("<font color=red>Oxygen: []</font> ", t1)
-	t1 = T.poison / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if (t1 < 0.5)
-		t += text("<font color=blue>Plasma: []</font> ", t1)
+		t += text("\red Oxygen: \red[]% ", t1)
+
+	t1 = round(T.gas.plasma / turf_total, 0.0010)
+	if(t1 > 0.5)
+		t += text("\blue Plasma: []% ", t1)
 	else
-		t += text("<font color=red>Plasma: []</font> ", t1)
-	t1 = T.co2 / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if (t1 < 1)
-		t += text("<font color=blue>CO2: []</font> ", t1)
+		t += text("\red Plasma: \red[]% ", t1)
+
+	t1 = round(T.gas.co2 / turf_total, 0.0010)
+	if(t1 > 1)
+		t += text("\blue CO2: []% ", t1)
 	else
-		t += text("<font color=red>CO2: []</font> ", t1)
-	t1 = T.sl_gas / turf_total * 100
-	t1 = round(t1, 0.0010)
-	if (t1 < 5)
-		t += text("<font color=blue>NO2: []</font>", t1)
+		t += text("\red CO2: \red[]% ", t1)
+
+	t1 = round(T.gas.no2 / turf_total, 0.0010)
+	if(t1 > 5)
+		t += text("\blue NO2: []%", t1)
 	else
-		t += text("<font color=red>NO2: []</font>", t1)
+		t += text("\red NO2: \red[]%", t1)
+
 	usr.see(t, 1)
-	usr.see(text("\blue \t Temperature: []&deg;C", T.temp - T0C))
+	usr.see(text("\blue \t Temperature: []&deg;C", T.gas.temp - T0C))
 	src.add_fingerprint(usr)
 	return
 
@@ -729,17 +723,18 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	var/safe = 1
 	var/turf/T = src.loc
-	if (!( istype(T, /turf) ))
+	if(!istype(T, /turf))
 		return
-	if (locate(/obj/move, T))
+	if(locate(/obj/move, T))
 		T = locate(/obj/move, T)
-	var/turf_total = T.co2 + T.oxygen + T.poison + T.sl_gas + T.n2
-	turf_total = max(turf_total, 1)
-	var/t1 = turf_total / CELLSTANDARD * 100
-	if (!( (90 < t1 && t1 < 110) ))
+
+	var/turf_total = max(T.gas.total(), 1)
+	var/air_pressure = turf_total / CELLSTANDARD * 100
+	var/oxygen_press = T.gas.oxygen / turf_total * 100
+
+	if(90 > air_pressure || air_pressure > 110)
 		safe = 0
-	t1 = T.oxygen / turf_total * 100
-	if (!( (20 < t1 && t1 < 30) ))
+	if(20 > oxygen_press || oxygen_press >  30)
 		safe = 0
 	src.icon_state = text("indicator[]", safe)
 	SS13_airtunnel.air_stat = safe

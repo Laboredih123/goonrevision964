@@ -133,410 +133,189 @@
 	..()
 	return
 
-
-
-
-/* --------------------------
-
-heat = amount * temperature(abs)
-
-heat is conserved between exchanges
-
----------------------------- */
-
-//fractional multipliers of heat
 #define TURF_ADD_FRAC 0.95		//cooling due to release of gas into tile
 #define TURF_TAKE_FRAC 1.06		//heating due to pressurization into pipework
 
-// Not used?
-/obj/substance/gas/leak(T as turf)
-
-	turf_add(T, src.co2 + src.oxygen + src.plasma + src.n2)
-	return
-
-/obj/substance/gas/proc/tot_gas()
-
-	return src.co2 + src.oxygen + src.plasma + src.sl_gas + src.n2
-	return
-
-/obj/substance/gas/proc/transfer_from(var/obj/substance/gas/target as obj, amount)
-
-	if ((!( istype(target, /obj/substance/gas) ) || !( amount )))
-		return
-	var/t1 = target.co2 + target.oxygen + target.plasma + target.sl_gas + target.n2
-	if (!( t1 ))
-		return
-	if (amount > t1)
-		amount = t1
-	var/t2 = src.co2 + src.oxygen + src.plasma + src.sl_gas + src.n2
-	if (amount < 0)
-		amount = t1
-	if ((src.maximum > 0 && (src.maximum - t2) < amount))
-		amount = src.maximum - t2
-	var/t_oxy = amount * target.oxygen / t1
-	var/t_pla = amount * target.plasma / t1
-	var/t_co2 = amount * target.co2 / t1
-	var/t_sl_gas = amount * target.sl_gas / t1
-	var/t_n2 = amount * target.n2 / t1
-	var/t3 = t1 + t2
-	var/t4 = t2 * src.temperature
-	var/t5 = t1 * target.temperature
-	if (t3 > 0)
-		src.temperature = (t4 + t5) / t3
-	src.co2 += t_co2
-	src.oxygen += t_oxy
-	src.plasma += t_pla
-	src.sl_gas += t_sl_gas
-	src.n2 += t_n2
-	target.oxygen -= t_oxy
-	target.co2 -= t_co2
-	target.plasma -= t_pla
-	target.sl_gas -= t_sl_gas
-	target.n2 -= t_n2
-	return
-
-/obj/substance/gas/proc/clear()
-
+/datum/substance/gas/proc/clear()
 	src.oxygen = 0
 	src.plasma = 0
+	src.no2 = 0
 	src.co2 = 0
-	src.sl_gas = 0
-	src.n2 = 0
-	return
+	src.nitrogen = 0
+/datum/substance/gas/proc/total()
+	return (src.co2 + src.oxygen + src.plasma + src.no2 + src.nitrogen)
+/datum/substance/gas/proc/add_gas(C,N,O,P,S)
+	src.co2 += C
+	src.nitrogen += N
+	src.oxygen += O
+	src.plasma += P
+	src.no2 += S
+/datum/substance/gas/proc/rem_gas(C,N,O,P,S)
+	src.co2 -= C
+	src.nitrogen -= N
+	src.oxygen -= O
+	src.plasma -= P
+	src.no2 -= S
+/datum/substance/gas/proc/set_gas(C,N,O,P,S)
+	src.co2 = C
+	src.nitrogen = N
+	src.oxygen = O
+	src.plasma = P
+	src.no2 = S
+/datum/substance/gas/proc/multiply_gas(F)
+	src.co2 *= F
+	src.nitrogen *= F
+	src.oxygen *= F
+	src.plasma *= F
+	src.no2 *= F
+/datum/substance/gas/proc/multiply_all(F)
+	multiply_gas(F)
+	temp *= F
 
-/obj/substance/gas/proc/has_gas()
+/datum/substance/gas/proc/gain_gas(var/datum/substance/gas/T)
+	return src.add_gas(T.co2,T.nitrogen,T.oxygen,T.plasma,T.no2)
+/datum/substance/gas/proc/lose_gas(var/datum/substance/gas/T)
+	return src.rem_gas(T.co2,T.nitrogen,T.oxygen,T.plasma,T.no2)
+/datum/substance/gas/proc/copy_gas(var/datum/substance/gas/T)
+	return src.set_gas(T.co2,T.nitrogen,T.oxygen,T.plasma,T.no2)
+/datum/substance/gas/proc/copy_cop(var/datum/substance/gas/T)
+	return src.set_gas(T.co2,0,T.oxygen,T.plasma,0)
 
-	return (src.co2 + src.oxygen + src.plasma + src.sl_gas + src.n2) > 0
-	return
+/datum/substance/gas/proc/gain_all(var/datum/substance/gas/T)
+	src.gain_gas(T)
+	src.temp += T.temp
+/datum/substance/gas/proc/copy_all(var/datum/substance/gas/T)
+	src.copy_gas(T)
+	src.temp  = T.temp
+/datum/substance/gas/proc/tostring()
+	return "O2 ([oxygen]), N2 ([nitrogen]), NO2 ([no2]), CO2 ([co2]), Plasma ([plasma]), Temp ([temp])"
 
-/obj/substance/gas/proc/turf_add(var/turf/target as turf, amount)
-
-	if (((!( istype(target, /turf) ) && !( istype(target, /obj/move) )) || !( amount )))
+/datum/substance/gas/proc/add_delta(var/datum/substance/gas/T)
+	var/source = src.total()
+	if(source <  0)
 		return
-	if (locate(/obj/move, target))
-		target = locate(/obj/move, target)
-	var/t2 = src.co2 + src.oxygen + src.plasma + src.sl_gas + src.n2
-	if (amount < 0)
-		amount = src.plasma + src.oxygen + src.co2 + src.sl_gas + src.n2
-	if (!( t2 ))
+
+	var/target = T.total()
+	if(target <= 0)
 		return
-	var/t_oxy = amount * src.oxygen / t2
-	var/t_pla = amount * src.plasma / t2
-	var/t_co2 = amount * src.co2 / t2
-	var/t_sl_gas = amount * src.sl_gas / t2
-	var/t_n2 = amount * src.n2 / t2
 
-	src.co2 -= t_co2
-	src.oxygen -= t_oxy
-	src.plasma -= t_pla
-	src.sl_gas -= t_sl_gas
-	src.n2 -= t_n2
+	src.temp = (source*src.temp + target*T.temp) / (source+target)
+	src.gain_gas(T)
 
-	var/ttotal = target.tot_gas()
+/datum/substance/gas/proc/sub_delta(var/datum/substance/gas/T)
+	src.lose_gas(T)
 
-	target.oxygen += t_oxy
-	target.co2 += t_co2
-	target.poison += t_pla
-	target.sl_gas += t_sl_gas
-	target.n2 += t_n2
+/datum/substance/gas/proc/transfer(var/datum/substance/gas/target, var/amount)
+	// transfers [amount] from [src] to [target]
+	if(!amount)
+		return world.log << "/datum/substance/gas/transfer : amount == 0"
+	if(!istype(target,/datum/substance/gas))
+		return world.log << "/datum/substance/gas/transfer : target is not gas"
 
-	target.temp = ( target.temp * ttotal + (amount * temperature)*TURF_ADD_FRAC ) /  (ttotal + amount)
-	//target.heat += amount * src.temperature
-	target.res_vars()
+	var/sTotal = src.total()
+	if(sTotal<=0)
+		return world.log << "/datum/substance/gas/transfer : sTotal <= 0 ([sTotal])"
+	var/nTotal = target.total()
 
-	return
+	//	transfer, at most, all the gas in target
+	if(amount < 0 || amount > sTotal)
+		amount = sTotal
 
-/obj/substance/gas/proc/turf_add_all_oxy(var/turf/target as turf)
+	//	don't overfill the container
+	if(target.maximum > 0)
+		if(target.maximum < (amount + nTotal))
+			amount = min(0,src.maximum - nTotal)
+			if(!amount)
+				return world.log << "/datum/substance/gas/transfer : late amount == 0"
 
-	var/t_gas = tot_gas()
-	var/t_turf = target.tot_gas()
+	//	all gasses are transferred at the same rate
+	var/datum/substance/gas/tmp = new/datum/substance/gas()
+	tmp.gain_all(src)
+	tmp.multiply_gas(amount/sTotal)
 
-	if(t_gas>0)
-
-		var/heat_change = oxygen * temperature
-
-		//target.heat += heat_change
-		if( (t_turf + oxygen) >0 )
-			target.temp = ( target.temp * t_turf + heat_change ) / ( t_turf + oxygen )
-
-		target.oxygen += oxygen
-
-
-		var/nonoxy = tot_gas() - oxygen
-
-		if(nonoxy>0)
-
-			temperature = ( temperature * tot_gas() - heat_change )/(nonoxy)
+	//	energy is preserved during the transfer
+	if(target.temp != src.temp)
+		if(!nTotal)	//	need to do this due to bugginess with this var
+			target.temp = src.temp
 		else
-			temperature = T20C
+			target.temp = (nTotal*target.temp + amount*src.temp)/(amount + nTotal)
+	target.gain_gas(tmp)
+	src.lose_gas(tmp)
 
-		oxygen = 0
-		target.res_vars()
+/datum/substance/gas/proc/transfer_from(var/datum/substance/gas/target as obj, amount)
+	//	transfers [amount] from [target] to [src]
+	return target.transfer(src,amount)
 
-	return
+/datum/substance/gas/proc/merge_into(var/datum/substance/gas/target as obj)
+	return target.transfer(src,target.total())
 
-/obj/substance/gas/proc/turf_take(var/turf/target as turf, amount)
-
-	if (((!( istype(target, /turf) ) && !( istype(target, /obj/move) )) || !( amount )))
+/datum/substance/gas/proc/turf_add(var/turf/target as turf, amount = -1)
+	if(!amount)
 		return
-	if (locate(/obj/move, target))
+	if(!istype(target, /turf) && !istype(target, /obj/move))
+		return
+	if(locate(/obj/move, target))
 		target = locate(/obj/move, target)
+	src.transfer(target.gas,amount) // might need TURF_ADD_FRAC
+	target.reset_phases()
 
-	var/t1 = target.co2 + target.oxygen + target.poison + target.sl_gas + target.n2
-	if (!( t1 ))
+/datum/substance/gas/proc/turf_take(var/turf/target as turf, amount)
+	if(!amount)
 		return
-	var/t2 = src.co2 + src.oxygen + src.plasma + src.sl_gas + src.n2
-
-	if (amount > 0)
-		if ((src.maximum > 0 && (src.maximum - t2) < amount))
-			amount = src.maximum - t2
-	else
-		amount = src.plasma + src.oxygen + src.co2 + src.sl_gas + src.n2
-
-	if (amount > t1)
-		amount = t1
-
-	var/turf_total = target.poison + target.oxygen + target.co2 + target.sl_gas + target.n2
-
-//	var/heat_gain = (turf_total ? amount / turf_total * target.heat : 0)
-//	var/temp_gain = (turf_total ? target.heat / turf_total : 0)
-
-	var/heat_gain = (turf_total ? amount * target.temp : 0)
-
-
-	var/t_oxy = amount * target.oxygen / t1
-	var/t_pla = amount * target.poison / t1
-	var/t_co2 = amount * target.co2 / t1
-	var/t_sl_gas = amount * target.sl_gas / t1
-	var/t_n2 = amount * target.n2 / t1
-
-
-	/*
-
-	var/t3 = t1 + t2
-	var/t4 = t2 * src.temperature
-	var/t5 = t1 * temp_gain
-	if (t3 > 0)
-		src.temperature = (t4 + t5) / t3
-	else
-		src.temperature = 0
-	*/
-	if(t2+amount>0)
-		temperature = (temperature*t2 + heat_gain * TURF_TAKE_FRAC)/(t2+amount)
-
-
-	src.co2 += t_co2
-	src.oxygen += t_oxy
-	src.plasma += t_pla
-	src.sl_gas += t_sl_gas
-	src.n2 += t_n2
-
-	target.oxygen -= t_oxy
-	target.co2 -= t_co2
-	target.poison -= t_pla
-	target.sl_gas -= t_sl_gas
-	target.n2 -= t_n2
-	//target.heat -= heat_gain			// no temp change; we just take a proportional amount of all gases
-	target.res_vars()
-	return
-
-/* original version
-/obj/substance/gas/proc/extract_toxs(var/turf/target as turf)
-
-	if ((!( istype(target, /turf) ) && !( istype(target, /obj/move) )))
+	if(!istype(target, /turf) && !istype(target, /obj/move))
 		return
-	if (locate(/obj/move, target))
+	if(locate(/obj/move, target))
 		target = locate(/obj/move, target)
-	var/co2_diff = target.co2 - 0
-	var/oxy_diff = target.oxygen - O2STANDARD
-	var/no2_diff = target.sl_gas - 0
-	var/n2_diff = target.n2 - N2STANDARD
-	var/plas_diff = target.poison - 0
-	if (co2_diff < 0)
-		co2_diff = 0
-	if (oxy_diff < 0)
-		oxy_diff = 0
-	if (no2_diff < 0)
-		no2_diff = 0
-	if (n2_diff < 0)
-		n2_diff = 0
-	if (plas_diff < 0)
-		plas_diff = 0
-	var/turf_total = target.poison + target.oxygen + target.co2 + target.sl_gas + target.n2
-	var/air_total = co2_diff + oxy_diff + no2_diff + n2_diff + plas_diff
-	var/heat_gain = (turf_total ? air_total / turf_total * target.heat : null)
-	var/temp_gain = (turf_total ? target.heat / turf_total + TD0 : 0)
-	src.co2 += co2_diff
-	src.oxygen += oxy_diff
-	src.sl_gas += no2_diff
-	src.n2 += n2_diff
-	src.plasma += plas_diff
-	target.co2 -= co2_diff
-	target.oxygen -= oxy_diff
-	target.sl_gas -= no2_diff
-	target.n2 -= n2_diff
-	target.poison -= plas_diff
-	var/t3 = turf_total + air_total
-	var/t4 = turf_total * src.temperature
-	var/t5 = air_total * temp_gain
-	if (t3 > 0)
-		src.temperature = (t4 + t5) / t3
-	else
-		src.temperature = 0
-	target.heat -= heat_gain
-	target.res_vars()
-	return
-*/
+	target.gas.transfer(src,amount)	// might need TURF_ADD_FRAC
+	target.reset_phases()
 
+/datum/substance/gas/proc/turf_add_all_oxy(var/turf/target as turf)
+	var/t_gas = src.total()
+	var/t_turf = target.gas.total()
 
-
-// modified version
-/obj/substance/gas/proc/extract_toxs(var/turf/target as turf)
-	if ((!( istype(target, /turf) ) && !( istype(target, /obj/move) )))
+	if(t_gas <= 0)
 		return
-	if (locate(/obj/move, target))
-		target = locate(/obj/move, target)
-	var/co2_diff = max(0, target.co2 - 0)
-	var/oxy_diff = max(0,target.oxygen - O2STANDARD)
-	var/no2_diff = max(0, target.sl_gas - 0)
-	var/n2_diff = max(0,target.n2 - N2STANDARD)
-	var/plas_diff = max(0,target.poison - 0)
-
-	var/turf_total = target.poison + target.oxygen + target.co2 + target.sl_gas + target.n2
-	var/air_total = co2_diff + oxy_diff + no2_diff + n2_diff + plas_diff
-
-
-	var/heat_gain = (turf_total ? air_total  * target.temp : null)
-	//var/temp_gain = (turf_total ? target.heat / turf_total + TD0 : 0)
-
-	src.co2 += co2_diff
-	src.oxygen += oxy_diff
-	src.sl_gas += no2_diff
-	src.n2 += n2_diff
-	src.plasma += plas_diff
-
-	target.co2 -= co2_diff
-	target.oxygen -= oxy_diff
-	target.sl_gas -= no2_diff
-	target.n2 -= n2_diff
-	target.poison -= plas_diff
-
-
-	var/gasheat1 = temperature * tot_gas()
-	var/gastot2 = tot_gas() + air_total
-
-	if(gastot2 > 0)
-		temperature = (gasheat1 + heat_gain)/( gastot2 )
-	else
-		temperature = T20C
-
-	var/turftot2 = turf_total - air_total
-	if(turftot2>0)
-		target.temp = ( target.temp*turf_total - heat_gain)/(turftot2)
-
-	//target.heat -= heat_gain
-
-	//make stored temperature closer to nominal (20C)
-	src.temperature += (T20C - src.temperature) / REGULATE_RATE
-
-
-	target.res_vars()
-	return
-
-//
-
-
-/obj/substance/gas/proc/merge_into(var/obj/substance/gas/target as obj)
-
-	if (!( istype(target, /obj/substance/gas) ))
+	if(src.oxygen <= 0)
 		return
-	var/s_tot = src.tot_gas()
-	var/t_tot = target.tot_gas()
-	var/amount = s_tot + t_tot
-	if (amount > 0 && t_tot > 0)
-		src.temperature = (s_tot*src.temperature + t_tot*target.temperature) / amount
 
-	src.co2 += target.co2
-	src.oxygen += target.oxygen
-	src.plasma += target.plasma
-	src.sl_gas += target.sl_gas
-	src.n2 += target.n2
-	target.oxygen = 0
-	target.plasma = 0
-	target.co2 = 0
-	target.sl_gas = 0
-	target.n2 = 0
-	return
-
-
-// sets src to a given fraction of the gas (without affecting the gas)
-/obj/substance/gas/proc/set_frac(var/obj/substance/gas/gas, amount)
-
-	var/tot = gas.tot_gas()
-
-	if(tot>0)		// if gas is 0, do nothing
-
-		var/frac = amount / tot
-
-		src.oxygen = frac * gas.oxygen
-		src.co2 = frac * gas.co2
-		src.plasma = frac * gas.plasma
-		src.sl_gas = frac *	gas.sl_gas
-		src.n2 = frac * gas.n2
-
-		src.temperature = gas.temperature
-
-
-// same as merge_into except the target is not zeroed
-// calc temperature from added gas
-// delta should always be positive
-/obj/substance/gas/proc/add_delta(var/obj/substance/gas/target)
-
-
-	var/s_tot = src.tot_gas()
-	var/t_tot = target.tot_gas()
-
-	if(t_tot < 0)
-		world.log << "Called add_delta with negative delta: [src.loc] : [src.tostring()] + [target.tostring()]"
-
-	var/amount = s_tot + t_tot
-	if (amount>0)		// only set temp if adding gas, not subtracting
-		src.temperature = (s_tot*src.temperature + t_tot*target.temperature) / amount
-
-	src.co2 += target.co2
-	src.oxygen += target.oxygen
-	src.plasma += target.plasma
-	src.sl_gas += target.sl_gas
-	src.n2 += target.n2
-
-
-// subtract a (+ve) delta. Do not affect temperature since just a proportional change
-/obj/substance/gas/proc/sub_delta(var/obj/substance/gas/target)
-
-	src.co2 -= target.co2
-	src.oxygen -= target.oxygen
-	src.plasma -= target.plasma
-	src.sl_gas -= target.sl_gas
-	src.n2 -= target.n2
-
-
-
+	target.gas.temp = (target.gas.temp * t_turf + src.oxygen*src.temp) / (t_turf + src.oxygen)
+	target.gas.oxygen += src.oxygen
+	target.reset_phases()
+	src.oxygen = 0
 
 // replaces gas values of src with n - updates during gas_flow step
-/obj/substance/gas/proc/replace_by(var/obj/substance/gas/n)
-	oxygen = n.oxygen
-	plasma = n.plasma
-	sl_gas = n.sl_gas
-	co2 = n.co2
-	n2 = n.n2
-	temperature = n.temperature
-
-	//do nothing to values of n
+/datum/substance/gas/proc/replace_by(var/datum/substance/gas/n)
+	src.copy_all(n)
 
 // relative "specific heat capacity" of gas contents
-/obj/substance/gas/proc/shc()
-	return 2*co2 + 1.5*n2 + oxygen + 0.5*sl_gas + 1.2*plasma
+/datum/substance/gas/proc/shc()
+	return 2*co2 + 1.5*nitrogen + oxygen + 0.5*no2 + 1.2*plasma
 
+/datum/substance/gas/proc/extract_toxs(var/turf/target as turf)
+	if(!istype(target,/turf) && !istype(target,/obj/move))
+		return
+	if(locate(/obj/move, target))
+		target = locate(/obj/move, target)
+
+	var/datum/substance/gas/air = new();
+	air.co2	= max(0, target.gas.co2)
+	air.oxygen = max(0, target.gas.oxygen - O2STANDARD)
+	air.no2	= max(0, target.gas.no2)
+	air.nitrogen = max(0, target.gas.nitrogen - N2STANDARD)
+	air.plasma = max(0, target.gas.plasma)
+
+	var/air_total = air.total()
+	var/src_total = src.total()
+
+	if(!air_total)
+		return	//	no air to clean
+	src.temp = (src_total*src.temp + air_total*target.gas.temp)/(src_total+air_total)
+	target.gas.lose_gas(air)
+	target.reset_phases()
+	src.gain_gas(air)
+
+	//make stored temp closer to nominal (20C)
+	src.temp += (T20C - src.temp) / REGULATE_RATE
 
 /datum/chemical/pathogen/proc/process(source as obj)
 

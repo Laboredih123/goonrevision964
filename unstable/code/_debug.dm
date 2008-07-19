@@ -120,12 +120,11 @@
 		else
 			O.overlays = null
 
-
-		var/temp = round(T.temp-T0C, 0.1)
+		var/temp = round(T.gas.temp-T0C, 0.1)
 
 		O.overlays += numbericon("[temp]C")
 
-		var/pres = round(T.tot_gas() / CELLSTANDARD * 100, 0.1)
+		var/pres = round(T.gas.total() / CELLSTANDARD * 100, 0.1)
 
 		O.overlays += numbericon("[pres]", -8)
 		O.mark = "[temp]/[pres]"
@@ -157,12 +156,12 @@
 					M = P.pl
 
 
-				var/obj/substance/gas/G = M.get_gas()
+				var/datum/substance/gas/G = M.gas()
 
 				if(G)
 
-					var/cap = round( 100*(G.tot_gas()/ M.capmult / 6e6), 0.1)
-					var/temp = round(G.temperature - T0C, 0.1)
+					var/cap = round( 100*(G.total()/ M.capmult / 6e6), 0.1)
+					var/temp = round(G.temp - T0C, 0.1)
 					O.overlays += numbericon("[temp]C", 0)
 					O.overlays += numbericon("[cap]", -8)
 
@@ -392,22 +391,22 @@
 
 	var/atot = 0
 	for(var/turf/T in A)
-		atot += T.tot_gas()
+		atot += T.total()
 
 	var/ptot = 0
 	for(var/obj/machinery/pipeline/PL in plines)
 		if(PL.suffix == "d")
-			ptot += PL.ngas.tot_gas()
+			ptot += PL.ngas.total()
 
 	var/vtot = 0
 	for(var/obj/machinery/atmoalter/V in machines)
 		if(V.suffix == "d")
-			vtot += V.gas.tot_gas()
+			vtot += V.gas.total()
 
 	var/ctot = 0
 	for(var/obj/machinery/connector/C in machines)
 		if(C.suffix == "d")
-			ctot += C.ngas.tot_gas()
+			ctot += C.ngas.total()
 
 
 	var/tot = atot + ptot + vtot + ctot

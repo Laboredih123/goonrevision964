@@ -891,9 +891,7 @@
 	return
 
 /turf/space/updatecell()
-
 	return
-
 /turf/space/conduction()
 	return
 

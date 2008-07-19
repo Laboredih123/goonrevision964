@@ -767,8 +767,8 @@
 /obj/machinery/power/generator/process()
 
 /*	if(circ && circ.gas1)
-		var/gen = circ.gas2.tot_gas()*max(0, circ.gas2.temperature - 298)/300
-		circ.ngas2.temperature = max(298, circ.ngas2.temperature - 50)
+		var/gen = circ.gas2.total()*max(0, circ.gas2.temp - 298)/300
+		circ.ngas2.temp = max(298, circ.ngas2.temp - 50)
 
 		add_avail(gen)
 */
@@ -779,8 +779,8 @@
 		var/gc = circ1.gas2.shc()
 		var/gh = circ2.gas2.shc()
 
-		var/tc = circ1.gas2.temperature
-		var/th = circ2.gas2.temperature
+		var/tc = circ1.gas2.temp
+		var/th = circ2.gas2.temp
 		var/deltat = th-tc
 
 		var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
@@ -803,8 +803,8 @@
 			lastgen = q * GENRATE
 			add_avail(lastgen)
 
-			circ1.ngas2.temperature = tcp
-			circ2.ngas2.temperature = thp
+			circ1.ngas2.temp = tcp
+			circ2.ngas2.temp = thp
 
 		else
 			lastgen = 0
@@ -846,13 +846,13 @@
 	t += "Output : [round(lastgen)] W<BR><BR>"
 
 	t += "<B>Cold loop</B><BR>"
-	t += "Temperature Inlet: [round(circ1.ngas1.temperature, 0.1)] K  Outlet: [round(circ1.ngas2.temperature, 0.1)] K<BR>"
+	t += "Temperature Inlet: [round(circ1.ngas1.temp, 0.1)] K  Outlet: [round(circ1.ngas2.temp, 0.1)] K<BR>"
 
 	t += "Circulator: [c1on ? "<B>On</B> <A href = '?src=\ref[src];c1p=1'>Off</A>" : "<A href = '?src=\ref[src];c1p=1'>On</A> <B>Off</B> "]<BR>"
 	t += "Rate: <A href = '?src=\ref[src];c1r=-3'>M</A> <A href = '?src=\ref[src];c1r=-2'>-</A> <A href = '?src=\ref[src];c1r=-1'>-</A> [add_lspace(c1rate,3)]% <A href = '?src=\ref[src];c1r=1'>+</A> <A href = '?src=\ref[src];c1r=2'>+</A> <A href = '?src=\ref[src];c1r=3'>M</A><BR>"
 
 	t += "<B>Hot loop</B><BR>"
-	t += "Temperature Inlet: [round(circ2.ngas1.temperature, 0.1)] K  Outlet: [round(circ2.ngas2.temperature, 0.1)] K<BR>"
+	t += "Temperature Inlet: [round(circ2.ngas1.temp, 0.1)] K  Outlet: [round(circ2.ngas2.temp, 0.1)] K<BR>"
 
 	t += "Circulator: [c2on ? "<B>On</B> <A href = '?src=\ref[src];c2p=1'>Off</A>" : "<A href = '?src=\ref[src];c2p=1'>On</A> <B>Off</B> "]<BR>"
 	t += "Rate: <A href = '?src=\ref[src];c2r=-3'>M</A> <A href = '?src=\ref[src];c2r=-2'>-</A> <A href = '?src=\ref[src];c2r=-1'>-</A> [add_lspace(c2rate,3)]% <A href = '?src=\ref[src];c2r=1'>+</A> <A href = '?src=\ref[src];c2r=2'>+</A> <A href = '?src=\ref[src];c2r=3'>M</A><BR>"
@@ -2396,7 +2396,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 /obj/machinery/compressor/New()
 	..()
 
-	gas = new/obj/substance/gas(src)
+	gas = new/datum/substance/gas(src)
 	gas.maximum = capacity
 	inturf = get_step(src, WEST)
 
@@ -2472,18 +2472,18 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	add_avail(lastgen)
 
-	//if(compressor.gas.temperature > (T20C+50))
-	var/newrpm = ((compressor.gas.temperature-T20C-50) * compressor.gas.tot_gas() / TURBPRES)*30000
+	//if(compressor.gas.temp > (T20C+50))
+	var/newrpm = ((compressor.gas.temp-T20C-50) * compressor.gas.total() / TURBPRES)*30000
 	newrpm = max(0, newrpm)
 
 	if(!compressor.starter || newrpm > 1000)
 		compressor.rpmtarget = newrpm
 	//endif was here
 
-	if(compressor.gas.tot_gas()>0)
-		var/oamount = min(compressor.gas.tot_gas(), (compressor.rpm+100)/35000*compressor.capacity)
+	if(compressor.gas.total()>0)
+		var/oamount = min(compressor.gas.total(), (compressor.rpm+100)/35000*compressor.capacity)
 		compressor.gas.turf_add(outturf, oamount)
-		outturf.firelevel = outturf.poison
+		outturf.firelevel = outturf.gas.plasma
 
 	if(lastgen > 100)
 		overlays += image('pipes.dmi', "turb-o", FLY_LAYER)
