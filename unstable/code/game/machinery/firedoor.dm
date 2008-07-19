@@ -31,9 +31,8 @@
 				src.blocked = 0
 				src.icon_state = "door1"
 			return
-	else
-		if (!( istype(C, /obj/item/weapon/crowbar) ))
-			return
+	if (!( istype(C, /obj/item/weapon/crowbar) ))
+		return
 	if (!src.blocked && !src.operating)
 		if(src.density)
 			spawn( 0 )
@@ -66,7 +65,7 @@
 	return
 
 /obj/machinery/door/firedoor/close()
-	if(src.blocked)
+	if(src.blocked || src.stat & NOPOWER)
 		return
 	var/turf/T = src.loc
 	if (istype(T, /turf))
@@ -74,7 +73,7 @@
 	return ..()
 
 /obj/machinery/door/firedoor/open()
-	if(src.blocked)
+	if(src.blocked || src.stat & NOPOWER)
 		return
 	return ..()
 

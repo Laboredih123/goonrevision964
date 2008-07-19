@@ -134,7 +134,7 @@
 
 /obj/machinery/door/proc/open()
 
-	if (src.operating || stat & (NOPOWER|EMAGGED))
+	if (src.operating || stat & EMAGGED)
 		return
 	src.operating = 1
 	flick(text("[]doorc0", (src.p_open ? "o_" : null)), src)
@@ -151,7 +151,7 @@
 
 /obj/machinery/door/proc/close()
 
-	if (src.operating || stat & (NOPOWER|EMAGGED))
+	if (src.operating || stat & EMAGGED)
 		return
 	src.operating = 1
 	flick(text("[]doorc1", (src.p_open ? "o_" : null)), src)
