@@ -679,8 +679,8 @@ Pipe Valve Status: []<BR>
 /obj/machinery/atmoalter/canister/aircanister/New()
 
 	..()
-	src.gas.oxygen = (src.maximum*0.25)*filled
-	src.gas.nitrogen = (src.maximum*0.75)*filled
+	src.gas.oxygen = (src.maximum*0.21)*filled
+	src.gas.nitrogen = (src.maximum*0.79)*filled
 	return
 
 

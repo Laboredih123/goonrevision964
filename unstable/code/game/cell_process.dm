@@ -1,8 +1,10 @@
 /obj/move/CheckPass(O as mob|obj)
 	return !src.density
+
 /obj/move/proc/reset_phases()
 	phase1.copy_all(gas)
 	phase2.copy_all(gas)
+
 /obj/move/proc/unburn()
 	icon_state = initial(icon_state)
 	luminosity = 0
@@ -74,11 +76,14 @@
 
 /turf/proc/tot_gas()
 	return src.gas.total()
+
 /turf/proc/report()
 	return "[src.type] [x] [y] [z]"
+
 /turf/proc/reset_phases()
 	phase1.copy_all(gas)
 	phase2.copy_all(gas)
+
 /turf/proc/unburn()
 	icon_state = initial(icon_state)
 	luminosity = 0
@@ -273,39 +278,41 @@
 
 	loc.gas.multiply_all(1/divisor)
 
+	if(loc.gas.plasma > 100000.0)
+		loc.overlays = list(plmaster)
+	else if(loc.gas.no2 > 101000.0)
+		loc.overlays = list(slmaster)
+	else
+		loc.overlays = null
+
+	if(burn)
+		loc.firelevel = loc.gas.oxygen + loc.gas.plasma
+
 	if(!loc.checkfire)
 		var/PlasmaConverter = min(loc.gas.co2,loc.gas.plasma)
 		loc.gas.co2		-= PlasmaConverter
 		loc.gas.oxygen	+= PlasmaConverter
 		loc.gas.plasma	-= PlasmaConverter
 	else
-		if(loc.gas.plasma > 100000.0)
-			loc.overlays = list(plmaster)
-		else if(loc.gas.no2 > 101000.0)
-			loc.overlays = list(slmaster)
-		else
-			loc.overlays = null
-		if(burn)
-			loc.firelevel = loc.gas.oxygen + loc.gas.plasma
+		var/BurnedOxygen = min(loc.gas.oxygen,5000)
+		loc.gas.co2		+= BurnedOxygen
+		loc.gas.oxygen	-= BurnedOxygen
 
-		if(loc.firelevel < 900000)
+	if(loc.firelevel < 900000)
+		loc.firelevel = 0
+		if(loc.icon_state == "burning")
+			loc.unburn()
+	else
+		loc.luminosity = 2
+		loc.icon_state = "burning"
+
+		// heating from fire
+		loc.gas.temp += (loc.firelevel/FIREQUOT+FIREOFFSET - loc.gas.temp) / FIRERATE
+
+		if(locate(/obj/effects/water, loc))
 			loc.firelevel = 0
-			if(loc.icon_state == "burning")
-				loc.unburn()
-		else
-			loc.luminosity = 2
-			loc.icon_state = "burning"
-			var/burned = min(loc.gas.oxygen,5000)
-			loc.gas.co2		+= burned
-			loc.gas.oxygen	-= burned
-
-			// heating from fire
-			loc.gas.temp += (loc.firelevel/FIREQUOT+FIREOFFSET - loc.gas.temp) / FIRERATE
-
-			if(locate(/obj/effects/water, loc))
-				loc.firelevel = 0
-			for(var/atom/movable/A in loc)
-				A.burn(loc.firelevel)
+		for(var/atom/movable/A in loc)
+			A.burn(loc.firelevel)
 
 	SPhase.copy_all(loc.gas)
 

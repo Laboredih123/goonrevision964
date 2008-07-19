@@ -32,8 +32,3 @@
 	if(config.log_file)
 		text2file(text,config.log_file)
 
-/*#define assert(bool,text,ret)				\
-	if(bool)								\
-		world.logfile("ASSERT: [text]")		\
-		world.log << "ASSERT: [text]"		\
-		return ret*/

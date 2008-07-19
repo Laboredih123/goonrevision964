@@ -681,23 +681,11 @@
 
 /obj/item/weapon/tank/plasmatank/proc/release()
 	var/turf/T = get_turf(src.loc)
-	T.gas.plasma += src.gas.plasma * src.gas.temp / 25.0
-	T.gas.oxygen += src.gas.oxygen * src.gas.temp / 25.0
-	T.gas.nitrogen += src.gas.nitrogen * src.gas.temp / 25.0
-	T.gas.no2 += src.gas.no2 * src.gas.temp / 25.0
+	src.gas.multiply_gas(src.gas.temp/25.0)
+	T.firelevel = src.gas.temp * 3600.0
+	T.gas.copy_gas(src.gas)
 	T.reset_phases()
-
-	src.gas.plasma = 0
-	src.gas.oxygen = 0
-	src.gas.nitrogen = 0
-	src.gas.no2 = 0
-
-	var/temp = src.gas.temp
-	spawn(10)
-		T.firelevel = temp * 3600.0
-		T.reset_phases()
-
-
+	src.gas.clear()
 
 /obj/item/weapon/tank/plasmatank/proc/ignite()
 
@@ -2497,7 +2485,6 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				F.gas.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -2709,7 +2696,6 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				F.gas.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -2837,7 +2823,6 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-			F.gas.oxygen = O2STANDARD
 			new /obj/item/weapon/sheet/metal( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
@@ -2854,8 +2839,6 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-
-			F.gas.oxygen = O2STANDARD
 			new /obj/d_girders( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
@@ -2871,7 +2854,6 @@
 			src.state = 0
 			//var/turf/station/r_wall/F = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
 			var/turf/station/r_wall/F = src.ReplaceWithRWall()
-			F.gas.oxygen = O2STANDARD
 			F.icon_state = "r_girder"
 			F.state = 1
 			F.opacity = 0
@@ -2914,7 +2896,6 @@
 			src.opacity = 1
 			src.updatecell = 0
 			src.intact = 1
-			src.gas.oxygen = O2STANDARD
 			src.updatecell = 1
 			src.levelupdate()
 			src.buildlinks()
@@ -2942,7 +2923,6 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				F.gas.oxygen = O2STANDARD
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
 				F.buildlinks()
@@ -3061,13 +3041,16 @@
 	..()
 	if(!src.checkfire)
 		return
-	if(src.firelevel > 2700000.0)
+	if(src.firelevel >= 2700000.0)
 		src.health--
+	if(src.health > 100)
+		return
 	src.burnt = 1
 	src.intact = 0
 	levelupdate()
-	if(src.health <= 0)
-		del(src)
+	if(src.health > 0)
+		return
+	del(src)
 
 
 /turf/station/floor/plasma_test/updatecell()

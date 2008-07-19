@@ -75,6 +75,7 @@
 		T.gas.clear()
 		T.gas.nitrogen = N2STANDARD
 		T.gas.oxygen = O2STANDARD
+		T.gas.temp = T20C
 		T.reset_phases()
 	viewers(null, null) << "\red <B>Prison shuttle Restabalized!</B>"
 	src.add_fingerprint(usr)
@@ -112,6 +113,7 @@
 		T.gas.clear()
 		T.gas.nitrogen = N2STANDARD
 		T.gas.oxygen = O2STANDARD
+		T.gas.temp = T20C
 		T.reset_phases()
 	world << "\red <B>Shuttle Restabalized!</B>"
 	src.add_fingerprint(usr)
