@@ -181,6 +181,10 @@
 			return "open all personal lockers"
 		if(access_chaplain_office)
 			return "access chaplain's office"
+		if(access_tech_storage)
+			return "access technical storage"
+		if(access_atmospherics)
+			return "access atmospherics"
 
 /proc/get_all_jobs()
 	return list("Assistant", "Station Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
