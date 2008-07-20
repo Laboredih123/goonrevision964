@@ -30,6 +30,7 @@
 			src.taking_tox_damage = 1
 	src.co2_breathed = max(0, src.co2_breathed - 5) + G.co2
 	if(src.co2_breathed > 50)
+		src.co2_breathed -= 50
 		src.knockdown_until(3)
 		src.take_damage(suffocation = 2)
 
