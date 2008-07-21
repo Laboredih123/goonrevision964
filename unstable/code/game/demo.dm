@@ -3030,31 +3030,3 @@
 		var/obj/item/weapon/cable_coil/coil = C
 		coil.turf_place(src, user)
 }
-
-/turf/station/floor/unburn()
-
-	src.luminosity = 0
-	src.icon_state = text("Floor[]", (src.burnt ? "1" : ""))
-	return
-
-/turf/station/floor/updatecell()
-	..()
-	if(!src.checkfire)
-		return
-	if(src.firelevel >= 2700000.0)
-		src.health--
-	if(src.health > 100)
-		return
-	src.burnt = 1
-	src.intact = 0
-	levelupdate()
-	if(src.health > 0)
-		return
-	del(src)
-
-
-/turf/station/floor/plasma_test/updatecell()
-	..()
-	src.gas.plasma = 7.5E7
-	reset_phases()
-

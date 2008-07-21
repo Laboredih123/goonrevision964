@@ -10,20 +10,27 @@
 	luminosity = 0
 
 /obj/move/New()
-	gas.oxygen = src.oxygen;
-	gas.plasma = src.poison;
-	gas.nitrogen = src.n2
+	gas.oxygen	= src.oxygen
+	gas.plasma	= src.poison
+	gas.nitrogen= src.n2
 	reset_phases()
 
 	if((src.x & 1) == (src.y & 1))
 		src.checkfire = 0
 	..()
 
+	spawn(5)
+		src.UpdateLinks()
+
 /obj/move/interact(var/mob/user as mob)
-	if(!user.canmove) return
-	if(!user.pulling) return
-	if(usr.is_handcuffed()) return
-	if(user.pulling.anchored) return
+	if(!user.canmove)
+		return
+	if(!user.pulling)
+		return
+	if(usr.is_handcuffed())
+		return
+	if(user.pulling.anchored)
+		return
 	if(get_dist(user,user.pulling)>1)
 		if(user.pulling.loc != user.loc)
 			return
@@ -55,15 +62,17 @@
 
 /obj/move/proc/FindTurfs()
 	var/list/L = list()
-	for(var/MyDir in gas.Neighbors())
-		var/turf/T = get_step(src.loc, MyDir)
-		if(!gas.CheckAirflow(MyDir,T)) continue
-
+	for(var/turf/T in src.DiffuseAir)
 		var/obj/move/O = locate(/obj/move,T)
 		if(O) if(O.updatecell) L += O
 		else  L += T
-
 	return L
+
+/obj/move/proc/UpdateLinks()
+	if(!src.loc)
+		return
+	DiffuseAir = gas.DiffusionLinks(src.loc)
+	ConductHeat= gas.ConductionLinks(src.loc)
 
 /obj/move/wall/process()
 	src.updatecell = 0
@@ -85,13 +94,13 @@
 	phase2.copy_all(gas)
 
 /turf/proc/unburn()
-	icon_state = initial(icon_state)
+	icon_state = initial(src.icon_state)
 	luminosity = 0
 
 /turf/New()				//	intitalizes turf with checkfire/reset_variables
 	gas.nitrogen = src.n2
-	gas.oxygen = src.oxygen;
-	gas.plasma = src.poison;
+	gas.oxygen = src.oxygen
+	gas.plasma = src.poison
 	gas.temp = src.temp
 	reset_phases()
 
@@ -99,7 +108,9 @@
 		src.checkfire = 0
 	for(var/atom/movable/AM as mob|obj in src)
 		src.Entered(AM)
-	return ..()
+
+	spawn(5)
+		UpdateLinks()
 
 /turf/proc/isempty()	// 0 if turf is dense or contains a dense object  (else 1)
 	if(src.density)
@@ -109,7 +120,6 @@
 			return 0
 	return 1
 
-
 /turf/updatecell()
 	src.checkfire = !src.checkfire
 	UpdateGasses(src, src.FindTurfs())
@@ -118,30 +128,72 @@
 	var/list/L = list()
 	if(locate(/obj/move, src))
 		return list()
-	for(var/dir in gas.Neighbors(src))
-		var/turf/T = get_step(src, dir)
-		if(!gas.CheckAirflow(dir,T))
-			continue
+	for(var/turf/T in src.DiffuseAir)
 		var/obj/move/O = locate(/obj/move,T)
 		if(O)
 			if(O.updatecell)
 				L += O
 		else
 			L += T
+
 	return L
 
 /turf/conduction()
 	var/difftemp = 0
-	var/list/L = gas.ConductionLinks(src)
 
-	for(var/dir in L)
-		var/turf/T = get_step(src,text2num(dir));
-		if(T)
-			difftemp += (T.phase1.temp-src.gas.temp)/(10*L[dir])
+	for(var/turf/T in src.ConductHeat)
+		difftemp += (T.phase1.temp-src.gas.temp)/(10*src.ConductHeat[T])
+
 	if(difftemp)
 		src.gas.temp += difftemp
 
-/datum/substance/gas/proc/Neighbors(var/turf/T)
+/turf/proc/TestEquilibrium(var/turf/T)
+	if(!src.gas.is_equal(T.gas))
+		return 0
+	if(!src.phase1.is_equal(T.phase1))
+		return 0
+	if(!src.phase2.is_equal(T.phase2))
+		return 0
+	return 1
+
+/turf/proc/UpdateLinks()
+	DiffuseAir = gas.DiffusionLinks(src)
+	ConductHeat= gas.ConductionLinks(src)
+
+	for(var/turf/T in DiffuseAir)
+		if(!TestEquilibrium(T))
+			equilibrium = 0
+			return
+
+	equilibrium = 1
+
+/turf/station/floor/updatecell()
+	..()
+	if(!src.checkfire)
+		return
+	if (src.firelevel >= 2700000.0)
+		src.health--
+
+	if (src.health <= 100)
+		src.burnt = 1
+		src.intact = 0
+		levelupdate()
+
+	if (src.health <= 0)
+		del(src)
+
+/turf/space/New()
+	gas.clear()
+	reset_phases()
+	if((src.x & 1) == (src.y & 1))
+		src.checkfire = 0
+	for(var/atom/movable/AM as mob|obj in src)
+		src.Entered(AM)
+
+/turf/space/UpdateLinks()
+	return
+
+/datum/substance/gas/proc/DiffusionLinks(var/turf/T)
 	var/list/L = cardinal.Copy()
 	for(var/obj/window/D in T)
 		if(!D.density)
@@ -154,19 +206,24 @@
 		if(!D.density)
 			continue
 		if(D.dir & (EAST|WEST))
-			L -= SOUTH	//	door blocks south travel
+			L -= SOUTH	// door blocks south travel
 		if(D.dir & (NORTH|SOUTH))
-			L -= EAST	//	door block east travel
+			L -= EAST	// door block east travel
 
 	for(var/obj/machinery/door/window/alt/D in T)
 		if(!D.density)
 			continue
 		if(D.dir & (EAST|WEST))
-			L -= NORTH	//	door blocks north travel
+			L -= NORTH // door blocks north travel
 		if(D.dir & (NORTH|SOUTH))
-			L -= WEST	//	door block west travel
+			L -= WEST // door block west travel
 
-	return L
+	var/list/links = list()
+	for(var/dir in L)
+		var/turf/N = get_step(T,dir)
+		if(N && CheckAirflow(dir,N))
+			links += get_step(T,dir)
+	return links
 
 /datum/substance/gas/proc/ConductionLinks(var/turf/T)
 	var/list/cond = new()
@@ -175,24 +232,25 @@
 			continue
 		if(D.dir == SOUTHWEST)
 			return list()
-		cond[num2text(D.dir)] += 1 + D.reinf
+		cond[get_step(T,D.dir)] += 1+D.reinf
 
 	for(var/obj/machinery/door/window/D in T)
 		if(!D.density)
 			continue
 		if(D.dir & (EAST|WEST))
-			cond[num2text(SOUTH)] += 1;
+			cond[get_step(T,D.dir)] += 1
 		if(D.dir & (NORTH|SOUTH))
-			cond[num2text(EAST)] += 1;
+			cond[get_step(T,D.dir)]  += 1
 
 	for(var/obj/machinery/door/window/alt/D in T)
 		if(!D.density)
 			continue
 		if(D.dir & (EAST|WEST))
-			cond[num2text(NORTH)] += 1;
+			cond[get_step(T,D.dir)] += 1
 		if(D.dir & (NORTH|SOUTH))
-			cond[num2text(WEST)] += 1;
+			cond[get_step(T,D.dir)]  += 1
 
+	cond -= 0 // we inserted possibly null get_step(T,D.dir)
 	return cond
 
 /datum/substance/gas/proc/CheckAirflow(var/srcDir, var/turf/target)
@@ -229,6 +287,18 @@
 	return 1
 
 /proc/UpdateGasses(var/turf/loc as turf, var/list/neighbors)
+	if(!loc)
+		return
+	if(!neighbors.len)
+		return
+
+	if(loc.equilibrium)
+		for(var/turf/T in neighbors)
+			if(!T.equilibrium)
+				loc.equilibrium = 0
+		if(loc.equilibrium)
+			return	// no need for updates!
+
 	var/divisor = 1
 	var/datum/substance/gas/TPhase	= null
 	var/datum/substance/gas/SPhase	= ((cellcontrol.var_swap)?loc.phase1 : loc.phase2)
@@ -238,14 +308,16 @@
 	var/adiff = null
 
 	var/airdir = null
-	var/airforce = 0
+	var/airforce= 0
 
 	for(var/turf/T in neighbors)
 		if(istype(T, /turf/space))
 			if(!loc.checkfire)
 				airforce = T.gas.total() + 25000
 				airdir = get_dir(loc, T)
-			space = 1;	break
+			space = 1;
+			break
+
 		divisor++
 		if(T.firelevel >= 900000.0)
 			burn = 1
@@ -284,23 +356,23 @@
 		loc.overlays = list(slmaster)
 	else
 		loc.overlays = null
-
 	if(burn)
 		loc.firelevel = loc.gas.oxygen + loc.gas.plasma
 
 	if(!loc.checkfire)
+		//	Why does plasma annihilate carbon?
 		var/PlasmaConverter = min(loc.gas.co2,loc.gas.plasma)
 		loc.gas.co2		-= PlasmaConverter
 		loc.gas.oxygen	+= PlasmaConverter
 		loc.gas.plasma	-= PlasmaConverter
-	else
-		var/BurnedOxygen = min(loc.gas.oxygen,5000)
-		loc.gas.co2		+= BurnedOxygen
-		loc.gas.oxygen	-= BurnedOxygen
+	else if(loc.firelevel > 900000)
+		var/OxygenBurned = min(loc.gas.oxygen,5000)
+		loc.gas.co2		+= OxygenBurned
+		loc.gas.oxygen	-= OxygenBurned
 
 	if(loc.firelevel < 900000)
-		loc.firelevel = 0
 		if(loc.icon_state == "burning")
+			loc.firelevel = 0
 			loc.unburn()
 	else
 		loc.luminosity = 2
@@ -317,5 +389,6 @@
 	SPhase.copy_all(loc.gas)
 
 	if((locate(/obj/effects/water, loc) || loc.firelevel < 900000.0))
+		//	water soothes the burning
 		loc.gas.temp += (T20C - loc.gas.temp) / FIRERATE
-		loc.firelevel = 0
+

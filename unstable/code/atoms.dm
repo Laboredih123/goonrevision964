@@ -6,6 +6,7 @@
 	var/flags = FPRINT
 	var/list/fingerprints = null
 	var/is_ai_interactable = 0
+
 /atom/movable
 	layer = 3
 	var/last_move = null
@@ -2753,6 +2754,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/datum/substance/gas/gas		=	new /datum/substance/gas
 	var/datum/substance/gas/phase1	=	new /datum/substance/gas	// old
 	var/datum/substance/gas/phase2	=	new /datum/substance/gas	// tmp
+
 	// backwards compatability
 	var/oxygen=O2STANDARD
 	var/n2=N2STANDARD
@@ -2766,6 +2768,12 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/checkfire = 1.0
 	var/updatecell = 1.0
 	anchored = 1.0
+
+	//optimizations
+	var/DiffuseAir[]
+	var/ConductHeat[]
+	var/equilibrium=0
+
 /obj/move/airtunnel
 	name = "airtunnel"
 	icon = 'airtunnel.dmi'

@@ -142,51 +142,88 @@
 	src.no2 = 0
 	src.co2 = 0
 	src.nitrogen = 0
+
 /datum/substance/gas/proc/total()
 	return (src.co2 + src.oxygen + src.plasma + src.no2 + src.nitrogen)
+
 /datum/substance/gas/proc/add_gas(C,N,O,P,S)
 	src.co2 += C
 	src.nitrogen += N
 	src.oxygen += O
 	src.plasma += P
 	src.no2 += S
+
 /datum/substance/gas/proc/rem_gas(C,N,O,P,S)
 	src.co2 -= C
 	src.nitrogen -= N
 	src.oxygen -= O
 	src.plasma -= P
 	src.no2 -= S
+
 /datum/substance/gas/proc/set_gas(C,N,O,P,S)
 	src.co2 = C
 	src.nitrogen = N
 	src.oxygen = O
 	src.plasma = P
 	src.no2 = S
+
 /datum/substance/gas/proc/multiply_gas(F)
 	src.co2 *= F
 	src.nitrogen *= F
 	src.oxygen *= F
 	src.plasma *= F
 	src.no2 *= F
+
 /datum/substance/gas/proc/multiply_all(F)
-	multiply_gas(F)
+	src.co2 *= F
+	src.nitrogen *= F
+	src.oxygen *= F
+	src.plasma *= F
+	src.no2 *= F
 	temp *= F
 
 /datum/substance/gas/proc/gain_gas(var/datum/substance/gas/T)
-	return src.add_gas(T.co2,T.nitrogen,T.oxygen,T.plasma,T.no2)
+	src.co2 += T.co2
+	src.nitrogen += T.nitrogen
+	src.oxygen += T.oxygen
+	src.plasma += T.plasma
+	src.no2 += T.no2
+
 /datum/substance/gas/proc/lose_gas(var/datum/substance/gas/T)
-	return src.rem_gas(T.co2,T.nitrogen,T.oxygen,T.plasma,T.no2)
+	src.co2 -= T.co2
+	src.nitrogen -= T.nitrogen
+	src.oxygen -= T.oxygen
+	src.plasma -= T.plasma
+	src.no2 -= T.no2
+
 /datum/substance/gas/proc/copy_gas(var/datum/substance/gas/T)
-	return src.set_gas(T.co2,T.nitrogen,T.oxygen,T.plasma,T.no2)
+	src.co2 = T.co2
+	src.nitrogen = T.nitrogen
+	src.oxygen = T.oxygen
+	src.plasma = T.plasma
+	src.no2 = T.no2
+
 /datum/substance/gas/proc/copy_cop(var/datum/substance/gas/T)
-	return src.set_gas(T.co2,0,T.oxygen,T.plasma,0)
+	src.co2 = T.co2
+	src.oxygen = T.oxygen
+	src.plasma = T.plasma
 
 /datum/substance/gas/proc/gain_all(var/datum/substance/gas/T)
-	src.gain_gas(T)
+	src.co2 += T.co2
+	src.nitrogen += T.nitrogen
+	src.oxygen += T.oxygen
+	src.plasma += T.plasma
+	src.no2 += T.no2
 	src.temp += T.temp
+
 /datum/substance/gas/proc/copy_all(var/datum/substance/gas/T)
-	src.copy_gas(T)
+	src.co2 = T.co2
+	src.nitrogen = T.nitrogen
+	src.oxygen = T.oxygen
+	src.plasma = T.plasma
+	src.no2 = T.no2
 	src.temp  = T.temp
+
 /datum/substance/gas/proc/tostring()
 	return "O2 ([oxygen]), N2 ([nitrogen]), NO2 ([no2]), CO2 ([co2]), Plasma ([plasma]), Temp ([temp])"
 
@@ -208,13 +245,13 @@
 /datum/substance/gas/proc/transfer(var/datum/substance/gas/target, var/amount)
 	// transfers [amount] from [src] to [target]
 	if(!amount)
-		return world.log << "/datum/substance/gas/transfer : amount == 0"
+		return 0
 	if(!istype(target,/datum/substance/gas))
-		return world.log << "/datum/substance/gas/transfer : target is not gas"
+		return 0
 
 	var/sTotal = src.total()
 	if(sTotal<=0)
-		return world.log << "/datum/substance/gas/transfer : sTotal <= 0 ([sTotal])"
+		return 0
 	var/nTotal = target.total()
 
 	//	transfer, at most, all the gas in target
@@ -226,7 +263,7 @@
 		if(target.maximum < (amount + nTotal))
 			amount = min(0,src.maximum - nTotal)
 			if(!amount)
-				return world.log << "/datum/substance/gas/transfer : late amount == 0"
+				return 0
 
 	//	all gasses are transferred at the same rate
 	var/datum/substance/gas/tmp = new/datum/substance/gas()
@@ -285,7 +322,15 @@
 
 // replaces gas values of src with n - updates during gas_flow step
 /datum/substance/gas/proc/replace_by(var/datum/substance/gas/n)
-	src.copy_all(n)
+	src.co2 = n.co2
+	src.nitrogen = n.nitrogen
+	src.oxygen = n.oxygen
+	src.plasma = n.plasma
+	src.no2 = n.no2
+	src.temp  = n.temp
+
+/datum/substance/gas/proc/is_equal(var/datum/substance/gas/T)
+	return ((co2==T.co2) && (no2==T.no2) && (oxygen==T.oxygen) && (plasma==T.plasma) && (nitrogen==T.nitrogen) && (temp==T.temp))
 
 // relative "specific heat capacity" of gas contents
 /datum/substance/gas/proc/shc()

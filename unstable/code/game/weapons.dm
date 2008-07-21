@@ -1632,16 +1632,10 @@
 	return
 
 /obj/beam/i_beam/Bump()
-
-	//SN src = null
-
 	del(src)
-	return
 
 /obj/beam/i_beam/Bumped()
-
 	src.hit()
-	return
 
 /obj/beam/i_beam/HasEntered(atom/movable/AM as mob|obj)
 
@@ -1660,7 +1654,6 @@
 	return
 
 /atom/proc/ex_act()
-
 	return
 
 /atom/proc/blob_act()
@@ -1676,11 +1669,15 @@
 /turf/Entered(atom/A as mob|obj)
 
 	..()
-	if ((A && A.density && !( istype(A, /obj/beam) )))
-		for(var/obj/beam/i_beam/I in src)
-			spawn( 0 )
-				if (I)
+	if(!A)
+		return
+	if(!A.density)
+		return
+
+	src.UpdateLinks(A)
+
+	if(!istype(A, /obj/beam))
+		spawn(0)
+			for(var/obj/beam/i_beam/I in src)
+				if(I)
 					I.hit()
-				return
-			//Foreach goto(44)
-	return

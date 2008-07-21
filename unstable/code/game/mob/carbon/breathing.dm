@@ -57,16 +57,18 @@
 
 	var/turf_total = T.gas.total()
 	var/oxygen_rate = turf_total / T.gas.oxygen
-	if(src.hud && src.hud.internal)
-		src.hud.internal.icon_state = "internal1"
 
 	if(!src.internal)
 		G.turf_take(T, max(max_breathed,oxy_required*oxygen_rate))
+		if(src.hud && src.hud.internal)
+			src.hud.internal.icon_state = "internal0"
 	else
 		src.internal.process(src, G)	//	transfer gasses from internals to G
+		if(src.hud && src.hud.internal)
+			src.hud.internal.icon_state = "internal1"
 		if(src.mask.flags & HALFMASK)
 			if(!istype(src.helmet, /obj/item/weapon/clothing/head) || !(src.helmet.flags & HEADSPACE))
-				//half the air from internals is wasted
+			//half the air from internals is wasted
 				G.turf_add(T, G.total() * 0.5)
 
 				//	pull the rest required from the room

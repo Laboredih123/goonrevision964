@@ -3,6 +3,7 @@
 	var/datum/substance/gas/gas		=	new /datum/substance/gas
 	var/datum/substance/gas/phase1	=	new /datum/substance/gas	//	old
 	var/datum/substance/gas/phase2	=	new /datum/substance/gas	//	tmp
+
 	//backwards compatability
 	var/oxygen=O2STANDARD
 	var/n2=N2STANDARD
@@ -13,8 +14,13 @@
 	var/firelevel = null
 	var/checkfire = 1.0
 	var/atmoalt	= null
-	var/updatecell = null
+	var/updatecell = 1
 	level = 1.0
+
+	//optimizations
+	var/DiffuseAir[]
+	var/ConductHeat[]
+	var/equilibrium = 0
 
 /turf/space
 	name = "space"
@@ -22,9 +28,6 @@
 	var/previousArea = null
 	updatecell = 1.0
 	checkfire = 0
-
-	oxygen = 0
-	n2 = 0
 
 /turf/station
 	name = "station"
@@ -73,8 +76,6 @@
 /turf/station/floor/grid
 	icon = 'weap_sat.dmi'
 	icon_state = "grid"
-
-/turf/station/floor/plasma_test
 
 /turf/station/r_wall
 	name = "r wall"

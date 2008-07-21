@@ -453,6 +453,7 @@
 
 
 /obj/machinery/pipes/proc/heat_exchange(var/datum/substance/gas/gas, var/tot_node, var/numnodes, var/temp, var/dbg=0)
+	if(src.level == 1) return	// no heat exchange for under-floor pipes
 	var/turf/T = src.loc		// turf location of pipe
 	if(T.density) return
 	ASSERT(numnodes)
