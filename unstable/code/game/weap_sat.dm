@@ -47,15 +47,7 @@
 			areaindex[tmpname] = 1
 		L[tmpname] = R
 	var/desc = input("Please select a location to lock in.", "Locking Computer") in L
-	var/R = L[desc]
-	if (prob(50))
-		src.locked = R
-	else
-		if (L.len)
-			R = L[pick(L)]
-			src.locked = R
-		else
-			src.locked = null
+	src.locked = L[desc]
 	for(var/mob/O in hearers(src, null))
 		O.hear("\blue Locked In")
 	src.add_fingerprint(usr)
@@ -196,7 +188,10 @@
 			O.hear("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.")
 		return
 	if (istype(M, /atom/movable))
-		do_teleport(M, com.locked, 2)
+		if(prob(5)) //oh dear a problem, put em in deep space
+			do_teleport(M, locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), 3), 2)
+		else
+			do_teleport(M, com.locked, 2)
 	else
 		var/obj/effects/sparks/O = new /obj/effects/sparks(com.locked)
 		O.dir = pick(NORTH, SOUTH, EAST, WEST)
@@ -206,8 +201,8 @@
 			B.hear("\blue Test fire completed.")
 	return
 
-/proc/do_teleport(atom/movable/M as mob|obj, atom/destination, precision)
-	var/turf/destturf = find_loc(destination)
+/proc/do_teleport(atom/movable/M as mob|obj, var/atom/destination, precision)
+	var/turf/destturf = get_area(destination)
 
 	var/tx = destturf.x + rand(precision * -1, precision)
 	var/ty = destturf.y + rand(precision * -1, precision)

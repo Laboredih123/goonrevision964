@@ -4099,20 +4099,8 @@
 		del(src)
 		return
 	if (istype(M, /atom/movable))
-		if (prob(10)) //teleport gone bad!
-			src.icon_state = "portal1"
-			if (ismob(M))
-				M.ex_act(2)
-			else
-				M.ex_act(1)
-			var/obj/effects/sparks/O = new /obj/effects/sparks(M)
-			O.dir = pick(NORTH, SOUTH, EAST, WEST)
-			spawn( 0 )
-				O.Life()
-		if (prob(1)) //teleport gone VERY bad
-			M.x = rand(1, world.maxx)
-			M.y = rand(1, world.maxy)
-			M.z = 3
+		if (prob(10)) //oh dear something has gone wrong, put em in deep space
+			do_teleport(M, locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), 3), 5)
 		else
 			do_teleport(M, src.target, 5)
 
