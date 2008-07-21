@@ -8,7 +8,7 @@
 
 	//try to find the closest working camera in the same area, switch to it
 	var/area/A = get_area(src)
-	var/best_dist = INFINITY //infinity
+	var/best_dist = INFINITY
 	var/best_cam = null
 	for(var/obj/machinery/camera/C in A)
 		if(usr:network != C.network)
