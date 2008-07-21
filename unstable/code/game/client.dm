@@ -44,6 +44,7 @@
 			src.holder.level = 5
 			src.holder.owner = src
 			src.verbs += /client/proc/show_panel
+			src.verbs += /client/proc/adminsay
 
 		else if (admins.Find(src.ckey))
 			src.holder = new /obj/admins(src)
@@ -53,16 +54,22 @@
 				if ("Primary Administrator")
 					src.holder.level = 5
 					src.verbs += /proc/variables
+					src.verbs += /client/proc/adminsay
 				if ("Major Administrator")
 					src.holder.level = 4
+					src.verbs += /client/proc/adminsay
 				if ("Administrator")
 					src.holder.level = 3
+					src.verbs += /client/proc/adminsay
 				if ("Supervisor")
 					src.holder.level = 2
+					src.verbs += /client/proc/adminsay
 				if ("Game Master")
 					src.holder.level = 1
+					src.verbs += /client/proc/adminsay
 				if ("Moderator")
 					src.holder.level = 0
+					src.verbs += /client/proc/adminsay
 				if ("Banned")
 					//SN src = null
 					del(src)
