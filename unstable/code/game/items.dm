@@ -48,6 +48,11 @@
 	return T
 	return
 
+/proc/get_area(area/A)
+	while(!istype(A, /area) && A)
+		A = A.loc
+	return A
+
 /proc/dir2text(direction)
 
 	switch(direction)

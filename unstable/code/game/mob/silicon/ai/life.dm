@@ -52,16 +52,16 @@
 						src.heal_damage(electric = 1)
 				return
 		else
-			//stage = 6
-			src.sight = src.sight&~SEE_TURFS
-			src.sight = src.sight&~SEE_MOBS
-			src.sight = src.sight&~SEE_INFRA
-			src.sight = src.sight&~SEE_OBJS
-			src.see_in_dark = 0
-			src.see_invisible = 0
-			src.see_infrared = 8
-
 			if ((!loc.power_equip) || istype(T, /turf/space))
+				//stage = 6
+				src.sight = src.sight&~SEE_TURFS
+				src.sight = src.sight&~SEE_MOBS
+				src.sight = src.sight&~SEE_INFRA
+				src.sight = src.sight&~SEE_OBJS
+				src.see_in_dark = 0
+				src.see_invisible = 0
+				src.see_infrared = 8
+
 				if (src:aiRestorePowerRoutine==0)
 					src:aiRestorePowerRoutine = 1
 					src << "You've lost power!"
