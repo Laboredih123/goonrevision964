@@ -39,10 +39,11 @@
 	F["be_syndicate"] << src.be_syndicate
 	F["last_version"] << md5(changes)
 
-/datum/preferences/proc/setup(var/mob/M)
+/datum/preferences/proc/setup(var/client/M)
+	if(!M)
+		return
 	if(!trim(src.name))
-		if(M.client)	src.name = M.client.key
-		else			src.name = "Cool Person"
+		src.name = M.key
 	if(!(src.gender in list(MALE, FEMALE)))
 		src.gender = MALE
 	if(!(src.skin_color in get_skin_colors()))
