@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\mob\carbon\breathing.dm
-DIR: code code\atoms code\game code\game\machinery code\game\mob code\game\mob\carbon code\game\modes maps
+FILE: code\game\mob\silicon\ai\cameras.dm
+DIR: code code\data code\game code\game\mob code\game\mob\silicon code\game\mob\silicon\ai maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -197,6 +197,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\silicon\damage.dm"
 #include "code\game\mob\silicon\examine.dm"
 #include "code\game\mob\silicon\ai\alerts.dm"
+#include "code\game\mob\silicon\ai\cameras.dm"
 #include "code\game\mob\silicon\ai\damage.dm"
 #include "code\game\mob\silicon\ai\laws.dm"
 #include "code\game\mob\silicon\ai\life.dm"
