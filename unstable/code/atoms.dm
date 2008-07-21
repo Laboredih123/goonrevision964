@@ -2345,6 +2345,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	dir = 2
 	p_dir = 14
 	capmult = 3
+	req_access = list(access_atmospherics)
 	var/capacity = 6000000.0
 	var/n1dir
 	var/n2dir

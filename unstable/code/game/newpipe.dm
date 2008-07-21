@@ -903,10 +903,11 @@
 	else
 		leak_to_turf(3)
 
-	// transfer gas from ngas->f_ngas according to extraction rate
-	var/datum/substance/gas/ndelta = src.get_extract()
-	ngas.sub_delta(ndelta)
-	f_ngas.add_delta(ndelta)
+	// transfer gas from ngas->f_ngas according to extraction rate, but only if we have power
+	if(! (stat & NOPOWER) ) 
+		var/datum/substance/gas/ndelta = src.get_extract()
+		ngas.sub_delta(ndelta)
+		f_ngas.add_delta(ndelta)
 
 /obj/machinery/pipefilter/get_gas_val(from)
 	return ((from == vnode3) ? f_gas.total() : gas.total())/capmult
@@ -959,6 +960,7 @@
 	var/dat = "Filter Extraction Rate:<BR>\n<A href='?src=\ref[src];fp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];fp=-10000'>-</A> <A href='?src=\ref[src];fp=-1000'>-</A> <A href='?src=\ref[src];fp=-100'>-</A> <A href='?src=\ref[src];fp=-1'>-</A> [src.f_per] <A href='?src=\ref[src];fp=1'>+</A> <A href='?src=\ref[src];fp=100'>+</A> <A href='?src=\ref[src];fp=1000'>+</A> <A href='?src=\ref[src];fp=10000'>+</A> <A href='?src=\ref[src];fp=[num2text(1000000.0, 7)]'>M</A><BR>\n"
 	for (var/i = 1; i <= gases.len; i++)
 		dat += "[gases[i]]: <A HREF='?src=\ref[src];tg=[1 << (i - 1)]'>[(src.f_mask & 1 << (i - 1)) ? "Extracting" : "Passing"]</A><BR>\n"
+	dat += "<A HREF='?src=\ref[src];mach_close=pipefilter'>Close</A><BR><BR>"
 	user << browse(dat, "window=pipefilter;size=600x300")
 
 /obj/machinery/pipefilter/Topic(href, href_list)
@@ -967,16 +969,38 @@
 		return
 	if (((get_dist(src, usr) <= 1 || istype(usr, /mob/silicon/ai)) && istype(src.loc, /turf)))
 		usr.machine = src
-		if (href_list["fp"])
-			src.f_per = min(max(round(src.f_per + text2num(href_list["fp"])), 0), 1000000.0)
-		else if (href_list["tg"])
-			// toggle gas
-			src.f_mask ^= text2num(href_list["tg"])
-
+		if (src.allowed(usr))
+			if (href_list["fp"])
+				src.f_per = min(max(round(src.f_per + text2num(href_list["fp"])), 0), 1000000.0)
+			else if (href_list["tg"])
+				// toggle gas
+				src.f_mask ^= text2num(href_list["tg"])
+				src.updateicon()
+		else
+			usr.see("\red Access Denied- Pipe Filter operation restricted to authorized atmospheric technicians.")
 		src.updateUsrDialog()
 		src.add_fingerprint(usr)
 	else
 		usr << browse(null, "window=pipefilter")
+
+/obj/machinery/pipefilter/power_change()
+	..()
+	updateicon()
+
+/obj/machinery/pipefilter/proc/updateicon()
+	src.overlays = null
+	if(stat & NOPOWER)
+		icon_state = "filter-off"
+	else
+		icon_state = "filter"
+		if (src.f_mask & (GAS_N2O|GAS_PL))
+			src.overlays += image('pipes2.dmi', "filter-tox")
+		if (src.f_mask & GAS_O2)
+			src.overlays += image('pipes2.dmi', "filter-o2")
+		if (src.f_mask & GAS_N2)
+			src.overlays += image('pipes2.dmi', "filter-n2")
+		if (src.f_mask & GAS_CO2)
+			src.overlays += image('pipes2.dmi', "filter-co2")
 
 /obj/machinery/connector/New()
 
