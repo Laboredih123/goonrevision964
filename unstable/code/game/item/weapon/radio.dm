@@ -49,11 +49,11 @@
 /obj/item/weapon/radio/signaler
 	name = "Remote Signaling Device"
 	icon_state = "signaler"
+	flags = TABLEPASS | FPRINT | ONBELT | SENDSRSIGNAL
 	var/code = 30
 	w_class = 1
 	freq = 1457
 	var/delay = 0
-	var/airlock_wire = null
 
 /obj/item/weapon/radio/proc/get_freq_text()
 	return round(src.freq/10, 0.1)
@@ -215,10 +215,9 @@
 	if(text2num(M.text) != src.code)
 		return
 	if(src.master && src.wires & WIRE_SIGNAL)
-		src.master:r_signal()
-	if(istype(src.loc, /obj/machinery/door/airlock) && src.airlock_wire)
-		var/obj/machinery/door/airlock/A = src.loc
-		A.pulse(src.airlock_wire)
+		src.master:r_signal(1, src)
+	if(src.assmaster && src.wires & WIRE_SIGNAL)
+		src.assmaster:r_signal(1, src)
 	for(var/atom/A in hearers(2, src))
 		A.hear("\icon[src] *beep beep*")
 

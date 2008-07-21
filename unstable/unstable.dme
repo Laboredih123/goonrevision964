@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\game\mob\silicon\ai\cameras.dm
+DIR: code code\atoms code\data code\game code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\prespawn code\game\mob\silicon code\game\mob\silicon\ai code\game\verbs maps
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -102,6 +108,7 @@
 #include "code\game\vote.dm"
 #include "code\game\weap_sat.dm"
 #include "code\game\weapons.dm"
+#include "code\game\wirebundle.dm"
 #include "code\game\area\ai_monitored.dm"
 #include "code\game\dna\allele.dm"
 #include "code\game\dna\buffer.dm"

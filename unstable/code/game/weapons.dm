@@ -275,6 +275,9 @@
 			spawn( 0 )
 				src.master:r_signal(1, src)
 				return
+		else if (src.assmaster)
+			spawn( 0 )
+				src.assmaster:r_signal(1, src)
 		else
 			for(var/mob/O in hearers(null, null))
 				O.hear(text("\icon[] *beep* *beep*", src))
@@ -386,6 +389,10 @@
 	if (src.master)
 		spawn( 0 )
 			src.master:r_signal(1, src)
+			return
+	else if (src.assmaster)
+		spawn( 0 )
+			src.assmaster:r_signal(1, src)
 			return
 	else
 		for(var/mob/O in hearers(null, null))
@@ -540,6 +547,9 @@
 		spawn( 0 )
 			src.master:r_signal(1, src)
 			return
+	else if (src.assmaster)
+		spawn( 0 )
+			src.assmaster:r_signal(1, src)
 	else
 		for(var/mob/O in hearers(null, null))
 			O.hear(text("\icon[] *beep* *beep*", src))
@@ -695,12 +705,10 @@
 		return
 	return
 
-/obj/item/weapon/assembly/proc/r_signal(signal)
-
+/obj/proc/r_signal(signal)
 	return
 
 /obj/item/weapon/assembly/proc/c_state(n, O as obj)
-
 	return
 
 /obj/item/weapon/assembly/shock_kit/Del()

@@ -27,34 +27,6 @@
 	shock - has a chance of electrocuting its target.
 */
 
-//This generates the randomized airlock wire assignments for the game.
-/proc/RandomAirlockWires()
-	//to make this not randomize the wires, just set index to 1 and increment it in the flag for loop (after doing everything else).
-	var/list/wires = list(0, 0, 0, 0, 0, 0, 0, 0, 0)
-	airlockIndexToFlag = list(0, 0, 0, 0, 0, 0, 0, 0, 0)
-	airlockIndexToWireColor = list(0, 0, 0, 0, 0, 0, 0, 0, 0)
-	airlockWireColorToIndex = list(0, 0, 0, 0, 0, 0, 0, 0, 0)
-	var/flagIndex = 1
-	for (var/flag=1, flag<512, flag+=flag)
-		var/valid = 0
-		while (!valid)
-			var/colorIndex = rand(1, 9)
-			if (wires[colorIndex]==0)
-				valid = 1
-				wires[colorIndex] = flag
-				airlockIndexToFlag[flagIndex] = flag
-				airlockIndexToWireColor[flagIndex] = colorIndex
-				airlockWireColorToIndex[colorIndex] = flagIndex
-		flagIndex+=1
-	return wires
-
-/* Example:
-Airlock wires color -> flag are { 64, 128, 256, 2, 16, 4, 8, 32, 1 }.
-Airlock wires color -> index are { 7, 8, 9, 2, 5, 3, 4, 6, 1 }.
-Airlock index -> flag are { 1, 2, 4, 8, 16, 32, 64, 128, 256 }.
-Airlock index -> wire color are { 9, 4, 6, 7, 5, 8, 1, 2, 3 }.
-*/
-
 /obj/machinery/door/airlock
 	name = "Airlock"
 	icon = 'Door1.dmi'
@@ -64,13 +36,12 @@ Airlock index -> wire color are { 9, 4, 6, 7, 5, 8, 1, 2, 3 }.
 	var/spawnPowerRestoreRunning = 0
 	var/blocked = null
 	var/locked = 0
-	var/wires = 511
 	var/secondsElectrified = 0 //How many seconds remain until the door is no longer electrified. -1 if it is permanently electrified until someone fixes it.
 	var/aiDisabledIdScanner = 0
 	var/aiHacking = 0
 	var/obj/machinery/door/airlock/closeOther = null
 	var/closeOtherId = null
-	var/list/signalers[9]
+	var/datum/assembly/wirebundle/wires = null
 
 /*
 About the new airlock wires panel:
@@ -85,9 +56,11 @@ About the new airlock wires panel:
 */
 
 
+/obj/machinery/door/airlock/r_signal(var/wireColor)
+	src.pulse(wireColor)
+
 /obj/machinery/door/airlock/proc/pulse(var/wireColor)
-	//var/wireFlag = airlockWireColorToFlag[wireColor] //not used in this function
-	var/wireIndex = airlockWireColorToIndex[wireColor]
+	var/wireIndex = src.wires.wirenumtoidx(wireColor)
 	switch(wireIndex)
 		if(AIRLOCK_WIRE_IDSCAN)
 			//Sending a pulse through this flashes the red light on the door (if the door has power).
@@ -147,9 +120,7 @@ About the new airlock wires panel:
 
 
 /obj/machinery/door/airlock/proc/cut(var/wireColor)
-	var/wireFlag = airlockWireColorToFlag[wireColor]
-	var/wireIndex = airlockWireColorToIndex[wireColor]
-	wires &= ~wireFlag
+	var/wireIndex = src.wires.cut(wireColor)
 	switch(wireIndex)
 		if(AIRLOCK_WIRE_MAIN_POWER1 || AIRLOCK_WIRE_MAIN_POWER2)
 			//Cutting either one disables the main door power, but unless backup power is also cut, the backup power re-powers the door in 10 seconds. While unpowered, the door may be crowbarred open, but bolts-raising will not work. Cutting these wires may electocute the user.
@@ -181,9 +152,7 @@ About the new airlock wires panel:
 
 
 /obj/machinery/door/airlock/proc/mend(var/wireColor)
-	var/wireFlag = airlockWireColorToFlag[wireColor]
-	var/wireIndex = airlockWireColorToIndex[wireColor] //not used in this function
-	wires |= wireFlag
+	var/wireIndex = src.wires.mend(wireColor)
 	switch(wireIndex)
 		if(AIRLOCK_WIRE_MAIN_POWER1 || AIRLOCK_WIRE_MAIN_POWER2)
 			if ((!src.isWireCut(AIRLOCK_WIRE_MAIN_POWER1)) && (!src.isWireCut(AIRLOCK_WIRE_MAIN_POWER2)))
@@ -211,12 +180,10 @@ About the new airlock wires panel:
 	return src.secondsElectrified!=0
 
 /obj/machinery/door/airlock/proc/isWireColorCut(var/wireColor)
-	var/wireFlag = airlockWireColorToFlag[wireColor]
-	return ((src.wires & wireFlag) == 0)
+	return src.wires.wirenumberiscut(wireColor)
 
 /obj/machinery/door/airlock/proc/isWireCut(var/wireIndex)
-	var/wireFlag = airlockIndexToFlag[wireIndex]
-	return ((src.wires & wireFlag) == 0)
+	return src.wires.wireidxiscut(wireIndex)
 
 /obj/machinery/door/airlock/proc/canAIControl()
 	return (!(src.stat & EMAGGED) && (src.aiControlDisabled!=1) && (!src.isAllPowerCut()));
@@ -454,30 +421,19 @@ About the new airlock wires panel:
 		user.machine = src
 		var/t1 = text("<B>Access Panel</B><br>\n")
 
-		//t1 += text("[]: ", airlockFeatureNames[airlockWireColorToIndex[9]])
-		var/list/wires = list(
-			"Orange" = 1,
-			"Dark red" = 2,
-			"White" = 3,
-			"Yellow" = 4,
-			"Red" = 5,
-			"Blue" = 6,
-			"Green" = 7,
-			"Grey" = 8,
-			"Black" = 9
-		)
+		var/list/wires = src.wires.getwires()
 		for(var/wiredesc in wires)
-			var/is_uncut = src.wires & airlockWireColorToFlag[wires[wiredesc]]
+			var/is_uncut = !src.wires.wirenumberiscut(wires[wiredesc])
 			t1 += "[wiredesc] wire: "
 			if(!is_uncut)
 				t1 += "<a href='?src=\ref[src];wires=[wires[wiredesc]]'>Mend</a>"
 			else
 				t1 += "<a href='?src=\ref[src];wires=[wires[wiredesc]]'>Cut</a> "
 				t1 += "<a href='?src=\ref[src];pulse=[wires[wiredesc]]'>Pulse</a> "
-				if(src.signalers[wires[wiredesc]])
-					t1 += "<a href='?src=\ref[src];remove-signaler=[wires[wiredesc]]'>Detach signaler</a>"
+				if(src.wires.wirenumhastrigger(wires[wiredesc]))
+					t1 += "<a href='?src=\ref[src];remove-signaler=[wires[wiredesc]]'>Detach trigger</a>"
 				else
-					t1 += "<a href='?src=\ref[src];signaler=[wires[wiredesc]]'>Attach signaler</a>"
+					t1 += "<a href='?src=\ref[src];signaler=[wires[wiredesc]]'>Attach trigger</a>"
 			t1 += "<br>"
 
 		t1 += text("<br>\n[]<br>\n[]<br>\n[]", (src.locked ? "The door bolts have fallen!" : "The door bolts look up."), ((src.arePowerSystemsOn() && !(stat & NOPOWER)) ? "The test light is on." : "The test light is off!"), (src.aiControlDisabled==0 ? "The 'AI control allowed' light is on." : "The 'AI control allowed' light is off."))
@@ -524,30 +480,32 @@ About the new airlock wires panel:
 					src.pulse(t1)
 			else if(href_list["signaler"])
 				var/wirenum = text2num(href_list["signaler"])
-				if(!istype(usr.equipped(), /obj/item/weapon/radio/signaler))
-					usr << "You need a signaller!"
-					return
-				if(src.isWireColorCut(wirenum))
-					usr << "You can't attach a signaller to a cut wire."
-					return
-				var/obj/item/weapon/radio/signaler/R = usr.equipped()
-				if(!R.b_stat)
-					usr << "This radio can't be attached!"
-					return
-				var/mob/carbon/M = usr
-				M.drop_item()
-				R.loc = src
-				R.airlock_wire = wirenum
-				src.signalers[wirenum] = R
+				//if(!istype(usr.equipped(), /obj/item/weapon/radio/signaler))
+				//	usr << "You need a signaller!"
+				//	return
+				//if(src.isWireColorCut(wirenum))
+				//	usr << "You can't attach a signaller to a cut wire."
+				//	return
+				//var/obj/item/weapon/radio/signaler/R = usr.equipped()
+				//if(!R.b_stat)
+				//	usr << "This radio can't be attached!"
+				//	return
+				//var/mob/carbon/M = usr
+				//M.drop_item()
+				//R.loc = src
+				//R.airlock_wire = wirenum
+				//src.signalers[wirenum] = R
+				usr << src.wires.attach_trigger(wirenum, usr.equipped())
 			else if(href_list["remove-signaler"])
 				var/wirenum = text2num(href_list["remove-signaler"])
-				if(!(src.signalers[wirenum]))
-					usr << "There's no signaller attached to that wire!"
-					return
-				var/obj/item/weapon/radio/signaler/R = src.signalers[wirenum]
-				R.loc = usr.loc
-				R.airlock_wire = null
-				src.signalers[wirenum] = null
+				// if(!(src.signalers[wirenum]))
+				//	usr << "There's no signaller attached to that wire!"
+				//	return
+				//var/obj/item/weapon/radio/signaler/R = src.signalers[wirenum]
+				//R.loc = usr.loc
+				//R.airlock_wire = null
+				//src.signalers[wirenum] = null
+				usr << src.wires.detach_trigger(wirenum)
 
 		src.updateIconState()
 		add_fingerprint(usr)
@@ -705,6 +663,12 @@ About the new airlock wires panel:
 		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/radio/signaler))
 		return src.interact(user)
+	else if (istype(C, /obj/item/weapon/prox_sensor))
+		return src.interact(user)
+	else if (istype(C, /obj/item/weapon/infra))
+		return src.interact(user)
+	else if (istype(C, /obj/item/weapon/timer))
+		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/crowbar))
 		if ((src.density) && (!( src.blocked ) && !( src.operating ) && ((!src.arePowerSystemsOn()) || (stat & NOPOWER)) && !( src.locked )))
 			spawn( 0 )
@@ -762,6 +726,10 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/New()
 	..()
+
+	src.wires = airlockbundle.clone()
+	src.wires.master = src
+
 	if (src.closeOtherId != null)
 		spawn (5)
 			for (var/obj/machinery/door/airlock/A in machines)

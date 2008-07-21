@@ -363,6 +363,7 @@
 	var/burn_point = null
 	var/burning = null
 	var/obj/item/weapon/master = null
+	var/datum/assembly/assmaster = null
 	flags = 258.0
 	weight = 500000.0
 /obj/item/weapon/ammo
@@ -1165,7 +1166,7 @@ obj/item/weapon/clothing/suit/labcoat
 	var/obj/beam/i_beam/first = null
 	var/state = 0.0
 	var/visible = 0.0
-	flags = 322.0
+	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
 	w_class = 2.0
 	s_istate = "electronic"
 /obj/item/weapon/infra_sensor
@@ -1376,7 +1377,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Proximity Sensor"
 	icon_state = "motion0"
 	var/state = 0.0
-	flags = 322.0
+	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
 	w_class = 2.0
 	s_istate = "electronic"
 /obj/item/weapon/rack_parts
@@ -1606,7 +1607,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "timer0"
 	var/timing = 0.0
 	var/time = null
-	flags = 322.0
+	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
 	w_class = 2.0
 	s_istate = "electronic"
 /obj/item/weapon/weldingtool

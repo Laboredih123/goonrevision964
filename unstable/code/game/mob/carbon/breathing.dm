@@ -5,6 +5,8 @@
 /mob/carbon/var/taking_suff_damage = 0
 
 /mob/carbon/proc/aircheck(datum/substance/gas/G as obj)
+	return // lol who needs to breathe DO NOT MERGE INTO UNSTABLE
+
 	if(!G)
 		return
 	src.taking_tox_damage = 0
