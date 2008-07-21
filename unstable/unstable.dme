@@ -3,12 +3,6 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
-/*
-FILE: code\game\mob\silicon\ai\cameras.dm
-DIR: code code\atoms code\data code\game code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\carbon\monkey code\game\mob\prespawn code\game\mob\silicon code\game\mob\silicon\ai code\game\verbs maps
-MAP_ICON_TYPE: 0
-AUTO_FILE_DIR: ON
-*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -101,6 +95,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\newpipe.dm"
 #include "code\game\overview.dm"
 #include "code\game\power.dm"
+#include "code\game\preferences.dm"
 #include "code\game\shuttle.dm"
 #include "code\game\sun.dm"
 #include "code\game\throwing.dm"
@@ -188,13 +183,9 @@ AUTO_FILE_DIR: ON
 #include "code\game\mob\carbon\vision.dm"
 #include "code\game\mob\carbon\human\var.dm"
 #include "code\game\mob\carbon\monkey\var.dm"
-#include "code\game\mob\prespawn\hair_color.dm"
-#include "code\game\mob\prespawn\hair_style.dm"
-#include "code\game\mob\prespawn\job.dm"
 #include "code\game\mob\prespawn\login.dm"
 #include "code\game\mob\prespawn\say.dm"
 #include "code\game\mob\prespawn\setup.dm"
-#include "code\game\mob\prespawn\skin_color.dm"
 #include "code\game\mob\silicon\damage.dm"
 #include "code\game\mob\silicon\examine.dm"
 #include "code\game\mob\silicon\ai\alerts.dm"

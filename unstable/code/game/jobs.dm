@@ -14,13 +14,13 @@
 	var/list/candidates = list()
 
 	for (var/mob/prespawn/M in unassigned)
-		if (level == 1 && M.char_job1 == job)
+		if (level == 1 && M.prefs.job1 == job)
 			candidates += M
 
-		if (level == 2 && M.char_job2 == job)
+		if (level == 2 && M.prefs.job2 == job)
 			candidates += M
 
-		if (level == 3 && M.char_job3 == job)
+		if (level == 3 && M.prefs.job3 == job)
 			candidates += M
 
 	return candidates
@@ -31,10 +31,10 @@
 		var/list/candidates = FindOccupationCandidates(unassigned + semiassigned, job, level)
 		for(var/mob/prespawn/M in candidates) //make sure they want this job more than their old one
 			if(M in semiassigned)
-				if(level >= 2 && M.char_job1 == semiassigned[M]) //first choice is their current job
+				if(level >= 2 && M.prefs.job1 == semiassigned[M]) //first choice is their current job
 					candidates -= M
 					break
-				if(level >= 3 && M.char_job2 == semiassigned[M]) //second choice is current job
+				if(level >= 3 && M.prefs.job2 == semiassigned[M]) //second choice is current job
 					candidates -= M
 					break
 		if(candidates.len)
@@ -161,8 +161,8 @@
 	else if(unassigned.len == 1) //don't require a captain or do any of this complex stuff with just one person
 		//it makes it harder to test things like being AI
 		var/mob/prespawn/M = unassigned[1]
-		if(M.char_job1 && !(M.char_job1 == "AI" && !config.allow_ai))
-			M.Assign_Rank(M.char_job1)
+		if(M.prefs.job1 && !(M.prefs.job1 == "AI" && !config.allow_ai))
+			M.Assign_Rank(M.prefs.job1)
 		else
 			M.Assign_Rank("Captain")
 

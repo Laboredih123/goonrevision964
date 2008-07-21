@@ -13,7 +13,7 @@
 	if(!joined_late)
 		var/obj/S = null
 		for(var/obj/start/sloc in world)
-			if (sloc.name != rank) 
+			if (sloc.name != rank)
 				continue
 			if (locate(/mob) in sloc.loc)
 				continue
@@ -26,15 +26,16 @@
 
 	if (rank == "AI")
 		var/mob/silicon/ai/A = new()
-		A.loc = startloc
 		A.client = src.client
+		A.prefs = src.prefs
+		A.loc = startloc
 		del(src)
 		return
 
 	if (rank == "Medical Doctor")
-		src.char_name = addtext("Dr. ",src.char_name)
+		src.prefs.name = addtext("Dr. ",src.prefs.name)
 
-	var/mob/carbon/human/M = new(startloc, src.char_name, src.char_hair_color, src.char_hair_style, src.char_skin_color, src.char_gender)
+	var/mob/carbon/human/M = new(startloc, src.prefs.name, src.prefs.hair_color, src.prefs.hair_style, src.prefs.skin_color, src.prefs.gender)
 
 	M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
 	M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
@@ -145,6 +146,7 @@
 	src << "<B>You are the [rank].</B>"
 
 	M.client = src.client
+	M.prefs = src.prefs
 	M.update_clothing()
 	del(src)
 

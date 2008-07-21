@@ -114,3 +114,7 @@
 	src.reset_view(null)
 	src.machine = null
 	src:cameraFollow = null
+
+/mob/verb/character_setup()
+	set name = "Character Setup"
+	prefs.setup(src)
