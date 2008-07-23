@@ -27,15 +27,14 @@
 	if (rank == "AI")
 		var/mob/silicon/ai/A = new()
 		A.client = src.client
-		A.prefs = src.prefs
 		A.loc = startloc
 		del(src)
 		return
 
 	if (rank == "Medical Doctor")
-		src.prefs.name = addtext("Dr. ",src.prefs.name)
+		src.client.prefs.name = addtext("Dr. ",src.client.prefs.name)
 
-	var/mob/carbon/human/M = new(startloc, src.prefs.name, src.prefs.hair_color, src.prefs.hair_style, src.prefs.skin_color, src.prefs.gender)
+	var/mob/carbon/human/M = new(startloc, src.client.prefs.name, src.client.prefs.hair_color, src.client.prefs.hair_style, src.client.prefs.skin_color, src.client.prefs.gender)
 
 	M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
 	M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
@@ -146,7 +145,6 @@
 	src << "<B>You are the [rank].</B>"
 
 	M.client = src.client
-	M.prefs = src.prefs
 	M.update_clothing()
 	del(src)
 

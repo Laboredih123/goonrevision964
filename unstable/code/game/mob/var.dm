@@ -51,4 +51,3 @@
 	density = 1
 
 	var/cameraFollow = null
-	var/datum/preferences/prefs = new()

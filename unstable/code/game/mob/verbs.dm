@@ -117,4 +117,4 @@
 
 /mob/verb/character_setup()
 	set name = "Character Setup"
-	prefs.setup(src.client)
+	client.prefs.setup(client)

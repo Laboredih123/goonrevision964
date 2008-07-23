@@ -1,5 +1,6 @@
 /client
 	var/last_known_ip
+	var/datum/preferences/prefs = new()
 
 /client/Del()
 	world.log_access("Logout: [src.key]")

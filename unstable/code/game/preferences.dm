@@ -83,43 +83,10 @@
 	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
 	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
 	dat += "</body></html>"
-	M << browse(dat, "window=mob_occupations;size=300x600;can_close=0")
+	M << browse(dat, "window=mob_occupations;size=300x600;can_close=[!M.mob || !istype(M.mob,/mob/prespawn)]")
 
 /datum/preferences/Topic(href, href_list)
-	if(href_list["ready"])
-		if(!istype(usr,/mob/prespawn))
-			usr << browse(null, "window=mob_occupations")
-			return save()
-
-		var/mob/prespawn/new_player = usr
-
-		if(!new_player.client.authenticated)
-			usr << "You are not authorized to enter the game. If you are not a member of the Something Awful forums, you aren't allowed to play on this server. If you are, visit http://byond.lljk.net and register your username."
-			return
-		if(!enter_allowed)
-			usr << "\blue There is an administrative lock on entering the game!"
-			return
-		world.log_game("[usr.key] entered as [usr.name]")
-
-		for (var/mob/carbon/H in world)
-			if (cmptext(H.spawn_name, src.name))
-				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
-				//TODO: make this work properly before spawning
-				return
-		new_player.ready = 1
-		save()
-		usr << browse(null, "window=mob_occupations")
-		if (ticker)
-			var/list/L = assistant_occupations
-			var/job
-			if(L.Find(src.job1))		job = src.job1
-			else if(L.Find(src.job2))	job = src.job2
-			else if(L.Find(src.job3))	job = src.job3
-			else						job = pick(L)
-			new_player.Assign_Rank(job, 1)
-		return
-
-	else if(href_list["name"])
+	if(href_list["name"])
 		src.name = input("What is your character's name?", "Character Generation", src.name) as text
 	else if(href_list["gender"])
 		src.gender = input("Select a gender", "Character Generation", src.gender) in list(MALE, FEMALE)
@@ -133,12 +100,49 @@
 		src.choose_job(text2num(href_list["job"]))
 	else if(href_list["reset"])
 		var/loaded = src.load()
-		if(!loaded)	src = initial(src)
+		if(!loaded)
+			src = new()
 	else if(href_list["prefer_syndicate"])
 		src.be_syndicate = input("Would you like to be eligible for playing as Syndicate?", "Character Generation", src.be_syndicate) in list("Yes", "No")
+	else if(href_list["ready"])
+		if(!istype(usr,/mob/prespawn))
+			usr << browse(null, "window=mob_occupations")
+			return save()
+
+		var/mob/prespawn/new_player = usr
+
+		if(!new_player.client.authenticated)
+			usr << "You are not authorized to enter the game. If you are not a member of the Something Awful forums, you aren't allowed to play on this server. If you are, visit http://byond.lljk.net and register your username."
+			return
+		if(!enter_allowed)
+			usr << "\blue There is an administrative lock on entering the game!"
+			return
+		for (var/mob/carbon/H in world)
+			if (cmptext(H.spawn_name, src.name))
+				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
+				//TODO: make this work properly before spawning
+				return
+
+		save()
+		usr << browse(null, "window=mob_occupations")
+		if(new_player.ready)
+			return //	they clicked ready before
+
+		new_player.ready = 1
+		world.log_game("[usr.key] entered as [usr.name]")
+
+		if (ticker)
+			var/list/L = assistant_occupations
+			var/job
+			if(L.Find(src.job1))		job = src.job1
+			else if(L.Find(src.job2))	job = src.job2
+			else if(L.Find(src.job3))	job = src.job3
+			else						job = pick(L)
+			new_player.Assign_Rank(job, 1)
+		return
 
 	spawn()
-		src.setup(usr)
+		src.setup(usr.client)
 
 //----------------------------------------------------------------------------
 

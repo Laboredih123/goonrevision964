@@ -12,17 +12,13 @@
 
 /proc/FindOccupationCandidates(list/unassigned, job, level)
 	var/list/candidates = list()
-
-	for (var/mob/prespawn/M in unassigned)
-		if (level == 1 && M.prefs.job1 == job)
+	for(var/mob/prespawn/M in unassigned)
+		if(level == 1 && M.client.prefs.job1 == job)
 			candidates += M
-
-		if (level == 2 && M.prefs.job2 == job)
+		if(level == 2 && M.client.prefs.job2 == job)
 			candidates += M
-
-		if (level == 3 && M.prefs.job3 == job)
+		if(level == 3 && M.client.prefs.job3 == job)
 			candidates += M
-
 	return candidates
 
 /proc/reassign_job(job, list/unassigned, list/semiassigned)
@@ -30,23 +26,25 @@
 	for (var/level = 1; level <= 3; level++)
 		var/list/candidates = FindOccupationCandidates(unassigned + semiassigned, job, level)
 		for(var/mob/prespawn/M in candidates) //make sure they want this job more than their old one
-			if(M in semiassigned)
-				if(level >= 2 && M.prefs.job1 == semiassigned[M]) //first choice is their current job
-					candidates -= M
-					break
-				if(level >= 3 && M.prefs.job2 == semiassigned[M]) //second choice is current job
-					candidates -= M
-					break
-		if(candidates.len)
-			var/mob/prespawn/M = pick(candidates)
-			var/oldjob = null
-			if(M in semiassigned)
-				oldjob = semiassigned[M]
-			unassigned -= M
-			semiassigned -= M
-			semiassigned[M] = job
-			reassign_job(oldjob, unassigned, semiassigned)
-			return
+			if(!(M in semiassigned))
+				continue
+			if(level >= 2 && M.client.prefs.job1 == semiassigned[M]) //first choice is their current job
+				candidates -= M
+				break
+			if(level >= 3 && M.client.prefs.job2 == semiassigned[M]) //second choice is current job
+				candidates -= M
+				break
+		if(!candidates.len)
+			continue
+		var/mob/prespawn/M = pick(candidates)
+		var/oldjob = null
+		if(M in semiassigned)
+			oldjob = semiassigned[M]
+		unassigned -= M
+		semiassigned -= M
+		semiassigned[M] = job
+		reassign_job(oldjob, unassigned, semiassigned)
+		return
 
 /proc/DivideOccupations()
 	var/list/unassigned = list()
@@ -161,8 +159,8 @@
 	else if(unassigned.len == 1) //don't require a captain or do any of this complex stuff with just one person
 		//it makes it harder to test things like being AI
 		var/mob/prespawn/M = unassigned[1]
-		if(M.prefs.job1 && !(M.prefs.job1 == "AI" && !config.allow_ai))
-			M.Assign_Rank(M.prefs.job1)
+		if(M.client.prefs.job1 && !(M.client.prefs.job1 == "AI" && !config.allow_ai))
+			M.Assign_Rank(M.client.prefs.job1)
 		else
 			M.Assign_Rank("Captain")
 
