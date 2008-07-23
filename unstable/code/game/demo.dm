@@ -2338,8 +2338,10 @@
 	return 1
 
 /atom/proc/CheckPass(atom/O as mob|obj|turf|area)
-
-	return (!( O.density ) || !( src.density ))
+	if(istype(O,/atom/movable))
+		var/atom/movable/A = O
+		return (!src.density || (!A.density && !A.throwing))
+	return (!O.density || !src.density)
 
 /atom/proc/CheckExit()
 
