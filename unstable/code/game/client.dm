@@ -12,9 +12,9 @@
 	src.last_known_ip = src.address
 	world.log_access("Login: [src.key] from [src.address]")
 
-	src.authorize()
+	src << "\blue <B>[join_motd]</B>"
 
-	src << "\blue <B>[world_message]</B>"
+	src.authorize()
 
 	if (config.log_access)
 		for (var/mob/M in world)

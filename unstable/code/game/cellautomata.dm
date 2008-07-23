@@ -631,8 +631,11 @@
 	// *****
 
 	var/motd = file2text("motd.txt")
+	auth_motd = file2text("motd-auth.txt")
+	no_auth_motd = file2text("motd-noauth.txt")
 	if (motd)
-		world_message = motd
+		join_motd = motd
+
 	var/ad_text = file2text("admins.txt")
 	var/list/L = dd_text2list(ad_text, "\n")
 	for(var/t in L)

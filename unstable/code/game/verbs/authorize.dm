@@ -30,7 +30,8 @@
 			if (code == "ok" && account)
 				src.verbs -= /client/proc/authorize
 				src.authenticated = account
-				src << "Key authorized, hello [html_encode(account)]!"
+				src << "Key Authorized: Hello [html_encode(account)]!"
+				src << "[auth_motd]"
 				success = 1
 			else if (code == "banned")
 				banned.Add(src.ckey)
@@ -42,5 +43,6 @@
 			src << "Failed to authenticate your key."
 			src << "If you have not already authorize it at http://byond.lljk.net/ - your BYOND key is [src.key]."
 			src << "Try again using the <b>Authorize</b> command, sometimes the server will hiccup and not correctly authorize."
+			src << "[no_auth_motd]"
 
 		src.authenticating = 0

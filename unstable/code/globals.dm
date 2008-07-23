@@ -95,7 +95,10 @@
 */
 
 var
-	world_message = "Welcome to SS13!"
+	join_motd = "Welcome to SS13!"
+	auth_motd = null		//	sent to players who do authenticate
+	no_auth_motd = null		//	sent to players who fail to authenticate
+
 	savefile_ver = "Goon 2"
 	SS13_version = "1.0 PR"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
