@@ -3,6 +3,104 @@ var/changes = {"<FONT color='blue'><B>Changes</B></FONT><BR>
 
 <p><b>Welcome to the Goon edition of SS13. As best I can tell this is the complete changelog since forking from the original codebase.</b></p>
 
+<P><B>Thursday, July 24th, 2008: Revisions</b></p>
+
+<ul>
+<li><B>471</b> - <em>Bug</em>: You can no longer throw things through dense items (such as canisters)</li>
+<li><B>470</b> - <em>Feature</em>: Authorized-people-MOTD now included, plus fixed up some issues with other MOTD files.</li>
+<li><B>469</b> - <em>Change</em>: Character setup is now done on the client level instead of the mob level, fixing some issues and improving consistency.</li>
+<li><B>468</b> - <em>Change</em>: Teleporters now have a 5% chance of sending you to deep space, hand teleporters have a 10% chance. No more telefragging, blue light zone, or wrong areas.</li>
+<li><B>465</b> - <em>Feature</em>: You can now do character setup during rounds.</li>
+<li><B>464</b> - <em>Feature</em>: Wirebundles now contain 24 wires; wire code is now more generalized so it works with pretty much anything that sends r_signal (such as timer/radio/prox/infra); adds a lot of opportunity to extendability of the game.</li>
+<li><B>463</b> - <em>Feature</em>: Admin-only chat (via adminsay command)</li>
+<li><B>462</b> - <em>Feature</em>: Pipe filters! Adds color-coded overlays to the pipe filter; now requires atmospherics ID to tamper with; can now close the filter (stops gas flow). Fixes bug where filters would no longer function if the lights went out.</li>
+<li><B>459</b> - <em>Feature</em>: AI can now click anywhere on the screen and move to the closest camera to the clicked spot. This makes playing the AI one hundred thousand times easier (as calculated by Kurper in playtesting)</li>
+<li><B>458</b> - <em>Feature</em>: AI can now use arrow keys to move to the nearest camera N/E/S/W of current location. Due to camera layout this will not necessarily allow you to travel to every camera on the map.</li>
+<li><B>457</b> - <em>Change</em>: Speeding up the game by: adding a room equilibrium value so gasses aren't called every tick; updating gas code; making misc. minor optimizations. Pipes under the floor no longer do heat exchange with the gasses above; buggy unburnable floors fixed.</li>
+<li><B>456</b> - <em>Change</em>: Old CO2 behaviour restored; will not perma-knock-you-out unless there's a LOT of CO2 in the area.</li>
+</ul>
+
+<P><B>Saturday, July 20th, 2008: Revisions</b></p>
+
+<ul>
+<li><B>455</b> - <em>Bug</em>: Fixed an error where you'd breath negative amounts of CO2</li>
+<li><B>453</b> - <em>Change</em>: Some small changes made to the UpdateGasses and pipe code</li>
+<li><B>452</b> - <em>Bug</em>: Fixed up the ID computer and access levels, which seemed to have been bummed in previous updates</li>
+<li><B>450</b> - <em>Change</em>: Updated a lot of Gas code to conform to new standards and not be stupid, etc.</li>
+<li><B>449</b> - <em>Bug</em>: Unlit welders used to open firedoors and regular doors required power. Both these issues fixed.</li>
+<li><B>448</b> - <em>Bug</em>: Unlit welders could disassemble RWalls. Fixed.</li>
+<li><B>447</b> - <em>Bug</em>: Creating or destroying walls no longer alters the gas levels on the square (it used to generate gas which would make it suddenly windy, especially near space)</li>
+<li><B>446</b> - <em>Bug</em>: Fixed exploit where you could trigger the fire alarms rapidly in succession to make odd situations with firedoors.</li>
+<li><B>445</b> - <em>Bug</em>: When examined, connectors now properly show the "desc" field (from mapmaker)</li>
+<li><B>444</b> - <em>Bug</em>: Fixed improper ordering of cameras - should now be alphabetical.</li>
+<li><B>442</b> - <em>Change</em>: Fingerprints are now randomly assigned (instead of a code being based off your name), and fingerprint scanners have been fixed. There are only 65,536 possible prints now, which means there may be the odd one or two sets of people with identical fingerprints.</li>
+<li><B>441</b> - <em>Bug</em>: The cloaking device overlay bug has been fixed.</li>
+<li><B>439</b> - <em>Change</em>: Walking into a blue light now randomly teleports you to the Lost in Space area.</li>
+<li><B>436</b> - <em>Change</em>: "I want to be syndicate" is now on by default.</li>
+<li><B>435</b> - <em>Change</em>: Sparks can no longer teleport.</li>
+<li><B>433</b> - <em>Change</em>: Created new pipe icons.</li>
+<li><B>432</b> - <em>Change</em>: Allowing AI to play is now on by default; config file option added to disable it.</li>
+<li><B>429</b> - <em>Bug</em>: Fixed playercount reporting bug; removed obscenities from remote commands</li>
+<li><B>428</b> - <em>Feature</em>: When cutting the ID scan wire, now allows anyone to access airlocks. Removed power assist and raising bolts. Open door wire added; if pulsed will toggle the door state, if cut door will not function. Remote signalling devices can be attached to airlock wires; when receiving a signal they will pulse the wire.</li>
+<li><B>427</b> - <em>Feature</em>: Inventory swapping is now easier - clicking on your ID tag will switch it with the one in your hand for example.</li>
+<li><B>426</b> - <em>Change</em>: Shuttle now pushes people away when warping in, so you cannot stand under the shuttle and be "inside" automatically.</li>
+<li><B>425</b> - <em>Bug</em>: Fixed bug where doors would flicker when clicked on.</li>
+<li><B>424</b> - <em>Bug</em>: Players no longer spawn on the same square (and instead cycle through the available squares as designated on the mapmaker)</li>
+<li><B>422</b> - <em>Change</em>: Dead turrets no longer obstruct movement.</li>
+<li><B>421</b> - <em>Bug</em>: Medical records now work properly.</li>
+<li><B>420</b> - <em>Change</em>: Teleporters can now teleport you into places such as closets (if the random accuracy gets you onto the right square anyway)</li>
+<li><B>419</b> - <em>Bug</em>: Properly shuffling occupations now so you don't always get station engineers before researchers (as an example).</li>
+<li><B>416</b> - <em>Change</em>: Job assignment has been revamped. Captain, AI, HoP, HoR, Station Engineer, and Doctor are now all 'required' positions (if there are enough players). Also better parses your second and third choices to be more fair.</li>
+<li><B>415</b> - <em>Change</em>: Monkeys now have gender flags. Settle down, boys.</li>
+<li><B>414</b> - <em>Change</em>: The Comm Console now uses a proper left-click menu instead of the old right-click.</li>
+<li><B>413</b> - <em>Feature</em>: It is now marginally easier to tell if you are dragging something.</li>
+<li><B>412</b> - <em>Change</em>: Light switches and APCs now self-illuminate so that the AI can turn them off and on in the dark.</li>
+<li><B>411</b> - <em>Change</em>: Solar panels are no longer invincible, making them less useful in Meteor mode.</li>
+<li><B>410</b> - <em>Change</em>: Changing access levels for Station Engineer and Atmos Tech slightly.</li>
+<li><B>409</b> - <em>Change</em>: Using wirecutters on electrified grills will now cut them AND shock you (instead of just shocking you)</li>
+<li><B>408</b> - <em>Change</em>: Non-hand-teleporters no longer go to the blue-light-zone; sparks now originate from the landing point (instead of the intended landing point), and beacons are now pick-up-able.</li>
+<li><B>406</b> - <em>Change</em>: Secure Area signs are now decorative and walk-through-able(they are not invincible walls)</li>
+<li><B>404</b> - <em>Feature</em>: Difference function added to the DNA computer</li>
+<li><B>399</b> - <em>Bug</em>: Fixed a bug where people had "switch language" set</li>
+<li><B>397</b> - <em>Bug</em>: When your DNA changes you now drop any items you couldn't hold (ie: changed to monkey)</li>
+<li><B>396</b> - <em>Change</em>: Renamed everything "medlab" to "Genetics Research"</li>
+<li><B>393</b> - <em>Change</em>: The game client now starts in "chat" mode.</li>
+<li><B>391</b> - <em>Feature</em>: Disconnected players' bodies now randomly wander and emote (and fixed some emote bugs)</li>
+<li><B>389</b> - <em>Bug</em>: Anyone could open APCs with the new security system. Fixed.</li>
+<li><B>388</b> - <em>Change</em>: Removed naming the traitor in the intercept.</li>
+<li><B>387</b> - <em>Bug</em>: Fixed closet behaviour - clicking should no longer place items on top of a closet and it should behave properly when trying to open/close it.</li>
+<li><B>386</b> - <em>Bug</em>: Fixed glitch where the welding tool reduced the amount of fire in a tile.</li>
+<li><B>385</b> - <em>Change</em>: Chairs and beds can no longer enter closets; you can now bind people to beds; fixed some metal stacking bugs</li>
+<li><B>384</b> - <em>Bug</em>: Laying down people can no longer move.</li>
+<li><B>383</b> - <em>Bug</em>: Laying down people no longer get standy-up clothes.</li>
+<li><B>381</b> - <em>Bug</em>: Fixes issue with handcuffs</li>
+<li><B>379</b> - <em>Bug</em>: Fixes display issue with items on your belt</li>
+<li><B>378</b> - <em>Feature</em>: Adding pipe pumps to the game.</li>
+<li><B>377</b> - <em>Bug</em>: Monkey mode should now work.</li>
+<li><B>376</b> - <em>Bug</em>: Fixed bug where people couldn't stand up.</li>
+<li><B>375</b> - <em>Bug</em>: Fixed bug where headset was not displaying properly.</li>
+<li><B>374</b> - <em>Bug</em>: Fixed bug preventing Medical Analyzer to not display properly.</li>
+<li><B>373</b> - <em>Feature</em>: Once you take 500 damage, you become 'unknown,' making body identification difficult.</li>
+<li><B>372</b> - <em>Bug</em>: If you had no name you couldn't change it. Fixed.</li>
+<li><B>371</b> - <em>Change</em>: Handcuffed people can no longer BANG BANG BANG.</li>
+<li><B>370</b> - <em>Change</em>: Closet Changes! People in closets can now hear and be heard; can't transmit/receive on the radio</li>
+<li><B>369</b> - <em>Change</em>: Eyedroppers no longer work if you are wearing eye protection.</li>
+<li><B>368</b> - <em>Change</em>: Default intent is now DISARM instead of HARM.</li>
+<li><B>367</b> - <em>Bug</em>: Fixed show_inv (the inventory menu that appears when you drag and drop people onto you)</li>
+<li><B>366</b> - <em>Feature</em>: Added dismemberment at extreme damages (and removed it in update 407 as it caused too much lag - but is in development)</li>
+<li><B>365</b> - <em>Feature</em>: Analyzers now work on atmospheric equipment; 3-way-pipe filter introduced for fancy plumbing.</li>
+<li><B>360</b> - <em>Change</em>: Only altering apperance-related genes changes your name now. Removed random mutations on startup.</li>
+<li><B>358</b> - <em>Change</em>: Removing "You hear a faint noise..." patch from way earlier.</li>
+<li><B>356</b> - <em>Change</em>: Updated intercom frequencies</li>
+<li><B>355</b> - <em>Feature</em>: Doctors now start with Dr. in front of their name.</li>
+<li><B>354</b> - <em>Feature</em>: Lit welders will now ignite plasma that enters the same tile.</li>
+<li><B>353</b> - <em>Bug</em>: Fixed bug where sometimes you could not pickup items in diagonal directions from you.</li>
+<li><B>352</b> - <em>Bug</em>: Unconscious people can no longer throw.</li>
+<li><B>351</b> - <em>Bug</em>: Fixed an issue introduced that prevented AI from watching cameras.</li>
+<li><B>350</b> - <em>Feature</em>: Windoors now work in all directions!</li>
+<li><B>349</b> - <em>Feature</em>: Added "lost in space," a blank Z-level you cannot escape (except via teleport). Also fixed meteor mode so they now come from the West.</li>
+</ul>
+
 <P><B>Tuesday, July 8th 2008: Revisions</b></P>
 
 <ul>
