@@ -1,6 +1,6 @@
 /mob/carbon/var/max_air_breathed = 650 //max amount of air breathed per second
 /mob/carbon/var/oxygen_needed = 67
-/mob/carbon/var/co2_breathed
+/mob/carbon/var/co2_breathed = 0
 /mob/carbon/var/taking_tox_damage = 0
 /mob/carbon/var/taking_suff_damage = 0
 
