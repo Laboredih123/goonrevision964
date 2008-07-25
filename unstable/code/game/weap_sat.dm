@@ -201,8 +201,8 @@
 			B.hear("\blue Test fire completed.")
 	return
 
-/proc/do_teleport(atom/movable/M as mob|obj, var/atom/destination, precision)
-	var/turf/destturf = get_area(destination)
+/proc/do_teleport(atom/movable/M as mob|obj, atom/destination, precision)
+	var/turf/destturf = get_turf(destination)
 
 	var/tx = destturf.x + rand(precision * -1, precision)
 	var/ty = destturf.y + rand(precision * -1, precision)
