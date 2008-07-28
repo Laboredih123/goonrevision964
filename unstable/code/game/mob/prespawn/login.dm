@@ -1,11 +1,13 @@
 /mob/prespawn/Login()
-	client.eye = null
+	. = ..()
 
-	client.prefs.savefile_loc = "savefiles/[savefile_ver]/[src.ckey].sav"
-	client.prefs.load()
+	src.client.eye = null
 
-	if(!client.prefs.last_version || client.prefs.last_version != md5(changes)) //they havent seen this changelog
+	src.client.prefs.savefile_loc = "savefiles/[savefile_ver]/[src.ckey].sav"
+	src.client.prefs.load()
+
+	if(!src.client.prefs.last_version || src.client.prefs.last_version != md5(changes)) //they havent seen this changelog
 		src.changes()
 
-	client.prefs.setup(client)
+	src.client.prefs.setup(client)
 

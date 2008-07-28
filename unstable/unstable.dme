@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\game\admin\admin_powers\toggle_respawn.dm
+DIR: code code\atoms code\data code\game code\game\admin code\game\admin\admin_powers code\game\mob code\game\mob\carbon code\game\mob\prespawn code\game\verbs icons icons\ss13
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -10,6 +16,8 @@
 #define FILE_DIR "code/atoms"
 #define FILE_DIR "code/data"
 #define FILE_DIR "code/game"
+#define FILE_DIR "code/game/admin"
+#define FILE_DIR "code/game/admin/admin_powers"
 #define FILE_DIR "code/game/area"
 #define FILE_DIR "code/game/dna"
 #define FILE_DIR "code/game/dna/gene"
@@ -96,7 +104,6 @@
 #include "code\game\overview.dm"
 #include "code\game\power.dm"
 #include "code\game\preferences.dm"
-#include "code\game\shuttle.dm"
 #include "code\game\sun.dm"
 #include "code\game\throwing.dm"
 #include "code\game\vehicle.dm"
@@ -104,6 +111,29 @@
 #include "code\game\weap_sat.dm"
 #include "code\game\weapons.dm"
 #include "code\game\wirebundle.dm"
+#include "code\game\admin\admin.dm"
+#include "code\game\admin\banning.dm"
+#include "code\game\admin\admin_powers\abort_vote.dm"
+#include "code\game\admin\admin_powers\admin_power.dm"
+#include "code\game\admin\admin_powers\announce.dm"
+#include "code\game\admin\admin_powers\authorize.dm"
+#include "code\game\admin\admin_powers\ban.dm"
+#include "code\game\admin\admin_powers\change_mode.dm"
+#include "code\game\admin\admin_powers\check_traitor.dm"
+#include "code\game\admin\admin_powers\delay.dm"
+#include "code\game\admin\admin_powers\list_bomb_makers.dm"
+#include "code\game\admin\admin_powers\make_object.dm"
+#include "code\game\admin\admin_powers\manage_bans.dm"
+#include "code\game\admin\admin_powers\meteor_wave.dm"
+#include "code\game\admin\admin_powers\power_all.dm"
+#include "code\game\admin\admin_powers\private_message.dm"
+#include "code\game\admin\admin_powers\restart.dm"
+#include "code\game\admin\admin_powers\show_traitor.dm"
+#include "code\game\admin\admin_powers\start_now.dm"
+#include "code\game\admin\admin_powers\toggle_mode_voting.dm"
+#include "code\game\admin\admin_powers\toggle_ooc.dm"
+#include "code\game\admin\admin_powers\toggle_respawn.dm"
+#include "code\game\admin\admin_powers\toggle_restart_voting.dm"
 #include "code\game\area\ai_monitored.dm"
 #include "code\game\dna\allele.dm"
 #include "code\game\dna\buffer.dm"

@@ -1,15 +1,14 @@
 /mob/Login()
-	if (CanAdmin())
-		src << text("\blue The game ip is byond://[]:[] !", world.address, world.port)
-		src.verbs += /proc/variables
 	src.next_move = 1
 	if (!( isturf(src.loc) ))
 		src.client.eye = src.loc
 		src.client.perspective = EYE_PERSPECTIVE
-	src.last_known_ip = client.address
 	src.sight |= SEE_SELF
 
-	return ..()
+	. = ..()
+
+	src.last_known_ip = src.client.address
+	src.last_known_ckey = src.client.ckey
 
 /mob/Logout()
 	if(src.client)

@@ -6,7 +6,6 @@
 	var/other_mobs = null
 	var/memory = ""
 	var/poll_answer = 0.0
-	var/muted = null
 	var/lastDblClick = 0
 	var/list/requests = list(  )
 	var/list/mapobjs = list()
@@ -19,6 +18,7 @@
 	var/be_syndicate = "Yes"
 
 	var/last_known_ip = null
+	var/last_known_ckey = null
 
 	var/voice = null
 	var/spawn_name = null
@@ -29,8 +29,6 @@
 			src.voice = src.name
 		if(!src.spawn_name)
 			src.spawn_name = src.name
-		if(src.client && src.client.last_known_ip)
-			src.last_known_ip = src.client.last_known_ip
 
 	var/canmove = 0
 	var/atom/movable/pulling = null

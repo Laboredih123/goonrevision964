@@ -12,7 +12,8 @@
 	var/savefile_loc = null
 
 /datum/preferences/proc/load()
-	if(!fexists(src.savefile_loc))	return 0
+	if(!fexists(src.savefile_loc))
+		return 0
 	var/savefile/F = new /savefile(src.savefile_loc, -1)
 	F["name"] >> src.name
 	F["gender"] >> src.gender

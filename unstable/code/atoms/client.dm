@@ -1,5 +1,5 @@
 /client
-	var/obj/admins/holder = null
+	var/list/powers = null
 	var/authenticated = 0
 	var/authenticating = 0
 	var/listen_ooc = 1

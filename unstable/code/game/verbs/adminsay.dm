@@ -1,6 +1,6 @@
 /client/proc/adminsay(msg as text)
 	//	All admins should be authenticated, but... what if?
-	if(!src.authenticated || !src.holder)
+	if(!src.authenticated || !src.powers)
 		src << "Only administrators may use this command."
 		return
 
@@ -17,5 +17,5 @@
 		return
 
 	for(var/mob/M in world)
-		if (M.client && M.client.holder)
+		if (M.client && M.client.powers)
 			M << "\blue <b>ADMIN: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.key]</a>/([name]):</b> [msg]"

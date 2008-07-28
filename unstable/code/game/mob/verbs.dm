@@ -31,7 +31,8 @@
 	set name = "Observe"
 	var/is_admin = 0
 
-	if (src.client.holder && src.client.holder.level >= 3)
+	//TODO: Make this only show up for dead people and admins
+	if (src.client.powers)
 		is_admin = 1
 	else if (!src.is_dead)
 		usr << "\blue You must be dead to use this!"

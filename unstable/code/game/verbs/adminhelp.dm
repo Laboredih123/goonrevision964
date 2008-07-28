@@ -10,11 +10,10 @@
 		return
 
 	var/yep = 0
-	if (!src.muted)
-		for(var/mob/M in world)
-			if (M.client && M.client.holder)
-				M << "\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"
-				yep = 1
+	for(var/mob/M in world)
+		if (M.client && M.client.powers)
+			M << "\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"
+			yep = 1
 
 	if (yep)
 		src << "Your message has been broadcast to administrators."

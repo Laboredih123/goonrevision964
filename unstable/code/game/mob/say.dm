@@ -1,9 +1,7 @@
 /mob/proc/can_say()
-	return !src.muted
+	return 1
 
 /mob/proc/say_dead(message)
-	if(src.muted)
-		return
 	for(var/mob/M in world)
 		if (M.is_dead)
 			M << "<b>[src.spawn_name]</b> <i>(dead)</i>: [message]"

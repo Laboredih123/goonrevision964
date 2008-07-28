@@ -24,8 +24,6 @@
 		return
 	else if (!ooc_allowed)
 		return
-	else if (src.muted)
-		return
 
 	for (var/mob/M in world)
 		if (M.client && M.client.listen_ooc)

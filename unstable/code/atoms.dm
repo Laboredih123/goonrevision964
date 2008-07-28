@@ -206,12 +206,6 @@
 		opacity = 0
 		anchored = 1
 
-/obj/admins
-	name = "admins"
-	var/rank = null
-	var/a_level = 0.0
-	var/screen = 1.0
-	var/owner = null
 /obj/barrier
 	name = "barrier"
 	icon = 'stationobjs.dmi'

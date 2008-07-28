@@ -1,5 +1,4 @@
 /client
-	var/last_known_ip
 	var/datum/preferences/prefs = new()
 
 /client/Del()
@@ -7,9 +6,7 @@
 	..()
 
 /client/New()
-	if (banned.Find(src.ckey))
-		del(src)
-	src.last_known_ip = src.address
+	//TODO: get rid of mob/prespawn in favor of doing everything with clients
 	world.log_access("Login: [src.key] from [src.address]")
 
 	src << "\blue <B>[join_motd]</B>"
@@ -26,67 +23,12 @@
 				world.log_access("Notice: [src.key] has same IP address as [M.key] did (M.key is no longer logged in).")
 				if (M.ckey in banned)
 					world.log_access("Further notice: [M.key] was banned.")
-
-		if (banned.Find(src.ckey))
-			del(src)
-			return
-
 	if (((world.address == src.address || !(src.address)) && !(host)))
 		host = src.key
 		world.update_stat()
 
 	winset(src,"mainwindow.saybutton","is-checked = true")
 	winset(src,"mainwindow.input","command=\"!say \\\"\"")
-
-	spawn (50)
-		if (src.CanAdmin())
-			src.holder = new /obj/admins(src)
-			src.holder.rank = "Primary Administrator"
-			src.holder.level = 5
-			src.holder.owner = src
-			src.verbs += /client/proc/show_panel
-			src.verbs += /client/proc/adminsay
-
-		else if (admins.Find(src.ckey))
-			src.holder = new /obj/admins(src)
-			src.holder.rank = admins[src.ckey]
-
-			switch (admins[src.ckey])
-				if ("Primary Administrator")
-					src.holder.level = 5
-					src.verbs += /proc/variables
-					src.verbs += /client/proc/adminsay
-				if ("Major Administrator")
-					src.holder.level = 4
-					src.verbs += /client/proc/adminsay
-				if ("Administrator")
-					src.holder.level = 3
-					src.verbs += /client/proc/adminsay
-				if ("Supervisor")
-					src.holder.level = 2
-					src.verbs += /client/proc/adminsay
-				if ("Game Master")
-					src.holder.level = 1
-					src.verbs += /client/proc/adminsay
-				if ("Moderator")
-					src.holder.level = 0
-					src.verbs += /client/proc/adminsay
-				if ("Banned")
-					//SN src = null
-					del(src)
-					return
-				else
-					//src.holder = null
-					del(src.holder)
-
-			if (src.holder)
-				src.holder.owner = src
-				src.verbs += /client/proc/show_panel
-
-		if (ticker && master_mode =="sandbox" && src.authenticated)
-			if (src.holder && src.holder.level == 5)
-				src.verbs += /proc/variables
-				src.verbs += /mob/proc/Delete
 
 	..()
 
@@ -129,22 +71,6 @@
 		if (src.mob.canmove)
 			return O.relaymove(src.mob, 16)
 	return
-
-/client/proc/show_panel()
-	set name = "Administrator Panel"
-
-	if (src.holder)
-		src.holder.update()
-	return
-
-/client/proc/CanAdmin()
-	if (world.address == src.address)
-		return 1
-	if (src.address == "127.0.0.1")
-		return 1
-	if (!( src.address ))
-		return 1
-	return 0
 
 /client/Move(n, direct)
 	if(src.moving)

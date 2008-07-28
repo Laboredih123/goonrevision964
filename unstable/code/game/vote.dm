@@ -179,7 +179,7 @@
 	var/footer = "<HR><A href='?src=\ref[vote];voter=\ref[src];vclose=1'>Close</A></BODY></HTML>"
 
 
-	if(config.vote_no_dead && usr.is_dead)
+	if(!(usr.client && usr.client.powers) && (config.vote_no_dead && usr.is_dead)) //admins can vote while dead
 		text += "Voting while dead has been disallowed."
 		text += footer
 		usr << browse(text, "window=vote")
@@ -248,14 +248,14 @@
 
 	else		//no vote in progress
 
-		if(!config.allow_vote_restart && !config.allow_vote_mode)
+		if(!(usr.client && usr.client.powers) && !config.allow_vote_restart && !config.allow_vote_mode)
 			text += "<P>Player voting is disabled.</BODY></HTML>"
 
 			usr << browse(text, "window=vote")
 			usr.client.showvote = 0
 			return
 
-		if(!vote.canvote())		// not time to vote yet
+		if(!(usr.client && usr.client.powers) && !vote.canvote())		// not time to vote yet
 			if(config.allow_vote_restart) text+="Voting to restart is enabled.<BR>"
 			if(config.allow_vote_mode) text+="Voting to change mode is enabled.<BR>"
 
