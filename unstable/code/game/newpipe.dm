@@ -1236,12 +1236,14 @@
 		var/sTotal = sgas.total()
 		if(!sTotal)
 			return
+		ndelta.copy_gas(sgas)
 		ndelta.multiply_gas(-amount/sTotal) // this is fraction of the gas which will be transfered to other node
 		sngas.sub_delta(ndelta)		// subtract off the fraction which is gone
 	else				// flowing from target to source
 		var/tTotal = tgas.total()
 		if(!tTotal)
 			return
+		ndelta.copy_gas(tgas)
 		ndelta.multiply_gas(amount/tTotal)
 			// fraction of gas from the other node
 		sngas.add_delta(ndelta)				// add the fraction to the new gas resv
@@ -1434,6 +1436,7 @@
 		var/sTotal = sgas.total()
 		if(!sTotal)
 			return
+		ndelta.copy_gas(sgas)
 		ndelta.multiply_gas(-delta_gt/sTotal)		// ndelta contains gas to transfer to turf
 		sngas.sub_delta(ndelta)			// update new gas to remove the amount transfered
 		ndelta.turf_add(T, -1)			// add all of ndelta to turf
@@ -1548,15 +1551,17 @@
 			var/gas2_total = gas2.total()
 			if(!gas2_total)
 				return
+			ndelta.copy_gas(gas2)
 			ndelta.multiply_gas(-delta_gt/gas2_total)
 
 			ngas2.sub_delta(ndelta)
 			ngas1.add_delta(ndelta)
 
 		else				// flowing from R1 to R2
-			var/gas1_total = gas2.total()
+			var/gas1_total = gas1.total()
 			if(!gas1_total)
 				return
+			ndelta.copy_gas(gas1)
 			ndelta.multiply_gas(delta_gt/gas1_total)
 			ngas2.add_delta(ndelta)
 			ngas1.sub_delta(ndelta)
@@ -1667,6 +1672,7 @@
 	if(!gas2_total) return
 
 	if(delta_gt < 0)		// then flowing from R2 to R1
+		ndelta.copy_gas(gas2)
 		ndelta.multiply_gas(-delta_gt/gas2_total)
 		ngas2.sub_delta(ndelta)
 		ngas1.add_delta(ndelta)

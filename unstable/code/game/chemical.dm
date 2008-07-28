@@ -261,9 +261,7 @@
 	//	don't overfill the container
 	if(target.maximum > 0)
 		if(target.maximum < (amount + nTotal))
-			amount = min(0,src.maximum - nTotal)
-			if(!amount)
-				return 0
+			amount = target.maximum - nTotal
 
 	//	all gasses are transferred at the same rate
 	var/datum/substance/gas/tmp = new/datum/substance/gas()
