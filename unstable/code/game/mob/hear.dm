@@ -2,6 +2,7 @@
 /var/const/LANGUAGE_MONKEY = "Monkey"
 /var/const/LANGUAGE_ENGLISH = "English"
 /var/const/LANGUAGE_COMPUTER = "Computer"
+/var/const/LANGUAGE_ENCRYPTED = "Encrypted"
 
 /var/const/MAX_MESSAGE_LEN = 1024
 
@@ -35,6 +36,8 @@
 			language_words = get_english_words()
 		if(LANGUAGE_COMPUTER)
 			language_words = get_computer_words()
+		if(LANGUAGE_ENCRYPTED)
+			language_words = get_encrypted_words()
 		if(LANGUAGE_NONE)
 			language_words = get_none_words()
 	for(var/word in words)

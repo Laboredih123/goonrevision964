@@ -10,7 +10,7 @@
 /datum/game_mode/nuclear/pre_setup()
 	var/list/mobs = list(  )
 	var/list/synd_list = list ()
-	for(var/mob/carbon/M in world)
+	for(var/mob/prespawn/M in world)
 		if (M.client)
 			mobs += M
 			if(M.be_syndicate)
@@ -23,26 +23,32 @@
 	amount = min(5, amount)
 	while(amount > 0)
 		amount--
-		var/mob/carbon/human/H = null
+		var/mob/prespawn/M = null
 		if(synd_list.len < 1)
-			H = pick(mobs)
+			M = pick(mobs)
 		else
-			H = pick(synd_list)
-			synd_list -= H
-		mobs -= H
-		if (istype(H, /mob/carbon))
-			H.loc = O.loc
+			M = pick(synd_list)
+			synd_list -= M
+		mobs -= M
+
+		if (istype(M, /mob/prespawn))
+			var/mob/carbon/human/H = null
 			if (ticker.killer)
-				H.spawn_name = text("Syndicate Operative #[]", amount + 1)
+				M.spawn_name = text("Syndicate Operative #[]", amount + 1)
 			else
-				H.spawn_name = "Syndicate Leader"
-				ticker.killer = H
+				M.spawn_name = "Syndicate Leader"
+				ticker.killer = M
+			H = new(O.loc, M.spawn_name, M.client.prefs.hair_color, M.client.prefs.hair_style, M.client.prefs.skin_color, M.client.prefs.gender)
+			H.client = M.client
+			del(M)
+			
+			H.loc = O.loc
+			H.name = H.spawn_name
 			H.already_placed = 1
-			//H.jumpsuit = null
+
 			del(H.jumpsuit)
 			H.jumpsuit = new /obj/item/weapon/clothing/under/black( H )
 			H.jumpsuit.layer = 20
-			//H.shoes = null
 			del(H.shoes)
 			H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
 			H.shoes.layer = 20
@@ -64,8 +70,8 @@
 			G.bullets = 7
 			G.layer = 20
 			H.belt = G
-			var/obj/item/weapon/radio/R = new /obj/item/weapon/radio/headset( H )
-			R.freq = 146.5
+			var/obj/item/weapon/radio/R = new /obj/item/weapon/radio/headset/syndicate( H )
+			R.freq = 1465
 			R.layer = 20
 			H.headset = R
 

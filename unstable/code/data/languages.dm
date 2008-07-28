@@ -48,6 +48,17 @@
 		"1111"
 	)
 
+/mob/proc/get_encrypted_words()
+	return list(
+		"hiss",
+		"crackle",
+		"pop",
+		"snap",
+		"bleep",
+		"boing",
+		"crack"
+	)
+
 /mob/proc/get_none_words()
 	return list(
 		"ugh",

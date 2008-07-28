@@ -39,6 +39,8 @@
 	icon_state = "headset"
 	listenrange = 1
 	s_istate = "headset"
+/obj/item/weapon/radio/headset/syndicate
+	name = "Syndicate Encrypted Headset"
 /obj/item/weapon/radio/intercom
 	name = "Station Intercom (Radio)"
 	icon_state = "intercom"
@@ -405,3 +407,15 @@
 	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.get_freq_text(), src, src, src, src, src.code, src, src)
 	user << browse(dat, "window=radio")
 	return
+
+/obj/item/weapon/radio/headset/syndicate/receive(datum/message/M, freq)
+	if(M.language == LANGUAGE_ENCRYPTED)
+		M.voice = M.origvoice
+		M.language = M.origlanguage
+		M.text += "&nbsp;&nbsp;&nbsp;(encrypted)"
+	return ..(M, freq)
+
+/obj/item/weapon/radio/headset/syndicate/transmit(datum/message/M, freq)
+	M.language = LANGUAGE_ENCRYPTED
+	M.voice = "Unknown"
+	return ..(M, freq)
