@@ -21,7 +21,7 @@
 				if(4.0)
 					dat += "<CENTER><B>Medical Record</B></CENTER><BR>"
 					if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
-						dat += text("Name: [] ID: []<BR>\nSex: <A href='?src=\ref[];field=sex'>[]</A><BR>\nAge: <A href='?src=\ref[];field=age'>[]</A><BR>\nFingerprint: <A href='?src=\ref[];field=fingerprint'>[]</A><BR>\nPhysical Status: <A href='?src=\ref[];field=p_stat'>[]</A><BR>\nMental Status: <A href='?src=\ref[];field=m_stat'>[]</A><BR>", src.active1.fields["name"], src.active1.fields["id"], src, src.active1.fields["sex"], src, src.active1.fields["age"], src, src.active1.fields["fingerprint"], src, src.active1.fields["p_stat"], src, src.active1.fields["m_stat"])
+						dat += text("Name: [] ID: []<BR>\nSex: <A href='?src=\ref[];field=sex'>[]</A><BR>\nFingerprint: <A href='?src=\ref[];field=fingerprint'>[]</A><BR>\nPhysical Status: <A href='?src=\ref[];field=p_stat'>[]</A><BR>\nMental Status: <A href='?src=\ref[];field=m_stat'>[]</A><BR>", src.active1.fields["name"], src.active1.fields["id"], src, src.active1.fields["sex"], src, src.active1.fields["fingerprint"], src, src.active1.fields["p_stat"], src, src.active1.fields["m_stat"])
 					else
 						dat += "<B>General Record Lost!</B><BR>"
 					if ((istype(src.active2, /datum/data/record) && data_core.medical.Find(src.active2)))
@@ -129,12 +129,6 @@
 													src.active1.fields["sex"] = "Female"
 												else
 													src.active1.fields["sex"] = "Male"
-										if("age")
-											if (istype(src.active1, /datum/data/record))
-												var/t1 = input("Please input age:", "Med. records", src.active1.fields["age"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || !usr.can_use_hands() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
-													return
-												src.active1.fields["age"] = t1
 										if("mi_dis")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input minor disabilities list:", "Med. records", src.active2.fields["mi_dis"], null)  as text
@@ -335,7 +329,7 @@
 																					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
 																					P.info = "<CENTER><B>Medical Record</B></CENTER><BR>"
 																					if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
-																						P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nAge: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["age"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
+																						P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
 																					else
 																						P.info += "<B>General Record Lost!</B><BR>"
 																					if ((istype(src.active2, /datum/data/record) && data_core.medical.Find(src.active2)))
@@ -378,7 +372,7 @@
 				if(4.0)
 					dat += "<CENTER><B>Security Record</B></CENTER><BR>"
 					if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
-						dat += text("Name: <A href='?src=\ref[];field=name'>[]</A> ID: <A href='?src=\ref[];field=id'>[]</A><BR>\nSex: <A href='?src=\ref[];field=sex'>[]</A><BR>\nAge: <A href='?src=\ref[];field=age'>[]</A><BR>\nRank: <A href='?src=\ref[];field=rank'>[]</A><BR>\nFingerprint: <A href='?src=\ref[];field=fingerprint'>[]</A><BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src, src.active1.fields["name"], src, src.active1.fields["id"], src, src.active1.fields["sex"], src, src.active1.fields["age"], src, src.active1.fields["rank"], src, src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
+						dat += text("Name: <A href='?src=\ref[];field=name'>[]</A> ID: <A href='?src=\ref[];field=id'>[]</A><BR>\nSex: <A href='?src=\ref[];field=sex'>[]</A><BR>\nRank: <A href='?src=\ref[];field=rank'>[]</A><BR>\nFingerprint: <A href='?src=\ref[];field=fingerprint'>[]</A><BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src, src.active1.fields["name"], src, src.active1.fields["id"], src, src.active1.fields["sex"], src, src.active1.fields["rank"], src, src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
 					else
 						dat += "<B>General Record Lost!</B><BR>"
 					if ((istype(src.active2, /datum/data/record) && data_core.security.Find(src.active2)))
@@ -505,12 +499,6 @@
 													src.active1.fields["sex"] = "Female"
 												else
 													src.active1.fields["sex"] = "Male"
-										if("age")
-											if (istype(src.active1, /datum/data/record))
-												var/t1 = input("Please input age:", "Secure. records", src.active1.fields["age"], null)  as text
-												if ((!( t1 ) || !( src.authenticated ) || !usr.can_use_hands() || (get_dist(src, usr) > 1 && (!istype(usr, /mob/silicon/ai))) || src.active1 != a1))
-													return
-												src.active1.fields["age"] = t1
 										if("mi_crim")
 											if (istype(src.active2, /datum/data/record))
 												var/t1 = input("Please input minor disabilities list:", "Secure. records", src.active2.fields["mi_crim"], null)  as text
@@ -546,45 +534,15 @@
 												src.temp = text("<B>Criminal Status:</B><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=none'>None</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=arrest'>*Arrest*</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=incarcerated'>Incarcerated</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=parolled'>Parolled</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=released'>Released</A><BR>", src, src, src, src, src)
 										if("rank")
 											if (istype(src.active1, /datum/data/record) && src.can_change_id)
-												src.temp = text("<B>Rank:</B><BR>\n<B>Assistants:</B><BR>\n<A href='?src=\ref[];temp=1;rank=res_assist'>Research Assistant</A><BR>\n<A href='?src=\ref[];temp=1;rank=staff_assist'>Staff Assistant</A><BR>\n<A href='?src=\ref[];temp=1;rank=med_assist'>Medical Assistant</A><BR>\n<A href='?src=\ref[];temp=1;rank=tech_assist'>Technical Assistant</A><BR>\n<B>Technicians:</B><BR>\n<A href='?src=\ref[];temp=1;rank=foren_tech'>Forensic Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=res_tech'>Research Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=stat_tech'>Station Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=atmo_tech'>Atmospheric Technician</A><BR>\n<A href='?src=\ref[];temp=1;rank=engineer'>Engineer (Engine Technician)\n<B>Researchers:</B><BR>\n<A href='?src=\ref[];temp=1;rank=med_res'>Genetic Researcher</A><BR>\n<A href='?src=\ref[];temp=1;rank=tox_res'>Toxin Researcher</A><BR>\n<B>Officers:</B><BR>\n<A href='?src=\ref[];temp=1;rank=med_doc'>Medical Doctor</A><BR>\n<A href='?src=\ref[];temp=1;rank=secure_off'>Security Officer</A><BR>\n<B>Higher Officers:</B><BR>\n<A href='?src=\ref[];temp=1;rank=hoperson'>Head of Research</A><BR>\n<A href='?src=\ref[];temp=1;rank=horesearch'>Head of Personnel</A><BR>\n<A href='?src=\ref[];temp=1;rank=captain'>Captain</A><BR>", src, src, src, src, src, src, src, src, src, src, src, src, src, src, src, src)
+												src.temp = "<B>Rank:</B><BR>\n"
+												var/list/alljobs = get_all_jobs()
+												for(var/job in alljobs)
+													src.temp += "<A HREF='?src=\ref[src];temp=1;rank=[job]'>[dd_replacetext(job, " ", "&nbsp")]</A><BR>\n"
 										else
 								else
 									if (href_list["rank"])
 										if(src.can_change_id)
-											switch(href_list["rank"])
-												if("res_assist")
-													src.active1.fields["rank"] = "Research Assistant"
-												if("staff_assist")
-													src.active1.fields["rank"] = "Staff Assistant"
-												if("med_assist")
-													src.active1.fields["rank"] = "Medical Assistant"
-												if("tech_assist")
-													src.active1.fields["rank"] = "Technical Assistant"
-												if("foren_tech")
-													src.active1.fields["rank"] = "Forensic Technician"
-												if("res_tech")
-													src.active1.fields["rank"] = "Research Technician"
-												if("stat_tech")
-													src.active1.fields["rank"] = "Station Technician"
-												if("atmo_tech")
-													src.active1.fields["rank"] = "Atmospheric Technician"
-												if("engineer")
-													src.active1.fields["rank"] = "Engineer"
-												if("med_res")
-													src.active1.fields["rank"] = "Genetic Researcher"
-												if("tox_res")
-													src.active1.fields["rank"] = "Toxin Researcher"
-												if("med_doc")
-													src.active1.fields["rank"] = "Medical Doctor"
-												if("secure_off")
-													src.active1.fields["rank"] = "Security Officer"
-												if("hoperson")
-													src.active1.fields["rank"] = "Head of Research"
-												if("horesearch")
-													src.active1.fields["rank"] = "Head of Personnel"
-												if("captain")
-													src.active1.fields["rank"] = "Captain"
-
+											src.active1.fields["rank"] = href_list["rank"]
 									else
 										if (href_list["criminal2"])
 											if (src.active2)
@@ -649,7 +607,6 @@
 																	G.fields["id"] = text("[]", add_zero(num2hex(rand(1, 1.6777215E7)), 6))
 																	G.fields["rank"] = "Unassigned"
 																	G.fields["sex"] = "Male"
-																	G.fields["age"] = "Unknown"
 																	G.fields["fingerprint"] = "Unknown"
 																	G.fields["p_stat"] = "Active"
 																	G.fields["m_stat"] = "Stable"
@@ -740,7 +697,7 @@
 																								var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
 																								P.info = "<CENTER><B>Security Record</B></CENTER><BR>"
 																								if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
-																									P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nAge: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["age"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
+																									P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
 																								else
 																									P.info += "<B>General Record Lost!</B><BR>"
 																								if ((istype(src.active2, /datum/data/record) && data_core.security.Find(src.active2)))
@@ -752,7 +709,7 @@
 																								else
 																									P.info += "<B>Security Record Lost!</B><BR>"
 																								P.info += "</TT>"
-																								P.name = "paper- 'Security Record'"
+																								P.name = "paper- 'Security Record - [src.active1.fields["name"]]'"
 																								src.printing = null
 	src.add_fingerprint(usr)
 	src.updateUsrDialog()
