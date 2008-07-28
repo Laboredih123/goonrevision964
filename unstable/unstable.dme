@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\admin\admin_powers\toggle_respawn.dm
-DIR: code code\atoms code\data code\game code\game\admin code\game\admin\admin_powers code\game\mob code\game\mob\carbon code\game\mob\prespawn code\game\verbs icons icons\ss13
+FILE: code\game\mob\carbon\new.dm
+DIR: code code\atoms code\data code\game code\game\admin code\game\admin\admin_powers code\game\dna code\game\dna\gene code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\prespawn code\game\verbs icons icons\ss13
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -144,6 +144,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\dna\locus.dm"
 #include "code\game\dna\gene\appearance.dm"
 #include "code\game\dna\gene\blobbishness.dm"
+#include "code\game\dna\gene\bloodtype.dm"
 #include "code\game\dna\gene\fire_immune.dm"
 #include "code\game\dna\gene\gender.dm"
 #include "code\game\dna\gene\gene.dm"

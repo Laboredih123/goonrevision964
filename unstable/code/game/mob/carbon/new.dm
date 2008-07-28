@@ -26,6 +26,8 @@
 	if(gender)
 		src.gender = gender
 
+	src.bloodtype = get_random_blood_type()
+
 	src.organs += new /datum/organ("chest")
 	src.organs += new /datum/organ("diaper")
 	src.organs += new /datum/organ("head")
