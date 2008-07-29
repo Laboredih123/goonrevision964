@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\mob\carbon\new.dm
+FILE: code\game\admin\admin_powers\authorize.dm
 DIR: code code\atoms code\data code\game code\game\admin code\game\admin\admin_powers code\game\dna code\game\dna\gene code\game\mob code\game\mob\carbon code\game\mob\carbon\human code\game\mob\prespawn code\game\verbs icons icons\ss13
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON

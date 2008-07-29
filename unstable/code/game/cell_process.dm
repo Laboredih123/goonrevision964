@@ -4,6 +4,7 @@
 /obj/move/proc/reset_phases()
 	phase1.copy_all(gas)
 	phase2.copy_all(gas)
+	equilibrium = 0
 
 /obj/move/proc/unburn()
 	icon_state = initial(icon_state)
@@ -92,6 +93,7 @@
 /turf/proc/reset_phases()
 	phase1.copy_all(gas)
 	phase2.copy_all(gas)
+	equilibrium = 0
 
 /turf/proc/unburn()
 	icon_state = initial(src.icon_state)
@@ -123,6 +125,23 @@
 /turf/updatecell()
 	src.checkfire = !src.checkfire
 	UpdateGasses(src, src.FindTurfs())
+
+/turf/buildlinks()
+	// seriously, who removed this, it broke a lot of things damnit.
+	// something happened near us that affects airflow, update our Diffusion and our neighbor's diffusion now.
+	// make sure all our (current) peers are updated
+	for(var/turf/T in DiffuseAir)
+		T.UpdateLinks()
+
+	DiffuseAir = gas.DiffusionLinks(src)
+	ConductHeat= gas.ConductionLinks(src)
+
+	equilibrium = 1
+	// test for equilibrium, and also re-run UpdateLinks on peers to create new links
+	for(var/turf/T in DiffuseAir)
+		if(!TestEquilibrium(T))
+			equilibrium = 0
+		T.UpdateLinks()
 
 /turf/proc/FindTurfs()
 	var/list/L = list()
@@ -194,6 +213,9 @@
 	return
 
 /datum/substance/gas/proc/DiffusionLinks(var/turf/T)
+	if(T.density) // if this is a dense turf (wall, closed false_wall etc, just return nothing)
+		return list()
+
 	var/list/L = cardinal.Copy()
 	for(var/obj/window/D in T)
 		if(!D.density)
@@ -202,27 +224,23 @@
 			return list()
 		L -= D.dir
 
-	for(var/obj/machinery/door/window/D in T)
+	for(var/obj/machinery/door/D in T)
 		if(!D.density)
 			continue
-		if(D.dir & (EAST|WEST))
-			L -= SOUTH	// door blocks south travel
-		if(D.dir & (NORTH|SOUTH))
-			L -= EAST	// door block east travel
-
-	for(var/obj/machinery/door/window/alt/D in T)
-		if(!D.density)
-			continue
-		if(D.dir & (EAST|WEST))
-			L -= NORTH // door blocks north travel
-		if(D.dir & (NORTH|SOUTH))
-			L -= WEST // door block west travel
+		if(istype(D, /obj/machinery/door/window))
+			if(D.dir & (EAST|WEST))
+				L -= istype(D, /obj/machinery/door/window/alt) ? NORTH : SOUTH
+			if(D.dir & (NORTH|SOUTH))
+				L -= istype(D, /obj/machinery/door/window/alt) ? WEST : EAST
+		else
+			// it's another door, such as a pod/fire/airlock, no airflow is possible
+			return list()
 
 	var/list/links = list()
 	for(var/dir in L)
 		var/turf/N = get_step(T,dir)
-		if(N && CheckAirflow(dir,N))
-			links += get_step(T,dir)
+		if(N && CheckAirflow(dir,N) == 1)
+			links += N
 	return links
 
 /datum/substance/gas/proc/ConductionLinks(var/turf/T)
@@ -260,29 +278,30 @@
 		return 0
 
 	srcDir = turn(srcDir, 180)
-	if(srcDir & SOUTH || srcDir & WEST)
-		for(var/obj/machinery/door/window/D in target)
-			if(!D.density)
-				continue
-			if(srcDir & SOUTH && D.dir & (EAST|WEST))
-				return 0
-			if(srcDir & WEST  && D.dir & (NORTH|SOUTH))
-				return 0
-
-	if(srcDir & NORTH || srcDir & EAST)
-		for(var/obj/machinery/door/window/alt/D in target)
-			if(!D.density)
-				continue
-			if(srcDir & NORTH && D.dir & (EAST|WEST))
-				return 0
-			if(srcDir & EAST  && D.dir & (NORTH|SOUTH))
-				return 0
 
 	for(var/obj/window/D in target)
 		if(!D.density) continue;
 		if(D.dir == SOUTHWEST)
 			return 0
 		if(D.dir == srcDir)
+			return 0
+
+	for(var/obj/machinery/door/D in target)
+		if(!D.density)
+			continue
+		if(istype(D, /obj/machinery/door/window))
+			if(istype(D, /obj/machinery/door/window/alt))
+				if((srcDir & NORTH) && (D.dir & (EAST|WEST)))
+					return 0
+				if((srcDir & WEST ) && (D.dir & (NORTH|SOUTH)))
+					return 0
+			else
+				if((srcDir & SOUTH) && (D.dir & (EAST|WEST)))
+					return 0
+				if((srcDir & EAST ) && (D.dir & (NORTH|SOUTH)))
+					return 0
+		else
+			// it's a real, air blocking door
 			return 0
 	return 1
 

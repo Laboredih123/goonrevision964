@@ -128,12 +128,12 @@
 	var/turf/T = src.loc
 	if (istype(T, /turf))
 		if (src.density)
-			T.updatecell = 0
+			if(!istype(src, /obj/machinery/door/window))
+				T.updatecell = 0
 			T.buildlinks()
 	return
 
 /obj/machinery/door/proc/open()
-
 	if (src.operating || stat & EMAGGED)
 		return
 	src.operating = 1
@@ -144,13 +144,13 @@
 	src.opacity = 0
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		T.updatecell = 1
+		if(!istype(src, /obj/machinery/door/window))
+			T.updatecell = 1
 		T.buildlinks()
 	src.operating = 0
 	return
 
 /obj/machinery/door/proc/close()
-
 	if (src.operating || stat & EMAGGED)
 		return
 	src.operating = 1
@@ -161,7 +161,8 @@
 		src.opacity = 1
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		T.updatecell = 0
+		if(!istype(src, /obj/machinery/door/window))
+			T.updatecell = 0
 		T.buildlinks()
 	sleep(15)
 	src.operating = 0
