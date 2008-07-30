@@ -45,7 +45,6 @@
 			//a false wall turns into a sheet of metal and displaced girders
 			new /obj/item/weapon/sheet/metal( F )
 			new /obj/d_girders( F )
-			F.buildlinks()
 			F.levelupdate()
 			return
 		else

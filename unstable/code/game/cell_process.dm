@@ -52,11 +52,11 @@
 		A.loc = T
 
 /obj/move/proc/process()
-	if(locate(/obj/shuttle/door, src.loc))
-		var/obj/shuttle/door/D = locate(/obj/shuttle/door, src.loc)
-		src.updatecell = !D.density
-		if(!src.updatecell)
-			return
+	// if(locate(/obj/move/shuttle/door, src.loc))
+	//	var/obj/move/shuttle/door/D = locate(/obj/move/shuttle/door, src.loc)
+	//	src.updatecell = !D.density
+	//	if(!src.updatecell)
+	//		return
 
 	src.checkfire = !src.checkfire
 	UpdateGasses(src, src.FindTurfs())
@@ -75,8 +75,9 @@
 	DiffuseAir = gas.DiffusionLinks(src.loc)
 	ConductHeat= gas.ConductionLinks(src.loc)
 
-/obj/move/wall/process()
-	src.updatecell = 0
+// /obj/move/wall/process()
+// 	src.updatecell = 0
+
 /obj/move/wall/blob_act()
 	del(src)
 
@@ -213,7 +214,12 @@
 	return
 
 /datum/substance/gas/proc/DiffusionLinks(var/turf/T)
-	if(T.density) // if this is a dense turf (wall, closed false_wall etc, just return nothing)
+	if(T.density && !T.updatecell) // if this is a dense turf (wall, closed false_wall etc, just return nothing)
+		return list()
+	
+	for(var/obj/move/M in T) // are there any dense obj/move in this turf?
+		if(!M.density)
+			continue
 		return list()
 
 	var/list/L = cardinal.Copy()
@@ -279,8 +285,14 @@
 
 	srcDir = turn(srcDir, 180)
 
+	for(var/obj/move/M in target)
+		if(!M.density)
+			continue
+		return 0
+
 	for(var/obj/window/D in target)
-		if(!D.density) continue;
+		if(!D.density)
+			continue
 		if(D.dir == SOUTHWEST)
 			return 0
 		if(D.dir == srcDir)

@@ -1581,7 +1581,6 @@
 				W.state = 1
 				W.density = 1
 				W.levelupdate()
-				W.buildlinks()
 		if (src.amount <= 0)
 			//SN src = null
 			user.u_equip(src)
@@ -2932,7 +2931,6 @@
 	W.intact = 0
 	W.gas.oxygen = 0
 	W.gas.nitrogen = 0
-	W.buildlinks()
 	W.levelupdate()
 	W.icon_state = "Floor1"
 	W.health = 100

@@ -230,7 +230,7 @@
 		else
 	return
 
-/obj/shuttle/door/attackby(obj/item/I as obj, mob/user as mob)
+/obj/move/shuttle/door/attackby(obj/item/I as obj, mob/user as mob)
 	if (src.operating)
 		return
 	if (src.density)
@@ -238,10 +238,10 @@
 	else
 		return close()
 
-/obj/shuttle/door/interact(mob/user as mob)
+/obj/move/shuttle/door/interact(mob/user as mob)
 	return attackby(user, user)
 
-/obj/shuttle/door/proc/open()
+/obj/move/shuttle/door/proc/open()
 	src.add_fingerprint(usr)
 	if (src.operating)
 		return
@@ -256,7 +256,7 @@
 	src.loc.buildlinks()
 	return
 
-/obj/shuttle/door/proc/close()
+/obj/move/shuttle/door/proc/close()
 	src.add_fingerprint(usr)
 	if (src.operating)
 		return
@@ -276,27 +276,18 @@
 
 	switch(severity)
 		if(1.0)
-			//SN src = null
-			var/turf/space/S = src.ReplaceWithSpace()
-			S.buildlinks()
-
-			del(src)
-			return
+			src.ReplaceWithSpace()
+			src.levelupdate()
+			// del(src)
 		if(2.0)
 			if (prob(50))
-				//SN src = null
-				var/turf/space/S = src.ReplaceWithSpace()
-				S.buildlinks()
-
-				del(src)
-				return
-		else
+				src.ReplaceWithSpace()
+				src.levelupdate()
+				// del(src)
 	return
 
 /turf/station/shuttle/blob_act()
 	if(prob(20))
-
-		var/turf/space/S = src.ReplaceWithSpace()
-		S.buildlinks()
-
-		del(src)
+		src.ReplaceWithSpace()
+		src.levelupdate()
+		// del(src)

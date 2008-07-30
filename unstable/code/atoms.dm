@@ -2859,9 +2859,9 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 	var/list/parts = list(  )
 
-/obj/shuttle
+/obj/move/shuttle
 	name = "shuttle"
-/obj/shuttle/door
+/obj/move/shuttle/door
 	name = "door"
 	icon = 'shuttle.dmi'
 	icon_state = "door1"

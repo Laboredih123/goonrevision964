@@ -2490,7 +2490,6 @@
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
-				F.buildlinks()
 				F.levelupdate()
 	return
 
@@ -2512,6 +2511,7 @@
 		if (A!=world.area)
 			A.contents -= W
 			A.contents += W
+	W.buildlinks()
 	return W
 
 /turf/proc/ReplaceWithSpace()
@@ -2525,6 +2525,7 @@
 	else
 		S.previousArea = oldAreaArea
 	new /area( locate(src.x, src.y, src.z) )
+	S.buildlinks()
 	return S
 
 /turf/proc/ReplaceWithWall()
@@ -2539,6 +2540,7 @@
 	else
 		S.previousArea = oldAreaArea
 	new /area( locate(src.x, src.y, src.z) )
+	S.buildlinks()
 	return S
 
 /turf/proc/ReplaceWithRWall()
@@ -2553,18 +2555,15 @@
 	else
 		S.previousArea = oldAreaArea
 	new /area( locate(src.x, src.y, src.z) )
+	S.buildlinks()
 	return S
 
 /turf/station/r_wall/ex_act(severity)
 
 	switch(severity)
 		if(1.0)
-			//SN src = null
 			var/turf/space/S = src.ReplaceWithSpace()
-			S.buildlinks()
-
-			//del(src)
-			return
+			del(src)
 		if(2.0)
 			if (prob(75))
 				src.opacity = 0
@@ -2577,14 +2576,12 @@
 				new /obj/item/weapon/sheet/metal( src )
 			else
 				src.state = 0
-				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
-				F.buildlinks()
 				F.levelupdate()
 		if(3.0)
 			if (prob(15))
@@ -2613,7 +2610,6 @@
 			F.health = 30
 			F.icon_state = "Floor1"
 			new /obj/item/weapon/sheet/metal( F )
-			F.buildlinks()
 			F.levelupdate()
 		else
 
@@ -2701,7 +2697,6 @@
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
-				F.buildlinks()
 				F.levelupdate()
 		else if (istype(W, /obj/item/weapon/sheet/r_metal))
 			src.state = 2
@@ -2730,11 +2725,8 @@
 
 	switch(severity)
 		if(1.0)
-			//SN src = null
-			var/turf/space/S = src.ReplaceWithSpace()
-			S.buildlinks()
+			src.ReplaceWithSpace()
 			del(src)
-			return
 		if(2.0)
 			if (prob(50))
 				src.opacity = 0
@@ -2748,14 +2740,12 @@
 				src.icon_state = "girder"
 			else
 				src.state = 0
-				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
-				F.buildlinks()
 				F.levelupdate()
 		if(3.0)
 			if (prob(25))
@@ -2768,7 +2758,6 @@
 				new /obj/item/weapon/sheet/metal( src )
 				new /obj/item/weapon/sheet/metal( src )
 				src.icon_state = "girder"
-		else
 	return
 
 /turf/station/wall/blob_act()
@@ -2776,13 +2765,11 @@
 	if(prob(20))
 		if(!intact)
 			src.state = 0
-			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
 			F.burnt = 1
 			F.health = 30
 			F.icon_state = "Floor1"
 			new /obj/item/weapon/sheet/metal( F )
-			F.buildlinks()
 			F.levelupdate()
 		else
 			src.opacity = 0
@@ -2828,7 +2815,6 @@
 			var/turf/station/floor/F = src.ReplaceWithFloor()
 			new /obj/item/weapon/sheet/metal( F )
 			new /obj/item/weapon/sheet/metal( F )
-			F.buildlinks()
 			F.levelupdate()
 	else if ((istype(W, /obj/item/weapon/screwdriver) && src.state == 1))
 		var/turf/T = user.loc
@@ -2844,7 +2830,6 @@
 			var/turf/station/floor/F = src.ReplaceWithFloor()
 			new /obj/d_girders( F )
 			new /obj/item/weapon/sheet/metal( F )
-			F.buildlinks()
 	else if (istype(W, /obj/item/weapon/sheet/r_metal) && src.state == 1)
 		var/turf/T = user.loc
 		if (!( istype(T, /turf) ))
@@ -2899,7 +2884,6 @@
 			src.opacity = 1
 			src.updatecell = 0
 			src.intact = 1
-			src.updatecell = 1
 			src.levelupdate()
 			src.buildlinks()
 			W:amount -= 2
@@ -2928,7 +2912,6 @@
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 				new /obj/item/weapon/sheet/metal( F )
 				new /obj/item/weapon/sheet/metal( F )
-				F.buildlinks()
 				F.levelupdate()
 	return
 
@@ -2945,19 +2928,14 @@
 
 	switch(severity)
 		if(1.0)
-			var/turf/space/S = src.ReplaceWithSpace()
-			S.buildlinks()
+			src.ReplaceWithSpace()
 			levelupdate()
-			//del(src)	//deleting it makes this method silently stop executing and erases the saved area somehow (SL)
-			return
+			//del(src)
 		if(2.0)
 			if (prob(50))
-				//SN src = null
 				var/turf/space/S = src.ReplaceWithSpace()
-				S.buildlinks()
 				levelupdate()
 				//del(src)	//deleting it makes this method silently stop executing and erases the saved area somehow (SL)
-				return
 			else
 				src.icon_state = "burning"
 				src.luminosity = 2
@@ -2966,7 +2944,6 @@
 				src.intact = 0
 				levelupdate()
 				src.firelevel = 1800000.0
-				src.buildlinks()
 		if(3.0)
 			if (prob(50))
 				src.burnt = 1
@@ -2974,8 +2951,6 @@
 				src.intact = 0
 				levelupdate()
 				src.icon_state = "Floor1"
-				src.buildlinks()
-		else
 	return
 
 /turf/station/floor/blob_act()

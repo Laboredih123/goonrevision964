@@ -146,20 +146,14 @@
 
 	switch(severity)
 		if(1.0)
-			//SN src = null
-			var/turf/space/S = src.ReplaceWithSpace()
-			S.buildlinks()
-			del(src)
-			return
+			src.ReplaceWithSpace()
+			src.levelupdate()
+			// del(src)
 		if(2.0)
 			if (prob(50))
-				//SN src = null
-				var/turf/space/S = src.ReplaceWithSpace()
-				S.buildlinks()
-
-				del(src)
-				return
-		else
+				src.ReplaceWithSpace()
+				src.levelupdate()
+				// del(src)
 	return
 
 /turf/station/engine/floor/blob_act()
