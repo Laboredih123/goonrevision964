@@ -585,8 +585,8 @@
 	var/s_fire = 0.0
 	var/see_face = 1.0
 	var/color = null
-	var/brute_protect = 0.0
-	var/fire_protect = 0.0
+	var/brute_protect = 0
+	var/fire_protect = 0
 /obj/item/weapon/clothing/glasses
 	name = "glasses"
 	clothing_name = "eyes"
@@ -627,7 +627,7 @@
 	s_istate = "bgloves"
 	h_filter = 4.0
 	s_fire = 7.5E7
-	fire_protect = 16.0
+	fire_protect = 16
 /obj/item/weapon/clothing/gloves/latex
 	name = "Latex Gloves"
 	icon_state = "lgloves"
@@ -640,7 +640,7 @@
 	icon_state = "r_hands"
 	s_istate = "r_hands"
 	h_filter = 4.0
-	fire_protect = 16.0
+	fire_protect = 16
 	elec_protect = 0
 /obj/item/weapon/clothing/gloves/swat
 	desc = "These gloves are somewhat fire-resistant."
@@ -648,8 +648,8 @@
 	icon_state = "swat_gl"
 	s_istate = "swat_gl"
 	h_filter = 4.0
-	fire_protect = 16.0
-	brute_protect = 16.0
+	fire_protect = 16
+	brute_protect = 16
 	elec_protect = 2
 
 /obj/item/weapon/clothing/gloves/yellow
@@ -659,7 +659,7 @@
 	s_istate = "ygloves"
 	h_filter = 4.0
 	s_fire = 7.5E7
-	fire_protect = 16.0
+	fire_protect = 16
 	elec_protect = 10
 
 
@@ -673,15 +673,15 @@
 	flags = FPRINT|TABLEPASS|HEADSPACE|HEADCOVERSEYES|HEADCOVERSMOUTH
 	see_face = 0.0
 	s_fire = 1.875E7
-	fire_protect = 1.0
+	fire_protect = 1
 /obj/item/weapon/clothing/head/helmet
 	name = "helmet"
 	icon_state = "helmet"
 	flags = FPRINT|TABLEPASS|SUITSPACE|HEADCOVERSEYES
 	s_istate = "helmet"
 	s_fire = 6.75E7
-	fire_protect = 1.0
-	brute_protect = 1.0
+	fire_protect = 1
+	brute_protect = 1
 /obj/item/weapon/clothing/head/s_helmet
 	name = "s helmet"
 	icon_state = "s_helmet"
@@ -689,7 +689,7 @@
 	see_face = 0.0
 	s_istate = "s_helmet"
 	s_fire = 5.625E7
-	fire_protect = 1.0
+	fire_protect = 1
 /obj/item/weapon/clothing/head/helmet/swat_hel
 	name = "swat hel"
 	icon_state = "swat_hel"
@@ -711,7 +711,7 @@
 	see_face = 0.0
 	s_istate = "gas_mask"
 	s_fire = 7.5E7
-	fire_protect = 1.0
+	fire_protect = 1
 /obj/item/weapon/clothing/mask/m_mask
 	desc = "This mask does not work very well in low pressure environments."
 	name = "Medical Mask"
@@ -740,8 +740,8 @@
 	see_face = 0.0
 	s_istate = "r_head"
 	s_fire = 7.5E7
-	brute_protect = 1.0
-	fire_protect = 1.0
+	brute_protect = 1
+	fire_protect = 1
 /obj/item/weapon/clothing/mask/robot/swat
 	name = "SWAT Mask"
 /obj/item/weapon/clothing/mask/surgical
@@ -759,8 +759,8 @@
 	var/chained = 0.0
 	fb_filter = 1.0
 	s_fire = 3.75E7
-	brute_protect = 64.0
-	fire_protect = 64.0
+	brute_protect = 64
+	fire_protect = 64
 /obj/item/weapon/clothing/shoes/black
 	name = "Black Shoes"
 	icon_state = "bl_shoes"
@@ -788,7 +788,7 @@
 	icon_state = "armor"
 	s_istate = "armor"
 	s_fire = 1.875E7
-	brute_protect = 6.0
+	brute_protect = 6
 /obj/item/weapon/clothing/suit/bio_suit
 	name = "bio suit"
 	desc = "A suit that protects against biological contamination."
@@ -799,7 +799,7 @@
 	s_istate = "bio_suit"
 	flags = FPRINT | TABLEPASS
 	s_fire = 1350000.0
-	fire_protect = 126.0
+	fire_protect = 126
 /obj/item/weapon/clothing/suit/firesuit
 	name = "firesuit"
 	desc = "A suit that protects against fire and heat."
@@ -810,7 +810,7 @@
 	s_istate = "fire_suit"
 	flags = FPRINT | TABLEPASS
 	s_fire = 7.5E7
-	fire_protect = 126.0
+	fire_protect = 126
 obj/item/weapon/clothing/suit/labcoat
 	name = "labcoat"
 	desc = "A suit that protects against minor chemical spills."
@@ -818,7 +818,7 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "labcoat"
 	flags = FPRINT | TABLEPASS
 	s_fire = 1000000.0
-	fire_protect = 126.0
+	fire_protect = 126
 /obj/item/weapon/clothing/suit/robot_suit
 	name = "robot suit"
 	icon_state = "ro_suit"
@@ -828,7 +828,7 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "ro_suit"
 	flags = FPRINT | TABLEPASS
 	s_fire = 1.875E7
-	fire_protect = 126.0
+	fire_protect = 126
 /obj/item/weapon/clothing/suit/sp_suit
 	name = "sp suit"
 	desc = "A suit that protects against low pressure environments."
@@ -839,13 +839,13 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "s_suit"
 	flags = FPRINT | TABLEPASS | SUITSPACE
 	s_fire = 6.75E7
-	fire_protect = 126.0
+	fire_protect = 126
 /obj/item/weapon/clothing/suit/straight_jacket
 	name = "straight jacket"
 	icon_state = "straight_jacket"
 	s_istate = "straight_jacket"
 	s_fire = 1.875E7
-	fire_protect = 126.0
+	fire_protect = 126
 /obj/item/weapon/clothing/suit/swat_suit
 	name = "swat suit"
 	icon_state = "swat_suit"
@@ -855,14 +855,14 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "swat_suit"
 	flags = FPRINT | TABLEPASS
 	s_fire = 6.75E7
-	brute_protect = 126.0
-	fire_protect = 126.0
+	brute_protect = 126
+	fire_protect = 126
 /obj/item/weapon/clothing/under
 	name = "under"
 	clothing_name = "jumpsuit"
 	s_fire = 1.875E7
 	fb_filter = 1.0
-	fire_protect = 46.0
+	fire_protect = 46
 /obj/item/weapon/clothing/under/black
 	name = "Black Jumpsuit"
 	icon_state = "bl_suit"
