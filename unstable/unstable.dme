@@ -175,7 +175,6 @@
 #include "code\game\mob\life.dm"
 #include "code\game\mob\login.dm"
 #include "code\game\mob\memory.dm"
-#include "code\game\mob\movement.dm"
 #include "code\game\mob\new.dm"
 #include "code\game\mob\proc.dm"
 #include "code\game\mob\say.dm"
