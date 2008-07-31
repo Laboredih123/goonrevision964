@@ -9,7 +9,7 @@
 			var/dat = "<table><tr><th>Key</th><th>Permanent?</th><th>Ends in:</th><th>Remove</th></tr>"
 			var/list/L = flist("bans/")
 			for(var/filename in L)
-				var/list/bans = get_bans(filename)
+				var/list/bans = get_bans("bans/[filename]")
 				if(!bans)
 					continue
 				var/list/filename_parts = dd_text2list(filename, "/")
