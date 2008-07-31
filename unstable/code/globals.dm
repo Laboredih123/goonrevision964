@@ -169,7 +169,7 @@ var
 	datum/dna/canonical/canonical_dna = new()
 
 world
-	name = "In Space No One Can Hear You Say No"
+	name = "Goon Station 13"
 	mob = /mob/prespawn
 	turf = /turf/space
 	area = /area
