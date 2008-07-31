@@ -19,10 +19,11 @@
 	else if(istype(source, /obj/item/weapon/radio))
 		speaker_name += " broadcasts \icon[source]"
 	var/text = M.text
-	if(!M.language)
-		return
-	if(!(M.language in src.languages) || M.language == LANGUAGE_NONE)
-		text = replace_language(text, M.language)
+	if(!M.is_dead) //dead people understand everything
+		if(!M.language)
+			return
+		if(!(M.language in src.languages) || M.language == LANGUAGE_NONE)
+			text = replace_language(text, M.language)
 	return src.hear("<b>[speaker_name]</b>: [text]")
 
 /mob/proc/replace_language(message, language)
