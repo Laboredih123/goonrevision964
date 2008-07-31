@@ -4210,6 +4210,8 @@
 	if (((!usr.canmove) && (!istype(usr, /mob/silicon/ai))))
 		return
 
+	var/turf/targetturf = get_turf(src)
+
 	if ((!( src in usr.contents ) && (((!( isturf(src) ) && (!( isturf(src.loc) ) && (src.loc && !( isturf(src.loc.loc) )))) || !( isturf(usr.loc) )) && (src.loc != usr.loc && (!( istype(src, /obj/screen) ) && !( usr.contents.Find(src.loc) ))))))
 		return
 	var/t5 = (get_dist(src, usr) <= 1 || src.loc == usr)
@@ -4233,70 +4235,68 @@
 						T = get_step(usr, NORTH)
 						if (T.Enter(D, src))
 							D.loc = T
-							T = src.loc
+							T = targetturf
 							if (T.Enter(D, src))
 								ok = 1
 						if(!ok)
 							T = get_step(usr, EAST)
 							if (T.Enter(D, src))
 								D.loc = T
-								T = src.loc
+								T = targetturf
 								if (T.Enter(D, src))
 									ok = 1
 					if(SOUTHEAST)
 						T = get_step(usr, SOUTH)
 						if (T.Enter(D, src))
 							D.loc = T
-							T = src.loc
+							T = targetturf
 							if (T.Enter(D, src))
 								ok = 1
 						if(!ok)
 							T = get_step(usr, EAST)
 							if (T.Enter(D, src))
 								D.loc = T
-								T = src.loc
+								T = targetturf
 								if (T.Enter(D, src))
 									ok = 1
 					if(NORTHWEST)
 						T = get_step(usr, NORTH)
 						if (T.Enter(D, src))
 							D.loc = T
-							T = src.loc
+							T = targetturf
 							if (T.Enter(D, src))
 								ok = 1
 						if(!ok)
 							T = get_step(usr, WEST)
 							if (T.Enter(D, src))
 								D.loc = T
-								T = src.loc
+								T = targetturf
 								if (T.Enter(D, src))
 									ok = 1
 					if(SOUTHWEST)
 						T = get_step(usr, SOUTH)
 						if (T.Enter(D, src))
 							D.loc = T
-							T = src.loc
+							T = targetturf
 							if (T.Enter(D, src))
 								ok = 1
 						if(!ok)
 							T = get_step(usr, WEST)
 							if (T.Enter(D, src))
 								D.loc = T
-								T = src.loc
+								T = targetturf
 								if (T.Enter(D, src))
 									ok = 1
 			else
-				if (src.loc.Enter(D, src))
+				if (targetturf.Enter(D, src))
 					ok = 1
 				else
 					if ((src.flags & 512 && get_dir(src, usr) & src.dir))
 						ok = 1
-						if (usr.loc != src.loc)
+						if (usr.loc != targetturf)
 							for(var/atom/A as mob|obj|turf|area in usr.loc)
-								if ((!( A.CheckExit(usr, src.loc) ) && A != usr))
+								if ((!( A.CheckExit(usr, targetturf) ) && A != usr))
 									ok = 0
-								//Foreach goto(1111)
-			//D = null
 			del(D)
 			if (!( ok ))
 				return 0

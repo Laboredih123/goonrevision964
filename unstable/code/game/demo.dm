@@ -73,7 +73,6 @@
 	close()
 
 /obj/machinery/door/window/CheckPass(atom/movable/O as mob|obj, target as turf)
-
 	if (src.density)
 		var/direct = get_dir(O, target)
 		if ((direct == NORTH && src.dir & 12))
@@ -2394,32 +2393,27 @@
 
 	if (!( isturf(O.loc) ))
 		return 1
-	for(var/atom/A as mob|obj|turf|area in O.loc)
+	for(var/atom/A in O.loc)
 		if ((!( A.CheckExit(O, src) ) && O != A && A != forget))
 			if (O)
 				O.Bump(A, 1)
 			return 0
-		//Foreach goto(34)
-	for(var/atom/A as mob|obj|turf|area in src)
+	for(var/atom/A in src)
 		if ((A.flags & 512 && get_dir(A, O) & A.dir))
 			if ((!( A.CheckPass(O, src) ) && A != src && A != forget))
 				if (O)
 					O.Bump(A, 1)
 				return 0
-		//Foreach goto(127)
-	for(var/atom/A as mob|obj|turf|area in src)
 		if ((!( A.CheckPass(O, src) ) && A != forget))
 			if (O)
 				O.Bump(A, 1)
 			return 0
-		//Foreach goto(244)
 	if (src != forget)
 		if (!( src.CheckPass(O, src) ))
 			if (O)
 				O.Bump(src, 1)
 			return 0
 	return 1
-	return
 
 /turf/Entered(atom/movable/M as mob|obj)
 	if(istype(M, /mob/carbon) && !istype(src, /turf/space))
