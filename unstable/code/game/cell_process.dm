@@ -104,6 +104,7 @@
 	gas.nitrogen = src.n2
 	gas.oxygen = src.oxygen
 	gas.plasma = src.poison
+	gas.co2 = src.co2
 	gas.temp = src.temp
 	reset_phases()
 
@@ -216,7 +217,7 @@
 /datum/substance/gas/proc/DiffusionLinks(var/turf/T)
 	if(T.density && !T.updatecell) // if this is a dense turf (wall, closed false_wall etc, just return nothing)
 		return list()
-	
+
 	for(var/obj/move/M in T) // are there any dense obj/move in this turf?
 		if(!M.density)
 			continue
