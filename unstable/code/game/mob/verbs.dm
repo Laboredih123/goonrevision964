@@ -86,20 +86,12 @@
 		return
 
 	var/mob/eye = creatures[eye_name]
-	if (is_admin)
-		if (eye)
-			src.reset_view(eye)
-			client.adminobs = 1
-			if(eye == src.client.mob)
-				client.adminobs = 0
-		else
-			src.reset_view(null)
-			client.adminobs = 0
+	if (eye && eye != src.client.mob)
+		src.reset_view(eye)
+		src.client.is_observing = 1
 	else
-		if (eye)
-			src.client.eye = eye
-		else
-			src.client.eye = src.client.mob
+		src.reset_view(null)
+		src.client.is_observing = 0
 
 	if (src.is_dead)
 		src.sight |= SEE_TURFS
@@ -113,6 +105,7 @@
 /mob/verb/cancel_camera()
 	set name = "Cancel Camera View"
 	src.reset_view(null)
+	src.client.is_observing = 0
 	src.machine = null
 	src:cameraFollow = null
 

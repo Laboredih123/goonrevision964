@@ -4,5 +4,5 @@
 			if (!src.machine.check_eye(src))
 				src.reset_view(null)
 		else
-			if(!client.adminobs)
+			if(!client.is_observing)
 				reset_view(null)
