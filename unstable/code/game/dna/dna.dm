@@ -44,13 +44,18 @@
 		G.pre_apply(M)
 	for(var/datum/gene/G in genes)
 		G.apply(M, genes[G])
-	var/name = src.check_registered()
-	if(name)
-		M.body_name = name
-		M.voice = name
+
+	if(M.appearance == APPEARANCE_QUIVERING_MASS)
+		M.body_name = "Unholy quivering mass of flesh"
+		M.voice = "Unholy quivering mass of flesh"
 	else
-		M.body_name = "Unknown"
-		M.voice = "Unknown"
+		var/name = src.check_registered()
+		if(name)
+			M.body_name = name
+			M.voice = name
+		else
+			M.body_name = "Unknown"
+			M.voice = "Unknown"
 	M.update_body()
 	M.update_face()
 
