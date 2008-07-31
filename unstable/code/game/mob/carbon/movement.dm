@@ -75,17 +75,6 @@
 		return
 	return
 
-/mob/carbon/m_delay()
-	var/tally = 0
-	if (istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
-		tally += 15
-	if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
-		if (src.shoes.chained)
-			tally += 15
-		else
-			tally--
-	return tally
-
 /mob/carbon/CheckPass(mob/carbon/M as mob)
 
 	if (src.other_mobs && istype(M, /mob/carbon) && M.other_mobs)
@@ -96,11 +85,17 @@
 
 /mob/carbon/proc/m_delay()
 	var/tally = 0
-	if (istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
+	if(src.appearance == APPEARANCE_QUIVERING_MASS)
+		tally += 100 //blobs are very slow
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/firesuit)) //firesuits slow you down a bit
+		tally += 5
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit)) //space suits slow you down a bit
+		tally += 5
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
 		tally += 15
-	if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
+	if(istype(src.shoes, /obj/item/weapon/clothing/shoes))
 		if (src.shoes.chained)
 			tally += 15
 		else
-			tally += -1.0
+			tally--
 	return tally
