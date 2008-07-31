@@ -15,7 +15,3 @@
 	src.verbs -= /mob/verb/switch_language
 
 	return
-
-/mob/prespawn/Topic(href, href_list)
-	if(src != usr)
-		return ..()
