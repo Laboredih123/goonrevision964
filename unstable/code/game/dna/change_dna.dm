@@ -34,7 +34,7 @@
 	if(color == HAIR_COLOR_GREY)
 		return rgb(200,200,200)
 	else if(color == HAIR_COLOR_BLACK)
-		return rgb(255,255,255)
+		return rgb(0, 0, 0)
 	else if(color == HAIR_COLOR_BROWN)
 		return rgb(150, 70, 20)
 	else if(color == HAIR_COLOR_BLOND)
