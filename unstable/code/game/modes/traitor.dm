@@ -162,7 +162,7 @@
 				T.icon_state = R.icon_state
 				T.origradio = R
 				killer << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [round(freq/10, 0.1)] to unlock it's hidden features."
-				killer:memory += "<BR><B>Radio Freq:</B> [freq] ([R.name] [loc])."
+				killer:memory += "<BR><B>Radio Freq:</B> [round(freq/10, 0.1)] ([R.name] [loc])."
 
 /datum/game_mode/traitor/proc/send_intercept()
 	var/intercepttext = "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT><HR>"
