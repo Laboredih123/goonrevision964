@@ -226,6 +226,8 @@ var/const
 
 	// for remote signallers
 	SENDSRSIGNAL = 1 << 12
+	// reusing the same flag for obj/beam
+	GLASSPASS = 1 << 12
 
 	// channel numbers for power
 

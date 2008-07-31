@@ -215,6 +215,7 @@
 	anchored = 1.0
 /obj/beam
 	name = "beam"
+	flags = TABLEPASS|GLASSPASS
 /obj/beam/a_laser
 	name = "a laser"
 	icon = 'weap_sat.dmi'
@@ -224,11 +225,11 @@
 	var/xo = null
 	var/current = null
 	var/life = 50.0
-	anchored = 1.0
-	flags = 2.0
+	anchored = 1
 /obj/beam/a_laser/s_laser
 	name = "s laser"
 	icon_state = "spark"
+	flags = TABLEPASS // this should not pass through glass
 /obj/beam/i_beam
 	name = "i beam"
 	icon = 'weap_sat.dmi'
@@ -238,8 +239,7 @@
 	var/limit = null
 	var/visible = 0.0
 	var/left = null
-	anchored = 1.0
-	flags = 2.0
+	anchored = 1
 /obj/bedsheetbin
 	name = "Linen Bin"
 	desc = "A bin for containing bedsheets."
