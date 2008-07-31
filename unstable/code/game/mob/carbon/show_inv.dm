@@ -13,7 +13,9 @@
 		list(src.can_wear_suit, "Suit", SLOT_SUIT, src.suit),
 		list(src.can_wear_jumpsuit, "Jumpsuit", SLOT_JUMPSUIT, src.jumpsuit),
 		list(src.can_wear_belt, "Belt", SLOT_BELT, src.belt),
-		list(src.can_wear_id, "ID", SLOT_ID, src.id)
+		list(src.can_wear_id, "ID", SLOT_ID, src.id),
+		list(src.can_wear_shoes, "Shoes", SLOT_SHOES, src.shoes),
+		list(src.can_wear_headset, "Headset", SLOT_HEADSET, src.headset)
 	)
 	for(var/x in L)
 		var/can_wear = x[1]
@@ -21,7 +23,7 @@
 			var/desc = x[2]
 			var/slot = x[3]
 			var/contents = x[4] ? x[4] : "Nothing"
-			dat += "<b>[desc]</b> <a href='?src=\ref[src];item=[slot]'>[contents]</a><br>"
+			dat += "<b>[desc]</b>: <a href='?src=\ref[src];item=[slot]'>[contents]</a><br>"
 	dat += "<br><a href='?src=\ref[src];item=[SLOT_HANDCUFFS]'>[src.handcuffs ? "" : "Not "]Handcuffed</A><br>"
 	if(src.can_wear_jumpsuit)
 		dat += "<a href='?src=\ref[src];item=[SLOT_IN_POCKETS]'>Empty Pockets</A><br>"
