@@ -64,12 +64,15 @@
 	var/dat = "<html><head><title>DNA Machine</title></head><body>"
 	switch(src.state)
 		if(STATE_DEFAULT)
+			if(src.connected_scanner.locked)
+				dat += "<a href='?src=\ref[src];operation=unlock'>Unlock Scanner</a><br>"
+			else
+				dat += "<a href='?src=\ref[src];operation=lock'>Lock Scanner</a><br>"
 			dat += "<a href='?src=\ref[src];operation=scan-menu'>Scan Occupant DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=replace-menu'>Replace Occupant DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=gamma-menu'>Subject Occupant to Gamma Radiation</a><br>"
 			dat += "<a href='?src=\ref[src];operation=splice-menu'>Splice DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=view-menu'>View DNA</a><br>"
-
 			dat += "<a href='?src=\ref[src];operation=diff-menu'>Compare DNA</a><br>"
 		if(STATE_NO_OCCUPANT)
 			dat += "No occupant!"
@@ -239,6 +242,10 @@
 	switch(href_list["operation"])
 		if("main")
 			src.state = STATE_DEFAULT
+		if("lock")
+			src.connected_scanner.locked = 1
+		if("unlock")
+			src.connected_scanner.locked = 0
 		if("scan-menu")
 			if (!src.connected_scanner)
 				src.state = STATE_NO_SCANNER

@@ -3,9 +3,9 @@
 	icon = 'Cryogenic2.dmi'
 	icon_state = "scanner_0"
 	density = 1
-	var/locked = 0.0
+	var/locked = 0
 	var/mob/carbon/occupant = null
-	anchored = 1.0
+	anchored = 1
 
 /obj/machinery/dna_scanner/allow_drop()
 	return 0
@@ -27,7 +27,8 @@
 
 /obj/machinery/dna_scanner/verb/move_inside()
 	set src in oview(1)
-
+	if(src.locked)
+		return
 	if (!usr.is_active())
 		return
 	if (src.occupant)
