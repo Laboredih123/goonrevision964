@@ -81,7 +81,7 @@
 				O.hear_message(message, usr)
 				heard += O
 	for(var/mob/carbon/M in world)
-		if(!(M in heard) && M.is_telepathic)
+		if(!(M in heard) && (M.is_telepathic || M.is_dead))
 			M.hear_message(message, usr)
 
 /mob/proc/is_stuttering()
