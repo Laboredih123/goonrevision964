@@ -116,6 +116,8 @@
 	spawn(5)
 		UpdateLinks()
 
+	..()
+
 /turf/proc/isempty()	// 0 if turf is dense or contains a dense object  (else 1)
 	if(src.density)
 		return 0
