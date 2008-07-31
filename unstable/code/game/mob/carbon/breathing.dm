@@ -3,6 +3,10 @@
 /mob/carbon/var/co2_breathed = 0
 /mob/carbon/var/taking_tox_damage = 0
 /mob/carbon/var/taking_suff_damage = 0
+/mob/carbon/var/co2_metabolize_rate = 20
+/mob/carbon/var/co2_knockdown_threshold = 100
+/mob/carbon/var/no2_metabolize_rate = 10
+/mob/carbon/var/no2_knockdown_threshold = 20
 
 /mob/carbon/proc/aircheck(datum/substance/gas/G as obj)
 	if(!G)
@@ -28,14 +32,15 @@
 		if(plasma_dam > 0)
 			src.take_damage(toxin = plasma_dam)
 			src.taking_tox_damage = 1
-	src.co2_breathed = max(0, src.co2_breathed - 5) + G.co2
-	if(src.co2_breathed > 50)
-		src.co2_breathed -= 50
+	src.co2_breathed = max(0, src.co2_breathed - src.co2_metabolize_rate) + G.co2
+	if(src.co2_breathed > src.co2_knockdown_threshold)
+		src.co2_breathed -= src.co2_knockdown_threshold
 		src.knockdown_until(3)
 		src.take_damage(suffocation = 2)
 
-	src.no2_breathed = max(0, src.no2_breathed - 5) + a_no2_gas
-	if (src.no2_breathed > 50)
+	src.no2_breathed = max(0, src.no2_breathed - src.no2_metabolize_rate) + a_no2_gas
+	if (src.no2_breathed > src.no2_knockdown_threshold)
+		src.no2_breathed -= src.no2_knockdown_threshold
 		src.knockdown_until(3)
 
 	G.co2 += a_oxygen //breathe out!
