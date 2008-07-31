@@ -979,7 +979,7 @@
 
 /obj/item/weapon/baton/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 	src.add_fingerprint(user)
-	if (istype(M.helmet, /obj/item/weapon/clothing/head/helmet) && M.helmet.flags & 8 && prob(80))
+	if (istype(M.helmet, /obj/item/weapon/clothing/head/helmet) && M.helmet.flags & 8 && prob(10))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	flick("baton_active", src)
