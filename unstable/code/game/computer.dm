@@ -100,6 +100,8 @@
 			continue
 		if(!istype(M.loc, /turf)) //in a closet or something, AI can't see him anyways
 			continue
+		if(M.invisibility) //cloaked
+			continue
 
 		var/name = M.name
 		if (name in names)
