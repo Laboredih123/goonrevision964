@@ -8,7 +8,7 @@
 
 /mob/proc/stutter(txt)
 	var/s = ""
-	for(var/i = 0; i < lentext(txt); i++)
+	for(var/i = 1; i <= lentext(txt); i++)
 		var/c = copytext(txt, i, i + 1)
 		var/numrepeats = rand(5) - 1
 		for(var/j = 0; j < numrepeats; j++)
