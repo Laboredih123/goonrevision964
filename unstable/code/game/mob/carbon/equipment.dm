@@ -126,7 +126,8 @@
 			src.client.screen -= W
 		W.loc = src.loc
 		W.dropped(src)
-		W.layer = initial(W.layer)
+		if(W) //dropping can destroy grabs
+			W.layer = initial(W.layer)
 		src.update_clothing()
 
 /mob/carbon/proc/reset_db_click()
