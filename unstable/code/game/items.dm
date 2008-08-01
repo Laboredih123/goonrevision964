@@ -3420,24 +3420,6 @@
 			user.see(text("\red You inject [] units into the []. The syringe contains [] units.", amount, M, round(src.chem.volume(), 0.1)))
 	return
 
-/obj/item/weapon/brutepack/interact(mob/user as mob)
-	if(istype(user, /mob/carbon))
-		var/mob/carbon/M = user
-		if (M.r_hand == src || M.l_hand == src)
-			src.add_fingerprint(M)
-			var/obj/item/weapon/brutepack/F = new /obj/item/weapon/brutepack(M)
-			F.amount = 1
-			src.amount--
-			if (M.hand)
-				M.l_hand = F
-			else
-				M.r_hand = F
-			F.layer = 20
-			F.add_fingerprint(M)
-			if (src.amount < 1)
-				del(src)
-	return ..()
-
 /obj/item/weapon/brutepack/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 
 	if (M.is_dead)
@@ -3494,28 +3476,6 @@
 	var/obj/portal/P = new /obj/portal( get_turf(src) )
 	P.target = T
 	src.add_fingerprint(user)
-	return
-
-/obj/item/weapon/ointment/interact(mob/carbon/user as mob)
-	if(!istype(user, /mob/carbon))
-		return
-	if ((user.r_hand == src || user.l_hand == src))
-		src.add_fingerprint(user)
-		var/obj/item/weapon/ointment/F = new /obj/item/weapon/ointment( user )
-		F.amount = 1
-		src.amount--
-		if (user.hand)
-			user.l_hand = F
-		else
-			user.r_hand = F
-		F.layer = 20
-		F.add_fingerprint(user)
-		if (src.amount < 1)
-			//SN src = null
-			del(src)
-			return
-	else
-		..()
 	return
 
 /obj/item/weapon/ointment/attack(mob/M as mob, mob/user as mob)

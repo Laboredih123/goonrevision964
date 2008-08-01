@@ -35,9 +35,7 @@
 
 /mob/carbon/heal_damage(brute, burn, suffocation, toxin, electric)
 	var/datum/damage/dam = new /datum/damage(brute = brute, burn = burn, suffocation = suffocation, toxin = toxin, electric = electric)
-	world << "HEALIN, TOTAL DAM IS [dam.total]"
 	for(var/datum/organ/O in src.organs)
-		world << "HEALIN ORGAN [O], TOTAL DAM IS [dam.total]"
 		dam = O.heal_damage(dam) //returns a smaller damage, or null if it's all used up
 		if(!dam) //all done!
 			break
