@@ -3445,7 +3445,7 @@
 	if(!user.check_dexterity())
 		return
 	M.show_viewers("\red [user] has applied the [src] to [M]")
-	M.heal_damage(brute = 60)
+	M.heal_damage(brute = 15)
 	src.amount--
 	return
 
@@ -3524,7 +3524,7 @@
 	if (istype(M, /mob/carbon))
 		if (user)
 			M.show_viewers(text("\red [] has been applied with [] by []", M, src, user))
-		M.heal_damage(burn = 40)
+		M.heal_damage(burn = 15)
 		src.amount--
 		if (src.amount <= 0)
 			del(src)

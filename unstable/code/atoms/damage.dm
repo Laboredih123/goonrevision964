@@ -69,7 +69,12 @@
 		src.suffocation -= dam.suffocation
 		dam.suffocation = 0
 	total()
-	return dam
+
+	dam.total()
+	if(dam.total)
+		return dam
+	else
+		return null
 
 /datum/damage/proc/total()
 	src.total = src.brute + src.burn + src.toxin + src.electric + src.suffocation

@@ -13,8 +13,9 @@
 	src.update_icons()
 
 /datum/organ/proc/heal_damage(datum/damage/dam)
-	src.dam.subtract(dam)
+	dam = src.dam.subtract(dam)
 	src.update_icons()
+	return dam
 
 /datum/organ/proc/get_damage_state()
 	var/burn = 0
