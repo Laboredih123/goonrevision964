@@ -2564,7 +2564,7 @@
 
 	switch(severity)
 		if(1.0)
-			var/turf/space/S = src.ReplaceWithSpace()
+			src.ReplaceWithSpace()
 			del(src)
 		if(2.0)
 			if (prob(75))
@@ -2935,7 +2935,7 @@
 			//del(src)
 		if(2.0)
 			if (prob(50))
-				var/turf/space/S = src.ReplaceWithSpace()
+				src.ReplaceWithSpace()
 				levelupdate()
 				//del(src)	//deleting it makes this method silently stop executing and erases the saved area somehow (SL)
 			else
