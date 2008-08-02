@@ -5,6 +5,8 @@
 		return
 
 	if (!config.enable_authentication)
+		src.verbs += /mob/verb/character_setup
+		src.prefs.setup(src)
 		src.authenticated = 1
 		return
 
@@ -33,6 +35,8 @@
 				src << "Key Authorized: Hello [html_encode(account)]!"
 				src << "[auth_motd]"
 				success = 1
+				src.verbs += /mob/verb/character_setup
+				src.prefs.setup(src)
 			else if (code == "banned")
 				banned.Add(src.ckey)
 				del(src)

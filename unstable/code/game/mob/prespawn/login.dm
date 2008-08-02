@@ -8,6 +8,3 @@
 
 	if(!src.client.prefs.last_version || src.client.prefs.last_version != md5(changes)) //they havent seen this changelog
 		src.changes()
-
-	src.client.prefs.setup(client)
-

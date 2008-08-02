@@ -13,5 +13,6 @@
 	src.verbs -= /mob/verb/observe
 	src.verbs -= /mob/verb/respawn
 	src.verbs -= /mob/verb/switch_language
+	src.verbs -= /mob/verb/character_setup
 
 	return
