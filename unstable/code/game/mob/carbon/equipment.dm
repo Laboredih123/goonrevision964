@@ -415,45 +415,46 @@
 		if (!w_type)
 			w_type = W.icon_state
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "[w_type][suffix]", "layer" = MOB_LAYER)
-		W.screen_loc = icons[W]
+		W.screen_loc = (src.is_dead) ? null : icons[W]
 	if (src.id)
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[suffix]", "layer" = MOB_LAYER)
-		src.id.screen_loc = "1,1"
+		src.id.screen_loc = (src.is_dead) ? null : "1,1"
 	if (src.l_hand)
 		var/w_type = src.l_hand.s_istate
 		if (!w_type)
 			w_type = src.l_hand.icon_state
 		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
-		src.l_hand.screen_loc = "3,2"
+		src.l_hand.screen_loc = (src.is_dead) ? null : "3,2"
 	if (src.r_hand)
 		var/w_type = src.r_hand.s_istate
 		if (!w_type)
 			w_type = src.r_hand.icon_state
 		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
-		src.r_hand.screen_loc = "1,2"
+		src.r_hand.screen_loc = (src.is_dead) ? null : "1,2"
 	if (src.belt)
 		var/w_type = src.belt.s_istate
 		if (!w_type)
 			w_type = src.belt.icon_state
 		src.overlays += image("icon" = 'belt.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
-		src.belt.screen_loc = "8,2"
+		src.belt.screen_loc = (src.is_dead) ? null : "8,2"
 	if (src.l_store)
-		src.l_store.screen_loc = "4,1"
+		src.l_store.screen_loc = (src.is_dead) ? null : "4,1"
 	if (src.r_store)
-		src.r_store.screen_loc = "5,1"
+		src.r_store.screen_loc = (src.is_dead) ? null : "5,1"
 
 	if (src.back)
 		var/elect = ""
 		if (istype(src.back, /obj/item/weapon/radio/electropack))
 			elect = "e"
 		src.overlays += image("icon" = iconsource, "icon_state" = "back[elect][suffix]", "layer" = MOB_LAYER)
-		src.back.screen_loc = "3,3"
+		src.back.screen_loc = (src.is_dead) ? null : "3,3"
 
 	if (src.handcuffs)
 		src.overlays += image("icon" = iconsource, "icon_state" = "handcuff[suffix]", "layer" = MOB_LAYER)
 	if (src.client)
 		src.client.screen -= src.contents
-		src.client.screen += src.contents
+		if (!src.is_dead)
+			src.client.screen += src.contents
 
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
