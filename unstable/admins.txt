@@ -10,22 +10,16 @@
 
 # The valid positions are:
 
-# Primary Administrator
-
-# Administrator
-
-# Moderator
-
-# Game Master
-
+# Host
+# Admin
+# Mod
 #
 
-# Don't put any whitespace after the rank - "Primary Administrator " is not a 
+# Don't put any whitespace after the rank - "Host " is not a 
 
 # rank, and is equivalent to no rank at all.
 
 
 
-# Example administrators
-
-kurper - Primary Administrator
+# Example administrator - you should remove this on your server
+kurper - Host
