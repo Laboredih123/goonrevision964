@@ -961,7 +961,7 @@
 	for (var/i = 1; i <= gases.len; i++)
 		dat += "[gases[i]]: <A HREF='?src=\ref[src];tg=[1 << (i - 1)]'>[(src.f_mask & 1 << (i - 1)) ? "Extracting" : "Passing"]</A><BR>\n"
 	dat += "<A HREF='?src=\ref[src];mach_close=pipefilter'>Close</A><BR><BR>"
-	user << browse(dat, "window=pipefilter;size=600x300")
+	user << browse(dat, "window=pipefilter;size=600x300;can_close=0")
 
 /obj/machinery/pipefilter/Topic(href, href_list)
 	..()
