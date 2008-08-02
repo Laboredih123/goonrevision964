@@ -110,3 +110,8 @@
 		for(var/atom/movable/A as mob|obj in src)
 			A.loc = src.loc
 		del(src)
+
+/obj/machinery/dna_scanner/hear_message(datum/message/M, atom/source)
+	for(var/atom/A in src)
+		A.hear_message(M, source)
+
