@@ -3848,8 +3848,8 @@
 		return
 		return
 	user.drop_item()
-	if (W.loc != src.loc)
-		step(W, get_dir(W, src))
+	// um, let's just uh, put it on the table since we can't get here unless we can reach it
+	W.loc = src.loc
 	return
 
 /obj/rack/ex_act(severity)
@@ -3904,8 +3904,7 @@
 		return
 		return
 	user.drop_item()
-	if (W.loc != src.loc)
-		step(W, get_dir(W, src))
+	W.loc = src.loc
 	return
 
 /obj/rack/meteorhit(obj/O as obj)
