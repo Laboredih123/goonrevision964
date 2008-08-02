@@ -15,7 +15,8 @@
 		list(src.can_wear_belt, "Belt", SLOT_BELT, src.belt),
 		list(src.can_wear_id, "ID", SLOT_ID, src.id),
 		list(src.can_wear_shoes, "Shoes", SLOT_SHOES, src.shoes),
-		list(src.can_wear_headset, "Headset", SLOT_HEADSET, src.headset)
+		list(src.can_wear_headset, "Headset", SLOT_HEADSET, src.headset),
+		list(src.can_wear_back, "Back", SLOT_BACK, src.back)
 	)
 	for(var/x in L)
 		var/can_wear = x[1]
