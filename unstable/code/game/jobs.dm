@@ -90,11 +90,11 @@
 		//next, assign the jobs that absolutely must be filled (trying to fill them from unassigned first)
 		var/list/necessaryjobs = list(
 			"Captain",
-			"AI",
 			"Head of Personnel",
-			"Head of Research",
 			"Station Engineer",
-			"Medical Doctor"
+			"AI",
+			"Medical Doctor",
+			"Head of Research"
 		)
 		if(!config.allow_ai)
 			necessaryjobs -= "AI"
