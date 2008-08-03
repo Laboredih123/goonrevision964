@@ -19,12 +19,12 @@
 
 /mob/verb/help()
 
-	src << browse('help.html', "window=help")
+	ss13_browse(src, 'help.html', "window=help")
 	return
 
 /mob/verb/changes()
 	set name = "Changelog"
-	src << browse(text("[]", changes), "window=changes")
+	ss13_browse(src, text("[]", changes), "window=changes")
 	return
 
 /mob/verb/observe()

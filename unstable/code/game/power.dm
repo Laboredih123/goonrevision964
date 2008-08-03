@@ -316,11 +316,11 @@
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
-			user << browse(null, "window=apc")
+			ss13_browse(user, null, "window=apc")
 			return
 		else if (istype(user, /mob/silicon/ai) && src.aidisabled)
 			user << "AI control for this APC interface has been disabled."
-			user << browse(null, "window=apc")
+			ss13_browse(user, null, "window=apc")
 			return
 
 	user.machine = src
@@ -405,7 +405,7 @@
 	t += "<BR><HR><A href='?src=\ref[src];close=1'>Close</A>"
 
 	t += "</TT>"
-	user << browse(t, "window=apc")
+	ss13_browse(user, t, "window=apc")
 	return
 
 /obj/machinery/power/apc/proc/report()
@@ -472,14 +472,14 @@
 			updateicon()
 			update()
 		else if( href_list["close"] )
-			usr << browse(null, "window=apc")
+			ss13_browse(usr, null, "window=apc")
 			usr.machine = null
 			return
 
 		src.updateUsrDialog()
 
 	else
-		usr << browse(null, "window=apc")
+		ss13_browse(usr, null, "window=apc")
 		usr.machine = null
 
 	return
@@ -836,7 +836,7 @@
 
 	if ( (get_dist(src, user) > 1 ) && (!istype(user, /mob/silicon/ai)))
 		user.machine = null
-		user << browse(null, "window=teg")
+		ss13_browse(user, null, "window=teg")
 		return
 
 	user.machine = src
@@ -860,7 +860,7 @@
 	t += "<BR><HR><A href='?src=\ref[src];close=1'>Close</A>"
 
 	t += "</PRE>"
-	user << browse(t, "window=teg;size=460x300")
+	ss13_browse(user, t, "window=teg;size=460x300")
 	return
 
 /obj/machinery/power/generator/Topic(href, href_list)
@@ -876,7 +876,7 @@
 
 
 		if( href_list["close"] )
-			usr << browse(null, "window=teg")
+			ss13_browse(usr, null, "window=teg")
 			usr.machine = null
 			return
 
@@ -944,7 +944,7 @@
 		src.updateUsrDialog()
 
 	else
-		usr << browse(null, "window=teg")
+		ss13_browse(usr, null, "window=teg")
 		usr.machine = null
 
 	return
@@ -1734,7 +1734,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	if ( (get_dist(src, user) > 1 ) || (stat & (BROKEN|NOPOWER)) )
 		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
-			user << browse(null, "window=powcomp")
+			ss13_browse(user, null, "window=powcomp")
 			return
 
 
@@ -1772,13 +1772,13 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	t += "<BR><HR><A href='?src=\ref[src];close=1'>Close</A></TT>"
 
-	user << browse(t, "window=powcomp;size=420x700")
+	ss13_browse(user, t, "window=powcomp;size=420x700")
 
 
 /obj/machinery/power/monitor/Topic(href, href_list)
 	..()
 	if( href_list["close"] )
-		usr << browse(null, "window=powcomp")
+		ss13_browse(usr, null, "window=powcomp")
 		usr.machine = null
 		return
 
@@ -1963,7 +1963,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
-			user << browse(null, "window=smes")
+			ss13_browse(user, null, "window=smes")
 			return
 
 	user.machine = src
@@ -1989,7 +1989,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	t += "<BR></PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
 
 	t += "</TT>"
-	user << browse(t, "window=smes;size=460x300")
+	ss13_browse(user, t, "window=smes;size=460x300")
 	return
 
 /obj/machinery/power/smes/Topic(href, href_list)
@@ -2004,7 +2004,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 
 		if( href_list["close"] )
-			usr << browse(null, "window=smes")
+			ss13_browse(usr, null, "window=smes")
 			usr.machine = null
 			return
 
@@ -2075,7 +2075,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		src.updateUsrDialog()
 
 	else
-		usr << browse(null, "window=smes")
+		ss13_browse(usr, null, "window=smes")
 		usr.machine = null
 
 	return
@@ -2232,7 +2232,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/silicon/ai))
 			user.machine = null
-			user << browse(null, "window=solcon")
+			ss13_browse(user, null, "window=solcon")
 			return
 
 	user.machine = src
@@ -2273,7 +2273,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
 
 	t += "</TT>"
-	user << browse(t, "window=solcon")
+	ss13_browse(user, t, "window=solcon")
 
 	return
 
@@ -2289,7 +2289,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 
 		if( href_list["close"] )
-			usr << browse(null, "window=solcon")
+			ss13_browse(usr, null, "window=solcon")
 			usr.machine = null
 			return
 
@@ -2326,7 +2326,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 
 	else
-		usr << browse(null, "window=solcon")
+		ss13_browse(usr, null, "window=solcon")
 		usr.machine = null
 
 	return
@@ -2506,7 +2506,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if ( (get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)) )
 		user.machine = null
-		user << browse(null, "window=turbine")
+		ss13_browse(user, null, "window=turbine")
 		return
 
 	user.machine = src
@@ -2523,7 +2523,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
 
 	t += "</TT>"
-	user << browse(t, "window=turbine")
+	ss13_browse(user, t, "window=turbine")
 
 	return
 
@@ -2540,7 +2540,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 
 		if( href_list["close"] )
-			usr << browse(null, "window=turbine")
+			ss13_browse(usr, null, "window=turbine")
 			usr.machine = null
 			return
 
@@ -2553,7 +2553,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 					src.interaction(M)
 
 	else
-		usr << browse(null, "window=turbine")
+		ss13_browse(usr, null, "window=turbine")
 		usr.machine = null
 
 	return

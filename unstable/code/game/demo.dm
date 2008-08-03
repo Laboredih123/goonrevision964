@@ -282,7 +282,7 @@
 	var/second = src.time % 60
 	var/minute = (src.time - second) / 60
 	var/dat = text("<HTML><HEAD></HEAD><BODY><TT><B>Fire alarm</B> []\n<HR>\nTimer System: []<BR>\nTime Left: [][] <A href='?src=\ref[];tp=-30'>-</A> <A href='?src=\ref[];tp=-1'>-</A> <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=30'>+</A>\n</TT></BODY></HTML>", d1, d2, (minute ? text("[]:", minute) : null), second, src, src, src, src)
-	user << browse(dat, "window=firealarm")
+	ss13_browse(user, dat, "window=firealarm")
 	return
 
 /obj/machinery/firealarm/Topic(href, href_list)
@@ -308,7 +308,7 @@
 
 		src.add_fingerprint(usr)
 	else
-		usr << browse(null, "window=firealarm")
+		ss13_browse(usr, null, "window=firealarm")
 		return
 	return
 
@@ -388,7 +388,7 @@
 
 	user.machine = src
 	var/dat = text("<TT><B>Loaded Tank Dispensing Unit</B><BR>\n<FONT color = 'blue'><B>Oxygen</B>: []</FONT> []<BR>\n<FONT color = 'orange'><B>Plasma</B>: []</FONT> []<BR>\n</TT>", src.o2tanks, (src.o2tanks ? text("<A href='?src=\ref[];oxygen=1'>Dispense</A>", src) : "empty"), src.pltanks, (src.pltanks ? text("<A href='?src=\ref[];plasma=1'>Dispense</A>", src) : "empty"))
-	user << browse(dat, "window=dispenser")
+	ss13_browse(user, dat, "window=dispenser")
 	return
 
 /obj/machinery/dispenser/Topic(href, href_list)
@@ -424,7 +424,7 @@
 				src.interact(M)
 			//Foreach goto(275)
 	else
-		usr << browse(null, "window=dispenser")
+		ss13_browse(usr, null, "window=dispenser")
 		return
 	return
 
@@ -508,7 +508,7 @@
 	if (!( src.gas ))
 		return
 	var/dat = text("<TT><B>Tank</B><BR>\n<FONT color = 'blue'><B>Contains/Capacity</B> [] / []</FONT><BR>\nInterals Valve: <A href='?src=\ref[];stat=1'>[] Gas Flow</A><BR>\n\t<A href='?src=\ref[];cp=-50'>-</A> <A href='?src=\ref[];cp=-5'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=5'>+</A> <A href='?src=\ref[];cp=50'>+</A><BR>\n<BR>\n<A href='?src=\ref[];mach_close=tank'>Close</A>\n</TT>", src.gas.total(), src.maximum, src, ((src.loc == user && user.internal == src) ? "Stop" : "Restore"), src, src, src, src.i_used, src, src, src, user)
-	user << browse(dat, "window=tank;size=600x300")
+	ss13_browse(user, dat, "window=tank;size=600x300")
 	return
 
 /obj/item/weapon/tank/Topic(href, href_list)
@@ -537,7 +537,7 @@
 			if ((M.client && M.machine == src))
 				src.attack_self(M)
 	else
-		usr << browse(null, "window=tank")
+		ss13_browse(usr, null, "window=tank")
 		return
 	return
 

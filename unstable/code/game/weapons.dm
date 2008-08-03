@@ -40,7 +40,7 @@
 			if (src.yes_code)
 				message = "*****"
 		dat += text("<HR>\n>[]<BR>\n<A href='?src=\ref[];type=1'>1</A>-<A href='?src=\ref[];type=2'>2</A>-<A href='?src=\ref[];type=3'>3</A><BR>\n<A href='?src=\ref[];type=4'>4</A>-<A href='?src=\ref[];type=5'>5</A>-<A href='?src=\ref[];type=6'>6</A><BR>\n<A href='?src=\ref[];type=7'>7</A>-<A href='?src=\ref[];type=8'>8</A>-<A href='?src=\ref[];type=9'>9</A><BR>\n<A href='?src=\ref[];type=R'>R</A>-<A href='?src=\ref[];type=0'>0</A>-<A href='?src=\ref[];type=E'>E</A><BR>\n</TT>", message, src, src, src, src, src, src, src, src, src, src, src, src)
-		user << browse(dat, "window=nuclearbomb;size=300x400")
+		ss13_browse(user, dat, "window=nuclearbomb;size=300x400")
 	else if (src.deployable)
 		src.anchored = 1
 		flick("nuclearbombc", src)
@@ -115,7 +115,7 @@
 				src.interact(M)
 			//Foreach goto(511)
 	else
-		usr << browse(null, "window=nuclearbomb")
+		ss13_browse(usr, null, "window=nuclearbomb")
 		return
 	return
 
@@ -224,7 +224,7 @@
 
 	user.machine = src
 	var/dat = text("<TT><B>Infrared Sensor</B><BR>\n<B>Passive Emitter</B>: []<BR>\n<B>Active Emitter</B>: <A href='?src=\ref[];active=0'>Burst Fire</A>\n</TT>", (src.passive ? text("<A href='?src=\ref[];passive=0'>On</A>", src) : text("<A href='?src=\ref[];passive=1'>Off</A>", src)), src)
-	user << browse(dat, "window=infra_sensor")
+	ss13_browse(user, dat, "window=infra_sensor")
 	return
 
 /obj/item/weapon/infra_sensor/Topic(href, href_list)
@@ -257,7 +257,7 @@
 					//Foreach goto(240)
 		src.add_fingerprint(usr)
 	else
-		usr << browse(null, "window=infra_sensor")
+		ss13_browse(usr, null, "window=infra_sensor")
 		return
 	return
 
@@ -328,7 +328,7 @@
 
 	user.machine = src
 	var/dat = text("<TT><B>Proximity Sensor</B>\n<B>Status</B>: []<BR>\n[]\n</TT>", (src.state ? text("<A href='?src=\ref[];state=0'>On</A>", src) : text("<A href='?src=\ref[];state=1'>Off</A>", src)), (src.state ? "<b>\red Time On (30)</b>" : text("<A href='?src=\ref[];time=1'>Time On (30)</A>", src)))
-	user << browse(dat, "window=prox")
+	ss13_browse(user, dat, "window=prox")
 	return
 
 
@@ -374,7 +374,7 @@
 						src.attack_self(M)
 					//Foreach goto(310)
 	else
-		usr << browse(null, "window=prox")
+		ss13_browse(usr, null, "window=prox")
 		return
 	return
 
@@ -475,7 +475,7 @@
 
 	user.machine = src
 	var/dat = text("<TT><B>Infrared Laser</B>\n<B>Status</B>: []<BR>\n<B>Visibility</B>: []<BR>\n</TT>", (src.state ? text("<A href='?src=\ref[];state=0'>On</A>", src) : text("<A href='?src=\ref[];state=1'>Off</A>", src)), (src.visible ? text("<A href='?src=\ref[];visible=0'>Visible</A>", src) : text("<A href='?src=\ref[];visible=1'>Invisible</A>", src)))
-	user << browse(dat, "window=infra")
+	ss13_browse(user, dat, "window=infra")
 	return
 
 /obj/item/weapon/infra/Topic(href, href_list)
@@ -512,7 +512,7 @@
 						src.attack_self(M)
 					//Foreach goto(287)
 	else
-		usr << browse(null, "window=infra")
+		ss13_browse(usr, null, "window=infra")
 		return
 	return
 
@@ -659,9 +659,9 @@
 		var/second = src.time % 60
 		var/minute = (src.time - second) / 60
 		var/dat = text("<TT><B>Timing Unit</B>\n[] []:[]\n<A href='?src=\ref[];tp=-30'>-</A> <A href='?src=\ref[];tp=-1'>-</A> <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=30'>+</A>\n</TT>", (src.timing ? text("<A href='?src=\ref[];time=0'>Timing</A>", src) : text("<A href='?src=\ref[];time=1'>Not Timing</A>", src)), minute, second, src, src, src, src)
-		user << browse(dat, "window=timer")
+		ss13_browse(user, dat, "window=timer")
 	else
-		user << browse(null, "window=timer")
+		ss13_browse(user, null, "window=timer")
 		user.machine = null
 
 	return
@@ -701,7 +701,7 @@
 					//Foreach goto(268)
 		src.add_fingerprint(usr)
 	else
-		usr << browse(null, "window=timer")
+		ss13_browse(usr, null, "window=timer")
 		return
 	return
 

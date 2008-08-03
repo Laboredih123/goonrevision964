@@ -15,7 +15,7 @@
 		dat += "<A href='?src=\ref[src];freq=2'>+</A>"
 		dat += "<A href='?src=\ref[src];freq=10'>+</A>"
 		dat += "<BR><A href='?src=\ref[src];refresh=1'>Refresh</A>"
-	user << browse(dat, "window=radio")
+	ss13_browse(user, dat, "window=radio")
 	return
 
 /obj/item/weapon/locator/Topic(href, href_list)

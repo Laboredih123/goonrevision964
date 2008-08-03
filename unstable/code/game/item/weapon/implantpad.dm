@@ -86,7 +86,7 @@
 			dat += "The implant casing is empty."
 	else
 		dat += "Please insert an implant casing!"
-	user << browse(dat, "window=implantpad")
+	ss13_browse(user, dat, "window=implantpad")
 	return
 
 /obj/item/weapon/implantpad/Topic(href, href_list)
@@ -116,6 +116,6 @@
 				//Foreach goto(290)
 		src.add_fingerprint(usr)
 	else
-		usr << browse(null, "window=implantpad")
+		ss13_browse(usr, null, "window=implantpad")
 		return
 	return

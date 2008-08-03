@@ -355,7 +355,7 @@ About the new airlock wires panel:
 			t1 += text("<A href='?src=\ref[];aiDisable=7'>Close door</a><br>\n", src)
 
 	t1 += text("<p><a href='?src=\ref[];close=1'>Close</a></p>\n", src)
-	user << browse(t1, "window=airlock")
+	ss13_browse(user, t1, "window=airlock")
 
 //aiDisable - 1 idscan, 2 disrupt main power, 3 disrupt backup power, 4 drop door bolts, 5 un-electrify door, 7 close door
 //aiEnable - 1 idscan, 4 raise door bolts, 5 electrify door for 30 seconds, 6 electrify door indefinitely, 7 open door
@@ -440,7 +440,7 @@ About the new airlock wires panel:
 
 		t1 += text("<p><a href='?src=\ref[];close=1'>Close</a></p>\n", src)
 
-		user << browse(t1, "window=airlock")
+		ss13_browse(user, t1, "window=airlock")
 	else
 		..(user)
 	return
@@ -450,7 +450,7 @@ About the new airlock wires panel:
 	if (!usr.can_use_hands() )
 		return
 	if (href_list["close"])
-		usr << browse(null, "window=airlock")
+		ss13_browse(usr, null, "window=airlock")
 		if (usr.machine==src)
 			usr.machine = null
 			return

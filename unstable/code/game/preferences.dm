@@ -84,7 +84,7 @@
 	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
 	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
 	dat += "</body></html>"
-	M << browse(dat, "window=mob_occupations;size=300x600;can_close=[!M.mob || !istype(M.mob,/mob/prespawn)]")
+	ss13_browse(M, dat, "window=mob_occupations;size=300x600;can_close=[!M.mob || !istype(M.mob,/mob/prespawn)]")
 
 /datum/preferences/Topic(href, href_list)
 	if(href_list["name"])
@@ -107,7 +107,7 @@
 		src.be_syndicate = input("Would you like to be eligible for playing as Syndicate?", "Character Generation", src.be_syndicate) in list("Yes", "No")
 	else if(href_list["ready"])
 		if(!istype(usr,/mob/prespawn))
-			usr << browse(null, "window=mob_occupations")
+			ss13_browse(usr, null, "window=mob_occupations")
 			return save()
 
 		var/mob/prespawn/new_player = usr
@@ -125,7 +125,7 @@
 				return
 
 		save()
-		usr << browse(null, "window=mob_occupations")
+		ss13_browse(usr, null, "window=mob_occupations")
 		if(new_player.ready)
 			return //	they clicked ready before
 

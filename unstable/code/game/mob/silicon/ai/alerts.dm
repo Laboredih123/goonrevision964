@@ -102,7 +102,7 @@
 		dat += "<BR>\n"
 
 	src.viewalerts = 1
-	src << browse(dat, "window=aialerts&can_close=0")
+	ss13_browse(src, dat, "window=aialerts&can_close=0")
 
 /mob/silicon/ai/verb/ai_camera_list()
 	set category = "AI Commands"

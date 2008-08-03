@@ -29,7 +29,7 @@
 	if(src.can_wear_jumpsuit)
 		dat += "<a href='?src=\ref[src];item=[SLOT_IN_POCKETS]'>Empty Pockets</A><br>"
 	dat += "<a href='?src=\ref[user];mach_close=mob[html_encode(src.spawn_name)]'>Close</A>"
-	user << browse(dat, "window=mob[html_encode(src.spawn_name)];size=300x600")
+	ss13_browse(user, dat, "window=mob[html_encode(src.spawn_name)];size=300x600")
 	return
 
 /mob/carbon/Topic(href, href_list)

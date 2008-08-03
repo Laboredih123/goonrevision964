@@ -288,7 +288,7 @@
 		var/dat2 = src.interact_ai(user) // give the AI a different interact proc to limit its access
 		if(dat2)
 			dat +=  dat2
-			user << browse(dat, "window=communications;size=400x500")
+			ss13_browse(user, dat, "window=communications;size=400x500")
 		return
 
 	switch(src.state)
@@ -328,7 +328,7 @@
 				return
 
 	dat += "<BR>\[ [(src.state != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
-	user << browse(dat, "window=communications;size=400x500")
+	ss13_browse(user, dat, "window=communications;size=400x500")
 
 /obj/machinery/computer/communications/proc/interact_ai(var/mob/silicon/ai/user as mob)
 	var/dat = ""
@@ -480,7 +480,7 @@
 		else
 			body = "<a href='?src=\ref[src];auth=1'>{Log in}</a>"
 		dat = "<tt>[header][body]<hr><a href='?src=\ref[src];mode=1'>Access Crew Manifest</a><br></tt>"
-	user << browse(dat, "window=id_com;size=700x375")
+	ss13_browse(user, dat, "window=id_com;size=700x375")
 	return
 
 /obj/machinery/computer/card/Topic(href, href_list)
@@ -488,12 +488,12 @@
 	if(!.)
 		return
 	if(stat & (NOPOWER|BROKEN))
-		usr << browse(null, "window=id_com")
+		ss13_browse(usr, null, "window=id_com")
 		return
 
 	var/mob/carbon/M = usr
 	if ((get_dist(src, usr) > 1 || !istype(src.loc, /turf)) && !istype(usr, /mob/silicon/ai))
-		usr << browse(null, "window=id_com")
+		ss13_browse(usr, null, "window=id_com")
 		return
 	usr.machine = src
 	if (href_list["modify"])
@@ -678,7 +678,7 @@
 		dat += text("<BR>\n<A href = '?src=\ref[];door=1'>Toggle Outer Door</A><BR>", src)
 	//*****
 	dat += text("<BR><BR><A href='?src=\ref[];mach_close=computer'>Close</A></TT></BODY></HTML>", user)
-	user << browse(dat, "window=computer;size=400x500")
+	ss13_browse(user, dat, "window=computer;size=400x500")
 	return
 
 /obj/machinery/computer/pod/process()
@@ -705,7 +705,7 @@
 		return
 
 	if(stat & (NOPOWER|BROKEN))
-		usr << browse(null, "window=computer")
+		ss13_browse(usr, null, "window=computer")
 		return
 
 

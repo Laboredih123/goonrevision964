@@ -30,7 +30,7 @@
 			dat += "<textarea name='reason' rows=5></textarea><br>"
 			dat += "<input type='submit' value='Submit'>"
 			dat += "</form>"
-			usr << browse(dat, "window=ban")
+			ss13_browse(usr, dat, "window=ban")
 		else if(href_list["mob-ban"])
 			var/type = href_list["type"]
 			var/mob/M = locate(href_list["mob-ban"])

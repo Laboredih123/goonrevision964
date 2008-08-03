@@ -623,7 +623,7 @@
 			if (src.origradio)
 				dat2 = text("\n<A href='?src=\ref[];lock=1'>Lock</A><BR>\n<HR>", src)
 			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>[]\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, dat2, src)
-	user << browse(dat, "window=radio")
+	ss13_browse(user, dat, "window=radio")
 	return
 
 /obj/item/weapon/syndicate_uplink/Topic(href, href_list)
@@ -669,7 +669,7 @@
 		else if (href_list["lock"])
 			// presto chango, a regular radio again! (reset the freq too...)
 			usr.machine = null
-			usr << browse(null, "window=radio")
+			ss13_browse(usr, null, "window=radio")
 			var/obj/item/weapon/radio/T = src.origradio
 			var/obj/item/weapon/syndicate_uplink/R = src
 			R.loc = T
@@ -1502,7 +1502,7 @@
 			t1 += "<BR>"
 		//Foreach goto(186)
 	t1 += "</TT></HTML>"
-	user << browse(t1, "window=met_sheet")
+	ss13_browse(user, t1, "window=met_sheet")
 	return
 
 /obj/item/weapon/sheet/metal/Topic(href, href_list)
@@ -1586,7 +1586,7 @@
 			user.u_equip(src)
 			user.update_clothing()
 			del(src)
-			user << browse(null, "window=met_sheet")
+			ss13_browse(user, null, "window=met_sheet")
 			return
 	spawn( 0 )
 		src.attack_self(usr)
@@ -1785,7 +1785,7 @@
 	for(var/obj/item/weapon/paper/P in src)
 		dat += text("<A href='?src=\ref[];read=\ref[]'>[]</A> <A href='?src=\ref[];write=\ref[]'>Write</A> <A href='?src=\ref[];remove=\ref[]'>Remove</A><BR>", src, P, P.name, src, P, src, P)
 		//Foreach goto(42)
-	user << browse(dat, "window=clipboard")
+	ss13_browse(user, dat, "window=clipboard")
 	return
 
 /obj/item/weapon/clipboard/Topic(href, href_list)
@@ -1846,7 +1846,7 @@
 		if (href_list["read"])
 			var/obj/item/weapon/paper/P = locate(href_list["read"])
 			if ((P && P.loc == src))
-				N << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.info), text("window=[]", P.name))
+				ss13_browse(N, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.info), text("window=[]", P.name))
 		if (ismob(src.loc))
 			var/mob/M = src.loc
 			if (M.machine == src)
@@ -1915,7 +1915,7 @@
 	for(var/obj/item/weapon/f_card/P in src)
 		dat += text("<A href='?src=\ref[];read=\ref[]'>[]</A> <A href='?src=\ref[];remove=\ref[]'>Remove</A><BR>", src, P, P.name, src, P)
 		//Foreach goto(23)
-	user << browse(dat, "window=fcardholder")
+	ss13_browse(user, dat, "window=fcardholder")
 	return
 
 /obj/item/weapon/fcardholder/Topic(href, href_list)
@@ -1947,7 +1947,7 @@
 		if (href_list["read"])
 			var/obj/item/weapon/f_card/P = locate(href_list["read"])
 			if ((P && P.loc == src))
-				usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.display()), text("window=[]", P.name))
+				ss13_browse(usr, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.display()), text("window=[]", P.name))
 			src.add_fingerprint(usr)
 		if (ismob(src.loc))
 			var/mob/M = src.loc
@@ -2226,14 +2226,14 @@
 	set src in view()
 
 	..()
-	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+	ss13_browse(usr, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 	return
 
 /obj/item/weapon/paper/interact(var/mob/silicon/ai/user)
 	if(!istype(user, /mob/silicon/ai))
 		return ..()
 	if (get_dist(src, user.current) < 2)
-		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+		ss13_browse(usr, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 
 /obj/item/weapon/paper/Map/examine()
 	set src in view()
@@ -2241,7 +2241,7 @@
 	..()
 
 	usr << browse_rsc(map_graphic)
-	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
+	ss13_browse(usr, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 	return
 
 
@@ -2250,7 +2250,7 @@
 
 	..()
 	usr << text("\blue There are [] on the stack!", src.amount)
-	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, display()), text("window=[]", src.name))
+	ss13_browse(usr, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, display()), text("window=[]", src.name))
 	return
 
 /obj/item/weapon/f_card/proc/display()

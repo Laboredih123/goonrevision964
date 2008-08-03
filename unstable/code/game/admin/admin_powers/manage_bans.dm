@@ -23,7 +23,7 @@
 					dat += "<td><a href='?src=\ref[src];bannum=[i];ckey=[ckey]'>Remove</a></td>"
 					dat += "</tr>"
 			dat += "</table>"
-			usr << browse(dat, "window=banpanel")
+			ss13_browse(usr, dat, "window=banpanel")
 		else if(href_list["bannum"] && href_list["ckey"])
 			var/bannum = text2num(href_list["bannum"])
 			var/ckey = href_list["ckey"]

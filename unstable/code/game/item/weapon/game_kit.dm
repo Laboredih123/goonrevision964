@@ -57,7 +57,7 @@
 		user.machine = src
 		if (!( src.data ))
 			update()
-		user << browse(src.data, "window=game_kit")
+		ss13_browse(user, src.data, "window=game_kit")
 		return
 	return
 

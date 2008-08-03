@@ -217,7 +217,7 @@
 	dat += text("<A href='?src=\ref[];refresh=1'>(Refresh)</A><BR>", src)
 	dat += text("<A href='?src=\ref[];release=1'>RELEASE (Siphons only)</A> <A href='?src=\ref[];siphon=1'>Siphon (Siphons only)</A> <A href='?src=\ref[];stop_siph=1'>Stop</A> <A href='?src=\ref[];auto=1'>Regulate</A><BR>", src, src, src, src)
 	dat += text("<BR><BR><A href='?src=\ref[];mach_close=computer'>Close</A></TT></BODY></HTML>", user)
-	user << browse(dat, "window=computer;size=400x500")
+	ss13_browse(user, dat, "window=computer;size=400x500")
 	return
 
 /obj/machinery/computer/airtunnel/proc/update_icon()
@@ -325,13 +325,13 @@
 		for(var/mob/silicon/ai/O in world)
 			if (O.current == src)
 				O << "[user] holds a paper up to the camera ..."
-				O << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", X.name, X.info), text("window=[]", X.name))
+				ss13_browse(O, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", X.name, X.info), text("window=[]", X.name))
 		for (var/mob/O in world)
 			if (istype(O.machine, /obj/machinery/computer/security))
 				var/obj/machinery/computer/security/S = O.machine
 				if (S.current == src)
 					O << "[user] holds a paper up to the camera ..."
-					O << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", X.name, X.info), text("window=[]", X.name))
+					ss13_browse(O, text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", X.name, X.info), text("window=[]", X.name))
 
 	return
 
@@ -390,7 +390,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	if (src.loc == user.loc)
 		var/dat = text("<B>Security Pad:</B><BR>\nKeycard: []<BR>\n<A href='?src=\ref[];door1=1'>Toggle Outer Door</A><BR>\n<A href='?src=\ref[];door2=1'>Toggle Inner Door</A><BR>\n<BR>\n<A href='?src=\ref[];em_cl=1'>Emergency Close</A><BR>\n<A href='?src=\ref[];em_op=1'>Emergency Open</A><BR>", (src.scan ? text("<A href='?src=\ref[];card=1'>[]</A>", src, src.scan.name) : text("<A href='?src=\ref[];card=1'>-----</A>", src)), src, src, src, src)
-		user << browse(dat, "window=sec_lock")
+		ss13_browse(user, dat, "window=sec_lock")
 	return
 
 /obj/machinery/sec_lock/attackby(nothing, user as mob)
@@ -548,7 +548,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 		for(var/t in L)
 			dat += "<A href='?src=\ref[src];make=[t]'>[L["[t]"]]<BR>"
 			//Foreach goto(230)
-	user << browse("<HEAD><TITLE>Autolathe Control Panel</TITLE></HEAD><TT>[dat]</TT>", "window=autolathe")
+	ss13_browse(user, "<HEAD><TITLE>Autolathe Control Panel</TITLE></HEAD><TT>[dat]</TT>", "window=autolathe")
 	return
 
 /obj/machinery/autolathe/Topic(href, href_list)

@@ -39,7 +39,7 @@
 				else
 		else
 			dat += text("<A href='?src=\ref[];login=1'>{Log In}</A>", src)
-	user << browse(text("<HEAD><TITLE>Medical Records</TITLE></HEAD><TT>[]</TT>", dat), "window=med_rec")
+	ss13_browse(user, text("<HEAD><TITLE>Medical Records</TITLE></HEAD><TT>[]</TT>", dat), "window=med_rec")
 	return
 
 /obj/machinery/computer/med_data/Topic(href, href_list)
@@ -390,7 +390,7 @@
 				else
 		else
 			dat += text("<A href='?src=\ref[];login=1'>{Log In}</A>", src)
-	user << browse(text("<HEAD><TITLE>Security Records</TITLE></HEAD><TT>[]</TT>", dat), "window=secure_rec")
+	ss13_browse(user, text("<HEAD><TITLE>Security Records</TITLE></HEAD><TT>[]</TT>", dat), "window=secure_rec")
 	return
 
 /obj/machinery/computer/secure_data/Topic(href, href_list)
@@ -761,7 +761,7 @@
 		else
 			dat += "The sleeper is empty."
 		dat += text("<BR><BR><A href='?src=\ref[];mach_close=sleeper'>Close</A>", user)
-		user << browse(dat, "window=sleeper;size=400x500")
+		ss13_browse(user, dat, "window=sleeper;size=400x500")
 	return
 
 /obj/machinery/computer/sleep_console/Topic(href, href_list)
@@ -819,7 +819,7 @@
 		else
 			t2 = text("<A href = '?src=\ref[];cool=1'>Cool</A> Stopped", src)
 		var/dat = text("<HTML><HEAD></HEAD><BODY><TT><BR>\n\t\t<B>Temperature</B>: []<BR>\n\t\t<B>Transfer Status</B>: []<BR>\n\t\t   <B>Chemicals Used</B>: []<BR>\n\t\t<B>Freezer status</B>: []<BR>\n\t\t   <A href='?src=\ref[];cp=-5'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=5'>+</A><BR>\n<BR>\n\t[]<BR>\n<BR>\n<BR>\n\t<A href='?src=\ref[];mach_close=freezer'>Close</A><BR>\n\t</TT></BODY></HTML>", src.temp-T0C, (src.transfer ? text("Transfering <A href='?src=\ref[];transfer=0'>Stop</A>", src) : text("<A href='?src=\ref[];transfer=1'>Transfer</A> Stopped", src)), t1, t2, src, src, src.c_used, src, src, d1, user)
-		user << browse(dat, "window=freezer;size=400x500")
+		ss13_browse(user, dat, "window=freezer;size=400x500")
 	return
 
 /obj/machinery/freezer/Topic(href, href_list)
@@ -1481,7 +1481,7 @@
 			dat += text("[]\t-Toxin Content %: []</FONT><BR>", (src.occupant.dam.toxin < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.toxin)
 			dat += text("[]\t-Burn Severity %: []</FONT>", (src.occupant.dam.burn < 60 ? "<font color='blue'>" : "<font color='red'>"), src.occupant.dam.burn)
 		dat += text("<BR><BR><A href='?src=\ref[];mach_close=cryo'>Close</A>", user)
-		user << browse(dat, "window=cryo;size=400x500")
+		ss13_browse(user, dat, "window=cryo;size=400x500")
 
 
 /obj/machinery/cryo_cell/Topic(href, href_list)

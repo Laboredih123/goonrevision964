@@ -230,7 +230,7 @@
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
 	dat += "<br><br><a href='?src=\ref[user];mach_close=computer'>Close</a>"
 	dat += "</body></html>"
-	user << browse(dat, "window=computer;size=400x500")
+	ss13_browse(user, dat, "window=computer;size=400x500")
 	src.add_fingerprint(usr)
 
 /obj/machinery/computer/dna/Topic(href, href_list)

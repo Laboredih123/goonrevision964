@@ -232,7 +232,7 @@
 			if (locked)
 				if (user.machine==src)
 					user.machine = null
-					user << browse(null, "window=turretid")
+					ss13_browse(user, null, "window=turretid")
 			else
 				if (user.machine==src)
 					src.interact(usr)
@@ -244,7 +244,7 @@
 		if (!istype(user, /mob/silicon/ai))
 			user << text("Too far away.")
 			user.machine = null
-			user << browse(null, "window=turretid")
+			ss13_browse(user, null, "window=turretid")
 			return
 
 	user.machine = src
@@ -263,7 +263,7 @@
 		t += text("Turrets [] - <A href='?src=\ref[];toggleOn=1'>[]?</a><br>\n", src.enabled?"activated":"deactivated", src, src.enabled?"Disable":"Enable")
 		t += text("Currently set for [] - <A href='?src=\ref[];toggleLethal=1'>Change to []?</a><br>\n", src.lethal?"lethal":"stun repeatedly", src,  src.lethal?"Stun repeatedly":"Lethal")
 
-	user << browse(t, "window=turretid")
+	ss13_browse(user, t, "window=turretid")
 
 /obj/machinery/turretid/Topic(href, href_list)
 	..()

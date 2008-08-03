@@ -220,7 +220,7 @@
 		else
 			ct = "Disconnected"
 	var/dat = text("<TT><B>Canister Valves</B><BR>\n<FONT color = 'blue'><B>Contains/Capacity</B> [] / []</FONT><BR>\nUpper Valve Status: [][]<BR>\n\t<A href='?src=\ref[];tp=-[]'>M</A> <A href='?src=\ref[];tp=-10000'>-</A> <A href='?src=\ref[];tp=-1000'>-</A> <A href='?src=\ref[];tp=-100'>-</A> <A href='?src=\ref[];tp=-1'>-</A> [] <A href='?src=\ref[];tp=1'>+</A> <A href='?src=\ref[];tp=100'>+</A> <A href='?src=\ref[];tp=1000'>+</A> <A href='?src=\ref[];tp=10000'>+</A> <A href='?src=\ref[];tp=[]'>M</A><BR>\nHeater Status: [] - []<BR>\n\tTrg Tmp: <A href='?src=\ref[];ht=-50'>-</A> <A href='?src=\ref[];ht=-5'>-</A> <A href='?src=\ref[];ht=-1'>-</A> [] <A href='?src=\ref[];ht=1'>+</A> <A href='?src=\ref[];ht=5'>+</A> <A href='?src=\ref[];ht=50'>+</A><BR>\n<BR>\nPipe Valve Status: []<BR>\n\t<A href='?src=\ref[];cp=-[]'>M</A> <A href='?src=\ref[];cp=-10000'>-</A> <A href='?src=\ref[];cp=-1000'>-</A> <A href='?src=\ref[];cp=-100'>-</A> <A href='?src=\ref[];cp=-1'>-</A> [] <A href='?src=\ref[];cp=1'>+</A> <A href='?src=\ref[];cp=100'>+</A> <A href='?src=\ref[];cp=1000'>+</A> <A href='?src=\ref[];cp=10000'>+</A> <A href='?src=\ref[];cp=[]'>M</A><BR>\n<BR>\n<A href='?src=\ref[];mach_close=canister'>Close</A><BR>\n</TT>", src.gas.total(), src.maximum, tt, (src.holding ? text("<BR><A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.total()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ht, (src.gas.total() ? (src.gas.temp-T0C) : 20), src, src, src, src.h_tar, src, src, src, ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
-	user << browse(dat, "window=canister;size=600x300")
+	ss13_browse(user, dat, "window=canister;size=600x300")
 	return
 
 /obj/machinery/atmoalter/heater/Topic(href, href_list)
@@ -285,7 +285,7 @@
 		src.updateUsrDialog()
 		src.add_fingerprint(usr)
 	else
-		usr << browse(null, "window=canister")
+		ss13_browse(usr, null, "window=canister")
 		return
 	return
 
@@ -507,7 +507,7 @@ Pipe Valve Status: []<BR>
 </TT>"}, num2text(src.gas.total(), 20), num2text(src.maximum, 20), tt, (src.holding ? text("<A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.total()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
 
 */
-	user << browse(dat, "window=canister;size=600x300")
+	ss13_browse(user, dat, "window=canister;size=600x300")
 	return
 
 /obj/machinery/atmoalter/canister/Topic(href, href_list)
@@ -562,7 +562,7 @@ Pipe Valve Status: []<BR>
 		src.add_fingerprint(usr)
 		update_icon()
 	else
-		usr << browse(null, "window=canister")
+		ss13_browse(usr, null, "window=canister")
 		return
 	return
 

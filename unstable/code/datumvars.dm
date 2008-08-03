@@ -18,7 +18,7 @@
 	for(var/V in D.vars)						// for each variable in the datum
 		dat += variable(usr, V, D.vars[V])	 	//get the text for that variable
 	dat += "</BODY>"
-	usr << browse(dat, "window=\ref[D]")		// display the browser pop-up
+	ss13_browse(usr, dat, "window=\ref[D]")		// display the browser pop-up
 
 
 // return a HTML formatted string displaying a variable

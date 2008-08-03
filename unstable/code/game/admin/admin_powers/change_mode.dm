@@ -18,7 +18,7 @@
 				dat += "<A href='?src=\ref[src];c_mode=blob'>Blob</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=sandbox'>Sandbox</A><br>"
 				dat += "Now: [master_mode]"
-				usr << browse(dat, "window=c_mode")
+				ss13_browse(usr, dat, "window=c_mode")
 		else if(href_list["c_mode"])
 			if(!ticker)
 				switch(href_list["c_mode"])

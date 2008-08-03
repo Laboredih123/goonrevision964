@@ -36,7 +36,7 @@
 				if(desc)
 					dat += "[desc]<br>"
 		dat += "</body></html>"
-		src << browse(dat, "window=gamepanel")
+		ss13_browse(src, dat, "window=gamepanel")
 
 /client/proc/mob_panel()
 	set name = "Player Panel"
@@ -66,7 +66,7 @@
 			dat += "<td>[P.get_desc(M)]</td>"
 		dat += "</tr>"
 	dat += "</table></body></html>"
-	src << browse(dat, "window=mobpanel")
+	ss13_browse(src, dat, "window=mobpanel")
 
 /client/New()
 	..()

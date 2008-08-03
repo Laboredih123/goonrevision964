@@ -106,7 +106,7 @@
 	else
 		t1 = "-------"
 	var/dat = text("<TT>Microphone: []<BR>\nSpeaker: []<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\n[]</TT>", (src.transmitting ? text("<A href='?src=\ref[];talk=0'>Engaged</A>", src) : text("<A href='?src=\ref[];talk=1'>Disengaged</A>", src)), (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src.get_freq_text(), src, src, t1)
-	user << browse(dat, "window=radio")
+	ss13_browse(user, dat, "window=radio")
 	return
 
 /obj/item/weapon/radio/Topic(href, href_list)
@@ -120,7 +120,7 @@
 			src.freq = max(1441, src.freq)
 			if (src.traitorfreq && src.freq == src.traitorfreq)
 				usr.machine = null
-				usr << browse(null, "window=radio")
+				ss13_browse(usr, null, "window=radio")
 				// now transform the regular radio, into a (disguised)syndicate uplink!
 				var/obj/item/weapon/syndicate_uplink/T = src.traitorradio
 				var/obj/item/weapon/radio/R = src
@@ -161,7 +161,7 @@
 				src.updateDialog()
 		src.add_fingerprint(usr)
 	else
-		usr << browse(null, "window=radio")
+		ss13_browse(usr, null, "window=radio")
 		return
 	return
 
@@ -249,7 +249,7 @@
 	else
 		t1 = "-------"
 	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.get_freq_text(), src, src, src, src, src.code, src, src, t1)
-	user << browse(dat, "window=radio")
+	ss13_browse(user, dat, "window=radio")
 	return
 
 /obj/item/weapon/radio/signaler/talk_into()
@@ -273,7 +273,7 @@
 		else
 			return ..()
 	else
-		usr << browse(null, "window=radio")
+		ss13_browse(usr, null, "window=radio")
 		return
 	return
 
@@ -342,7 +342,7 @@
 	if (!usr.is_active() || !usr.can_use_hands())
 		return
 	if (!usr.check_dexterity())
-		usr << browse(null, "window=radio")
+		ss13_browse(usr, null, "window=radio")
 		return
 	if (usr.contents.Find(src) || (usr.contents.Find(src.master) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
@@ -375,7 +375,7 @@
 						src.attack_self(M)
 					//Foreach goto(384)
 	else
-		usr << browse(null, "window=radio")
+		ss13_browse(usr, null, "window=radio")
 		return
 	return
 
@@ -405,7 +405,7 @@
 		return
 	user.machine = src
 	var/dat = text("<TT><A href='?src=\ref[];power=1'>[]</A><BR>\n<B>Frequency/Code</B> for electropack:<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n</TT>", src, (src.on ? "Turn Off" : "Turn On"), src, src, src.get_freq_text(), src, src, src, src, src.code, src, src)
-	user << browse(dat, "window=radio")
+	ss13_browse(user, dat, "window=radio")
 	return
 
 /obj/item/weapon/radio/headset/syndicate/receive(datum/message/M, freq)

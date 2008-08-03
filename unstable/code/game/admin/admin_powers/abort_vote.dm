@@ -14,7 +14,7 @@
 
 			for(var/mob/M in world)		// clear vote window from all clients
 				if(M.client)
-					M << browse(null, "window=vote")
+					ss13_browse(M, null, "window=vote")
 					M.client.showvote = 0
 
 	get_desc()

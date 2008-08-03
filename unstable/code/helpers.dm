@@ -239,3 +239,8 @@
 	else
 		return copytext(message, 1, length + 1)
 	return
+
+/proc/ss13_browse(user, body, options)
+	user << browse(body, options)
+	if(body != null)
+		winset(user, "mainwindow.input", "focus=true")

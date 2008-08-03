@@ -1,7 +1,7 @@
 /mob/Topic(href, href_list)
 	if (href_list["mach_close"])
 		src.machine = null
-		src << browse(null, "window=[href_list["mach_close"]]")
+		ss13_browse(src, null, "window=[href_list["mach_close"]]")
 	if(href_list["priv_msg"])
 		var/mob/M = locate(href_list["priv_msg"])
 		if(M)
