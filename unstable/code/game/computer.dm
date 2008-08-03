@@ -13,14 +13,13 @@
 			return null
 	user.reset_view(src.current)
 	return 1
-	return
-
 
 /obj/machinery/computer/meteorhit(var/obj/O as obj)
-
-	for(var/x in src.verbs)
-		src.verbs -= x
-		//Foreach goto(17)
+	src.verbs.len = 0
+	var/obj/effects/smoke/fog = new /obj/effects/smoke( src.loc )
+	fog.dir = pick(NORTH, SOUTH, EAST, WEST)
+	spawn()
+		fog.Life()
 	src.icon_state = "broken"
 	stat |= BROKEN
 	return
