@@ -39,6 +39,7 @@
 		STATE_DIFF_MENU_BUF1 = 23
 		STATE_DIFF_MENU_BUF2 = 24
 		STATE_DIFF_DONE = 25
+		STATE_DELETE = 26
 
 		SCAN_SPEED = 50 //loci/second
 		//TODO: adjust to be lower
@@ -47,7 +48,7 @@
 /obj/machinery/computer/dna/New()
 	..()
 	for(var/i = 1; i <= NUM_BUFFERS; i++)
-		buffers += new /datum/dna_buffer()
+		buffers += new /datum/dna_buffer(i)
 	spawn(5)
 		//connect to first scanner it sees
 		for(var/obj/machinery/dna_scanner/scanner in view(src, 1))
@@ -72,7 +73,7 @@
 			dat += "<a href='?src=\ref[src];operation=replace-menu'>Replace Occupant DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=gamma-menu'>Subject Occupant to Gamma Radiation</a><br>"
 			dat += "<a href='?src=\ref[src];operation=splice-menu'>Splice DNA</a><br>"
-			dat += "<a href='?src=\ref[src];operation=view-menu'>View DNA</a><br>"
+			dat += "<a href='?src=\ref[src];operation=view-menu'>View/Delete/Rename DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=diff-menu'>Compare DNA</a><br>"
 		if(STATE_NO_OCCUPANT)
 			dat += "No occupant!"
@@ -111,8 +112,12 @@
 			dat += "Please choose a buffer."
 			for(var/i = 1; i <= buffers.len; i++)
 				var/datum/dna_buffer/buffer = src.buffers[i]
-				dat += "<br><a href='?src=\ref[src];operation=view-buffer;buffer-num=[i]'>"
-				dat += "Buffer #[i] ([buffer.desc])</a>"
+				if(!buffer.contents)
+					continue
+				dat += "<br>Buffer #[i] ([buffer.desc])"
+				dat += " \[ <a href='?src=\ref[src];operation=view-buffer;buffer-num=[i]'>View</a>"
+				dat += " | <a href='?src=\ref[src];operation=rename-buffer;buffer-num=[i]'>Rename</a>"
+				dat += " | <a href='?src=\ref[src];operation=delete-buffer;buffer-num=[i]'>Delete</a> \]"
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
 		if(STATE_VIEW_MENU_CHROM)
 			dat += "Please choose a chromosome."
@@ -228,6 +233,9 @@
 			dat += (dat2 != "") ? dat2 : "<BR><BR>None Found"
 
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_DELETE)
+			dat += "Are you sure you want to delete Buffer #[src.primary_buf.index] - [src.primary_buf.desc]?"
+			dat += "<br>\[ <a href='?src=\ref[src];operation=delete-buffer2'>OK</a> |  <a href='?src=\ref[src];operation=view-buffer'>Cancel</a> \]"
 	dat += "<br><br><a href='?src=\ref[user];mach_close=computer'>Close</a>"
 	dat += "</body></html>"
 	ss13_browse(user, dat, "window=computer;size=400x500")
@@ -296,6 +304,18 @@
 		if("view-chromosome")
 			src.pos_chromosome = text2num(href_list["chromosome-num"])
 			src.state = STATE_VIEW
+		if("delete-buffer")
+			src.primary_buf = buffers[text2num(href_list["buffer-num"])]
+			src.state = STATE_DELETE
+		if("delete-buffer2")
+			src.state = STATE_VIEW_MENU_BUF
+			src.primary_buf.desc = "Empty"
+			del(src.primary_buf.contents)
+		if("rename-buffer")
+			src.primary_buf = buffers[text2num(href_list["buffer-num"])]
+			var/newdesc = input("Enter new buffer description", "Buffer #[src.primary_buf.index] Description", "[src.primary_buf.desc]")
+			if(newdesc && newdesc != "[src.primary_buf.desc]")
+				src.primary_buf.desc = newdesc
 		if("splice-menu")
 			src.state = STATE_SPLICE_MENU_BUF1
 		if("splice-buffer-primary")
@@ -307,6 +327,7 @@
 		if("splice-buffer-output")
 			src.output_buf = buffers[text2num(href_list["buffer-num"])]
 			src.output_buf.contents = src.primary_buf.contents.copy()
+			src.output_buf.desc = "Full (Splice #[src.primary_buf.index] / #[src.secondary_buf.index])"
 			src.state = STATE_SPLICE_MENU_CHROM
 		if("splice-chromosome")
 			src.pos_chromosome = text2num(href_list["chromosome-num"])
