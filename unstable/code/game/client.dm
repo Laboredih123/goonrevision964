@@ -209,12 +209,15 @@
 // the farthest away). don't do that.
 
 /client/proc/AIMove(n,direct,var/mob/silicon/ai/user)
-	if(!user.current)
-		return	//	current camera selected (terrible name)
+	if(!user)
+		return
 
 	var/min_dist = 1e8
 	var/obj/machinery/camera/closest = null
-	var/obj/machinery/camera/old = user.current
+	var/atom/old = (user.current ? user.current : user.loc)
+
+	if(!old)
+		return
 
 	var/dx = 0
 	var/dy = 0
@@ -226,7 +229,6 @@
 		dx = 1
 	else if(direct & WEST)
 		dx = -1
-
 
 	var/area/A = get_area(old)
 	var/list/old_types = dd_text2list("[A.type]", "/")
