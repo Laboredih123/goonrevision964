@@ -1,5 +1,3 @@
-/var/const/INFINITY = 1e20 //close enough
-
 /turf/DblClick()
 	if(!usr.is_active() || !istype(usr, /mob/silicon/ai))
 		return ..()

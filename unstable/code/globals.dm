@@ -182,6 +182,8 @@ world
 
 
 var/const
+	INFINITY	=	1e99			// largest allowed value
+
 	CELLSTANDARD = 3600000.0		// gas capacity of cell at STP
 	O2STANDARD = 756000.0			// O2 standard value (21%)
 	N2STANDARD = 2844000.0			// N2 standard value (79%)
