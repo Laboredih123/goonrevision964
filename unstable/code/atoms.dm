@@ -27,39 +27,41 @@
 
 /atom/movable/Move(NewLoc, direct)
 
-	if (direct & direct - 1)
-		if (direct & 1)
-			if (direct & 4)
-				if (step(src, NORTH))
-					step(src, EAST)
-				else
-					if (step(src, EAST))
-						step(src, NORTH)
-			else
-				if (direct & 8)
-					if (step(src, NORTH))
-						step(src, WEST)
-					else
-						if (step(src, WEST))
-							step(src, NORTH)
-		else
-			if (direct & 2)
-				if (direct & 4)
-					if (step(src, SOUTH))
-						step(src, EAST)
-					else
-						if (step(src, EAST))
-							step(src, SOUTH)
-				else
-					if (direct & 8)
-						if (step(src, SOUTH))
-							step(src, WEST)
-						else
-							if (step(src, WEST))
-								step(src, SOUTH)
-	else
-		..()
-	return
+	if(!(direct & direct - 1))
+		return ..()
+
+	if(direct & NORTH)
+		if(step(src,NORTH))
+			if(direct & EAST)
+				step(src,EAST)
+			if(direct & WEST)
+				step(src,WEST)
+			return 1
+
+	if(direct & SOUTH)
+		if(step(src,SOUTH))
+			if(direct & EAST)
+				step(src,EAST)
+			if(direct & WEST)
+				step(src,WEST)
+			return 1
+
+	if(direct & EAST)
+		if(step(src,EAST))
+			if(direct & NORTH)
+				step(src,NORTH)
+			if(direct & SOUTH)
+				step(src,SOUTH)
+			return 1
+
+	if(direct & WEST)
+		if(step(src,WEST))
+			if(direct & NORTH)
+				step(src,NORTH)
+			if(direct & SOUTH)
+				step(src,SOUTH)
+			return 1
+	return 0
 
 /atom/movable/verb/pull()
 	set src in oview(1)
