@@ -705,24 +705,45 @@ About the new airlock wires panel:
 	return
 
 /obj/machinery/door/airlock/open()
-
-	if (src.blocked || src.locked || (!src.arePowerSystemsOn()) || (stat & (NOPOWER|EMAGGED) || src.isWireCut(AIRLOCK_WIRE_OPEN_DOOR)))
+	if(src.locked)
 		return 0
+	if(src.blocked)
+		return 0
+	if(!src.density)
+		return 0
+	if(!src.arePowerSystemsOn())
+		return 0
+	if(src.stat & (NOPOWER|EMAGGED))
+		return 0
+	if(src.isWireCut(AIRLOCK_WIRE_OPEN_DOOR))
+		return 0
+
 	use_power(50)
-	if (src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
-		src.closeOther.close()
+	if(src.closeOther && istype(src.closeOther, /obj/machinery/door/airlock))
+		if(!src.closeOther.density)
+			src.closeOther.close()
 	return ..()
 
 /obj/machinery/door/airlock/close()
+	if(src.locked)
+		return 0
+	if(src.blocked)
+		return 0
+	if(src.density)
+		return 0
+	if(!src.arePowerSystemsOn())
+		return 0
+	if(stat & (NOPOWER|EMAGGED))
+		return 0
+	if(src.isWireCut(AIRLOCK_WIRE_OPEN_DOOR))
+		return 0
 
-	if (src.blocked || (!src.arePowerSystemsOn()) || (stat & (NOPOWER|EMAGGED)  || src.isWireCut(AIRLOCK_WIRE_OPEN_DOOR)))
-		return
 	use_power(50)
 	..()
 	var/turf/T = src.loc
 	if (T)
 		T.firelevel = 0
-	return
+	return 1
 
 /obj/machinery/door/airlock/New()
 	..()

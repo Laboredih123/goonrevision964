@@ -141,8 +141,13 @@
 	return
 
 /obj/machinery/door/proc/open()
-	if (src.operating || stat & EMAGGED)
-		return
+	if(!src.density)
+		return 0
+	if(src.operating)
+		return 0
+	if(stat & EMAGGED)
+		return 0
+
 	src.operating = 1
 	flick(text("[]doorc0", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door0", (src.p_open ? "o_" : null))
@@ -155,11 +160,16 @@
 			T.updatecell = 1
 		T.buildlinks()
 	src.operating = 0
-	return
+	return 1
 
 /obj/machinery/door/proc/close()
-	if (src.operating || stat & EMAGGED)
-		return
+	if(src.density)
+		return 0
+	if(src.operating)
+		return 0
+	if(stat & EMAGGED)
+		return 0
+
 	src.operating = 1
 	flick(text("[]doorc1", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door1", (src.p_open ? "o_" : null))
@@ -173,7 +183,7 @@
 		T.buildlinks()
 	sleep(15)
 	src.operating = 0
-	return
+	return 1
 
 /obj/machinery/igniter/interact(mob/user as mob)
 

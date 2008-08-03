@@ -53,7 +53,9 @@
 		return src.interact(user)
 
 /turf/station/wall/false_wall/proc/open()
-	if (src.operating)
+	if(!src.density)
+		return 0
+	if(src.operating)
 		return 0
 	src.operating = 1
 	src.name = "false wall"
@@ -69,8 +71,11 @@
 	return 1
 
 /turf/station/wall/false_wall/proc/close()
-	if (src.operating)
+	if(src.density)
 		return 0
+	if(src.operating)
+		return 0
+
 	src.operating = 1
 	src.name = "wall"
 	flick("doorc1", src) //show the door closing animation

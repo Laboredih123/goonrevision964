@@ -243,8 +243,10 @@
 
 /obj/move/shuttle/door/proc/open()
 	src.add_fingerprint(usr)
-	if (src.operating)
-		return
+	if(!src.density)
+		return 0
+	if(src.operating)
+		return 0
 	src.operating = 1
 	flick("doorc0", src)
 	src.icon_state = "door0"
@@ -254,12 +256,14 @@
 	src.opacity = 0
 	src.operating = 0
 	src.loc.buildlinks()
-	return
+	return 1
 
 /obj/move/shuttle/door/proc/close()
 	src.add_fingerprint(usr)
-	if (src.operating)
-		return
+	if(src.density)
+		return 0
+	if(src.operating)
+		return 0
 	src.operating = 1
 	flick("doorc1", src)
 	src.icon_state = "door1"
@@ -270,7 +274,7 @@
 
 	src.operating = 0
 	src.loc.buildlinks()
-	return
+	return 1
 
 /turf/station/shuttle/ex_act(severity)
 

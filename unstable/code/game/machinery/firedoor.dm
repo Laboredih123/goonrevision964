@@ -65,16 +65,24 @@
 	return
 
 /obj/machinery/door/firedoor/close()
-	if(src.blocked || src.stat & NOPOWER)
-		return
+	if(src.density)
+		return 0
+	if(src.operating)
+		return 0
+	if(stat & NOPOWER)
+		return 0
 	var/turf/T = src.loc
 	if (istype(T, /turf))
 		T.firelevel = 0
 	return ..()
 
 /obj/machinery/door/firedoor/open()
-	if(src.blocked || src.stat & NOPOWER)
-		return
+	if(!src.density)
+		return 0
+	if(src.operating)
+		return 0
+	if(stat & NOPOWER)
+		return 0
 	return ..()
 
 /obj/machinery/door/firedoor/process()

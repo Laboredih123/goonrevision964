@@ -752,12 +752,12 @@
 /obj/machinery/door/poddoor/open()
 
 	usr << "This is a remote controlled door!"
-	return
+	return 0
 
 /obj/machinery/door/poddoor/close()
 
 	usr << "This is a remote controlled door!"
-	return
+	return 0
 
 /obj/machinery/door/poddoor/attackby(obj/item/weapon/C as obj, mob/user as mob)
 
@@ -783,10 +783,13 @@
 /obj/machinery/door/poddoor/proc/openpod()
 	set src in oview(1)
 
-	if(stat & NOPOWER) return
+	if(!src.density)
+		return 0
+	if(src.operating)
+		return 0
+	if(stat & NOPOWER)
+		return 0
 
-	if (src.operating || !src.density)
-		return
 	src.operating = 1
 	use_power(50)
 	flick("pdoorc0", src)
@@ -799,15 +802,18 @@
 		T.updatecell = 1
 		T.buildlinks()
 	src.operating = 0
-	return
+	return 1
 
 /obj/machinery/door/poddoor/proc/closepod()
 	set src in oview(1)
 
-	if(stat & NOPOWER) return
+	if(!src.density)
+		return 0
+	if(src.operating)
+		return 0
+	if(stat & NOPOWER)
+		return 0
 
-	if (src.operating || src.density)
-		return
 	use_power(50)
 	src.operating = 1
 	flick("pdoorc1", src)
@@ -820,7 +826,7 @@
 		T.buildlinks()
 	sleep(15)
 	src.operating = 0
-	return
+	return 1
 
 /obj/datacore/proc/manifest()
 
