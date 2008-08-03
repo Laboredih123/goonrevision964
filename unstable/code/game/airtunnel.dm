@@ -632,9 +632,9 @@ obj/machinery/door_control/interact(mob/user as mob)
 	var/ppPlasma = T.gas.plasma / turf_total
 	var/ppCarbon = T.gas.co2 / turf_total
 
-	if(0.90 < pressure || pressure > 1.10)
+	if(0.90 > pressure || pressure > 1.10)
 		safe = 0
-	else if(0.19 < ppOxygen || ppOxygen > 0.23)
+	else if(0.19 > ppOxygen || ppOxygen > 0.23)
 		safe = 0
 	else if(ppPlasma > 0.05)
 		safe = 0
