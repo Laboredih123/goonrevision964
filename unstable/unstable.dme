@@ -107,7 +107,6 @@ AUTO_FILE_DIR: ON
 #include "code\game\power.dm"
 #include "code\game\preferences.dm"
 #include "code\game\shuttle.dm"
-#include "code\game\sun.dm"
 #include "code\game\throwing.dm"
 #include "code\game\vehicle.dm"
 #include "code\game\vote.dm"
