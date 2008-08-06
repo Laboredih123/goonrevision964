@@ -1918,6 +1918,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/computer/atmosphere/siphonswitch
 	name = "Area Air Control"
 	icon_state = "switch"
+	req_access = list(access_atmospherics)
 	var/otherarea
 	var/area/area
 /obj/machinery/computer/atmosphere/siphonswitch/mastersiphonswitch
@@ -1961,6 +1962,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 /obj/machinery/computer/data/weapon
 	name = "weapon"
+	req_access = list(access_heads)
 /obj/machinery/computer/data/weapon/info
 	name = "Research Computer"
 /obj/machinery/computer/data/weapon/log
@@ -2035,6 +2037,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/last_pic = 1.0
 	var/network = "SS13"
 	var/maplevel = 1
+	req_access = list(access_security)
 /obj/machinery/computer/shuttle
 	name = "Shuttle"
 	icon = 'shuttle.dmi'
@@ -2054,6 +2057,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "tele_computer"
 	var/obj/item/weapon/radio/beacon/locked = null
 	var/id = null
+	req_access = list(access_teleporter)
 
 /obj/machinery/connector
 	name = "Connector"
@@ -2543,11 +2547,13 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/teleport/hub
 	name = "hub"
 	icon_state = "tele0"
+	req_access = list(access_teleporter)
 /obj/machinery/teleport/station
 	name = "station"
 	icon_state = "controller"
 	var/active = 0
 	var/engaged = 0
+	req_access = list(access_teleporter)
 /obj/machinery/wire
 	name = "wire"
 	icon = 'wire.dmi'
@@ -2625,6 +2631,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "power_computer"
 	density = 1
 	anchored = 1
+
+	req_access = list(access_engine)
 
 #define SMESMAXCHARGELEVEL 200000
 #define SMESMAXOUTPUT 200000

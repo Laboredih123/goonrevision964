@@ -2,6 +2,7 @@
 	name = "DNA Scanner/Implanter"
 	icon = 'Cryogenic2.dmi'
 	icon_state = "scanner_0"
+	req_access = list(access_genetics)
 	density = 1
 	var/locked = 0
 	var/mob/carbon/occupant = null

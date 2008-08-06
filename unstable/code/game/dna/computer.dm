@@ -2,6 +2,7 @@
 	name = "DNA operations computer"
 	icon = 'Cryogenic2.dmi'
 	icon_state = "dna_computer"
+	req_access = list(access_genetics)
 	var/obj/machinery/dna_scanner/connected_scanner = null
 	var/state = STATE_DEFAULT
 	var/datum/dna_buffer/primary_buf = null
