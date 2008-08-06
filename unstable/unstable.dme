@@ -46,7 +46,6 @@ AUTO_FILE_DIR: ON
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "code\aaaDefines.dm"
 #include "code\atoms.dm"
 #include "code\configuration.dm"
 #include "code\datumvars.dm"
