@@ -214,10 +214,7 @@
 
 		for(var/atom/movable/AM as mob|obj in T)
 			AM.loc = S
-			S.gas.copy_gas(T.gas)
-			S.phase1.copy_all(T.phase1)
-			S.phase2.copy_all(T.phase2)
-
+			S.match_gasses(T)
 			S.buildlinks()
 
 

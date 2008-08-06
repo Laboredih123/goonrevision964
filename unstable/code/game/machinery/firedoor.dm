@@ -42,10 +42,9 @@
 				sleep(15)
 				src.density = 0
 				src.opacity = 0
-				var/turf/T = src.loc
-				if (istype(T, /turf))
-					T.updatecell = 1
-					T.buildlinks()
+				if(isturf(src.loc))
+					src.loc:updatecell = 1
+					src.loc:buildlinks()
 				src.operating = 0
 				return
 		else //close it up again
@@ -56,10 +55,9 @@
 				sleep(15)
 				src.density = 1
 				src.opacity = 1
-				var/turf/T = src.loc
-				if (istype(T, /turf))
-					T.updatecell = 1
-					T.buildlinks()
+				if(isturf(src.loc))
+					src.loc:updatecell = 1
+					src.loc:buildlinks()
 				src.operating = 0
 				return
 	return

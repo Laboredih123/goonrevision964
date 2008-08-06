@@ -32,25 +32,24 @@
 
 /turf/station/wall/false_wall/attackby(obj/item/weapon/screwdriver/S as obj, mob/user as mob)
 	src.add_fingerprint(user)
-	if (istype(S, /obj/item/weapon/screwdriver))
-		var/known = (user in known_by)
- 		//try to disassemble the false wall
-		if (!src.density || known || prob(prob_opens)) //without this, you can detect a false wall just by going down the line with screwdrivers
- 			//if it's already open, you can disassemble it no problem
-			if (src.density && !known) //if it was closed, let them know that they did something
-				user << "\blue It was a false wall!"
-			//disassemble it
-			user << "\blue Now dismantling false wall."
-			var/turf/station/floor/F = src.ReplaceWithFloor()
-			//a false wall turns into a sheet of metal and displaced girders
-			new /obj/item/weapon/sheet/metal( F )
-			new /obj/d_girders( F )
-			F.levelupdate()
-			return
-		else
-			return ..()
-	else
+	if(!istype(S, /obj/item/weapon/screwdriver))
 		return src.interact(user)
+
+	var/known = (user in known_by)
+	//try to disassemble the false wall
+	if (!src.density || known || prob(prob_opens)) //without this, you can detect a false wall just by going down the line with screwdrivers
+		//if it's already open, you can disassemble it no problem
+		if (src.density && !known) //if it was closed, let them know that they did something
+			user << "\blue It was a false wall!"
+		//disassemble it
+		user << "\blue Now dismantling false wall."
+		var/turf/station/floor/F = src.ReplaceWithFloor()
+		//a false wall turns into a sheet of metal and displaced girders
+		new /obj/item/weapon/sheet/metal( F )
+		new /obj/d_girders( F )
+		F.levelupdate()
+		return
+	return ..()
 
 /turf/station/wall/false_wall/proc/open()
 	if(!src.density)

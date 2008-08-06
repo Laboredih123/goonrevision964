@@ -2421,57 +2421,63 @@
 	return
 
 /obj/item/weapon/analyzer/attack_self(mob/carbon/user as mob)
-
-	if (!user.is_active())
+	if(!user.is_active())
 		return
 	if(!user.check_dexterity())
 		return
+
 	var/turf/T = user.loc
-	if (!( istype(T, /turf) ))
+	if(!istype(T, /turf))
 		return
-	if (locate(/obj/move, T))
+	if(locate(/obj/move, T))
 		T = locate(/obj/move, T)
+	src.add_fingerprint(user)
+
 	var/turf_total = max(T.gas.total(), 1) / 100
 	usr.see("\blue <B>Results:</B>")
 	var/t = ""
 	var/t1 = turf_total / CELLSTANDARD * 10000
 	if(90 > t1 || t1 > 110)
-		t += text("\blue Air Pressure: []%", t1)
+		t += text("\red Air Pressure: []% ", t1)
 	else
-		t += text("\blue Air Pressure:\red []%", t1)
+		t += text("\blue Air Pressure: []% ", t1)
 
 	t1 = round(T.gas.nitrogen / turf_total,0.0010)
 	if(60 > t1 || t1 >  80)
-		t += text("<font color=blue>Nitrogen: []</font> ", t1)
+		t += text("\red Nitrogen1: [] ", t1)
 	else
-		t += text("<font color=red>Nitrogen: []</font> ", t1)
+		t += text("\blue Nitrogen2: [] ", t1)
 
 	t1 = round(T.gas.oxygen / turf_total, 0.0010)
 	if(20 > t1 || t1 > 24)
-		t += text("<font color=blue>Oxygen: []</font> ", t1)
+		t += text("\red Oxygen: [] ", t1)
 	else
-		t += text("<font color=red>Oxygen: []</font> ", t1)
+		t += text("\blue Oxygen: [] ", t1)
 
 	t1 = round(T.gas.plasma / turf_total, 0.0010)
 	if(t1 > 0.5)
-		t += text("<font color=blue>Plasma: []</font> ", t1)
+		t += text("\red Plasma: [] ", t1)
 	else
-		t += text("<font color=red>Plasma: []</font> ", t1)
+		t += text("\blue Plasma: [] ", t1)
 
 	t1 = round(T.gas.co2 / turf_total, 0.0010)
 	if(t1 > 1)
-		t += text("<font color=blue>CO2: []</font> ", t1)
+		t += text("\red CO2: [] ", t1)
 	else
-		t += text("<font color=red>CO2: []</font> ", t1)
+		t += text("\blue CO2: [] ", t1)
 
 	t1 = round(T.gas.no2 / turf_total, 0.0010)
 	if(t1 > 5)
-		t += text("<font color=blue>NO2: []</font>", t1)
+		t += text("\red NO2: []", t1)
 	else
-		t += text("<font color=red>NO2: []</font>", t1)
+		t += text("\blue NO2: []", t1)
 	user.see(t)
-	user.see(text("\blue \t Temperature: []&deg;C", (T.gas.temp-T0C) ))
-	src.add_fingerprint(user)
+
+	t1 = T.gas.temp - T0C
+	if(-20 > t1 || t1 > 150)
+		user.see(text("\red \t Temperature: []&deg;C", t1))
+	else
+		user.see(text("\blue \t Temperature: []&deg;C", t1))
 	return
 
 /obj/item/weapon/storage/proc/return_inv()

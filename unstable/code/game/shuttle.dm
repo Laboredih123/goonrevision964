@@ -255,7 +255,8 @@
 	src.density = 0
 	src.opacity = 0
 	src.operating = 0
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	return 1
 
 /obj/move/shuttle/door/proc/close()
@@ -273,7 +274,8 @@
 	sleep(15)
 
 	src.operating = 0
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	return 1
 
 /turf/station/shuttle/ex_act(severity)

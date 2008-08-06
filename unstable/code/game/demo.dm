@@ -7,19 +7,14 @@
 	..()
 
 /obj/machinery/door/meteorhit(obj/M as obj)
-
 	src.open()
-	return
 
 /obj/machinery/door/Move()
-
 	..()
-	if (src.density)
-		var/turf/location = src.loc
-		if (istype(location, /turf))
-			location.updatecell = 0
-			buildlinks()
-	return
+	if(!src.density) return
+	if(isturf(src.loc))
+		src.loc:updatecell = 0
+		src.loc:buildlinks()
 
 /obj/machinery/door/interact(mob/user as mob)
 	return src.attackby(user, user)
@@ -132,12 +127,11 @@
 /obj/machinery/door/New()
 
 	..()
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		if (src.density)
-			if(!istype(src, /obj/machinery/door/window))
-				T.updatecell = 0
-			T.buildlinks()
+	if(!src.density) return
+	if(isturf(src.loc))
+		if(!istype(src,/obj/machinery/door/window))
+			src.loc:updatecell = 0
+		src.loc:buildlinks()
 	return
 
 /obj/machinery/door/proc/open()
@@ -154,11 +148,10 @@
 	sleep(15)
 	src.density = 0
 	src.opacity = 0
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		if(!istype(src, /obj/machinery/door/window))
-			T.updatecell = 1
-		T.buildlinks()
+	if(isturf(src.loc))
+		if(!istype(src,/obj/machinery/door/window))
+			src.loc:updatecell = 1
+		src.loc:buildlinks()
 	src.operating = 0
 	return 1
 
@@ -176,11 +169,10 @@
 	src.density = 1
 	if (src.visible)
 		src.opacity = 1
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		if(!istype(src, /obj/machinery/door/window))
-			T.updatecell = 0
-		T.buildlinks()
+	if(isturf(src.loc))
+		if(!istype(src,/obj/machinery/door/window))
+			src.loc:updatecell = 0
+		src.loc:buildlinks()
 	sleep(15)
 	src.operating = 0
 	return 1
@@ -2148,7 +2140,8 @@
 			new /obj/item/weapon/shard( src.loc )
 			//SN src = null
 			src.density = 0
-			src.loc.buildlinks()
+			if(isturf(src.loc))
+				src.loc:buildlinks()
 
 			del(src)
 		else
@@ -2157,7 +2150,8 @@
 				new /obj/item/weapon/shard( src.loc )
 				new /obj/item/weapon/rods( src.loc )
 				src.density = 0
-				src.loc.buildlinks()
+				if(isturf(src.loc))
+					src.loc:buildlinks()
 				del(src)
 
 		return
@@ -2192,7 +2186,8 @@
 		new /obj/item/weapon/shard( src.loc )
 		if(reinf) new /obj/item/weapon/rods( src.loc)
 		density = 0
-		src.loc.buildlinks()
+		if(isturf(src.loc))
+			src.loc:buildlinks()
 		del(src)
 
 /obj/window/CheckPass(atom/movable/O as mob|obj, target as turf)
@@ -2224,7 +2219,8 @@
 	new /obj/item/weapon/shard( src.loc )
 	if(reinf) new /obj/item/weapon/rods( src.loc)
 	src.density = 0
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 
 
 	////SN src = null
@@ -2246,8 +2242,8 @@
 		new /obj/item/weapon/shard( src.loc )
 		if(reinf) new /obj/item/weapon/rods( src.loc)
 		src.density = 0
-		src.loc.buildlinks()
-		//SN src = null
+		if(isturf(src.loc))
+			src.loc:buildlinks()
 		del(src)
 		return
 	..()
@@ -2279,7 +2275,8 @@
 			var/turf/sl = src.loc
 			step(src, get_dir(user, src))
 			sl.buildlinks()
-			src.loc.buildlinks()
+			if(isturf(src.loc))
+				src.loc:buildlinks()
 		if (src.health <= 0)
 			if (src.dir == SOUTHWEST)
 				var/index = null
@@ -2294,11 +2291,13 @@
 			//SN src = null
 
 			src.density = 0
-			src.loc.buildlinks()
+			if(isturf(src.loc))
+				src.loc:buildlinks()
 			del(src)
 			return
 		..()
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	return
 
 /obj/window/verb/rotate()
@@ -2313,7 +2312,8 @@
 			return 0
 	src.dir = turn(src.dir, 90)
 	src.ini_dir = src.dir
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	return
 
 /obj/window/New(Loc,re=0)
@@ -2323,7 +2323,8 @@
 	if(re)	reinf = re
 
 	src.ini_dir = src.dir
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	if(reinf)
 		icon_state = "rwindow"
 		desc = "A reinforced window."
@@ -2335,7 +2336,8 @@
 
 /obj/window/Del()
 	src.density = 0
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	..()
 
 /obj/window/Move()
@@ -2344,7 +2346,8 @@
 	..()
 	src.dir = src.ini_dir
 	sl.buildlinks()
-	src.loc.buildlinks()
+	if(isturf(src.loc))
+		src.loc:buildlinks()
 	return
 
 /atom/proc/meteorhit(obj/meteor as obj)
@@ -2743,7 +2746,7 @@
 			if (prob(50))
 				src.opacity = 0
 				src.updatecell = 1
-				buildlinks()
+				src.buildlinks()
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
@@ -2763,7 +2766,7 @@
 			if (prob(25))
 				src.opacity = 0
 				src.updatecell = 1
-				buildlinks()
+				src.buildlinks()
 				src.intact = 0
 				levelupdate()
 				src.state = 1
@@ -2786,7 +2789,7 @@
 		else
 			src.opacity = 0
 			src.updatecell = 1
-			buildlinks()
+			src.buildlinks()
 			src.state = 1
 			src.intact = 0
 			levelupdate()
@@ -2872,7 +2875,7 @@
 		if ((user.loc == T && src.state == 2 && user.equipped() == W))
 			src.opacity = 0
 			src.updatecell = 1
-			buildlinks()
+			src.buildlinks()
 			src.state = 1
 			src.intact = 0
 			levelupdate()
@@ -2913,7 +2916,7 @@
 			src.state = 1
 			src.opacity = 0
 			src.updatecell = 1
-			buildlinks()
+			src.buildlinks()
 			src.firelevel = 11
 			new /obj/item/weapon/sheet/metal( src )
 			new /obj/item/weapon/sheet/metal( src )

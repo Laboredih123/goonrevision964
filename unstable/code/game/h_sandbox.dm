@@ -114,7 +114,8 @@ datum/hSB
 							hsb.req_access += A
 
 					hsb.loc = usr.loc
-					hsb.loc.buildlinks()
+					if(hsb.loc && istype(hsb.loc,/turf))
+						hsb.loc:buildlinks()
 					usr << "<b>Sandbox:  Created an airlock."
 				if("hsbregulator")
 					var/obj/machinery/atmoalter/siphs/fullairsiphon/hsb = new/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent

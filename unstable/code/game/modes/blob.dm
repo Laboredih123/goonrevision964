@@ -41,13 +41,10 @@
 				break
 
 			var/obj/blob/B = pick(blobs)
-			var/turf/BL = B.loc
-
-			for (var/atom/A in B.loc)
-				A.blob_act()
-
+			for (var/atom/A in B.loc) A.blob_act()
 			B.Life()
-			BL.buildlinks()
+			if(B.loc && istype(B.loc,/turf))
+				B.loc:buildlinks()
 
 /datum/game_mode/blob/proc/stage()
 	// initial stage timing

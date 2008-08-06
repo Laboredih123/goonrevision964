@@ -1671,9 +1671,6 @@
 
 	return
 
-/atom/proc/buildlinks()
-	return
-
 /turf/Entered(atom/A as mob|obj)
 
 	..()
@@ -1682,7 +1679,7 @@
 	if(!A.density)
 		return
 
-	src.UpdateLinks(A)
+	src.updatelinks()
 
 	if(!istype(A, /obj/beam))
 		spawn(0)

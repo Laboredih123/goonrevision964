@@ -379,10 +379,7 @@
 					AM.z = shuttle_z
 					//Foreach goto(2483)
 				var/turf/U = locate(T.x, T.y, shuttle_z)
-				U.gas.copy_cop(T.gas)
-				U.phase1.copy_cop(T.phase1)
-				U.phase2.copy_cop(T.phase2)
-
+				U.match_gasses(T)
 				U.buildlinks()
 				//T = null
 				del(T)

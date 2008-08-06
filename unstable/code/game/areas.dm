@@ -71,8 +71,7 @@
 		for(var/turf/T in src)		// count the number of turfs (for lighting calc)
 			numturfs++				// spawned with a delay so turfs can finish loading
 			if(no_air)
-				T.gas.oxygen = 0		// remove air if so specified for this area
-				T.gas.nitrogen = 0
+				T.gas.clear()		// remove air if so specified for this area
 				T.reset_phases()
 
 		if(linkarea)
