@@ -408,32 +408,6 @@
 /datum/game_mode/traitor/proc/pick_human_except(mob/carbon/exception)
 	return pick(get_human_list() - exception)
 
-/datum/game_mode/traitor/proc/get_target_desc(mob/target) //return a useful string describing the target
-	var/targetrank = null
-	for(var/datum/data/record/R in data_core.general)
-		if (R.fields["name"] == target.spawn_name)
-			targetrank = R.fields["rank"]
-	return "[target.name] the [targetrank]"
-
-/datum/game_mode/traitor/proc/get_rank(mob/M)
-	for(var/datum/data/record/R in data_core.general)
-		if (R.fields["name"] == M.name)
-			return R.fields["rank"]
-	return null
-
-/datum/game_mode/traitor/proc/get_mobs_with_rank(rank)
-	var/list/names = list()
-	var/list/mobs = list()
-	for(var/datum/data/record/R in data_core.general)
-		if (R.fields["rank"] == rank)
-			names += R.fields["name"]
-			break
-	for(var/mob/M in world)
-		for(var/name in names)
-			if(M.name == name)
-				mobs += M
-	return mobs
-
 /datum/game_mode/traitor/proc/get_pickable_items(mob/killer)
 	var/killerrank = get_rank(killer)
 	var/list/items = list(laser, hand_tele, plasma_bomb, captain_card, jetpack, captain_suit)

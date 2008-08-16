@@ -64,25 +64,26 @@
 	if (src.is_stuttering())
 		txt = stutter(txt)
 	txt = html_encode(txt)
-	if (hear_range == 1)
-		txt = "<i>[txt]</i>"
 
-
-
-	var/datum/message = new /datum/message(src.voice, txt, src.curr_language)
+	var/datum/message/msg = new /datum/message(src.voice, txt, src.curr_language)
+	switch(get_rank(src))
+		if("Captain")			msg.color = "navy"
+		if("Security Officer")	msg.color = "maroon"
+		if("Head of Research")	msg.color = "teal"
+		if("Head of Personnel")	msg.color = "teal"
 
 	if(target && istype(target, /obj/item/weapon/radio))
-		target.talk_into(message, usr)
+		target.talk_into(msg, usr)
 	var/heard = list()
 	var/turf/T = get_turf(src) //if you're in a closet, people can still hear you talk
 	for(var/obj/O as obj|mob in view(hear_range, T))
 		spawn(0)
 			if (O)
-				O.hear_message(message, usr)
+				O.hear_message(msg, usr)
 				heard += O
 	for(var/mob/carbon/M in world)
 		if(!(M in heard) && (M.is_telepathic || M.is_dead))
-			M.hear_message(message, usr)
+			M.hear_message(msg, usr)
 
 /mob/proc/is_stuttering()
 	return 0

@@ -188,3 +188,29 @@
 
 /proc/get_all_jobs()
 	return list("Assistant", "Station Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
+
+/proc/get_target_desc(mob/target) //return a useful string describing the target
+	var/targetrank = null
+	for(var/datum/data/record/R in data_core.general)
+		if (R.fields["name"] == target.spawn_name)
+			targetrank = R.fields["rank"]
+	return "[target.name] the [targetrank]"
+
+/proc/get_rank(mob/M)
+	for(var/datum/data/record/R in data_core.general)
+		if (R.fields["name"] == M.name)
+			return R.fields["rank"]
+	return null
+
+/proc/get_mobs_with_rank(rank)
+	var/list/names = list()
+	var/list/mobs = list()
+	for(var/datum/data/record/R in data_core.general)
+		if (R.fields["rank"] == rank)
+			names += R.fields["name"]
+			break
+	for(var/mob/M in world)
+		for(var/name in names)
+			if(M.name == name)
+				mobs += M
+	return mobs

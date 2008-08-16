@@ -17,6 +17,8 @@
 	if(source in view(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
 		speaker_name += " (disguised as [source.name])"
 	else if(istype(source, /obj/item/weapon/radio))
+		if(M.color)
+			speaker_name = "<font color='[M.color]'>[speaker_name]"
 		speaker_name += " broadcasts \icon[source]"
 	var/text = M.text
 	if(!src.is_dead) //dead people understand everything
