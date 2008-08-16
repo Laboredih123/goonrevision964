@@ -1,0 +1,130 @@
+// DM Environment file for InSpace.dme.
+// All manual changes should be made outside the BEGIN_ and END_ blocks.
+// New source code should be placed in .dm files: choose File/New --> Code File.
+
+// BEGIN_INTERNALS
+/*
+FILE:
+DIR:
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
+// END_INTERNALS
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+#define FILE_DIR "code"
+#define FILE_DIR "code/atoms"
+#define FILE_DIR "code/data"
+#define FILE_DIR "code/game"
+#define FILE_DIR "code/game/area"
+#define FILE_DIR "code/game/item"
+#define FILE_DIR "code/game/item/weapon"
+#define FILE_DIR "code/game/machinery"
+#define FILE_DIR "code/game/modes"
+#define FILE_DIR "code/game/verbs"
+#define FILE_DIR "icons"
+#define FILE_DIR "icons/isno"
+#define FILE_DIR "icons/ss13"
+#define FILE_DIR "interface"
+#define FILE_DIR "maps"
+// END_FILE_DIR
+
+// BEGIN_PREFERENCES
+#define DEBUG
+// END_PREFERENCES
+
+// BEGIN_INCLUDE
+#include "code\aaaDefines.dm"
+#include "code\atoms.dm"
+#include "code\configuration.dm"
+#include "code\datumvars.dm"
+#include "code\globals.dm"
+#include "code\helpers.dm"
+#include "code\hexadecimal.dm"
+#include "code\inverthtml.dm"
+#include "code\logging.dm"
+#include "code\setup.dm"
+#include "code\texthandling.dm"
+#include "code\atoms\chemical.dm"
+#include "code\atoms\client.dm"
+#include "code\atoms\closet.dm"
+#include "code\atoms\configuration.dm"
+#include "code\atoms\false_wall.dm"
+#include "code\atoms\secure_closet.dm"
+#include "code\atoms\sun.dm"
+#include "code\atoms\turf.dm"
+#include "code\atoms\vote.dm"
+#include "code\data\changelog.dm"
+#include "code\data\jobs.dm"
+#include "code\data\names.dm"
+#include "code\data\stylesheet.dm"
+#include "code\game\access.dm"
+#include "code\game\airtunnel.dm"
+#include "code\game\algorithm.dm"
+#include "code\game\areas.dm"
+#include "code\game\atmo_control.dm"
+#include "code\game\begin.dm"
+#include "code\game\blob.dm"
+#include "code\game\bomb.dm"
+#include "code\game\camera.dm"
+#include "code\game\cell_process.dm"
+#include "code\game\cellautomata.dm"
+#include "code\game\chemical.dm"
+#include "code\game\computer.dm"
+#include "code\game\cryo.dm"
+#include "code\game\demo.dm"
+#include "code\game\demo2.dm"
+#include "code\game\dna.dm"
+#include "code\game\engine.dm"
+#include "code\game\game_mode.dm"
+#include "code\game\h_sandbox.dm"
+#include "code\game\hologram.dm"
+#include "code\game\instructions.dm"
+#include "code\game\items.dm"
+#include "code\game\jobs.dm"
+#include "code\game\meteor.dm"
+#include "code\game\mob.dm"
+#include "code\game\modules.dm"
+#include "code\game\newitems.dm"
+#include "code\game\newobjects.dm"
+#include "code\game\newpipe.dm"
+#include "code\game\overview.dm"
+#include "code\game\power.dm"
+#include "code\game\shuttle.dm"
+#include "code\game\sun.dm"
+#include "code\game\throwing.dm"
+#include "code\game\vehicle.dm"
+#include "code\game\vote.dm"
+#include "code\game\weap_sat.dm"
+#include "code\game\weapons.dm"
+#include "code\game\area\ai_monitored.dm"
+#include "code\game\item\weapon\aimodules.dm"
+#include "code\game\item\weapon\beer.dm"
+#include "code\game\item\weapon\flashlight.dm"
+#include "code\game\item\weapon\game_kit.dm"
+#include "code\game\item\weapon\multitool.dm"
+#include "code\game\machinery\airlock.dm"
+#include "code\game\machinery\recharger.dm"
+#include "code\game\machinery\turrets.dm"
+#include "code\game\modes\blob.dm"
+#include "code\game\modes\extended.dm"
+#include "code\game\modes\megamonkey.dm"
+#include "code\game\modes\meteor.dm"
+#include "code\game\modes\monkey.dm"
+#include "code\game\modes\nuclear.dm"
+#include "code\game\modes\sandbox.dm"
+#include "code\game\modes\traitor.dm"
+#include "code\game\modes\virus.dm"
+#include "code\game\verbs\adminhelp.dm"
+#include "code\game\verbs\authorize.dm"
+#include "code\game\verbs\ooc.dm"
+#include "code\game\verbs\suicide.dm"
+#include "code\game\verbs\who.dm"
+#include "interface\skin.dmf"
+#include "maps\Space Station 13 areas.dm"
+#include "maps\Space Station 13.dmp"
+// END_INCLUDE
+
+
+
+
