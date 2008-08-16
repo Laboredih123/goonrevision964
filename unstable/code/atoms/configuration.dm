@@ -21,3 +21,6 @@
 	var/allow_ai = 1					// allow ai job
 	var/hostedby = null
 	var/respawn = 1
+
+	var/random_ai_names = 1				// enables random AI name suggestion
+	var/random_names = 0				// enables random player name suggestion

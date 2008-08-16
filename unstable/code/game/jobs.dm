@@ -164,24 +164,18 @@
 		else
 			M.Assign_Rank("Captain")
 
+	//	still need to loop since we declare who is AI
 	for (var/mob/silicon/ai/aiPlayer in world)
 		spawn(0)
-			var/randomname = pick(ai_names)
-			var/newname = input(
-				aiPlayer,
-				"You are the AI. Would you like to change your name to something else?", "Name change",
-				randomname)
-
-			if (length(newname) == 0)
-				newname = randomname
-
-			if (newname)
-				if (length(newname) >= 26)
-					newname = copytext(newname, 1, 26)
-				newname = dd_replacetext(newname, ">", "'")
+			if(config.random_ai_names)
+				var/randomname = "HAL"	//	default name
+				if(ai_names) randomname = pick(ai_names)
+				var/newname = input(aiPlayer,"You are the AI. Would you like to change your name?", "Character Creation", randomname)
+				if(!length(newname)) newname = randomname
+				newname = sanitize(dd_limittext(newname, 30))
 				aiPlayer.spawn_name = newname
-				aiPlayer.name = newname
 				aiPlayer.voice = newname
+				aiPlayer.name = newname
 
 			world << text("<b>[] is the AI!</b>", aiPlayer.name)
 

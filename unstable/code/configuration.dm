@@ -79,6 +79,10 @@
 				config.allow_ai = 1
 			if("authentication")
 				config.enable_authentication = 1
+			if("random_names")
+				config.random_names = text2num(value)
+			if("random_ai_names")
+				config.random_ai_names  = text2num(value)
 			if("probability")
 				var/prob_pos = findtext(value, " ")
 				var/prob_name = null

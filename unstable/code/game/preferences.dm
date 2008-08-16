@@ -1,6 +1,7 @@
 /datum/preferences
 	var/name = ""
 	var/gender = MALE
+	var/spawn_name = ""
 	var/job1 = "No Preference"
 	var/job2 = "No Preference"
 	var/job3 = "No Preference"
@@ -16,6 +17,7 @@
 		return 0
 	var/savefile/F = new /savefile(src.savefile_loc, -1)
 	F["name"] >> src.name
+	F["name"] >> src.spawn_name
 	F["gender"] >> src.gender
 	F["job1"] >> src.job1
 	F["job2"] >> src.job2
@@ -62,13 +64,16 @@
 
 	var/dat = "<html><body>"
 	var/vars = list(
-		"name" = src.name,
 		"gender" = src.gender,
 		"skin_color" = src.skin_color,
 		"hair_color" = src.hair_color,
 		"hair_style" = src.hair_style,
 		"prefer_syndicate" = src.be_syndicate
 	)
+
+	dat += text("<B>Name: </B> <A href=\"byond://?src=\ref[src];name=input\"><B>[capitalize(src.name)]</A></B> ([]<A href=\"byond://?src=\ref[src];name=random\">&reg;</A>)<BR>",
+				((src.name == src.spawn_name)?"" : "<A href=\"byond://?src=\ref[src];name=spawn\">[capitalize(src.spawn_name)]</A> "))
+
 	for(var/x in vars)
 		dat += "<b>[capitalize(dd_replacetext(x,"_"," "))]: </b>"
 		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[capitalize(vars[x])]</b></a><br>"
@@ -88,7 +93,11 @@
 
 /datum/preferences/Topic(href, href_list)
 	if(href_list["name"])
-		src.name = input("What is your character's name?", "Character Generation", src.name) as text
+		switch(href_list["name"])
+			if("input")		src.name = sanitize(capitalize(input("What is your character's name?", "Character Generation", src.name) as text))
+			if("random")	src.spawn_name = sanitize(capitalize(pick(first_names)) + " " + capitalize(pick(last_names)))
+			if("spawn")		src.spawn_name = sanitize(capitalize(input("What name will you spawn with?", "Character Generation", src.spawn_name) as text))
+
 	else if(href_list["gender"])
 		src.gender = input("Select a gender", "Character Generation", src.gender) in list(MALE, FEMALE)
 	else if(href_list["skin_color"])

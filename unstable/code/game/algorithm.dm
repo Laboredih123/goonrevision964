@@ -32,9 +32,9 @@
 		return
 
 	if (rank == "Medical Doctor")
-		src.client.prefs.name = addtext("Dr. ",src.client.prefs.name)
+		src.client.prefs.name = addtext("Dr. ",src.client.prefs.spawn_name)
 
-	var/mob/carbon/human/M = new(startloc, src.client.prefs.name, src.client.prefs.hair_color, src.client.prefs.hair_style, src.client.prefs.skin_color, src.client.prefs.gender)
+	var/mob/carbon/human/M = new(startloc, src.client.prefs.spawn_name, src.client.prefs.hair_color, src.client.prefs.hair_style, src.client.prefs.skin_color, src.client.prefs.gender)
 
 	M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
 	M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)

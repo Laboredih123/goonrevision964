@@ -168,6 +168,10 @@ var
 
 	datum/dna/canonical/canonical_dna = new()
 
+	list/first_names = null
+	list/last_names = null
+	list/ai_names = null
+
 world
 	name = "Goon Station 13"
 	mob = /mob/prespawn

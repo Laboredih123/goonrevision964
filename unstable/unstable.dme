@@ -69,7 +69,6 @@ AUTO_FILE_DIR: ON
 #include "code\data\changelog.dm"
 #include "code\data\jobs.dm"
 #include "code\data\languages.dm"
-#include "code\data\names.dm"
 #include "code\data\stylesheet.dm"
 #include "code\game\access.dm"
 #include "code\game\airtunnel.dm"

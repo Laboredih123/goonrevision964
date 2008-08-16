@@ -109,8 +109,17 @@
 	if (motd)
 		join_motd = motd
 
+	//	Setup Configurations
 	config = new /datum/configuration()
 	config.load("config.txt")
+
+	//	Load Default Names
+	if(config.random_names)
+		first_names = dd_file2list("first_names.txt")
+		last_names = dd_file2list("last_names.txt")
+
+	if(config.random_ai_names)
+		ai_names = dd_file2list("ai_names.txt")
 
 	// apply some settings from config..
 	abandon_allowed = config.respawn
