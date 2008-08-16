@@ -213,17 +213,16 @@
 
 /atom/verb/point()
 	set src in oview()
+	if(!usr)		return
+	if(isarea(src))		return
+	if(!isturf(usr.loc))	return
+	if(!usr.can_use_hands())	return
 
-	if ((!( usr ) || !( isturf(usr.loc) )) || isarea(src))		// can't point to areas anymore
+	var/P = new /obj/point( (isturf(src) ? src : src.loc) )
+	spawn( 20 )
+		del(P)
 		return
-	if (usr.can_use_hands())
-		var/P = new /obj/point( (isturf(src) ? src : src.loc) )
-		spawn( 20 )
-			//P = null
-			del(P)
-			return
-		usr.show_viewers(text("<B>[]</B> points to []", usr, src))
-			//Foreach goto(102)
+	usr.show_viewers(text("<B>[]</B> points to []", usr, src))
 	return
 
 /turf/proc/updatecell()

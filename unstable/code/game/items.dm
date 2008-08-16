@@ -276,23 +276,15 @@
 	return
 
 
-//*****RM
-
 /obj/item/weapon/verb/move_to_top()
 	set src in oview(1)
 
-	if(!istype(src.loc, /turf) || !usr.can_use_hands())
-		return
+	if(!usr.can_use_hands()) return
+	if(!istype(src.loc, /turf)) return
 
 	var/turf/T = src.loc
-
 	src.loc = null
-
 	src.loc = T
-
-
-//*****
-
 
 /obj/item/weapon/proc/attack_self()
 

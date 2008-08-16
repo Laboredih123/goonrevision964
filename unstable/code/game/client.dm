@@ -77,6 +77,8 @@
 		return 0
 	if(!src.mob)
 		return
+	if(istype(src.mob, /mob/observer))
+		return src.mob.Move(n,direct)
 	if(src.mob.is_dead)
 		return
 	if(world.time < src.move_delay)

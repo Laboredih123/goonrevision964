@@ -173,6 +173,8 @@
 
 /obj/item/weapon/radio/beacon/verb/alter_signal(t as text)
 	set src in usr
+	if(!usr.is_active()) return
+	if(!usr.can_use_hands()) return
 
 	if (usr.canmove && !usr.is_handcuffed())
 		src.code = t

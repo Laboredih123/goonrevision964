@@ -56,6 +56,7 @@
 /obj/machinery/computer/teleporter/verb/set_id(t as text)
 	set src in oview(1)
 	set desc = "ID Tag:"
+	if(!usr.is_active()) return
 
 	if(stat & (NOPOWER|BROKEN) )
 		return
@@ -153,9 +154,10 @@
 
 	for(var/x in src.topics)
 		usr << text("[], \...", x)
-		//Foreach goto(19)
+
 	usr << ""
-	src.add_fingerprint(usr)
+	if(usr.can_use_hands())
+		src.add_fingerprint(usr)
 	return
 
 /obj/machinery/computer/data/verb/read(topic as text)
@@ -165,7 +167,8 @@
 		usr << text("<B>[]</B>\n\t []", topic, src.topics[text("[]", topic)])
 	else
 		usr << text("Unable to find- []", topic)
-	src.add_fingerprint(usr)
+	if(usr.can_use_hands())
+		src.add_fingerprint(usr)
 	return
 
 /obj/machinery/teleport/hub/Bumped(M as mob|obj)
@@ -258,6 +261,7 @@
 	set src in oview(1)
 
 	if(stat & NOPOWER) return
+	if(!usr.can_use_hands()) return
 
 	var/atom/l = src.loc
 	var/obj/machinery/teleport/hub/com = locate(/obj/machinery/teleport/hub, locate(l.x + 1, l.y, l.z))

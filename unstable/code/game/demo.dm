@@ -655,7 +655,8 @@
 	return
 
 /obj/item/weapon/tank/jetpack/verb/toggle()
-
+	set src in view(1)
+	if(!usr.can_use_hands()) return
 	src.on = !( src.on )
 	src.icon_state = text("jetpack[]", src.on)
 	return
@@ -1937,8 +1938,8 @@
 	return
 
 /obj/stool/chair/verb/rotate()
-	set src in oview(1)
-
+	set src in view(1)
+	if(!usr.can_use_hands()) return
 	src.dir = turn(src.dir, 90)
 	if (src.dir == NORTH)
 		src.layer = FLY_LAYER
@@ -2301,7 +2302,7 @@
 
 /obj/window/verb/rotate()
 	set src in oview(1)
-
+	if(!usr.can_use_hands()) return
 	if (src.anchored)
 		usr << "It is fastened to the floor; therefore, you can't rotate it!"
 		return 0

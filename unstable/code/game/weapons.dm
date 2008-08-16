@@ -51,6 +51,7 @@
 /obj/machinery/nuclearbomb/verb/make_deployable()
 	set name = "make deployable"
 	set src in oview(1)
+	if(!usr.can_use_hands()) return
 
 	if (src.deployable)
 		src.deployable = 0
@@ -534,7 +535,6 @@
 
 /obj/item/weapon/infra/verb/rotate()
 	set src in usr
-
 	src.dir = turn(src.dir, 90)
 	return
 
@@ -993,7 +993,6 @@
 
 /obj/item/weapon/assembly/rad_infra/verb/rotate()
 	set src in usr
-
 	src.dir = turn(src.dir, 90)
 	src.part2.dir = src.dir
 	src.add_fingerprint(usr)
@@ -1162,6 +1161,7 @@
 
 /obj/item/weapon/assembly/m_i_ptank/verb/Arm()
 	set src in view(1)
+	if(!usr.can_use_hands()) return
 
 	usr.see("\blue The proximity sensor has been armed with a delay of 15 seconds.")
 

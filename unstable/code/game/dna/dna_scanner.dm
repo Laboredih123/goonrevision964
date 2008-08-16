@@ -19,9 +19,8 @@
 
 /obj/machinery/dna_scanner/verb/eject()
 	set src in oview(1)
+	if(!usr.is_active())return
 
-	if (!usr.is_conscious())
-		return
 	src.go_out()
 	add_fingerprint(usr)
 	return
@@ -30,12 +29,12 @@
 	set src in oview(1)
 	if(src.locked)
 		return
-	if (!usr.is_active())
+	if(!usr.is_active())
 		return
-	if (src.occupant)
+	if(src.occupant)
 		usr << "\blue <B>The scanner is already occupied!</B>"
 		return
-	if (usr.abiotic())
+	if(usr.abiotic())
 		usr << "\blue <B>Subject cannot have abiotic items on.</B>"
 		return
 	usr.pulling = null
