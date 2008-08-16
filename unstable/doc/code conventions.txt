@@ -1,0 +1,73 @@
+These aren't really followed religiously because the code's been edited by like 10 different people with wildly varying conventions, but oh well. Try to change things to follow them when it's convenient.
+
+Variable names and function names are lowercase, underscore-separated.
+
+Constants are all caps, underscore-separated.
+
+#defined constants should not be used unless there is no other way - make them /var/const if you have to, but encapsulate them if you can. For instance, a constant that only affects traitor mode should go in /datum/game_mode/traitor/var/const, generally. The awful design of the existing codebase might mean this isn't always possible. The same goes for functions, of course - in particular, try not to clutter up /obj, /atom, or /datum with non-const vars, because there are probably a few thousand items on the map all of which would be duplicating that. That means crazy lag. (I'm not certain whether procs and consts are duplicated for each instance of a type, but I hope not.)
+
+A function name with initial capitalization should be a built-in important one like New(), Del(), Bump(), etc.
+
+Try to use sensible names for things.
+
+Put a space between // and text - // butts not //butts
+
+New variables and procs should not be grouped under a var block like this:
+/mob/carbon/human
+	var
+		var1 = "4"
+		var2 = "4"
+		var3 = "4"
+	proc
+		do_stuff()
+			return
+Instead, do:
+/mob/carbon/human
+	var/var1 = "4"
+	var/var2 = "4"
+	var/var3 = "4"
+	proc/do_stuff()
+		return
+For one thing, this makes it easier to search for their declaration. Ideally, order variables by type (inherited or new), then in alphabetical order. Unless it really doesn't make sense, default values should be provided.
+
+An exception to this is constants. It's perfectly OK to do:
+var/const
+	const1 = "a"
+	const2 = "b"
+because they only get assigned and declared once, and generally in large groups (since BYOND lacks enums).
+
+Use multi-// comments rather than /* */ ones. Apparently, the OpenSS13 people can't handle it, and interoperability between our codebases would be a good thing.
+
+Procedures don't need to end in return unless they're returning something. (However, if you make use of the . variable, it's suggested that you put in a return statement anyways for readability to people who aren't BYOND gurus like you.)
+
+Also for readability, use src.[var] rather than just [var], even when it's not necessary.
+
+You should use [] to embed expressions into text strings, as opposed to text(). If you run across a text() in the course of editing, change it to use [].
+
+When overriding procedures and variables, use the full form - 
+/mob/carbon/human/do_stuff()
+rather than
+/mob/carbon/human
+	do_stuff()
+You can use the shortened form in the initial declaration:
+/mob/carbon/human
+	proc/do_stuff()
+	var/can_do_stuff
+This makes searching through the codebase for things easier.
+
+Do not put var/ in front of arguments. Only put "as [whatever]" after them if it's a verb - the compile ignores it, and it provides a false sense of security.
+Bad:
+/mob/carbon/proc/do_stuff(var/x as text, var/y as num)
+Good:
+/mob/carbon/proc/do_stuff(x, y)
+Better:
+/mob/carbon/proc/do_stuff(descriptive_name, descriptive_name2)
+Also fine:
+/mob/carbon/verb/do_stuff(descriptive_name as text, descriptive_name2 as num)
+
+Don't put the result of an if on the same line as the if, like so:
+if(x) y()
+It's moderately icky, and nearly all the existing code puts it on two lines. Sure, it makes the code less compact, but the code isn't even remotely compact anyways and never will be. Consistency is more important. This applies even to return statements - don't do this:
+if(x) return
+
+no brackets

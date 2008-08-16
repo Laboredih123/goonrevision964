@@ -1,0 +1,11 @@
+/mob/carbon/Stat()
+	..()
+	stat(null, text("Intent: []", src.intent))
+	if(src.client.statpanel == "Status")
+		if (src.internal)
+			if (!( src.internal.gas ))
+				del(src.internal)
+			else
+				stat(null, text("Internal Atmosphere: []", src.internal))
+				stat(null, text("Internal Oxygen: []", src.internal.gas.oxygen))
+				stat(null, text("Internal Plasma: []", src.internal.gas.plasma))

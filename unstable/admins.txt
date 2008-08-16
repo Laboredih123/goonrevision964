@@ -1,0 +1,25 @@
+# This is an example admins.txt file
+
+# To add an administrator, place their ckey (their BYOND key, stripped of
+
+# whitespace and capital letters) followed by a space, a dash, a space, and
+
+# the exact position you want to give them.
+
+#
+
+# The valid positions are:
+
+# Host
+# Admin
+# Mod
+#
+
+# Don't put any whitespace after the rank - "Host " is not a 
+
+# rank, and is equivalent to no rank at all.
+
+
+
+# Example administrator - you should remove this on your server
+kurper - Host
