@@ -17,7 +17,7 @@
 		var/numrepeats = rand(5) - 1
 		for(var/j = 0; j < numrepeats; j++)
 			s += c
-	return copytext(sanitize(s),1,MAX_MESSAGE_LEN)
+	return sanitize(s)
 
 /mob/proc/get_default_radio()
 	return null
@@ -37,7 +37,7 @@
 				return I
 
 /mob/verb/say(txt as text)
-	txt = copytext(sanitize(txt),1,MAX_MESSAGE_LEN)
+	txt = sanitize(txt)
 	if(!txt) return
 	world.log_say("[src.name]/[src.key] : [txt]")
 

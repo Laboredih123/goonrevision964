@@ -172,7 +172,7 @@
 				if(ai_names) randomname = pick(ai_names)
 				var/newname = input(aiPlayer,"You are the AI. Would you like to change your name?", "Character Creation", randomname)
 				if(!length(newname)) newname = randomname
-				newname = sanitize(dd_limittext(newname, 30))
+				newname = strip_html(newname,30)
 				aiPlayer.spawn_name = newname
 				aiPlayer.voice = newname
 				aiPlayer.name = newname

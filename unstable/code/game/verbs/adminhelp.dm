@@ -3,7 +3,7 @@
 		src << "Please authorize before sending these messages."
 		return
 
-	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
+	msg = sanitize(msg)
 	if(!msg) return
 
 	var/yep = 0

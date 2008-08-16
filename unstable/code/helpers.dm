@@ -16,18 +16,29 @@
 			K += item
 	return K
 
-/proc/sanitize(var/t)
+/proc/sanitize(var/t,var/limit=MAX_MESSAGE_LEN)
+	t = copytext(t,1,limit)
 	var/index = findtext(t, "\n")
 	while(index)
-		t = copytext(t, 1, index) + "#" + copytext(t, index+1)
+		t = copytext(t, 1, index) + copytext(t, index+1)
 		index = findtext(t, "\n")
-
 	index = findtext(t, "\t")
 	while(index)
-		t = copytext(t, 1, index) + "#" + copytext(t, index+1)
+		t = copytext(t, 1, index) + copytext(t, index+1)
 		index = findtext(t, "\t")
-
 	return html_encode(t)
+
+/proc/strip_html(var/t,var/limit=MAX_MESSAGE_LEN)
+	t = copytext(t,1,limit)
+	var/index = findtext(t, "<")
+	while(index)
+		t = copytext(t, 1, index) + copytext(t, index+1)
+		index = findtext(t, "<")
+	index = findtext(t, ">")
+	while(index)
+		t = copytext(t, 1, index) + copytext(t, index+1)
+		index = findtext(t, ">")
+	return sanitize(t)
 
 /proc/add_zero(t, u)
 	while(length(t) < u)
@@ -207,3 +218,9 @@
 	user << browse(body, options)
 	if(body != null)
 		winset(user, "mainwindow.input", "focus=true")
+
+/proc/text_input(var/Message, var/Title, var/Default, var/length=MAX_MESSAGE_LEN)
+	return sanitize(input(Message, Title, Default) as text, length)
+
+/proc/scrub_input(var/Message, var/Title, var/Default, var/length=MAX_MESSAGE_LEN)
+	return strip_html(input(Message,Title,Default) as text, length)

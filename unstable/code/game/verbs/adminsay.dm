@@ -9,7 +9,7 @@
 
 	var/name = ((src.mob)?(src.mob.name):("No Mob"))
 
-	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
+	msg = sanitize(msg)
 	if(!msg) return
 	world.log << "ADMIN: [src.key]/[name] : [msg]"
 

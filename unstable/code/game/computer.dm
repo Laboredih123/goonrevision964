@@ -538,7 +538,7 @@
 		if (src.authenticated)
 			var/t1 = href_list["assign"]
 			if(t1 == "Custom")
-				t1 = input("Enter a custom job assignment.","Assignment")
+				t1 = text_input("Enter a custom job assignment.","Assignment")
 			else
 				var/list/new_access = get_access(t1)
 				for(var/A in get_all_accesses())
@@ -549,7 +549,7 @@
 	if (href_list["reg"])
 		if (src.authenticated)
 			var/t2 = src.modify
-			var/t1 = input(usr, "What name?", "ID computer", null)  as text
+			var/t1 = text_input("What name?", "ID computer", null) as text
 			if ((src.authenticated && src.modify == t2 && (get_dist(src, usr) <= 1 || (istype(usr, /mob/silicon/ai))) && istype(src.loc, /turf)))
 				src.modify.registered = t1
 	if (href_list["mode"])

@@ -1316,12 +1316,11 @@
 /obj/morgue/attackby(P as obj, mob/user as mob)
 
 	if (istype(P, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
+		var/t = text_input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != P)
 			return
 		if ((get_dist(src, usr) > 1 && src.loc != user))
 			return
-		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		if (t)
 			src.name = text("Morgue- '[]'", t)
 		else

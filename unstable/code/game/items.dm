@@ -1114,12 +1114,11 @@
 			src.add_fingerprint(user)
 			W.add_fingerprint(user)
 	if (istype(W, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
+		var/t = text_input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != W)
 			return
 		if (src.loc != user)
 			return
-		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		if (t)
 			src.name = text("Pill Canister- '[]'", t)
 		else
@@ -1980,12 +1979,11 @@
 			user << "\blue Not enough space!!!"
 	else
 		if (istype(P, /obj/item/weapon/pen))
-			var/t = input(user, "Holder Label:", text("[]", src.name), null)  as text
+			var/t = text_input(user, "Holder Label:", text("[]", src.name), null)  as text
 			if (user.equipped() != P)
 				return
 			if ((get_dist(src, usr) > 1 && src.loc != user))
 				return
-			t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 			if (t)
 				src.name = text("FPCase- '[]'", t)
 			else
@@ -2150,8 +2148,7 @@
 
 /obj/item/weapon/paper/photograph/attack_self(mob/user as mob)
 
-	var/n_name = input(user, "What would you like to label the photo?", "Paper Labelling", null)  as text
-	n_name = copytext(n_name, 1, 32)
+	var/n_name = text_input(user, "What would you like to label the photo?", "Paper Labelling", null,32)  as text
 	if ((src.loc == user && user.is_active()))
 		src.name = text("photo[]", (n_name ? text("- '[]'", n_name) : null))
 	src.add_fingerprint(user)
@@ -2172,8 +2169,7 @@
 
 /obj/item/weapon/paper/attack_self(mob/user as mob)
 
-	var/n_name = input(user, "What would you like to label the paper?", "Paper Labelling", null)  as text
-	n_name = copytext(n_name, 1, 32)
+	var/n_name = text_input(user, "What would you like to label the paper?", "Paper Labelling", null,32)  as text
 	if ((src.loc == user && user.is_active()))
 		src.name = text("paper[]", (n_name ? text("- '[]'", n_name) : null))
 	src.add_fingerprint(user)
@@ -2183,11 +2179,10 @@
 	if(!istype(user, /mob/carbon))
 		return
 	if (istype(P, /obj/item/weapon/pen) && user.check_intelligence())
-		var/t = input(user, "What text do you wish to add?", text("[]", src.name), null)  as message
+		var/t = text_input(user, "What text do you wish to add?", text("[]", src.name), null)  as message
 		if ((get_dist(src, usr) > 1 && src.loc != user && !( istype(src.loc, /obj/item/weapon/clipboard) ) && src.loc.loc != user && user.equipped() != P))
 			return
-		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
-		t = dd_replacetext(t, "\n", "<BR>")
+		t = dd_replacetext(t, "\[n\]", "<BR>")
 		t = dd_replacetext(t, "\[b\]", "<B>")
 		t = dd_replacetext(t, "\[/b\]", "</B>")
 		t = dd_replacetext(t, "\[i\]", "<I>")
@@ -2305,12 +2300,11 @@
 			W.add_fingerprint(user)
 	else
 		if (istype(W, /obj/item/weapon/pen))
-			var/t = input(user, "Card Label:", text("[]", src.name), null)  as text
+			var/t = text_input(user, "Card Label:", text("[]", src.name), null)  as text
 			if (user.equipped() != W)
 				return
 			if ((get_dist(src, usr) > 1 && src.loc != user))
 				return
-			t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 			if (t)
 				src.name = text("FPrintC- '[]'", t)
 			else
@@ -3260,12 +3254,11 @@
 /obj/item/weapon/implantcase/attackby(obj/item/weapon/I as obj, mob/carbon/user as mob)
 
 	if (istype(I, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
+		var/t = text_input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != I)
 			return
 		if ((get_dist(src, usr) > 1 && src.loc != user))
 			return
-		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		if (t)
 			src.name = text("Glass Case- '[]'", t)
 		else

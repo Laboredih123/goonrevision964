@@ -15,9 +15,8 @@
 
 	if(!ooc_allowed) return
 	if(!src.client.listen_ooc) return
-	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
-	if(!msg) return
 
+	msg = sanitize(msg);	if(!msg) return
 	world.log_ooc("[src.name]/[src.key] : [msg]")
 	for (var/mob/M in world)
 		if (M.client && M.client.listen_ooc)
