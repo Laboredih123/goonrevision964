@@ -48,7 +48,6 @@ AUTO_FILE_DIR: ON
 // BEGIN_INCLUDE
 #include "code\atoms.dm"
 #include "code\configuration.dm"
-#include "code\datumvars.dm"
 #include "code\globals.dm"
 #include "code\helpers.dm"
 #include "code\hexadecimal.dm"
@@ -120,6 +119,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\admin\admin_powers\ban.dm"
 #include "code\game\admin\admin_powers\change_mode.dm"
 #include "code\game\admin\admin_powers\check_traitor.dm"
+#include "code\game\admin\admin_powers\debug.dm"
 #include "code\game\admin\admin_powers\delay.dm"
 #include "code\game\admin\admin_powers\list_bomb_makers.dm"
 #include "code\game\admin\admin_powers\make_object.dm"

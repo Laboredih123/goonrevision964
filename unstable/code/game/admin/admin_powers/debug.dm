@@ -59,10 +59,9 @@
 	if(href_list["Vars"])		// if this link came from the vars window
 		variables(src)				// invoke a new window for this object
 
-
-/mob/proc/Delete(atom/A in view())
+/proc/delete(atom/A in view())
 	set category = "Debug"
-	switch (alert("Are you sure you wish to delete \the [A.name] at ([A.x],[A.y],[A.z]) ?", "Admin Delete Object","Yes","No"))
+	switch(alert("Are you sure you wish to delete \the [A.name] at ([A.x],[A.y],[A.z]) ?", "Admin Delete Object","Yes","No"))
 		if("Yes")
 			world.log_admin("[usr.key] deleted [A.name] at ([A.x],[A.y],[A.z])")
 			del(A)

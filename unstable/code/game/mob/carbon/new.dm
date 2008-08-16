@@ -1,13 +1,28 @@
 /mob/carbon/New(loc, name, hair_color, hair_style, skin_color, gender)
 	..(loc, name)
-	if(!src.loc)
+	var/unable_to_spawn = -1
+	while(!src.loc)
 		var/area/A = locate(/area/arrival/start)
-		var/list/L = list(  )
+		var/list/L = list()
 		for(var/turf/T in A)
-			if(T.isempty() )
-				L += T
+			if(T.isempty()) L += T
 		var/turf/Trand = pick(L)
-		src.loc = Trand
+		if(Trand) src.loc = Trand
+		else
+			++unable_to_spawn
+			if(!unable_to_spawn)
+				world.log_admin("[name] unable to spawn (no room)")
+				usr << "Waiting for open spawn location (10s)"
+				sleep(1000)
+			else if(unable_to_spawn<6)
+				usr << "Waiting for open spawn location (60s)"
+				sleep(6000)
+			else
+				usr << "Unable to spawn: Disconnecting"
+				if(src.client)
+					del(src.client)
+				del(src)
+
 	if(hair_color)
 		src.hair_color = hair_color
 	else if(!src.hair_color)
