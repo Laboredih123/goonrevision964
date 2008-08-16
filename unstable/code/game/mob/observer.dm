@@ -3,6 +3,7 @@
 	density = 0	//	not used
 	is_dead = 1	//	not used
 	canmove = 0	//	not used
+	anchored = 1 // don't get pushed around
 	var/mob/corpse = null	//	observer mode
 
 /mob/observer/New(var/mob/corpse)

@@ -369,8 +369,7 @@
 	return
 
 /datum/control/gameticker/proc/check_win()
-	if (!mode.check_win())
-		return 0
+	if(!mode.check_win())	return 0
 
 	for (var/mob/silicon/ai/aiPlayer in world)
 		if (!aiPlayer.is_dead)
@@ -421,20 +420,13 @@
 
 	world << "<B>Now dispensing all identification cards.</B>"
 
-	world.log_game("GAME: starting game of [src.mode.name]")
+	world.log_game("[src.mode.name] round starting")
 
 	DivideOccupations()
-
-	for (var/obj/manifest/M in world)
-		M.manifest()
-
-
+	for(var/obj/manifest/M in world)	M.manifest()
 	data_core.manifest()
-
 	src.mode.post_setup()
-
-	for(var/obj/start/S in world)
-		del(S)
+	for(var/obj/start/S in world)		del(S)
 
 // *****
 // MAIN LOOP OF PROGRAM
@@ -444,56 +436,27 @@
 	set invisibility = 0
 	set background =1
 	do
-
-		//world << "World.contents.len [world.contents.len]"
-
 		time = (++time %10)
-
 		sun.calc_position()
-
-		//if(Debug)
-		//	world.log << "*** SoT ***"
-		//	Air()
 
 		for(var/turf/station/T in world)
 			if (T.updatecell)
 				T.updatecell()
-				if(!time)
-					T.conduction()
-		//if(Debug)
-		//	world.log << "*** EoT ***"
-		//	Air()
+				if(!time) T.conduction()
 
-			//Foreach goto(73)
 		sleep(3)
 		for(var/mob/M in world)
 			spawn( 0 )
 				M.Life()
 				return
-			//Foreach goto(126)
+
 		sleep(3)
-		for(var/obj/move/S in world)
-			S.process()
-			//Foreach goto(167)
+		for(var/obj/move/S in world)				S.process()
 		sleep(2)
 
-		//if(Debug)
-		//	world.log << "*** SoP ***"
-		//	Air()
-
-		for(var/obj/machinery/M in machines)
-			M.process()
-		for(var/obj/machinery/M in gasflowlist)
-			M.gas_flow()
-		for(var/datum/powernet/P in powernets)
-			P.reset()
-
-		//if(Debug)
-		//	world.log << "*** EoP ***"
-		//	Air()
-
-			//Foreach goto(213)
-		src.var_swap = !( src.var_swap )
-
+		for(var/obj/machinery/M in machines)		M.process()
+		for(var/obj/machinery/M in gasflowlist)		M.gas_flow()
+		for(var/datum/powernet/P in powernets)		P.reset()
+		src.var_swap = !(src.var_swap)
 		sleep(2)
 	while (src.processing)
