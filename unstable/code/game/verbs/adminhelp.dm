@@ -3,11 +3,8 @@
 		src << "Please authorize before sending these messages."
 		return
 
-	msg = sanitize(msg)
-	msg = html_encode(copytext(msg, 1, MAX_MESSAGE_LEN))
-
-	if (!msg)
-		return
+	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
+	if(!msg) return
 
 	var/yep = 0
 	for(var/mob/M in world)

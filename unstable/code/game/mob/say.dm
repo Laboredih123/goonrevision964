@@ -2,18 +2,22 @@
 	return 1
 
 /mob/proc/say_dead(message)
+	var/msg = "<b>[src.spawn_name]</b> <i>(dead)</i>: [message]"
+	if(!msg) return	//	sanitized in /mob/verb/say
 	for(var/mob/M in world)
-		if (M.is_dead)
-			M << "<b>[src.spawn_name]</b> <i>(dead)</i>: [message]"
+		if(M.is_dead) M << msg
 
 /mob/proc/stutter(txt)
 	var/s = ""
+	if(!txt) return
+	txt = html_decode(txt)
+	// we html_encoded in /mob/verb/say
 	for(var/i = 1; i <= lentext(txt); i++)
 		var/c = copytext(txt, i, i + 1)
 		var/numrepeats = rand(5) - 1
 		for(var/j = 0; j < numrepeats; j++)
 			s += c
-	return s
+	return copytext(sanitize(s),1,MAX_MESSAGE_LEN)
 
 /mob/proc/get_default_radio()
 	return null
@@ -33,14 +37,12 @@
 				return I
 
 /mob/verb/say(txt as text)
-	if(!txt)
-		return
-	txt = sanitize(txt)
-	txt = copytext(txt, 1, MAX_MESSAGE_LEN)
+	txt = copytext(sanitize(txt),1,MAX_MESSAGE_LEN)
+	if(!txt) return
 	world.log_say("[src.name]/[src.key] : [txt]")
 
 	if(src.is_dead)
-		return src.say_dead(html_encode(txt))
+		return src.say_dead(txt)
 
 	if(!src.can_say())
 		return
@@ -61,9 +63,8 @@
 		target = src.get_radio(copytext(txt, 2, 3))
 		hear_range = 1
 
-	if (src.is_stuttering())
+	if(src.is_stuttering())
 		txt = stutter(txt)
-	txt = html_encode(txt)
 
 	var/datum/message/msg = new /datum/message(src.voice, txt, src.curr_language)
 	switch(get_rank(src))

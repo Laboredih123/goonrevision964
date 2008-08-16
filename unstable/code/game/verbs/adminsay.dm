@@ -9,12 +9,9 @@
 
 	var/name = ((src.mob)?(src.mob.name):("No Mob"))
 
-	//	Seems silly to log the message without sanitizing, but other *.dm do...
+	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
+	if(!msg) return
 	world.log << "ADMIN: [src.key]/[name] : [msg]"
-	msg = html_encode(copytext(sanitize(msg), 1, 1024))
-
-	if (!msg)
-		return
 
 	for(var/mob/M in world)
 		if (M.client && M.client.powers)

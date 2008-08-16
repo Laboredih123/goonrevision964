@@ -13,18 +13,12 @@
 		src << "You are not authorized to communicate over these channels."
 		return
 
+	if(!ooc_allowed) return
+	if(!src.client.listen_ooc) return
+	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
+	if(!msg) return
+
 	world.log_ooc("[src.name]/[src.key] : [msg]")
-
-	msg = sanitize(msg)
-	msg = html_encode(copytext(msg, 1, MAX_MESSAGE_LEN))
-
-	if (!msg)
-		return
-	else if (!src.client.listen_ooc)
-		return
-	else if (!ooc_allowed)
-		return
-
 	for (var/mob/M in world)
 		if (M.client && M.client.listen_ooc)
 			M << "<span class='ooc_title'>OOC: [src.key]:</span> <span class='ooc_text'>[msg]</span>"

@@ -1321,7 +1321,7 @@
 			return
 		if ((get_dist(src, usr) > 1 && src.loc != user))
 			return
-		t = html_encode(t)
+		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		if (t)
 			src.name = text("Morgue- '[]'", t)
 		else

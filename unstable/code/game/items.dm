@@ -1119,7 +1119,7 @@
 			return
 		if (src.loc != user)
 			return
-		t = html_encode(t)
+		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		if (t)
 			src.name = text("Pill Canister- '[]'", t)
 		else
@@ -1985,7 +1985,7 @@
 				return
 			if ((get_dist(src, usr) > 1 && src.loc != user))
 				return
-			t = html_encode(t)
+			t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 			if (t)
 				src.name = text("FPCase- '[]'", t)
 			else
@@ -2186,7 +2186,7 @@
 		var/t = input(user, "What text do you wish to add?", text("[]", src.name), null)  as message
 		if ((get_dist(src, usr) > 1 && src.loc != user && !( istype(src.loc, /obj/item/weapon/clipboard) ) && src.loc.loc != user && user.equipped() != P))
 			return
-		t = html_encode(t)
+		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		t = dd_replacetext(t, "\n", "<BR>")
 		t = dd_replacetext(t, "\[b\]", "<B>")
 		t = dd_replacetext(t, "\[/b\]", "</B>")
@@ -2310,7 +2310,7 @@
 				return
 			if ((get_dist(src, usr) > 1 && src.loc != user))
 				return
-			t = html_encode(t)
+			t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 			if (t)
 				src.name = text("FPrintC- '[]'", t)
 			else
@@ -3265,7 +3265,7 @@
 			return
 		if ((get_dist(src, usr) > 1 && src.loc != user))
 			return
-		t = html_encode(t)
+		t = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
 		if (t)
 			src.name = text("Glass Case- '[]'", t)
 		else

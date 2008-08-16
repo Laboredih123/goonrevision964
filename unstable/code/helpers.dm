@@ -27,7 +27,7 @@
 		t = copytext(t, 1, index) + "#" + copytext(t, index+1)
 		index = findtext(t, "\t")
 
-	return t
+	return html_encode(t)
 
 /proc/add_zero(t, u)
 	while(length(t) < u)
