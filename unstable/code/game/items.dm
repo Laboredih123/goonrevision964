@@ -1058,29 +1058,21 @@
 	return
 
 /obj/item/weapon/pill_canister/interact(mob/carbon/user as mob)
-	if(!istype(user, /mob/carbon))
-		return
-	if(!user.check_intelligence())
-		return
-	if ((user.r_hand == src || user.l_hand == src) && src.contents && src.contents.len)
-		var/obj/item/weapon/m_pill/P = pick(src.contents)
-		if (P)
-			P.amount--
-			var/obj/item/weapon/m_pill/W = new P.type( user )
-			if (user.hand)
-				user.l_hand = W
-			else
-				user.r_hand = W
-			W.layer = 20
-			if (P.amount <= 0)
-				//P = null
-				del(P)
-			W.add_fingerprint(user)
-			src.add_fingerprint(user)
-			user.update_clothing()
-	else
-		return ..()
-	return
+	if(!istype(user, /mob/carbon))	return
+	if(!user.can_use_hands())		return
+	if(!src.contents || !src.contents.len) return ..()
+	if(user.r_hand != src  && user.l_hand != src) return ..()
+
+	var/obj/item/weapon/m_pill/P = pick(src.contents)
+	if(!P) return
+	var/obj/item/weapon/m_pill/W = new P.type(user)
+	if(user.hand)	user.l_hand = W
+	else			user.r_hand = W
+	W.layer = 20
+	if(--P.amount <= 0) del(P)
+	src.add_fingerprint(user)
+	W.add_fingerprint(user)
+	user.update_clothing()
 
 /obj/item/weapon/pill_canister/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 	if(!istype(user, /mob/carbon))
