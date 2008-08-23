@@ -40,40 +40,33 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Goon Station 13 [SS13_version]\]"
+	src.status = "Goon Station 13 [SS13_version]\]<BR>"
 
-	src.status += "<br>"
-
-	if (ticker && master_mode)
-		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
-	else if (!ticker)
+	if(!ticker)
 		src.status += "<b>STARTING</b>"
+	else if(master_mode)
+		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
 
-	if (host)
+	if(host)
 		src.status += ", Host: <b>[host]</b>"
-	else if (config && config.hostedby)
+	else if(config && config.hostedby)
 		src.status += ", Host: <b>[config.hostedby]</b>"
 
 	src.status += "<br>"
 
 	var/list/features = list()
 
-	if (config && config.enable_authentication)
-		features += "goon only"
+	if(config)
+		switch(config.enable_authentication)
+			if(0)	features += "public mode"
+			if(1)	features += "limited mode"
+			if(2)	features += "private mode"
+		if(config.allow_vote_mode)
+			features += "voting"
 
-	if (!enter_allowed)
-		features += "closed"
-
-	if (abandon_allowed)
-		features += "respawning"
-
-	if (config && config.allow_vote_mode)
-		features += "voting"
-
-	if (features)
-		src.status += "\[[dd_list2text(features, ", ")]"
-
-
+	if(!enter_allowed)		features += "closed"
+	if(abandon_allowed)	features += "respawning"
+	if(features)			src.status += "\[[dd_list2text(features, ", ")]"
 
 
 /world/New()
@@ -401,7 +394,7 @@
 	shuttle_location = shuttle_z
 
 	world.update_stat()
-	world << "<B>Welcome to the Space Station 13!</B>\n\n"
+	world << "<B>Welcome to Space Station 13!</B>\n\n"
 
 	switch (master_mode)
 		if("secret")

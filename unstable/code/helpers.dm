@@ -143,36 +143,36 @@
 	if(start)
 		return findText(text, suffix, start, null)
 
-/proc/dd_text2list(text, separator)
+/proc/dd_text2list(text, separator, var/list/withinList)
 	var/textlength = length(text)
 	var/separatorlength = length(separator)
+	if(withinList && !withinList.len) withinList = null
 	var/list/textList = new()
 	var/searchPosition = 1
 	var/findPosition = 1
 	while(1)
 		findPosition = findtext(text, separator, searchPosition, 0)
 		var/buggyText = copytext(text, searchPosition, findPosition)
-		textList += text("[]", buggyText)
-		if(!findPosition)
-			return textList
+		if(!withinList || (buggyText in withinList)) textList += "[buggyText]"
+		if(!findPosition) return textList
 		searchPosition = findPosition + separatorlength
 		if(searchPosition > textlength)
 			textList += ""
 			return textList
 	return
 
-/proc/dd_text2List(text, separator)
+/proc/dd_text2List(text, separator, var/list/withinList)
 	var/textlength = length(text)
 	var/separatorlength = length(separator)
+	if(withinList && !withinList.len) withinList = null
 	var/list/textList = new()
 	var/searchPosition = 1
 	var/findPosition = 1
 	while(1)
 		findPosition = findText(text, separator, searchPosition, 0)
 		var/buggyText = copytext(text, searchPosition, findPosition)
-		textList += text("[]", buggyText)
-		if(!findPosition)
-			return textList
+		if(!withinList || (buggyText in withinList)) textList += "[buggyText]"
+		if(!findPosition) return textList
 		searchPosition = findPosition + separatorlength
 		if(searchPosition > textlength)
 			textList += ""
