@@ -142,8 +142,8 @@
 
 	if(rank == "Captain")
 		world << "<b>[M] is the captain!</b>"
+	src << "<B>Game mode is [ticker.mode]</B>"
 	src << "<B>You are the [rank].</B>"
-
 	M.client = src.client
 	M.update_clothing()
 	del(src)
