@@ -1,8 +1,7 @@
 /turf/DblClick()
 	if(!usr.is_active() || !istype(usr, /mob/silicon/ai))
 		return ..()
-	if (world.time <= usr:lastDblClick+2)
-		return ..()
+	if(RateLimit(usr,2)) return ..()
 
 	//try to find the closest working camera in the same area, switch to it
 	var/area/A = get_area(src)
@@ -22,5 +21,4 @@
 
 	if(!best_cam)
 		return ..()
-	usr:lastDblClick = world.time
 	usr:switchCamera(best_cam)

@@ -132,7 +132,7 @@
 
 /mob/carbon/proc/reset_db_click()
 	usr.next_move = usr.prev_move
-	usr:lastDblClick -= 3
+	usr:nextDblClick = world.time
 
 /mob/carbon/proc/db_click(text, t1)
 	var/obj/item/weapon/W = src.equipped()
