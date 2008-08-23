@@ -1,11 +1,3 @@
-/obj/machinery/New()
-	..()
-	machines += src
-
-/obj/machinery/Del()
-	machines -= src
-	..()
-
 /obj/machinery/door/meteorhit(obj/M as obj)
 	src.open()
 

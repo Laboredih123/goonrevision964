@@ -2117,8 +2117,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	density = 1
 	var/obj/machinery/line_in = null
 	var/mob/carbon/occupant = null
-	var/datum/substance/gas/gas = null
-	var/datum/substance/gas/ngas = null
+	var/datum/substance/gas/gas = new()
+	var/datum/substance/gas/ngas = new()
 	anchored = 1.0
 	p_dir = 8.0
 	capmult = 1
@@ -2196,14 +2196,14 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/connector = null
 	var/obj/machinery/line_out = null
 	var/obj/machinery/vnode = null
-	var/c_used = 1.0
+	var/list/rate = new()
 	var/status = 0.0
 	var/t_flags = 3.0
 	var/transfer = 0.0
 	var/temp = T0C + 60
 
-	var/datum/substance/gas/gas
-	var/datum/substance/gas/ngas
+	var/datum/substance/gas/gas = new()
+	var/datum/substance/gas/ngas = new()
 	p_dir = 4.0
 	anchored = 1.0
 	capmult = 1

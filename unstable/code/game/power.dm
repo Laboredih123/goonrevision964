@@ -1728,6 +1728,10 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		return
 	interaction(user)
 
+/obj/machinery/power/attackby(I as obj, mob/user as mob)
+	if(istype(I,/obj/item/weapon/card/id))
+		src.interact(user)
+	..()
 
 /obj/machinery/power/monitor/proc/interaction(mob/user)
 
@@ -2135,7 +2139,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			updateicon()
 			updatefrac()
 
-/obj/machinery/power/solar/proc/broken()
+/obj/machinery/power/solar/broken()
 	stat |= BROKEN
 	updateicon()
 
@@ -2361,7 +2365,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 
 
-/obj/machinery/power/solar_control/proc/broken()
+/obj/machinery/power/solar_control/broken()
 	stat |= BROKEN
 	updateicon()
 

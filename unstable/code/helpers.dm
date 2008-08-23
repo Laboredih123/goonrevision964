@@ -114,6 +114,9 @@
 		file = file(file_path)
 	return dd_text2list(file2text(file), separator)
 
+/proc/dd_range(var/low, var/high, var/num)
+	return max(low,min(high,num))
+
 /proc/dd_replacetext(text, search_string, replacement_string)
 	var/textList = dd_text2list(text, search_string)
 	return dd_list2text(textList, replacement_string)

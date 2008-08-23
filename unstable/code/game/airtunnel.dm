@@ -1,4 +1,3 @@
-
 /obj/move/airtunnel/process()
 
 	if (!( src.deployed ))
@@ -562,38 +561,11 @@ obj/machinery/door_control/interact(mob/user as mob)
 		if (href_list["temp"])
 			src.temp = null
 
-
-
-
 	for(var/mob/M in viewers(1, src))
 		if ((M.client && M.machine == src))
 			src.interact(M)
 		//Foreach goto(108)
 	return
-
-/obj/machinery/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				//SN src = null
-				del(src)
-				return
-		if(3.0)
-			if (prob(25))
-				//SN src = null
-				del(src)
-				return
-		else
-	return
-
-/obj/machinery/blob_act()
-	if(prob(25))
-		del(src)
 
 /obj/machinery/injector/attackby(var/obj/item/weapon/tank/W as obj, var/mob/user as mob)
 
