@@ -6,7 +6,7 @@
 	var/other_mobs = null
 	var/memory = ""
 	var/poll_answer = 0.0
-	var/lastDblClick = 0
+	var/nextDblClick = 0
 	var/list/requests = list(  )
 	var/list/mapobjs = list()
 

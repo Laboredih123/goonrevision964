@@ -4130,11 +4130,8 @@
 	return DblClick()
 
 /atom/DblClick()
-	if(!usr.is_active())
-		return
-	if (world.time <= usr:lastDblClick+2)
-		return
-	usr:lastDblClick = world.time
+	if(!usr.is_active()) return
+	if(RateLimit(usr,2)) return
 
 	..()
 	if(usr.ui_mode == UI_MODE_THROW && istype(usr, /mob/carbon))
