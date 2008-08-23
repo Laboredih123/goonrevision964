@@ -25,3 +25,4 @@
 
 	var/random_ai_names = 1				// enables random AI name suggestion
 	var/random_names = 0				// enables random player name suggestion
+	var/rate_limit = 1					// restricts command rate to 1 command / second

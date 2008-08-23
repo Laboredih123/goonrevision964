@@ -140,6 +140,7 @@
 	M.equip_if_possible(new /obj/item/weapon/pen(M), SLOT_R_STORE)
 	M.equip_if_possible(new /obj/item/weapon/radio/signaler(M), SLOT_BELT)
 
+	world.log_game("[M] has joined the game.")
 	if(rank == "Captain")
 		world << "<b>[M] is the captain!</b>"
 	src << "<B>Game mode is [ticker.mode]</B>"

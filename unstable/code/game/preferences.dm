@@ -112,7 +112,8 @@
 		if(!loaded)
 			src = new()
 	else if(href_list["prefer_syndicate"])
-		src.be_syndicate = input("Would you like to be eligible for playing as Syndicate?", "Character Generation", src.be_syndicate) in list("Yes", "No")
+		if(src.be_syndicate == "No") src.be_syndicate = "Yes"
+		else src.be_syndicate = "No"
 	else if(href_list["ready"])
 		if(!istype(usr,/mob/prespawn))
 			ss13_browse(usr, null, "window=mob_occupations")

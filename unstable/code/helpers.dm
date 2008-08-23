@@ -227,3 +227,10 @@
 
 /proc/scrub_input(var/Message, var/Title, var/Default, var/length=MAX_MESSAGE_LEN)
 	return strip_html(input(Message,Title,Default) as text, length)
+
+/proc/RateLimit(var/mob/usr, var/rate = config.rate_limit)
+	if(!usr) return 0
+	if(world.time <= usr.nextDblClick) return 1
+	usr.nextDblClick = world.time + rate
+	return 0
+

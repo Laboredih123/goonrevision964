@@ -83,6 +83,8 @@
 					if("required")	config.enable_authentication = 2
 					if("optional")	parse_authentication(value)
 				if(!value) config.enable_authentication = 2
+			if("rate_limit")
+				config.rate_limit = text2num(value)
 			if("random_names")
 				config.random_names = text2num(value)
 			if("random_ai_names")
