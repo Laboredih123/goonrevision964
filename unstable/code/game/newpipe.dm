@@ -1,124 +1,54 @@
-// pipeline datum for storings inter-machine links
-
-
-// create a pipeline
-
 /obj/machinery/pipeline/New()
 	..()
-
 	gas = new/datum/substance/gas(src)
 	ngas = new/datum/substance/gas()
-
 	gasflowlist += src
 
 // find the pipeline that contains the /obj/machine (including pipe)
 /proc/findline(var/obj/machinery/M)
-
 	for(var/obj/machinery/pipeline/P in plines)
-
 		for(var/obj/machinery/O in P.nodes)
-
-			if(M==O)
-				return P
-
+			if(M==O) return P
 	return null
 
 // sets the vnode1&2 terminators to the joining machines (or null)
 /obj/machinery/pipeline/proc/setterm()
-
-	//first make sure pipes are oriented correctly
-
 	var/obj/machinery/M = null
-
 	for(var/obj/machinery/pipes/P in nodes)
-		if(!M)			// special case for 1st pipe
-			if(P.node1 && P.node1.ispipe())
-				P.flip()		// flip if node1 is a pipe
-		else
-			if(P.node1 != M)		//other cases, flip if node1 doesn't point to previous node
-				P.flip()			// (including if it is null)
-
-
+		if(!M)	if(P.node1 && P.node1.ispipe())	P.flip()	// flip if node1 is a pipe
+		else	if(P.node1 != M)				P.flip()	// (including if it is null)
 		M = P
 
-
 	// pipes are now ordered so that n1/n2 is in same order as pipeline list
-
 	var/obj/machinery/pipes/P = nodes[1]		// 1st node in list
 	vnode1 = P.node1							// n1 points to 1st machine
 	P = nodes[nodes.len]						// last node in list
 	vnode2 = P.node2							// n2 points to last machine
 
-
-	return
-
-
-/obj/machinery/pipeline/get_gas_val(from)
-	return gas.total()/capmult
-/obj/machinery/pipeline/get_gas(from)
-	return gas
-
-
-
-/obj/machinery/pipeline/gas_flow()
-
-	//if(suffix == "d" && Debug) world.log << "PLF1  [gas.total()] ~ [ngas.total()]"
-
-	gas.replace_by(ngas)
-
-	//if(suffix == "d" && Debug) world.log << "PLF2  [gas.total()] ~ [ngas.total()]"
+/obj/machinery/pipeline/get_gas_val(from)	{	return gas.total()/capmult		}
+/obj/machinery/pipeline/get_gas(from)		{	return gas						}
+/obj/machinery/pipeline/gas_flow()			{	gas.replace_by(ngas)			}
 
 /obj/machinery/pipeline/process()
-
-	// heat exchange for whole pipeline
-
-	//if(suffix=="dbgp")
-	//	world.log << "PLP"
-	//	Plasma()
-
-//	var/dbg = (suffix == "d") && Debug
-
-	//if(dbg) world.log << "PLP1 [gas.total()] ~ [ngas.total()]"
-
-
-	var/gtemp = ngas.temp // cached temperature for heat exch calc
-	var/tot_node = ngas.total() / numnodes // fraction of gas in this node
-
-	//if(dbg) world.log << "PLHE: [gtemp] [tot_node]"
+	var/gtemp = ngas.temp
+	var/tot_node = ngas.total() / numnodes
 
 	if(tot_node>0.1)		// no pipe contents, don't heat
 		for(var/obj/machinery/pipes/P in src.nodes)		// for each segment of pipe
 			P.heat_exchange(ngas, tot_node, numnodes, gtemp) //, dbg)	// exchange heat with its turf
 
-
-	// now do standard gas flow proc
-
-
-	//if(dbg) world.log << "PLP2 [ngas.total()]"
-
 	var/delta_gt
-
-	if(vnode1)
-		delta_gt = FLOWFRAC * ( vnode1.get_gas_val(src) - gas.total() / capmult)
-		calc_delta( src, gas, ngas, vnode1, delta_gt)//, dbg)
-
-		//if(dbg) world.log << "PLT1 [delta_gt] >> [gas.total()] ~ [ngas.total()]"
-
+	if(!vnode1) leak_to_turf(1)
+	else
+		delta_gt = FLOWFRAC * (vnode1.get_gas_val(src) - gas.total() / capmult)
+		calc_delta(src, gas, ngas, vnode1, delta_gt)//, dbg)
 		flow = delta_gt
+
+	if(!vnode2) leak_to_turf(2)
 	else
-		leak_to_turf(1)
-
-	if(vnode2)
-		delta_gt = FLOWFRAC * ( vnode2.get_gas_val(src) - gas.total() / capmult)
-		calc_delta( src, gas, ngas, vnode2, delta_gt)//, dbg)
-
-		//if(dbg) world.log << "PLT2 [delta_gt] >> [gas.total()] ~ [ngas.total()]"
-
+		delta_gt = FLOWFRAC * (vnode2.get_gas_val(src) - gas.total() / capmult)
+		calc_delta(src, gas, ngas, vnode2, delta_gt)//, dbg)
 		flow -= delta_gt
-	else
-		leak_to_turf(2)
-
-
 
 /obj/machinery/pipeline/proc/leak_to_turf(var/port)
 
@@ -129,52 +59,32 @@
 	switch(port)
 		if(1)
 			P = nodes[1]		// 1st node in list
-			if (P==null)
-				T = src.loc
+			if(!P) T = src.loc
 			else
 				ndirs = P.get_node_dirs()
-
 				T = get_step(P, ndirs[1])
-
 
 		if(2)
 			P = nodes[nodes.len]	// last node in list
-			if (P==null)
-				T = src.loc
+			if(!P) T = src.loc
 			else
-
 				ndirs = P.get_node_dirs()
 				T = get_step(P, ndirs[2])
-	if (T==null)
-		return
-	if(T.density)
-		return
-
+	if(!T)	return
+	if(T.density)	return
 	flow_to_turf(gas, ngas, T)
-
 
 // build the pipelines
 /proc/makepipelines()
-
 	var/linecount = 0		// the line number
-
 	for(var/obj/machinery/pipes/P in machines)		// look for a pipe
-
-		if(!P.plnum)							// if not already part of a line
-			P.buildnodes(++linecount)			// add it, and spread to all connected pipes
-
-			//world.log<<"Line #[linecount] started at [P] ([P.x],[P.y],[P.z])"
-
-
+		if(!P.plnum) P.buildnodes(++linecount)
 	for(var/L = 1 to linecount)					// for count of lines found
 		var/obj/machinery/pipeline/PL = new()	// make a pipeline virtual object
 		PL.name = "pipeline #[L]"
 		plines += PL							// and add it to the list
 
-
-
 	for(var/obj/machinery/pipes/P in machines)		// look for pipes
-
 		if(P.termination)						// true if pipe is terminated (ends in blank or a machine)
 			var/obj/machinery/pipeline/PL = plines[P.plnum]		// get the pipeline from the pipe's pl-number
 
@@ -184,20 +94,11 @@
 			PL.numnodes = pipes.len				// with this many nodes
 			PL.capmult = PL.numnodes+1	// with this flow multiplier
 
-
-
-	for(var/obj/machinery/pipes/P in machines)		// all pipes
-		P.setline()								// 	set the pipeline object for this pipe
-
-		if(P.tag == "dbg")		//add debug tag to line containing debug pipe
-			P.pl.tag = "dbg"
-
-		if(P.suffix == "dbgpp")		//add debug tag to line containing debug pipe
-			P.pl.suffix = "dbgp"
-
-		if(P.suffix == "d")		//add debug tag to line containing debug pipe
-			P.pl.suffix = "d"
-
+	for(var/obj/machinery/pipes/P in machines)			// all pipes
+		P.setline()										// 	set the pipeline object for this pipe
+		if(P.tag == "dbg")	P.pl.tag = "dbg"			//add debug tag to line containing debug pipe
+		if(P.suffix == "dbgpp")	P.pl.suffix = "dbgp"	//add debug tag to line containing debug pipe
+		if(P.suffix == "d")	P.pl.suffix = "d"			//add debug tag to line containing debug pipe
 
 	for(var/obj/machinery/M in machines)			// for all machines
 		if(M.p_dir)								// which are pipe-connected
@@ -234,31 +135,21 @@
 
 // flip the nodes of a pipe
 /obj/machinery/pipes/proc/flip()
-
 	var/obj/machinery/tempnode = node1
 	node1 = node2
 	node2 = tempnode
-	return
-
 
 // return the next pipe in the node chain
 /obj/machinery/pipes/next(var/obj/machinery/from)
-
-	if(from == null)		// if from null, then return the next actual pipe
-		if(node1 && node1.ispipe() )
-			return node1
-		if(node2 && node2.ispipe() )
-			return node2
-		return null			// else return null if no real pipe connected
-
-	else if(from == node1)		// otherwise, return the node opposite the incoming one
-		return node2
-	else
-		return node1
-
+	if(!from)
+		if(node1 && node1.ispipe())	return node1
+		if(node2 && node2.ispipe()) return node2
+		return null
+	if(from == node1) return node2
+	if(from == node2) return node1
+	return null
 
 // set the pipeline obj from the pl-number and global list of pipelines
-
 /obj/machinery/pipes/setline()
 	src.pl = plines[plnum]
 	return
@@ -407,71 +298,6 @@
 		node2.buildnodes(linenum)
 	else
 		termination++
-
-
-/obj/machinery/pipes/heat_exch/get_dirs()
-	var/b1
-	var/b2
-
-	for(var/d in cardinal)
-		if(h_dir & d)
-			if(!b1)
-				b1 = d
-			else if(!b2)
-				b2 = d
-
-	return list(b1, b2, h_dir)
-
-/obj/machinery/pipes/heat_exch/buildnodes(var/linenum)
-
-	if(plnum)
-		return
-
-	src.level = 2		// h/e pipe cannot be put underfloor
-
-	var/list/dirs = get_dirs()
-
-	node1 = get_he_machine(level, src.loc, dirs[1])
-	node2 = get_he_machine(level, src.loc, dirs[2])
-
-	update()
-
-	plnum = linenum
-
-	termination = 0
-
-	if(node1 && node1.ispipe() )
-
-		node1.buildnodes(linenum)
-	else
-		termination++
-
-	if(node2 && node2.ispipe() )
-		node2.buildnodes(linenum)
-	else
-		termination++
-
-
-/obj/machinery/pipes/proc/heat_exchange(var/datum/substance/gas/gas, var/tot_node, var/numnodes, var/temp, var/dbg=0)
-	if(src.level == 1) return	// no heat exchange for under-floor pipes
-	var/turf/T = src.loc		// turf location of pipe
-	if(T.density) return
-	ASSERT(numnodes)
-	ASSERT(insulation)
-
-	// heat exchange less efficient in space (no conduction)
-	if(istype(T,/turf/space))
-		gas.temp += ( T.gas.temp - gas.temp) / (3.0 * insulation * numnodes)
-		return
-
-	var/tot_turf = max(1, T.gas.total());	if(!tot_turf) return
-	var/delta_T = (T.gas.temp - gas.temp) / (insulation)	// normal turf
-	gas.temp += delta_T	/ numnodes			// heat the pipe due to turf temperature
-
-	T.gas.temp -= delta_T*min(10,tot_node/tot_turf)		// also heat the turf due to pipe temp
-	// clamp max temp change to prevent thermal runaway if low amount of gas in turf
-
-	T.reset_phases()	// ensure turf tmp vars are updated
 
 // amount of gas that can be received = pipe capacity - amount already present
 /*
@@ -904,7 +730,7 @@
 		leak_to_turf(3)
 
 	// transfer gas from ngas->f_ngas according to extraction rate, but only if we have power
-	if(! (stat & NOPOWER) ) 
+	if(! (stat & NOPOWER) )
 		var/datum/substance/gas/ndelta = src.get_extract()
 		ngas.sub_delta(ndelta)
 		f_ngas.add_delta(ndelta)
@@ -1134,118 +960,66 @@
 		//if(dbg) world.log << "CLT2: [gas.tostring()] ~ [ngas.tostring()]\nTg = [T.tostring()]"
 
 
-
 /obj/machinery/junction/New()
 	..()
 	gas = new/datum/substance/gas(src)
 	ngas = new/datum/substance/gas()
 	gasflowlist += src
-
-	h_dir = dir					// the h/e pipe is in obj dir
 	p_dir = turn(dir, 180)		// the reg pipe is in opposite dir
-
+	h_dir = dir					// the h/e pipe is in obj dir
 
 /obj/machinery/junction/buildnodes()
-
 	var/turf/T = src.loc
-
-	node1 = get_he_machine(level, T, h_dir )		// the h/e pipe
-
-	node2 = get_machine(level, T , p_dir )	// the regular pipe
-
+	node1 = get_he_machine(level, T, h_dir)	// the h/e pipe
+	node2 = get_machine(level, T , p_dir)	// the regular pipe
 	if(node1) vnode1 = node1.getline()
 	if(node2) vnode2 = node2.getline()
 
-	return
-
-
 /obj/machinery/junction/gas_flow()
-
-	//var/dbg
-	//if(tag == "dbg1")
-	//	dbg = 1
-	//else if(tag == "dbg2")
-	//	dbg = 2
-
-	//if(dbg)	world.log << "J[dbg]F1: [gas.tostring()] ~ [ngas.tostring()]"
-
-
 	gas.replace_by(ngas)
 
-	//if(dbg)	world.log << "J[dbg]F2: [gas.tostring()] ~ [ngas.tostring()]"
-
 /obj/machinery/junction/process()
-
-	//var/dbg
-	//if(tag == "dbg1")
-	//	dbg = 1
-	//else if(tag == "dbg2")
-	//	dbg = 2
-
-	//if(dbg)	world.log << "J[dbg]P: [gas.tostring()] ~ [ngas.tostring()]"
-
 	var/delta_gt
 
-	if(vnode1)
-		delta_gt = FLOWFRAC * ( vnode1.get_gas_val(src) - gas.total() / capmult)
-		calc_delta( src, gas, ngas, vnode1, delta_gt) //, dbg)
-
-	//	if(dbg)	world.log << "J[dbg]T1: [delta_gt] >> [gas.tostring()] ~ [ngas.tostring()]"
+	if(!vnode1)	leak_to_turf(1)
 	else
-		leak_to_turf(1)
+		delta_gt = FLOWFRAC * (vnode1.get_gas_val(src) - gas.total() / capmult)
+		calc_delta(src, gas, ngas, vnode1, delta_gt)
 
-	if(vnode2)
-		delta_gt = FLOWFRAC * ( vnode2.get_gas_val(src) - gas.total() / capmult)
-		calc_delta( src, gas, ngas, vnode2, delta_gt) //, dbg)
-
-	//	if(dbg)	world.log << "J[dbg]T2: [delta_gt] >> [gas.tostring()] ~ [ngas.tostring()]"
+	if(!vnode2) leak_to_turf(2)
 	else
-		leak_to_turf(2)
+		delta_gt = FLOWFRAC * (vnode2.get_gas_val(src) - gas.total() / capmult)
+		calc_delta(src, gas, ngas, vnode2, delta_gt)
 
 
-/obj/machinery/junction/get_gas_val(from)
-	return gas.total()/capmult
-/obj/machinery/junction/get_gas(from)
-	return gas
+/obj/machinery/junction/get_gas_val(from)	{	return gas.total()/capmult	}
+/obj/machinery/junction/get_gas(from)		{	return gas					}
 
 /obj/machinery/junction/proc/leak_to_turf(var/port)
-
 	var/turf/T
-
-
 	switch(port)
-		if(1)
-			T = get_step(src, dir)
-		if(2)
-			T = get_step(src, turn(dir, 180) )
-
+		if(1)	T = get_step(src, dir)
+		if(2)	T = get_step(src, turn(dir, 180))
 	if(T.density)
 		T = src.loc
-		if(T.density)
-			return
-
+		if(T.density) return
 	flow_to_turf(gas, ngas, T)
-
-
 
 /proc/calc_delta(obj/machinery/source, datum/substance/gas/sgas, datum/substance/gas/sngas, obj/machinery/target, amount, dbg=0)
 	var/datum/substance/gas/tgas = target.get_gas(source)
 	var/datum/substance/gas/ndelta = new()
 
-	if(amount < 0)		// then flowing from source to target
+	if(amount < 0)							// flowing from source to target
 		var/sTotal = sgas.total()
-		if(!sTotal)
-			return
-		ndelta.copy_gas(sgas)
+		if(!sTotal) return
+		ndelta.copy_all(sgas)
 		ndelta.multiply_gas(-amount/sTotal) // this is fraction of the gas which will be transfered to other node
-		sngas.sub_delta(ndelta)		// subtract off the fraction which is gone
-	else				// flowing from target to source
+		sngas.sub_delta(ndelta)				// subtract off the fraction which is gone
+	else									// flowing from target to source
 		var/tTotal = tgas.total()
-		if(!tTotal)
-			return
-		ndelta.copy_gas(tgas)
-		ndelta.multiply_gas(amount/tTotal)
-			// fraction of gas from the other node
+		if(!tTotal) return
+		ndelta.copy_all(tgas)
+		ndelta.multiply_gas(amount/tTotal)	// fraction of gas from the other node
 		sngas.add_delta(ndelta)				// add the fraction to the new gas resv
 
 /obj/machinery/vent/New()

@@ -711,33 +711,17 @@
 // using this solves the problem of having the APC in a wall yet also inside an area
 
 /obj/machinery/power/terminal/New()
-
 	..()
-
 	var/turf/T = src.loc
-
 	if(level==1) hide(T.intact)
 
-
 /obj/machinery/power/terminal/hide(var/i)
-
 	if(i)
 		invisibility = 101
 		icon_state = "term-f"
 	else
 		invisibility = 0
 		icon_state = "term"
-
-
-
-// dummy generator object for testing
-
-/*/obj/machinery/power/generator/verb/set_amount(var/g as num)
-	set src in view(1)
-
-	gen_amount = g
-
-*/
 
 /obj/machinery/power/generator/New()
 	..()
@@ -751,86 +735,57 @@
 		updateicon()
 
 /obj/machinery/power/generator/proc/updateicon()
+	overlays = null
+	if(stat & (NOPOWER|BROKEN)) return
+	if(lastgenlev)	overlays += image('power.dmi', "teg-op[lastgenlev]")
+	overlays += image('power.dmi', "teg-oc[c1on][c2on]")
 
-	if(stat & (NOPOWER|BROKEN))
-		overlays = null
-	else
-		overlays = null
-
-		if(lastgenlev != 0)
-			overlays += image('power.dmi', "teg-op[lastgenlev]")
-
-		overlays += image('power.dmi', "teg-oc[c1on][c2on]")
-
-#define GENRATE 0.0017			// generator output coefficient from Q
-
+#define GENRATE 0.34			// generator output coefficient from Q
 /obj/machinery/power/generator/process()
+	if(!circ1 || !c1on)	return
+	if(!circ2 || !c2on)	return
 
-/*	if(circ && circ.gas1)
-		var/gen = circ.gas2.total()*max(0, circ.gas2.temp - 298)/300
-		circ.ngas2.temp = max(298, circ.ngas2.temp - 50)
+	var/gc = circ1.gas2.shc()
+	var/gh = circ2.gas2.shc()
 
-		add_avail(gen)
-*/
+	var/tc = circ1.gas2.temp
+	var/th = circ2.gas2.temp
+	var/deltat = th-tc
 
-	if(circ1 && circ2)
+	var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
 
+	if(gc > 0 && deltat >0)		// require some cold gas (for sink) and a positive temp gradient
+		var/ghoc = gh/gc
 
-		var/gc = circ1.gas2.shc()
-		var/gh = circ2.gas2.shc()
+		var/fdt = 1/((1-eta)*ghoc + 1)	// min timestep
 
-		var/tc = circ1.gas2.temp
-		var/th = circ2.gas2.temp
-		var/deltat = th-tc
+		fdt = min(fdt, 0.1)	// max timestep
 
-		var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
+		var/q = fdt*eta*gh*(deltat)	// heat generated
+		var/thp = th - fdt * deltat
+		var/tcp = tc + fdt * (1 - eta) * (ghoc) * deltat
 
-		if(gc > 0 && deltat >0)		// require some cold gas (for sink) and a positive temp gradient
-			var/ghoc = gh/gc
+		lastgen = q * GENRATE
+		add_avail(lastgen)
 
-			//var/qc = gc*tc
-			//var/qh = gh*th
+		circ1.ngas2.temp = tcp
+		circ2.ngas2.temp = thp
 
-			var/fdt = 1/( (1-eta)*ghoc + 1)	// min timestep
+	else
+		lastgen = 0
 
-			fdt = min(fdt, 0.1)	// max timestep
+	// update icon overlays only if displayed level has changed
+	var/genlev = max(0, min( round(11*lastgen / 100000), 11))
+	if(genlev != lastgenlev)
+		lastgenlev = genlev
+		updateicon()
 
-			var/q = fdt*eta*gh*(deltat)	// heat generated
-
-			var/thp = th - fdt * deltat
-			var/tcp = tc + fdt * (1 - eta) * (ghoc) * deltat
-
-			lastgen = q * GENRATE
-			add_avail(lastgen)
-
-			circ1.ngas2.temp = tcp
-			circ2.ngas2.temp = thp
-
-		else
-			lastgen = 0
-
-
-
-
-
-		// update icon overlays only if displayed level has changed
-
-		var/genlev = max(0, min( round(11*lastgen / 100000), 11))
-		if(genlev != lastgenlev)
-			lastgenlev = genlev
-			updateicon()
-
-		src.updateDialog()
+	src.updateDialog()
 
 /obj/machinery/power/generator/interact(mob/user)
-
 	add_fingerprint(user)
-
 	if(stat & (BROKEN|NOPOWER)) return
-
 	interaction(user)
-
-
 
 /obj/machinery/power/generator/proc/interaction(mob/user)
 

@@ -352,22 +352,18 @@ obj/machinery/door_control/attackby(obj/item/weapon/W, mob/user as mob)
 	return src.interact(user)
 
 obj/machinery/door_control/interact(mob/user as mob)
-
-	if(stat & NOPOWER)
-		return
+	if(stat & (BROKEN|NOPOWER)) return
 	use_power(5)
 	icon_state = "doorctrl1"
 
 	for(var/obj/machinery/door/poddoor/M in machines)
-		if (M.id == src.id)
-			if (M.density)
-				spawn( 0 )
-					M.openpod()
-					return
-			else
-				spawn( 0 )
-					M.closepod()
-					return
+		if(M.id != src.id) continue
+		if(M.density)
+			spawn(0)
+				M.openpod()
+		else
+			spawn(0)
+				M.closepod()
 
 	spawn(15)
 		if(!(stat & NOPOWER))

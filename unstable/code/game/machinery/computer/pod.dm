@@ -114,8 +114,8 @@
 	if(src.operating)	return 0
 	if(stat & NOPOWER)	return 0
 
-	src.operating = 1
 	use_power(50)
+	src.operating = 1
 	flick("pdoorc0", src)
 	src.icon_state = "pdoor0"
 	sleep(15)
@@ -131,7 +131,7 @@
 /obj/machinery/door/poddoor/proc/closepod()
 	set src in oview(1)
 
-	if(!src.density)	return 0
+	if(src.density)		return 0
 	if(src.operating)	return 0
 	if(stat & NOPOWER)	return 0
 

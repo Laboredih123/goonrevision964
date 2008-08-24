@@ -188,6 +188,7 @@
 
 /turf/space/New()
 	gas.clear()
+	gas.temp=TCMB
 	reset_phases()
 	if((src.x & 1) == (src.y & 1))
 		src.checkfire = 0
