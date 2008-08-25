@@ -30,12 +30,11 @@
 /obj/machinery/pipeline/gas_flow()			{	gas.replace_by(ngas)			}
 
 /obj/machinery/pipeline/process()
-	var/gtemp = ngas.temp
 	var/tot_node = ngas.total() / numnodes
 
 	if(tot_node>0.1)		// no pipe contents, don't heat
 		for(var/obj/machinery/pipes/P in src.nodes)		// for each segment of pipe
-			P.heat_exchange(ngas, tot_node, numnodes, gtemp) //, dbg)	// exchange heat with its turf
+			P.heat_exchange(ngas, tot_node, numnodes) //, dbg)	// exchange heat with its turf
 
 	var/delta_gt
 	if(!vnode1) leak_to_turf(1)

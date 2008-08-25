@@ -12,20 +12,27 @@
 	src.level = 2		// h/e pipe cannot be put underfloor
 	return ..()
 
-/obj/machinery/pipes/proc/heat_exchange(var/datum/substance/gas/gas, var/tot_node, var/numnodes, var/temp, var/dbg=0)
+/obj/machinery/pipes/proc/heat_exchange(var/datum/substance/gas/ngas, var/tot_node, var/numnodes)
+	var/total = ngas.total()
+	if(!total) return
 	var/turf/T = src.loc		// turf location of pipe
 	if(T.density) return
 	ASSERT(numnodes)
 	ASSERT(insulation)
 
-	// heat exchange less efficient in space (no conduction)
+	// pipes radiate energy in space
 	if(istype(T,/turf/space))
-		gas.temp += (T.gas.temp - temp) / (3.0 * insulation * numnodes)
+		var/radiation = (ngas.temp ** 4) - (TCMB ** 4)
+		radiation *= 5.6703e-8	//	Stefen Boltzman constant
+		radiation *= 0.97		//	emissivity of our future oxidized Ni/Cr/Fe pipe
+		radiation *= 3.14*3		//	surface area of the pipe (1ft diameter, 3 ft long)
+		ngas.temp -= (radiation * numnodes) / total
+		T.reset_phases()
 		return
 
 	if(src.level == 1) return	// no heat exchange for under-floor pipes
-	var/delta_T = (T.gas.temp - temp) / (insulation)
-	gas.temp += delta_T	/ numnodes
+	var/delta_T = (T.gas.temp - ngas.temp) / (insulation)
+	ngas.temp += delta_T	/ numnodes
 
 	var/tot_turf = max(1, T.gas.total());
 	T.gas.temp -= delta_T*min(10,tot_node/tot_turf)		// also heat the turf due to pipe temp

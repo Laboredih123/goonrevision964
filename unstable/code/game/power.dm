@@ -740,16 +740,16 @@
 	if(lastgenlev)	overlays += image('power.dmi', "teg-op[lastgenlev]")
 	overlays += image('power.dmi', "teg-oc[c1on][c2on]")
 
-#define GENRATE 0.34			// generator output coefficient from Q
+#define GENRATE 0.17			// generator output coefficient from Q
 /obj/machinery/power/generator/process()
 	if(!circ1 || !c1on)	return
 	if(!circ2 || !c2on)	return
 
-	var/gc = circ1.gas2.shc()
-	var/gh = circ2.gas2.shc()
+	var/gc = circ1.ngas1.shc()
+	var/gh = circ2.ngas1.shc()
 
-	var/tc = circ1.gas2.temp
-	var/th = circ2.gas2.temp
+	var/tc = circ1.ngas1.temp
+	var/th = circ2.ngas1.temp
 	var/deltat = th-tc
 
 	var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
