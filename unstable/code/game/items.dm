@@ -1178,28 +1178,28 @@
 	return
 
 /obj/item/weapon/m_pill/attack(mob/carbon/M as mob, mob/user as mob)
-	if(!istype(M, /mob/carbon))
+	if(!istype(M, /mob/carbon))	return
+	if(M.helmet && M.helmet.flags & HEADCOVERSMOUTH)
+		user.think("\blue You need to remove [(user == M) ? "your" : "their"] helmet first.")
 		return
-	if ((M.helmet && M.helmet.flags & HEADCOVERSMOUTH) || (M.mask && M.mask.flags & MASKCOVERSMOUTH))
-		user.think("\blue You're going to need to remove [(user == M) ? "your" : "their"] mask/helmet first.")
+	if(M.mask && M.mask.flags & MASKCOVERSMOUTH)
+		user.think("\blue You need to remove [(user == M) ? "your" : "their"] mask first.")
 		return
-	if (user != M )
-		M.show_viewers(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
-		var/obj/equip_e/O = new /obj/equip_e(  )
-		O.source = user
-		O.target = M
-		O.item = src
-		O.s_loc = user.loc
-		O.t_loc = M.loc
-		O.place = "pill"
-		M.requests += O
-		spawn( 0 )
-			O.process()
-			return
-	else
+	if(user == M)
 		src.add_fingerprint(user)
 		src.ingest(M)
-	return
+		return
+
+	M.show_viewers(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
+	var/obj/equip_e/O = new /obj/equip_e()
+	O.source = user
+	O.target = M
+	O.item = src
+	O.s_loc = user.loc
+	O.t_loc = M.loc
+	O.place = "pill"
+	M.requests += O
+	spawn(0) O.process()
 
 /obj/item/weapon/m_pill/superpill/ingest(mob/carbon/M as mob)
 	var/dam = M.get_damage()
