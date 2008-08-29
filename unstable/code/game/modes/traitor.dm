@@ -62,16 +62,15 @@
 /datum/game_mode/traitor/proc/pick_killer()
 	var/mob/carbon/killer
 	var/list/synd_list = get_synd_list()
-	if(synd_list.len < 1)
-		killer = pick(get_mob_list())
-	else
-		killer = pick(synd_list)
+	if(synd_list.len<1)	killer = pick(get_human_list())
+	else				killer = pick(synd_list)
+
 	ticker.killer = killer
 	var/objective = pick_objective(killer)
 	ticker.objective = objective
 
-	switch (objective)
-		if (ai_obj_evacuate)
+	switch(objective)
+		if(ai_obj_evacuate)
 			killer << "\red<font size=3><B>You are the traitor!</B> You must cause the death or evacuation of at least [percentage_station_evacuate]% of the crew and don't get deactivated.</font>"
 			killer:memory += "<B>Objective:</B> Cause the death or evacuation of at least [percentage_station_evacuate]% of the crew and don't get deactivated."
 			add_law_zero(killer)
@@ -88,14 +87,15 @@
 			killer << "\red<font size=3><B>You are the traitor!</B> Be the lone survivor on the emergency shuttle.</font>"
 			killer:memory += "<B>Objective:</B> Be the only person on the emergency shuttle."
 
-		if (obj_murder)
+		if(obj_murder)
 			ticker.target = pick_human_except(killer)
+			if(!ticker.target) return pick_killer()	// only human is the killer
 			var/targetdesc = get_target_desc(ticker.target)
 			killer << "\red<font size=3><B>You are the traitor!</B> You must assassinate [targetdesc] and then escape.</font>"
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			killer:memory += "<B>Objective:</B> Assassinate [targetdesc] and escape."
 
-		if (obj_steal)
+		if(obj_steal)
 			ticker.theft_obj = pick(get_pickable_items(killer))
 			var/itemdesc = get_item_desc(ticker.theft_obj)
 
@@ -103,7 +103,7 @@
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			killer:memory += "<B>Objective:</B> Steal [itemdesc] and escape."
 
-		if (obj_sabotage)
+		if(obj_sabotage)
 			ticker.sab_target = pick_sab_target()
 			var/targetdesc = get_sab_desc(ticker.sab_target)
 			if(ticker.sab_target == destroy_ai)
@@ -112,47 +112,47 @@
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
 			killer:memory += "<B>Objective:</B> [targetdesc] and escape."
 
-	if (istype(killer, /mob/carbon))
+	if(istype(killer, /mob/carbon))
 		spawn (100)
 			// generate list of radio freqs
 			var/freq = 1441
 			var/list/freqlist = list()
 			while (freq <= 1489)
-				if (freq < 1451 || freq > 1459)
+				if(freq < 1451 || freq > 1459)
 					freqlist += freq
 				freq += 2
 			freq = pick(freqlist)
 			// find a radio! toolbox(es), backpack, belt, headset
 			var/loc = ""
 			var/obj/item/weapon/radio/R = null
-			if (!R && istype(killer.l_hand, /obj/item/weapon/storage))
+			if(!R && istype(killer.l_hand, /obj/item/weapon/storage))
 				var/obj/item/weapon/storage/S = killer.l_hand
 				var/list/L = S.return_inv()
 				for (var/obj/item/weapon/radio/foo in L)
 					R = foo
 					loc = "in the [S.name] in your left hand"
 					break
-			if (!R && istype(killer.r_hand, /obj/item/weapon/storage))
+			if(!R && istype(killer.r_hand, /obj/item/weapon/storage))
 				var/obj/item/weapon/storage/S = killer.r_hand
 				var/list/L = S.return_inv()
 				for (var/obj/item/weapon/radio/foo in L)
 					R = foo
 					loc = "in the [S.name] in your right hand"
 					break
-			if (!R && istype(killer.back, /obj/item/weapon/storage))
+			if(!R && istype(killer.back, /obj/item/weapon/storage))
 				var/obj/item/weapon/storage/S = killer.back
 				var/list/L = S.return_inv()
 				for (var/obj/item/weapon/radio/foo in L)
 					R = foo
 					loc = "in the [S.name] on your back"
 					break
-			if (!R && killer.jumpsuit && killer.belt && istype(killer.belt, /obj/item/weapon/radio))
+			if(!R && killer.jumpsuit && killer.belt && istype(killer.belt, /obj/item/weapon/radio))
 				R = killer.belt
 				loc = "on your belt"
-			if (!R && istype(killer.headset, /obj/item/weapon/radio))
+			if(!R && istype(killer.headset, /obj/item/weapon/radio))
 				R = killer.headset
 				loc = "on your head"
-			if (!R)
+			if(!R)
 				killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
 			else
 				var/obj/item/weapon/syndicate_uplink/T = new /obj/item/weapon/syndicate_uplink(R)
@@ -174,18 +174,18 @@
 		objective = pick_objective()
 		right_objective = 0
 	switch (objective)
-		if (obj_hijack)
+		if(obj_hijack)
 			intercepttext += "\red <B>Transmission suggests future attempts to hijack the emergency shuttle ([prob_right_objective]% certainty)</B><BR>"
 
-		if (ai_obj_evacuate)
+		if(ai_obj_evacuate)
 			intercepttext += "\red <B>Transmission suggests future attempts to drive all humans off the station ([prob_right_objective]% certainty)</B><BR>"
 
-		if (obj_murder, ai_obj_murder)
+		if(obj_murder, ai_obj_murder)
 			intercepttext += "\red <B>Transmission suggests future attempts to assassinate key personnel ([prob_right_objective]% certainty)</B><BR>"
-			if (prob(prob_int_murder_target))
+			if(prob(prob_int_murder_target))
 				var/prob_right_target = rand(prob_right_murder_target_l, prob_right_murder_target_h)
 				var/target = null
-				if (prob(prob_right_target) && right_objective) //will never get the right target if there is no target
+				if(prob(prob_right_target) && right_objective) //will never get the right target if there is no target
 					target = ticker.target
 				else
 					target = pick(get_human_list()) //can't think the killer is the same thing as the target
@@ -193,28 +193,28 @@
 
 		if(obj_steal)
 			intercepttext += "\red <B>Transmission suggests future attempts to steal critical items ([prob_right_objective]% certainty)</B><BR>"
-			if (prob(prob_int_item))
+			if(prob(prob_int_item))
 				var/prob_right_item = rand(prob_right_item_l, prob_right_item_h)
 				var/target = null
-				if (right_objective && prob(prob_right_item)) //will never get the right target if it's the wrong objective or wouldn't be consistent with the given killer
+				if(right_objective && prob(prob_right_item)) //will never get the right target if it's the wrong objective or wouldn't be consistent with the given killer
 					target = ticker.theft_obj
 				else
 					target = pick(get_pickable_items())
 				intercepttext += "\red <B>Perceived target: [get_item_desc(target)] ([prob_right_item]% certainty)</B><BR>"
 
-		if (obj_sabotage)
+		if(obj_sabotage)
 			intercepttext += "\red <B>Transmission suggests future attempts at station sabotage ([prob_right_objective]% certainty)</B><BR>"
-			if (prob(prob_int_sab_target))
+			if(prob(prob_int_sab_target))
 				var/prob_right_target = rand(prob_right_sab_target_l, prob_right_sab_target_h)
 				var/target = null
-				if (right_objective && prob(prob_right_target)) //will never get the right target if it's the wrong objective or wouldn't be consistent with the given killer
+				if(right_objective && prob(prob_right_target)) //will never get the right target if it's the wrong objective or wouldn't be consistent with the given killer
 					target = ticker.sab_target
 				else
 					target = pick_sab_target()
 				intercepttext += "\red <B>Perceived objective: [get_sab_desc(target)] ([prob_right_target]% certainty)</B><BR>"
 
 	for (var/obj/machinery/computer/communications/comm in world)
-		if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept) //it works
+		if(!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept) //it works
 			//only send it to the one on the bridge, because engineers don't need to know and security can just come to the bridge
 			var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
 			intercept.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
@@ -235,52 +235,52 @@
 			var/gone = 0
 			var/stayed = 0
 			for(var/mob/M in world)
-				if ((M != ticker.killer && M.client))
-					if (M.is_dead || M.loc in shuttle || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
+				if((M != ticker.killer && M.client))
+					if(M.is_dead || M.loc in shuttle || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
 						gone++
 					else
 						stayed++
 			var/total = gone + stayed
-			if (stayed > total * percentage_station_evacuate / 100)
+			if(stayed > total * percentage_station_evacuate / 100)
 				traitorwin = 0
 		if(obj_hijack)
 			for(var/mob/M in world)
-				if (M != ticker.killer && M.client)
-					if (!M.is_dead)
-						if (get_turf(M) in shuttle)
+				if(M != ticker.killer && M.client)
+					if(!M.is_dead)
+						if(get_turf(M) in shuttle)
 							traitorwin = 0
 		if(obj_murder, ai_obj_murder)
-			if (ticker.target && !ticker.target.is_dead) //target's alive
+			if(ticker.target && !ticker.target.is_dead) //target's alive
 				traitorwin = 0
 		if(obj_steal)
 			var/list/L = list()
-			if (ticker.killer)
+			if(ticker.killer)
 				L += ticker.killer.contents
 				for(var/obj/item/weapon/storage/S in ticker.killer.contents)
 					L += S.return_inv()
 				for(var/obj/item/weapon/gift/G in ticker.killer.contents)
 					L += G.gift
-					if (istype(G.gift, /obj/item/weapon/storage))
+					if(istype(G.gift, /obj/item/weapon/storage))
 						L += G.gift:return_inv()
 
 			traitorwin = 0
 			switch(ticker.theft_obj)
 				if(laser)
 					for(var/obj/item/weapon/gun/energy/laser_gun/O in L)
-						if (O.charges >= O.maximum_charges)
+						if(O.charges >= O.maximum_charges)
 							traitorwin = 1
 				if(plasma_bomb)
 					for(var/obj/item/weapon/assembly/r_i_ptank/O in L)
 						var/obj/item/weapon/tank/plasmatank/P = O.part3
-						if ((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773)) // 500 degrees Celsius
+						if((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773)) // 500 degrees Celsius
 							traitorwin = 1
 					for(var/obj/item/weapon/assembly/t_i_ptank/O in L)
 						var/obj/item/weapon/tank/plasmatank/P = O.part3
-						if ((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773))
+						if((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773))
 							traitorwin = 1
 					for(var/obj/item/weapon/assembly/m_i_ptank/O in L)
 						var/obj/item/weapon/tank/plasmatank/P = O.part3
-						if ((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773))
+						if((P.gas.plasma >= 1600000.0 && P.gas.temp >= 773))
 							traitorwin = 1
 				if(hand_tele)
 					for(var/obj/item/weapon/hand_tele/O in L)
@@ -300,7 +300,7 @@
 				if(captain_suit)
 					for(var/obj/item/weapon/clothing/under/darkgreen/O in L)
 						traitorwin = 1
-		if (obj_sabotage)
+		if(obj_sabotage)
 			switch(ticker.sab_target)
 				if(destroy_plasma)
 					var/canisters_total = 0
@@ -337,46 +337,32 @@
 						traitorwin = 0
 		else
 			world << "unknown traitor objective"
-	if (ticker.killer)
+	if(ticker.killer)
 		var/turf/loc = ticker.killer.loc
-		if (!istype(loc, /turf))
+		if(!istype(loc, /turf))		traitorwin = 0
+		if(ticker.killer.is_dead)	traitorwin = 0 //dead
+		if(!(loc in shuttle || istype(ticker.killer, /mob/silicon/ai))) //not on shuttle, not AI
 			traitorwin = 0
-		if (ticker.killer.is_dead) //dead
-			traitorwin = 0
-		if (!(loc in shuttle || istype(ticker.killer, /mob/silicon/ai))) //not on shuttle, not AI
-			traitorwin = 0
-	if (traitorwin)
-		world << "<B>The traitor ([ticker.killer.spawn_name]) wins!</B>"
-	else
-		world << "<B>The Research Staff has stopped the traitor ([ticker.killer.spawn_name]) !</B>"
+	if(traitorwin)	world << "<B>The traitor ([ticker.killer.spawn_name]) wins!</B>"
+	else			world << "<B>The Research Staff has stopped the traitor ([ticker.killer.spawn_name]) !</B>"
 	switch(ticker.objective)
-		if(ai_obj_evacuate)
-			world << "<B>Objective: Cause the evacuation or death of at least [percentage_station_evacuate]% of the station.</B>"
-		if(obj_hijack)
-			world << "<B>Objective: Escape alone on the shuttle.</B>"
-		if(ai_obj_murder)
-			world << "<B>Objective: Kill [ticker.target] and not be deactivated.</B>"
-		if(obj_murder)
-			world << "<B>Objective: Kill [ticker.target] and escape.</B>"
-		if(obj_steal)
-			world << "<B>Objective: Steal [get_item_desc(ticker.theft_obj)] and escape.</B>"
-		if (obj_sabotage)
-			world << "<B>Objective: [get_sab_desc(ticker.sab_target)] and escape.</B>"
-		else
-			world << "unknown traitor objective"
+		if(ai_obj_evacuate)		world << "<B>Objective: Cause the evacuation or death of at least [percentage_station_evacuate]% of the station.</B>"
+		if(obj_hijack)			world << "<B>Objective: Escape alone on the shuttle.</B>"
+		if(ai_obj_murder)		world << "<B>Objective: Kill [ticker.target] and not be deactivated.</B>"
+		if(obj_murder)			world << "<B>Objective: Kill [ticker.target] and escape.</B>"
+		if(obj_steal)			world << "<B>Objective: Steal [get_item_desc(ticker.theft_obj)] and escape.</B>"
+		if(obj_sabotage)		world << "<B>Objective: [get_sab_desc(ticker.sab_target)] and escape.</B>"
+		else					world << "unknown traitor objective"
 	return 1
 
 /datum/game_mode/traitor/proc/pick_objective(mob/killer)
-	var/list/mob_list = get_mob_list()
-	if (mob_list.len <= 1)
-		if(istype(killer, /mob/silicon/ai))
-			return ai_obj_evacuate
-		else
-			return pick(obj_hijack, obj_steal, obj_sabotage)
-	else if (istype(killer, /mob/silicon/ai))
-		return pick(ai_obj_evacuate, ai_obj_murder)
-	else
-		return pick(obj_hijack, obj_steal, obj_sabotage, obj_murder)
+	var/list/targets = get_human_list()
+	if(targets.len < 2)
+		if(istype(killer, /mob/silicon/ai))		return ai_obj_evacuate
+		return pick(obj_hijack, obj_steal, obj_sabotage)
+
+	else if(istype(killer, /mob/silicon/ai))	return pick(ai_obj_evacuate, ai_obj_murder)
+	return pick(obj_hijack, obj_steal, obj_sabotage, obj_murder)
 
 /datum/game_mode/traitor/proc/add_law_zero(mob/silicon/ai/killer)
 	killer << "<b>Your laws have been changed!</b>"
@@ -386,14 +372,14 @@
 /datum/game_mode/traitor/proc/get_mob_list()
 	var/list/mobs = list()
 	for(var/mob/M in world)
-		if (M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
+		if(M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
 			mobs += M
 	return mobs
 
 /datum/game_mode/traitor/proc/get_synd_list()
 	var/list/mobs = list()
 	for(var/mob/M in world)
-		if (M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
+		if(M.client && (istype(M, /mob/carbon) || istype(M, /mob/silicon/ai)))
 			if(M.be_syndicate)
 				mobs += M
 	return mobs
@@ -401,8 +387,7 @@
 /datum/game_mode/traitor/proc/get_human_list()
 	var/list/humans = list()
 	for(var/mob/carbon/M in world)
-		if (M.client)
-			humans += M
+		if(M.client) humans += M
 	return humans
 
 /datum/game_mode/traitor/proc/pick_human_except(mob/carbon/exception)
@@ -419,21 +404,14 @@
 		return items
 
 /datum/game_mode/traitor/proc/get_item_desc(var/target)
-	switch (target)
-		if (laser)
-			return "a fully loaded laser gun"
-		if (hand_tele)
-			return "a hand teleporter"
-		if (plasma_bomb)
-			return "a fully armed and heated plasma bomb"
-		if (captain_card)
-			return "an ID card with universal access"
-		if (captain_suit)
-			return "a captain's dark green jumpsuit"
-		if (jetpack)
-			return "a jet pack"
-		else
-			return "Error: Invalid theft target: [target]"
+	switch(target)
+		if(laser)			return "a fully loaded laser gun"
+		if(hand_tele)		return "a hand teleporter"
+		if(plasma_bomb)		return "a fully armed and heated plasma bomb"
+		if(captain_card)	return "an ID card with universal access"
+		if(captain_suit)	return "a captain's dark green jumpsuit"
+		if(jetpack)			return "a jet pack"
+	return "Error: Invalid theft target: [target]"
 
 /datum/game_mode/traitor/proc/pick_sab_target()
 	var/list/targets = list(destroy_plasma, destroy_ai, kill_monkeys, cut_power)
@@ -444,13 +422,8 @@
 
 /datum/game_mode/traitor/proc/get_sab_desc(var/target)
 	switch(target)
-		if(destroy_plasma)
-			return "Destroy at least [percentage_plasma_destroy]% of the plasma canisters on the station"
-		if(destroy_ai)
-			return "Destroy the AI"
-		if(kill_monkeys)
-			return "Kill all of the monkeys on the station"
-		if(cut_power)
-			return "Cut power to at least [percentage_station_cut_power]% of the station"
-		else
-			return "Error: Invalid sabotage target: [target]"
+		if(destroy_plasma)	return "Destroy at least [percentage_plasma_destroy]% of the plasma canisters on the station"
+		if(destroy_ai)		return "Destroy the AI"
+		if(kill_monkeys)	return "Kill all of the monkeys on the station"
+		if(cut_power)		return "Cut power to at least [percentage_station_cut_power]% of the station"
+	return "Error: Invalid sabotage target: [target]"
