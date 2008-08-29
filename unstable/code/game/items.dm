@@ -723,22 +723,59 @@
 	return
 
 /obj/item/weapon/cloaking_device/attack_self(mob/carbon/user as mob)
-
-	src.active = !( src.active )
-	if (src.active)
-		user << "\blue The cloaking device is now active."
-		src.force = 40
-		src.icon_state = "shield1"
-	else
-		user << "\blue The cloaking device is now inactive."
-		src.force = 3
-		src.icon_state = "shield0"
 	src.add_fingerprint(user)
+	if(src.active)
+		user << "<font color='red'>The cloaking device is now inactive.</font>"
+		src.icon_state = "shield0"
+		src.force = 3
+	else if(!src.cell || src.cell.charge < 15) return
+	else
+		user << "<font color='blue'>The cloaking device is now active.</font>"
+		src.icon_state = "shield1"
+		src.force = 40
+		spawn(0)
+			while(src.cell && src.active && src.cell.charge>15)
+				src.cell.charge -= 15
+				sleep(10)
+			if(!src.active) return
+			src.force = 3
+			src.active = 0
+			src.icon_state = "shield0"
+			user << "<font color='red'>The cloaking field flickers.</font>"
+			user.update_clothing()
+	src.active = !src.active
 	user.update_clothing()
 	return
 
-/obj/item/weapon/ammo/proc/update_icon()
+/obj/item/weapon/cloaking_device/attackby(obj/item/weapon/W, mob/carbon/user)
+	if(istype(user, /mob/silicon/ai))	return ..(W,user)
 
+	if(!user.can_use_hands()) return
+	if(istype(W, /obj/item/weapon/screwdriver))	// screwdriver pops out current battery
+		if(!src.cell)
+			user << "There is no power cell installed."
+			return
+		if(!user.loc)
+			user << "You can't remove that here."
+			return
+		user << "You pry the power cell out of its housing."
+		src.cell.loc = user.loc
+		src.cell = null
+		return
+
+	if(istype(W, /obj/item/weapon/cell))	// trying to put a cell inside
+		if(src.cell)
+			user << "There is already a power cell installed."
+			return
+		user << "You install the power cell."
+		user.drop_item()
+		src.cell = W
+		W.loc = src
+		return
+
+	return ..(W,user)
+
+/obj/item/weapon/ammo/proc/update_icon()
 	return
 
 /obj/item/weapon/ammo/a357/update_icon()

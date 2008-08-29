@@ -57,10 +57,11 @@
 // charge from 0 to 100%
 // fits in APC to provide backup power
 
-/obj/item/weapon/cell/New()
+/obj/item/weapon/cell/New(var/percent)
 	..()
 
-	charge = charge * maxcharge/100.0		// map obj has charge as percentage, convert to real value here
+	if(percent) charge = percent * maxcharge/100.0
+	else		charge = charge * maxcharge/100.0		// map obj has charge as percentage, convert to real value here
 
 	spawn(5)
 		updateicon()
@@ -81,40 +82,31 @@
 	else
 		overlays += image('power.dmi', "cell-o1")
 
-/obj/item/weapon/cell/proc/percent()		// return % charge of cell
+./obj/item/weapon/cell/proc/percent()		// return % charge of cell
 	return 100.0*charge/maxcharge
 
 /obj/item/weapon/cell/examine()
 	set src in view(1)
 	if(usr && !usr.is_dead)
 		if(maxcharge <= 2500)
-			usr.see("A high-capacity rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent() )]%.")
+			usr.see("A rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent())]%.")
 		else
-			usr.see("This power cell has an exciting chrome finish, as it is an uber-capacity cell type! It has a power rating of [maxcharge]!!!\nThe charge meter reads [round(src.percent() )]%.")
-
-
+			usr.see("This is a high-capacity, chrome-finished power cell has a chrome finish!\nThe charge meter reads [round(src.percent())]%.")
 
 // common helper procs for all power machines
-
 /obj/machinery/power/proc/add_avail(var/amount)
-	if(powernet)
-		powernet.newavail += amount
+	if(powernet)	powernet.newavail += amount
 
 /obj/machinery/power/proc/add_load(var/amount)
-	if(powernet)
-		powernet.newload += amount
+	if(powernet)	powernet.newload += amount
 
 /obj/machinery/power/proc/surplus()
-	if(powernet)
-		return powernet.avail-powernet.load
-	else
-		return 0
+	if(powernet)	return powernet.avail-powernet.load
+	return 0
 
 /obj/machinery/power/proc/avail()
-	if(powernet)
-		return powernet.avail
-	else
-		return 0
+	if(powernet)	return powernet.avail
+	return 0
 
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire conection to power network
