@@ -7,6 +7,7 @@
 
 /mob/prespawn/New()
 	..()
+	src.sight = BLIND
 	src.verbs -= /mob/verb/add_memory
 	src.verbs -= /mob/verb/cancel_camera
 	src.verbs -= /mob/verb/memory
