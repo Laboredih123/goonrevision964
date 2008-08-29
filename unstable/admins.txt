@@ -22,4 +22,4 @@
 
 
 # Example administrator - you should remove this on your server
-kurper - Host
+Kelson - Host
