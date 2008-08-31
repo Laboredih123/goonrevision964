@@ -8,6 +8,11 @@
 		world.log_file("GAME: [text]")
 		world.log << "GAME: [text]"
 
+/world/proc/log_bug(text)
+	if(config.log_game)
+		world.log_file("BUG: [text]")
+		world.log << "BUG: [text]"
+
 /world/proc/log_vote(text)
 	if(config.log_vote)
 		world.log_file("VOTE: [text]")

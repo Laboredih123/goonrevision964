@@ -1,101 +1,70 @@
-/mob/carbon/Move(a, b, flag)
-	if (src.buckled)
-		return
-	if (!src.can_use_hands())
-		src.pulling = null
-	var/is_being_pulled = 0
-	if (src.is_handcuffed())
+/mob/carbon/Move(NewLoc, Dir, flag)
+	if(src.buckled)							{	src.pulling = null;		return 0		}
+	if(src.is_handcuffed())
 		for(var/mob/M in range(src, 1))
-			if (M.pulling == src && M.can_use_hands())
-				is_being_pulled = 1
-	if (!is_being_pulled && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving))))
-		var/turf/T = src.loc
-		. = ..()
-		if (src.pulling && src.pulling.loc)
-			if(!( isturf(src.pulling.loc) ))
-				src.pulling = null
-				return
-			else
-				if(Debug)
-					world.log <<"src.pulling disappeared? at __LINE__ in mob.dm - src = [src], src.pulling = [src.pulling]"
-					world.log <<"REPORT THIS"
+			if(M.pulling == src && M.can_use_hands())
+				if(prob(75))				{	src.pulling = null;		return 0		}
 
+	if(src.s_active && !(s_active in src.contents)) src.s_active.close(src)
+	if(!src.pulling)						{	src.pulling = null;		return ..()		}
+	if(!src.can_use_hands())				{	src.pulling = null;		return ..()		}
+	if(src.pulling.anchored)				{	src.pulling = null;		return ..()		}
+	if(!isturf(src.pulling.loc))			{	src.pulling = null;		return ..()		}
+	if(get_dist(src,src.pulling) > 1)		{	src.pulling = null;		return ..()		}
+	if(!src.client || !src.client.moving)	{	src.pulling = null;		return ..()		}
 
-		if (src.pulling.anchored)
-			src.pulling = null
-			return
+	var/turf/oldloc = src.loc
+	. = ..()
+	if(get_dist(src, src.pulling) <= 1) return
+	if(!istype(src.pulling, /mob/carbon))
+		step(src.pulling, get_dir(src.pulling,oldloc))
+		return
 
-		if (!src.is_handcuffed())
-			var/diag = get_dir(src, src.pulling)
-			if ((diag - 1) & diag)
-			else
-				diag = null
-			if ((get_dist(src, src.pulling) > 1 || diag))
-				if (istype(src.pulling, /mob/carbon))
-					var/mob/carbon/M = src.pulling
-					var/ok = 1
-					if (locate(/obj/item/weapon/grab, M.grabbed_by))
-						if (prob(75))
-							var/obj/item/weapon/grab/G = pick(M.grabbed_by)
-							if (istype(G, /obj/item/weapon/grab))
-								for(var/mob/O in viewers(M, null))
-									O.see("\red [G.affecting] has been pulled from [G.assailant]'s grip by [src]!")
-								del(G)
-						else
-							ok = 0
-						if (locate(/obj/item/weapon/grab, M.grabbed_by.len))
-							ok = 0
-					if (ok)
-						var/t = M.pulling
-						M.pulling = null
-						step(src.pulling, get_dir(src.pulling.loc, T))
-						M.pulling = t
-				else
-					step(src.pulling, get_dir(src.pulling.loc, T))
-	else
-		src.pulling = null
-		. = ..()
-	if ((src.s_active && !( s_active in src.contents ) ))
-		src.s_active.close(src)
-	return
+	var/mob/carbon/M = src.pulling
+	if(locate(/obj/item/weapon/grab, M.grabbed_by))
+		if(!prob(75)) return
+		var/obj/item/weapon/grab/G = pick(M.grabbed_by)
+		for(var/mob/O in viewers(M, null))
+			O.see("<font color='red'>[G.affecting] has been pulled from [G.assailant]'s grip by [src]!</font>")
+		del(G)
 
-/mob/carbon/Bump(atom/movable/A, exadv_is_an_awful_programmer_seriously_who_names_their_variables_yes_cmon)
-	spawn( 0 )
-		if ((!( exadv_is_an_awful_programmer_seriously_who_names_their_variables_yes_cmon ) || src.now_pushing))
-			return
-		..()
-		if (!( istype(A, /atom/movable) ))
-			return
-		if (!( src.now_pushing ))
+	var/t = M.pulling
+	M.pulling = null
+	step(src.pulling, get_dir(src.pulling,oldloc))
+	M.pulling = t
+
+/mob/carbon/Bump(atom/movable/A, can_bump)
+	if(!can_bump)		return
+	if(src.now_pushing)	return
+
+	..()
+	if(!istype(A, /atom/movable)) return
+	spawn(0)
+		if(!src.now_pushing)
 			src.now_pushing = 1
-			if (!( A.anchored ))
+			if(!A.anchored)
 				var/t = get_dir(src, A)
 				step(A, t)
 			src.now_pushing = null
-		return
-	return
 
 /mob/carbon/CheckPass(mob/carbon/M as mob)
-
-	if (src.other_mobs && istype(M, /mob/carbon) && M.other_mobs)
-		return 1
-	else
-		return (!M.density || !src.density || src.lying)
-	return
+	if(istype(M,/mob/carbon))
+		if(src.other_mobs)
+			if(M.other_mobs)
+				return 1
+	return (!M.density || !src.density || src.lying)
 
 /mob/carbon/proc/m_delay()
 	var/tally = 0
-	if(src.appearance == APPEARANCE_QUIVERING_MASS)
-		tally += 100 //blobs are very slow
-	if(istype(src.suit, /obj/item/weapon/clothing/suit/firesuit)) //firesuits slow you down a bit
+	if(src.appearance == APPEARANCE_QUIVERING_MASS)	 //	blobs are very slow
+		tally += 100
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/firesuit))	//	firesuits slow you down a bit
 		tally += 5
-	if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit)) //space suits slow you down a bit
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit)		//	space suits slow you down a bit
 		tally += 5
 	if(istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
 		tally += 15
 	if(istype(src.shoes, /obj/item/weapon/clothing/shoes))
-		if (src.shoes.chained)
-			tally += 15
-		else
-			tally--
+		if(src.shoes.chained)	tally += 15
+		else					tally--
 	return tally
