@@ -10,6 +10,7 @@
 	var/no2_metabolize_rate = 10
 	var/no2_knockdown_threshold = 20
 	var/plasma_damage_threshold = 5
+/mob/carbon/var/temperature_resistance = T0C+75
 
 /mob/carbon/proc/breathe()
 	if(src.internal)
@@ -50,6 +51,10 @@
 		if(plasma_dam > 0)
 			src.take_damage(toxin = plasma_dam)
 			src.taking_tox_damage = 1
+	if(G.temp > temperature_resistance)
+		var/lung_damage = round((G.temp - temperature_resistance)/20+1)
+		if(src.mask && src.mask.a_filter >= 4) lung_damage /= 5
+		src.take_damage(burn = lung_damage)
 
 	src.co2_breathed = max(0, src.co2_breathed - src.co2_metabolize_rate) + G.co2
 	if(src.co2_breathed > src.co2_knockdown_threshold)

@@ -60,7 +60,7 @@
 		tally += 100
 	if(istype(src.suit, /obj/item/weapon/clothing/suit/firesuit))	//	firesuits slow you down a bit
 		tally += 5
-	if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit)		//	space suits slow you down a bit
+	if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit))		//	space suits slow you down a bit
 		tally += 5
 	if(istype(src.suit, /obj/item/weapon/clothing/suit/straight_jacket))
 		tally += 15

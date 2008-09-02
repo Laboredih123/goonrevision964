@@ -801,6 +801,7 @@
 /obj/item/weapon/clothing/suit
 	name = "suit"
 	clothing_name = "o_clothing"
+	var/fire_resist = T0C+100
 /obj/item/weapon/clothing/suit/armor
 	name = "armor"
 	icon_state = "armor"
@@ -829,6 +830,7 @@
 	flags = FPRINT | TABLEPASS
 	s_fire = 7.5E7
 	fire_protect = 126
+	fire_resist = T0C+1300
 obj/item/weapon/clothing/suit/labcoat
 	name = "labcoat"
 	desc = "A suit that protects against minor chemical spills."
