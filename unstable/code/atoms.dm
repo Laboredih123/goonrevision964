@@ -592,7 +592,7 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-	var/obj/item/weapon/cell/cell = new(100)
+	var/obj/item/weapon/cell/cell = new()
 
 /obj/item/weapon/clothing
 	name = "clothing"
@@ -2736,7 +2736,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'power.dmi'
 	icon_state = "ccharger0"
 	var/obj/item/weapon/cell/charging = null
-	var/chargelevel = -1
+	var/charge_level = -1
+	var/charge_rate = 5
 	anchored = 1
 
 /obj/machinery/light_switch

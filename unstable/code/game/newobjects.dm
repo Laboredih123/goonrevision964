@@ -1,85 +1,57 @@
-/obj/New()
-	..()
-//	mod = new(src)			// creates a module datum for this obj of type
-
-
-
+/obj/machinery/cell_charger/New(location,charge_rate)
+	..(location)
+	if(charge_rate != null) src.charge_rate = charge_rate
 
 /obj/machinery/cell_charger/attackby(obj/item/weapon/W, mob/carbon/user)
-
 	if(stat & BROKEN) return
+	if(!istype(W,/obj/item/weapon/cell)) return
+	if(src.charging)
+		user << "There is already a cell in the charger."
+		return
 
-	if(istype(W, /obj/item/weapon/cell))
-		if(charging)
-			user << "There is already a cell in the charger."
-			return
-		else
-			user.drop_item()
-			W.loc = src
-			charging = W
-			user << "You insert the cell into the charger."
-			chargelevel = -1
-
-
-		updateicon()
-
+	user.drop_item()
+	src.charging = W
+	W.loc = src
+	user << "You insert the cell into the charger."
+	src.charge_level = -1
+	src.updateicon()
 
 /obj/machinery/cell_charger/proc/updateicon()
-
 	icon_state = "ccharger[charging ? 1 : 0]"
-
-	if(charging && !(stat & (BROKEN|NOPOWER)) )
-
-		var/newlevel = 	round( charging.percent() * 4.0 / 99 )
-
-		if(chargelevel != newlevel)
-
-			overlays = null
-			overlays += image('power.dmi', "ccharger-o[newlevel]")
-
-			chargelevel = newlevel
-
-	else
+	if(!charging || (stat & (BROKEN|NOPOWER)))
 		overlays = null
+		return
 
-
+	var/newlevel = round(charging.percent() * 4.0 / 99)
+	if(charge_level == newlevel) return
+	overlays = null
+	overlays += image('power.dmi', "ccharger-o[newlevel]")
+	charge_level = newlevel
 
 /obj/machinery/cell_charger/interact(mob/carbon/user)
-	if(!istype(user, /mob/carbon))
-		return
+	if(!istype(user, /mob/carbon))	return
 	add_fingerprint(user)
+	if(!charging || stat & (NOPOWER|BROKEN)) return
 
-	if(stat & BROKEN) return
-
-	if(charging)
-		charging.loc = usr
-		charging.layer = 20
-		if (user.hand )
-			user.l_hand = charging
-		else
-			user.r_hand = charging
-
-		charging.add_fingerprint(user)
-		charging.updateicon()
-
-		src.charging = null
-		user << "You remove the cell from the charger."
-		chargelevel = -1
-		updateicon()
-
-
-/obj/machinery/cell_charger/process()
-	if(!charging || (stat & (BROKEN|NOPOWER)) )
-		return
-
-	var/newch = charging.charge + 5
-
-	newch = min(newch, charging.maxcharge)
-
-	use_power((newch - charging.charge) / CELLRATE)
-
-	charging.charge = newch
-
+	charging.loc = usr
+	charging.layer = 20
+	var/holder
+	if(user.hand)	holder = user.l_hand
+	else			holder = user.r_hand
+	if(holder) return
+	holder = charging
+	charging.add_fingerprint(user)
+	charging.updateicon()
+	src.charging = null
+	user << "You remove the cell from the charger."
+	charge_level = -1
 	updateicon()
 
-
+/obj/machinery/cell_charger/process()
+	if(!charging || (stat & (BROKEN|NOPOWER))) return
+	var/newch = min(src.charge_rate, charging.maxcharge-charging.charge)
+	if(!newch) charging = 0
+	else
+		use_power(newch / CELLRATE)
+		charging.recharge(newch)
+	updateicon()

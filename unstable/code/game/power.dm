@@ -56,57 +56,71 @@
 // the power cell
 // charge from 0 to 100%
 // fits in APC to provide backup power
-
-/obj/item/weapon/cell/New(var/percent)
+/obj/item/weapon/cell/New(var/atom/location,var/charge_percent,var/charge_limit)
 	..()
-
-	if(percent) charge = percent * maxcharge/100.0
-	else		charge = charge * maxcharge/100.0		// map obj has charge as percentage, convert to real value here
+	if(charge_limit != null)	maxcharge = charge_limit
+	if(charge_percent == null)	charge *= maxcharge/100.0	// map obj has charge as percentage, convert to real value here
+	else						charge = charge_percent * maxcharge/100.0
 
 	spawn(5)
 		updateicon()
 
 /obj/item/weapon/cell/proc/updateicon()
-
-	if(maxcharge <= 2500)
-		icon_state = "cell"
-	else
-		icon_state = "hpcell"
+	if(maxcharge <= 2500)	icon_state = "cell"
+	else					icon_state = "hpcell"
 
 	overlays = null
+	if(charge < 0.01) return
+	if(percent() > 99)	overlays += image('power.dmi', "cell-o2")
+	else				overlays += image('power.dmi', "cell-o1")
 
-	if(charge < 0.01)
-		return
-	else if(charge/maxcharge >=0.995)
-		overlays += image('power.dmi', "cell-o2")
-	else
-		overlays += image('power.dmi', "cell-o1")
-
-./obj/item/weapon/cell/proc/percent()		// return % charge of cell
-	return 100.0*charge/maxcharge
+/obj/item/weapon/cell/proc/percent()			{	return 100.0*charge/maxcharge	}
 
 /obj/item/weapon/cell/examine()
 	set src in view(1)
-	if(usr && !usr.is_dead)
-		if(maxcharge <= 2500)
-			usr.see("A rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent())]%.")
-		else
-			usr.see("This is a high-capacity, chrome-finished power cell has a chrome finish!\nThe charge meter reads [round(src.percent())]%.")
+	if(!usr || usr.is_dead) return
+	if(maxcharge <= 2500)	usr.see("A rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent())]%.")
+	else					usr.see("This is a high-capacity, chrome-finished power cell!\nThe charge meter reads [round(src.percent())]%.")
+
+/obj/item/weapon/cell/proc/recharge(var/amount)
+	if(!amount) return 0
+	if(amount/maxcharge > 0.25)
+		world << "amount/maxcharge > 0.25 => [amount] : [amount/maxcharge]"
+		world << "[src] recharged to [charge] of [maxcharge]"
+		src.discharge(amount * 0.80)
+		amount *= 0.20
+	charge += amount
+	if(charge <= maxcharge) return 1
+	var/excess = (charge - maxcharge) * 4
+	charge = dd_range(0, maxcharge, charge-excess)
+	world << "discharging [excess]"
+	if(excess) src.discharge(excess)
+	return 1
+
+/obj/item/weapon/cell/proc/discharge(var/amount)
+	if(!amount) return 0
+	if(istype(src.loc,/obj/machinery/power/apc)) src.loc:surge(amount)
+	if(amount>charge && amount/maxcharge>0.005) src.explode()
+	if(amount/maxcharge > 0.20) src.explode()
+	amount = min(charge,amount)
+	charge -= amount
+	return amount
+
+/obj/item/weapon/cell/proc/explode()
+	if(!src.loc) del(src)
+	var/atom/tloc = src.loc
+	if(!isturf(tloc)) tloc = tloc.loc
+	var/obj/effects/sparks/O = new /obj/effects/sparks(tloc)
+	O.amount = (maxcharge>10000? 5 : (maxcharge>2000? 3 : 2)) * charge/maxcharge*pick(1,20;1.4,5;2.1)
+	O.dir = pick(NORTH, SOUTH, EAST, WEST)
+	O.Life()
+	del(src)
 
 // common helper procs for all power machines
-/obj/machinery/power/proc/add_avail(var/amount)
-	if(powernet)	powernet.newavail += amount
-
-/obj/machinery/power/proc/add_load(var/amount)
-	if(powernet)	powernet.newload += amount
-
-/obj/machinery/power/proc/surplus()
-	if(powernet)	return powernet.avail-powernet.load
-	return 0
-
-/obj/machinery/power/proc/avail()
-	if(powernet)	return powernet.avail
-	return 0
+/obj/machinery/power/proc/add_avail(var/amount)	{	if(powernet)	powernet.newavail += amount				}
+/obj/machinery/power/proc/add_load(var/amount)	{	if(powernet)	powernet.newload += amount				}
+/obj/machinery/power/proc/surplus()				{	return (!powernet ? 0 : powernet.avail-powernet.load)	}
+/obj/machinery/power/proc/avail()				{	return (!powernet ? 0 : powernet.avail)					}
 
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire conection to power network
@@ -146,13 +160,8 @@
 	pixel_x = (tdir & 3)? 0 : (tdir == 4 ? 24 : -24)
 	pixel_y = (tdir & 3)? (tdir ==1 ? 24 : -24) : 0
 
-
-	// is starting with a power cell installed, create it and set its charge level
-	if(cell_type)
-		src.cell = new/obj/item/weapon/cell(src)
-		cell.maxcharge = cell_type	// (old type 1 = 1000, 2=2500, now just enter the value you need)
-		cell.charge = start_charge * cell.maxcharge / 100.0 		// (convert percentage to actual value)
-
+	// starts with power cell installed - cell(location,percent,maxcharge)
+	if(cell_type)	src.cell = new/obj/item/weapon/cell(src,start_charge,cell_type)
 
 	var/area/A = src.loc.loc
 
@@ -170,19 +179,21 @@
 	spawn(5)
 		src.update()
 
+/obj/machinery/power/apc/proc/surge(var/amount)
+	if(amount < 10) return
+	if(cell && amount < 0.01*cell.charge) return
+	var/obj/effects/sparks/O = new /obj/effects/sparks(src.loc)
+	O.dir = pick(NORTH, SOUTH, EAST, WEST)
+	spawn(0) O.Life()
+	set_broken()
+
 /obj/machinery/power/apc/examine()
 	set src in oview(1)
-
 	if(stat & BROKEN) return
-
-	if(usr && usr.is_active())
-		usr << "A control terminal for the area electrical systems."
-		if(opened)
-			usr << "The cover is open and the power cell is [ cell ? "installed" : "missing"]."
-		else
-			usr << "The cover is closed."
-
-
+	if(!usr || !usr.is_active()) return
+	usr << "A control terminal for the area electrical systems."
+	if(opened)	usr << "The cover is open and the power cell is [ cell ? "installed" : "missing"]."
+	else		usr << "The cover is closed."
 
 // update the APC icon to show the three base states
 // also add overlays for indicator lights
@@ -190,33 +201,27 @@
 	if(opened)
 		icon_state = "[ cell ? "apc2" : "apc1" ]"		// if opened, show cell if it's inserted
 		src.overlays = null								// also delete all overlays
-	else
-		icon_state = "apc0"
+		return
 
-		// if closed, update overlays for channel status
+	icon_state = "apc0"
+	// if closed, update overlays for channel status
+	src.overlays = null
+	overlays += image('power.dmi', "apcox-[locked]")	// 0=blue 1=red
+	overlays += image('power.dmi', "apco3-[charging]") // 0=red, 1=yellow/black 2=green
 
-		src.overlays = null
-
-		overlays += image('power.dmi', "apcox-[locked]")	// 0=blue 1=red
-		overlays += image('power.dmi', "apco3-[charging]") // 0=red, 1=yellow/black 2=green
-
-
-		if(operating)
-			overlays += image('power.dmi', "apco0-[equipment]")	// 0=red, 1=green, 2=blue
-			overlays += image('power.dmi', "apco1-[lighting]")
-			overlays += image('power.dmi', "apco2-[environ]")
-
-
+	if(operating)
+		overlays += image('power.dmi', "apco0-[equipment]")	// 0=red, 1=green, 2=blue
+		overlays += image('power.dmi', "apco1-[lighting]")
+		overlays += image('power.dmi', "apco2-[environ]")
 
 //attack with an item - open/close cover, insert cell, or (un)lock interface
-
 /obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/carbon/user)
 
 	if(stat & BROKEN) return
-	if (istype(user, /mob/silicon/ai))
+	if(istype(user, /mob/silicon/ai))
 		return src.interact(user)
 
-	if (istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
+	if(istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
 		if(opened)
 			opened = 0
 			updateicon()
@@ -227,7 +232,7 @@
 				opened = 1
 				updateicon()
 
-	else if	(istype(W, /obj/item/weapon/cell) && opened)	// trying to put a cell inside
+	else if(istype(W, /obj/item/weapon/cell) && opened)	// trying to put a cell inside
 		if(cell)
 			user << "There is a power cell already installed."
 		else
@@ -238,7 +243,7 @@
 			chargecount = 0
 
 		updateicon()
-	else if (istype(W, /obj/item/weapon/card/id) )			// trying to unlock the interface with an ID card
+	else if(istype(W, /obj/item/weapon/card/id))			// trying to unlock the interface with an ID card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -250,7 +255,7 @@
 			else
 				user << "\red Access denied."
 
-	else if (istype(W, /obj/item/weapon/card/emag) )		// trying to unlock with an emag card
+	else if(istype(W, /obj/item/weapon/card/emag))		// trying to unlock with an emag card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -263,7 +268,7 @@
 				updateicon()
 			else
 				user << "You fail to [ locked ? "unlock" : "lock"] the APC interface."
-	else if (istype(W, /obj/item/weapon/wirecutters))
+	else if(istype(W, /obj/item/weapon/wirecutters))
 		if (opened)
 			if (src.aidisabled)
 				user << "You have reconnected the AI control wire in the APC interface."
@@ -277,31 +282,16 @@
 // attack with hand - remove cell (if cover open) or interact with the APC
 
 /obj/machinery/power/apc/interact(mob/carbon/user)
-
 	add_fingerprint(user)
-
 	if(stat & BROKEN) return
-
-	if(opened && (!istype(user, /mob/silicon/ai)))
-		if(cell)
-			cell.loc = usr
-			cell.layer = 20
-			if (user.hand )
-				user.l_hand = cell
-			else
-				user.r_hand = cell
-
-			cell.add_fingerprint(user)
-			cell.updateicon()
-
-			src.cell = null
-			user << "You remove the power cell."
-			charging = 0
-			src.updateicon()
-
-	else
-		// do APC interaction
-		src.interaction(user)
+	if(!opened || istype(user,/mob/silicon/ai))	return src.interaction(user)
+	if(!cell) return
+	user << "The power cell pops free of its casing"
+	cell.loc = src.loc
+	cell.updateicon()
+	charging = 0
+	src.cell = null
+	src.updateicon()
 
 /obj/machinery/power/apc/proc/interaction(mob/user)
 
@@ -324,8 +314,8 @@
 		t += "External power : <B>[ main_status ? (main_status ==2 ? "<FONT COLOR=#004000>Good</FONT>" : "<FONT COLOR=#D09000>Low</FONT>") : "<FONT COLOR=#F00000>None</FONT>"]</B><BR>"
 		t += "Power cell: <B>[cell ? "[round(cell.percent())]%" : "<FONT COLOR=red>Not connected.</FONT>"]</B>"
 		if(cell)
-			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])"
-			t += " ([chargemode ? "Auto" : "Off"])"
+			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])<BR>"
+			t += "Cell charger: [!chargemode ? "Off" : (chargemode==1 ? "Auto" : "Manual: [chargecount]")]"
 
 		t += "<BR><HR>Power channels<BR><PRE>"
 
@@ -345,58 +335,44 @@
 		t += "External power : <B>[ main_status ? (main_status ==2 ? "<FONT COLOR=#004000>Good</FONT>" : "<FONT COLOR=#D09000>Low</FONT>") : "<FONT COLOR=#F00000>None</FONT>"]</B><BR>"
 		if(cell)
 			t += "Power cell: <B>[round(cell.percent())]%</B>"
-			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])"
-			t += " ([chargemode ? "<A href='?src=\ref[src];cmode=1'>Off</A> <B>Auto</B>" : "<B>Off</B> <A href='?src=\ref[src];cmode=1'>Auto</A>"])"
+			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])<BR>"
+			t += "Cell charger: "
+			switch(chargemode)
+				if(0) t += "<A href='?src=\ref[src];chargemode=1'>Off</A>"
+				if(1) t += "<A href='?src=\ref[src];chargemode=2'>Auto</A>"
+				if(2) t += "<A href='?src=\ref[src];chargemode=0'>Manual</A>: [rate_control(src,"recharge",chargecount,5,20)]"
 
 		else
 			t += "Power cell: <B><FONT COLOR=red>Not connected.</FONT></B>"
 
-		t += "<BR><HR>Power channels<BR><PRE>"
+		t += "<BR><HR>Power channels<PRE>"
 
 
-		t += "Equipment:    [add_lspace(lastused_equip, 6)] W : "
+		t += "<BR>Equipment:    [add_lspace(lastused_equip, 6)] W : "
 		switch(equipment)
-			if(0)
-				t += "<B>Off</B> <A href='?src=\ref[src];eqp=2'>On</A> <A href='?src=\ref[src];eqp=3'>Auto</A>"
-			if(1)
-				t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (Off)</B>"
-			if(2)
-				t += "<A href='?src=\ref[src];eqp=1'>Off</A> <B>On</B> <A href='?src=\ref[src];eqp=3'>Auto</A>"
-			if(3)
-				t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (On)</B>"
-		t +="<BR>"
+			if(0)	t += "<B>Off</B> <A href='?src=\ref[src];eqp=2'>On</A> <A href='?src=\ref[src];eqp=3'>Auto</A>"
+			if(1)	t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (Off)</B>"
+			if(2)	t += "<A href='?src=\ref[src];eqp=1'>Off</A> <B>On</B> <A href='?src=\ref[src];eqp=3'>Auto</A>"
+			if(3)	t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (On)</B>"
 
-		t += "Lighting:     [add_lspace(lastused_light, 6)] W : "
-
+		t += "<BR>Lighting:     [add_lspace(lastused_light, 6)] W : "
 		switch(lighting)
-			if(0)
-				t += "<B>Off</B> <A href='?src=\ref[src];lgt=2'>On</A> <A href='?src=\ref[src];lgt=3'>Auto</A>"
-			if(1)
-				t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (Off)</B>"
-			if(2)
-				t += "<A href='?src=\ref[src];lgt=1'>Off</A> <B>On</B> <A href='?src=\ref[src];lgt=3'>Auto</A>"
-			if(3)
-				t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (On)</B>"
-		t +="<BR>"
+			if(0)	t += "<B>Off</B> <A href='?src=\ref[src];lgt=2'>On</A> <A href='?src=\ref[src];lgt=3'>Auto</A>"
+			if(1)	t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (Off)</B>"
+			if(2)	t += "<A href='?src=\ref[src];lgt=1'>Off</A> <B>On</B> <A href='?src=\ref[src];lgt=3'>Auto</A>"
+			if(3)	t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (On)</B>"
 
-
-		t += "Environmental:[add_lspace(lastused_environ, 6)] W : "
+		t += "<BR>Environmental:[add_lspace(lastused_environ, 6)] W : "
 		switch(environ)
-			if(0)
-				t += "<B>Off</B> <A href='?src=\ref[src];env=2'>On</A> <A href='?src=\ref[src];env=3'>Auto</A>"
-			if(1)
-				t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (Off)</B>"
-			if(2)
-				t += "<A href='?src=\ref[src];env=1'>Off</A> <B>On</B> <A href='?src=\ref[src];env=3'>Auto</A>"
-			if(3)
-				t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (On)</B>"
+			if(0)	t += "<B>Off</B> <A href='?src=\ref[src];env=2'>On</A> <A href='?src=\ref[src];env=3'>Auto</A>"
+			if(1)	t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (Off)</B>"
+			if(2)	t += "<A href='?src=\ref[src];env=1'>Off</A> <B>On</B> <A href='?src=\ref[src];env=3'>Auto</A>"
+			if(3)	t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (On)</B>"
 
 		t += "<BR>Total load: [lastused_light + lastused_equip + lastused_environ] W</PRE>"
 		t += "<HR>Cover lock: [coverlocked ? "<B><A href='?src=\ref[src];lock=1'>Engaged</A></B>" : "<B><A href='?src=\ref[src];lock=1'>Disengaged</A></B>"]"
 
-	t += "<BR><HR><A href='?src=\ref[src];close=1'>Close</A>"
-
-	t += "</TT>"
+	t += "<BR><A href='?src=\ref[src];close=1'>Close</A></TT>"
 	ss13_browse(user, t, "window=apc")
 	return
 
@@ -416,96 +392,75 @@
 	area.power_change()
 
 /obj/machinery/power/apc/Topic(href, href_list)
-
 	..()
-
-	if (!usr.can_use_hands() )
-		return
-	if (!usr.check_dexterity())
-		return
-
-	if (( (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai) && !(src.aidisabled)))
-
-		usr.machine = src
-		if (href_list["lock"])
-			coverlocked = !coverlocked
-
-		else if (href_list["breaker"])
-			operating = !operating
-			src.update()
-			updateicon()
-
-		else if (href_list["cmode"])
-			chargemode = !chargemode
-			if(!chargemode)
-				charging = 0
-				updateicon()
-
-		else if (href_list["eqp"])
-			var/val = text2num(href_list["eqp"])
-
-			equipment = (val==1) ? 0 : val
-
-			updateicon()
-			update()
-
-		else if (href_list["lgt"])
-			var/val = text2num(href_list["lgt"])
-
-			lighting = (val==1) ? 0 : val
-
-			updateicon()
-			update()
-		else if (href_list["env"])
-			var/val = text2num(href_list["env"])
-
-			environ = (val==1) ? 0 :val
-
-			updateicon()
-			update()
-		else if( href_list["close"] )
-			ss13_browse(usr, null, "window=apc")
-			usr.machine = null
-			return
-
-		src.updateUsrDialog()
-
-	else
-		ss13_browse(usr, null, "window=apc")
+	if(href_list["close"])
+		ss13_browse(usr,null,"window=apc")
 		usr.machine = null
+		return
 
-	return
+	if(stat & (NOPOWER|BROKEN))		return 0
+	if(!usr.can_use_hands())		return 0
+	if(!usr.check_intelligence())	return 0
+
+	if(!usr.contents.Find(src))
+		if(!istype(usr, /mob/silicon/ai))
+			if(!(istype(src.loc,/turf) || get_dist(src,usr)<=1))
+				ss13_browse(usr, null, "window=apc")
+				return 0
+
+	usr.machine = src
+	if(href_list["lock"]) coverlocked = !coverlocked
+	else if(href_list["breaker"])
+		operating = !operating
+		src.update()
+		updateicon()
+
+	else if(href_list["cmode"])
+		chargemode = !chargemode
+		if(!chargemode)
+			charging = 0
+			updateicon()
+
+	else if(href_list["eqp"])
+		var/val = text2num(href_list["eqp"])
+		equipment = (val==1 ? 0 : val)
+		updateicon()
+		update()
+
+	else if(href_list["lgt"])
+		var/val = text2num(href_list["lgt"])
+		lighting = (val==1 ? 0 : val)
+		updateicon()
+		update()
+	else if(href_list["env"])
+		var/val = text2num(href_list["env"])
+		environ = (val==1 ? 0 :val)
+		updateicon()
+		update()
+	else if(href_list["chargemode"]) chargemode = text2num(href_list["chargemode"])
+	else if(href_list["recharge"])
+		chargecount = dd_range(0,1000,chargecount+text2num(href_list["recharge"]))
+
+	src.updateUsrDialog()
 
 /obj/machinery/power/apc/surplus()
-	if(terminal)
-		return terminal.surplus()
-	else
-		return 0
+	return (!terminal ? 0 : terminal.surplus())
 
 /obj/machinery/power/apc/add_load(var/amount)
 	if(terminal && terminal.powernet)
 		terminal.powernet.newload += amount
 
 /obj/machinery/power/apc/avail()
-	if(terminal)
-		return terminal.avail()
-	else
-		return 0
+	return (!terminal ? 0 : terminal.avail())
 
 /obj/machinery/power/apc/process()
+	if(stat & BROKEN)				return
+	if(!area.requires_power)		return
 
-	if(stat & BROKEN)
-		return
-
-	if(!area.requires_power)
-		return
-
-	if (equipment > 1) // off=0, off auto=1, on=2, on auto=3
-		use_power(src.equip_consumption, EQUIP)
-	if (lighting > 1) // off=0, off auto=1, on=2, on auto=3
-		use_power(src.light_consumption, LIGHT)
-	if (environ > 1) // off=0, off auto=1, on=2, on auto=3
-		use_power(src.environ_consumption, ENVIRON)
+	// off=0, off auto=1, on=2, on auto=3
+	if(equipment > 1)	use_power(src.equip_consumption, EQUIP)
+	if(lighting > 1)	use_power(src.light_consumption, LIGHT)
+	if(environ > 1)		use_power(src.environ_consumption, ENVIRON)
 
 	area.calc_lighting()
 
@@ -524,37 +479,25 @@
 
 	var/excess = surplus()
 
-	if(!src.avail())
-		main_status = 0
-	else if(excess < 0)
-		main_status = 1
-	else
-		main_status = 2
+	if(!src.avail())		main_status = 0
+	else if(excess < 0)		main_status = 1
+	else					main_status = 2
 
 	var/perapc = 0
 	if(terminal && terminal.powernet)
 		perapc = terminal.powernet.perapc
 
-	if(cell)
-
-		// draw power from cell as before
-
-		var/cellused = min(cell.charge, CELLRATE * lastused_total)	// clamp deduction to a max, amount left in cell
-		cell.charge -= cellused
-
-		if(excess > 0 || perapc > lastused_total)		// if power excess, or enough anyway, recharge the cell
-														// by the same amount just used
-
-			cell.charge = min(cell.maxcharge, cell.charge + cellused)
+	if(cell)	// draw power from cell as before
+		var/cellused = cell.discharge(CELLRATE*lastused_total)
+		if(excess > 0 || perapc > lastused_total)	// if power excess, or enough anyway, recharge the cell
+			if(chargemode == 1)	cell.recharge(min(cell.maxcharge-cell.charge,cellused))
+			if(chargemode == 2) cell.recharge(min(excess,chargecount))
 			add_load(cellused/CELLRATE)		// add the load used to recharge the cell
 
-
 		else		// no excess, and not enough per-apc
-
-			if( (cell.charge/CELLRATE+perapc) >= lastused_total)		// can we draw enough from cell+grid to cover last usage?
-
-				cell.charge = min(cell.maxcharge, cell.charge + CELLRATE * perapc)	//recharge with what we can
-				add_load(perapc)		// so draw what we can from the grid
+			if((cell.charge/CELLRATE+perapc) >= lastused_total)		// can we draw enough from cell+grid to cover last usage?
+				cell.recharge(CELLRATE * perapc)					// recharge with what we can
+				add_load(perapc)									// so draw what we can from the grid
 				charging = 0
 
 			else	// not enough power available to run the last tick!
@@ -595,33 +538,30 @@
 			if(excess > 0)		// check to make sure we have enough to charge
 				// Max charge is perapc share, capped to cell capacity, or % per second constant (Whichever is smallest)
 				var/ch = min(perapc, (cell.maxcharge - cell.charge), (cell.maxcharge*CHARGELEVEL))
-				add_load(ch) // Removes the power we're taking from the grid
-				cell.charge += ch // actually recharge the cell
-
+				cell.recharge(ch)
+				add_load(ch)
 			else
 				charging = 0		// stop charging
 				chargecount = 0
 
 		// show cell as fully charged if so
 
-		if(cell.charge >= cell.maxcharge)
-			charging = 2
+		if(cell.percent() >= 100)	charging = 2
 
-		if(chargemode)
-			if(!charging)
-				if(excess > cell.maxcharge*CHARGELEVEL)
-					chargecount++
-				else
-					chargecount = 0
-
-				if(chargecount == 10)
-
-					chargecount = 0
-					charging = 1
-
-		else // chargemode off
-			charging = 0
-			chargecount = 0
+		switch(chargemode)
+			if(0)	//	off
+				charging = 0
+				chargecount = 0
+			if(1)	//	auto
+				if(!charging)
+					if(excess > cell.maxcharge*CHARGELEVEL)	chargecount++
+					else									chargecount = 0
+					if(chargecount == 10)
+						chargecount = 0
+						charging = 1
+			if(2)	//	manual
+				if(chargecount) charging = 1
+				chargecount = min(excess,chargecount)
 
 	else // no cell, switch everything off
 
@@ -669,25 +609,14 @@
 	return
 
 /obj/machinery/power/apc/ex_act(severity)
-
 	switch(severity)
-		if(1.0)
-			set_broken()
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				set_broken()
-		if(3.0)
-			if (prob(25))
-				set_broken()
-		else
-	return
+		if(1)	del(src)
+		if(2)	if(!prob(50)) return
+		if(3)	if(!prob(25)) return
+	set_broken()
 
 /obj/machinery/power/apc/blob_act()
-	if (prob(50))
-		set_broken()
-
+	if(prob(50)) set_broken()
 
 /obj/machinery/power/apc/proc/set_broken()
 	stat |= BROKEN
@@ -1974,26 +1903,16 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 			var/d = 0
 			switch(i)
-				if(-4)
-					chargelevel = 0
-				if(4)
-					chargelevel = SMESMAXCHARGELEVEL		//30000
+				if(1)	d = 100
+				if(-1)	d = -100
+				if(2)	d = 1000
+				if(-2)	d = -1000
+				if(3)	d = 10000
+				if(-3)	d = -10000
+				if(4)	d = SMESMAXCHARGELEVEL
+				if(-4)	d = -chargelevel
 
-				if(1)
-					d = 100
-				if(-1)
-					d = -100
-				if(2)
-					d = 1000
-				if(-2)
-					d = -1000
-				if(3)
-					d = 10000
-				if(-3)
-					d = -10000
-
-			chargelevel += d
-			chargelevel = max(0, min(SMESMAXCHARGELEVEL, chargelevel))	// clamp to range
+			chargelevel = dd_range(0,SMESMAXCHARGELEVEL, chargelevel+d)
 
 		else if( href_list["output"] )
 
@@ -2455,7 +2374,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/turbine/proc/interaction(mob/user)
 
-	if ( (get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)) )
+	if((get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)))
 		user.machine = null
 		ss13_browse(user, null, "window=turbine")
 		return
@@ -2466,13 +2385,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	var/gen = max(0, lastgen - (compressor.starter * COMPSTARTERLOAD) )
 	t += "Generated power : [round(gen)] W<BR><BR>"
-
 	t += "Turbine: [round(compressor.rpm)] RPM<BR>"
-
 	t += "Starter: [ compressor.starter ? "<A href='?src=\ref[src];str=1'>Off</A> <B>On</B>" : "<B>Off</B> <A href='?src=\ref[src];str=1'>On</A>"]"
-
 	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
-
 	t += "</TT>"
 	ss13_browse(user, t, "window=turbine")
 
@@ -2480,12 +2395,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/turbine/Topic(href, href_list)
 	..()
-	if(stat & BROKEN)
-		return
-	if (!usr.can_use_hands() )
-		return
-	if (!usr.check_dexterity())
-		return
+	if(stat & BROKEN)			return
+	if(!usr.can_use_hands())	return
+	if(!usr.check_dexterity())	return
 
 	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 
