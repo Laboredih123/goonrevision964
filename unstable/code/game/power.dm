@@ -1962,8 +1962,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/solar/proc/updateicon()
 	overlays = null
+	src.dir = angle2dir(adir)
 	if(stat & BROKEN)	overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
-	else				overlays += image('power.dmi', icon_state = "solar_panel", layer = FLY_LAYER, dir = EAST)
+	else 				overlays += image('power.dmi', icon_state = "solar_panel",   layer = FLY_LAYER)
 
 /obj/machinery/power/solar/proc/updatefrac()
 	if(obscured)
@@ -2060,8 +2061,8 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	t += "<B>Orientation</B>: [rate_control(src,"cdir","[cdir]&deg",1,15)] ([angle2text(cdir)])<BR>"
 
 	t += "<HR><BR>"
-	t += "Tracking: [ track ? "<B>On</B> <A href='?src=\ref[src];track=0'>Off</A>" : "<A href='?src=\ref[src];track=1'>On</A><B>Off</B>"]<BR>"
-	t += "Tracking Rate: [rate_control(src,"tdir","[trackrate] deg/h ([trackrate<0 ? "CCW" : "CW"])",5,30,180)]<BR>"
+	t += "Tracking: [ track ? "<B>On</B> <A href='?src=\ref[src];track=0'>Off</A>" : "<A href='?src=\ref[src];track=1'>On</A> <B>Off</B>"]<BR>"
+	t += "Tracking Rate: [rate_control(src,"tdir","[trackrate] deg/h ([trackrate<0 ? "CCW" : "CW"])",15,90,720)]<BR>"
 	t += "<A href='?src=\ref[src];close=1'>Close</A></TT>"
 	ss13_browse(user, t, "window=solcon")
 

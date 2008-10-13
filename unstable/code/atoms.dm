@@ -2673,7 +2673,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/sunfrac = 0
 	var/adir = SOUTH
 	var/ndir = SOUTH
-	var/turn_angle = 0
 	var/obj/machinery/power/solar_control/control
 
 /obj/machinery/power/solar_control
@@ -2690,7 +2689,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/lastgen = 0
 	var/track = 0			// on/off
 	var/trackrate = 600		// 300-900 seconds
-	var/trackdir = 1		// 0 =CCW, 1=CW
 	var/nexttime = 0
 
 /obj/machinery/power/portable_gen
