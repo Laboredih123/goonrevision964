@@ -1948,44 +1948,39 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	return
 
 
+//----------------------------------------------------------------------------
+
 /obj/machinery/power/solar/New()
 	..()
 	spawn(10)
 		updateicon()
 		updatefrac()
 
-		if(powernet)
-			for(var/obj/machinery/power/solar_control/SC in powernet.nodes)
-				if(SC.id == id)
-					control = SC
+		if(!powernet) return
+		for(var/obj/machinery/power/solar_control/SC in powernet.nodes)
+			if(SC.id == id) control = SC
 
 /obj/machinery/power/solar/proc/updateicon()
 	overlays = null
-	if(stat & BROKEN)
-		overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
-	else
-		overlays += image('power.dmi', icon_state = "solar_panel", layer = FLY_LAYER, dir = EAST)
+	if(stat & BROKEN)	overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
+	else				overlays += image('power.dmi', icon_state = "solar_panel", layer = FLY_LAYER, dir = EAST)
 
 /obj/machinery/power/solar/proc/updatefrac()
-
 	if(obscured)
 		sunfrac = 0
 		return
 
-	var/p_angle = dir2angle(adir) - sun.angle
-
-	if(abs(p_angle) > 90)			// if facing more than 90deg from sun, zero output
+	var/p_angle = abs((360+adir)%360 - (360+sun.angle)%360)
+	if(p_angle > 90)			// if facing more than 90deg from sun, zero output
 		sunfrac = 0
 		return
 
-	sunfrac = cos(p_angle)*cos(p_angle)			//
+	sunfrac = cos(p_angle) ** 2
 
 #define SOLARGENRATE 1500
 
 /obj/machinery/power/solar/process()
-
-	if(stat & BROKEN)
-		return
+	if(stat & BROKEN) return
 
 	if(!obscured)
 		var/sgen = SOLARGENRATE * sunfrac
@@ -1994,11 +1989,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			if(control in powernet.nodes)
 				control.gen += sgen
 
-	if(adir == ndir)
-		turn_angle = 0
-	else
-		spawn(rand(0,10))
-			adir = turn(adir, turn_angle)
+	if(adir != ndir)
+		spawn(10+rand(0,15))
+			adir = (360+adir+dd_range(-10,10,ndir-adir))%360
 			updateicon()
 			updatefrac()
 
@@ -2007,44 +2000,19 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	updateicon()
 
 /obj/machinery/power/solar/meteorhit()
-	if(stat & BROKEN)
-		broken()
-	else
-		del(src)
+	if(stat & BROKEN)	del(src)
+	else				src.broken()
 
-/obj/machinery/power/solar/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				broken()
-		if(3.0)
-			if (prob(25))
-				broken()
-	return
-
-/obj/machinery/power/solar/blob_act()
-	if (prob(50))
-		broken()
-		src.density = 0
-
-
+//----------------------------------------------------------------------------
 /obj/machinery/power/solar_control/New()
 	..()
 
 	spawn(15)
-
-		if(powernet)
-			for(var/obj/machinery/power/solar/S in powernet.nodes)
-				if(S.id == id)
-					cdir = S.adir
-						updateicon()
-
-
+		if(!powernet) return
+		for(var/obj/machinery/power/solar/S in powernet.nodes)
+			if(S.id != id) continue
+			cdir = S.adir
+			updateicon()
 
 /obj/machinery/power/solar_control/proc/updateicon()
 	if(stat & BROKEN)
@@ -2062,163 +2030,81 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		overlays += image('enginecomputer.dmi', "solcon-o", FLY_LAYER, cdir)
 
 
-
-/obj/machinery/power/solar_control/interact(mob/user)
-
-	add_fingerprint(user)
-
-	if(stat & (BROKEN | NOPOWER)) return
-
-	interaction(user)
-
 /obj/machinery/power/solar_control/process()
 	lastgen = gen
 	gen = 0
 
-	if(stat & (NOPOWER | BROKEN))
-		return
-
+	if(stat & (NOPOWER | BROKEN)) return
 	use_power(250)
-
-	if(track && nexttime < world.timeofday)
-		if(trackdir)
-			cdir = turn(cdir, -45)
-		else
-			cdir = turn(cdir, 45)
+	if(track && nexttime < world.timeofday && trackrate)
+		nexttime = world.timeofday + 3600/abs(trackrate)
+		cdir = (cdir+trackrate/abs(trackrate)+360)%360
 		set_panels(cdir)
-
-		nexttime = world.timeofday + 10*trackrate
 		updateicon()
-
-
 	src.updateDialog()
 
+/obj/machinery/power/solar_control/interact(mob/user)
+	add_fingerprint(user)
+	if(stat & (BROKEN | NOPOWER)) return
+	interaction(user)
 
 /obj/machinery/power/solar_control/proc/interaction(mob/user)
-
-	if ( (get_dist(src, user) > 1 ))
-		if (!istype(user, /mob/silicon/ai))
-			user.machine = null
-			ss13_browse(user, null, "window=solcon")
-			return
+	if(get_dist(src, user) > 1 && !istype(user,/mob/silicon/ai))
+		ss13_browse(user, null, "window=solcon")
+		user.machine = null
+		return
 
 	user.machine = src
-
 	var/t = "<TT><B>Solar Generator Control</B><HR><PRE>"
-
 	t += "Generated power : [round(lastgen)] W<BR><BR>"
+	t += "<B>Orientation</B>: [rate_control(src,"cdir","[cdir]&deg",1,15)] ([angle2text(cdir)])<BR>"
 
-	t += "Current panel orientation: <B>[uppertext(dir2text(cdir))]</B><BR>"
-
-	t += "<HR>Set orientation:<BR>"
-
-	var/list/D = list(-1, NORTHWEST, NORTH, NORTHEAST, -1, WEST, 0, EAST, -1, SOUTHWEST, SOUTH, SOUTHEAST)
-	var/list/disp = list("|", "|", "", "-", "/", "\\", "", "-", "\\", "/")
-
-	for(var/d in D)
-		if(d == 0)
-			t += "  "
-			continue
-		if(d == -1)
-			t += "<BR>          "
-			continue
-
-		if(d==cdir)
-			t +=" [disp[d]]"
-		else
-			t +=" <A href='?src=\ref[src];dir=[d]'>O</A>"
-
-
-	t += "<HR><BR><BR>"
-
-	t += "Tracking: [ track ? "<A href='?src=\ref[src];track=1'>Off</A> <B>On</B>" : "<B>Off</B> <A href='?src=\ref[src];track=1'>On</A>"]"
-
-	t += "   [trackdir ? "<A href='?src=\ref[src];tdir=1'>CCW</A> <B>CW</B>" : "<B>CCW</B> <A href='?src=\ref[src];tdir=1'>CW</A>"]<BR>"
-
-	t += "Rate:     <A href='?src=\ref[src];trk=-3'>-</A> <A href='?src=\ref[src];trk=-2'>-</A> <A href='?src=\ref[src];trk=-1'>-</A> [trackrate] <A href='?src=\ref[src];trk=1'>+</A> <A href='?src=\ref[src];trk=2'>+</A> <A href='?src=\ref[src];trk=3'>+</A> (seconds per turn)<BR>"
-
-	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
-
-	t += "</TT>"
+	t += "<HR><BR>"
+	t += "Tracking: [ track ? "<B>On</B> <A href='?src=\ref[src];track=0'>Off</A>" : "<A href='?src=\ref[src];track=1'>On</A><B>Off</B>"]<BR>"
+	t += "Tracking Rate: [rate_control(src,"tdir","[trackrate] deg/h ([trackrate<0 ? "CCW" : "CW"])",5,30,180)]<BR>"
+	t += "<A href='?src=\ref[src];close=1'>Close</A></TT>"
 	ss13_browse(user, t, "window=solcon")
 
-	return
-
 /obj/machinery/power/solar_control/Topic(href, href_list)
-	..()
+	if(!..()) return 0
 
-	if (!usr.can_use_hands() )
-		return
-	if (!usr.check_dexterity())
-		return
-
-	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
-
-
-		if( href_list["close"] )
-			ss13_browse(usr, null, "window=solcon")
-			usr.machine = null
-			return
-
-		else if( href_list["dir"] )
-			cdir = text2num(href_list["dir"])
-
-			spawn(1)
-				set_panels(cdir)
-
-			updateicon()
-		else if( href_list["tdir"] )
-			trackdir = !trackdir
-
-		else if( href_list["track"] )
-			track = !track
-			nexttime = world.timeofday + 10*trackrate
-
-		else if( href_list["trk"] )
-			var/inc = text2num(href_list["trk"])
-
-			switch(inc)
-				if(1, -1)
-					trackrate += inc
-				if(2,-2)
-					trackrate += 10*inc/abs(inc)
-				if(3,-3)
-					trackrate += 100*inc/abs(inc)
-
-			trackrate = min( max(trackrate, 10), 900)
-			nexttime = world.timeofday + 10*trackrate
-
-		//spawn(0)
-		src.updateUsrDialog()
-
-
-	else
+	if(href_list["close"] )
 		ss13_browse(usr, null, "window=solcon")
 		usr.machine = null
+		return
 
-	return
+	if(href_list["dir"])
+		cdir = text2num(href_list["dir"])
+		spawn(1)
+			set_panels(cdir)
+			updateicon()
+
+	if(href_list["rate control"])
+		if(href_list["cdir"])
+			src.cdir = dd_range(0,359,(360+src.cdir+text2num(href_list["cdir"]))%360)
+			spawn(1)
+				set_panels(cdir)
+				updateicon()
+
+		if(href_list["tdir"])
+			src.trackrate = dd_range(-7200,7200,src.trackrate+text2num(href_list["tdir"]))
+			if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+
+	if(href_list["track"])
+		if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+		track = !track
+
+	src.updateUsrDialog()
 
 /obj/machinery/power/solar_control/proc/set_panels(var/cdir)
-	if(powernet)
-		for(var/obj/machinery/power/solar/S in powernet.nodes)
-			if(S.id == id)
-				S.control = src
-
-				var/delta = dir2angle(S.adir) - dir2angle(cdir)
-
-				delta = (delta+360)%360
-
-				if(delta>180)
-					S.turn_angle = -45
-				else
-					S.turn_angle = 45
-
-				S.ndir = cdir
-
+	if(!powernet) return
+	for(var/obj/machinery/power/solar/S in powernet.nodes)
+		if(S.id != id) continue
+		S.control = src
+		S.ndir = cdir
 
 /obj/machinery/power/solar_control/power_change()
-
-	if( powered() )
+	if(powered())
 		stat &= ~NOPOWER
 		updateicon()
 	else
@@ -2226,37 +2112,12 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			stat |= NOPOWER
 			updateicon()
 
-
-
 /obj/machinery/power/solar_control/broken()
 	stat |= BROKEN
 	updateicon()
 
 /obj/machinery/power/solar_control/meteorhit()
-
 	broken()
-	return
-
-/obj/machinery/power/solar_control/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				broken()
-		if(3.0)
-			if (prob(25))
-				broken()
-	return
-
-/obj/machinery/power/solar_control/blob_act()
-	if (prob(50))
-		broken()
-		src.density = 0
-
 
 // the inlet stage of the gas turbine electricity generator
 

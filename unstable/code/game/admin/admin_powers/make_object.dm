@@ -6,24 +6,10 @@
 			del(src)
 
 	Topic(href, href_list)
-		world << "topic hit with [href]"
-		for(var/x in href_list)
-			world << "[x] = [href_list[x]]"
-
-		var/list/q = typesof(href_list["SearchBar"])
-		world << "searching spares"
-		for(var/x in q)
-			world << "[x] = [q[x]]"
-
-
 		if(href_list["display"])
 			return DisplayMenu(usr)
 
-		if(!href_list["ObjectList"])
-			var/list/types = typesof(/obj)
-			for(var/x in types)
-				if(href_list["SearchBar"] in types[x])
-					world << "success! on [types[x]]"
+		if(!href_list["ObjectList"]) return
 
 		var/atom/loc = usr.loc
 		var/object = href_list["ObjectList"]

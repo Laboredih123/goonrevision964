@@ -217,6 +217,20 @@
 		return message
 	return copytext(message, 1, length + 1)
 
+/proc/angle2dir(var/degree)
+	degree = ((degree+22.5)%365)
+	if(degree < 45)		return NORTH
+	if(degree < 90)		return NORTH|EAST
+	if(degree < 135)	return EAST
+	if(degree < 180)	return SOUTH|EAST
+	if(degree < 225)	return SOUTH
+	if(degree < 270)	return SOUTH|WEST
+	if(degree < 315)	return WEST
+	return NORTH|WEST
+
+/proc/angle2text(var/degree)
+	return dir2text(angle2dir(degree))
+
 /proc/ss13_browse(user, body, options)
 	user << browse(body, options+";focus=false")
 
