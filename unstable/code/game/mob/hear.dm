@@ -14,12 +14,12 @@
 
 /mob/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
-	if(source in view(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
+	if(source in oview(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
 		speaker_name += " (disguised as [source.name])"
 	else if(istype(source, /obj/item/weapon/radio))
 		if(M.color)
 			speaker_name = "<font color='[M.color]'>[speaker_name]"
-		speaker_name += " broadcasts \icon[source]"
+		speaker_name += " on \icon[source]([source:freq/10])"
 	var/text = M.text
 	if(!src.is_dead) //dead people understand everything
 		if(!M.language)
@@ -28,7 +28,7 @@
 			text = replace_language(text, M.language)
 	if(M.language != src.curr_language && (M.language in src.languages || src.is_dead))
 		text = text + " <i>([M.language])</i>"
-	return src.hear("<b>[speaker_name]</b>: [text]")
+	return src.hear("<b>[speaker_name]:</b> [text]")
 
 /mob/proc/replace_language(message, language)
 	var/list/words = dd_text2list(message, " ")

@@ -44,6 +44,22 @@
 	src.stat |= BROKEN
 	src.verbs.len = 0
 
+/obj/machinery/camera/broken()
+	..()
+	src.icon_state = "camera1"
+
+/obj/machinery/mass_driver/broken()
+	..()
+	src.icon_state = "mass_driver-disabled"
+
+/obj/machinery/pipes/broken()
+	src.icon_state += "-b"
+	src.stat |= BROKEN
+	src.verbs.len = 0
+
+/obj/machinery/door/broken()
+	del(src)
+
 /proc/rate_control(var/S, var/V, var/C, var/Min=1, var/Max=5)
 	var/href = "<A href='?src=\ref[S];rate control=1;[V]"
 	return "[href]=-[Max]'>-</A>[href]=-[Min]'>-</A> [(C?C : 0)] [href]=[Min]'>+</A>[href]=[Max]'>+</A>"

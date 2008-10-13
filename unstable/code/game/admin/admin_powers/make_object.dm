@@ -6,10 +6,24 @@
 			del(src)
 
 	Topic(href, href_list)
+		world << "topic hit with [href]"
+		for(var/x in href_list)
+			world << "[x] = [href_list[x]]"
+
+		var/list/q = typesof(href_list["SearchBar"])
+		world << "searching spares"
+		for(var/x in q)
+			world << "[x] = [q[x]]"
+
+
 		if(href_list["display"])
 			return DisplayMenu(usr)
 
-		if(!href_list["ObjectList"]) return
+		if(!href_list["ObjectList"])
+			var/list/types = typesof(/obj)
+			for(var/x in types)
+				if(href_list["SearchBar"] in types[x])
+					world << "success! on [types[x]]"
 
 		var/atom/loc = usr.loc
 		var/object = href_list["ObjectList"]
@@ -25,13 +39,13 @@
 				if("relative")	if(loc) new object(locate(loc.x+X,loc.y+Y,loc.z+Z))
 				else			return
 		if(number == 1) world.log_admin("[usr.key] spawned an [object]")
-		else			world.log_admin("[usr.key] spawned [number] of [object]")
+		else			world.log_admin("[usr.key] spawned [object] x [number]")
 		ss13_browse(usr, null, "window=admin_object_spawn")
 
 	proc/DisplayMenu(var/mob/user)
 		var/txt = {"<HTML><HEAD><TITLE>Spawn Object</TITLE></HEAD><BODY>
 					<FORM NAME="Spawner" ACTION="?src=\ref[src]" METHOD="GET">
-					Type  <INPUT TYPE="text" NAME="SearchBar" VALUE="/obj/" onKeyUp="updateSearch()" style="width:350px"><BR>
+					Type  <INPUT TYPE="text" NAME="SearchBar" VALUE="" onKeyUp="updateSearch()" onKeyPress="submitFirst(event)" style="width:350px"><BR>
 					Offset: <INPUT TYPE="text" NAME="offset" VALUE="x,y,z" style="width:250px">
 					A <INPUT TYPE="radio" NAME="otype" VALUE="absolute">
 					R <INPUT TYPE="radio" NAME="otype" VALUE="relative" checked="checked"><BR>
@@ -42,15 +56,16 @@
 					</FORM>
 
 					<SCRIPT LANGUAGE="JavaScript">
-						var OldSearch = "/obj/";
+						var OldSearch = "";
 						var ObjectList = document.Spawner.ObjectList;
-						var ObjectTypes = "[dd_list2text(typesof(/obj),";")]"
+						var ObjectTypes = "[dd_list2text(typesof(/obj),";")]";
 						var ObjectArray = ObjectTypes.split(";");
+						document.Spawner.SearchBar.focus();
 						populateList();
 
 						function populateList()
 						{
-							var myElem
+							var myElem;
 							ObjectList.options.length = 0;
 							for(myElem in ObjectArray)
 							{
@@ -62,7 +77,7 @@
 						}
 						function updateSearch()
 						{
-							if(OldSearch == document.Spawner.SearchBar.value) return
+							if(OldSearch == document.Spawner.SearchBar.value) return;
 							OldSearch = document.Spawner.SearchBar.value;
 							ObjectArray = new Array();
 
@@ -70,13 +85,19 @@
 							var TmpArray = ObjectTypes.split(";");
 							for(TestElem in TmpArray)
 							{
-								if(OldSearch != TmpArray\[TestElem\].substring(0,OldSearch.length)) continue;
+								if(TmpArray\[TestElem\].search(OldSearch) < 0) continue;
 								ObjectArray.push(TmpArray\[TestElem\]);
 							}
 							populateList();
 						}
+						function submitFirst(event)
+						{
+							if(!ObjectList.options.length) return false;
+							if(event.keyCode == 13 || event.which == 13)
+								ObjectList.options\[0\].selected = 'true';
+						}
 					</SCRIPT></BODY></HTML>"}
-		ss13_browse(user, txt, "window=admin_object_spawn;size=425x475")
+		user << browse(txt, "window=admin_object_spawn;size=425x475;focus=true")
 
 	get_desc()
 		return "<a href='?src=\ref[src];display=1'>Make object</a>"

@@ -217,7 +217,7 @@ window "mainwindow"
 		saved-params = ""
 		text = "Chat"
 		image = ""
-		command = ".winset \"saybutton.is-checked=true?input.command=\"!say \\\"\":input.command=\""
+		command = ".winset \"saybutton.is-checked=false?input.command=\"!say \\\"\":input.command=\""
 		is-flat = false
 		stretch = false
 		is-checked = false

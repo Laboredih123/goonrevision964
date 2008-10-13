@@ -39,3 +39,18 @@
 	// should clamp max temp change to prevent thermal runaway if low amount of gas in turf
 
 	T.reset_phases()
+
+/obj/machinery/pipes/heat_exch/update()
+	var/turf/T = src.loc
+	var/list/dirs = get_dirs()
+	var/is = "[dirs[3]]"
+	if(stat & BROKEN)	is += "-b"
+
+	if ((src.level == 1 && isturf(src.loc) && T.intact))
+		src.invisibility = 101
+		is += "-f"
+	else
+		src.invisibility = null
+
+	src.icon_state = is
+

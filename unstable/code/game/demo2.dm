@@ -125,7 +125,7 @@
 	use_power(5)
 
 	var/turf/T = src.loc
-	if (istype(T, /turf))
+	if (isturf(T))
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
 	else
@@ -320,108 +320,51 @@
 
 
 /obj/machinery/atmoalter/canister/proc/update_icon()
-
 	var/air_in = src.gas.total()
-
 	src.overlays = 0
 
-	if (src.destroyed)
+	if(src.destroyed)
 		src.icon_state = text("[]-1", src.color)
+		return
 
-	else
-		icon_state = "[color]"
-		if(holding)
-			overlays += image('canister.dmi', "can-oT")
+	icon_state = "[color]"
+	if(holding)	overlays += image('canister.dmi', "can-oT")
 
-		if (air_in < 10)
-			overlays += image('canister.dmi', "can-o0")
-		else if (air_in < (src.gas.maximum * 0.2))
-			overlays += image('canister.dmi', "can-o1")
-		else if (air_in < (src.maximum * 0.6))
-			overlays += image('canister.dmi', "can-o2")
-		else
-			overlays += image('canister.dmi', "can-o3")
-	return
+	if(air_in < 10)								overlays += image('canister.dmi', "can-o0")
+	else if(air_in < (src.gas.maximum * 0.2))	overlays += image('canister.dmi', "can-o1")
+	else if(air_in < (src.maximum * 0.6))		overlays += image('canister.dmi', "can-o2")
+	else										overlays += image('canister.dmi', "can-o3")
 
 /obj/machinery/atmoalter/canister/proc/healthcheck()
-
-	if (src.health <= 10)
-		var/T = src.loc
-		if (!( istype(T, /turf) ))
-			return
-		src.gas.turf_add(T, -1.0)
-		src.destroyed = 1
-		src.density = 0
-		update_icon()
-		if (src.holding)
-			src.holding.loc = src.loc
-			src.holding = null
-		if (src.t_status == 2)
-			src.t_status = 3
-	return
+	if(src.health > 10) return
+	var/T = src.loc
+	if(!isturf(T)) return
+	src.gas.turf_add(T, -1.0)
+	src.destroyed = 1
+	src.density = 0
+	update_icon()
+	if(src.holding)
+		src.holding.loc = src.loc
+		src.holding = null
+	if(src.t_status == 2)
+		src.t_status = 3
 
 /obj/machinery/atmoalter/canister/process()
-
-	if (src.destroyed)
-		return
+	if(src.destroyed) return
 	var/T = src.loc
-	if (istype(T, /turf))
-		if (locate(/obj/move, T))
-			T = locate(/obj/move, T)
-	else
-		T = null
+	if(!isturf(T)) T = null
+	else if(locate(/obj/move, T)) T = locate(/obj/move, T)
+
 	switch(src.t_status)
-		if(1.0)
-			if (src.holding)
-				var/t1 = src.gas.total()
-				var/t2 = t1
-				var/t = src.t_per
-				if (src.t_per > t2)
-					t = t2
-				src.holding.gas.transfer_from(src.gas, t)
-			else
-				if (T)
-					var/t1 = src.gas.total()
-					var/t2 = t1
-					var/t = src.t_per
-					if (src.t_per > t2)
-						t = t2
-					src.gas.turf_add(T, t)
+		if(1.0)	//	release
+			if(src.holding) src.holding.gas.transfer_from(src.gas, min(src.t_per,src.gas.total()))
+			else if(T)		src.gas.turf_add(T, min(src.t_per, src.gas.total()))
+		if(2.0)	//	accept
+			if(src.holding)	src.gas.transfer_from(src.holding.gas, min(src.t_per,src.maximum-src.gas.total()))
+			else			src.t_status = 3
 			src.update_icon()
-		if(2.0)
-			if (src.holding)
-				var/t1 = src.gas.total()
-				var/t2 = src.maximum - t1
-				var/t = src.t_per
-				if (src.t_per > t2)
-					t = t2
-				src.gas.transfer_from(src.holding.gas, t)
-			else
-				src.t_status = 3
-			src.update_icon()
-		else
 
-
-// new method does all transfers in connector ptick
-
-/*	if(src.c_status == 1)				// 1 = release
-		var/obj/machinery/connector/C = locate(/obj/machinery/connector, src.loc)
-		if (C && C.connected == src)
-			spawn( 0 )
-				C.receive_gas(gas, c_per )
-				return
-			src.update_icon()
-		else
-			src.c_status = 0
-	else if(src.c_status == 2)			// 2 = accept
-		var/obj/machinery/connector/C = locate(/obj/machinery/connector, src.loc)
-		if (C && C.connected == src)
-			spawn( 0 )
-				C.send_gas(gas, c_per)	// connector will send gas to canister
-				return
-			src.update_icon()
-*/
-
+	//	src.c_status used in connector ptick
 	src.updateDialog()
 	src.update_icon()
 	return
@@ -433,63 +376,48 @@
 	src.gas.maximum = src.maximum
 	return
 
-/obj/machinery/atmoalter/canister/get_gas()				{		return gas		}
+/obj/machinery/atmoalter/canister/get_gas()
+	return gas
 
 
 /obj/machinery/atmoalter/canister/burn(fi_amount)
-
 	src.health -= 1
 	healthcheck()
-	return
 
 /obj/machinery/atmoalter/canister/blob_act()
-
 	src.health -= 1
 	healthcheck()
-	return
-
 
 /obj/machinery/atmoalter/canister/meteorhit(obj/O as obj)
-
 	src.health = 0
 	healthcheck()
-	return
 
 /obj/machinery/atmoalter/canister/interact(mob/user as mob)
-	if (src.destroyed)
-		return
+	if(src.destroyed) return
+
 	user.machine = src
 	var/tt
 	switch(src.t_status)
-		if(1.0)
-			tt = text("Releasing <A href='?src=\ref[];t=2'>Siphon (only tank)</A> <A href='?src=\ref[];t=3'>Stop</A>", src, src)
-		if(2.0)
-			tt = text("<A href='?src=\ref[];t=1'>Release</A> Siphoning (only tank) <A href='?src=\ref[];t=3'>Stop</A>", src, src)
-		if(3.0)
-			tt = text("<A href='?src=\ref[];t=1'>Release</A> <A href='?src=\ref[];t=2'>Siphon (only tank)</A> Stopped", src, src)
-		else
-	var/ct = null
-	switch(src.c_status)
-		if(1.0)
-			ct = text("Releasing <A href='?src=\ref[];c=2'>Accept</A> <A href='?src=\ref[];c=3'>Stop</A>", src, src)
-		if(2.0)
-			ct = text("<A href='?src=\ref[];c=1'>Release</A> Accepting <A href='?src=\ref[];c=3'>Stop</A>", src, src)
-		if(3.0)
-			ct = text("<A href='?src=\ref[];c=1'>Release</A> <A href='?src=\ref[];c=2'>Accept</A> Stopped", src, src)
-		else
-			ct = "Disconnected"
+		if(1.0)	tt = text("Releasing <A href='?src=\ref[];t=2'>Siphon (only tank)</A> <A href='?src=\ref[];t=3'>Stop</A>", src, src)
+		if(2.0)	tt = text("<A href='?src=\ref[];t=1'>Release</A> Siphoning (only tank) <A href='?src=\ref[];t=3'>Stop</A>", src, src)
+		if(3.0)	tt = text("<A href='?src=\ref[];t=1'>Release</A> <A href='?src=\ref[];t=2'>Siphon (only tank)</A> Stopped", src, src)
 
+	var/ct
+	switch(src.c_status)
+		if(1.0)	ct = text("Releasing <A href='?src=\ref[];c=2'>Accept</A> <A href='?src=\ref[];c=3'>Stop</A>", src, src)
+		if(2.0)	ct = text("<A href='?src=\ref[];c=1'>Release</A> Accepting <A href='?src=\ref[];c=3'>Stop</A>", src, src)
+		if(3.0) ct = text("<A href='?src=\ref[];c=1'>Release</A> <A href='?src=\ref[];c=2'>Accept</A> Stopped", src, src)
+		else	ct = "Disconnected"
 
 	var/dat = {"<TT><B>Canister Valves</B><BR>
-<FONT color = 'blue'><B>Contains/Capacity</B> [num2text(src.gas.total(), 20)] / [num2text(src.maximum, 20)]</FONT><BR>
-Upper Valve Status: [tt]<BR>
-\t[(src.holding ? "<A href='?src=\ref[src];tank=1'>Tank ([src.holding.gas.total()]</A>)" : null)]<BR>
-\t<A href='?src=\ref[src];tp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];tp=-10000'>-</A> <A href='?src=\ref[src];tp=-1000'>-</A> <A href='?src=\ref[src];tp=-100'>-</A> <A href='?src=\ref[src];tp=-1'>-</A> [src.t_per] <A href='?src=\ref[src];tp=1'>+</A> <A href='?src=\ref[src];tp=100'>+</A> <A href='?src=\ref[src];tp=1000'>+</A> <A href='?src=\ref[src];tp=10000'>+</A> <A href='?src=\ref[src];tp=[num2text(1000000.0, 7)]'>M</A><BR>
-Pipe Valve Status: [ct]<BR>
-\t<A href='?src=\ref[src];cp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];cp=-10000'>-</A> <A href='?src=\ref[src];cp=-1000'>-</A> <A href='?src=\ref[src];cp=-100'>-</A> <A href='?src=\ref[src];cp=-1'>-</A> [src.c_per] <A href='?src=\ref[src];cp=1'>+</A> <A href='?src=\ref[src];cp=100'>+</A> <A href='?src=\ref[src];cp=1000'>+</A> <A href='?src=\ref[src];cp=10000'>+</A> <A href='?src=\ref[src];cp=[num2text(1000000.0, 7)]'>M</A><BR>
-<BR>
-<A href='?src=\ref[user];mach_close=canister'>Close</A><BR>
-</TT>"}
+				<FONT color = 'blue'><B>Contains/Capacity</B> [num2text(src.gas.total(), 20)] / [num2text(src.maximum, 20)]</FONT><BR>
+				Upper Valve Status: [tt]<BR>
+				\t[(src.holding ? "<A href='?src=\ref[src];tank=1'>Tank ([src.holding.gas.total()]</A>)" : null)]<BR>
+				\t<A href='?src=\ref[src];tp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];tp=-10000'>-</A> <A href='?src=\ref[src];tp=-1000'>-</A> <A href='?src=\ref[src];tp=-100'>-</A> <A href='?src=\ref[src];tp=-1'>-</A> [src.t_per] <A href='?src=\ref[src];tp=1'>+</A> <A href='?src=\ref[src];tp=100'>+</A> <A href='?src=\ref[src];tp=1000'>+</A> <A href='?src=\ref[src];tp=10000'>+</A> <A href='?src=\ref[src];tp=[num2text(1000000.0, 7)]'>M</A><BR>
+				Pipe Valve Status: [ct]<BR>
+				\t<A href='?src=\ref[src];cp=-[num2text(1000000.0, 7)]'>M</A> <A href='?src=\ref[src];cp=-10000'>-</A> <A href='?src=\ref[src];cp=-1000'>-</A> <A href='?src=\ref[src];cp=-100'>-</A> <A href='?src=\ref[src];cp=-1'>-</A> [src.c_per] <A href='?src=\ref[src];cp=1'>+</A> <A href='?src=\ref[src];cp=100'>+</A> <A href='?src=\ref[src];cp=1000'>+</A> <A href='?src=\ref[src];cp=10000'>+</A> <A href='?src=\ref[src];cp=[num2text(1000000.0, 7)]'>M</A><BR>
+				<BR>
+				<A href='?src=\ref[user];mach_close=canister'>Close</A></TT><BR>"}
 
 
 
@@ -507,64 +435,46 @@ Pipe Valve Status: []<BR>
 </TT>"}, num2text(src.gas.total(), 20), num2text(src.maximum, 20), tt, (src.holding ? text("<A href='?src=\ref[];tank=1'>Tank ([]</A>)", src, src.holding.gas.total()) : null), src, num2text(1000000.0, 7), src, src, src, src, src.t_per, src, src, src, src, src, num2text(1000000.0, 7), ct, src, num2text(1000000.0, 7), src, src, src, src, src.c_per, src, src, src, src, src, num2text(1000000.0, 7), user)
 
 */
-	ss13_browse(user, dat, "window=canister;size=600x300")
+	ss13_browse(user, dat,"window=canister;size=600x300")
 	return
 
 /obj/machinery/atmoalter/canister/Topic(href, href_list)
 	..()
-	if (!usr.can_use_hands())
-		return
-	if ((get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
-		usr.machine = src
-		if (href_list["c"])
-			var/c = text2num(href_list["c"])
-			switch(c)
-				if(1.0)
-					src.c_status = 1
-				if(2.0)
-					c_status = 2
-				if(3.0)
-					src.c_status = 3
-		else
-			if (href_list["t"])
-				var/t = text2num(href_list["t"])
-				if (src.t_status == 0)
-					return
-				switch(t)
-					if(1.0)
-						src.t_status = 1
-					if(2.0)
-						if (src.holding)
-							src.t_status = 2
-						else
-							src.t_status = 3
-					if(3.0)
-						src.t_status = 3
-			else
-				if (href_list["tp"])
-					var/tp = text2num(href_list["tp"])
-					src.t_per += tp
-					src.t_per = min(max(round(src.t_per), 0), 1000000.0)
-				else
-					if (href_list["cp"])
-						var/cp = text2num(href_list["cp"])
-						src.c_per += cp
-						src.c_per = min(max(round(src.c_per), 0), 1000000.0)
-					else
-						if (href_list["tank"])
-							var/cp = text2num(href_list["tank"])
-							if ((cp == 1 && src.holding))
-								src.holding.loc = src.loc
-								src.holding = null
-								if (src.t_status == 2)
-									src.t_status = 3
-		src.updateUsrDialog()
-		src.add_fingerprint(usr)
-		update_icon()
-	else
-		ss13_browse(usr, null, "window=canister")
-		return
-	return
+	if(!usr.can_use_hands()) return
+	if(get_dist(src,usr) > 1 || !istype(src.loc,/turf)) return ss13_browse(usr, null, "window=canister")
+
+	usr.machine = src
+	src.add_fingerprint(usr)
+	if(href_list["c"])
+		switch(text2num(href_list["c"]))
+			if(1.0)	src.c_status = 1
+			if(2.0)	c_status = 2
+			if(3.0)	src.c_status = 3
+
+	else if(href_list["t"])
+		if(!src.t_status) return
+		switch(text2num(href_list["t"]))
+			if(1.0)	src.t_status = 1
+			if(2.0) src.t_status = (src.holding? 2 : 3)
+			if(3.0) src.t_status = 3
+
+	else if(href_list["tp"])
+		src.t_per += text2num(href_list["tp"])
+		src.t_per = min(max(round(src.t_per), 0), 1000000.0)
+
+	else if(href_list["cp"])
+		src.c_per += text2num(href_list["cp"])
+		src.c_per = min(max(round(src.c_per), 0), 1000000.0)
+
+	else if(href_list["tank"])
+		var/cp = text2num(href_list["tank"])
+		if(cp == 1 && src.holding)
+			src.holding.loc = src.loc
+			src.holding = null
+			if(src.t_status == 2)
+				src.t_status = 3
+	src.updateUsrDialog()
+	update_icon()
 
 /obj/machinery/atmoalter/canister/attackby(var/obj/item/weapon/W as obj, mob/carbon/user as mob)
 	if ((istype(W, /obj/item/weapon/tank) && !( src.destroyed )))
@@ -633,7 +543,7 @@ Pipe Valve Status: []<BR>
 			return
 	if (flag)
 		var/turf/T = src.loc
-		if (!( istype(T, /turf) ))
+		if (!( isturf(T) ))
 			return
 		else
 			T.firelevel = T.gas.plasma
@@ -645,42 +555,29 @@ Pipe Valve Status: []<BR>
 	return
 
 /obj/machinery/atmoalter/canister/poisoncanister/New()
-
 	..()
-	src.update_icon()
 	src.gas.plasma = src.maximum*filled
-	return
 
 /obj/machinery/atmoalter/canister/oxygencanister/New()
-
 	..()
 	src.gas.oxygen = src.maximum*filled
-	return
 
 /obj/machinery/atmoalter/canister/anesthcanister/New()
-
 	..()
 	src.gas.no2 = src.maximum*filled
-	return
 
 /obj/machinery/atmoalter/canister/n2canister/New()
-
 	..()
 	src.gas.nitrogen = src.maximum*filled
-	return
 
 /obj/machinery/atmoalter/canister/co2canister/New()
-
 	..()
 	src.gas.co2 = src.maximum*filled
-	return
 
 
 /obj/machinery/atmoalter/canister/aircanister/New()
-
 	..()
 	src.gas.oxygen = (src.maximum*0.21)*filled
 	src.gas.nitrogen = (src.maximum*0.79)*filled
-	return
 
 

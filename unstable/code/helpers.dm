@@ -218,9 +218,7 @@
 	return copytext(message, 1, length + 1)
 
 /proc/ss13_browse(user, body, options)
-	user << browse(body, options)
-	if(body != null)
-		winset(user, "mainwindow.input", "focus=true")
+	user << browse(body, options+";focus=false")
 
 /proc/text_input(var/Message, var/Title, var/Default, var/length=MAX_MESSAGE_LEN)
 	return sanitize(input(Message, Title, Default) as text, length)

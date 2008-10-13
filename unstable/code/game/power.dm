@@ -85,15 +85,12 @@
 /obj/item/weapon/cell/proc/recharge(var/amount)
 	if(!amount) return 0
 	if(amount/maxcharge > 0.25)
-		world << "amount/maxcharge > 0.25 => [amount] : [amount/maxcharge]"
-		world << "[src] recharged to [charge] of [maxcharge]"
 		src.discharge(amount * 0.80)
 		amount *= 0.20
 	charge += amount
 	if(charge <= maxcharge) return 1
 	var/excess = (charge - maxcharge) * 4
 	charge = dd_range(0, maxcharge, charge-excess)
-	world << "discharging [excess]"
 	if(excess) src.discharge(excess)
 	return 1
 

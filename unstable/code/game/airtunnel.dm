@@ -336,12 +336,8 @@
 
 
 /obj/machinery/camera/ex_act(severity)
-
-	if(src.invuln)
-		return
-	else
-		..(severity)
-	return
+	if(src.invuln) return
+	return ..(severity)
 
 /obj/machinery/camera/blob_act()
 	return
@@ -589,10 +585,8 @@ obj/machinery/door_control/interact(mob/user as mob)
 
 	var/safe = 2
 
-	if(!istype(T, /turf))
-		return
-	if(locate(/obj/move, T))
-		T = locate(/obj/move, T)
+	if(!isturf(T))	return
+	if(locate(/obj/move, T)) T = locate(/obj/move, T)
 
 	var/turf_total = max(T.gas.total(), 1)
 	var/pressure = turf_total / CELLSTANDARD // pressure in bar
@@ -600,17 +594,14 @@ obj/machinery/door_control/interact(mob/user as mob)
 	var/ppPlasma = T.gas.plasma / turf_total
 	var/ppCarbon = T.gas.co2 / turf_total
 
-	if(0.90 > pressure || pressure > 1.10)
-		safe = 0
-	else if(0.19 > ppOxygen || ppOxygen > 0.23)
-		safe = 0
-	else if(ppPlasma > 0.05)
-		safe = 0
-	else if(ppCarbon > 0.05)
-		safe = 0
+	if(0.90 > pressure || pressure > 1.10)		safe = 0
+	else if(0.19 > ppOxygen || ppOxygen > 0.23)	safe = 0
+	else if(ppPlasma > 0.05)					safe = 0
+	else if(ppCarbon > 0.05)					safe = 0
 
 	A.atmosalert(safe, src)
-	src.icon_state = text("alarm:[]", safe)
+	if(!safe)	src.icon_state = "alarm:1"
+	else		src.icon_state = "alarm:0"
 
 /obj/machinery/alarm/attackby(W as obj, user as mob)
 	if (istype(W, /obj/item/weapon/wirecutters))
