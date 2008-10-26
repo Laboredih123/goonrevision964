@@ -1190,6 +1190,14 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = 322.0
 	s_istate = "electronic"
 
+/obj/item/weapon/jammer
+	name = "Camera Jammer"
+	desc = "Creates an EM field that blocks camera tracking."
+	icon_state = "jammer0"
+	flags = FPRINT|ONBELT
+	s_istate = "electronic"
+	var/on = 0
+
 /obj/item/weapon/t_scanner
 	name = "T-ray scanner"
 	desc = "A terahertz-ray emitter and scanner used to detect underfloor objects such as cables and pipes."

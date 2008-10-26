@@ -66,6 +66,8 @@
 			continue
 		if(M.invisibility) //cloaked
 			continue
+		if(M.CameraInvisible())
+			continue
 
 		var/name = M.name
 		if (name in names)
@@ -95,7 +97,7 @@
 			if (usr:cameraFollow == null)
 				return
 			else if (istype(target.id, /obj/item/weapon/card/id/syndicate))
-				usr << "Follow camera mode ended."
+				usr << "Tracking Error"
 				usr:cameraFollow = null
 				return
 			else if (!target || !istype(target.loc, /turf)) //in a closet

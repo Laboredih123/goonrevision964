@@ -37,3 +37,12 @@
 
 
 		sleep(10)
+
+/obj/item/weapon/jammer/attack_self(mob/user)
+	on = !on
+	src.add_fingerprint(user)
+	icon_state = "jammer[on]"
+	for(var/mob/silicon/ai/AI in world)
+		if(AI.cameraFollow == user)
+			AI << "Tracking Error"
+			AI.cancel_camera()

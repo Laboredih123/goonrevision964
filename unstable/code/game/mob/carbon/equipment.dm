@@ -497,6 +497,12 @@
 			src.invisibility = 2
 			return
 
+/mob/carbon/proc/CameraInvisible()
+	for(var/obj/item/weapon/jammer/S in src)
+		if(S.on)
+			return 1
+	return 0
+
 /mob/carbon/proc/drop_item_v()
 	if (src.is_active())
 		drop_item()
