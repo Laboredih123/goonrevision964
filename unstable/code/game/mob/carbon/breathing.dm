@@ -27,7 +27,6 @@
 	var/T = src.loc
 	if(isobj(T)) T = T:alter_health(src) 	// returns O.loc for most things, just alters their health for sleeper etc
 	if(!isturf(T)) return					//	things don't breath in null locations? sure
-	if(locate(/obj/move, T)) T = locate(/obj/move, T)
 
 	var/datum/substance/gas/G = src.get_breathed_air(T)	//	breath in
 	src.aircheck(G)										//	process air

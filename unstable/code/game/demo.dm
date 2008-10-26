@@ -184,8 +184,6 @@
 
 	if (src.on && !(stat & NOPOWER) )
 		var/turf/T = src.loc
-		if (locate(/obj/move, T))
-			T = locate(/obj/move, T)
 		if (T.firelevel < 900000.0)
 			T.firelevel = T.gas.plasma
 

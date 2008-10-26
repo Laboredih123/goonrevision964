@@ -125,11 +125,7 @@
 	use_power(5)
 
 	var/turf/T = src.loc
-	if (isturf(T))
-		if (locate(/obj/move, T))
-			T = locate(/obj/move, T)
-	else
-		T = null
+	if(!isturf(T)) T = null
 	if (src.h_status)
 		var/t1 = src.gas.total()
 		if ((t1 > 0 && src.gas.temp < (src.h_tar+T0C)))
@@ -353,7 +349,6 @@
 	if(src.destroyed) return
 	var/T = src.loc
 	if(!isturf(T)) T = null
-	else if(locate(/obj/move, T)) T = locate(/obj/move, T)
 
 	switch(src.t_status)
 		if(1.0)	//	release

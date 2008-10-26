@@ -14,9 +14,6 @@
 		if(cancel)
 			return
 		world << "<B>Everyone is dead! Resetting in 30 seconds!</B>"
-		if(ticker && ticker.timing)
-			ticker.check_win()
-			return
 		spawn(300)
 			for(var/mob/M in world)
 				if(M.client && !M.is_dead)

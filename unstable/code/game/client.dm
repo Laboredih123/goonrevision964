@@ -119,7 +119,7 @@
 								return
 		if (M.canmove)
 			var/j_pack = 0
-			if ((istype(M.loc, /turf/space) && !( locate(/obj/move, M.loc) )))
+			if (istype(M.loc, /turf/space))
 				if (!( M.is_handcuffed() ))
 					if (!( (locate(/obj/grille, oview(1, M)) || locate(/turf/station, oview(1, M))) ))
 						if (istype(M.back, /obj/item/weapon/tank/jetpack))

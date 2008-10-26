@@ -1,81 +1,3 @@
-/obj/move/CheckPass(O as mob|obj)
-	return !src.density
-
-/obj/move/proc/reset_phases()
-	phase1.copy_all(gas)
-	phase2.copy_all(gas)
-	equilibrium = 0
-
-/obj/move/proc/unburn()
-	icon_state = initial(icon_state)
-	luminosity = 0
-
-/obj/move/New()
-	gas.oxygen	= src.oxygen
-	gas.plasma	= src.poison
-	gas.nitrogen= src.n2
-	reset_phases()
-
-	if((src.x & 1) == (src.y & 1))
-		src.checkfire = 0
-	..()
-
-	spawn(5)
-		src.updatelinks()
-
-/obj/move/interact(var/mob/user as mob)
-	if(!user.canmove)
-		return
-	if(!user.pulling)
-		return
-	if(usr.is_handcuffed())
-		return
-	if(user.pulling.anchored)
-		return
-	if(get_dist(user,user.pulling)>1)
-		if(user.pulling.loc != user.loc)
-			return
-
-	if(!ismob(user.pulling))
-		step(user.pulling, get_dir(user.pulling.loc, src))
-		return
-
-	var/mob/M = user.pulling
-	var/mob/t = M.pulling
-	M.pulling = null
-	step(user.pulling, get_dir(user.pulling.loc, src))
-	M.pulling = t
-
-/obj/move/proc/relocate(T as turf, degree)
-	for(var/atom/movable/A as mob|obj in src.loc)
-		if(degree) A.dir = turn(A.dir, degree)
-		A.loc = T
-
-/obj/move/proc/process()
-	src.checkfire = !src.checkfire
-	UpdateGasses(src, src.FindTurfs())
-
-/obj/move/proc/FindTurfs()
-	var/list/L = list()
-	for(var/turf/T in src.DiffuseAir)
-		var/obj/move/O = locate(/obj/move,T)
-		if(O) if(O.updatecell) L += O
-		else  L += T
-	return L
-
-/obj/move/proc/updatelinks()
-	if(!src.loc)
-		return
-	DiffuseAir = gas.DiffusionLinks(src.loc)
-	ConductHeat= gas.ConductionLinks(src.loc)
-
-/obj/move/wall/blob_act()
-	del(src)
-
-/obj/move/wall/New()
-	var/F = locate(/obj/move/floor, src.loc)
-	if(F) del(F)
-
 /turf/proc/report()
 	return "[src.type] [x] [y] [z]"
 
@@ -143,14 +65,7 @@
 
 /turf/proc/FindTurfs()
 	var/list/L = list()
-	if(locate(/obj/move, src))
-		return list()
-	for(var/turf/T in src.DiffuseAir)
-		var/obj/move/O = locate(/obj/move,T)
-		if(!O)
-			L += T
-		else if(O.updatecell)
-			L += O
+	for(var/turf/T in src.DiffuseAir)	L += T
 	return L
 
 /turf/conduction()
@@ -243,9 +158,6 @@
 	if (!(A.last_move))
 		return
 
-	if (locate(/obj/move, src))
-		return 1
-
 	if ((istype(A, /mob/carbon) && src.x > 2 && src.x < (world.maxx - 1)))
 		var/mob/carbon/M = A
 
@@ -262,7 +174,7 @@
 					prob_slip -= 2
 				else if (M.r_hand.w_class <= 2)
 					prob_slip -= 1
-			else if (locate(/obj/move/wall, oview(1, M)) || locate(/turf/station, oview(1, M)))
+			else if (locate(/turf/station, oview(1, M)))
 				if (!( M.l_hand ))
 					prob_slip -= 1
 				else if (M.l_hand.w_class <= 2)

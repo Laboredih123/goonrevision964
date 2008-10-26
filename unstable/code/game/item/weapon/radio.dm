@@ -393,7 +393,7 @@
 	if ((istype(src.loc, /mob/carbon) && src.on))
 		var/mob/carbon/H = src.loc
 		var/turf/T = H.loc
-		if ((istype(T, /turf) || istype(T, /obj/move)))
+		if (istype(T, /turf))
 			if (H.moved_recently && H.last_move)
 				step(H, H.last_move)
 		H.think("\red <B>You feel a sharp shock!</B>")

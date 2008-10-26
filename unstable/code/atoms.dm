@@ -125,7 +125,6 @@
 	var/theft_obj = null
 	var/sab_target = null
 	var/objective = null
-	var/shuttle_location = null
 
 	var/datum/game_mode/mode = null
 	var/event_time = null
@@ -1735,11 +1734,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "indicator"
 	icon = 'airtunnel.dmi'
 	icon_state = "indicator"
-/obj/machinery/at_indicator
-	name = "Air Tunnel Indicator"
-	icon = 'airtunnel.dmi'
-	icon_state = "reader00"
-	anchored = 1.0
 /obj/machinery/atmoalter
 	name = "atmoalter"
 	var/datum/substance/gas/gas = null
@@ -1952,8 +1946,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/aistate = STATE_DEFAULT
 	var/const
 		STATE_DEFAULT = 1
-		STATE_CALLSHUTTLE = 2
-		STATE_CANCELSHUTTLE = 3
+//		STATE_CALLSHUTTLE = 2
+//		STATE_CANCELSHUTTLE = 3
 		STATE_MESSAGELIST = 4
 		STATE_VIEWMESSAGE = 5
 		STATE_DELMESSAGE = 6
@@ -2014,10 +2008,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/time = 30.0
 
 
-/obj/machinery/computer/prison_shuttle
-	name = "Prison Shuttle"
-	icon = 'shuttle.dmi'
-	icon_state = "shuttlecom"
 /obj/machinery/computer/secure_data
 	name = "Security Records"
 	icon = 'weap_sat.dmi'
@@ -2042,13 +2032,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/network = "SS13"
 	var/maplevel = 1
 	req_access = list(access_security)
-/obj/machinery/computer/shuttle
-	name = "Shuttle"
-	icon = 'shuttle.dmi'
-	icon_state = "shuttlecom"
-	var/auth_need = 3.0
-
-	var/list/authorized = list(  )
 
 /obj/machinery/computer/sleep_console
 	name = "Sleeper Console"
@@ -2508,34 +2491,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 //*****
 
-/obj/machinery/shuttle
-	name = "shuttle"
-	icon = 'shuttle.dmi'
-/obj/machinery/shuttle/engine
-	name = "engine"
-	density = 1
-	anchored = 1.0
-/obj/machinery/shuttle/engine/heater
-	name = "heater"
-	icon_state = "heater"
-/obj/machinery/shuttle/engine/platform
-	name = "platform"
-	icon_state = "platform"
-/obj/machinery/shuttle/engine/propulsion
-	name = "propulsion"
-	icon_state = "propulsion"
-	opacity = 1
-/obj/machinery/shuttle/engine/propulsion/burst
-	name = "burst"
-/obj/machinery/shuttle/engine/propulsion/burst/left
-	name = "left"
-	icon_state = "burst_l"
-/obj/machinery/shuttle/engine/propulsion/burst/right
-	name = "right"
-	icon_state = "burst_r"
-/obj/machinery/shuttle/engine/router
-	name = "router"
-	icon_state = "router"
 /obj/machinery/sleeper
 	name = "Sleeper"
 	icon = 'Cryogenic2.dmi'
@@ -2771,66 +2726,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	density = 1
 	var/obj/m_tray/connected = null
 	anchored = 1.0
-/obj/move
-	name = "move"
-	icon = 'shuttle.dmi'
-	var/datum/substance/gas/gas		=	new /datum/substance/gas
-	var/datum/substance/gas/phase1	=	new /datum/substance/gas	// old
-	var/datum/substance/gas/phase2	=	new /datum/substance/gas	// tmp
 
-	// backwards compatability
-	var/oxygen=O2STANDARD
-	var/n2=N2STANDARD
-	var/temp=T20C
-	var/poison=0
-
-	var/master = null
-	var/tx = null
-	var/ty = null
-	var/firelevel = 0.0
-	var/checkfire = 1.0
-	var/updatecell = 1.0
-	anchored = 1.0
-
-	//optimizations
-	var/DiffuseAir[]
-	var/ConductHeat[]
-	var/equilibrium=0
-
-/obj/move/airtunnel
-	name = "airtunnel"
-	icon = 'airtunnel.dmi'
-	icon_state = "floor"
-	var/deployed = 0.0
-	var/obj/move/airtunnel/next = null
-	var/obj/move/airtunnel/previous = null
-	var/r_master = null
-/obj/move/airtunnel/connector
-	name = "connector"
-	icon_state = "floor-c"
-	var/obj/move/airtunnel/current = null
-	deployed = 1.0
-/obj/move/airtunnel/connector/wall
-	name = "wall"
-	icon_state = "wall-c"
-	opacity = 1
-	density = 1
-	updatecell = 0.0
-/obj/move/airtunnel/wall
-	name = "wall"
-	icon_state = "wall"
-	opacity = 1
-	density = 1
-	updatecell = 0.0
-/obj/move/floor
-	name = "floor"
-	icon_state = "floor"
-/obj/move/wall
-	name = "wall"
-	icon_state = "wall"
-	opacity = 1
-	density = 1
-	updatecell = 0.0
 /obj/overlay
 	name = "overlay"
 /obj/point
@@ -2886,18 +2782,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 	var/list/parts = list(  )
 
-/obj/move/shuttle
-	name = "shuttle"
-/obj/move/shuttle/door
-	name = "door"
-	icon = 'shuttle.dmi'
-	icon_state = "door1"
-	opacity = 1
-	density = 1
-	var/visible = 1.0
-	var/operating = null
-	anchored = 1.0
-	is_ai_interactable = 1
 /obj/sp_start
 	name = "sp start"
 	icon = 'grashaboras.dmi'

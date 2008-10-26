@@ -92,8 +92,6 @@
 	var/T = src.loc
 	if (!( istype(T, /turf) ))
 		return
-	if (locate(/obj/move, T))
-		T = locate(/obj/move, T)
 	if (!( amount ))
 		return
 	if (!( flag ))
@@ -106,8 +104,6 @@
 	var/T = src.loc
 	if (!( istype(T, /turf) ))
 		return
-	if (locate(/obj/move, T))
-		T = locate(/obj/move, T)
 	if (!( amount ))
 		return
 	if (!( flag ))
@@ -198,8 +194,6 @@
 		return
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		if(locate(/obj/move, T))
-			T = locate(/obj/move, T)
 		if(T.firelevel < 900000.0)
 			src.gas.turf_add_all_oxy(T)
 		else
@@ -336,11 +330,7 @@
 
 	if (src.t_status != 3)
 		var/turf/T = src.loc
-		if (istype(T, /turf))
-			if (locate(/obj/move, T))
-				T = locate(/obj/move, T)
-		else
-			T = null
+		if(!isturf(T)) T = null
 		switch(src.t_status)
 			if(1.0)
 				if( !portable() ) use_power(50, ENVIRON)

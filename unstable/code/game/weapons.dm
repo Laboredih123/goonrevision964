@@ -175,7 +175,6 @@
 
 	defer_powernet_rebuild = 0
 	makepowernets()
-	ticker.nuclear(src.z)
 	//SN src = null
 	del(src)
 	return

@@ -1,39 +1,35 @@
 /datum/configuration/New()
-	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
+	var/list/L = typesof(/datum/game_mode)
 	for (var/T in L)
 		// I wish I didn't have to instance the game modes in order to look up
 		// their information, but it is the only way (at least that I know of).
 		var/datum/game_mode/M = new T()
-		if(M.config_tag)
-			world.log << "Adding game mode [M.name] ([M.config_tag]) to configuration."
-			src.modes += M.config_tag
-			src.mode_names[M.config_tag] = M.name
-			src.probabilities[M.config_tag] = M.probability
-			if(M.votable)
-				src.votable_modes += M.config_tag
+		if(M.name)
+			world.log_game("Adding game mode [M.name] to configuration")
+			src.modes += M.name
+			src.mode_names[M.name] = M.name
+			src.probabilities[M.name] = M.probability
+			if(M.votable) src.votable_modes += M.name
 		del(M)
 
 /datum/configuration/proc/load(filename)
 	var/text = file2text(filename)
 
 	if(!text)
-		world.log << "No config.txt file found, setting defaults"
+		world.log_game("No config.txt file found, setting defaults")
 		src = new /datum/configuration()
 		return
 
-	world.log << "Reading configuration file [filename]"
+	world.log_game("Reading configuration file [filename]")
 
 	var/list/CL = dd_text2list(text, "\n")
 
 	for (var/t in CL)
-		if(!t)
-			continue
+		if(!t)	continue
 
 		t = trim(t)
-		if(length(t) == 0)
-			continue
-		else if(copytext(t, 1, 2) == "#")
-			continue
+		if(length(t) == 0)					continue
+		else if(copytext(t, 1, 2) == "#")	continue
 
 		var/pos = findtext(t, " ")
 		var/name = null
@@ -48,47 +44,35 @@
 		if(!name)	continue
 
 		switch (name)
-			if("log_ooc")
-				config.log_ooc = 1
-			if("log_access")
-				config.log_access = 1
-			if("log_say")
-				config.log_say = 1
-			if("log_admin")
-				config.log_admin = 1
-			if("log_game")
-				config.log_game = 1
-			if("log_vote")
-				config.log_vote = 1
+			if("log_ooc")		config.log_ooc = 1
+			if("log_access")	config.log_access = 1
+			if("log_say")		config.log_say = 1
+			if("log_admin")		config.log_admin = 1
+			if("log_game")		config.log_game = 1
+			if("log_vote")		config.log_vote = 1
 			if("log_file")
 				config.log_file = value
 				fdel(value);
-			if("allow_vote_restart")
-				config.allow_vote_restart = 1
-			if("allow_vote_mode")
-				config.allow_vote_mode = 1
-			if("no_dead_vote")
-				config.vote_no_dead = 1
-			if("default_no_vote")
-				config.vote_no_default = 1
-			if("vote_delay")
-				config.vote_delay = text2num(value)
-			if("vote_period")
-				config.vote_period = text2num(value)
-			if("allow_ai")
-				config.allow_ai = 1
+
+			if("allow_vote_restart")	config.allow_vote_restart = 1
+			if("allow_vote_mode")		config.allow_vote_mode = 1
+			if("no_dead_vote")			config.vote_no_dead = 1
+			if("default_no_vote")		config.vote_no_default = 1
+			if("vote_delay")			config.vote_delay = text2num(value)
+			if("vote_period")			config.vote_period = text2num(value)
+			if("allow_ai")				config.allow_ai = 1
+
 			if("authentication")
 				switch(lowertext(dd_limittext(value,8)))
 					if("disabled")	config.enable_authentication = 0
 					if("required")	config.enable_authentication = 2
 					if("optional")	parse_authentication(value)
 				if(!value) config.enable_authentication = 2
-			if("rate_limit")
-				config.rate_limit = text2num(value)
-			if("random_names")
-				config.random_names = text2num(value)
-			if("random_ai_names")
-				config.random_ai_names  = text2num(value)
+
+			if("rate_limit")			config.rate_limit = text2num(value)
+			if("random_names")			config.random_names = text2num(value)
+			if("random_ai_names")		config.random_ai_names  = text2num(value)
+
 			if("probability")
 				var/prob_pos = findtext(value, " ")
 				var/prob_name = null
@@ -100,11 +84,11 @@
 					if(prob_name in config.modes)
 						config.probabilities[prob_name] = text2num(prob_value)
 					else
-						world.log << "Unknown game mode probability configuration definition: [prob_name]."
+						world.log_game("Unknown game mode probability configuration definition: [prob_name]")
 				else
-					world.log << "Incorrect probability configuration definition: [prob_name]  [prob_value]."
+					world.log_game("Incorrect probability configuration definition: [prob_name]  [prob_value]")
 			else
-				world.log << "Unknown setting in configuration: '[name]'"
+				world.log_game("Unknown setting in configuration: '[name]'")
 
 /datum/configuration/proc/parse_authentication(option)
 	config.enable_authentication = 1
@@ -120,18 +104,19 @@
 /datum/configuration/proc/pick_mode(mode_name)
 	// I wish I didn't have to instance the game modes in order to look up
 	// their information, but it is the only way (at least that I know of).
-	for (var/T in (typesof(/datum/game_mode) - /datum/game_mode))
+	for(var/T in (typesof(/datum/game_mode)))
 		var/datum/game_mode/M = new T()
-		if(M.config_tag && M.config_tag == mode_name)
-			return M
+		if(M.name == mode_name) return M
 		del(M)
 
-	return null
+	world.log_game("Invalid Mode ([mode_name]): Selecting new mode at random")
+	return pick_random_mode()
 
 /datum/configuration/proc/pick_random_mode()
 	var/total = 0
 	var/list/accum = list()
 
+	if(!src.modes || !src.modes.len) src.modes = typesof(/datum/game_mode)
 	for(var/M in src.modes)
 		total += src.probabilities[M]
 		accum[M] = total
@@ -144,9 +129,7 @@
 			mode_name = M
 			break
 
-	if(!mode_name)
-		world << "Failed to pick a random game mode."
-		return null
+	if(!mode_name)	mode_name = "free form"
 
 	//world << "Returning mode [mode_name]"
 

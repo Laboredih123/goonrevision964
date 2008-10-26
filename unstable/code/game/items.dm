@@ -2444,8 +2444,6 @@
 	var/turf/T = user.loc
 	if(!istype(T, /turf))
 		return
-	if(locate(/obj/move, T))
-		T = locate(/obj/move, T)
 	src.add_fingerprint(user)
 
 	var/turf_total = max(T.gas.total(), 1) / 100
@@ -3117,8 +3115,6 @@
 			T = T.loc
 		if (!( istype(T, /turf) ))
 			T = T.loc
-		if (locate(/obj/move, T))
-			T = locate(/obj/move, T)
 		else
 			if (!( istype(T, /turf) ))
 				return

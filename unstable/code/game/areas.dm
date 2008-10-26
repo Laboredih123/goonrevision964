@@ -34,22 +34,11 @@
 	name = "Arrival Area"
 	icon_state = "start"
 
-/area/arrival/shuttle
-	name = "Arrival Shuttle"
-	icon_state = "shuttle"
-
-/area/shuttle
-	requires_power = 0
-	name = "Escape Shuttle"
-	icon_state = "shuttle"
-
 // === Trying to remove these areas:
 
 /area/airtunnel1/      // referenced in airtunnel.dm:759
 
 /area/dummy/           // Referenced in engine.dm:261
-
-/area/shuttle_prison/  // referenced in shuttle.dm:57 and :86
 
 /area/start            // will be unused once kurper gets his login interface patch done
 	name = "start area"
@@ -80,17 +69,6 @@
 
 	spawn(15)
 		src.power_change()		// all machines set to current power level, also updates lighting icon
-
-/* /area/vehicles/New()
-	..()
-	sleep(1)
-	var/obj/shut_controller/S = new /obj/shut_controller(  )
-	shuttles += S
-	for(var/obj/move/O in src)
-		S.parts += O
-		O.master = S
-		//Foreach goto(42)
-	return */
 
 /area/proc/atmosalert(var/state, var/obj/machinery/alarm/source)
 	// state 2 == normal, 1 == recovering, 0 == alarm

@@ -258,3 +258,7 @@
 	usr.nextDblClick = world.time + rate
 	return 0
 
+/proc/InRange(var/A, var/lower, var/upper)
+	if(A < lower) return 0
+	if(A > upper) return 0
+	return 1
