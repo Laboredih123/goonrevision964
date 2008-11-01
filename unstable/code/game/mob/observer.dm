@@ -1,10 +1,12 @@
 /mob/observer
-	layer = 1	//	not used
-	density = 0	//	not used
-	is_dead = 1	//	not used
-	canmove = 0	//	not used
-	anchored = 1 // don't get pushed around
+	layer = 1		//	not used
+	density = 0		//	not used
+	is_dead = 1		//	not used
+	canmove = 0		//	not used
+	is_blind = 0	//	not used
+	anchored = 1	//  don't get pushed around
 	var/mob/corpse = null	//	observer mode
+	var/datum/hud/carbon/hud = null // hud
 
 /mob/observer/New(var/mob/corpse)
 	set invisibility = 101
@@ -18,8 +20,9 @@
 	src.see_infrared = 100
 	src.see_in_dark = 100
 
-	if(!src.corpse.is_dead)
-		if(istype(corpse,/mob/carbon))
+	if(istype(corpse,/mob/carbon))
+		src.hud = corpse:hud
+		if(!src.corpse.is_dead)
 			//	stop our body from wandering
 			src.corpse:resting = 1
 
@@ -37,3 +40,6 @@
 
 /mob/observer/can_use_hands()	return 0
 /mob/observer/is_active()		return 0
+
+/mob/observer/Life()
+	if(src.hud) src.hud.update_icons()

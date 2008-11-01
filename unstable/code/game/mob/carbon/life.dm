@@ -3,7 +3,7 @@
 
 	..()
 	if(src.client && src.hud)	src.hud.update()
-	src.lying = 0
+
 	if(src.is_dead)
 		src.canmove = 0
 		if(src.lying)	src.icon = src.lying_icon
@@ -11,6 +11,7 @@
 		src.update_clothing()
 		return
 
+	src.lying = 0
 	src.canmove = 1
 	src.is_blind = src.is_perma_blind
 
