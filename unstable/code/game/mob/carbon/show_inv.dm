@@ -34,7 +34,10 @@
 
 /mob/carbon/Topic(href, href_list)
 	..()
-	if (href_list["item"] && usr.can_use_hands() && get_dist(src, usr) <= 1)
+	if(get_dist(src,usr)>1) return
+	if(!usr.can_use_hands()) return
+	if(LinkBlocked(src.loc,usr.loc)) return
+	if(href_list["item"])
 		var/obj/equip_e/O = new()
 		O.source = usr
 		O.target = src
@@ -43,6 +46,6 @@
 		O.t_loc = src.loc
 		O.place = href_list["item"]
 		src.requests += O
-		spawn( 0 )
+		spawn(0)
 			O.process()
 			return

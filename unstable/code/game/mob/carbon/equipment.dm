@@ -544,12 +544,13 @@
 	return
 
 /mob/carbon/MouseDrop(mob/carbon/M as mob)
-
 	..()
-	if (M != usr || usr == src || get_dist(usr, src) > 1 || !istype(M, /mob/carbon))
-		return
+	if(M != usr) return
+	if(usr == src) return
+	if(get_dist(usr,src) > 1) return
+	if(!istype(M,/mob/carbon)) return
+	if(LinkBlocked(usr.loc,src.loc)) return
 	src.show_inv(usr)
-	return
 
 /mob/carbon/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
 	//warning: icky code

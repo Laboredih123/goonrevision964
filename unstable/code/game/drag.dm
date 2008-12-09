@@ -80,6 +80,7 @@
 	if(!src.source || !src.target)						return
 	if(src.source.loc != src.s_loc)						return
 	if(src.target.loc != src.t_loc)						return
+	if(LinkBlocked(src.s_loc,src.t_loc))				return
 	if(src.item && src.source.equipped() != src.item)	return
 	if(!src.source.can_use_hands())						return
 	switch(src.place)
