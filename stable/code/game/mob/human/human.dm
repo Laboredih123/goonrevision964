@@ -1344,7 +1344,7 @@
 	facial_l.Blend(rgb(src.r_facial, src.g_facial, src.b_facial), ICON_ADD)
 
 	var/icon/mouth_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_[g]_s")
-	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth__[g]_l")
+	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_[g]_l")
 
 	eyes_s.Blend(hair_s, ICON_OVERLAY)
 	eyes_l.Blend(hair_l, ICON_OVERLAY)
