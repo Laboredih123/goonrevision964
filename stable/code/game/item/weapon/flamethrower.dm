@@ -34,6 +34,8 @@
 	processing = 0	//we're done
 
 /obj/item/weapon/flamethrower/attackby(obj/item/weapon/tank/plasmatank/W as obj, mob/user as mob)
+	if(user.stat || user.restrained() || user.lying)
+		return
 	if (istype(W,/obj/item/weapon/tank/plasmatank))
 		if(attached)
 			user << "\red There appears to already be a plasma tank loaded in the flamethrower!"
@@ -99,7 +101,7 @@
 			damtype = "brute"
 	if (href_list["amount"])
 		src.throw_amount = src.throw_amount + text2num(href_list["amount"])
-		src.throw_amount = max(0,min(5000,src.throw_amount))
+		src.throw_amount = max(50,min(5000,src.throw_amount))
 	if (href_list["remove"])
 		if(!attached)	return
 		var/obj/item/weapon/tank/plasmatank/A = attached
@@ -120,6 +122,8 @@
 
 
 /obj/item/weapon/flamethrower/attack_self(mob/user as mob)
+	if(user.stat || user.restrained() || user.lying)
+		return
 	user.machine = src
 	if (!src.attached)
 		user << "\red Attach a plasma tank first!"
