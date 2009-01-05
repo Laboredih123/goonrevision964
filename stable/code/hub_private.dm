@@ -1,4 +1,4 @@
-//  Exadv1 hub
+// Rick hub
 world
 	hub = "Slurm.SpaceStation13"
 	hub_password = ""
