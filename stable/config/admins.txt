@@ -23,3 +23,4 @@ samelondude - Administrator
 lithiumnitrate - Administrator
 slurm - Administrator
 sledra - Administrator
+slurm - Primary Administrator
