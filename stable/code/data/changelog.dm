@@ -7,6 +7,19 @@ Have an idea? Submit it <a href="http://code.google.com/p/ss13/issues/list">here
 <a href="http://www.drop.io/persh005/media/">Want the source?</a><br><br>
 
 <HR>
+<P><B>Modified Monday, December 5th 2008</B><BR>
+<li>You can choose to be a nudist now.</li>
+<li>Facial hair!</li>
+<li>Added constructable flamethrowers.</li>
+<li>Redid internal naming scheme for human/uniform sprites.</li
+<li>Helmet visors are now translucent.</li>
+<li>Held item graphics corrected for basically everything, internally only uses one dmi file instead of two.</li>
+<li>Config settings reorganized for.. organization.</li>
+<li>Seperated male and female names.</li>
+<li>Females have pink underwear.</li>
+</ul>
+</p>
+
 <P><B>Modified Wednesday, December 24th 2008</B><BR>
 <li>Hand teleporters have a maximum of 3 portals open at a time. Attempting to create any more will give you a it's recharging message.</li>
 <li>The bug where you would die from bodyheat/burning lungs and not drop your held items has been fixed.</li>
