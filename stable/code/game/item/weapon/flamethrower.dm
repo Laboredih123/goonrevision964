@@ -90,7 +90,8 @@
 			s_istate = "flamethrower_1"
 			force = 17
 			damtype = "fire"
-			spawn(0)	src.process()
+			spawn(0)
+				src.process()
 		else
 			icon_state = "flamethrower_loaded_0"
 			s_istate = "flamethrower_0"
