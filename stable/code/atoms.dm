@@ -268,14 +268,18 @@
 	var/obj/item/weapon/card/id/wear_id = null
 	var/obj/item/weapon/r_store = null
 	var/obj/item/weapon/l_store = null
+	
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
+	
 	var/now_pushing = null
 	var/t_plasma = 0.0
 	var/t_oxygen = 0.0
 	var/last_b_state = 1.0
-	var/image/face = null
-	var/image/face2 = null
+	
+	var/image/face_standing = null
+	var/image/face_lying = null
+	
 	var/h_style_r = "hair_a"
 	weight = 2500000.0
 	var/cameraFollow = null

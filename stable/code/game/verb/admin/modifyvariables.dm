@@ -74,7 +74,7 @@
 			usr << "If a direction, direction is: [dir]"
 
 	var/class = input("What kind of variable?","Variable Type",default) in list("text",
-		"num","type","reference","icon","file","restore to default","cancel")
+		"num","type","reference","mob reference", "icon","file","restore to default","cancel")
 
 	switch(class)
 		if("cancel")
@@ -98,6 +98,10 @@
 		if("reference")
 			O.vars[variable] = input("Select reference:","Reference",\
 				O.vars[variable]) as mob|obj|turf|area in world
+
+		if("mob reference")
+			O.vars[variable] = input("Select reference:","Reference",\
+				O.vars[variable]) as mob in world
 
 		if("file")
 			O.vars[variable] = input("Pick file:","File",O.vars[variable]) \
