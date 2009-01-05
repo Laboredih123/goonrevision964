@@ -1331,6 +1331,11 @@
 	var/icon/hair_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.h_style_r]_l")
 	hair_s.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
 	hair_l.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
+	
+	var/icon/facial_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.f_style_r]_s")
+	var/icon/facial_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.f_style_r]_l")
+	facial_s.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
+	facial_l.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
 
 	var/icon/mouth_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_s")
 	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_l")
@@ -1339,6 +1344,8 @@
 	eyes_l.Blend(hair_l, ICON_OVERLAY)
 	eyes_s.Blend(mouth_s, ICON_OVERLAY)
 	eyes_l.Blend(mouth_l, ICON_OVERLAY)
+	eyes_s.Blend(facial_s, ICON_OVERLAY)
+	eyes_l.Blend(facial_l, ICON_OVERLAY)
 
 	src.face_standing = new /image()
 	src.face_lying = new /image()
@@ -1347,6 +1354,8 @@
 
 	del(mouth_l)
 	del(mouth_s)
+	del(facial_l)
+	del(facial_s)
 	del(hair_l)
 	del(hair_s)
 	del(eyes_l)

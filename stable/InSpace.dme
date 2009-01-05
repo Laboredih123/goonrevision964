@@ -82,6 +82,7 @@
 #include "code\game\game_mode.dm"
 #include "code\game\h_sandbox.dm"
 #include "code\game\hologram.dm"
+#include "code\game\hud.dm"
 #include "code\game\instructions.dm"
 #include "code\game\items.dm"
 #include "code\game\jobs.dm"

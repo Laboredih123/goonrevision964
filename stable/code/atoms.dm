@@ -246,6 +246,7 @@
 	var/g_hair = 0.0
 	var/b_hair = 0.0
 	var/h_style = "Short Hair (M)"
+	var/f_style = "Shaved"
 	var/nr_hair = 0.0
 	var/ng_hair = 0.0
 	var/nb_hair = 0.0
@@ -281,6 +282,8 @@
 	var/image/face_lying = null
 	
 	var/h_style_r = "hair_a"
+	var/f_style_r = "bald"
+	
 	weight = 2500000.0
 	var/cameraFollow = null
 

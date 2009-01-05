@@ -19,6 +19,9 @@
 	src.zone_sel = new /obj/screen/zone_sel( null )
 
 	UpdateClothing()
+	
+	src.mach.dir = NORTH
+	
 	src.throw_icon.icon_state = "act_throw_off"
 	src.oxygen.icon_state = "oxy0"
 	src.i_select.icon_state = "selector"
