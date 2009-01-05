@@ -1017,8 +1017,10 @@
 			r_facial = 0.0
 			g_facial = 0.0
 			b_facial = 0.0
-			h_style = "Short Hair (M)"
+			h_style = "Short Hair"
 			f_style = "Shaved"
+			h_style_r = "hair_a"
+			f_style_r = "bald"
 			nr_hair = 0.0
 			ng_hair = 0.0
 			nb_hair = 0.0

@@ -245,7 +245,7 @@
 	var/r_hair = 0.0
 	var/g_hair = 0.0
 	var/b_hair = 0.0
-	var/h_style = "Short Hair (M)"
+	var/h_style = "Short Hair"
 	var/r_facial = 0.0
 	var/g_facial = 0.0
 	var/b_facial = 0.0
