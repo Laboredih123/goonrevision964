@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE:
+DIR: code
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -45,6 +51,7 @@
 #include "code\globals.dm"
 #include "code\helpers.dm"
 #include "code\hexadecimal.dm"
+#include "code\hub_private.dm"
 #include "code\inverthtml.dm"
 #include "code\logging.dm"
 #include "code\setup.dm"

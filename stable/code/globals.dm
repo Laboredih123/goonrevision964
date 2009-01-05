@@ -194,9 +194,9 @@ world
 	view = "15x15"
 
 //  Ricks hub
-	hub = "Slurm.SpaceStation13"
-	hub_password = ""
-	name = "Goonstation 13"
+//	hub = "Slurm.SpaceStation13"
+//	hub_password = ""
+//	name = "Goonstation 13"
 
 //  Exadv1 hub
 //	hub = "Exadv1.spacestation13"
