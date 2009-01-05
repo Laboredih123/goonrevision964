@@ -1340,8 +1340,8 @@
 	
 	var/icon/facial_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.f_style_r]_s")
 	var/icon/facial_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.f_style_r]_l")
-	facial_s.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
-	facial_l.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
+	facial_s.Blend(rgb(src.r_facial, src.g_facial, src.b_facial), ICON_ADD)
+	facial_l.Blend(rgb(src.r_facial, src.g_facial, src.b_facial), ICON_ADD)
 
 	var/icon/mouth_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_[g]_s")
 	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth__[g]_l")

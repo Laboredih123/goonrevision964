@@ -1,7 +1,7 @@
 // Double clicking turfs to move to nearest camera
 
-/turf/DblClick()
-	if(usr.stat || !istype(usr, /mob/ai))
+/turf/proc/move_camera_by_click()
+	if (usr.stat)
 		return ..()
 	if (world.time <= usr:lastDblClick+2)
 		return ..()

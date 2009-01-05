@@ -748,19 +748,7 @@
 			else
 		if (istype(src.occupant, /mob/human))
 			var/mob/human/H = src.occupant
-			if (reg_dna[text("[]", H.primary.uni_identity)])
-				H.rname = reg_dna[text("[]", H.primary.uni_identity)]
-			else
-				var/i
-				while(!i)
-					var/randomname = capitalize(pick(first_names) + " " + capitalize(pick(last_names)))
-					if (findname(randomname))
-						continue
-					else
-						H.rname = randomname
-						i++
-				reg_dna[text("[]", H.primary.uni_identity)] = H.rname
-			H << text("\red <B>Your name is now [].</B>", H.rname)
+
 			var/speak = (length(H.primary.struc_enzyme) >= 25 ? hex2num(copytext(H.primary.struc_enzyme, 22, 25)) : 9999)
 			var/ears = (length(H.primary.struc_enzyme) >= 10 ? hex2num(copytext(H.primary.struc_enzyme, 7, 10)) : 9999)
 			var/vision = (length(H.primary.struc_enzyme) >= 16 ? hex2num(copytext(H.primary.struc_enzyme, 13, 16)) : 1)
@@ -839,6 +827,24 @@
 			H.s_tone = H.ns_tone
 			H.update_face()
 			H.update_body()
+			
+			if (reg_dna[H.primary.uni_identity])
+				H.rname = reg_dna[H.primary.uni_identity]
+			else
+				var/i
+				while (!i)
+					var/randomname
+					if (src.gender == "male")
+						randomname = capitalize(pick(first_names_male) + " " + capitalize(pick(last_names)))
+					else
+						randomname = capitalize(pick(first_names_female) + " " + capitalize(pick(last_names)))
+					if (findname(randomname))
+						continue
+					else
+						H.rname = randomname
+						i++
+				reg_dna[H.primary.uni_identity] = H.rname
+			H << text("\red <B>Your name is now [].</B>", H.rname)
 	return
 
 /obj/machinery/restruct/verb/move_inside()

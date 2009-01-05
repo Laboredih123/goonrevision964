@@ -22,7 +22,10 @@
 		src.hud_used = main_hud1
 	src.next_move = 1
 	if (!src.rname)
-		src.rname = capitalize(pick(first_names) + " " + capitalize(pick(last_names)))
+		if (src.gender == "male")
+			src.rname = capitalize(pick(first_names_male) + " " + capitalize(pick(last_names)))
+		else
+			src.rname = capitalize(pick(first_names_female) + " " + capitalize(pick(last_names)))
 
 	src.sight |= SEE_SELF
 

@@ -483,7 +483,6 @@
 			if(seccomp!=null)
 				seccomp.drawmap(usr)
 			else
-
 				usr.clearmap()
 
 		if("other")
@@ -561,33 +560,24 @@
 			usr.next_move = world.time + 20
 			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
 				for(var/obj/O in usr.requests)
-					//O = null
 					del(O)
-					//Foreach goto(557)
 				for(var/obj/item/weapon/grab/G in usr.grabbed_by)
 					if (G.state == 1)
-						//G = null
 						del(G)
 					else
 						if (G.state == 2)
 							if (prob(25))
 								for(var/mob/O in viewers(usr, null))
 									O.show_message(text("\red [] has broken free of []'s grip!", usr, G.assailant), 1)
-									//Foreach goto(681)
-								//G = null
 								del(G)
 						else
 							if (G.state == 3)
 								if (prob(5))
 									for(var/mob/O in viewers(usr, null))
 										O.show_message(text("\red [] has broken free of []'s headlock!", usr, G.assailant), 1)
-										//Foreach goto(762)
-									//G = null
 									del(G)
-					//Foreach goto(602)
 				for(var/mob/O in viewers(usr, null))
 					O.show_message(text("\red <B>[] resists!</B>", usr), 1)
-					//Foreach goto(824)
 		else
 			src.DblClick()
 	return
@@ -785,6 +775,9 @@
 		F["nr_hair"] >> src.nr_hair
 		F["ng_hair"] >> src.ng_hair
 		F["nb_hair"] >> src.nb_hair
+		F["nr_facial"] >> src.nr_facial
+		F["ng_facial"] >> src.ng_facial
+		F["nb_facial"] >> src.nb_facial
 		F["ns_tone"] >> src.ns_tone
 		F["h_style"] >> src.h_style
 		F["h_style_r"] >> src.h_style_r
@@ -821,7 +814,10 @@
 			if (t1 == "input")
 				t1 = input("Please select a name:", "Character Generation", null, null)  as text
 			if (t1 == "random")
-				t1 = capitalize(pick(first_names) + " " + capitalize(pick(last_names)))
+				if (src.gender == "male")
+					t1 = capitalize(pick(first_names_male) + " " + capitalize(pick(last_names)))
+				else
+					t1 = capitalize(pick(first_names_female) + " " + capitalize(pick(last_names)))
 			if ((!( src.start ) && t1))
 				if (length(t1) >= 26)
 					t1 = copytext(t1, 1, 26)
@@ -857,6 +853,24 @@
 				t1 = input("Please select blue hair component: 1-255", "Character Generation", null, null)  as text
 			if ((!( src.start ) && t1))
 				src.nb_hair = max(min(round(text2num(t1)), 255), 1)
+		else if (findtext(href, "nr_facial", 1, null))
+			var/t1 = href_list["nr_facial"]
+			if (t1 == "input")
+				t1 = input("Please select red facial component: 1-255", "Character Generation", null, null)  as text
+			if ((!( src.start ) && t1))
+				src.nr_facial = max(min(round(text2num(t1)), 255), 1)
+		else if (findtext(href, "ng_facial", 1, null))
+			var/t1 = href_list["ng_facial"]
+			if (t1 == "input")
+				t1 = input("Please select green facial component: 1-255", "Character Generation", null, null)  as text
+			if ((!( src.start ) && t1))
+				src.ng_facial = max(min(round(text2num(t1)), 255), 1)
+		else if (findtext(href, "nb_facial", 1, null))
+			var/t1 = href_list["nb_facial"]
+			if (t1 == "input")
+				t1 = input("Please select blue facial component: 1-255", "Character Generation", null, null)  as text
+			if ((!( src.start ) && t1))
+				src.nb_facial = max(min(round(text2num(t1)), 255), 1)
 		else if (findtext(href, "r_eyes", 1, null))
 			var/t1 = href_list["r_eyes"]
 			if (t1 == "input")
@@ -885,13 +899,13 @@
 		else if (findtext(href, "h_style", 1, null))
 			var/t1 = href_list["h_style"]
 			if (t1 == "input")
-				t1 = input("Please select hair style", "Character Generation", null, null)  as null|anything in list( "Cut Hair", "Short Hair (M)", "Long Hair (F)", "Bald" )
+				t1 = input("Please select hair style", "Character Generation", null, null)  as null|anything in list( "Cut Hair", "Short Hair", "Long Hair", "Bald" )
 			if ((!( src.start ) && t1))
 				src.h_style = t1
 				switch(t1)
-					if("Short Hair (M)")
+					if("Short Hair")
 						src.h_style_r = "hair_a"
-					if("Long Hair (F)")
+					if("Long Hair")
 						src.h_style_r = "hair_b"
 					if("Cut Hair")
 						src.h_style_r = "hair_c"
@@ -997,11 +1011,17 @@
 			r_hair = 0.0
 			g_hair = 0.0
 			b_hair = 0.0
+			r_facial = 0.0
+			g_facial = 0.0
+			b_facial = 0.0
 			h_style = "Short Hair (M)"
 			f_style = "Shaved"
 			nr_hair = 0.0
 			ng_hair = 0.0
 			nb_hair = 0.0
+			nr_facial = 0.0
+			ng_facial = 0.0
+			nb_facial = 0.0
 			ns_tone = 0.0
 			r_eyes = 0.0
 			g_eyes = 0.0

@@ -88,6 +88,9 @@
 		M.r_hair = M.nr_hair
 		M.b_hair = M.nb_hair
 		M.g_hair = M.ng_hair
+		M.r_facial = M.nr_facial
+		M.b_facial = M.nb_facial
+		M.g_facial = M.ng_facial
 		M.s_tone = M.ns_tone
 		var/t1 = rand(1000, 1500)
 		dna_ident += t1

@@ -324,7 +324,7 @@
 			var/d = G.plasma / 2
 			d = min(abs(user.health + 100), d, 25)
 			user.fireloss += d
-			user.health = 100 - user.oxyloss - user.toxloss - user.fireloss - user.bruteloss
+			user.updatehealth()
 		return (G.oxygen >= 75 ? 0.5 : 0)
 	else
 		if (G.oxygen >= 75)
@@ -2055,7 +2055,6 @@
 	return
 
 /obj/window/New(Loc,re=0)
-
 	..()
 
 	if(re)	reinf = re
@@ -2077,7 +2076,6 @@
 	..()
 
 /obj/window/Move()
-
 	var/turf/sl = src.loc
 	..()
 	src.dir = src.ini_dir
@@ -2086,11 +2084,9 @@
 	return
 
 /atom/proc/meteorhit(obj/meteor as obj)
-
 	return
 
 /atom/proc/allow_drop()
-
 	return 1
 
 /atom/proc/CheckPass(atom/O as mob|obj|turf|area)
@@ -2100,48 +2096,38 @@
 	return (!O.density || !src.density)
 
 /atom/proc/CheckExit()
-
 	return 1
 
 /atom/proc/HasEntered(atom/movable/AM as mob|obj)
-
 	return
 
 /atom/proc/HasProximity(atom/movable/AM as mob|obj)
-
 	return
 
 /atom/movable/overlay/attackby(a, b)
-
 	if (src.master)
 		return src.master.attackby(a, b)
 	return
 
 /atom/movable/overlay/attack_paw(a, b, c)
-
 	if (src.master)
 		return src.master.attack_paw(a, b, c)
 	return
 
 /atom/movable/overlay/attack_hand(a, b, c)
-
 	if (src.master)
 		return src.master.attack_hand(a, b, c)
 	return
 
 /atom/movable/overlay/New()
-
 	for(var/x in src.verbs)
 		src.verbs -= x
 	return
 
 /turf/CheckPass(atom/O as mob|obj|turf|area)
-
 	return !( src.density )
-	return
 
 /turf/New()
-
 	..()
 	for(var/atom/movable/AM as mob|obj in src)
 		spawn( 0 )

@@ -1,4 +1,4 @@
-/obj/hud/New()
+obj/hud/New()
 	src.instantiate()
 	..()
 	return

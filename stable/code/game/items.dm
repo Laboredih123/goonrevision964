@@ -3225,7 +3225,6 @@
 	return
 
 /obj/item/weapon/igniter/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
 	if ((istype(W, /obj/item/weapon/radio/signaler) && !( src.status )))
 		var/obj/item/weapon/radio/signaler/S = W
 		if (!( S.b_stat ))
@@ -3631,7 +3630,7 @@
 
 	var/time = time2text(world.realtime,"hh:mm:ss")
 
-	lastsignalers.Add("[time] <B>:</B> [usr] used [src] @ location [locate(src.loc)]: [freq]/[code]")
+	lastsignalers.Add("[time] <B>:</B> [usr] used [src] @ location ([src.loc.x],[src.loc.y],[src.loc.z]) <B>:</B> [freq]/[code]")
 
 	for(var/obj/item/weapon/radio/R in world)
 		if (R.accept_rad(src))
@@ -4677,6 +4676,40 @@
 	usr << text("\icon[] [] contains [] units of fuel left!", src, src.name, src.weldfuel)
 	return
 
+/obj/item/weapon/weldingtool/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	var/obj/item/weapon/igniter/I = W
+	if (status == 0 && istype(W,/obj/item/weapon/screwdriver))
+		status = 1
+		user << "\blue The welder can now be attached and modified."
+	else if (status == 1 && istype(W,/obj/item/weapon/rods))
+		var/obj/item/weapon/rods/R = W
+		R.amount = R.amount - 1
+		if (R.amount == 0)
+			del(R)
+		status = 2
+		welding = 0
+		src.force = 3
+		src.damtype = "brute"
+		name =  "Welder/Rods Assembly"
+		icon_state = "welder2"
+		s_istate = "welder"
+	else if (status == 2 && istype(I,/obj/item/weapon/igniter) && !I.status)
+		del(I)
+		status = 3
+		name = "Welder/Rods/Igniter Assembly"
+		icon_state = "welder3"
+	else if (status == 3 && istype(W,/obj/item/weapon/screwdriver))
+		var/obj/item/weapon/flamethrower/F = new /obj/item/weapon/flamethrower(user)
+		if (user.r_hand == src)
+			user.u_equip(src)
+			user.r_hand = F
+		else
+			user.u_equip(src)
+			user.l_hand = F
+		F.layer = 20
+		del(src)
+		return
+
 /obj/item/weapon/weldingtool/afterattack(O as obj, mob/user as mob)
 
 	if (src.welding)
@@ -4688,13 +4721,13 @@
 			src.damtype = "brute"
 			src.icon_state = "welder"
 		var/turf/location = user.loc
-		if (!( istype(location, /turf) ))
+		if (!istype(location, /turf))
 			return
 		location.firelevel = location.poison + 1
 	return
 
 /obj/item/weapon/weldingtool/attack_self(mob/user as mob)
-
+	if(status > 1)	return
 	src.welding = !( src.welding )
 	if (src.welding)
 		if (src.weldfuel <= 0)
@@ -4740,33 +4773,27 @@
 	return
 
 /obj/manifest/proc/manifest()
-
 	var/dat = "<B>Crew Manifest</B>:<BR>"
 	for(var/mob/human/M in world)
 		if (M.start)
 			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.wear_id, /obj/item/weapon/card/id) ? text("[]", M.wear_id.assignment) : "Unknown Position"))
-		//Foreach goto(23)
 	var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
 	P.info = dat
 	P.name = "paper- 'Crew Manifest'"
 	//SN src = null
 	del(src)
 	return
-	return
 
 /obj/screen/close/DblClick()
-
 	if (src.master)
 		src.master:close(usr)
 	return
 
 /obj/screen/storage/attackby(W, mob/user as mob)
-
 	src.master.attackby(W, user)
 	return
 
 /obj/bedsheetbin/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
 	if (istype(W, /obj/item/weapon/bedsheet))
 		//W = null
 		del(W)
@@ -4774,17 +4801,13 @@
 	return
 
 /obj/bedsheetbin/attack_paw(mob/user as mob)
-
 	return src.attack_hand(user)
-	return
 
 /obj/bedsheetbin/attack_hand(mob/user as mob)
-
 	if (src.amount >= 1)
 		src.amount--
 		new /obj/item/weapon/bedsheet( src.loc )
 		add_fingerprint(user)
-	return
 
 /obj/bedsheetbin/examine()
 	set src in oview(1)

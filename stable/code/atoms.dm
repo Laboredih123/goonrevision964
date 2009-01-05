@@ -246,10 +246,16 @@
 	var/g_hair = 0.0
 	var/b_hair = 0.0
 	var/h_style = "Short Hair (M)"
+	var/r_facial = 0.0
+	var/g_facial = 0.0
+	var/b_facial = 0.0
 	var/f_style = "Shaved"
 	var/nr_hair = 0.0
 	var/ng_hair = 0.0
 	var/nb_hair = 0.0
+	var/nr_facial = 0.0
+	var/ng_facial = 0.0
+	var/nb_facial = 0.0
 	var/ns_tone = 0.0
 	var/r_eyes = 0.0
 	var/g_eyes = 0.0
@@ -269,21 +275,21 @@
 	var/obj/item/weapon/card/id/wear_id = null
 	var/obj/item/weapon/r_store = null
 	var/obj/item/weapon/l_store = null
-	
+
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
-	
+
 	var/now_pushing = null
 	var/t_plasma = 0.0
 	var/t_oxygen = 0.0
 	var/last_b_state = 1.0
-	
+
 	var/image/face_standing = null
 	var/image/face_lying = null
-	
+
 	var/h_style_r = "hair_a"
 	var/f_style_r = "bald"
-	
+
 	weight = 2500000.0
 	var/cameraFollow = null
 
@@ -2062,6 +2068,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "welder"
 	var/welding = 0.0
 	var/weldfuel = 20.0
+	var/status = 0	//flamethrower construction :shobon:
 	flags = 322.0
 	force = 3.0
 	throwforce = 5.0
