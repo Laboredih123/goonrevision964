@@ -17,6 +17,7 @@ Have an idea? Submit it <a href="http://code.google.com/p/ss13/issues/list">here
 <li>Config settings reorganized for.. organization.</li>
 <li>Seperated male and female names.</li>
 <li>Females have pink underwear.</li>
+<li>Guests can no longer save/load profiles, as this just created useless profiles that weren't used again.</li>
 </ul>
 </p>
 
