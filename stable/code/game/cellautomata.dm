@@ -107,14 +107,14 @@
 
 
 	// *****
-	var/motd = file2text("motd.txt")
-	auth_motd = file2text("motd-auth.txt")
-	no_auth_motd = file2text("motd-noauth.txt")
+	var/motd = file2text("config/motd.txt")
+	auth_motd = file2text("config/motd-auth.txt")
+	no_auth_motd = file2text("config/motd-noauth.txt")
 	if (motd)
 		join_motd = motd
 
 
-	var/ad_text = file2text("admins.txt")
+	var/ad_text = file2text("config/admins.txt")
 	var/list/L = dd_text2list(ad_text, "\n")
 	for(var/t in L)
 		if (t)
@@ -127,7 +127,7 @@
 				admins[text("[]", m_key)] = text("[]", a_lev)
 
 	config = new /datum/configuration()
-	config.load("config.txt")
+	config.load("config/config.txt")
 	// apply some settings from config..
 	abandon_allowed = config.respawn
 
@@ -151,13 +151,11 @@
 	plmaster.icon = 'plasma.dmi'
 	plmaster.icon_state = "onturf"
 	plmaster.layer = FLY_LAYER
-	plmaster.mouse_opacity = 0
 
 	slmaster = new /obj/overlay(  )
 	slmaster.icon = 'plasma.dmi'
 	slmaster.icon_state = "sl_gas"
 	slmaster.layer = FLY_LAYER
-	slmaster.mouse_opacity = 0
 
 	cellcontrol = new /datum/control/cellular()
 	spawn (0)

@@ -242,17 +242,13 @@
 			src.overlays += image("icon" = 'monkey.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = src.layer)
 		src.wear_mask.screen_loc = "2,3"
 	if (src.r_hand)
-		var/t1 = src.r_hand.s_istate
-		if (!( t1 ))
-			t1 = src.r_hand.icon_state
-		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = t1, "layer" = src.layer)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = WEST, "icon_state" = src.r_hand.s_istate ? src.r_hand.s_istate : src.r_hand.icon_state, "layer" = src.layer)
 		src.r_hand.screen_loc = "1,2"
+	
 	if (src.l_hand)
-		var/t1 = src.l_hand.s_istate
-		if (!( t1 ))
-			t1 = src.l_hand.icon_state
-		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = t1, "layer" = src.layer)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = EAST, "icon_state" = src.l_hand.s_istate ? src.l_hand.s_istate : src.l_hand.icon_state, "layer" = src.layer)
 		src.l_hand.screen_loc = "3,2"
+	
 	if (src.back)
 		if (!( src.lying ))
 			src.overlays += image("icon" = 'monkey.dmi', "icon_state" = "back", "layer" = src.layer)

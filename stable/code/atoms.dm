@@ -219,7 +219,8 @@
 	var/be_music = 0.0
 	var/music_lastplayed = "null"
 
-	var/be_syndicate = "1"
+	var/be_nudist = 0
+	var/be_syndicate = 1
 	var/const/blindness = 1
 	var/const/deafness = 2
 	var/const/muteness = 4
@@ -1780,6 +1781,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 		WIRE_RECEIVE = 2
 		WIRE_TRANSMIT = 4
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
+
 /obj/item/weapon/radio/beacon
 	name = "Tracking Beacon"
 	icon_state = "beacon"

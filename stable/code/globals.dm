@@ -106,7 +106,7 @@ var
 	going = 1.0
 	master_mode = "random"//"extended"
 
-	persistent_file = "mode.txt"
+	persistent_file = "data/mode.txt"
 
 	nuke_code = null
 	poll_controller = null

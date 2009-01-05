@@ -1117,6 +1117,7 @@
 		F["be_stut"] >> src.be_stut
 		F["be_music"] >> src.be_music
 		F["be_syndicate"] >> src.be_syndicate
+		F["be_nudist"] >> src.be_nudist
 		return 1
 	else
 		return 0
@@ -1181,7 +1182,7 @@
 		else if (findtext(href, "ns_tone", 1, null))
 			var/t1 = href_list["ns_tone"]
 			if (t1 == "input")
-				t1 = input("Please select skin tone level: 1-220 (1=albino,35=caucasian, 150=black220='very' black)", "Character Generation", null, null)  as text
+				t1 = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation", null, null)  as text
 			if ((!( src.start ) && t1))
 				src.ns_tone = max(min(round(text2num(t1)), 220), 1)
 				src.ns_tone =  -src.ns_tone + 35
@@ -1213,12 +1214,18 @@
 					else
 						src.h_style_r = "bald"
 		else if (findtext(href, "gender", 1, null))
+			var/g
+
 			if (src.gender == "male")
 				src.gender = "female"
+				g = "f"
 			else
 				src.gender = "male"
-			src.stand_icon = new /icon( 'human.dmi', text("[]", src.gender) )
-			src.lying_icon = new /icon( 'human.dmi', text("[]-d", src.gender) )
+				g = "m"
+
+			src.stand_icon = new /icon('human.dmi', "body_[g]_s")
+			src.lying_icon = new /icon('human.dmi', "body_[g]_l")
+
 		else if (findtext(href, "n_gl", 1, null))
 			src.need_gl = !( src.need_gl )
 		else if (findtext(href, "b_ep", 1, null))
@@ -1229,12 +1236,14 @@
 			src.be_cough = !( src.be_cough )
 		else if (findtext(href, "b_stut", 1, null))
 			src.be_stut = !( src.be_stut )
+		else if (!IsGuestKey(src.key) && findtext(href, "b_nudist", 1, null))
+			src.be_nudist = !src.be_nudist
 		else if (findtext(href, "b_music", 1, null))
-			src.be_music = !( src.be_music )
+			src.be_music = !src.be_music
 		else if (findtext(href, "b_syndicate", 1, null))
 			src.be_syndicate = !( src.be_syndicate )
-		else if (findtext(href, "save", 1, null))
-			var/savefile/F = new /savefile( text("players/[].sav", src.ckey) )
+		else if (!IsGuestKey(src.key) && findtext(href, "save", 1, null))
+			var/savefile/F = new /savefile("players/[src.ckey].sav")
 			F["version"] << savefile_ver
 			F["rname"] << src.rname
 			F["gender"] << src.gender
@@ -1259,7 +1268,8 @@
 			F["be_stut"] << src.be_stut
 			F["be_music"] << src.be_music
 			F["be_syndicate"] << src.be_syndicate
-		else if (findtext(href, "load", 1, null))
+			F["be_nudist"] << src.be_nudist
+		else if (!IsGuestKey(src.key) && findtext(href, "load", 1, null))
 			if (!src.savefile_load(0))
 				alert("You do not have a savefile.")
 
@@ -1276,6 +1286,7 @@
 			be_cough = 0
 			be_tur = 0
 			be_stut = 0
+			be_nudist = 0
 			be_music = 1
 			be_syndicate = 1
 			r_hair = 0.0
@@ -1807,17 +1818,13 @@
 			src.overlays += image("icon" = 'ghost.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = src.layer)
 		src.wear_mask.screen_loc = "2,3"
 	if (src.r_hand)
-		var/t1 = src.r_hand.s_istate
-		if (!( t1 ))
-			t1 = src.icon_state
-		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = t1, "layer" = src.layer)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = WEST, "icon_state" = src.r_hand.s_istate ? src.r_hand.s_istate : src.icon_state, "layer" = src.layer)
 		src.r_hand.screen_loc = "1,2"
+
 	if (src.l_hand)
-		var/t1 = src.l_hand.s_istate
-		if (!( t1 ))
-			t1 = src.icon_state
-		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = t1, "layer" = src.layer)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = EAST, "icon_state" = src.l_hand.s_istate ? src.l_hand.s_istate : src.icon_state, "layer" = src.layer)
 		src.l_hand.screen_loc = "3,2"
+
 	if (src.client)
 		src.client.screen -= src.contents
 		src.client.screen += src.contents
@@ -2154,7 +2161,7 @@
 	if (crban_keylist.Find(ckey))
 		src << crban_bannedmsg
 		world.log_access("Failed Login: [src] Reason: Key banned")
-		if (key!="Guest")
+		if (!IsGuestKey(key))
 			var/reason = "Key banned (Multikey)"
 			messageadmins("\blue[src] was autobanned. Reason: [reason]")
 			crban_fullbanclient(src, reason)	//No reason because they'll already have one if they're keybanned

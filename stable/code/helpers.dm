@@ -303,3 +303,16 @@
 			py+=sdy
 			line+=locate(px,py,M.z)
 	return line
+	
+proc/IsGuestKey(key)
+	if (findText(key, "Guest-", 1, 1) != 1)
+		return 0
+	
+	var/i, ch, len = length(key)
+	
+	for (i = 7, i <= len, ++i)
+		ch = text2ascii(key, i)
+		if (ch < 48 || ch > 57)
+			return 0
+	
+	return 1

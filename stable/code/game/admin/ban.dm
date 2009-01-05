@@ -192,7 +192,7 @@ expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body
 	C.Export(S)
 
 /proc/crban_loadbanfile()
-	var/savefile/S=new("cr_full.ban")
+	var/savefile/S=new("data/cr_full.ban")
 	S["key[0]"] >> crban_keylist
 	world.log_admin("Loading crban_keylist")
 	S["reason[0]"] >> crban_reason
@@ -227,7 +227,7 @@ expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body
 		world.log_admin("crban_unbanned was empty")
 
 /proc/crban_savebanfile()
-	var/savefile/S=new("cr_full.ban")
+	var/savefile/S=new("data/cr_full.ban")
 	S["key[0]"] << crban_keylist
 	S["reason[0]"] << crban_reason
 	S["time[0]"] << crban_time
@@ -272,7 +272,7 @@ expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body
 	if (!. && crban_preventbannedclients)
 		//// Key check
 		if (crban_keylist.Find(ckey(key)))
-			if (key!="Guest")
+			if (!IsGuestKey(key))
 				crban_IP(ip)
 			// Disallow login
 			src << crban_bannedmsg
@@ -331,7 +331,7 @@ expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body
 
 /client/verb/savebans()
 	set category = "Debug"
-	var/savefile/S=new("cr_full.ban")
+	var/savefile/S=new("data/cr_full.ban")
 	world << "Saving to [S]"
 	S["key[0]"] << crban_keylist
 	world << "Saving crban_keylist"
@@ -343,7 +343,7 @@ expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body
 
 /client/verb/loadbans()
 	set category = "Debug"
-	var/savefile/S=new("cr_full.ban")
+	var/savefile/S=new("data/cr_full.ban")
 	world << "Loading from [S]"
 	S["key[0]"] >> crban_keylist
 	world << "Loading crban_keylist"

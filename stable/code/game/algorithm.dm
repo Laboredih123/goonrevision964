@@ -57,6 +57,10 @@
 	dat += text(" <b><font color=\"#[]0000\">Red</font></b> - <a href='byond://?src=\ref[];r_eyes=input'>[]</a>", num2hex(src.r_eyes, 2), src, src.r_eyes)
 	dat += text(" <b><font color=\"#00[]00\">Green</font></b> - <a href='byond://?src=\ref[];g_eyes=input'>[]</a>", num2hex(src.g_eyes, 2), src, src.g_eyes)
 	dat += text(" <b><font color=\"#0000[]\">Blue</font></b> - <a href='byond://?src=\ref[];b_eyes=input'>[]</a>", num2hex(src.b_eyes, 2), src, src.b_eyes)
+	
+	if (!IsGuestKey(src.key))
+		dat += "<br> <b>Be a nudist?:</b> <a href =\"byond://?src=\ref[src];b_nudist=1\"><b>[(src.be_nudist ? "Yes" : "No")]</b></a><br>"
+	
 	dat += "<hr><b>Disabilities</b><br>"
 	dat += "<hr><i>It is more than likely pretty fucking stupid to enable any of these.</i><br>"
 	dat += text("Need Glasses: <a href=\"byond://?src=\ref[];n_gl=1\"><b>[]</b></a><br>", src, (src.need_gl ? "Yes" : "No"))
@@ -67,12 +71,15 @@
 	dat += "<hr>"
 //	dat += text("Music Toggle: <a href =\"byond://?src=\ref[];b_music=1\"><b>[]</b></a><br>", src, (src.be_music ? "Yes" : "No"))
 	dat += text("Be syndicate?: <a href =\"byond://?src=\ref[];b_syndicate=1\"><b>[]</b></a><br>", src, (src.be_syndicate ? "Yes" : "No"))
-	dat += text("<a href='byond://?src=\ref[];load=1'>Load Setup</a><br>", src)
-	dat += text("<a href='byond://?src=\ref[];save=1'>Save Setup</a><br>", src)
-	dat += text("<a href='byond://?src=\ref[];reset_all=1'>Reset Setup</a><br>", src)
+	
+	if (!IsGuestKey(src.key))
+		dat += "<a href='byond://?src=\ref[src];load=1'>Load Setup</a><br>"
+		dat += "<a href='byond://?src=\ref[src];save=1'>Save Setup</a><br>"
+	
+	dat += "<a href='byond://?src=\ref[src];reset_all=1'>Reset Setup</a><br>"
 	dat += "</body></html>"
+	
 	src << browse(dat, "window=mob_occupations;size=300x640")
-	return
 
 /mob/human/proc/SetChoices(occ)
 

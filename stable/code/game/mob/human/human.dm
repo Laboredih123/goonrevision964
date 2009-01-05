@@ -1,5 +1,5 @@
 /mob/human/New()
-	spawn(1)
+	spawn (1)
 		var/obj/item/weapon/organ/external/chest/chest = new /obj/item/weapon/organ/external/chest( src )
 		chest.owner = src
 		var/obj/item/weapon/organ/external/diaper/diaper = new /obj/item/weapon/organ/external/diaper( src )
@@ -22,6 +22,7 @@
 		l_foot.owner = src
 		var/obj/item/weapon/organ/external/r_foot/r_foot = new /obj/item/weapon/organ/external/r_foot( src )
 		r_foot.owner = src
+		
 		src.organs["chest"] = chest
 		src.organs["diaper"] = diaper
 		src.organs["head"] = head
@@ -33,16 +34,23 @@
 		src.organs["r_leg"] = r_leg
 		src.organs["l_foot"] = l_foot
 		src.organs["r_foot"] = r_foot
-		if ((src.gender != "male" && src.gender != "female"))
+		
+		var/g = "m"
+		if (src.gender == "male")
+			g = "m"
+		else if (src.gender == "female")
+			g = "f"
+		else
 			src.gender = "male"
-		src.stand_icon = new /icon( 'human.dmi', text("[]", src.gender) )
-		src.lying_icon = new /icon( 'human.dmi', text("[]-d", src.gender) )
+			g = "m"
+		
+		src.stand_icon = new /icon('human.dmi', "body_[g]_s")
+		src.lying_icon = new /icon('human.dmi', "body_[g]_l")
 		src.icon = src.stand_icon
+		
 		src << "\blue Your icons have been generated!"
-
+		
 		UpdateClothing()
-		return
-	return
 
 /mob/human/Bump(atom/movable/AM as mob|obj, yes)
 	spawn( 0 )
@@ -1006,21 +1014,13 @@
 		src.l_store.screen_loc = "4,1"
 	if (src.r_store)
 		src.r_store.screen_loc = "5,1"
+	
 	if (src.r_hand)
-
-		var/t1 = src.r_hand.s_istate
-		if (!t1)
-			t1 = src.r_hand.icon_state
-		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = t1, "layer" = MOB_LAYER)
-
-
-
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = WEST, "icon_state" = src.r_hand.s_istate ? src.r_hand.s_istate : src.r_hand.icon_state, "layer" = MOB_LAYER)
 		src.r_hand.screen_loc = "1,2"
+	
 	if (src.l_hand)
-		var/t1 = src.l_hand.s_istate
-		if (!t1)
-			t1 = src.l_hand.icon_state
-		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = t1, "layer" = MOB_LAYER)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = EAST, "icon_state" = src.l_hand.s_istate ? src.l_hand.s_istate : src.l_hand.icon_state, "layer" = MOB_LAYER)
 
 
 
@@ -1314,57 +1314,75 @@
 /mob/human/proc/update_body()
 	del(src.stand_icon)
 	del(src.lying_icon)
-	src.stand_icon = new /icon( 'human.dmi', "blank" )
-	src.lying_icon = new /icon( 'human.dmi', "blank" )
-	for(var/t in list( "chest", "head", "l_arm", "r_arm", "l_hand", "r_hand", "l_leg", "r_leg", "l_foot", "r_foot" ))
-		src.stand_icon.Blend(new /icon( 'human.dmi', text("[]", t) ), 3)
-		src.lying_icon.Blend(new /icon( 'human.dmi', text("[]2", t) ), 3)
+	
+	var/g = "m"
+	if (src.gender == "male")
+		g = "m"
+	else if (src.gender == "female")
+		g = "f"
+	
+	src.stand_icon = new /icon('human.dmi', "blank")
+	src.lying_icon = new /icon('human.dmi', "blank")
+	
+	src.stand_icon.Blend(new /icon('human.dmi', "chest_[g]_s"), ICON_OVERLAY)
+	src.lying_icon.Blend(new /icon('human.dmi', "chest_[g]_l"), ICON_OVERLAY)
+	
+	for (var/part in list("head", "arm_left", "arm_right", "hand_left", "hand_right", "leg_left", "leg_right", "foot_left", "foot_right"))
+		src.stand_icon.Blend(new /icon('human.dmi', "[part]_s"), ICON_OVERLAY)
+		src.lying_icon.Blend(new /icon('human.dmi', "[part]_l"), ICON_OVERLAY)
+		
+	src.stand_icon.Blend(new /icon('human.dmi', "groin_[g]_s"), ICON_OVERLAY)
+	src.lying_icon.Blend(new /icon('human.dmi', "groin_[g]_l"), ICON_OVERLAY)
+	
+	// Skin tone
 	if (src.s_tone >= 0)
-		src.stand_icon.Blend(rgb(src.s_tone, src.s_tone, src.s_tone), 0)
-		src.lying_icon.Blend(rgb(src.s_tone, src.s_tone, src.s_tone), 0)
+		src.stand_icon.Blend(rgb(src.s_tone, src.s_tone, src.s_tone), ICON_ADD)
+		src.lying_icon.Blend(rgb(src.s_tone, src.s_tone, src.s_tone), ICON_ADD)
 	else
-		src.stand_icon.Blend(rgb( -src.s_tone,  -src.s_tone,  -src.s_tone), 1)
-		src.lying_icon.Blend(rgb( -src.s_tone,  -src.s_tone,  -src.s_tone), 1)
-	src.stand_icon.Blend(new /icon( 'human.dmi', "diaper" ), 3)
-	src.lying_icon.Blend(new /icon( 'human.dmi', "diaper2" ), 3)
-	if (src.gender == "female")
-		src.stand_icon.Blend(new /icon( 'human.dmi', "f_add" ), 3)
-		src.lying_icon.Blend(new /icon( 'human.dmi', "f_add2" ), 3)
-	return
+		src.stand_icon.Blend(rgb(-src.s_tone,  -src.s_tone,  -src.s_tone), ICON_SUBTRACT)
+		src.lying_icon.Blend(rgb(-src.s_tone,  -src.s_tone,  -src.s_tone), ICON_SUBTRACT)
+	
+	if (!src.be_nudist)
+		if (src.gender == "female")
+			src.stand_icon.Blend(new /icon('human.dmi', "bra_s"), ICON_OVERLAY)
+			src.lying_icon.Blend(new /icon('human.dmi', "bra_l"), ICON_OVERLAY)
+		
+		src.stand_icon.Blend(new /icon('human.dmi', "diaper_[g]_s"), ICON_OVERLAY)
+		src.lying_icon.Blend(new /icon('human.dmi', "diaper_[g]_l"), ICON_OVERLAY)
 
 /mob/human/proc/update_face()
-
-	//src.face = null
 	del(src.face)
-	//src.face2 = null
 	del(src.face2)
-	var/icon/I = new/icon("icon" = 'mob.dmi', "icon_state" = "eyes")
-	var/icon/I2 = new/icon("icon" = 'mob.dmi', "icon_state" = "eyes2")
-	var/icon/F = new/icon("icon" = 'mob.dmi', "icon_state" = text("[]", src.h_style_r))
-	var/icon/F2 = new/icon("icon" = 'mob.dmi', "icon_state" = text("[]2", src.h_style_r))
-	F.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), 0)
-	F2.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), 0)
-	I.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), 0)
-	I2.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), 0)
-	I.Blend(F, 3)
-	I2.Blend(F2, 3)
-	F = new/icon("icon" = 'human.dmi', "icon_state" = "mouth")
-	F2 = new/icon("icon" = 'human.dmi', "icon_state" = "mouth2")
-	I.Blend(F, 3)
-	I2.Blend(F2, 3)
-	//F = null
-	del(F)
-	//F2 = null
-	del(F2)
-	src.face = new /image(  )
-	src.face2 = new /image(  )
-	src.face.icon = I
-	src.face2.icon = I2
-	//I = null
-	del(I)
-	//I2 = null
-	del(I2)
-	return
+	
+	var/icon/eyes_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "eyes_s")
+	var/icon/eyes_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "eyes_l")
+	eyes_s.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), ICON_ADD)
+	eyes_l.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), ICON_ADD)
+	
+	var/icon/hair_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.h_style_r]_s")
+	var/icon/hair_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.h_style_r]_l")
+	hair_s.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
+	hair_l.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
+	
+	var/icon/mouth_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_s")
+	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_l")
+	
+	eyes_s.Blend(hair_s, ICON_OVERLAY)
+	eyes_l.Blend(hair_l, ICON_OVERLAY)
+	eyes_s.Blend(mouth_s, ICON_OVERLAY)
+	eyes_l.Blend(mouth_l, ICON_OVERLAY)
+	
+	src.face = new /image()
+	src.face2 = new /image()
+	src.face.icon = eyes_s
+	src.face2.icon = eyes_l
+	
+	del(mouth_l)
+	del(mouth_s)
+	del(hair_l)
+	del(hair_s)
+	del(eyes_l)
+	del(eyes_s)
 
 /mob/human/var/co2overloadtime = null
 /mob/human/var/temperature_resistance = T0C+75

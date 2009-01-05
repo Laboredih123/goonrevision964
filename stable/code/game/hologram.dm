@@ -6,19 +6,22 @@
 	return
 
 /obj/machinery/hologram_ai/proc/render()
-	var/icon/I = new /icon( 'human.dmi', "male" )
+	var/icon/I = new /icon('human.dmi', "body_m_s")
+	
 	if (src.lumens >= 0)
-		I.Blend(rgb(src.lumens, src.lumens, src.lumens), 0)
+		I.Blend(rgb(src.lumens, src.lumens, src.lumens), ICON_ADD)
 	else
-		I.Blend(rgb(- src.lumens,  -src.lumens,  -src.lumens), 1)
-	I.Blend(new /icon( 'human.dmi', "mouth" ), 3)
-	var/icon/U = new /icon( 'human.dmi', "diaper" )
-	U.Blend(U, 3)
-	U = new /icon( 'mob.dmi', "hair_a" )
-	U.Blend(rgb(src.h_r, src.h_g, src.h_b), 0)
-	I.Blend(U, 3)
+		I.Blend(rgb(- src.lumens,  -src.lumens,  -src.lumens), ICON_SUBTRACT)
+	
+	I.Blend(new /icon('human.dmi', "mouth_s"), ICON_OVERLAY)
+	I.Blend(new /icon('human.dmi', "diaper_s"), ICON_OVERLAY)
+	
+	var/icon/U = new /icon('human_face.dmi', "hair_a_s")
+	U.Blend(rgb(src.h_r, src.h_g, src.h_b), ICON_ADD)
+	
+	I.Blend(U, ICON_OVERLAY)
+	
 	src.projection.icon = I
-	return
 
 /obj/machinery/hologram_ai/proc/show_console(var/mob/user as mob)
 	var/dat
