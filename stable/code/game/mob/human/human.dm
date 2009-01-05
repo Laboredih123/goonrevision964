@@ -1322,6 +1322,12 @@
 	del(src.face_standing)
 	del(src.face_lying)
 
+	var/g = "m"
+	if (src.gender == "male")
+		g = "m"
+	else if (src.gender == "female")
+		g = "f"
+
 	var/icon/eyes_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "eyes_s")
 	var/icon/eyes_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "eyes_l")
 	eyes_s.Blend(rgb(src.r_eyes, src.g_eyes, src.b_eyes), ICON_ADD)
@@ -1337,8 +1343,8 @@
 	facial_s.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
 	facial_l.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
 
-	var/icon/mouth_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_s")
-	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_l")
+	var/icon/mouth_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth_[g]_s")
+	var/icon/mouth_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "mouth__[g]_l")
 
 	eyes_s.Blend(hair_s, ICON_OVERLAY)
 	eyes_l.Blend(hair_l, ICON_OVERLAY)

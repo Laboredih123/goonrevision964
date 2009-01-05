@@ -900,7 +900,7 @@
 		else if (findtext(href, "f_style", 1, null))
 			var/t1 = href_list["f_style"]
 			if (t1 == "input")
-				t1 = input("Please select beard style", "Character Generation", null, null)  as null|anything in list("Watson", "Chaplin", "Neckbeard", "Van Dyke", "Elvis", "Shaved")
+				t1 = input("Please select facial style", "Character Generation", null, null)  as null|anything in list("Watson", "Chaplin", "Neckbeard", "Van Dyke", "Elvis", "Shaved")
 			if ((!( src.start ) && t1))
 				src.f_style = t1
 				switch(t1)

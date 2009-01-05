@@ -13,8 +13,8 @@
 	else
 		I.Blend(rgb(- src.lumens,  -src.lumens,  -src.lumens), ICON_SUBTRACT)
 	
-	I.Blend(new /icon('human.dmi', "mouth_s"), ICON_OVERLAY)
-	I.Blend(new /icon('human.dmi', "diaper_s"), ICON_OVERLAY)
+	I.Blend(new /icon('human.dmi', "mouth_m_s"), ICON_OVERLAY)
+	I.Blend(new /icon('human.dmi', "diaper_m_s"), ICON_OVERLAY)
 	
 	var/icon/U = new /icon('human_face.dmi', "hair_a_s")
 	U.Blend(rgb(src.h_r, src.h_g, src.h_b), ICON_ADD)
