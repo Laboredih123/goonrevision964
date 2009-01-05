@@ -151,11 +151,13 @@
 	plmaster.icon = 'plasma.dmi'
 	plmaster.icon_state = "onturf"
 	plmaster.layer = FLY_LAYER
+	plmaster.mouse_opacity = 0
 
 	slmaster = new /obj/overlay(  )
 	slmaster.icon = 'plasma.dmi'
 	slmaster.icon_state = "sl_gas"
 	slmaster.layer = FLY_LAYER
+	slmaster.mouse_opacity = 0
 
 	cellcontrol = new /datum/control/cellular()
 	spawn (0)
