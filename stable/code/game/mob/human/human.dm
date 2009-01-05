@@ -849,7 +849,7 @@
 			if (!t1)
 				t1 = src.icon_state
 
-			src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[t1][!src.lying ? "_s" : "_l"]", t1, "layer" = MOB_LAYER)
+			src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[t1][!src.lying ? "_s" : "_l"]", "layer" = MOB_LAYER)
 
 	if (src.wear_id)
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[!src.lying ? null : "2"]", "layer" = MOB_LAYER)
