@@ -1788,7 +1788,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_speed = 2
 	throw_range = 9
 	w_class = 2.0
-	s_istate = "electronic"
+	s_istate = "radio"
 	var/const
 		WIRE_SIGNAL = 1 //sends a signal, like to set off a bomb or electrocute someone
 		WIRE_RECEIVE = 2
@@ -1798,7 +1798,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/radio/beacon
 	name = "Tracking Beacon"
 	icon_state = "beacon"
-	var/code = "beacon"
+	s_istate = "signaler"
+	var/code = "electronic"
 /obj/item/weapon/radio/electropack
 	name = "Electropack"
 	icon_state = "electropack0"
@@ -1812,6 +1813,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/radio/headset
 	name = "Radio Headset"
 	icon_state = "headset"
+	s_istate = "headset"
 /obj/item/weapon/radio/intercom
 	name = "Station Intercom (Radio)"
 	icon_state = "intercom"
@@ -1820,6 +1822,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/radio/signaler
 	name = "Remote Signaling Device"
 	icon_state = "signaler"
+	s_istate = "signaler"
 	var/code = 30.0
 	w_class = 1.0
 	freq = 145.7
