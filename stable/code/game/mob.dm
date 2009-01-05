@@ -971,6 +971,9 @@
 			F["nr_hair"] << src.nr_hair
 			F["ng_hair"] << src.ng_hair
 			F["nb_hair"] << src.nb_hair
+			F["nr_facial"] << src.nr_facial
+			F["ng_facial"] << src.ng_facial
+			F["nb_facial"] << src.nb_facial
 			F["ns_tone"] << src.ns_tone
 			F["h_style"] << src.h_style
 			F["h_style_r"] << src.h_style_r
