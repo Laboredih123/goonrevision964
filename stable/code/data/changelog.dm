@@ -4,9 +4,11 @@ var/changes = {"<FONT color='blue'>
 <a href="http://www.maplib.net/map.php?id=3550">NEW Map Link!</a><br>
 http://www.maplib.net/map.php?id=3550<br>
 Have an idea? Submit it <a href="http://code.google.com/p/ss13/issues/list">here!</a><br>
-Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/persh/stable">http://svn.slurm.us/public/spacestation13/branches/persh/stable</a><br>
+Want the source?<br>
+<a href="http://svn.slurm.us/public/spacestation13/branches/persh/stable">http://svn.slurm.us/public/spacestation13/branches/persh/stable</a><br>
 
 <HR>
+<P><B>Modified Tuesday, December 6th 2008</B><BR>
 <P><B>Modified Monday, December 5th 2008</B><BR>
 <li>You can choose to be a nudist now.</li>
 <li>Facial hair!</li>

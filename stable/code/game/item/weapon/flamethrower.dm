@@ -138,6 +138,9 @@
 	if(!lit)	return
 	for(var/turf/T in turflist)
 		if(T.density || istype(T, /turf/space))	return
+		if(!previousturf && length(turflist)>1)
+			previousturf = T
+			continue	//so we don't burn the tile we be standin on
 		if(previousturf && LinkBlocked(previousturf, T))	return
 		torch_turf(T)
 	for(var/mob/M in viewers(1, src.loc))
