@@ -19,7 +19,11 @@
 	var/amount = 1
 	if (mobs.len >= 4)
 		amount = round((mobs.len - 1) / 3) + 1
-
+	
+	// Nobody is in the game, oh dear
+	if (synd_list.len < 1 && mobs.len < 1)
+		return
+	
 	amount = min(5, amount)
 	while(amount > 0)
 		amount--
