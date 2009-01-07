@@ -407,6 +407,12 @@
 	var/explosive = 1	// 0= firebomb
 	var/btemp = 500	// bomb temperature (degC)
 	var/active = 0
+/obj/bomb/radio
+	btype = 0
+/obj/bomb/proximity
+	btype = 1
+/obj/bomb/timer
+	btype = 2
 /obj/bullet
 	name = "bullet"
 	icon = 'weap_sat.dmi'
@@ -1983,7 +1989,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "imp_kit"
 	s_istate = "syringe_kit"
 /obj/item/weapon/sword
-	name = "sword"
+	name = "energy sword"
 	icon_state = "sword0"
 	var/active = 0.0
 	force = 3.0
@@ -1992,17 +1998,18 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_range = 5
 	w_class = 2.0
 	flags = 290.0
+
 /obj/item/weapon/syndicate_uplink
 	name = "Station Bounced Radio"
 	icon_state = "radio"
 	var/temp = null
-	var/uses = 1.0
+	var/uses = 3.0
 	var/selfdestruct = 0.0
 	var/traitorfreq = 0.0
 	var/obj/item/weapon/radio/origradio = null
 	flags = 322.0
 	w_class = 2.0
-	s_istate = "electronic"
+	s_istate = "radio"
 	throw_speed = 4
 	throw_range = 20
 /obj/item/weapon/syringe

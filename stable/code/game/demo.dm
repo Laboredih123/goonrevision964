@@ -1059,7 +1059,7 @@
 	new /obj/item/weapon/gun/energy/taser_gun( src )
 	new /obj/item/weapon/gun/energy/taser_gun( src )
 	var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink( src )
-	U.uses = 5
+	U.uses = 15
 	return
 
 /obj/closet/syndicate/personal/New()

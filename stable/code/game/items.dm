@@ -781,12 +781,28 @@
 		dat = "Self Destructing..."
 	else
 		if (src.temp)
-			dat = text("[]<BR><BR><A href='?src=\ref[];temp=1'>Clear</A>", src.temp, src)
+			dat = "[src.temp]<BR><BR><A href='byond://?src=\ref[src];temp=1'>Clear</A>"
 		else
-			var/dat2 = ""
+			dat = "<B>Syndicate Uplink Console:</B><BR>"
+			dat += "Tele-Crystals left: [src.uses]<BR>"
+			dat += "<HR>"
+			dat += "<B>Request item:</B><BR>"
+			dat += "<I>Each item costs a number of tele-crystals as indicated by the number following their name.</I><BR>"
+			dat += "<A href='byond://?src=\ref[src];item_cyanide=1'>Cyanide Pill</A> (1)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_imp_freedom=1'>Freedom Implant (with injector)</A> (1)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_sleepypen=1'>Sleepy Pen</A> (1)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_card=1'>Syndicate Card</A> (1)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_emag=1'>Electromagnet Card</A> (2)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A> (2)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_revolver=1'>Revolver</A> (2)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_cloak=1'>Cloaking Device</A> (3)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_sword=1'>Energy Sword</A> (3)<BR>"
+			dat += "<A href='byond://?src=\ref[src];item_bomb=1'>Timer/Igniter/Plasma Tank Assembly</A> (3)<BR>"
+			dat += "<HR>"
 			if (src.origradio)
-				dat2 = text("\n<A href='?src=\ref[];lock=1'>Lock</A><BR>\n<HR>", src)
-			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>[]\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, dat2, src)
+				dat += "<A href='byond://?src=\ref[src];lock=1'>Lock</A><BR>"
+				dat += "<HR>"
+			dat += "<A href='byond://?src=\ref[src];selfdestruct=1'>Self-Destruct</A>"
 	user << browse(dat, "window=radio")
 	return
 
@@ -800,37 +816,49 @@
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
 		if (href_list["item_emag"])
-			if (src.uses > 0)
-				src.uses--
+			if (src.uses >= 2)
+				src.uses -= 2
 				new /obj/item/weapon/card/emag( H.loc )
 		else if (href_list["item_sleepypen"])
-			if (src.uses > 0)
-				src.uses--
+			if (src.uses >= 1)
+				src.uses -= 1
 				new /obj/item/weapon/pen/sleepypen( H.loc )
 		else if (href_list["item_cyanide"])
-			if (src.uses > 0)
-				src.uses--
+			if (src.uses >= 1)
+				src.uses -= 1
 				new /obj/item/weapon/m_pill/cyanide( H.loc )
 		else if (href_list["item_cloak"])
-			if (src.uses > 0)
-				src.uses--
+			if (src.uses >= 3)
+				src.uses -= 3
 				new /obj/item/weapon/cloaking_device( H.loc )
 		else if (href_list["item_revolver"])
-			if (src.uses > 0)
-				src.uses--
-				var/obj/item/weapon/gun/revolver/O = new /obj/item/weapon/gun/revolver( H.loc )
+			if (src.uses >= 2)
+				src.uses -= 2
+				var/obj/item/weapon/gun/revolver/O = new /obj/item/weapon/gun/revolver(H.loc)
 				O.bullets = 7
 		else if (href_list["item_imp_freedom"])
-			if (src.uses > 0)
-				src.uses--
-				var/obj/item/weapon/implanter/O = new /obj/item/weapon/implanter( H.loc )
-				O.imp = new /obj/item/weapon/implant/freedom( O )
+			if (src.uses >= 1)
+				src.uses -= 1
+				var/obj/item/weapon/implanter/O = new /obj/item/weapon/implanter(H.loc)
+				O.imp = new /obj/item/weapon/implant/freedom(O)
 				src.temp = "The implant is triggered by chuckling and has a random amount of uses."
 		else if (href_list["item_ai_module"])
-			if (src.uses > 0)
-				src.uses--
+			if (src.uses >= 2)
+				src.uses -= 2
 				new /obj/item/weapon/aiModule/oxygen( H.loc )
-		else if (href_list["lock"])
+		else if (href_list["item_bomb"])
+			if (src.uses >= 3)
+				src.uses -= 3
+				new /obj/bomb/timer(H.loc)
+		else if (href_list["item_card"])
+			if (src.uses >= 1)
+				src.uses -= 1
+				new /obj/item/weapon/card/id/syndicate(H.loc)
+		else if (href_list["item_sword"])
+			if (src.uses >= 3)
+				src.uses -= 3
+				new /obj/item/weapon/sword(H.loc)
+		else if (href_list["lock"] && src.origradio)
 			// presto chango, a regular radio again! (reset the freq too...)
 			usr.machine = null
 			usr << browse(null, "window=radio")
@@ -854,10 +882,10 @@
 			T.attack_self(usr)
 			return
 		else if (href_list["selfdestruct"])
-			src.temp = text("<A href='?src=\ref[];selfdestruct2=1'>Self-Destruct</A>", src)
+			src.temp = "<A href='byond://?src=\ref[src];selfdestruct2=1'>Self-Destruct</A>"
 		else if (href_list["selfdestruct2"])
 			src.selfdestruct = 1
-			spawn( 100 )
+			spawn (100)
 				explode()
 				return
 		else

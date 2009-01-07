@@ -1,15 +1,19 @@
 var/changes = {"<FONT color='blue'>
 <head><title>Changelog</title></head>
-<P><B>Current Version: Only Persh Knows</b></p>
+<P><B>Current Version: Persh Stable SVN</b></p>
 <a href="http://www.maplib.net/map.php?id=3550">NEW Map Link!</a><br>
-http://www.maplib.net/map.php?id=3550<br>
 Have an idea? Submit it <a href="http://code.google.com/p/ss13/issues/list">here!</a><br>
-Want the source?<br>
-<a href="http://svn.slurm.us/public/spacestation13/branches/persh/stable">http://svn.slurm.us/public/spacestation13/branches/persh/stable</a><br>
+Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/persh/stable">Persh Stable on SVN</a><br>
 
 <HR>
-<P><B>Modified Tuesday, December 6th 2008</B><BR>
-<P><B>Modified Monday, December 5th 2008</B><BR>
+<P><B>Modified Wednesday, January 7th 2008</B><BR>
+<li>Syndicate Uplink has been changed up, allowing traitor more freedom in his ability to be... traitorus.</li>
+<li>Syndicate Uplink can now spawn a syndicate card, energy sword, or timer bomb.</li>
+<li>Fixed an issue where Syndicate Uplink looked different than a normal radio.</li>
+</ul>
+</p>
+<P><B>Modified Tuesday, January 6th 2008</B><BR>
+<B>Modified Monday, January 5th 2008</B><BR>
 <li>You can choose to be a nudist now.</li>
 <li>Facial hair!</li>
 <li>Added constructable flamethrowers.</li>
