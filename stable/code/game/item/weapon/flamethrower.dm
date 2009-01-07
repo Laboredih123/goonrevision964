@@ -147,6 +147,7 @@
 		if(previousturf && LinkBlocked(previousturf, T))
 			break
 		torch_turf(T)
+		sleep(1)
 	previousturf = null
 	operating = 0
 	for(var/mob/M in viewers(1, src.loc))
@@ -155,38 +156,24 @@
 	return
 
 /obj/item/weapon/flamethrower/proc/torch_turf(turf/T as turf)
-	if (src.attached)
-		if ((src.attached.gas.plasma - src.throw_amount*100) > 0)
-			src.attached.gas.plasma -= src.throw_amount*100
-			T.poison += src.throw_amount*1000	//flamethrowers add an extra 0 on just cause
-			T.firelevel = max(src.attached.gas.temperature*25, T.firelevel)
-			T.icon_state = "burning"
-			T.res_vars()
-			sleep(1) //no instant line of fire silly
-		else if(src.attached.gas.plasma > 0)
-			T.poison += src.attached.gas.plasma
-			src.attached.gas.plasma = 0
-			T.firelevel = max(src.attached.gas.temperature*25, T.firelevel)
-			T.icon_state = "burning"
-			T.res_vars()
-			sleep(1)
-		else
-			lit = 0
-			force = 3
-			damtype = "brute"
-			icon_state = "flamethrower_loaded_0"
-			s_istate = "flamethrower_0"
-		if(src.attached.gas.oxygen)	// v0v
-			T.oxygen += src.attached.gas.oxygen/3
-			src.attached.gas.oxygen -= src.attached.gas.oxygen/3
-		if(src.attached.gas.co2)
-			T.co2 += src.attached.gas.co2/3
-			src.attached.gas.co2 -= src.attached.gas.co2/3
-		if(src.attached.gas.sl_gas)
-			T.sl_gas += src.attached.gas.sl_gas/3
-			src.attached.gas.sl_gas -= src.attached.gas.sl_gas/3
-		if(src.attached.gas.n2)
-			T.n2 += src.attached.gas.n2/3
-			src.attached.gas.n2 -= src.attached.gas.n2/3
-		previousturf = T
+	if(!src.attached) return
+	var/volume = src.attached.gas.tot_gas()
+	if(!volume)
+		lit = 0
+		force = 3
+		damtype = "brute"
+		s_istate = "flamethrower_0"
+		icon_state = "flamethrower_loaded_0"
+		return
+
+	var/obj/substance/gas/jet = new()
+	jet.set_frac(src.attached.gas, min(volume,src.throw_amount*100))
+	src.attached.gas.sub_delta(jet)
+
+	jet.set_frac(src.attached.gas, jet.tot_gas()*10)
+	jet.turf_add(T,-1) // add all the gas
+
+	T.firelevel += src.attached.gas.temperature*25
+	T.icon_state = "burning"
+	T.res_vars()
 	return
