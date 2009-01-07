@@ -10,6 +10,7 @@
 	throw_range = 5
 	w_class = 3.0
 	var/processing = 0
+	var/operating = 0
 	var/obj/item/weapon/tank/plasmatank/attached = null
 	var/throw_amount = 100
 	var/lit = 0	//on or off
@@ -135,14 +136,19 @@
 
 // gets this from turf.dm turf/dblclick
 /obj/item/weapon/flamethrower/proc/flame_turf(turflist)
-	if(!lit)	return
+	if(!lit || operating)	return
+	operating = 1
 	for(var/turf/T in turflist)
-		if(T.density || istype(T, /turf/space))	return
+		if(T.density || istype(T, /turf/space))
+			break
 		if(!previousturf && length(turflist)>1)
 			previousturf = T
 			continue	//so we don't burn the tile we be standin on
-		if(previousturf && LinkBlocked(previousturf, T))	return
+		if(previousturf && LinkBlocked(previousturf, T))
+			break
 		torch_turf(T)
+	previousturf = null
+	operating = 0
 	for(var/mob/M in viewers(1, src.loc))
 		if ((M.client && M.machine == src))
 			src.attack_self(M)
