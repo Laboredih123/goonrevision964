@@ -6,13 +6,13 @@ Have an idea? Submit it <a href="http://code.google.com/p/ss13/issues/list">here
 Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/persh/stable">Persh Stable on SVN</a><br>
 
 <HR>
-<P><B>Modified Wednesday, January 7th 2008</B><BR>
+<P><B>Modified Wednesday, January 7th 2009</B><BR>
 <li>Syndicate Uplink has been changed up, allowing traitor more freedom in his ability to be... traitorus.</li>
 <li>Syndicate Uplink can now spawn a syndicate card, energy sword, or timer bomb.</li>
 <li>Fixed an issue where Syndicate Uplink looked different than a normal radio.</li>
 </ul>
 </p>
-<P><B>Modified Tuesday, January 6th 2008</B><BR>
+
 <B>Modified Monday, January 5th 2008</B><BR>
 <li>You can choose to be a nudist now.</li>
 <li>Facial hair!</li>
