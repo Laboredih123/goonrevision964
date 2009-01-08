@@ -413,6 +413,8 @@
 	btype = 1
 /obj/bomb/timer
 	btype = 2
+/obj/bomb/timer/syndicate
+	btemp = 400
 /obj/bullet
 	name = "bullet"
 	icon = 'weap_sat.dmi'

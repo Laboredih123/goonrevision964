@@ -788,6 +788,7 @@
 			dat += "<HR>"
 			dat += "<B>Request item:</B><BR>"
 			dat += "<I>Each item costs a number of tele-crystals as indicated by the number following their name.</I><BR>"
+			dat += "<A href='byond://?src=\ref[src];item_revolver_ammo=1'>Ammo-357</A> for use with Revolver (1)<BR>"
 			dat += "<A href='byond://?src=\ref[src];item_cyanide=1'>Cyanide Pill</A> (1)<BR>"
 			dat += "<A href='byond://?src=\ref[src];item_imp_freedom=1'>Freedom Implant (with injector)</A> (1)<BR>"
 			dat += "<A href='byond://?src=\ref[src];item_sleepypen=1'>Sleepy Pen</A> (1)<BR>"
@@ -836,6 +837,10 @@
 				src.uses -= 2
 				var/obj/item/weapon/gun/revolver/O = new /obj/item/weapon/gun/revolver(H.loc)
 				O.bullets = 7
+		else if (href_list["item_revolver_ammo"])
+			if (src.uses >= 1)
+				src.uses -= 1
+				new /obj/item/weapon/ammo/a357(H.loc)
 		else if (href_list["item_imp_freedom"])
 			if (src.uses >= 1)
 				src.uses -= 1
@@ -849,7 +854,7 @@
 		else if (href_list["item_bomb"])
 			if (src.uses >= 3)
 				src.uses -= 3
-				new /obj/bomb/timer(H.loc)
+				new /obj/bomb/timer/syndicate(H.loc)
 		else if (href_list["item_card"])
 			if (src.uses >= 1)
 				src.uses -= 1

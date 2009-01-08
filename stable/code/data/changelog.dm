@@ -8,7 +8,7 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <HR>
 <P><B>Modified Wednesday, January 7th 2009</B><BR>
 <li>Syndicate Uplink has been changed up, allowing traitor more freedom in his ability to be... traitorus.</li>
-<li>Syndicate Uplink can now spawn a syndicate card, energy sword, or timer bomb.</li>
+<li>Syndicate Uplink can now spawn a ammo-357, syndicate card, energy sword, or timer bomb.</li>
 <li>Fixed an issue where Syndicate Uplink looked different than a normal radio.</li>
 </ul>
 </p>
