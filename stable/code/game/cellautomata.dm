@@ -125,8 +125,8 @@
 				var/m_key = copytext(t, 1, t1)
 				var/a_lev = copytext(t, t1 + 3, length(t) + 1)
 				admins[m_key] = a_lev
-				world.log << "admin: [m_key] = [a_lev]"
-	
+				world.log << ("ADMIN: [m_key] = [a_lev]")
+
 	config = new /datum/configuration()
 	config.load("config/config.txt")
 	// apply some settings from config..

@@ -142,7 +142,7 @@
 		if(T.density || istype(T, /turf/space))
 			break
 		if(!previousturf && length(turflist)>1)
-			previousturf = T
+			previousturf = get_turf(src)
 			continue	//so we don't burn the tile we be standin on
 		if(previousturf && LinkBlocked(previousturf, T))
 			break
@@ -174,6 +174,7 @@
 	jet.turf_add(T,-1) // add all the gas
 
 	T.firelevel += src.attached.gas.temperature*25
-	T.icon_state = "burning"
+	if(T.poison > 5)	T.icon_state = "burning"
 	T.res_vars()
+	previousturf = T
 	return
