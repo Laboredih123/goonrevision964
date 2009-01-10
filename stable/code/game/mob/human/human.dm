@@ -74,11 +74,11 @@
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/straight_jacket))
 			tally += 15
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/firesuit))	//	firesuits slow you down a bit
-			tally += 1.45
+			tally += 1.3
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/black_firesuit))	//	firesuits slow you down a bit
-			tally += 1.85
+			tally += 1.7
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/sp_suit) && !istype(src.loc, /turf/space))		//	space suits slow you down a bit unless in space
-			tally += 5
+			tally += 2.1
 	if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
 		if (src.shoes.chained)
 			tally += 15
@@ -1337,7 +1337,7 @@
 	var/icon/hair_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.h_style_r]_l")
 	hair_s.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
 	hair_l.Blend(rgb(src.r_hair, src.g_hair, src.b_hair), ICON_ADD)
-	
+
 	var/icon/facial_s = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.f_style_r]_s")
 	var/icon/facial_l = new/icon("icon" = 'human_face.dmi', "icon_state" = "[src.f_style_r]_l")
 	facial_s.Blend(rgb(src.r_facial, src.g_facial, src.b_facial), ICON_ADD)
