@@ -438,10 +438,10 @@
 				return alert("Too late... The game has already started!", null, null, null, null, null)
 			going = !( going )
 			if (!( going ))
-				world << text("<B>The game start has been delayed by [] (Administrator to SS13)</B>", usr.key)
+				world << text("<B>The game start has been delayed by []</B>", usr.key)
 				world.log_admin("[usr.key] delayed the game.")
 			else
-				world << text("<B>The game will start soon thanks to [] (Administrator to SS13)</B>", usr.key)
+				world << text("<B>The game will start soon thanks to []</B>", usr.key)
 				world.log_admin("[usr.key] removed the delay.")
 
 	if (href_list["secrets"])
