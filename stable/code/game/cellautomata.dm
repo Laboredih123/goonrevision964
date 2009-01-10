@@ -310,8 +310,7 @@
 	return
 
 /datum/control/gameticker/proc/nuclear(z_level)
-
-	if (src.mode != "nuclear")
+	if (src.mode != "nuclear emergency")
 		return
 	if (z_level != 1)
 		return
