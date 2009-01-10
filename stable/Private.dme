@@ -110,6 +110,7 @@
 #include "code\game\item\weapon\game_kit.dm"
 #include "code\game\item\weapon\infrared_sensor.dm"
 #include "code\game\item\weapon\multitool.dm"
+#include "code\game\item\weapon\pinpointer.dm"
 #include "code\game\item\weapon\proximity_sensor.dm"
 #include "code\game\item\weapon\shock_kit.dm"
 #include "code\game\item\weapon\timer.dm"
