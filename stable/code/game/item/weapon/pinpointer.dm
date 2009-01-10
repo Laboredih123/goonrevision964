@@ -35,9 +35,9 @@
 							strength = "very strong"
 						else if (distance < 10)
 							strength = "strong"
-						else if (distance < 20)
+						else if (distance < 15)
 							strength = "weak"
-						else if (distance < 30)
+						else if (distance < 20)
 							strength = "very weak"
 							directional = "unknown"
 						else
