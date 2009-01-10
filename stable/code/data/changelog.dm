@@ -11,6 +11,7 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <li>Freedom implant has been changed so that it will have a random emote associated with it to activate it rather than always chuckle.</li>
 <li>There is now a pinpointer tool for use in Nuclear Emergency. It works similar to the existing locator, in that it will detect the presence of nuclear disks and in what direction it is.</li>
 <li>The nuke being detonated in Nuclear Emergency should now properly end the game.</li>
+<li>Spacesuits now cause you to move slower when not in space.</li>
 </ul>
 </p>
 

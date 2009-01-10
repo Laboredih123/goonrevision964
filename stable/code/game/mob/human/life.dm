@@ -507,4 +507,3 @@
 
 	src.UpdateClothing()
 	src.updatehealth()
-	return

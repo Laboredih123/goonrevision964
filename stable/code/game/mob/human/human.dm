@@ -76,9 +76,9 @@
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/firesuit))	//	firesuits slow you down a bit
 			tally += 1.45
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/black_firesuit))	//	firesuits slow you down a bit
-			tally += 1.45
+			tally += 1.85
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/sp_suit) && !istype(src.loc, /turf/space))		//	space suits slow you down a bit unless in space
-			tally += 1.45
+			tally += 5
 	if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
 		if (src.shoes.chained)
 			tally += 15
