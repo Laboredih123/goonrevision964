@@ -80,7 +80,7 @@
 	switch (objective)
 		if (ai_obj_evacuate)
 			killer << "\red<font size=3><B>You are the traitor!</B> You must cause the death or evacuation of at least [percentage_station_evacuate]% of the crew and don't get deactivated.</font>"
-			killer:memory += "<B>Objective:</B> Cause the death or evacuation of at least [percentage_station_evacuate]% of the crew and don't get deactivated."
+			killer.store_memory("<B>Objective:</B> Cause the death or evacuation of at least [percentage_station_evacuate]% of the crew and don't get deactivated.", 0, 0)
 			add_law_zero(killer)
 
 		if(ai_obj_murder)
@@ -88,19 +88,19 @@
 			var/targetdesc = get_target_desc(ticker.target)
 			killer << "\red<font size=3><B>You are the traitor!</B> You must assassinate [targetdesc] and not get deactivated.</font>"
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught.</B>"
-			killer:memory += "<B>Objective:</B> Assassinate [targetdesc] and don't get deactivated."
+			killer.store_memory("<B>Objective:</B> Assassinate [targetdesc] and don't get deactivated.", 0, 0)
 			add_law_zero(killer)
 
 		if(obj_hijack)
 			killer << "\red<font size=3><B>You are the traitor!</B> Be the lone survivor on the emergency shuttle.</font>"
-			killer:memory += "<B>Objective:</B> Be the only person on the emergency shuttle."
+			killer.store_memory("<B>Objective:</B> Be the only person on the emergency shuttle.", 0, 0)
 
 		if (obj_murder)
 			ticker.target = pick_human_except(killer)
 			var/targetdesc = get_target_desc(ticker.target)
 			killer << "\red<font size=3><B>You are the traitor!</B> You must assassinate [targetdesc] and then escape.</font>"
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
-			killer:memory += "<B>Objective:</B> Assassinate [targetdesc] and escape."
+			killer.store_memory("<B>Objective:</B> Assassinate [targetdesc] and escape.", 0, 0)
 
 		if (obj_steal)
 			ticker.theft_obj = pick(get_pickable_items(killer))
@@ -108,7 +108,7 @@
 
 			killer << "\red<font size=3><B>You are the traitor!</B> You must steal [itemdesc] and then escape.</font>"
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
-			killer:memory += "<B>Objective:</B> Steal [itemdesc] and escape."
+			killer.store_memory("<B>Objective:</B> Steal [itemdesc] and escape.", 0, 0)
 
 		if (obj_sabotage)
 			ticker.sab_target = pick_sab_target()
@@ -117,7 +117,7 @@
 				ticker.target = get_mobs_with_rank("AI")[1]
 			killer << "\red<font size=3><B>You are the traitor!</B> [targetdesc] and then escape.</font>"
 			killer << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
-			killer:memory += "<B>Objective:</B> [targetdesc] and escape."
+			killer.store_memory("<B>Objective:</B> [targetdesc] and escape.", 0, 0)
 
 	if (!istype(killer, /mob/ai))
 		spawn (100)
@@ -171,7 +171,7 @@
 				T.icon_state = R.icon_state
 				T.origradio = R
 				killer << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [freq] to unlock it's hidden features."
-				killer:memory += "<BR><B>Radio Freq:</B> [freq] ([R.name] [loc])."
+				killer.store_memory("<B>Radio Freq:</B> [freq] ([R.name] [loc]).", 0, 0)
 
 /datum/game_mode/traitor/proc/send_intercept()
 	var/intercepttext = "<FONT size = 3><B>Cent. Com. Update</B> Enemy communication intercept. Security Level Elevated</FONT><HR>"

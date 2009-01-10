@@ -1249,15 +1249,24 @@
 */
 
 /mob/verb/memory()
- 	src << browse(text("<B>Memory:</B>:<HR>[]", src.memory), "window=memory")
+ 	src << browse("<B>Memory:</B><HR>[src.memory]", "window=memory")
 
 /mob/verb/add_memory(msg as message)
-	store_memory(msg,1)
+	store_memory(msg, 1, 1)
 
-/mob/proc/store_memory(msg as message, popup)
-	src.memory += "[sanitize(copytext(msg,1,MAX_MESSAGE_LEN))]<BR>"
-	if(popup)	src.memory()
-	return
+/mob/proc/store_memory(msg as message, popup, sane = 1)
+	msg = copytext(msg, 1, MAX_MESSAGE_LEN)
+
+	if (sane)
+		msg = sanitize(msg)
+
+	if (length(src.memory) == 0)
+		src.memory += msg
+	else
+		src.memory += "<BR>[msg]"
+
+	if (popup)
+		src.memory()
 
 /mob/verb/help()
 	src << browse('help.html', "window=help")

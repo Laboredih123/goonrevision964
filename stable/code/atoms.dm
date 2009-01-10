@@ -1397,6 +1397,8 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "freedom"
 	var/uses = 1.0
 	color = "r"
+	var/activation_emote = "chuckle"
+
 /obj/item/weapon/implant/tracking
 	name = "tracking"
 	var/freq = 145.1
@@ -1464,6 +1466,16 @@ obj/item/weapon/clothing/suit/labcoat
 	var/freq = 145.1
 	var/broadcasting = null
 	var/listening = 1.0
+	flags = 322.0
+	w_class = 2.0
+	s_istate = "electronic"
+	throw_speed = 4
+	throw_range = 20
+
+/obj/item/weapon/pinpointer
+	name = "pinpointer"
+	icon_state = "locator"
+	var/temp = null
 	flags = 322.0
 	w_class = 2.0
 	s_istate = "electronic"

@@ -695,12 +695,14 @@
 		if (href_list["refresh"])
 			src.temp = "<B>Persistent Signal Locator</B><HR>"
 			var/turf/sr = get_turf(src)
+
 			if (sr)
 				src.temp += "<B>Located Beacons:</B><BR>"
+
 				for(var/obj/item/weapon/radio/beacon/W in world)
 					if (W.freq == src.freq)
 						var/turf/tr = get_turf(W)
-						if ((tr.z == sr.z && tr))
+						if (tr.z == sr.z && tr)
 							var/direct = max(abs(tr.x - sr.x), abs(tr.y - sr.y))
 							if (direct < 5)
 								direct = "very strong"
@@ -712,19 +714,21 @@
 										direct = "weak"
 									else
 										direct = "very weak"
-							src.temp += text("[]-[]-[]<BR>", W.code, dir2text(get_dir(sr, tr)), direct)
+							src.temp += "[W.code]-[dir2text(get_dir(sr, tr))]-[direct]<BR>"
+
 				src.temp += "<B>Extranneous Signals:</B><BR>"
-				for(var/obj/item/weapon/implant/tracking/W in world)
+				for (var/obj/item/weapon/implant/tracking/W in world)
 					if (W.freq == src.freq)
-						if ((!( W.implanted ) || !( ismob(W.loc) )))
+						if (!W.implanted || !ismob(W.loc))
 							continue
 						else
 							var/mob/M = W.loc
 							if (M.stat == 2)
 								if (M.timeofdeath + 6000 < world.time)
 									continue
+
 						var/turf/tr = get_turf(W)
-						if ((tr.z == sr.z && tr))
+						if (tr.z == sr.z && tr)
 							var/direct = max(abs(tr.x - sr.x), abs(tr.y - sr.y))
 							if (direct < 20)
 								if (direct < 5)
@@ -734,8 +738,9 @@
 										direct = "strong"
 									else
 										direct = "weak"
-								src.temp += text("[]-[]-[]<BR>", W.id, dir2text(get_dir(sr, tr)), direct)
-				src.temp += text("<B>You are at \[[],[],[]\]</B> in orbital coordinates.<BR><BR><A href='?src=\ref[];refresh=1'>Refresh</A><BR>", sr.x, sr.y, sr.z, src)
+								src.temp += "[W.id]-[dir2text(get_dir(sr, tr))]-[direct]<BR>"
+
+				src.temp += "<B>You are at \[[sr.x],[sr.y],[sr.z]\]</B> in orbital coordinates.<BR><BR><A href='byond://?src=\ref[src];refresh=1'>Refresh</A><BR>"
 			else
 				src.temp += "<B><FONT color='red'>Processing Error:</FONT></B> Unable to locate orbital position.<BR>"
 		else
@@ -846,7 +851,7 @@
 				src.uses -= 1
 				var/obj/item/weapon/implanter/O = new /obj/item/weapon/implanter(H.loc)
 				O.imp = new /obj/item/weapon/implant/freedom(O)
-				src.temp = "The implant is triggered by chuckling and has a random amount of uses."
+				src.temp = "The implant is triggered by an emote and has a random amount of uses."
 		else if (href_list["item_ai_module"])
 			if (src.uses >= 2)
 				src.uses -= 2
@@ -4193,7 +4198,7 @@
 				dat += text("<b>Implant Specifications:</b><BR>\n<b>Name:</b> Tracking Beacon<BR>\n<b>Zone:</b> Spinal Column> 2-5 vertebrae<BR>\n<b>Power Source:</b> Nervous System Ion Withdrawl Gradient<BR>\n<b>Life:</b> 10 minutes after death of host<BR>\n<b>Important Notes:</b> None<BR>\n<HR>\n<b>Implant Details:</b> <BR>\n<b>Function:</b> Continuously transmits low power signal on frequency- Useful for tracking.<BR>\nRange: 35-40 meters<BR>\n<b>Special Features:</b><BR>\n<i>Neuro-Safe</i>- Specialized shell absorbs excess voltages self-destructing the chip if\na malfunction occurs thereby securing safety of subject. The implant will melt and\ndisintegrate into bio-safe elements.<BR>\n<b>Integrity:</b> Gradient creates slight risk of being overcharged and frying the\ncircuitry. As a result neurotoxins can cause massive damage.<HR>\nImplant Specifics:\nFrequency (144.1-148.9): <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nID (1-100): <A href='?src=\ref[];id=-10'>-</A><A href='?src=\ref[];id=-1'>-</A> [] <A href='?src=\ref[];id=1'>+</A><A href='?src=\ref[];id=10'>+</A><BR>", src, src, T.freq, src, src, src, src, T.id, src, src)
 			else
 				if (istype(src.case.imp, /obj/item/weapon/implant/freedom))
-					dat += "<b>Implant Specifications:</b><BR>\n<b>Name:</b> Freedom Beacon<BR>\n<b>Zone:</b> Right Hand> Near wrist<BR>\n<b>Power Source:</b> Lithium Ion Battery<BR>\n<b>Life:</b> optimum 5 uses<BR>\n<b>Important Notes: <font color='red'>Illegal</font></b><BR>\n<HR>\n<b>Implant Details:</b> <BR>\n<b>Function:</b> Transmits a specialized cluster of signals to override handcuff locking\nmechanisms<BR>\n<b>Special Features:</b><BR>\n<i>Neuro-Scan</i>- Analyzes certain shadow signals in the nervous system along the dark\njoy sectors which respond mainly to chuckling<BR>\n<b>Integrity:</b> The battery is extremely weak and commonly after injection its\nlife can drive down to only 1 use.<HR>\nNo Implant Specifics"
+					dat += "<b>Implant Specifications:</b><BR>\n<b>Name:</b> Freedom Beacon<BR>\n<b>Zone:</b> Right Hand> Near wrist<BR>\n<b>Power Source:</b> Lithium Ion Battery<BR>\n<b>Life:</b> optimum 5 uses<BR>\n<b>Important Notes: <font color='red'>Illegal</font></b><BR>\n<HR>\n<b>Implant Details:</b> <BR>\n<b>Function:</b> Transmits a specialized cluster of signals to override handcuff locking\nmechanisms<BR>\n<b>Special Features:</b><BR>\n<i>Neuro-Scan</i>- Analyzes certain shadow signals in the nervous system\n<BR>\n<b>Integrity:</b> The battery is extremely weak and commonly after injection its\nlife can drive down to only 1 use.<HR>\nNo Implant Specifics"
 				else
 					dat += "Implant ID not in database"
 		else
@@ -4237,21 +4242,25 @@
 	return
 
 /obj/item/weapon/implant/proc/trigger(emote, source as mob)
+	return
 
+/obj/item/weapon/implant/proc/implanted(source as mob)
 	return
 
 /obj/item/weapon/implant/freedom/New()
-
+	src.activation_emote = pick("blink", "blink_r", "eyebrow", "chuckle", "twitch_s", "frown", "nod", "blush", "giggle", "grin", "groan", "shrug", "smile", "pale", "sniff", "whimper", "wink")
 	src.uses = rand(1, 5)
 	..()
 	return
 
 /obj/item/weapon/implant/freedom/trigger(emote, mob/source as mob)
-
 	if (src.uses < 1)
 		return 0
-	if (emote == "chuckle")
+
+	if (emote == src.activation_emote)
 		src.uses--
+		source << "You feel a faint click."
+
 		if (source.handcuffed)
 			var/obj/item/weapon/W = source.handcuffed
 			source.handcuffed = null
@@ -4262,7 +4271,10 @@
 				dropped(source)
 				if (W)
 					W.layer = initial(W.layer)
-	return
+
+/obj/item/weapon/implant/freedom/implanted(mob/source as mob)
+	source.store_memory("Freedom implant can be activated by using the [src.activation_emote] emote, <B>say *[src.activation_emote]</B> to attempt to activate.", 0, 0)
+	source << "The implanted freedom implant can be activated by using the [src.activation_emote] emote, <B>say *[src.activation_emote]</B> to attempt to activate."
 
 /obj/item/weapon/implanter/proc/update()
 
@@ -4275,16 +4287,17 @@
 /obj/item/weapon/implanter/attack(mob/M as mob, mob/user as mob)
 	if (!istype(M, /mob))
 		return
+
 	if (user && src.imp)
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] has been implanted by [].", M, user), 1)
-			//Foreach goto(48)
+		for (var/mob/O in viewers(M, null))
+			O.show_message("\red [M] has been implanted by [user].", 1)
+
 		src.imp.loc = M
 		src.imp.implanted = 1
+		src.imp.implanted(M)
 		src.imp = null
-		user.show_message(text("\red You implanted the implant into the [].", M))
+		user.show_message("\red You implanted the implant into [M].")
 		src.icon_state = "implanter0"
-	return
 
 /obj/item/weapon/syringe/attack_paw(mob/user as mob)
 	return src.attack_hand(user)

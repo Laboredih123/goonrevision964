@@ -1,313 +1,393 @@
 /mob/human/proc/emote(act as text)
-
 	var/param = null
+
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
 		param = copytext(act, t1 + 1, length(act) + 1)
 		act = copytext(act, 1, t1)
+
 	var/muzzled = istype(src.wear_mask, /obj/item/weapon/clothing/mask/muzzle)
 	var/m_type = 1
-	for(var/obj/item/weapon/implant/I in src)
+
+	for (var/obj/item/weapon/implant/I in src)
 		if (I.implanted)
 			I.trigger(act, src)
+
 	var/message
 	switch(act)
-		if("blink")
-			message = text("<B>[]</B> blinks.", src)
+		if ("blink")
+			message = "<B>[src]</B> blinks."
 			m_type = 1
-		if("blink_r")
-			message = text("<B>[]</B> blinks rapidly.", src)
+
+		if ("blink_r")
+			message = "<B>[src]</B> blinks rapidly."
 			m_type = 1
-		if("bow")
-			if (!( src.buckled ))
+
+		if ("bow")
+			if (!src.buckled)
 				var/M = null
 				if (param)
-					for(var/mob/A in view(null, null))
+					for (var/mob/A in view(null, null))
 						if (param == A.name)
 							M = A
-				if (!( M ))
+							break
+				if (!M)
 					param = null
-				message = text("<B>[]</B> bows[]", src, (param ? text(" to [].", param) : "."))
+
+				if (param)
+					message = "<B>[src]</B> bows to [param]."
+				else
+					message = "<B>[src]</B> bows."
 			m_type = 1
-		if("salute")
-			if (!( src.buckled ))
+
+		if ("salute")
+			if (!src.buckled)
 				var/M = null
 				if (param)
-					for(var/mob/A in view(null, null))
+					for (var/mob/A in view(null, null))
 						if (param == A.name)
 							M = A
-				if (!( M ))
+							break
+				if (!M)
 					param = null
-				message = text("<B>[]</B> salutes[]", src, (param ? text(" to [].", param) : "."))
+
+				if (param)
+					message = "<B>[src]</B> salutes to [param]."
+				else
+					message = "<B>[src]</b> salutes."
 			m_type = 1
-		if("choke")
-			if (!( muzzled ))
-				message = text("<B>[]</B> chokes!", src)
+
+		if ("choke")
+			if (!muzzled)
+				message = "<B>[src]</B> chokes!"
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a strong noise.", src)
+				message = "<B>[src]</B> makes a strong noise."
 				m_type = 2
-		if("clap")
-			if (!( src.restrained() ))
-				message = text("<B>[]</B> claps.", src)
+
+		if ("clap")
+			if (!src.restrained())
+				message = "<B>[src]</B> claps."
 				m_type = 2
-		if("drool")
-			message = text("<B>[]</B> drools.", src)
+
+		if ("drool")
+			message = "<B>[src]</B> drools."
 			m_type = 1
-		if("eyebrow")
-			message = text("<B>[]</B> raises an eyebrow.", src)
+
+		if ("eyebrow")
+			message = "<B>[src]</B> raises an eyebrow."
 			m_type = 1
-		if("chuckle")
-			if (!( muzzled ))
-				message = text("<B>[]</B> chuckles.", src)
+
+		if ("chuckle")
+			if (!muzzled)
+				message = "<B>[src]</B> chuckles."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a noise.", src)
+				message = "<B>[src]</B> makes a noise."
 				m_type = 2
-		if("twitch")
-			message = text("<B>[]</B> twitches violently.", src)
+
+		if ("twitch")
+			message = "<B>[src]</B> twitches violently."
 			m_type = 1
-		if("twitch_s")
-			message = text("<B>[]</B> twitches.", src)
+
+		if ("twitch_s")
+			message = "<B>[src]</B> twitches."
 			m_type = 1
-		if("faint")
-			message = text("<B>[]</B> faints.", src)
+
+		if ("faint")
+			message = "<B>[src]</B> faints."
 			src.sleeping = 1
 			m_type = 1
-		if("cough")
-			if (!( muzzled ))
-				message = text("<B>[]</B> coughs!", src)
+
+		if ("cough")
+			if (!muzzled)
+				message = "<B>[src]</B> coughs!"
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a strong noise.", src)
+				message = "<B>[src]</B> makes a strong noise."
 				m_type = 2
-		if("frown")
-			message = text("<B>[]</B> frowns.", src)
+
+		if ("frown")
+			message = "<B>[src]</B> frowns."
 			m_type = 1
-		if("nod")
-			message = text("<B>[]</B> nods.", src)
+
+		if ("nod")
+			message = "<B>[src]</B> nods."
 			m_type = 1
-		if("blush")
-			message = text("<B>[]</B> blushes.", src)
+
+		if ("blush")
+			message = "<B>[src]</B> blushes."
 			m_type = 1
-		if("gasp")
-			if (!( muzzled ))
-				message = text("<B>[]</B> gasps!", src)
+
+		if ("gasp")
+			if (!muzzled)
+				message = "<B>[src]</B> gasps!"
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a weak noise.", src)
+				message = "<B>[src]</B> makes a weak noise."
 				m_type = 2
-		if("deathgasp")
-			if(src.stat == 2)
-				message = text("<B>[]</B> seizes up and falls limp, \his eyes dead and lifeless...", src)
+
+		if ("deathgasp")
+			if (src.stat == 2)
+				message = "<B>[src]</B> seizes up and falls limp, \his eyes dead and lifeless..."
 				m_type = 2
-		if("giggle")
-			if (!( muzzled ))
-				message = text("<B>[]</B> giggles.", src)
+
+		if ("giggle")
+			if (!muzzled)
+				message = "<B>[src]</B> giggles."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a noise.", src)
+				message = "<B>[src]</B> makes a noise."
 				m_type = 2
-		if("glare")
+
+		if ("glare")
 			var/M = null
 			if (param)
-				for(var/mob/A in view(null, null))
+				for (var/mob/A in view(null, null))
 					if (param == A.name)
 						M = A
-			if (!( M ))
+						break
+			if (!M)
 				param = null
-			message = text("<B>[]</B> glares[]", src, (param ? text(" at [].", param) : "."))
-		if("stare")
+
+			if (param)
+				message = "<B>[src]</B> glares at [param]."
+			else
+				message = "<B>[src]</B> glares."
+
+		if ("stare")
 			var/M = null
 			if (param)
-				for(var/mob/A in view(null, null))
+				for (var/mob/A in view(null, null))
 					if (param == A.name)
 						M = A
-			if (!( M ))
+						break
+			if (!M)
 				param = null
-			message = text("<B>[]</B> stares[]", src, (param ? text(" at [].", param) : "."))
-		if("look")
+
+			if (param)
+				message = "<B>[src]</B> stares at [param]."
+			else
+				message = "<B>[src]</B> stares."
+
+		if ("look")
 			var/M = null
 			if (param)
-				for(var/mob/A in view(null, null))
+				for (var/mob/A in view(null, null))
 					if (param == A.name)
 						M = A
-			if (!( M ))
+						break
+
+			if (!M)
 				param = null
-			message = text("<B>[]</B> looks[]", src, (param ? text(" at [].", param) : "."))
+
+			if (param)
+				message = "<B>[src]</B> looks at [param]."
+			else
+				message = "<B>[src]</B> looks."
 			m_type = 1
-		if("grin")
-			message = text("<B>[]</B> grins.", src)
+
+		if ("grin")
+			message = "<B>[src]</B> grins."
 			m_type = 1
-		if("cry")
-			if (!( muzzled ))
-				message = text("<B>[]</B> cries.", src)
+
+		if ("cry")
+			if (!muzzled)
+				message = "<B>[src]</B> cries."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a weak noise. [] frowns.", src, src)
+				message = "<B>[src]</B> makes a weak noise. \He frowns."
 				m_type = 2
-		if("sigh")
-			if (!( muzzled ))
-				message = text("<B>[]</B> sighs.", src)
-				m_type = 2
-			else
-				message = text("<B>[]</B> makes a weak noise.", src)
-				m_type = 2
-		if("laugh")
-			if (!( muzzled ))
-				message = text("<B>[]</B> laughs.", src)
+
+		if ("sigh")
+			if (!muzzled)
+				message = "<B>[src]</B> sighs."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a noise.", src)
+				message = "<B>[src]</B> makes a weak noise."
 				m_type = 2
-		if("mumble")
-			message = text("<B>[]</B> mumbles!", src)
+
+		if ("laugh")
+			if (!muzzled)
+				message = "<B>[src]</B> laughs."
+				m_type = 2
+			else
+				message = "<B>[src]</B> makes a noise."
+				m_type = 2
+
+		if ("mumble")
+			message = "<B>[src]</B> mumbles!"
 			m_type = 2
-		if("grumble")
-			if (!( muzzled ))
-				message = text("<B>[]</B> grumbles!", src)
+
+		if ("grumble")
+			if (!muzzled)
+				message = "<B>[src]</B> grumbles!"
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a noise.", src)
+				message = "<B>[src]</B> makes a noise."
 				m_type = 2
-		if("groan")
-			if (!( muzzled ))
-				message = text("<B>[]</B> groans!", src)
+
+		if ("groan")
+			if (!muzzled)
+				message = "<B>[src]</B> groans!"
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a loud noise.", src)
+				message = "<B>[src]</B> makes a loud noise."
 				m_type = 2
-		if("moan")
-			message = text("<B>[]</B> moans!", src)
+
+		if ("moan")
+			message = "<B>[src]</B> moans!"
 			m_type = 2
-		if("point")
-			if (!( src.restrained() ))
+
+		if ("point")
+			if (!src.restrained())
 				var/mob/M = null
 				if (param)
-					for(var/atom/A as mob|obj|turf|area in view(null, null))
+					for (var/atom/A as mob|obj|turf|area in view(null, null))
 						if (param == A.name)
 							M = A
-						//Foreach goto(1667)
-				if (!( M ))
+							break
+
+				if (!M)
 					param = null
 				else
-					var/obj/point/P = new /obj/point( M.loc )
-					spawn( 20 )
-						//P = null
+					var/obj/point/P = new /obj/point(M.loc)
+					spawn (20)
 						del(P)
-						return
-				message = text("<B>[]</B> points[]", src, (M ? text(" to [].", M) : "."))
-			m_type = 1
-		if("raise")
-			if (!( src.restrained() ))
-				message = text("<B>[]</B> raises a hand.", src)
-			m_type = 1
-		if("shake")
-			message = text("<B>[]</B> shakes [] head.", src, (src.gender == "male" ? "his" : "her"))
-			m_type = 1
-		if("shrug")
-			message = text("<B>[]</B> shrugs.", src)
-			m_type = 1
-		if("signal")
-			var/t1 = round(text2num(param))
-			if (!( isnum(t1) ))
-				return
-			if ((t1 > 5 && (src.r_hand || src.l_hand)))
-				return
-			else
-				if ((t1 <= 5 && src.r_hand && src.l_hand))
-					return
+
+				if (M)
+					message = "<B>[src]</B> points to [M]."
 				else
-					if ((t1 > 10 || t1 < 1))
-						return
-			if (!( src.restrained() ))
-				message = text("<B>[]</B> raises [] finger\s.", src, t1)
+					message = "<B>[src]</B> points."
 			m_type = 1
-		if("smile")
-			message = text("<B>[]</B> smiles.", src)
+
+		if ("raise")
+			if (!src.restrained())
+				message = "<B>[src]</B> raises a hand."
 			m_type = 1
-		if("shiver")
-			message = text("<B>[]</B> shivers.", src)
+
+		if("shake")
+			message = "<B>[src]</B> shakes \his head."
+			m_type = 1
+
+		if ("shrug")
+			message = "<B>[src]</B> shrugs."
+			m_type = 1
+
+		if ("signal")
+			if (!src.restrained())
+				var/t1 = round(text2num(param))
+				if (isnum(t1))
+					if (t1 <= 5 && (!src.r_hand || !src.l_hand))
+						message = "<B>[src]</B> raises [t1] finger\s."
+					else if (t1 <= 10 && (!src.r_hand && !src.l_hand))
+						message = "<B>[src]</B> raises [t1] finger\s."
+			m_type = 1
+
+		if ("smile")
+			message = "<B>[src]</B> smiles."
+			m_type = 1
+
+		if ("shiver")
+			message = "<B>[src]</B> shivers."
 			m_type = 2
-		if("pale")
-			message = text("<B>[]</B> goes pale for a second.", src)
+
+		if ("pale")
+			message = "<B>[src]</B> goes pale for a second."
 			m_type = 1
-		if("tremble")
-			message = text("<B>[]</B> trembles in fear!", src)
+
+		if ("tremble")
+			message = "<B>[src]</B> trembles in fear!"
 			m_type = 1
-		if("sneeze")
-			if (!( muzzled ))
-				message = text("<B>[]</B> sneezes.", src)
+
+		if ("sneeze")
+			if (!muzzled)
+				message = "<B>[src]</B> sneezes."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a strange noise.", src)
+				message = "<B>[src]</B> makes a strange noise."
 				m_type = 2
-		if("sniff")
-			message = text("<B>[]</B> sniffs.", src)
+
+		if ("sniff")
+			message = "<B>[src]</B> sniffs."
 			m_type = 2
-		if("snore")
-			if (!( muzzled ))
-				message = text("<B>[]</B> snores.", src)
+
+		if ("snore")
+			if (!muzzled)
+				message = "<B>[src]</B> snores."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a noise.", src)
+				message = "<B>[src]</B> makes a noise."
 				m_type = 2
-		if("whimper")
-			if (!( muzzled ))
-				message = text("<B>[]</B> whimpers.", src)
+
+		if ("whimper")
+			if (!muzzled)
+				message = "<B>[src]</B> whimpers."
 				m_type = 2
 			else
-				message = text("<B>[]</B> makes a weak noise.", src)
+				message = "<B>[src]</B> makes a weak noise."
 				m_type = 2
-		if("wink")
-			message = text("<B>[]</B> winks.", src)
+
+		if ("wink")
+			message = "<B>[src]</B> winks."
 			m_type = 1
-		if("yawn")
-			if (!( muzzled ))
-				message = text("<B>[]</B> yawns.", src)
+
+		if ("yawn")
+			if (!muzzled)
+				message = "<B>[src]</B> yawns."
 				m_type = 2
-		if("collapse")
-			if (!src.paralysis)	src.paralysis += 2
-			message = text("<B>[]</B> collapses!", src)
+
+		if ("collapse")
+			if (!src.paralysis)
+				src.paralysis += 2
+			message = "<B>[src]</B> collapses!"
 			m_type = 2
+
 		if("hug")
 			m_type = 1
-			if (!( src.restrained() ))
+			if (!src.restrained())
 				var/M = null
 				if (param)
-					for(var/mob/A in view(1, null))
+					for (var/mob/A in view(1, null))
 						if (param == A.name)
 							M = A
+							break
 				if (M == src)
 					M = null
+
 				if (M)
-					message = text("<B>[]</B> hugs [].", src, M)
+					message = "<B>[src]</B> hugs [M]."
 				else
-					message = text("<B>[]</B> hugs [].", src, (src.gender == "male" ? "himself" : "herself"))
-		if("handshake")
+					message = "<B>[src]</B> hugs \himself."
+
+		if ("handshake")
 			m_type = 1
-			if ((!( src.restrained() ) && !( src.r_hand )))
+			if (!src.restrained() && !src.r_hand)
 				var/mob/M = null
 				if (param)
-					for(var/mob/A in view(1, null))
+					for (var/mob/A in view(1, null))
 						if (param == A.name)
 							M = A
+							break
 				if (M == src)
 					M = null
+
 				if (M)
-					if ((M.canmove && !( M.r_hand ) && !( M.restrained() )))
-						message = text("<B>[]</B> shakes hands with [].", src, M)
+					if (M.canmove && !M.r_hand && !M.restrained())
+						message = "<B>[src]</B> shakes hands with [M]."
 					else
-						message = text("<B>[]</B> holds out [] hand to [].", src, (src.gender == "male" ? "his" : "her"), M)
-		if("help")
+						message = "<B>[src]</B> holds out \his hand to [M]."
+
+		if ("help")
 			src << "blink, blink_r, blush, bow-(none)/mob, choke, chuckle, clap, collapse, cough,\ncry, drool, eyebrow, frown, gasp, giggle, groan, grumble, handshake, hug-(none)/mob, glare-(none)/mob,\ngrin, laugh, look-(none)/mob, moan, mumble, nod, pale, point-atom, raise, salute, shake, shiver, shrug,\nsigh, signal-#1-10, smile, sneeze, sniff, snore, stare-(none)/mob, tremble, twitch, twitch_s, whimper,\nwink, yawn"
+
 		else
-			src << text("\blue Unusable emote []. Say *help for a list.", act)
+			src << "\blue Unusable emote '[act]'. Say *help for a list."
+
 	if (message)
 		if (m_type & 1)
-			for(var/mob/O in viewers(src, null))
+			for (var/mob/O in viewers(src, null))
 				O.show_message(message, m_type)
-		else
-			for(var/mob/O in hearers(src, null))
+		else if (m_type & 2)
+			for (var/mob/O in hearers(src, null))
 				O.show_message(message, m_type)
-	return
