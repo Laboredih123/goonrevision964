@@ -12,6 +12,7 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <li>There is now a pinpointer tool for use in Nuclear Emergency. It works similar to the existing locator, in that it will detect the presence of nuclear disks and in what direction it is.</li>
 <li>The nuke being detonated in Nuclear Emergency should now properly end the game.</li>
 <li>Spacesuits now cause you to move slower when not in space.</li>
+<li>Syndicate in Nuclear Emergency now have syndicate-themed spacesuits.</li>
 </ul>
 </p>
 

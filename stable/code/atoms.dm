@@ -388,7 +388,7 @@
 	anchored = 1.0
 	flags = 2.0
 /obj/bedsheetbin
-	name = "Linen Bin"
+	name = "linen bin"
 	desc = "A bin for containing bedsheets."
 	icon = 'Icons.dmi'
 	icon_state = "bedbin"
@@ -430,7 +430,7 @@
 	icon_state = "spark"
 
 /obj/d_girders
-	name = "Displaced girders"
+	name = "displaced girders"
 	icon = 'stationobjs.dmi'
 	icon_state = "d_girders"
 	density = 1
@@ -549,7 +549,7 @@
 	flags = 258.0
 	weight = 500000.0
 /obj/item/weapon/a_gift
-	name = "Gift"
+	name = "gift"
 	icon_state = "gift"
 	s_istate = "gift"
 	weight = 1.0E7
@@ -692,10 +692,10 @@
 	name = "antitoxins"
 	icon_state = "atoxinbottle"
 /obj/item/weapon/bottle/r_ch_cough
-	name = "Cough remedy"
+	name = "cough remedy"
 	icon_state = "medibottle"
 /obj/item/weapon/bottle/r_epil
-	name = "Epileptic Remedy"
+	name = "epileptic remedy"
 	icon_state = "medibottle"
 /obj/item/weapon/bottle/rejuvenators
 	name = "rejuvenators"
@@ -707,7 +707,7 @@
 	name = "toxins"
 	icon_state = "toxinbottle"
 /obj/item/weapon/brutepack
-	name = "Bruise Pack"
+	name = "bruise pack"
 	desc = "A pack designed to treat blunt-force trauma."
 	icon_state = "brutepack"
 	var/amount = 5.0
@@ -715,7 +715,7 @@
 	throw_speed = 4
 	throw_range = 20
 /obj/item/weapon/c_tube
-	name = "Cardboard tube"
+	name = "cardboard tube"
 	icon_state = "c_tube"
 /obj/item/weapon/camera
 	name = "camera"
@@ -730,7 +730,7 @@
 	var/list/files = list(  )
 
 /obj/item/weapon/card/data
-	name = "Data Disk"
+	name = "data disk"
 	icon_state = "card-data"
 	var/function = "storage"
 	var/data = "null"
@@ -742,13 +742,13 @@
 	icon_state = "emag-card"
 	s_istate = "card-id"
 /obj/item/weapon/card/id
-	name = "Identification Card"
+	name = "identification card"
 	icon_state = "card-id"
 	var/access = list()
 	var/registered = null
 	var/assignment = null
 /obj/item/weapon/card/id/syndicate
-	name = "Syndicate Card"
+	name = "syndicate card"
 
 /obj/item/weapon/card/id/captains_spare
 	name = "Captain's spare ID"
@@ -883,13 +883,18 @@
 	fire_protect = 1
 	brute_protect = 1
 /obj/item/weapon/clothing/head/s_helmet
-	name = "s helmet"
+	name = "space helmet"
 	icon_state = "s_helmet"
 	flags = FPRINT|TABLEPASS|HEADSPACE|HEADCOVERSEYES|HEADCOVERSMOUTH
 	see_face = 0.0
 	s_istate = "s_helmet"
 	s_fire = 5.625E7
 	fire_protect = 1
+	
+/obj/item/weapon/clothing/head/s_helmet/syndicate
+	icon_state = "space_helmet_syndicate"
+	s_istate = "space_helmet_syndicate"
+
 /obj/item/weapon/clothing/head/helmet/swat_hel
 	name = "swat hel"
 	icon_state = "swat_hel"
@@ -1050,7 +1055,7 @@ obj/item/weapon/clothing/suit/labcoat
 	fire_protect = 126
 	fire_resist = T0C+5200
 /obj/item/weapon/clothing/suit/sp_suit
-	name = "sp suit"
+	name = "space suit"
 	desc = "A suit that protects against low pressure environments."
 	icon_state = "s_suit"
 	fb_filter = 6.0
@@ -1060,6 +1065,11 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = FPRINT | TABLEPASS | SUITSPACE
 	s_fire = 6.75E7
 	fire_protect = 126
+
+/obj/item/weapon/clothing/suit/sp_suit/syndicate
+	icon_state = "space_suit_syndicate"
+	s_istate = "space_suit_syndicate"
+
 /obj/item/weapon/clothing/suit/straight_jacket
 	name = "straight jacket"
 	desc = "A suit that totally restrains an individual"
