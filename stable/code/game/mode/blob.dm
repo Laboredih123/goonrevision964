@@ -146,7 +146,7 @@
 			makepowernets()
 
 /datum/game_mode/blob/check_win()
-	if(ticker.event == 4)
+	if (stage == 4)
 		world << "<FONT size = 3><B>The staff has lost!</B></FONT>"
 		world << "<B>The station was destroyed by Cent. Com.</B>"
 		var/numDead = 0
@@ -183,13 +183,13 @@
 				world.log_game("AI lost at Blob mode.")
 
 		world.log_game("Blob mode was lost.")
-		ticker.event = 5
+		stage = 5
 		ticker.check_win()
 		return 1
 
-	if(ticker.event == 5)
+	if (stage == 5)
 		return
-
+	
 	var/active = 0
 
 	for(var/obj/blob/B in blobs)
@@ -198,8 +198,8 @@
 			break
 
 
-	if(!active)
-		if(ticker.event < 3)
+	if (!active)
+		if (stage < 3)
 			world << "<FONT size = 3><B>The staff has won!</B></FONT>"
 			world << "<B>The alien organism has been eradicated from the station</B>"
 
@@ -212,13 +212,13 @@
 
 			world.log_game("Blob mode was won with station [percent]% intact.")
 
-			ticker.event = 5
+			stage = 5
 		else
 			world << "<FONT size = 3><B>The staff has lost!</B></FONT>"
 			world << "<B>The alien organism has been eradicated from the station, but directive 7-12 has already been issued.</B>"
 
 			world.log_game("Blob mode was lost after eradicating blob too late.")
-		ticker.event = 5
+		stage = 5
 		world << "\blue Rebooting in 30s"
 		sleep(300)
 		world << "\blue Rebooting due to end of game"

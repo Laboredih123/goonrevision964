@@ -13,6 +13,7 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <li>The nuke being detonated in Nuclear Emergency should now properly end the game.</li>
 <li>Spacesuits now cause you to move slower when not in space.</li>
 <li>Syndicate in Nuclear Emergency now have syndicate-themed spacesuits.</li>
+<li>Blob mode should properly end now.</li>
 </ul>
 </p>
 
