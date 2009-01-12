@@ -14,49 +14,6 @@
 					L.Swap(j, j + 1)
 	return L
 
-/obj/machinery/computer/security/interact(var/mob/user as mob)
-	if (stat & (NOPOWER|BROKEN))
-		return
-	if(istype(user, /mob/carbon))
-		var/mob/carbon/M = user
-		if(M.is_blind)
-			return
-
-	user.machine = src
-
-	var/list/L = list()
-	for (var/obj/machinery/camera/C in world)
-		L.Add(C)
-
-	camera_sort(L)
-
-	var/list/D = list()
-	D["Cancel"] = "Cancel"
-	for (var/obj/machinery/camera/C in L)
-		if (C.network == src.network)
-			D[text("[][]", C.c_tag, (C.status ? null : " (Deactivated)"))] = C
-
-	var/t = input(user, "Which camera should you change to?") as null|anything in D
-
-	if(!t)
-		user.machine = null
-		return 0
-
-	var/obj/machinery/camera/C = D[t]
-
-	if (t == "Cancel")
-		user.machine = null
-		return 0
-
-	if ((get_dist(user, src) > 1 || user.machine != src || !( user.canmove ) || !( C.status )) && (!istype(user, /mob/silicon/ai)))
-		return 0
-	else
-		src.current = C
-		use_power(50)
-
-		spawn( 5 )
-			interact(user)
-
 /mob/silicon/ai/interact(mob/user)
 	if (user != src)
 		return

@@ -99,6 +99,23 @@
 	src.storage1 = new /obj/screen(src, "storage1", null, "4,1", 19, "block")
 	src.storage2 = new /obj/screen(src, "storage2", null, "5,1", 19, "block")
 
+	update_slots()
+
+	// intents
+	src.grab = new /obj/screen(src, "grab", null, "11,15", 19, "grab")
+	src.help = new /obj/screen(src, "help", null, "12,15", 19, "help")
+	src.disarm = new /obj/screen(src, "disarm", null, "13,15", 19, "disarm")
+	src.hurt = new /obj/screen(src, "hurt", null, "14,15", 19, "harm")
+	src.intent = new /obj/screen(src, "intent", null, "13,15", null, "selector")
+
+	if(src.owner && src.owner.client && src.owner.client.screen)
+		src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
+			r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
+			storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
+			pull, internal, oxygen, intent, toxin, fire, health
+		)
+
+/datum/hud/carbon/proc/update_slots()
 	// make the slots they can't use have the "blocked" icon
 	var/list/slots = list(
 		src.mask = src.owner.can_wear_mask,
@@ -122,20 +139,6 @@
 			x.icon_state = "blocked"
 			x.name = "blocked"
 
-	// intents
-	src.grab = new /obj/screen(src, "grab", null, "11,15", 19, "grab")
-	src.help = new /obj/screen(src, "help", null, "12,15", 19, "help")
-	src.disarm = new /obj/screen(src, "disarm", null, "13,15", 19, "disarm")
-	src.hurt = new /obj/screen(src, "hurt", null, "14,15", 19, "harm")
-	src.intent = new /obj/screen(src, "intent", null, "13,15", null, "selector")
-
-	if(src.owner && src.owner.client && src.owner.client.screen)
-		src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
-			r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
-			storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
-			pull, internal, oxygen, intent, toxin, fire, health
-		)
-
 /datum/hud/carbon/Del()
 	if(src.owner && src.owner.client && src.owner.client.screen)
 		src.owner.client.screen -= list(vitals, actions, drop, throw, swap, resist, mask, back,
@@ -145,45 +148,30 @@
 		)
 
 /datum/hud/carbon/proc/update()
-	if (!src.owner.is_dead && istype(src.owner.mask, /obj/item/weapon/clothing/mask/gasmask))
+	if(!src.owner.is_dead && istype(src.owner.mask, /obj/item/weapon/clothing/mask/gasmask))
 		src.owner.client.screen += src.g_dither
 	else
 		src.owner.client.screen -= src.g_dither
 
-	if (src.sleep)
-		src.sleep.icon_state = text("sleep[]", src.owner.sleeping)
-	if (src.rest)
-		src.rest.icon_state = text("rest[]", src.owner.resting)
-	if (src.health)
-		if (src.owner.is_dead)
-			src.health.icon_state = "health5"
-		else if (src.owner.get_damage() == 0)
-			src.health.icon_state = "health0"
-		else if (src.owner.get_damage() <= 25)
-			src.health.icon_state = "health1"
-		else if (src.owner.get_damage() <= 50)
-			src.health.icon_state = "health2"
-		else if (src.owner.get_damage() <= 70)
-			src.health.icon_state = "health3"
-		else
-			src.health.icon_state = "health4"
-	if (src.pull)
-		if (src.owner.pulling)
-			src.pull.icon_state = "pull1"
-		else
-			src.pull.icon_state = "pull0"
-	if (src.toxin)
-		if (src.owner.taking_tox_damage)
-			src.toxin.icon_state = "toxin1"
-		else
-			src.toxin.icon_state = "toxin0"
-	if (src.oxygen)
-		if (src.owner.taking_suff_damage)
-			src.oxygen.icon_state = "oxy1"
-		else
-			src.oxygen.icon_state = "oxy0"
+	update_icons()
 
-	if (src.owner.is_blind && !src.owner.is_dead)
+	if(src.owner.is_blind && !src.owner.is_dead)
 		src.blind.layer = 18
 	else
 		src.blind.layer = 0
+
+/datum/hud/carbon/proc/update_icons()
+	if(src.sleep)	src.sleep.icon_state = text("sleep[]", src.owner.sleeping)
+	if(src.rest)	src.rest.icon_state = text("rest[]", src.owner.resting)
+	if(src.health)
+		if(src.owner.is_dead)					src.health.icon_state = "health5"
+		else if(src.owner.get_damage() == 0)	src.health.icon_state = "health0"
+		else if(src.owner.get_damage() <= 25)	src.health.icon_state = "health1"
+		else if(src.owner.get_damage() <= 50)	src.health.icon_state = "health2"
+		else if(src.owner.get_damage() <= 70)	src.health.icon_state = "health3"
+		else									src.health.icon_state = "health4"
+
+	if(src.pull)	src.pull.icon_state		= "pull[owner.pulling?"1" : "0"]"
+	if(src.toxin)	src.toxin.icon_state	= "toxin[owner.taking_tox_damage?"1" : "0"]"
+	if(src.oxygen)	src.oxygen.icon_state	= "oxy[owner.taking_suff_damage?"1" : "0"]"
+

@@ -125,7 +125,7 @@
 	return
 
 /mob/carbon/proc/check_decompression()
-	if (istype(src.loc, /turf/space) && !locate(/obj/move, src.loc))
+	if (istype(src.loc, /turf/space))
 		var/layers = 20
 		if (((istype(src.helmet, /obj/item/weapon/clothing/head) && src.helmet.flags & 4) || (istype(src.mask, /obj/item/weapon/clothing/mask) && (!( src.mask.flags & 4 ) && src.mask.flags & 8))))
 			layers -= 5

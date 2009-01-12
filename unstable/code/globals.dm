@@ -120,18 +120,14 @@ var
 	dna_ident = 1
 	abandon_allowed = 1
 	enter_allowed = 1
-	shuttle_frozen = 0
-	prison_entered = null
 
 	list/bombers = list(  )
 	list/admins = list(  )
-	list/shuttles = list(  )
 	list/reg_dna = list(  )
 	list/banned = list(  )
 
 	CELLRATE = 0.002  // multiplier for watts per tick <> cell storage (eg: .002 means if there is a load of 1000 watts, 20 units will be taken from a cell per second)
 	CHARGELEVEL = 0.001 // Cap for how fast cells charge, as a percentage-per-tick (.001 means cellcharge is capped to 1% per second)
-	shuttle_z = 2
 	airtunnel_start = 68 // default
 	airtunnel_stop = 68 // default
 	airtunnel_bottom = 72 // default
@@ -163,10 +159,11 @@ var
 
 	datum/assembly/wirebundle/airlockbundle = new(9)
 
-	const/shuttle_time_in_station = 1800 // 3 minutes in the station
-	const/shuttle_time_to_arrive = 6000 // 10 minutes to arrive
-
 	datum/dna/canonical/canonical_dna = new()
+
+	list/first_names = null
+	list/last_names = null
+	list/ai_names = null
 
 world
 	name = "Goon Station 13"

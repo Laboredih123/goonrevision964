@@ -50,3 +50,5 @@ DEFAULT_NO_VOTE
 
 # goon authentication
 AUTHENTICATION
+
+RANDOM_NAMES 1

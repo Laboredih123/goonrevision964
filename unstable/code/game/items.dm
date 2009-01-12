@@ -276,23 +276,15 @@
 	return
 
 
-//*****RM
-
 /obj/item/weapon/verb/move_to_top()
 	set src in oview(1)
 
-	if(!istype(src.loc, /turf) || !usr.can_use_hands())
-		return
+	if(!usr.can_use_hands()) return
+	if(!istype(src.loc, /turf)) return
 
 	var/turf/T = src.loc
-
 	src.loc = null
-
 	src.loc = T
-
-
-//*****
-
 
 /obj/item/weapon/proc/attack_self()
 
@@ -622,7 +614,17 @@
 			var/dat2 = ""
 			if (src.origradio)
 				dat2 = text("\n<A href='?src=\ref[];lock=1'>Lock</A><BR>\n<HR>", src)
-			dat = text("<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>\n<B>Request item:</B> (uses 1 tele-crystal)<BR>\n<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>\n<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>\n<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>\n<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>\n<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>\n<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>\n<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>\n<HR>[]\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>", src.uses, src, src, src, src, src, src, src, dat2, src)
+			dat = text({"<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: []<BR>
+						<B>Request item:</B> (uses 1 tele-crystal)<BR>
+						<A href='?src=\ref[];item_emag=1'>Electromagnet Card</A><BR>
+						<A href='?src=\ref[];item_sleepypen=1'>Sleepy Pen</A><BR>
+						<A href='?src=\ref[];item_cyanide=1'>Cyanide Pill</A><BR>
+						<A href='?src=\ref[];item_cloak=1'>Cloaking Device</A><BR>
+						<A href='?src=\ref[];item_jammer=1'>Camera Jammer</A><BR>
+						<A href='?src=\ref[];item_revolver=1'>Revolver</A><BR>
+						<A href='?src=\ref[];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>
+						<A href='?src=\ref[];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>
+						<HR>[]\n<A href='?src=\ref[];selfdestruct=1'>Self-Destruct</A>"}, src.uses, src, src, src, src, src, src, src, src, dat2, src)
 	ss13_browse(user, dat, "window=radio")
 	return
 
@@ -651,6 +653,10 @@
 			if (src.uses > 0)
 				src.uses--
 				new /obj/item/weapon/cloaking_device( H.loc )
+		else if (href_list["item_jammer"])
+			if (src.uses > 0)
+				src.uses--
+				new /obj/item/weapon/jammer( H.loc )
 		else if (href_list["item_revolver"])
 			if (src.uses > 0)
 				src.uses--
@@ -731,22 +737,59 @@
 	return
 
 /obj/item/weapon/cloaking_device/attack_self(mob/carbon/user as mob)
-
-	src.active = !( src.active )
-	if (src.active)
-		user << "\blue The cloaking device is now active."
-		src.force = 40
-		src.icon_state = "shield1"
-	else
-		user << "\blue The cloaking device is now inactive."
-		src.force = 3
-		src.icon_state = "shield0"
 	src.add_fingerprint(user)
+	if(src.active)
+		user << "<font color='red'>The cloaking device is now inactive.</font>"
+		src.icon_state = "shield0"
+		src.force = 3
+	else if(!src.cell || src.cell.charge < 15) return
+	else
+		user << "<font color='blue'>The cloaking device is now active.</font>"
+		src.icon_state = "shield1"
+		src.force = 40
+		spawn(0)
+			while(src.cell && src.active && src.cell.charge>15)
+				src.cell.charge -= 15
+				sleep(10)
+			if(!src.active) return
+			src.force = 3
+			src.active = 0
+			src.icon_state = "shield0"
+			user << "<font color='red'>The cloaking field flickers.</font>"
+			user.update_clothing()
+	src.active = !src.active
 	user.update_clothing()
 	return
 
-/obj/item/weapon/ammo/proc/update_icon()
+/obj/item/weapon/cloaking_device/attackby(obj/item/weapon/W, mob/carbon/user)
+	if(istype(user, /mob/silicon/ai))	return ..(W,user)
 
+	if(!user.can_use_hands()) return
+	if(istype(W, /obj/item/weapon/screwdriver))	// screwdriver pops out current battery
+		if(!src.cell)
+			user << "There is no power cell installed."
+			return
+		if(!user.loc)
+			user << "You can't remove that here."
+			return
+		user << "You pry the power cell out of its housing."
+		src.cell.loc = user.loc
+		src.cell = null
+		return
+
+	if(istype(W, /obj/item/weapon/cell))	// trying to put a cell inside
+		if(src.cell)
+			user << "There is already a power cell installed."
+			return
+		user << "You install the power cell."
+		user.drop_item()
+		src.cell = W
+		W.loc = src
+		return
+
+	return ..(W,user)
+
+/obj/item/weapon/ammo/proc/update_icon()
 	return
 
 /obj/item/weapon/ammo/a357/update_icon()
@@ -1066,29 +1109,21 @@
 	return
 
 /obj/item/weapon/pill_canister/interact(mob/carbon/user as mob)
-	if(!istype(user, /mob/carbon))
-		return
-	if(!user.check_intelligence())
-		return
-	if ((user.r_hand == src || user.l_hand == src) && src.contents && src.contents.len)
-		var/obj/item/weapon/m_pill/P = pick(src.contents)
-		if (P)
-			P.amount--
-			var/obj/item/weapon/m_pill/W = new P.type( user )
-			if (user.hand)
-				user.l_hand = W
-			else
-				user.r_hand = W
-			W.layer = 20
-			if (P.amount <= 0)
-				//P = null
-				del(P)
-			W.add_fingerprint(user)
-			src.add_fingerprint(user)
-			user.update_clothing()
-	else
-		return ..()
-	return
+	if(!istype(user, /mob/carbon))	return
+	if(!user.can_use_hands())		return
+	if(!src.contents || !src.contents.len) return ..()
+	if(user.r_hand != src  && user.l_hand != src) return ..()
+
+	var/obj/item/weapon/m_pill/P = pick(src.contents)
+	if(!P) return
+	var/obj/item/weapon/m_pill/W = new P.type(user)
+	if(user.hand)	user.l_hand = W
+	else			user.r_hand = W
+	W.layer = 20
+	if(--P.amount <= 0) del(P)
+	src.add_fingerprint(user)
+	W.add_fingerprint(user)
+	user.update_clothing()
 
 /obj/item/weapon/pill_canister/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 	if(!istype(user, /mob/carbon))
@@ -1114,12 +1149,11 @@
 			src.add_fingerprint(user)
 			W.add_fingerprint(user)
 	if (istype(W, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
+		var/t = text_input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != W)
 			return
 		if (src.loc != user)
 			return
-		t = html_encode(t)
 		if (t)
 			src.name = text("Pill Canister- '[]'", t)
 		else
@@ -1158,28 +1192,28 @@
 	return
 
 /obj/item/weapon/m_pill/attack(mob/carbon/M as mob, mob/user as mob)
-	if(!istype(M, /mob/carbon))
+	if(!istype(M, /mob/carbon))	return
+	if(M.helmet && M.helmet.flags & HEADCOVERSMOUTH)
+		user.think("\blue You need to remove [(user == M) ? "your" : "their"] helmet first.")
 		return
-	if ((M.helmet && M.helmet.flags & HEADCOVERSMOUTH) || (M.mask && M.mask.flags & MASKCOVERSMOUTH))
-		user.think("\blue You're going to need to remove [(user == M) ? "your" : "their"] mask/helmet first.")
+	if(M.mask && M.mask.flags & MASKCOVERSMOUTH)
+		user.think("\blue You need to remove [(user == M) ? "your" : "their"] mask first.")
 		return
-	if (user != M )
-		M.show_viewers(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
-		var/obj/equip_e/O = new /obj/equip_e(  )
-		O.source = user
-		O.target = M
-		O.item = src
-		O.s_loc = user.loc
-		O.t_loc = M.loc
-		O.place = "pill"
-		M.requests += O
-		spawn( 0 )
-			O.process()
-			return
-	else
+	if(user == M)
 		src.add_fingerprint(user)
 		src.ingest(M)
-	return
+		return
+
+	M.show_viewers(text("\red [] is forcing [] to swallow the []", user, M, src), 1)
+	var/obj/equip_e/O = new /obj/equip_e()
+	O.source = user
+	O.target = M
+	O.item = src
+	O.s_loc = user.loc
+	O.t_loc = M.loc
+	O.place = "pill"
+	M.requests += O
+	spawn(0) O.process()
 
 /obj/item/weapon/m_pill/superpill/ingest(mob/carbon/M as mob)
 	var/dam = M.get_damage()
@@ -1980,12 +2014,11 @@
 			user << "\blue Not enough space!!!"
 	else
 		if (istype(P, /obj/item/weapon/pen))
-			var/t = input(user, "Holder Label:", text("[]", src.name), null)  as text
+			var/t = text_input(user, "Holder Label:", text("[]", src.name), null)  as text
 			if (user.equipped() != P)
 				return
 			if ((get_dist(src, usr) > 1 && src.loc != user))
 				return
-			t = html_encode(t)
 			if (t)
 				src.name = text("FPCase- '[]'", t)
 			else
@@ -2150,8 +2183,7 @@
 
 /obj/item/weapon/paper/photograph/attack_self(mob/user as mob)
 
-	var/n_name = input(user, "What would you like to label the photo?", "Paper Labelling", null)  as text
-	n_name = copytext(n_name, 1, 32)
+	var/n_name = text_input(user, "What would you like to label the photo?", "Paper Labelling", null,32)  as text
 	if ((src.loc == user && user.is_active()))
 		src.name = text("photo[]", (n_name ? text("- '[]'", n_name) : null))
 	src.add_fingerprint(user)
@@ -2172,8 +2204,7 @@
 
 /obj/item/weapon/paper/attack_self(mob/user as mob)
 
-	var/n_name = input(user, "What would you like to label the paper?", "Paper Labelling", null)  as text
-	n_name = copytext(n_name, 1, 32)
+	var/n_name = text_input(user, "What would you like to label the paper?", "Paper Labelling", null,32)  as text
 	if ((src.loc == user && user.is_active()))
 		src.name = text("paper[]", (n_name ? text("- '[]'", n_name) : null))
 	src.add_fingerprint(user)
@@ -2183,11 +2214,10 @@
 	if(!istype(user, /mob/carbon))
 		return
 	if (istype(P, /obj/item/weapon/pen) && user.check_intelligence())
-		var/t = input(user, "What text do you wish to add?", text("[]", src.name), null)  as message
+		var/t = text_input(user, "What text do you wish to add?", text("[]", src.name), null)  as message
 		if ((get_dist(src, usr) > 1 && src.loc != user && !( istype(src.loc, /obj/item/weapon/clipboard) ) && src.loc.loc != user && user.equipped() != P))
 			return
-		t = html_encode(t)
-		t = dd_replacetext(t, "\n", "<BR>")
+		t = dd_replacetext(t, "\[n\]", "<BR>")
 		t = dd_replacetext(t, "\[b\]", "<B>")
 		t = dd_replacetext(t, "\[/b\]", "</B>")
 		t = dd_replacetext(t, "\[i\]", "<I>")
@@ -2305,12 +2335,11 @@
 			W.add_fingerprint(user)
 	else
 		if (istype(W, /obj/item/weapon/pen))
-			var/t = input(user, "Card Label:", text("[]", src.name), null)  as text
+			var/t = text_input(user, "Card Label:", text("[]", src.name), null)  as text
 			if (user.equipped() != W)
 				return
 			if ((get_dist(src, usr) > 1 && src.loc != user))
 				return
-			t = html_encode(t)
 			if (t)
 				src.name = text("FPrintC- '[]'", t)
 			else
@@ -2429,8 +2458,6 @@
 	var/turf/T = user.loc
 	if(!istype(T, /turf))
 		return
-	if(locate(/obj/move, T))
-		T = locate(/obj/move, T)
 	src.add_fingerprint(user)
 
 	var/turf_total = max(T.gas.total(), 1) / 100
@@ -3102,8 +3129,6 @@
 			T = T.loc
 		if (!( istype(T, /turf) ))
 			T = T.loc
-		if (locate(/obj/move, T))
-			T = locate(/obj/move, T)
 		else
 			if (!( istype(T, /turf) ))
 				return
@@ -3260,12 +3285,11 @@
 /obj/item/weapon/implantcase/attackby(obj/item/weapon/I as obj, mob/carbon/user as mob)
 
 	if (istype(I, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
+		var/t = text_input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != I)
 			return
 		if ((get_dist(src, usr) > 1 && src.loc != user))
 			return
-		t = html_encode(t)
 		if (t)
 			src.name = text("Glass Case- '[]'", t)
 		else
@@ -4153,11 +4177,8 @@
 	return DblClick()
 
 /atom/DblClick()
-	if(!usr.is_active())
-		return
-	if (world.time <= usr:lastDblClick+2)
-		return
-	usr:lastDblClick = world.time
+	if(!usr.is_active()) return
+	if(RateLimit(usr,2)) return
 
 	..()
 	if(usr.ui_mode == UI_MODE_THROW && istype(usr, /mob/carbon))

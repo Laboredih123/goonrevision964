@@ -1,29 +1,15 @@
-
-/obj/machinery/proc/process()
-	return
-/obj/machinery/proc/gas_flow()
-	return
-/obj/machinery/proc/orient_pipe(source as obj)
-	return
-/obj/machinery/proc/cut_pipes()
-	return
-/obj/machinery/proc/disc_pipe(target as obj)
-	return
-/obj/machinery/proc/buildnodes()
-	return
-/obj/machinery/proc/getline()
-	if(p_dir)
-		return src
-/obj/machinery/proc/setline()
-	return
-/obj/machinery/proc/ispipe()
-	return 0
-/obj/machinery/proc/next()
-	return null
-/obj/machinery/proc/get_gas_val(from)
-	return null
-/obj/machinery/proc/get_gas(from)
-	return null
+/obj/machinery/proc/process()					{	return					}
+/obj/machinery/proc/gas_flow()					{	return					}
+/obj/machinery/proc/orient_pipe(source as obj)	{	return					}
+/obj/machinery/proc/cut_pipes()					{	return					}
+/obj/machinery/proc/disc_pipe(target as obj)	{	return					}
+/obj/machinery/proc/buildnodes()				{	return					}
+/obj/machinery/proc/getline()					{	if(p_dir) return src	}
+/obj/machinery/proc/setline()					{	return					}
+/obj/machinery/proc/ispipe()					{	return					}
+/obj/machinery/proc/next()						{	return null				}
+/obj/machinery/proc/get_gas_val(from)			{	return null				}
+/obj/machinery/proc/get_gas(from)				{	return null				}
 
 /obj/machinery/meter/New()
 
@@ -106,8 +92,6 @@
 	var/T = src.loc
 	if (!( istype(T, /turf) ))
 		return
-	if (locate(/obj/move, T))
-		T = locate(/obj/move, T)
 	if (!( amount ))
 		return
 	if (!( flag ))
@@ -120,8 +104,6 @@
 	var/T = src.loc
 	if (!( istype(T, /turf) ))
 		return
-	if (locate(/obj/move, T))
-		T = locate(/obj/move, T)
 	if (!( amount ))
 		return
 	if (!( flag ))
@@ -212,8 +194,6 @@
 		return
 	var/turf/T = src.loc
 	if (istype(T, /turf))
-		if(locate(/obj/move, T))
-			T = locate(/obj/move, T)
 		if(T.firelevel < 900000.0)
 			src.gas.turf_add_all_oxy(T)
 		else
@@ -350,11 +330,7 @@
 
 	if (src.t_status != 3)
 		var/turf/T = src.loc
-		if (istype(T, /turf))
-			if (locate(/obj/move, T))
-				T = locate(/obj/move, T)
-		else
-			T = null
+		if(!isturf(T)) T = null
 		switch(src.t_status)
 			if(1.0)
 				if( !portable() ) use_power(50, ENVIRON)

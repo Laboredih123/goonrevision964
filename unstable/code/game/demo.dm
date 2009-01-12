@@ -1,11 +1,3 @@
-/obj/machinery/New()
-	..()
-	machines += src
-
-/obj/machinery/Del()
-	machines -= src
-	..()
-
 /obj/machinery/door/meteorhit(obj/M as obj)
 	src.open()
 
@@ -192,8 +184,6 @@
 
 	if (src.on && !(stat & NOPOWER) )
 		var/turf/T = src.loc
-		if (locate(/obj/move, T))
-			T = locate(/obj/move, T)
 		if (T.firelevel < 900000.0)
 			T.firelevel = T.gas.plasma
 
@@ -655,7 +645,8 @@
 	return
 
 /obj/item/weapon/tank/jetpack/verb/toggle()
-
+	set src in view(1)
+	if(!usr.can_use_hands()) return
 	src.on = !( src.on )
 	src.icon_state = text("jetpack[]", src.on)
 	return
@@ -1316,12 +1307,11 @@
 /obj/morgue/attackby(P as obj, mob/user as mob)
 
 	if (istype(P, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
+		var/t = text_input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != P)
 			return
 		if ((get_dist(src, usr) > 1 && src.loc != user))
 			return
-		t = html_encode(t)
 		if (t)
 			src.name = text("Morgue- '[]'", t)
 		else
@@ -1938,8 +1928,8 @@
 	return
 
 /obj/stool/chair/verb/rotate()
-	set src in oview(1)
-
+	set src in view(1)
+	if(!usr.can_use_hands()) return
 	src.dir = turn(src.dir, 90)
 	if (src.dir == NORTH)
 		src.layer = FLY_LAYER
@@ -2302,7 +2292,7 @@
 
 /obj/window/verb/rotate()
 	set src in oview(1)
-
+	if(!usr.can_use_hands()) return
 	if (src.anchored)
 		usr << "It is fastened to the floor; therefore, you can't rotate it!"
 		return 0

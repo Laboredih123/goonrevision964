@@ -4,10 +4,6 @@
 	src.tag = text("landmark*[]", src.name)
 	src.invisibility = 101
 
-	if (name == "shuttle")
-		shuttle_z = src.z
-		del(src)
-
 	if (name == "airtunnel_stop")
 		airtunnel_stop = src.x
 
@@ -40,40 +36,33 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Goon Station 13 [SS13_version]\]"
+	src.status = "Goon Station 13 [SS13_version]\]<BR>"
 
-	src.status += "<br>"
-
-	if (ticker && master_mode)
-		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
-	else if (!ticker)
+	if(!ticker)
 		src.status += "<b>STARTING</b>"
+	else if(master_mode)
+		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
 
-	if (host)
+	if(host)
 		src.status += ", Host: <b>[host]</b>"
-	else if (config && config.hostedby)
+	else if(config && config.hostedby)
 		src.status += ", Host: <b>[config.hostedby]</b>"
 
 	src.status += "<br>"
 
 	var/list/features = list()
 
-	if (config && config.enable_authentication)
-		features += "goon only"
+	if(config)
+		switch(config.enable_authentication)
+			if(0)	features += "public mode"
+			if(1)	features += "limited mode"
+			if(2)	features += "private mode"
+		if(config.allow_vote_mode)
+			features += "voting"
 
-	if (!enter_allowed)
-		features += "closed"
-
-	if (abandon_allowed)
-		features += "respawning"
-
-	if (config && config.allow_vote_mode)
-		features += "voting"
-
-	if (features)
-		src.status += "\[[dd_list2text(features, ", ")]"
-
-
+	if(!enter_allowed)		features += "closed"
+	if(abandon_allowed)	features += "respawning"
+	if(features)			src.status += "\[[dd_list2text(features, ", ")]"
 
 
 /world/New()
@@ -109,8 +98,17 @@
 	if (motd)
 		join_motd = motd
 
+	//	Setup Configurations
 	config = new /datum/configuration()
 	config.load("config.txt")
+
+	//	Load Default Names
+	if(config.random_names)
+		first_names = dd_file2list("first_names.txt")
+		last_names = dd_file2list("last_names.txt")
+
+	if(config.random_ai_names)
+		ai_names = dd_file2list("ai_names.txt")
 
 	// apply some settings from config..
 	abandon_allowed = config.respawn
@@ -204,198 +202,29 @@
 
 /atom/verb/point()
 	set src in oview()
+	if(!usr)		return
+	if(isarea(src))		return
+	if(!isturf(usr.loc))	return
+	if(!usr.can_use_hands())	return
 
-	if ((!( usr ) || !( isturf(usr.loc) )) || isarea(src))		// can't point to areas anymore
+	var/P = new /obj/point( (isturf(src) ? src : src.loc) )
+	spawn( 20 )
+		del(P)
 		return
-	if (usr.can_use_hands())
-		var/P = new /obj/point( (isturf(src) ? src : src.loc) )
-		spawn( 20 )
-			//P = null
-			del(P)
-			return
-		usr.show_viewers(text("<B>[]</B> points to []", usr, src))
-			//Foreach goto(102)
+	usr.show_viewers(text("<B>[]</B> points to []", usr, src))
 	return
 
-/turf/proc/updatecell()
-	return
-/turf/proc/conduction()
-	return
-/turf/proc/cachecell()
-	return
-
-/datum/control/proc/process()
-	return
-
-/datum/control/gameticker/proc/meteor_process()
-
-	do
-		if (!( shuttle_frozen ))
-			if (src.timing == 1)
-				src.timeleft -= 10
-			else
-				if (src.timing == -1.0)
-					src.timeleft += 10
-					if (src.timeleft >= shuttle_time_to_arrive)
-						src.timeleft = null
-						src.timing = 0
-		spawn_meteors()
-		if ((src.timeleft <= 0 && src.timing && !( prison_entered )))
-			src.timeup()
-
-		sleep(10)
-	while(src.processing)
-	return
-
-
-/datum/control/gameticker/proc/megamonkey_process()
-
-	do
-		if (prob(2))
-			spawn_meteors()
-
-		world << "megamonkey_process check_win"
-		check_win()
-
-		sleep(50)
-	while(src.processing)
-	return
-
-/datum/control/gameticker/proc/extend_process()
-
-	do
-		if (!( shuttle_frozen ))
-			if (src.timing == 1)
-				src.timeleft -= 10
-			else
-				if (src.timing == -1.0)
-					src.timeleft += 10
-					if (src.timeleft >= shuttle_time_to_arrive)
-						src.timeleft = null
-						src.timing = 0
-		if (prob(0.5))
-			spawn_meteors()
-		if ((src.timeleft <= 0 && (src.timing && (!( prison_entered ) || src.shuttle_location == 1))))
-			src.timeup()
-
-		sleep(10)
-	while(src.processing)
-	return
-
-/datum/control/gameticker/proc/nuclear(z_level)
-
-	if (src.mode != "nuclear")
-		return
-	if (z_level != 1)
-		return
-	spawn( 0 )
-		src.objective = "Success"
-		world << "<B>The Syndicate Operatives have destroyed Space Station 13!</B>"
-		for(var/mob/carbon/H in world)
-			if ((H.client && findtext(H.spawn_name, "Syndicate ", 1, null)))
-				if (!H.is_dead)
-					world << text("<B>[] was []</B>", H.key, H.spawn_name)
-				else
-					world << text("[] was [] (Dead)", H.key, H.spawn_name)
-		src.timing = 0
-		sleep(300)
-		world.log_game("Syndicate success")
-		world.Reboot()
-		return
-	return
-
-/datum/control/gameticker/proc/timeup()
-
-
-	var/area/A = locate(/area/shuttle)
-	if (src.shuttle_location == shuttle_z)
-
-		var/list/srcturfs = list()
-		var/list/dstturfs = list()
-		var/throwx = 0
-
-		for(var/turf/T in A)
-			if (T.z == shuttle_z)
-				for(var/atom/movable/AM as mob|obj in T)
-					AM.z = 1
-				var/turf/U = locate(T.x, T.y, shuttle_z)
-				U.phase1.copy_cop(T.phase1)
-				U.phase2.copy_cop(T.phase2)
-				U.gas.copy_cop(T.gas)
-				srcturfs += T
-			else
-				dstturfs += T
-			throwx = max(throwx,T.x)
-
-		// hey you, get out of the way!
-		for(var/turf/T in dstturfs)
-			// find the turf to move things to
-			var/turf/D = locate(throwx, T.y, 1)
-			var/turf/E = get_step(D, EAST)
-			for(var/atom/movable/AM as mob|obj in T)
-				// east! the mobs go east!
-				AM.Move(D)
-				spawn(0)
-					AM.throw_at(E, 1, 1)
-					return
-		for(var/turf/T in srcturfs)
-			for(var/atom/movable/AM as mob|obj in T)
-				// first of all, erase any non-space turfs in the zone in
-				var/turf/U = locate(T.x, T.y, 1)
-				if(!istype(U, /turf/space))
-					var/turf/space/S = new /turf/space( locate(U.x, U.y, U.z) )
-					A.contents -= S
-					A.contents += S
-				AM.z = 1
-			var/turf/U = locate(T.x, T.y, shuttle_z)
-			U.phase1.copy_cop(T.phase1)
-			U.phase2.copy_cop(T.phase2)
-			U.gas.copy_cop(T.gas)
-			del(T)
-		src.timeleft = shuttle_time_in_station
-		src.shuttle_location = 1
-		world << "<B>The emergency shuttle has docked with the station! You have [ticker.timeleft/600] minutes to board the shuttle.</B>"
-	else
-		world << "<B>The emergency shuttle is leaving!</B>"
-		check_win()
-	return
-
-/datum/control/gameticker/proc/check_win()
-	if (!mode.check_win())
-		return 0
-
-	for (var/mob/silicon/ai/aiPlayer in world)
-		if (!aiPlayer.is_dead)
-			world << "<b>The AI's laws at the end of the game were:</b>"
-		else
-			world << "<b>The AI's laws when it was deactivated were:</b>"
-		aiPlayer.showLaws(1)
-
-	var/area/A = locate(/area/shuttle)
-	if (src.shuttle_location != shuttle_z)
-		for(var/turf/T in A)
-			if (T.z == 1)
-				for(var/atom/movable/AM as mob|obj in T)
-					AM.z = shuttle_z
-					//Foreach goto(2483)
-				var/turf/U = locate(T.x, T.y, shuttle_z)
-				U.match_gasses(T)
-				U.buildlinks()
-				//T = null
-				del(T)
-			//Foreach goto(2449)
-	sleep(300)
-	world.log_game("Rebooting due to end of game")
-	world.Reboot()
-	return 1
+/turf/proc/updatecell()			return
+/turf/proc/conduction()			return
+/turf/proc/cachecell()			return
+/datum/control/proc/process()	return
 
 /datum/control/gameticker/process()
 
-	shuttle_location = shuttle_z
-
 	world.update_stat()
-	world << "<B>Welcome to the Space Station 13!</B>\n\n"
+	world << "<B>Welcome to Space Station 13!</B>\n\n"
 
+	if(!master_mode) master_mode = "random"
 	switch (master_mode)
 		if("secret")
 			src.mode = config.pick_random_mode()
@@ -409,24 +238,17 @@
 			src.mode = config.pick_mode(master_mode)
 			src.mode.announce()
 
-	src.mode.pre_setup()
+	src.mode.setup()
 
 	world << "<B>Now dispensing all identification cards.</B>"
 
-	world.log_game("GAME: starting game of [src.mode.name]")
+	world.log_game("[src.mode.name] round starting")
 
 	DivideOccupations()
-
-	for (var/obj/manifest/M in world)
-		M.manifest()
-
-
+	for(var/obj/manifest/M in world)	M.manifest()
 	data_core.manifest()
-
-	src.mode.post_setup()
-
-	for(var/obj/start/S in world)
-		del(S)
+	src.mode.execute()
+	for(var/obj/start/S in world)		del(S)
 
 // *****
 // MAIN LOOP OF PROGRAM
@@ -436,56 +258,24 @@
 	set invisibility = 0
 	set background =1
 	do
-
-		//world << "World.contents.len [world.contents.len]"
-
 		time = (++time %10)
-
 		sun.calc_position()
-
-		//if(Debug)
-		//	world.log << "*** SoT ***"
-		//	Air()
 
 		for(var/turf/station/T in world)
 			if (T.updatecell)
 				T.updatecell()
-				if(!time)
-					T.conduction()
-		//if(Debug)
-		//	world.log << "*** EoT ***"
-		//	Air()
+				if(!time) T.conduction()
 
-			//Foreach goto(73)
 		sleep(3)
 		for(var/mob/M in world)
 			spawn( 0 )
 				M.Life()
 				return
-			//Foreach goto(126)
+
 		sleep(3)
-		for(var/obj/move/S in world)
-			S.process()
-			//Foreach goto(167)
-		sleep(2)
-
-		//if(Debug)
-		//	world.log << "*** SoP ***"
-		//	Air()
-
-		for(var/obj/machinery/M in machines)
-			M.process()
-		for(var/obj/machinery/M in gasflowlist)
-			M.gas_flow()
-		for(var/datum/powernet/P in powernets)
-			P.reset()
-
-		//if(Debug)
-		//	world.log << "*** EoP ***"
-		//	Air()
-
-			//Foreach goto(213)
-		src.var_swap = !( src.var_swap )
-
+		for(var/obj/machinery/M in machines)		M.process()
+		for(var/obj/machinery/M in gasflowlist)		M.gas_flow()
+		for(var/datum/powernet/P in powernets)		P.reset()
+		src.var_swap = !(src.var_swap)
 		sleep(2)
 	while (src.processing)

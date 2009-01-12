@@ -54,6 +54,9 @@
 			src.verbs += /client/proc/authorize
 			src << "Failed to authenticate your key."
 			src << "If you have not already authorize it at http://byond.lljk.net/ - your BYOND key is [src.key]."
+			if(config.enable_authentication == 2)
+				world.log_access("Notice: [src.key]@[src.address] failed to authenticate")
+				del(src)
 			src << "Try again using the <b>Authorize</b> command, sometimes the server will hiccup and not correctly authorize."
 			src << "[no_auth_motd]"
 

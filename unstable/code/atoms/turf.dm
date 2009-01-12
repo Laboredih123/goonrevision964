@@ -89,22 +89,6 @@
 	var/d_state = 0
 	updatecell = 0
 
-/turf/station/shuttle
-	name = "shuttle"
-	icon = 'shuttle.dmi'
-
-/turf/station/shuttle/floor
-	name = "floor"
-	icon_state = "floor"
-	updatecell = 1
-
-/turf/station/shuttle/wall
-	name = "wall"
-	icon_state = "wall"
-	opacity = 1
-	density = 1
-	updatecell = 0
-
 /turf/station/wall
 	name = "wall"
 	icon = 'wall.dmi'

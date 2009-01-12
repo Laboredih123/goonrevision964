@@ -16,18 +16,29 @@
 			K += item
 	return K
 
-/proc/sanitize(var/t)
+/proc/sanitize(var/t,var/limit=MAX_MESSAGE_LEN)
+	t = copytext(t,1,limit)
 	var/index = findtext(t, "\n")
 	while(index)
-		t = copytext(t, 1, index) + "#" + copytext(t, index+1)
+		t = copytext(t, 1, index) + copytext(t, index+1)
 		index = findtext(t, "\n")
-
 	index = findtext(t, "\t")
 	while(index)
-		t = copytext(t, 1, index) + "#" + copytext(t, index+1)
+		t = copytext(t, 1, index) + copytext(t, index+1)
 		index = findtext(t, "\t")
+	return html_encode(t)
 
-	return t
+/proc/strip_html(var/t,var/limit=MAX_MESSAGE_LEN)
+	t = copytext(t,1,limit)
+	var/index = findtext(t, "<")
+	while(index)
+		t = copytext(t, 1, index) + copytext(t, index+1)
+		index = findtext(t, "<")
+	index = findtext(t, ">")
+	while(index)
+		t = copytext(t, 1, index) + copytext(t, index+1)
+		index = findtext(t, ">")
+	return sanitize(t)
 
 /proc/add_zero(t, u)
 	while(length(t) < u)
@@ -103,6 +114,9 @@
 		file = file(file_path)
 	return dd_text2list(file2text(file), separator)
 
+/proc/dd_range(var/low, var/high, var/num)
+	return max(low,min(high,num))
+
 /proc/dd_replacetext(text, search_string, replacement_string)
 	var/textList = dd_text2list(text, search_string)
 	return dd_list2text(textList, replacement_string)
@@ -132,36 +146,36 @@
 	if(start)
 		return findText(text, suffix, start, null)
 
-/proc/dd_text2list(text, separator)
+/proc/dd_text2list(text, separator, var/list/withinList)
 	var/textlength = length(text)
 	var/separatorlength = length(separator)
+	if(withinList && !withinList.len) withinList = null
 	var/list/textList = new()
 	var/searchPosition = 1
 	var/findPosition = 1
 	while(1)
 		findPosition = findtext(text, separator, searchPosition, 0)
 		var/buggyText = copytext(text, searchPosition, findPosition)
-		textList += text("[]", buggyText)
-		if(!findPosition)
-			return textList
+		if(!withinList || (buggyText in withinList)) textList += "[buggyText]"
+		if(!findPosition) return textList
 		searchPosition = findPosition + separatorlength
 		if(searchPosition > textlength)
 			textList += ""
 			return textList
 	return
 
-/proc/dd_text2List(text, separator)
+/proc/dd_text2List(text, separator, var/list/withinList)
 	var/textlength = length(text)
 	var/separatorlength = length(separator)
+	if(withinList && !withinList.len) withinList = null
 	var/list/textList = new()
 	var/searchPosition = 1
 	var/findPosition = 1
 	while(1)
 		findPosition = findText(text, separator, searchPosition, 0)
 		var/buggyText = copytext(text, searchPosition, findPosition)
-		textList += text("[]", buggyText)
-		if(!findPosition)
-			return textList
+		if(!withinList || (buggyText in withinList)) textList += "[buggyText]"
+		if(!findPosition) return textList
 		searchPosition = findPosition + separatorlength
 		if(searchPosition > textlength)
 			textList += ""
@@ -203,7 +217,83 @@
 		return message
 	return copytext(message, 1, length + 1)
 
+/proc/angle2dir(var/degree)
+	degree = ((degree+22.5)%360)
+	if(degree < 45)		return NORTH
+	if(degree < 90)		return NORTHEAST
+	if(degree < 135)	return EAST
+	if(degree < 180)	return SOUTHEAST
+	if(degree < 225)	return SOUTH
+	if(degree < 270)	return SOUTHWEST
+	if(degree < 315)	return WEST
+	return NORTHWEST
+
+/proc/angle2text(var/degree)
+	return dir2text(angle2dir(degree))
+
+/proc/dir2angle(var/D)
+	switch(D)
+		if(NORTH)		return 0
+		if(NORTHEAST)	return 45
+		if(EAST)		return 90
+		if(SOUTHEAST)	return 135
+		if(SOUTH)		return 180
+		if(SOUTHWEST)	return 225
+		if(WEST)		return 270
+		if(NORTHWEST)	return 315
+	return 0
+
 /proc/ss13_browse(user, body, options)
-	user << browse(body, options)
-	if(body != null)
-		winset(user, "mainwindow.input", "focus=true")
+	user << browse(body, options+";focus=false")
+
+/proc/text_input(var/Message, var/Title, var/Default, var/length=MAX_MESSAGE_LEN)
+	return sanitize(input(Message, Title, Default) as text, length)
+
+/proc/scrub_input(var/Message, var/Title, var/Default, var/length=MAX_MESSAGE_LEN)
+	return strip_html(input(Message,Title,Default) as text, length)
+
+/proc/RateLimit(var/mob/usr, var/rate = config.rate_limit)
+	if(!usr) return 0
+	if(world.time <= usr.nextDblClick) return 1
+	usr.nextDblClick = world.time + rate
+	return 0
+
+/proc/InRange(var/A, var/lower, var/upper)
+	if(A < lower) return 0
+	if(A > upper) return 0
+	return 1
+
+/proc/LinkBlocked(turf/A, turf/B)
+	if(A == null || B == null) return 1
+	var/adir = get_dir(A,B)
+	var/rdir = get_dir(B,A)
+	if((adir & (NORTH|SOUTH)) && (adir & (EAST|WEST)))	//	diagonal
+		var/iStep = get_step(A,adir&(NORTH|SOUTH))
+		if(!LinkBlocked(A,iStep) && !LinkBlocked(iStep,B)) return 0
+
+		var/pStep = get_step(A,adir&(EAST|WEST))
+		if(!LinkBlocked(A,pStep) && !LinkBlocked(pStep,B)) return 0
+		return 1
+
+	if(DirBlocked(A,adir)) return 1
+	if(DirBlocked(B,rdir)) return 1
+	return 0
+
+
+/proc/DirBlocked(turf/loc,var/dir)
+	for(var/obj/window/D in loc)
+		if(!D.density)			continue
+		if(D.dir == SOUTHWEST)	return 1
+		if(D.dir == dir)		return 1
+
+	for(var/obj/machinery/door/D in loc)
+		if(!D.density)			continue
+		if(istype(D, /obj/machinery/door/window))
+			if(istype(D, /obj/machinery/door/window/alt))
+				if((dir & NORTH) && (D.dir & (EAST|WEST)))		return 1
+				if((dir & WEST ) && (D.dir & (NORTH|SOUTH)))	return 1
+			else
+				if((dir & SOUTH) && (D.dir & (EAST|WEST)))		return 1
+				if((dir & EAST ) && (D.dir & (NORTH|SOUTH)))	return 1
+		else return 1	// it's a real, air blocking door
+	return 0

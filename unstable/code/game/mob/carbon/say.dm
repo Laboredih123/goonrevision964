@@ -7,9 +7,7 @@
 	//TODO: completely redo this check so that it isn't absolutely awful
 	//seriously, checking the state of an icon on your HUD? jesus christ
 	var/turf/T = src.loc
-	if (locate(/obj/move, T))
-		T = locate(/obj/move, T)
-	if (!((src.hud && src.hud.oxygen && src.hud.oxygen.icon_state == "oxy0") || (istype(T, /turf) || istype(T, /obj/move)) && T.gas.oxygen > 0))
+	if (!((src.hud && src.hud.oxygen && src.hud.oxygen.icon_state == "oxy0") || istype(T, /turf) && T.gas.oxygen > 0))
 		return 0
 
 	return ..()

@@ -61,7 +61,7 @@
 
 /obj/item/weapon/aiModule/safeguard/interact(var/mob/user as mob)
 	..()
-	var/targName = input(usr, "Please enter the name of the person to safeguard.", "Safeguard who?", user.name)
+	var/targName = text_input(usr, "Please enter the name of the person to safeguard.", "Safeguard who?", user.name)
 	targetName = targName
 	desc = text("A 'safeguard' AI module: 'Safeguard [], and you may overrule rules 1-3 if necessary to safeguard them.'", targetName)
 
@@ -84,7 +84,7 @@
 	..()
 	if(!istype(user, /mob/carbon))
 		return
-	var/targName = input(usr, "Please enter the name of the person who is the only human.", "Who?", user.body_name)
+	var/targName = text_input(usr, "Please enter the name of the person who is the only human.", "Who?", user.body_name)
 	targetName = targName
 	desc = text("A 'one human' AI module: 'Only [] is human.'", targetName)
 

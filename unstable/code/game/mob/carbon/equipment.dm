@@ -132,7 +132,7 @@
 
 /mob/carbon/proc/reset_db_click()
 	usr.next_move = usr.prev_move
-	usr:lastDblClick -= 3
+	usr:nextDblClick = world.time
 
 /mob/carbon/proc/db_click(text, t1)
 	var/obj/item/weapon/W = src.equipped()
@@ -497,6 +497,12 @@
 			src.invisibility = 2
 			return
 
+/mob/carbon/proc/CameraInvisible()
+	for(var/obj/item/weapon/jammer/S in src)
+		if(S.on)
+			return 1
+	return 0
+
 /mob/carbon/proc/drop_item_v()
 	if (src.is_active())
 		drop_item()
@@ -538,12 +544,13 @@
 	return
 
 /mob/carbon/MouseDrop(mob/carbon/M as mob)
-
 	..()
-	if (M != usr || usr == src || get_dist(usr, src) > 1 || !istype(M, /mob/carbon))
-		return
+	if(M != usr) return
+	if(usr == src) return
+	if(get_dist(usr,src) > 1) return
+	if(!istype(M,/mob/carbon)) return
+	if(LinkBlocked(usr.loc,src.loc)) return
 	src.show_inv(usr)
-	return
 
 /mob/carbon/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
 	//warning: icky code

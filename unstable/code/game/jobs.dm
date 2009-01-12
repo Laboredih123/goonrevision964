@@ -10,17 +10,6 @@
 	occupations = new_occupations
 	return
 
-/proc/FindOccupationCandidates(list/unassigned, job, level)
-	var/list/candidates = list()
-	for(var/mob/prespawn/M in unassigned)
-		if(level == 1 && M.client.prefs.job1 == job)
-			candidates += M
-		if(level == 2 && M.client.prefs.job2 == job)
-			candidates += M
-		if(level == 3 && M.client.prefs.job3 == job)
-			candidates += M
-	return candidates
-
 /proc/reassign_job(job, list/unassigned, list/semiassigned)
 	//gives job to someone who wants it more than their current job, and reassigns their current job if any
 	for (var/level = 1; level <= 3; level++)
@@ -46,47 +35,67 @@
 		reassign_job(oldjob, unassigned, semiassigned)
 		return
 
+/proc/Authenticated(var/mob/prespawn/M, var/job)
+	if(M.client.authenticated)	return 1
+	return !RequiresAuth(job)
+
+/proc/RequiresAuth(var/job)
+	if(config.enable_authentication!=1) return 0
+	return (job in config.require_authentication)
+
+/proc/FindOccupationCandidates(list/unassigned, job, level)
+	var/list/candidates = list()
+	for(var/mob/prespawn/M in unassigned)
+		if(!Authenticated(M,job)) continue
+		if(level == 1 && M.client.prefs.job1 == job)	candidates += M
+		if(level == 2 && M.client.prefs.job2 == job)	candidates += M
+		if(level == 3 && M.client.prefs.job3 == job)	candidates += M
+	return candidates
+
 /proc/DivideOccupations()
+	var/list/assigned = list()
 	var/list/unassigned = list()
 	var/list/semiassigned = list()
-	var/list/assigned = list()
 
 	var/list/occupation_choices = occupations.Copy()
 	occupation_choices["Captain"] = 1
-	if(!config.allow_ai)
-		occupation_choices -= "AI"
+	if(!config.allow_ai) occupation_choices -= "AI"
 
-	for (var/mob/prespawn/M in world)
-		if (M.client && M.ready && !M.already_placed)
+	for(var/mob/prespawn/M in world)
+		if(M.client && M.ready && !M.already_placed)
 			unassigned += M
-	if(unassigned.len > 1)
+
+	if(unassigned.len == 1) // no Captain required
+		var/mob/prespawn/M = unassigned[1]
+		if(M.client.prefs.job1 in occupation_choices)
+			M.Assign_Rank(M.client.prefs.job1)
+		else
+			M.Assign_Rank("Captain")
+	else if(unassigned.len > 1)
 		//first, assign jobs to people based on how badly they want them
-		for (var/level = 1; level <= 3; level++)
-			if (unassigned.len == 0)
-				break
+		for(var/level = 1; level <= 3; level++)
+			if(!unassigned.len) break
 
-			for (var/occupation in assistant_occupations)
-				if (unassigned.len == 0)
-					break
+			for(var/occupation in assistant_occupations)
+				if(!unassigned.len) break
 				var/list/candidates = FindOccupationCandidates(unassigned, occupation, level)
-				for (var/mob/prespawn/candidate in candidates)
-					unassigned -= candidate
+				for(var/mob/prespawn/candidate in candidates)
 					semiassigned[candidate] = occupation
+					unassigned -= candidate
 
-			for (var/occupation in occupation_choices)
-				if (unassigned.len == 0)
-					break
+			for(var/occupation in occupation_choices)
+				if(!unassigned.len) break
 				var/num_available = occupation_choices[occupation]
-				if (num_available == 0)
-					continue
+				if(!num_available)	continue
 				for(var/i = 0; i < num_available; i++)
 					var/list/candidates = FindOccupationCandidates(unassigned, occupation, level)
-					if(!candidates.len)
-						break
+					if(!candidates.len) break
 					var/mob/prespawn/candidate = pick(candidates)
-					unassigned -= candidate
 					semiassigned[candidate] = occupation
 					occupation_choices[occupation]--
+					unassigned -= candidate
+
+
 		//next, assign the jobs that absolutely must be filled (trying to fill them from unassigned first)
 		var/list/necessaryjobs = list(
 			"Captain",
@@ -98,90 +107,74 @@
 		)
 		if(!config.allow_ai)
 			necessaryjobs -= "AI"
+
 		for(var/job in necessaryjobs)
-			// first check that nobody already has this job
-			// if people do, pick a random one of them to perma-have it
-			// (this way, even if there are 3 station engineers in semiassigned you'll still end up with a doctor)
+			if(!unassigned.len) continue
+			var/selected = null
 			var/list/existing = list()
 			for(var/mob/prespawn/M in semiassigned)
-				if(semiassigned[M] == job)
-					existing += M
+				if(semiassigned[M] == job) existing += M
+
 			if(existing.len)
 				var/mob/prespawn/M = pick(existing)
 				semiassigned -= M
 				assigned[M] = job
 				continue
+
 			// nobody has this job yet, so we have to pick someone to do it
 			// if anyone doesn't have a job yet, give it to them (more fair)
-			if(unassigned.len)
-				var/mob/prespawn/M = pick(unassigned)
+			for(var/mob/prespawn/M in shuffle(unassigned))
+				if(!Authenticated(M,job)) continue
+				assigned[M] = job
 				unassigned -= M
-				assigned[M] = job
-				continue
-			// everyone has a job, just pick randomly
-			// could do it based on whether they have this job in their preferences,
-			// but that is a bad idea because it makes it undesirable to put your real preferences
-			// for example, Bob puts AI as first choice and Captain as second, Bill puts AI as first
-			// under that system, Bob would always be Captain, which sucks for Bob
-			// under this system, both of them have an equal chance to be AI
-			if(semiassigned.len)
-				var/mob/prespawn/M = pick(semiassigned)
-				semiassigned -= M
-				assigned[M] = job
-				//now we have to reassign his job
-				reassign_job(job, unassigned, semiassigned)
-			// if semiassigned is empty too, just don't assign this job - necessaryjobs is arranged in order of importance
+				selected = M
+				break
+
+			if(!selected)	// everyone has a job, just pick randomly
+				for(var/mob/prespawn/M in shuffle(semiassigned))
+					if(!Authenticated(M,job)) continue
+					semiassigned -= M
+					assigned[M] = job
+					reassign_job(job, unassigned, semiassigned)
+					break
+
+			// don't assign this job - necessaryjobs is arranged in order of importance
 
 		//assign remaining non-terrible jobs
-		if (unassigned.len)
+		if(unassigned.len)
 			var/list/remaining_occupations = list()
-			for (var/occupation in occupation_choices)
+			for(var/occupation in occupation_choices)
 				for(var/i = 0; i < occupation_choices[occupation]; i++)
 					remaining_occupations += occupation
-			shuffle(remaining_occupations)
-			for(var/occupation in remaining_occupations)
-				if (!unassigned.len)
+			for(var/occupation in shuffle(remaining_occupations))
+				for(var/mob/prespawn/candidate in shuffle(unassigned))
+					if(!Authenticated(candidate,occupation)) continue
+					semiassigned[candidate] = occupation
+					occupation_choices[occupation]--
+					unassigned -= candidate
 					break
-				var/mob/prespawn/candidate = pick(unassigned)
-				unassigned -= candidate
-				semiassigned[candidate] = occupation
-				occupation_choices[occupation]--
 
-		for (var/mob/prespawn/M in unassigned)
-			unassigned -= M
+		//	even unauthenticated users can fill assistant roles
+		for(var/mob/prespawn/M in unassigned)
 			semiassigned[M] = pick(assistant_occupations)
+			unassigned -= M
 
 		//actally assign the jobs!
-		for(var/mob/prespawn/M in semiassigned)
-			M.Assign_Rank(semiassigned[M])
-		for(var/mob/prespawn/M in assigned)
-			M.Assign_Rank(assigned[M])
-	else if(unassigned.len == 1) //don't require a captain or do any of this complex stuff with just one person
-		//it makes it harder to test things like being AI
-		var/mob/prespawn/M = unassigned[1]
-		if(M.client.prefs.job1 && !(M.client.prefs.job1 == "AI" && !config.allow_ai))
-			M.Assign_Rank(M.client.prefs.job1)
-		else
-			M.Assign_Rank("Captain")
+		for(var/mob/prespawn/M in semiassigned)	M.Assign_Rank(semiassigned[M])
+		for(var/mob/prespawn/M in assigned)		M.Assign_Rank(assigned[M])
 
+	//	still need to loop since we declare who is AI
 	for (var/mob/silicon/ai/aiPlayer in world)
 		spawn(0)
-			var/randomname = pick(ai_names)
-			var/newname = input(
-				aiPlayer,
-				"You are the AI. Would you like to change your name to something else?", "Name change",
-				randomname)
-
-			if (length(newname) == 0)
-				newname = randomname
-
-			if (newname)
-				if (length(newname) >= 26)
-					newname = copytext(newname, 1, 26)
-				newname = dd_replacetext(newname, ">", "'")
+			if(config.random_ai_names)
+				var/randomname = "HAL"	//	default name
+				if(ai_names) randomname = pick(ai_names)
+				var/newname = input(aiPlayer,"You are the AI. Would you like to change your name?", "Character Creation", randomname)
+				if(!length(newname)) newname = randomname
+				newname = strip_html(newname,30)
 				aiPlayer.spawn_name = newname
-				aiPlayer.name = newname
 				aiPlayer.voice = newname
+				aiPlayer.name = newname
 
 			world << text("<b>[] is the AI!</b>", aiPlayer.name)
 

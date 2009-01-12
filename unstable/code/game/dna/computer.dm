@@ -314,7 +314,7 @@
 			del(src.primary_buf.contents)
 		if("rename-buffer")
 			src.primary_buf = buffers[text2num(href_list["buffer-num"])]
-			var/newdesc = input("Enter new buffer description", "Buffer #[src.primary_buf.index] Description", "[src.primary_buf.desc]")
+			var/newdesc = text_input("Enter new buffer description", "Buffer #[src.primary_buf.index] Description", "[src.primary_buf.desc]")
 			if(newdesc && newdesc != "[src.primary_buf.desc]")
 				src.primary_buf.desc = newdesc
 		if("splice-menu")

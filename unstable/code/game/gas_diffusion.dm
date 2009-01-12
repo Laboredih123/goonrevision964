@@ -153,9 +153,7 @@
 /datum/substance/gas/proc/turf_add(var/turf/target as turf, amount = -1)
 	if(!amount)
 		return
-	if(locate(/obj/move, target))
-		target = locate(/obj/move, target)
-	if(!istype(target, /turf) && !istype(target, /obj/move))
+	if(!istype(target, /turf))
 		return
 	src.transfer(target.gas,amount) // might need TURF_ADD_FRAC
 	target.reset_phases()
@@ -163,10 +161,8 @@
 /datum/substance/gas/proc/turf_take(var/turf/target as turf, amount)
 	if(!amount)
 		return
-	if(!istype(target, /turf) && !istype(target, /obj/move))
+	if(!istype(target, /turf))
 		return
-	if(locate(/obj/move, target))
-		target = locate(/obj/move, target)
 	target.gas.transfer(src,amount)	// might need TURF_ADD_FRAC
 	target.reset_phases()
 
@@ -201,10 +197,8 @@
 	return 2*co2 + 1.5*nitrogen + oxygen + 0.5*no2 + 1.2*plasma
 
 /datum/substance/gas/proc/extract_toxs(var/turf/target as turf)
-	if(!istype(target,/turf) && !istype(target,/obj/move))
+	if(!istype(target,/turf))
 		return
-	if(locate(/obj/move, target))
-		target = locate(/obj/move, target)
 
 	var/datum/substance/gas/air = new();
 	air.co2	= max(0, target.gas.co2)
@@ -228,11 +222,6 @@
 
 /datum/substance/gas/proc/DiffusionLinks(var/turf/T)
 	if(T.density && !T.updatecell) // if this is a dense turf (wall, closed false_wall etc, just return nothing)
-		return list()
-
-	for(var/obj/move/M in T) // are there any dense obj/move in this turf?
-		if(!M.density)
-			continue
 		return list()
 
 	var/list/L = cardinal.Copy()
@@ -297,11 +286,6 @@
 		return 0
 
 	srcDir = turn(srcDir, 180)
-
-	for(var/obj/move/M in target)
-		if(!M.density)
-			continue
-		return 0
 
 	for(var/obj/window/D in target)
 		if(!D.density)

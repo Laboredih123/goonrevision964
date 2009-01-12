@@ -44,69 +44,51 @@
 /obj/var/req_access_txt = "0"
 /obj/New()
 	var/reset_req_access = 0
-	if(src.req_access_txt)
-		var/req_access_str = params2list(req_access_txt)
-		for(var/x in req_access_str)
-			var/y = text2num(x)
-			if(y)
-				if(!reset_req_access)
-					req_access = list()
-					reset_req_access = 1
-				req_access += y
+	if(!src.req_access_txt) return ..()
+	var/req_access_str = params2list(req_access_txt)
+	for(var/x in req_access_str)
+		var/y = text2num(x)
+		if(!y) continue
+		if(!reset_req_access)
+			req_access = list()
+			reset_req_access = 1
+		req_access += y
 	..()
 
 //returns 1 if this mob has sufficient access to use this object
 /obj/proc/allowed(mob/M)
-	//check if it doesn't require any access at all
-	if(src.check_access(null))
-		return 1
-	//AI can do whatever he wants
-	if(istype(M, /mob/silicon/ai))
-		return 1
-	else if(istype(M, /mob/carbon))
-		var/mob/carbon/C = M
-		//if they are holding or wearing a card that has access, that works
-		if(src.check_access(C.equipped()) || src.check_access(C.id))
-			return 1
+	if(src.check_access(null))		return 1	//	it doesn't require any access at all
+	if(istype(M, /mob/silicon/ai))	return 1	//	AI can do whatever it wants
+	if(istype(M, /mob/carbon))
+		if(src.check_access(M:id))			return 1	//	wearin an ID with access
+		if(src.check_access(M:equipped()))	return 1	//	holding a card with access
 	return 0
 
 /obj/proc/check_access(obj/item/weapon/card/id/I)
-	if(!src.req_access) //no requirements
-		return 1
-	if(!istype(src.req_access, /list)) //something's very wrong
-		return 1
+	if(!src.req_access) return 1				//	no requirements
+	if(!istype(src.req_access, /list)) return 1	//	something's very wrong
+
 	var/list/L = src.req_access
-	if(!L.len) //no requirements
-		return 1
+	if(!L.len) return 1	//	no requirements
 	if(!I || !istype(I, /obj/item/weapon/card/id) || !I.access) //not ID or no access
 		return 0
 	for(var/req in src.req_access)
-		if(!(req in I.access)) //doesn't have this access
-			return 0
+		if(!(req in I.access)) return 0 //doesn't have this access
 	return 1
 
 /proc/get_access(job)
 	switch(job)
-		if("Chaplain")
-			return list(access_morgue, access_chaplain_office)
-		if("Assistant")
-			return list(access_genetics, access_maint_tunnels, access_external_airlocks)
-		if("Station Engineer")
-			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs, access_tech_storage)
-		if("Forensic Technician")
-			return list(access_security, access_forensics_lockers, access_morgue)
-		if("Research Technician")
-			return list(access_medical_supplies, access_tox, access_tox_storage, access_genetics)
-		if("Medical Doctor")
-			return list(access_medical_supplies, access_morgue, access_medical_records)
-		if("Captain")
-			return get_all_accesses()
-		if("Security Officer")
-			return list(access_security, access_brig, access_security_lockers)
-		if("Genetic Researcher")
-			return list(access_medical_supplies, access_morgue, access_genetics, access_medical_records)
-		if("Toxin Researcher")
-			return list(access_tox, access_tox_storage)
+		if("Chaplain")					return list(access_morgue, access_chaplain_office)
+		if("Assistant")					return list(access_genetics, access_maint_tunnels, access_external_airlocks)
+		if("Station Engineer")			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs, access_tech_storage)
+		if("Forensic Technician")		return list(access_security, access_forensics_lockers, access_morgue)
+		if("Research Technician")		return list(access_medical_supplies, access_tox, access_tox_storage, access_genetics)
+		if("Atmospheric Technician")	return list(access_maint_tunnels, access_emergency_storage, access_atmospherics)
+		if("Medical Doctor")			return list(access_medical_supplies, access_morgue, access_medical_records)
+		if("Captain")					return get_all_accesses()
+		if("Security Officer")			return list(access_security, access_brig, access_security_lockers)
+		if("Genetic Researcher")		return list(access_medical_supplies, access_morgue, access_genetics, access_medical_records)
+		if("Toxin Researcher")			return list(access_tox, access_tox_storage)
 		if("Head of Research")
 			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_genetics,
 			            access_teleporter, access_heads, access_medical_records, access_tech_storage, access_security)
@@ -116,8 +98,6 @@
 						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
 						access_all_personal_lockers, access_chaplain_office, access_medical_records, access_tech_storage,
 						access_atmospherics)
-		if("Atmospheric Technician")
-			return list(access_maint_tunnels, access_emergency_storage, access_atmospherics)
 		else
 			return list()
 
@@ -131,60 +111,60 @@
 
 /proc/get_access_desc(A)
 	switch(A)
-		if(access_security)
-			return "access security"
-		if(access_brig)
-			return "access the brig"
-		if(access_security_lockers)
-			return "open security lockers"
-		if(access_forensics_lockers)
-			return "open forensics lockers"
-		if(access_security_records)
-			return "access security records"
-		if(access_medical_supplies)
-			return "access medical supplies"
-		if(access_medical_records)
-			return "access medical records"
-		if(access_morgue)
-			return "access the morgue"
-		if(access_tox)
-			return "access toxins"
-		if(access_tox_storage)
-			return "access toxins storage"
-		if(access_genetics)
-			return "access genetics"
-		if(access_engine)
-			return "access the engine"
-		if(access_eject_engine)
-			return "eject the engine"
-		if(access_maint_tunnels)
-			return "access maintenance tunnels"
-		if(access_external_airlocks)
-			return "open external airlocks"
-		if(access_emergency_storage)
-			return "access emergency storage"
-		if(access_apcs)
-			return "access APCs"
-		if(access_change_ids)
-			return "change ID cards"
-		if(access_ai_upload)
-			return "access the AI upload"
-		if(access_teleporter)
-			return "access the teleporter"
-		if(access_eva)
-			return "access EVA storage"
-		if(access_heads)
-			return "access the heads' quarters"
-		if(access_captain)
-			return "access the captain's quarters"
-		if(access_all_personal_lockers)
-			return "open all personal lockers"
-		if(access_chaplain_office)
-			return "access chaplain's office"
-		if(access_tech_storage)
-			return "access technical storage"
-		if(access_atmospherics)
-			return "access atmospherics"
+		if(access_security)				return "access security"
+		if(access_brig)					return "access the brig"
+		if(access_security_lockers)		return "open security lockers"
+		if(access_forensics_lockers)	return "open forensics lockers"
+		if(access_security_records)		return "access security records"
+		if(access_medical_supplies)		return "access medical supplies"
+		if(access_medical_records)		return "access medical records"
+		if(access_morgue)				return "access the morgue"
+		if(access_tox)					return "access toxins"
+		if(access_tox_storage)			return "access toxins storage"
+		if(access_genetics)				return "access genetics"
+		if(access_engine)				return "access the engine"
+		if(access_eject_engine)			return "eject the engine"
+		if(access_maint_tunnels)		return "access maintenance tunnels"
+		if(access_external_airlocks)	return "open external airlocks"
+		if(access_emergency_storage)	return "access emergency storage"
+		if(access_apcs)					return "access APCs"
+		if(access_change_ids)			return "change ID cards"
+		if(access_ai_upload)			return "access the AI upload"
+		if(access_teleporter)			return "access the teleporter"
+		if(access_eva)					return "access EVA storage"
+		if(access_heads)				return "access the heads' quarters"
+		if(access_captain)				return "access the captain's quarters"
+		if(access_all_personal_lockers)	return "open all personal lockers"
+		if(access_chaplain_office)		return "access chaplain's office"
+		if(access_tech_storage)			return "access technical storage"
+		if(access_atmospherics)			return "access atmospherics"
+	return "invalid access"
 
 /proc/get_all_jobs()
 	return list("Assistant", "Station Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
+
+/proc/get_target_desc(mob/target) //return a useful string describing the target
+	var/targetrank = null
+	for(var/datum/data/record/R in data_core.general)
+		if(R.fields["name"] == target.spawn_name)
+			targetrank = R.fields["rank"]
+	return "[target.name] the [targetrank]"
+
+/proc/get_rank(mob/M)
+	for(var/datum/data/record/R in data_core.general)
+		if(R.fields["name"] == M.name)
+			return R.fields["rank"]
+	return null
+
+/proc/get_mobs_with_rank(rank)
+	var/list/mobs = list()
+	var/list/names = list()
+	for(var/datum/data/record/R in data_core.general)
+		if(R.fields["rank"] == rank)
+			names += R.fields["name"]
+			break
+	for(var/mob/M in world)
+		for(var/name in names)
+			if(M.name == name)
+				mobs += M
+	return mobs

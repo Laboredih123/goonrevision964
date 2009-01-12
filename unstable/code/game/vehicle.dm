@@ -70,9 +70,7 @@
 
 /obj/machinery/vehicle/verb/eject()
 	set src = usr.loc
-
-	if (!usr.is_active())
-		return
+	if(!usr.is_active()) return
 
 	var/mob/M = usr
 	M.loc = src.loc

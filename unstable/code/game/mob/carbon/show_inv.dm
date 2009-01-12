@@ -28,13 +28,16 @@
 	dat += "<br><a href='?src=\ref[src];item=[SLOT_HANDCUFFS]'>[src.handcuffs ? "" : "Not "]Handcuffed</A><br>"
 	if(src.can_wear_jumpsuit)
 		dat += "<a href='?src=\ref[src];item=[SLOT_IN_POCKETS]'>Empty Pockets</A><br>"
-	dat += "<a href='?src=\ref[user];mach_close=mob[html_encode(src.spawn_name)]'>Close</A>"
-	ss13_browse(user, dat, "window=mob[html_encode(src.spawn_name)];size=300x600")
+	dat += "<a href='?src=\ref[user];mach_close=mob[src.spawn_name]'>Close</A>"
+	ss13_browse(user, dat, "window=mob[src.spawn_name];size=300x600")
 	return
 
 /mob/carbon/Topic(href, href_list)
 	..()
-	if (href_list["item"] && usr.can_use_hands() && get_dist(src, usr) <= 1)
+	if(get_dist(src,usr)>1) return
+	if(!usr.can_use_hands()) return
+	if(LinkBlocked(src.loc,usr.loc)) return
+	if(href_list["item"])
 		var/obj/equip_e/O = new()
 		O.source = usr
 		O.target = src
@@ -43,6 +46,6 @@
 		O.t_loc = src.loc
 		O.place = href_list["item"]
 		src.requests += O
-		spawn( 0 )
+		spawn(0)
 			O.process()
 			return

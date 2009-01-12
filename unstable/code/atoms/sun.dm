@@ -7,13 +7,11 @@
 
 /datum/sun/New()
 	rate = rand(75,125)/100		// 75% - 125% of standard rotation
-	if(prob(50))
-		rate = -rate
+	if(prob(50)) rate = -rate
 
 // calculate the sun's position given the time of day
 /datum/sun/proc/calc_position()
-	if(++counter<50)			// count 50 pticks (50 seconds, roughly - about a 5deg change)
-		return
+	if(++counter<50) return			// count 50 pticks (50 seconds, roughly - about a 5deg change)
 	counter = 0
 
 	angle = (rate*world.realtime/100)%360		// 60 +/- 15 minute rotation time dependent on rate
@@ -22,18 +20,11 @@
 	var/s = sin(angle)
 	var/c = cos(angle)
 
-	if(!c)
-		dx = 0
-		dy = s
-	else if(abs(s) < abs(c))
-		dx = s / abs(c)
-		dy = c / abs(c)
-	else
-		dx = s / abs(s)
-		dy = c / abs(s)
+	if(!c)						{	dx = 0;				dy = s			}
+	else if(abs(s) < abs(c))	{	dx = s / abs(c);	dy = c / abs(c)	}
+	else						{	dx = s / abs(s);	dy = c / abs(s)	}
 
-	for(var/obj/machinery/power/solar/S in machines)
-		occlusion(S)
+	for(var/obj/machinery/power/solar/S in machines) occlusion(S)
 
 // for a solar panel, trace towards sun to see if we're in shadow
 /datum/sun/proc/occlusion(var/obj/machinery/power/solar/S)
@@ -52,22 +43,5 @@
 			S.obscured = 1
 			return
 
-	S.obscured = 0		// if hit the edge or steped 20 times, not obscured
+	S.obscured = 0		// if hit the edge or stepped 20 times, not obscured
 	S.updatefrac()
-
-//returns the north-zero clockwise angle in degrees, given a direction
-/proc/dir2angle(var/D)
-	switch(D)
-		if(NORTH)	return 0
-		if(SOUTH)	return 180
-		if(EAST)	return 90
-		if(WEST)	return 270
-
-		if(NORTHEAST)	return 45
-		if(SOUTHEAST)	return 135
-		if(NORTHWEST)	return 315
-		if(SOUTHWEST)	return 225
-
-	return 0
-
-

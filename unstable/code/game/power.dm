@@ -56,65 +56,68 @@
 // the power cell
 // charge from 0 to 100%
 // fits in APC to provide backup power
-
-/obj/item/weapon/cell/New()
+/obj/item/weapon/cell/New(var/atom/location,var/charge_percent,var/charge_limit)
 	..()
-
-	charge = charge * maxcharge/100.0		// map obj has charge as percentage, convert to real value here
+	if(charge_limit != null)	maxcharge = charge_limit
+	if(charge_percent == null)	charge *= maxcharge/100.0	// map obj has charge as percentage, convert to real value here
+	else						charge = charge_percent * maxcharge/100.0
 
 	spawn(5)
 		updateicon()
 
 /obj/item/weapon/cell/proc/updateicon()
-
-	if(maxcharge <= 2500)
-		icon_state = "cell"
-	else
-		icon_state = "hpcell"
+	if(maxcharge <= 2500)	icon_state = "cell"
+	else					icon_state = "hpcell"
 
 	overlays = null
+	if(charge < 0.01) return
+	if(percent() > 99)	overlays += image('power.dmi', "cell-o2")
+	else				overlays += image('power.dmi', "cell-o1")
 
-	if(charge < 0.01)
-		return
-	else if(charge/maxcharge >=0.995)
-		overlays += image('power.dmi', "cell-o2")
-	else
-		overlays += image('power.dmi', "cell-o1")
-
-/obj/item/weapon/cell/proc/percent()		// return % charge of cell
-	return 100.0*charge/maxcharge
+/obj/item/weapon/cell/proc/percent()			{	return 100.0*charge/maxcharge	}
 
 /obj/item/weapon/cell/examine()
 	set src in view(1)
-	if(usr && !usr.is_dead)
-		if(maxcharge <= 2500)
-			usr.see("A high-capacity rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent() )]%.")
-		else
-			usr.see("This power cell has an exciting chrome finish, as it is an uber-capacity cell type! It has a power rating of [maxcharge]!!!\nThe charge meter reads [round(src.percent() )]%.")
+	if(!usr || usr.is_dead) return
+	if(maxcharge <= 2500)	usr.see("A rechargable electrochemical power cell.\nThe charge meter reads [round(src.percent())]%.")
+	else					usr.see("This is a high-capacity, chrome-finished power cell!\nThe charge meter reads [round(src.percent())]%.")
 
+/obj/item/weapon/cell/proc/recharge(var/amount)
+	if(!amount) return 0
+	if(amount/maxcharge > 0.25)
+		src.discharge(amount * 0.80)
+		amount *= 0.20
+	charge += amount
+	if(charge <= maxcharge) return 1
+	var/excess = (charge - maxcharge) * 4
+	charge = dd_range(0, maxcharge, charge-excess)
+	if(excess) src.discharge(excess)
+	return 1
 
+/obj/item/weapon/cell/proc/discharge(var/amount)
+	if(!amount) return 0
+	if(istype(src.loc,/obj/machinery/power/apc)) src.loc:surge(amount)
+	if(amount>charge && amount/maxcharge>0.005) src.explode()
+	if(amount/maxcharge > 0.20) src.explode()
+	amount = min(charge,amount)
+	charge -= amount
+	return amount
+
+/obj/item/weapon/cell/proc/explode()
+	if(!src.loc) del(src)
+	var/atom/tloc = src.loc
+	if(!isturf(tloc)) tloc = tloc.loc
+	var/obj/effects/sparks/O = new /obj/effects/sparks(tloc)
+	O.amount = (maxcharge>10000? 5 : (maxcharge>2000? 3 : 2)) * charge/maxcharge*pick(1,20;1.4,5;2.1)
+	O.dir = pick(NORTH, SOUTH, EAST, WEST)
+	O.Life()
+	del(src)
 
 // common helper procs for all power machines
-
-/obj/machinery/power/proc/add_avail(var/amount)
-	if(powernet)
-		powernet.newavail += amount
-
-/obj/machinery/power/proc/add_load(var/amount)
-	if(powernet)
-		powernet.newload += amount
-
-/obj/machinery/power/proc/surplus()
-	if(powernet)
-		return powernet.avail-powernet.load
-	else
-		return 0
-
-/obj/machinery/power/proc/avail()
-	if(powernet)
-		return powernet.avail
-	else
-		return 0
+/obj/machinery/power/proc/add_avail(var/amount)	{	if(powernet)	powernet.newavail += amount				}
+/obj/machinery/power/proc/add_load(var/amount)	{	if(powernet)	powernet.newload += amount				}
+/obj/machinery/power/proc/surplus()				{	return (!powernet ? 0 : powernet.avail-powernet.load)	}
+/obj/machinery/power/proc/avail()				{	return (!powernet ? 0 : powernet.avail)					}
 
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire conection to power network
@@ -154,13 +157,8 @@
 	pixel_x = (tdir & 3)? 0 : (tdir == 4 ? 24 : -24)
 	pixel_y = (tdir & 3)? (tdir ==1 ? 24 : -24) : 0
 
-
-	// is starting with a power cell installed, create it and set its charge level
-	if(cell_type)
-		src.cell = new/obj/item/weapon/cell(src)
-		cell.maxcharge = cell_type	// (old type 1 = 1000, 2=2500, now just enter the value you need)
-		cell.charge = start_charge * cell.maxcharge / 100.0 		// (convert percentage to actual value)
-
+	// starts with power cell installed - cell(location,percent,maxcharge)
+	if(cell_type)	src.cell = new/obj/item/weapon/cell(src,start_charge,cell_type)
 
 	var/area/A = src.loc.loc
 
@@ -178,19 +176,21 @@
 	spawn(5)
 		src.update()
 
+/obj/machinery/power/apc/proc/surge(var/amount)
+	if(amount < 10) return
+	if(cell && amount < 0.01*cell.charge) return
+	var/obj/effects/sparks/O = new /obj/effects/sparks(src.loc)
+	O.dir = pick(NORTH, SOUTH, EAST, WEST)
+	spawn(0) O.Life()
+	set_broken()
+
 /obj/machinery/power/apc/examine()
 	set src in oview(1)
-
 	if(stat & BROKEN) return
-
-	if(usr && usr.is_active())
-		usr << "A control terminal for the area electrical systems."
-		if(opened)
-			usr << "The cover is open and the power cell is [ cell ? "installed" : "missing"]."
-		else
-			usr << "The cover is closed."
-
-
+	if(!usr || !usr.is_active()) return
+	usr << "A control terminal for the area electrical systems."
+	if(opened)	usr << "The cover is open and the power cell is [ cell ? "installed" : "missing"]."
+	else		usr << "The cover is closed."
 
 // update the APC icon to show the three base states
 // also add overlays for indicator lights
@@ -198,33 +198,27 @@
 	if(opened)
 		icon_state = "[ cell ? "apc2" : "apc1" ]"		// if opened, show cell if it's inserted
 		src.overlays = null								// also delete all overlays
-	else
-		icon_state = "apc0"
+		return
 
-		// if closed, update overlays for channel status
+	icon_state = "apc0"
+	// if closed, update overlays for channel status
+	src.overlays = null
+	overlays += image('power.dmi', "apcox-[locked]")	// 0=blue 1=red
+	overlays += image('power.dmi', "apco3-[charging]") // 0=red, 1=yellow/black 2=green
 
-		src.overlays = null
-
-		overlays += image('power.dmi', "apcox-[locked]")	// 0=blue 1=red
-		overlays += image('power.dmi', "apco3-[charging]") // 0=red, 1=yellow/black 2=green
-
-
-		if(operating)
-			overlays += image('power.dmi', "apco0-[equipment]")	// 0=red, 1=green, 2=blue
-			overlays += image('power.dmi', "apco1-[lighting]")
-			overlays += image('power.dmi', "apco2-[environ]")
-
-
+	if(operating)
+		overlays += image('power.dmi', "apco0-[equipment]")	// 0=red, 1=green, 2=blue
+		overlays += image('power.dmi', "apco1-[lighting]")
+		overlays += image('power.dmi', "apco2-[environ]")
 
 //attack with an item - open/close cover, insert cell, or (un)lock interface
-
 /obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/carbon/user)
 
 	if(stat & BROKEN) return
-	if (istype(user, /mob/silicon/ai))
+	if(istype(user, /mob/silicon/ai))
 		return src.interact(user)
 
-	if (istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
+	if(istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
 		if(opened)
 			opened = 0
 			updateicon()
@@ -235,7 +229,7 @@
 				opened = 1
 				updateicon()
 
-	else if	(istype(W, /obj/item/weapon/cell) && opened)	// trying to put a cell inside
+	else if(istype(W, /obj/item/weapon/cell) && opened)	// trying to put a cell inside
 		if(cell)
 			user << "There is a power cell already installed."
 		else
@@ -246,7 +240,7 @@
 			chargecount = 0
 
 		updateicon()
-	else if (istype(W, /obj/item/weapon/card/id) )			// trying to unlock the interface with an ID card
+	else if(istype(W, /obj/item/weapon/card/id))			// trying to unlock the interface with an ID card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -258,7 +252,7 @@
 			else
 				user << "\red Access denied."
 
-	else if (istype(W, /obj/item/weapon/card/emag) )		// trying to unlock with an emag card
+	else if(istype(W, /obj/item/weapon/card/emag))		// trying to unlock with an emag card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -271,7 +265,7 @@
 				updateicon()
 			else
 				user << "You fail to [ locked ? "unlock" : "lock"] the APC interface."
-	else if (istype(W, /obj/item/weapon/wirecutters))
+	else if(istype(W, /obj/item/weapon/wirecutters))
 		if (opened)
 			if (src.aidisabled)
 				user << "You have reconnected the AI control wire in the APC interface."
@@ -285,31 +279,16 @@
 // attack with hand - remove cell (if cover open) or interact with the APC
 
 /obj/machinery/power/apc/interact(mob/carbon/user)
-
 	add_fingerprint(user)
-
 	if(stat & BROKEN) return
-
-	if(opened && (!istype(user, /mob/silicon/ai)))
-		if(cell)
-			cell.loc = usr
-			cell.layer = 20
-			if (user.hand )
-				user.l_hand = cell
-			else
-				user.r_hand = cell
-
-			cell.add_fingerprint(user)
-			cell.updateicon()
-
-			src.cell = null
-			user << "You remove the power cell."
-			charging = 0
-			src.updateicon()
-
-	else
-		// do APC interaction
-		src.interaction(user)
+	if(!opened || istype(user,/mob/silicon/ai))	return src.interaction(user)
+	if(!cell) return
+	user << "The power cell pops free of its casing"
+	cell.loc = src.loc
+	cell.updateicon()
+	charging = 0
+	src.cell = null
+	src.updateicon()
 
 /obj/machinery/power/apc/proc/interaction(mob/user)
 
@@ -332,8 +311,8 @@
 		t += "External power : <B>[ main_status ? (main_status ==2 ? "<FONT COLOR=#004000>Good</FONT>" : "<FONT COLOR=#D09000>Low</FONT>") : "<FONT COLOR=#F00000>None</FONT>"]</B><BR>"
 		t += "Power cell: <B>[cell ? "[round(cell.percent())]%" : "<FONT COLOR=red>Not connected.</FONT>"]</B>"
 		if(cell)
-			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])"
-			t += " ([chargemode ? "Auto" : "Off"])"
+			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])<BR>"
+			t += "Cell charger: [!chargemode ? "Off" : (chargemode==1 ? "Auto" : "Manual: [chargecount]")]"
 
 		t += "<BR><HR>Power channels<BR><PRE>"
 
@@ -353,58 +332,44 @@
 		t += "External power : <B>[ main_status ? (main_status ==2 ? "<FONT COLOR=#004000>Good</FONT>" : "<FONT COLOR=#D09000>Low</FONT>") : "<FONT COLOR=#F00000>None</FONT>"]</B><BR>"
 		if(cell)
 			t += "Power cell: <B>[round(cell.percent())]%</B>"
-			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])"
-			t += " ([chargemode ? "<A href='?src=\ref[src];cmode=1'>Off</A> <B>Auto</B>" : "<B>Off</B> <A href='?src=\ref[src];cmode=1'>Auto</A>"])"
+			t += " ([charging ? ( charging == 1 ? "Charging" : "Fully charged" ) : "Not charging"])<BR>"
+			t += "Cell charger: "
+			switch(chargemode)
+				if(0) t += "<A href='?src=\ref[src];chargemode=1'>Off</A>"
+				if(1) t += "<A href='?src=\ref[src];chargemode=2'>Auto</A>"
+				if(2) t += "<A href='?src=\ref[src];chargemode=0'>Manual</A>: [rate_control(src,"recharge",chargecount,5,20)]"
 
 		else
 			t += "Power cell: <B><FONT COLOR=red>Not connected.</FONT></B>"
 
-		t += "<BR><HR>Power channels<BR><PRE>"
+		t += "<BR><HR>Power channels<PRE>"
 
 
-		t += "Equipment:    [add_lspace(lastused_equip, 6)] W : "
+		t += "<BR>Equipment:    [add_lspace(lastused_equip, 6)] W : "
 		switch(equipment)
-			if(0)
-				t += "<B>Off</B> <A href='?src=\ref[src];eqp=2'>On</A> <A href='?src=\ref[src];eqp=3'>Auto</A>"
-			if(1)
-				t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (Off)</B>"
-			if(2)
-				t += "<A href='?src=\ref[src];eqp=1'>Off</A> <B>On</B> <A href='?src=\ref[src];eqp=3'>Auto</A>"
-			if(3)
-				t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (On)</B>"
-		t +="<BR>"
+			if(0)	t += "<B>Off</B> <A href='?src=\ref[src];eqp=2'>On</A> <A href='?src=\ref[src];eqp=3'>Auto</A>"
+			if(1)	t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (Off)</B>"
+			if(2)	t += "<A href='?src=\ref[src];eqp=1'>Off</A> <B>On</B> <A href='?src=\ref[src];eqp=3'>Auto</A>"
+			if(3)	t += "<A href='?src=\ref[src];eqp=1'>Off</A> <A href='?src=\ref[src];eqp=2'>On</A> <B>Auto (On)</B>"
 
-		t += "Lighting:     [add_lspace(lastused_light, 6)] W : "
-
+		t += "<BR>Lighting:     [add_lspace(lastused_light, 6)] W : "
 		switch(lighting)
-			if(0)
-				t += "<B>Off</B> <A href='?src=\ref[src];lgt=2'>On</A> <A href='?src=\ref[src];lgt=3'>Auto</A>"
-			if(1)
-				t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (Off)</B>"
-			if(2)
-				t += "<A href='?src=\ref[src];lgt=1'>Off</A> <B>On</B> <A href='?src=\ref[src];lgt=3'>Auto</A>"
-			if(3)
-				t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (On)</B>"
-		t +="<BR>"
+			if(0)	t += "<B>Off</B> <A href='?src=\ref[src];lgt=2'>On</A> <A href='?src=\ref[src];lgt=3'>Auto</A>"
+			if(1)	t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (Off)</B>"
+			if(2)	t += "<A href='?src=\ref[src];lgt=1'>Off</A> <B>On</B> <A href='?src=\ref[src];lgt=3'>Auto</A>"
+			if(3)	t += "<A href='?src=\ref[src];lgt=1'>Off</A> <A href='?src=\ref[src];lgt=2'>On</A> <B>Auto (On)</B>"
 
-
-		t += "Environmental:[add_lspace(lastused_environ, 6)] W : "
+		t += "<BR>Environmental:[add_lspace(lastused_environ, 6)] W : "
 		switch(environ)
-			if(0)
-				t += "<B>Off</B> <A href='?src=\ref[src];env=2'>On</A> <A href='?src=\ref[src];env=3'>Auto</A>"
-			if(1)
-				t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (Off)</B>"
-			if(2)
-				t += "<A href='?src=\ref[src];env=1'>Off</A> <B>On</B> <A href='?src=\ref[src];env=3'>Auto</A>"
-			if(3)
-				t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (On)</B>"
+			if(0)	t += "<B>Off</B> <A href='?src=\ref[src];env=2'>On</A> <A href='?src=\ref[src];env=3'>Auto</A>"
+			if(1)	t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (Off)</B>"
+			if(2)	t += "<A href='?src=\ref[src];env=1'>Off</A> <B>On</B> <A href='?src=\ref[src];env=3'>Auto</A>"
+			if(3)	t += "<A href='?src=\ref[src];env=1'>Off</A> <A href='?src=\ref[src];env=2'>On</A> <B>Auto (On)</B>"
 
 		t += "<BR>Total load: [lastused_light + lastused_equip + lastused_environ] W</PRE>"
 		t += "<HR>Cover lock: [coverlocked ? "<B><A href='?src=\ref[src];lock=1'>Engaged</A></B>" : "<B><A href='?src=\ref[src];lock=1'>Disengaged</A></B>"]"
 
-	t += "<BR><HR><A href='?src=\ref[src];close=1'>Close</A>"
-
-	t += "</TT>"
+	t += "<BR><A href='?src=\ref[src];close=1'>Close</A></TT>"
 	ss13_browse(user, t, "window=apc")
 	return
 
@@ -424,96 +389,75 @@
 	area.power_change()
 
 /obj/machinery/power/apc/Topic(href, href_list)
-
 	..()
-
-	if (!usr.can_use_hands() )
-		return
-	if (!usr.check_dexterity())
-		return
-
-	if (( (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai) && !(src.aidisabled)))
-
-		usr.machine = src
-		if (href_list["lock"])
-			coverlocked = !coverlocked
-
-		else if (href_list["breaker"])
-			operating = !operating
-			src.update()
-			updateicon()
-
-		else if (href_list["cmode"])
-			chargemode = !chargemode
-			if(!chargemode)
-				charging = 0
-				updateicon()
-
-		else if (href_list["eqp"])
-			var/val = text2num(href_list["eqp"])
-
-			equipment = (val==1) ? 0 : val
-
-			updateicon()
-			update()
-
-		else if (href_list["lgt"])
-			var/val = text2num(href_list["lgt"])
-
-			lighting = (val==1) ? 0 : val
-
-			updateicon()
-			update()
-		else if (href_list["env"])
-			var/val = text2num(href_list["env"])
-
-			environ = (val==1) ? 0 :val
-
-			updateicon()
-			update()
-		else if( href_list["close"] )
-			ss13_browse(usr, null, "window=apc")
-			usr.machine = null
-			return
-
-		src.updateUsrDialog()
-
-	else
-		ss13_browse(usr, null, "window=apc")
+	if(href_list["close"])
+		ss13_browse(usr,null,"window=apc")
 		usr.machine = null
+		return
 
-	return
+	if(stat & (NOPOWER|BROKEN))		return 0
+	if(!usr.can_use_hands())		return 0
+	if(!usr.check_intelligence())	return 0
+
+	if(!usr.contents.Find(src))
+		if(!istype(usr, /mob/silicon/ai))
+			if(!(istype(src.loc,/turf) || get_dist(src,usr)<=1))
+				ss13_browse(usr, null, "window=apc")
+				return 0
+
+	usr.machine = src
+	if(href_list["lock"]) coverlocked = !coverlocked
+	else if(href_list["breaker"])
+		operating = !operating
+		src.update()
+		updateicon()
+
+	else if(href_list["cmode"])
+		chargemode = !chargemode
+		if(!chargemode)
+			charging = 0
+			updateicon()
+
+	else if(href_list["eqp"])
+		var/val = text2num(href_list["eqp"])
+		equipment = (val==1 ? 0 : val)
+		updateicon()
+		update()
+
+	else if(href_list["lgt"])
+		var/val = text2num(href_list["lgt"])
+		lighting = (val==1 ? 0 : val)
+		updateicon()
+		update()
+	else if(href_list["env"])
+		var/val = text2num(href_list["env"])
+		environ = (val==1 ? 0 :val)
+		updateicon()
+		update()
+	else if(href_list["chargemode"]) chargemode = text2num(href_list["chargemode"])
+	else if(href_list["recharge"])
+		chargecount = dd_range(0,1000,chargecount+text2num(href_list["recharge"]))
+
+	src.updateUsrDialog()
 
 /obj/machinery/power/apc/surplus()
-	if(terminal)
-		return terminal.surplus()
-	else
-		return 0
+	return (!terminal ? 0 : terminal.surplus())
 
 /obj/machinery/power/apc/add_load(var/amount)
 	if(terminal && terminal.powernet)
 		terminal.powernet.newload += amount
 
 /obj/machinery/power/apc/avail()
-	if(terminal)
-		return terminal.avail()
-	else
-		return 0
+	return (!terminal ? 0 : terminal.avail())
 
 /obj/machinery/power/apc/process()
+	if(stat & BROKEN)				return
+	if(!area.requires_power)		return
 
-	if(stat & BROKEN)
-		return
-
-	if(!area.requires_power)
-		return
-
-	if (equipment > 1) // off=0, off auto=1, on=2, on auto=3
-		use_power(src.equip_consumption, EQUIP)
-	if (lighting > 1) // off=0, off auto=1, on=2, on auto=3
-		use_power(src.light_consumption, LIGHT)
-	if (environ > 1) // off=0, off auto=1, on=2, on auto=3
-		use_power(src.environ_consumption, ENVIRON)
+	// off=0, off auto=1, on=2, on auto=3
+	if(equipment > 1)	use_power(src.equip_consumption, EQUIP)
+	if(lighting > 1)	use_power(src.light_consumption, LIGHT)
+	if(environ > 1)		use_power(src.environ_consumption, ENVIRON)
 
 	area.calc_lighting()
 
@@ -532,37 +476,25 @@
 
 	var/excess = surplus()
 
-	if(!src.avail())
-		main_status = 0
-	else if(excess < 0)
-		main_status = 1
-	else
-		main_status = 2
+	if(!src.avail())		main_status = 0
+	else if(excess < 0)		main_status = 1
+	else					main_status = 2
 
 	var/perapc = 0
 	if(terminal && terminal.powernet)
 		perapc = terminal.powernet.perapc
 
-	if(cell)
-
-		// draw power from cell as before
-
-		var/cellused = min(cell.charge, CELLRATE * lastused_total)	// clamp deduction to a max, amount left in cell
-		cell.charge -= cellused
-
-		if(excess > 0 || perapc > lastused_total)		// if power excess, or enough anyway, recharge the cell
-														// by the same amount just used
-
-			cell.charge = min(cell.maxcharge, cell.charge + cellused)
+	if(cell)	// draw power from cell as before
+		var/cellused = cell.discharge(CELLRATE*lastused_total)
+		if(excess > 0 || perapc > lastused_total)	// if power excess, or enough anyway, recharge the cell
+			if(chargemode == 1)	cell.recharge(min(cell.maxcharge-cell.charge,cellused))
+			if(chargemode == 2) cell.recharge(min(excess,chargecount))
 			add_load(cellused/CELLRATE)		// add the load used to recharge the cell
 
-
 		else		// no excess, and not enough per-apc
-
-			if( (cell.charge/CELLRATE+perapc) >= lastused_total)		// can we draw enough from cell+grid to cover last usage?
-
-				cell.charge = min(cell.maxcharge, cell.charge + CELLRATE * perapc)	//recharge with what we can
-				add_load(perapc)		// so draw what we can from the grid
+			if((cell.charge/CELLRATE+perapc) >= lastused_total)		// can we draw enough from cell+grid to cover last usage?
+				cell.recharge(CELLRATE * perapc)					// recharge with what we can
+				add_load(perapc)									// so draw what we can from the grid
 				charging = 0
 
 			else	// not enough power available to run the last tick!
@@ -603,33 +535,30 @@
 			if(excess > 0)		// check to make sure we have enough to charge
 				// Max charge is perapc share, capped to cell capacity, or % per second constant (Whichever is smallest)
 				var/ch = min(perapc, (cell.maxcharge - cell.charge), (cell.maxcharge*CHARGELEVEL))
-				add_load(ch) // Removes the power we're taking from the grid
-				cell.charge += ch // actually recharge the cell
-
+				cell.recharge(ch)
+				add_load(ch)
 			else
 				charging = 0		// stop charging
 				chargecount = 0
 
 		// show cell as fully charged if so
 
-		if(cell.charge >= cell.maxcharge)
-			charging = 2
+		if(cell.percent() >= 100)	charging = 2
 
-		if(chargemode)
-			if(!charging)
-				if(excess > cell.maxcharge*CHARGELEVEL)
-					chargecount++
-				else
-					chargecount = 0
-
-				if(chargecount == 10)
-
-					chargecount = 0
-					charging = 1
-
-		else // chargemode off
-			charging = 0
-			chargecount = 0
+		switch(chargemode)
+			if(0)	//	off
+				charging = 0
+				chargecount = 0
+			if(1)	//	auto
+				if(!charging)
+					if(excess > cell.maxcharge*CHARGELEVEL)	chargecount++
+					else									chargecount = 0
+					if(chargecount == 10)
+						chargecount = 0
+						charging = 1
+			if(2)	//	manual
+				if(chargecount) charging = 1
+				chargecount = min(excess,chargecount)
 
 	else // no cell, switch everything off
 
@@ -677,25 +606,14 @@
 	return
 
 /obj/machinery/power/apc/ex_act(severity)
-
 	switch(severity)
-		if(1.0)
-			set_broken()
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				set_broken()
-		if(3.0)
-			if (prob(25))
-				set_broken()
-		else
-	return
+		if(1)	del(src)
+		if(2)	if(!prob(50)) return
+		if(3)	if(!prob(25)) return
+	set_broken()
 
 /obj/machinery/power/apc/blob_act()
-	if (prob(50))
-		set_broken()
-
+	if(prob(50)) set_broken()
 
 /obj/machinery/power/apc/proc/set_broken()
 	stat |= BROKEN
@@ -711,33 +629,17 @@
 // using this solves the problem of having the APC in a wall yet also inside an area
 
 /obj/machinery/power/terminal/New()
-
 	..()
-
 	var/turf/T = src.loc
-
 	if(level==1) hide(T.intact)
 
-
 /obj/machinery/power/terminal/hide(var/i)
-
 	if(i)
 		invisibility = 101
 		icon_state = "term-f"
 	else
 		invisibility = 0
 		icon_state = "term"
-
-
-
-// dummy generator object for testing
-
-/*/obj/machinery/power/generator/verb/set_amount(var/g as num)
-	set src in view(1)
-
-	gen_amount = g
-
-*/
 
 /obj/machinery/power/generator/New()
 	..()
@@ -751,86 +653,57 @@
 		updateicon()
 
 /obj/machinery/power/generator/proc/updateicon()
+	overlays = null
+	if(stat & (NOPOWER|BROKEN)) return
+	if(lastgenlev)	overlays += image('power.dmi', "teg-op[lastgenlev]")
+	overlays += image('power.dmi', "teg-oc[c1on][c2on]")
 
-	if(stat & (NOPOWER|BROKEN))
-		overlays = null
-	else
-		overlays = null
-
-		if(lastgenlev != 0)
-			overlays += image('power.dmi', "teg-op[lastgenlev]")
-
-		overlays += image('power.dmi', "teg-oc[c1on][c2on]")
-
-#define GENRATE 0.0017			// generator output coefficient from Q
-
+#define GENRATE 0.17			// generator output coefficient from Q
 /obj/machinery/power/generator/process()
+	if(!circ1 || !c1on)	return
+	if(!circ2 || !c2on)	return
 
-/*	if(circ && circ.gas1)
-		var/gen = circ.gas2.total()*max(0, circ.gas2.temp - 298)/300
-		circ.ngas2.temp = max(298, circ.ngas2.temp - 50)
+	var/gc = circ1.ngas1.shc()
+	var/gh = circ2.ngas1.shc()
 
-		add_avail(gen)
-*/
+	var/tc = circ1.ngas1.temp
+	var/th = circ2.ngas1.temp
+	var/deltat = th-tc
 
-	if(circ1 && circ2)
+	var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
 
+	if(gc > 0 && deltat >0)		// require some cold gas (for sink) and a positive temp gradient
+		var/ghoc = gh/gc
 
-		var/gc = circ1.gas2.shc()
-		var/gh = circ2.gas2.shc()
+		var/fdt = 1/((1-eta)*ghoc + 1)	// min timestep
 
-		var/tc = circ1.gas2.temp
-		var/th = circ2.gas2.temp
-		var/deltat = th-tc
+		fdt = min(fdt, 0.1)	// max timestep
 
-		var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
+		var/q = fdt*eta*gh*(deltat)	// heat generated
+		var/thp = th - fdt * deltat
+		var/tcp = tc + fdt * (1 - eta) * (ghoc) * deltat
 
-		if(gc > 0 && deltat >0)		// require some cold gas (for sink) and a positive temp gradient
-			var/ghoc = gh/gc
+		lastgen = q * GENRATE
+		add_avail(lastgen)
 
-			//var/qc = gc*tc
-			//var/qh = gh*th
+		circ1.ngas2.temp = tcp
+		circ2.ngas2.temp = thp
 
-			var/fdt = 1/( (1-eta)*ghoc + 1)	// min timestep
+	else
+		lastgen = 0
 
-			fdt = min(fdt, 0.1)	// max timestep
+	// update icon overlays only if displayed level has changed
+	var/genlev = max(0, min( round(11*lastgen / 100000), 11))
+	if(genlev != lastgenlev)
+		lastgenlev = genlev
+		updateicon()
 
-			var/q = fdt*eta*gh*(deltat)	// heat generated
-
-			var/thp = th - fdt * deltat
-			var/tcp = tc + fdt * (1 - eta) * (ghoc) * deltat
-
-			lastgen = q * GENRATE
-			add_avail(lastgen)
-
-			circ1.ngas2.temp = tcp
-			circ2.ngas2.temp = thp
-
-		else
-			lastgen = 0
-
-
-
-
-
-		// update icon overlays only if displayed level has changed
-
-		var/genlev = max(0, min( round(11*lastgen / 100000), 11))
-		if(genlev != lastgenlev)
-			lastgenlev = genlev
-			updateicon()
-
-		src.updateDialog()
+	src.updateDialog()
 
 /obj/machinery/power/generator/interact(mob/user)
-
 	add_fingerprint(user)
-
 	if(stat & (BROKEN|NOPOWER)) return
-
 	interaction(user)
-
-
 
 /obj/machinery/power/generator/proc/interaction(mob/user)
 
@@ -1728,6 +1601,10 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		return
 	interaction(user)
 
+/obj/machinery/power/attackby(I as obj, mob/user as mob)
+	if(istype(I,/obj/item/weapon/card/id))
+		src.interact(user)
+	..()
 
 /obj/machinery/power/monitor/proc/interaction(mob/user)
 
@@ -2023,26 +1900,16 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 			var/d = 0
 			switch(i)
-				if(-4)
-					chargelevel = 0
-				if(4)
-					chargelevel = SMESMAXCHARGELEVEL		//30000
+				if(1)	d = 100
+				if(-1)	d = -100
+				if(2)	d = 1000
+				if(-2)	d = -1000
+				if(3)	d = 10000
+				if(-3)	d = -10000
+				if(4)	d = SMESMAXCHARGELEVEL
+				if(-4)	d = -chargelevel
 
-				if(1)
-					d = 100
-				if(-1)
-					d = -100
-				if(2)
-					d = 1000
-				if(-2)
-					d = -1000
-				if(3)
-					d = 10000
-				if(-3)
-					d = -10000
-
-			chargelevel += d
-			chargelevel = max(0, min(SMESMAXCHARGELEVEL, chargelevel))	// clamp to range
+			chargelevel = dd_range(0,SMESMAXCHARGELEVEL, chargelevel+d)
 
 		else if( href_list["output"] )
 
@@ -2081,44 +1948,40 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 	return
 
 
+//----------------------------------------------------------------------------
+
 /obj/machinery/power/solar/New()
 	..()
 	spawn(10)
 		updateicon()
 		updatefrac()
 
-		if(powernet)
-			for(var/obj/machinery/power/solar_control/SC in powernet.nodes)
-				if(SC.id == id)
-					control = SC
+		if(!powernet) return
+		for(var/obj/machinery/power/solar_control/SC in powernet.nodes)
+			if(SC.id == id) control = SC
 
 /obj/machinery/power/solar/proc/updateicon()
 	overlays = null
-	if(stat & BROKEN)
-		overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
-	else
-		overlays += image('power.dmi', icon_state = "solar_panel", layer = FLY_LAYER, dir = EAST)
+	src.dir = angle2dir(adir)
+	if(stat & BROKEN)	overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
+	else 				overlays += image('power.dmi', icon_state = "solar_panel",   layer = FLY_LAYER)
 
 /obj/machinery/power/solar/proc/updatefrac()
-
 	if(obscured)
 		sunfrac = 0
 		return
 
-	var/p_angle = dir2angle(adir) - sun.angle
-
-	if(abs(p_angle) > 90)			// if facing more than 90deg from sun, zero output
+	var/p_angle = abs((360+adir)%360 - (360+sun.angle)%360)
+	if(p_angle > 90)			// if facing more than 90deg from sun, zero output
 		sunfrac = 0
 		return
 
-	sunfrac = cos(p_angle)*cos(p_angle)			//
+	sunfrac = cos(p_angle) ** 2
 
 #define SOLARGENRATE 1500
 
 /obj/machinery/power/solar/process()
-
-	if(stat & BROKEN)
-		return
+	if(stat & BROKEN) return
 
 	if(!obscured)
 		var/sgen = SOLARGENRATE * sunfrac
@@ -2127,57 +1990,30 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			if(control in powernet.nodes)
 				control.gen += sgen
 
-	if(adir == ndir)
-		turn_angle = 0
-	else
-		spawn(rand(0,10))
-			adir = turn(adir, turn_angle)
+	if(adir != ndir)
+		spawn(10+rand(0,15))
+			adir = (360+adir+dd_range(-10,10,ndir-adir))%360
 			updateicon()
 			updatefrac()
 
-/obj/machinery/power/solar/proc/broken()
+/obj/machinery/power/solar/broken()
 	stat |= BROKEN
 	updateicon()
 
 /obj/machinery/power/solar/meteorhit()
-	if(stat & BROKEN)
-		broken()
-	else
-		del(src)
+	if(stat & BROKEN)	del(src)
+	else				src.broken()
 
-/obj/machinery/power/solar/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				broken()
-		if(3.0)
-			if (prob(25))
-				broken()
-	return
-
-/obj/machinery/power/solar/blob_act()
-	if (prob(50))
-		broken()
-		src.density = 0
-
-
+//----------------------------------------------------------------------------
 /obj/machinery/power/solar_control/New()
 	..()
 
 	spawn(15)
-
-		if(powernet)
-			for(var/obj/machinery/power/solar/S in powernet.nodes)
-				if(S.id == id)
-					cdir = S.adir
-						updateicon()
-
-
+		if(!powernet) return
+		for(var/obj/machinery/power/solar/S in powernet.nodes)
+			if(S.id != id) continue
+			cdir = S.adir
+			updateicon()
 
 /obj/machinery/power/solar_control/proc/updateicon()
 	if(stat & BROKEN)
@@ -2195,163 +2031,81 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		overlays += image('enginecomputer.dmi', "solcon-o", FLY_LAYER, cdir)
 
 
-
-/obj/machinery/power/solar_control/interact(mob/user)
-
-	add_fingerprint(user)
-
-	if(stat & (BROKEN | NOPOWER)) return
-
-	interaction(user)
-
 /obj/machinery/power/solar_control/process()
 	lastgen = gen
 	gen = 0
 
-	if(stat & (NOPOWER | BROKEN))
-		return
-
+	if(stat & (NOPOWER | BROKEN)) return
 	use_power(250)
-
-	if(track && nexttime < world.timeofday)
-		if(trackdir)
-			cdir = turn(cdir, -45)
-		else
-			cdir = turn(cdir, 45)
+	if(track && nexttime < world.timeofday && trackrate)
+		nexttime = world.timeofday + 3600/abs(trackrate)
+		cdir = (cdir+trackrate/abs(trackrate)+360)%360
 		set_panels(cdir)
-
-		nexttime = world.timeofday + 10*trackrate
 		updateicon()
-
-
 	src.updateDialog()
 
+/obj/machinery/power/solar_control/interact(mob/user)
+	add_fingerprint(user)
+	if(stat & (BROKEN | NOPOWER)) return
+	interaction(user)
 
 /obj/machinery/power/solar_control/proc/interaction(mob/user)
-
-	if ( (get_dist(src, user) > 1 ))
-		if (!istype(user, /mob/silicon/ai))
-			user.machine = null
-			ss13_browse(user, null, "window=solcon")
-			return
+	if(get_dist(src, user) > 1 && !istype(user,/mob/silicon/ai))
+		ss13_browse(user, null, "window=solcon")
+		user.machine = null
+		return
 
 	user.machine = src
-
 	var/t = "<TT><B>Solar Generator Control</B><HR><PRE>"
-
 	t += "Generated power : [round(lastgen)] W<BR><BR>"
+	t += "<B>Orientation</B>: [rate_control(src,"cdir","[cdir]&deg",1,15)] ([angle2text(cdir)])<BR>"
 
-	t += "Current panel orientation: <B>[uppertext(dir2text(cdir))]</B><BR>"
-
-	t += "<HR>Set orientation:<BR>"
-
-	var/list/D = list(-1, NORTHWEST, NORTH, NORTHEAST, -1, WEST, 0, EAST, -1, SOUTHWEST, SOUTH, SOUTHEAST)
-	var/list/disp = list("|", "|", "", "-", "/", "\\", "", "-", "\\", "/")
-
-	for(var/d in D)
-		if(d == 0)
-			t += "  "
-			continue
-		if(d == -1)
-			t += "<BR>          "
-			continue
-
-		if(d==cdir)
-			t +=" [disp[d]]"
-		else
-			t +=" <A href='?src=\ref[src];dir=[d]'>O</A>"
-
-
-	t += "<HR><BR><BR>"
-
-	t += "Tracking: [ track ? "<A href='?src=\ref[src];track=1'>Off</A> <B>On</B>" : "<B>Off</B> <A href='?src=\ref[src];track=1'>On</A>"]"
-
-	t += "   [trackdir ? "<A href='?src=\ref[src];tdir=1'>CCW</A> <B>CW</B>" : "<B>CCW</B> <A href='?src=\ref[src];tdir=1'>CW</A>"]<BR>"
-
-	t += "Rate:     <A href='?src=\ref[src];trk=-3'>-</A> <A href='?src=\ref[src];trk=-2'>-</A> <A href='?src=\ref[src];trk=-1'>-</A> [trackrate] <A href='?src=\ref[src];trk=1'>+</A> <A href='?src=\ref[src];trk=2'>+</A> <A href='?src=\ref[src];trk=3'>+</A> (seconds per turn)<BR>"
-
-	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
-
-	t += "</TT>"
+	t += "<HR><BR>"
+	t += "Tracking: [ track ? "<B>On</B> <A href='?src=\ref[src];track=0'>Off</A>" : "<A href='?src=\ref[src];track=1'>On</A> <B>Off</B>"]<BR>"
+	t += "Tracking Rate: [rate_control(src,"tdir","[trackrate] deg/h ([trackrate<0 ? "CCW" : "CW"])",15,90,720)]<BR>"
+	t += "<A href='?src=\ref[src];close=1'>Close</A></TT>"
 	ss13_browse(user, t, "window=solcon")
 
-	return
-
 /obj/machinery/power/solar_control/Topic(href, href_list)
-	..()
+	if(!..()) return 0
 
-	if (!usr.can_use_hands() )
-		return
-	if (!usr.check_dexterity())
-		return
-
-	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
-
-
-		if( href_list["close"] )
-			ss13_browse(usr, null, "window=solcon")
-			usr.machine = null
-			return
-
-		else if( href_list["dir"] )
-			cdir = text2num(href_list["dir"])
-
-			spawn(1)
-				set_panels(cdir)
-
-			updateicon()
-		else if( href_list["tdir"] )
-			trackdir = !trackdir
-
-		else if( href_list["track"] )
-			track = !track
-			nexttime = world.timeofday + 10*trackrate
-
-		else if( href_list["trk"] )
-			var/inc = text2num(href_list["trk"])
-
-			switch(inc)
-				if(1, -1)
-					trackrate += inc
-				if(2,-2)
-					trackrate += 10*inc/abs(inc)
-				if(3,-3)
-					trackrate += 100*inc/abs(inc)
-
-			trackrate = min( max(trackrate, 10), 900)
-			nexttime = world.timeofday + 10*trackrate
-
-		//spawn(0)
-		src.updateUsrDialog()
-
-
-	else
+	if(href_list["close"] )
 		ss13_browse(usr, null, "window=solcon")
 		usr.machine = null
+		return
 
-	return
+	if(href_list["dir"])
+		cdir = text2num(href_list["dir"])
+		spawn(1)
+			set_panels(cdir)
+			updateicon()
+
+	if(href_list["rate control"])
+		if(href_list["cdir"])
+			src.cdir = dd_range(0,359,(360+src.cdir+text2num(href_list["cdir"]))%360)
+			spawn(1)
+				set_panels(cdir)
+				updateicon()
+
+		if(href_list["tdir"])
+			src.trackrate = dd_range(-7200,7200,src.trackrate+text2num(href_list["tdir"]))
+			if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+
+	if(href_list["track"])
+		if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+		track = !track
+
+	src.updateUsrDialog()
 
 /obj/machinery/power/solar_control/proc/set_panels(var/cdir)
-	if(powernet)
-		for(var/obj/machinery/power/solar/S in powernet.nodes)
-			if(S.id == id)
-				S.control = src
-
-				var/delta = dir2angle(S.adir) - dir2angle(cdir)
-
-				delta = (delta+360)%360
-
-				if(delta>180)
-					S.turn_angle = -45
-				else
-					S.turn_angle = 45
-
-				S.ndir = cdir
-
+	if(!powernet) return
+	for(var/obj/machinery/power/solar/S in powernet.nodes)
+		if(S.id != id) continue
+		S.control = src
+		S.ndir = cdir
 
 /obj/machinery/power/solar_control/power_change()
-
-	if( powered() )
+	if(powered())
 		stat &= ~NOPOWER
 		updateicon()
 	else
@@ -2359,37 +2113,12 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			stat |= NOPOWER
 			updateicon()
 
-
-
-/obj/machinery/power/solar_control/proc/broken()
+/obj/machinery/power/solar_control/broken()
 	stat |= BROKEN
 	updateicon()
 
 /obj/machinery/power/solar_control/meteorhit()
-
 	broken()
-	return
-
-/obj/machinery/power/solar_control/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				broken()
-		if(3.0)
-			if (prob(25))
-				broken()
-	return
-
-/obj/machinery/power/solar_control/blob_act()
-	if (prob(50))
-		broken()
-		src.density = 0
-
 
 // the inlet stage of the gas turbine electricity generator
 
@@ -2504,7 +2233,7 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/turbine/proc/interaction(mob/user)
 
-	if ( (get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)) )
+	if((get_dist(src, user) > 1 ) || (stat & (NOPOWER|BROKEN)) && (!istype(user, /mob/silicon/ai)))
 		user.machine = null
 		ss13_browse(user, null, "window=turbine")
 		return
@@ -2515,13 +2244,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	var/gen = max(0, lastgen - (compressor.starter * COMPSTARTERLOAD) )
 	t += "Generated power : [round(gen)] W<BR><BR>"
-
 	t += "Turbine: [round(compressor.rpm)] RPM<BR>"
-
 	t += "Starter: [ compressor.starter ? "<A href='?src=\ref[src];str=1'>Off</A> <B>On</B>" : "<B>Off</B> <A href='?src=\ref[src];str=1'>On</A>"]"
-
 	t += "</PRE><HR><A href='?src=\ref[src];close=1'>Close</A>"
-
 	t += "</TT>"
 	ss13_browse(user, t, "window=turbine")
 
@@ -2529,12 +2254,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/turbine/Topic(href, href_list)
 	..()
-	if(stat & BROKEN)
-		return
-	if (!usr.can_use_hands() )
-		return
-	if (!usr.check_dexterity())
-		return
+	if(stat & BROKEN)			return
+	if(!usr.can_use_hands())	return
+	if(!usr.check_dexterity())	return
 
 	if (( usr.machine==src && (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
 

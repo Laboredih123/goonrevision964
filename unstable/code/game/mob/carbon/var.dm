@@ -108,8 +108,6 @@
 	var/icon/face = null
 	var/icon/face2 = null
 
-	var/no2_breathed = 0
-
 	var/is_dextrous = 0
 	is_intelligent = 0
 

@@ -1,50 +1,36 @@
+var/const/SCENARIO_ACTIVE = 0
+var/const/SCENARIO_COMPLETE = 1
+
 /datum/game_mode
-	var/name = "invalid"
-	var/config_tag = null
+	var/name = "free form"
+
 	var/votable = 1
 	var/probability = 1
+	var/list/missions = new()
+	var/list/groupings = null
 
-// Default check win
+/datum/game_mode/proc/CheckState(var/datum/mission/A)
+	if(missions[A] != MISSION_ACTIVE) return missions[A]
+	missions[A] = A.state()
+	return missions[A]
+
 /datum/game_mode/proc/announce()
-	world << "<B>[src] did not define announce()</B>"
+	world << "<font color='blue'><B>Free Form!</B></font>"
 
-/datum/game_mode/proc/pre_setup()
-	return
+/datum/game_mode/proc/conclude()
+	world << "<font color='red'><B>Game Over!</B></font>"
+	for(var/datum/mission/x in missions)
+		if(missions[x] != MISSION_ACTIVE) x.conclude()
 
-/datum/game_mode/proc/post_setup()
-	spawn (0)
-		ticker.extend_process()
+/datum/game_mode/proc/setup()
+	missions[new/datum/mission/survival()] = MISSION_ACTIVE
 
-/datum/game_mode/proc/check_win()
-	var/list/L = list(  )
+/datum/game_mode/proc/execute()
+	while(src.state()==SCENARIO_ACTIVE) sleep(5)
+	return src.conclude()
 
-	var/area/A = locate(/area/shuttle)
-
-	for(var/mob/M in world)
-		if (M.client)
-			if (!M.is_dead)
-				var/T = M.loc
-				if ((T in A))
-					L[text("[]", M.spawn_name)] = "shuttle"
-				else
-					if (istype(T, /obj/machinery/vehicle/pod))
-						L[text("[]", M.spawn_name)] = "pod"
-					else
-						L[text("[]", M.spawn_name)] = "alive"
-		//Foreach goto(2200)
-	if (L.len)
-		world << "\blue <B>The game has ended!</B>"
-		for(var/I in L)
-			var/tem = L[text("[]", I)]
-			switch(tem)
-				if("shuttle")
-					world << text("\t <B><FONT size = 2>[] has left on the shuttle!</FONT></B>", I)
-				if("pod")
-					world << text("\t <FONT size = 2>[] has fled on an escape pod!</FONT>", I)
-				if("alive")
-					world << text("\t <FONT size = 1>[] decided to stay on the station.</FONT>", I)
-				else
-			//Foreach goto(2337)
-	else
-		world << "\blue <B>No one lived!</B>"
-	return 1
+/datum/game_mode/proc/state()
+	for(var/datum/mission/x in missions)
+		if(CheckState(x) == MISSION_ACTIVE) continue
+		if(x.critical) return SCENARIO_COMPLETE
+	return SCENARIO_ACTIVE

@@ -92,6 +92,5 @@
 			src.verbs += /client/proc/adminsay
 			src.verbs += /proc/variables
 
-			if (ticker && master_mode =="sandbox" && admin_level == ADMIN_HOST)
-				src.verbs += /proc/variables
-				src.verbs += /mob/proc/Delete
+			if(admin_level == ADMIN_HOST)
+				src.verbs += /proc/delete

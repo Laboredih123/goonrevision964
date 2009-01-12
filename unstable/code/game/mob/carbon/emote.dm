@@ -6,6 +6,7 @@
 		return
 	if(!medium)
 		medium = SENSE_SIGHT
+	if(!src.is_active()) return
 	var/list/mobs_seen = list()
 	if(medium & SENSE_SIGHT)
 		for(var/mob/M in viewers(src))

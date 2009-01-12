@@ -12,7 +12,8 @@
 	var/vote_period = 60				// length of voting period (seconds, default 1 minute)
 	var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
 	var/vote_no_dead = 0				// dead people can't vote (tbi)
-	var/enable_authentication = 0		// goon authentication
+	var/enable_authentication = 0		// three-stage authentication (required,disabled,optional)
+	var/list/require_authentication=null// list of jobs only authenticated users may fill
 
 	var/list/mode_names = list()
 	var/list/modes = list()				// allowed modes
@@ -21,3 +22,7 @@
 	var/allow_ai = 1					// allow ai job
 	var/hostedby = null
 	var/respawn = 1
+
+	var/random_ai_names = 1				// enables random AI name suggestion
+	var/random_names = 0				// enables random player name suggestion
+	var/rate_limit = 1					// restricts command rate to 1 command / second
