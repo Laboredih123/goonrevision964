@@ -1,5 +1,5 @@
-/var/const/NUM_CHROMOSOMES = 23
-/var/const/NUM_LOCI = 10
+/var/const/NUM_CHROMOSOMES = 10
+/var/const/NUM_LOCI = 5
 
 /datum/dna/var/list/data[NUM_CHROMOSOMES][NUM_LOCI]
 

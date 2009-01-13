@@ -7,12 +7,12 @@
 
 	New(adminlevel)
 		if(adminlevel == ADMIN_MOD)
-			src.max_hours = 3
+			//src.max_hours = 3
 		else if(adminlevel == ADMIN_ADMIN)
-			src.max_hours = 24*7 //1 week
+			//src.max_hours = 24*7 //1 week
 		else if(adminlevel == ADMIN_HOST)
-			src.max_hours = INFINITY
-			src.can_permaban = 1
+			//src.max_hours = INFINITY
+			//src.can_permaban = 1
 		else
 			del(src)
 
@@ -36,11 +36,13 @@
 			var/mob/M = locate(href_list["mob-ban"])
 			var/reason = href_list["reason"]
 			if(type == "permanent")
+				crban_fullban(M)
+			/*if(type == "permanent")
 				permaban(M, reason)
 			else if(type == "hours")
 				var/hours = text2num(href_list["hours"])
 				if(hours)
-					hourban(M, reason, hours)
+					hourban(M, reason, hours)*/
 			else //roundban
 				banned += M.last_known_ckey
 				M << "You have been banned for the rest of the round."

@@ -1,40 +1,16 @@
 /var/const/
-	ALLELE_AA = "AA"
-	ALLELE_AC = "AC"
-	ALLELE_AG = "AG"
-	ALLELE_AT = "AT"
-	ALLELE_CA = "CA"
-	ALLELE_CC = "CC"
-	ALLELE_CG = "CG"
-	ALLELE_CT = "CT"
-	ALLELE_GA = "GA"
-	ALLELE_GC = "GC"
-	ALLELE_GG = "GG"
-	ALLELE_GT = "GT"
-	ALLELE_TA = "TA"
-	ALLELE_TC = "TC"
-	ALLELE_TG = "TG"
-	ALLELE_TT = "TT"
-	NUM_ALLELES = 16
+	ALLELE_A = "A"
+	ALLELE_C = "C"
+	ALLELE_G = "G"
+	ALLELE_T = "T"
+	NUM_ALLELES = 4
 
 /proc/get_all_alleles()
 	return list(
-		ALLELE_AA,
-		ALLELE_AC,
-		ALLELE_AG,
-		ALLELE_AT,
-		ALLELE_CA,
-		ALLELE_CC,
-		ALLELE_CG,
-		ALLELE_CT,
-		ALLELE_GA,
-		ALLELE_GC,
-		ALLELE_GG,
-		ALLELE_GT,
-		ALLELE_TA,
-		ALLELE_TC,
-		ALLELE_TG,
-		ALLELE_TT
+		ALLELE_A,
+		ALLELE_C,
+		ALLELE_G,
+		ALLELE_T
 	)
 
 /proc/pick_allele()

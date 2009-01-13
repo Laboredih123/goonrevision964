@@ -4,9 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: maps\Space Station 13.dmp
-DIR: maps
-UPDATE_OBJ_TREE: ON
+FILE: code\game\dna\computer.dm
+DIR: code code\game code\game\admin code\game\admin\admin_powers code\game\dna code\game\dna\gene code\game\machinery code\game\machinery\computer maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
@@ -28,7 +27,6 @@ AUTO_FILE_DIR: ON
 #define FILE_DIR "code/game/machinery"
 #define FILE_DIR "code/game/machinery/computer"
 #define FILE_DIR "code/game/machinery/pipes"
-#define FILE_DIR "code/game/missions"
 #define FILE_DIR "code/game/mob"
 #define FILE_DIR "code/game/mob/carbon"
 #define FILE_DIR "code/game/mob/carbon/human"
@@ -112,7 +110,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\weapons.dm"
 #include "code\game\wirebundle.dm"
 #include "code\game\admin\admin.dm"
-#include "code\game\admin\banning.dm"
+#include "code\game\admin\fullban.dm"
 #include "code\game\admin\admin_powers\abort_vote.dm"
 #include "code\game\admin\admin_powers\admin_power.dm"
 #include "code\game\admin\admin_powers\announce.dm"
