@@ -1,4 +1,4 @@
-/datum/admin_power/toggle_ooc
+/datum/admin_power/show_traitor
 	panel_type = PANEL_TYPE_GAME
 
 	New(adminlevel)

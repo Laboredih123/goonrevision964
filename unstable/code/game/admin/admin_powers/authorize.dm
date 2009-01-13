@@ -1,4 +1,4 @@
-/datum/admin_power/ban
+/datum/admin_power/authorize
 	name = "Authorize"
 	panel_type = PANEL_TYPE_PLAYER
 

@@ -1,4 +1,4 @@
-/datum/admin_power/restart
+/datum/admin_power/delay
 	panel_type = PANEL_TYPE_GAME
 
 	New(adminlevel)

@@ -7,12 +7,12 @@
 
 	New(adminlevel)
 		if(adminlevel == ADMIN_MOD)
-			//src.max_hours = 3
+			src.max_hours = 3
 		else if(adminlevel == ADMIN_ADMIN)
-			//src.max_hours = 24*7 //1 week
+			src.max_hours = 24*7 //1 week
 		else if(adminlevel == ADMIN_HOST)
-			//src.max_hours = INFINITY
-			//src.can_permaban = 1
+			src.max_hours = INFINITY
+			src.can_permaban = 1
 		else
 			del(src)
 

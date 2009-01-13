@@ -1,4 +1,4 @@
-/datum/admin_power/ban
+/datum/admin_power/private_message
 	name = "PM"
 	panel_type = PANEL_TYPE_PLAYER
 

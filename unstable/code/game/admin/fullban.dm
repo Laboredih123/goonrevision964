@@ -1,131 +1,69 @@
-//////// Crispy.FullBan \\\\\\\\
-
-// Started 2nd February, 2003 \\
-
-   // Programmed by Crispy \\
-
-        // Version 5 \\
-        // 15 Aug 05 \\
-
-/*
-
----INFORMATION:
-
-Bans a player using every method known to BYOND.
-
-If a player somehow manages to circumvent some of the bans, those bans
-will be reapplied when they log in again. If they manage to circumvent
-all of the bans, use the IP-range-banning proc to ban their entire
-region until they give up!
-
-Note that FullBan's bans are very enthusiastically propagated. You may
-find that innocents are occasionally caught up in bans intended for other
-people.
-
----USAGE:
-
-The following procs are the only ones that you will usually need to use:
-
-	crban_fullban(mob)   - Call this to ban a player. "mob" is the mob to ban.
-	crban_unban(key)     - Call this with someone's key to unban them.
-	crban_iprange(range) - Call this to ban a range of IP addresses.
-	                       See the next section for an example.
-	crban_isbanned(X)    - Call this to find out if a player is banned. You
-	                       can pass it a /mob, /client, key name, or IP address.
-	                       For example, crban_isbanned("Crispy") would return
-	                       true if Crispy was banned, and false if he wasn't.
-
-Optionally, intermediate to advanced users may wish to modify the following
-vars: (You have to do this in a proc, because you can't override global vars;
-world/New() is an ideal place to do it.)
-
-	crban_bannedmsg            - This is the message that banned players
-	                             will see when they attempt to log in.
-	crban_preventbannedclients - If true, world/IsBanned() is used to check
-	                             and re-apply key and IP bans. This has the
-	                             advantage that banned clients never log in
-	                             at ALL - normally banned clients are logged
-	                             in for a split-second before being kicked
-	                             out again.
-	                             The disadvantage is that some of the banning
-	                             methods require an existing client to work.
-	                             In other words, banning may not be as
-	                             thorough.
-	                             For this reason, crban_preventbannedclients
-	                             is false by default.
-
-
---BANNING IP RANGES:
-
-Normally, FullBan only bans one IP address at a time. If you want to ban
-an entire range of IP addresses, you need a special command for doing so.
-Call the following proc:
-
-crban_iprange(range)
-
-The "range" is a partial IP address: for example, "206.192.41", "206.192",
-or "206". Calling crban_iprange("206.192") will ban all IP address starting
-with the numbers 206 and 192, in that order. So 206.192.53.1 and
-206.192.235.100 will be banned, but 206.193.235.100 will not be. The fewer
-numbers you include, the less specific the ban gets; if you only include one
-number, you'll probably end up banning half a country!
-
-You can also enter an entire IP address, with all four numbers, in order to
-ban one specific IP address.
-
-Note that if someone who is not banned logs in, but has an IP address in
-a banned range, they will NOT be banned.
-
-And finally: Normally, entering "156.23" will not ban IP addresses
-that start with "156.230", "156.231", "156.232", and so on. You can change
-this behaviour by passing in a zero to crban_iprange() as the second argument,
-("appendperiod"). An example:
-
-crban_iprange("130.10")    // This won't ban, for example, "130.108.12.67".
-crban_iprange("130.10", 0) // But this will.
-
---STUFF YOU CAN SAFELY IGNORE:
-
-This library uses a number of procs and vars not documented above that
-begin with 'crban_'. You can safely ignore these, as they are used only
-for the internal working of the library.
-
---FEATURE REQUESTS, BUG REPORTS, ETC.
-
-The safest method of contacting me is via email. My email address
-can be found here: http://www.byond.com/people/Crispy
-
-(C)Copyright 2003-2005, Crispy.
-*/
+//TODO: clean up drastically
 
 var
 	crban_bannedmsg="<font color=red><big><tt>You have been banned from [world.name]</tt></big></font>"
-	crban_preventbannedclients = 0 // See above comments
+	crban_preventbannedclients = 0 // Don't enable this, it'll throw null runtime errors due to the convolted way ss13 logs you in
 	crban_keylist[0]  // Banned keys and their associated IP addresses
+	crban_reason[0]	// Banned key+reason
+	crban_time[0]	// Banned key+time
+	crban_bannedby[0]	// who banned them
 	crban_iplist[0]   // Banned IP addresses
 	crban_ipranges[0] // Banned IP ranges
 	crban_unbanned[0] // So we can remove bans (list of ckeys)
+	crban_runonce	// Updates legacy bans with new info
 
-proc/crban_fullban(mob/M)
+/proc/crban_fullban(mob/M, reason, banner)
 	// Ban the mob using as many methods as possible, and then boot them for good measure
 	if (!M || !M.key || !M.client) return
-	crban_unbanned.Remove(M.ckey)
-	crban_key(M.ckey)
-	crban_IP(M.client.address)
+	crban_removeunban(M.ckey)
+	crban_key(M.ckey, M.client.address)
+	crban_IP(M.client.address, M.ckey)
 	crban_client(M.client)
 	crban_ie(M)
+	//Reason+time
+	if(!reason)	reason = "No reason specified"
+	if(!crban_reason.Find(M.ckey))
+		crban_reason.Add(M.ckey)
+		crban_reason[M.ckey] = reason
+	if(!banner)	banner = "Unspecified"
+	if(!crban_bannedby.Find(M.ckey))
+		crban_bannedby.Add(M.ckey)
+		crban_bannedby[M.ckey] = banner
+	if(!crban_time.Find(M.ckey))
+		crban_time.Add(M.ckey)
+		var/time = time2text(world.realtime,"DD-MMM-YYYY")
+		crban_time[M.ckey] = time
+	//need to put above into functions
+	crban_savebanfile()
 	del M
 
-proc/crban_fullbanclient(client/C)
+
+/proc/crban_fullbanclient(client/C, reason, banner)
 	// Equivalent to above, but is passed a client
 	if (!C) return
-	crban_key(C.ckey)
-	crban_IP(C.address)
+	crban_removeunban(C.ckey)
+	crban_key(C.ckey, C.address)
+	crban_IP(C.address, C.ckey)
 	crban_client(C)
 	crban_ie(C)
+	//Reason+time
+	if(!reason)	reason = "No reason specified"
+	if(!crban_reason.Find(C.ckey))
+		crban_reason.Add(C.ckey)
+		crban_reason[C.ckey] = reason
+	if(!banner)	banner = "Unspecified"
+	if(!crban_bannedby.Find(C.ckey))
+		crban_bannedby.Add(C.ckey)
+		crban_bannedby[C.ckey] = banner
+	if(!crban_time.Find(C.ckey))
+		crban_time.Add(C.ckey)
+		var/time = time2text(world.realtime,"DD-MMM-YYYY")
+		crban_time[C.ckey] = time
+	//need to put above into functions
+	crban_savebanfile()
 	del C
 
-proc/crban_isbanned(X)
+/proc/crban_isbanned(X)
 	// When given a mob, client, key, or IP address:
 	// Returns 1 if that person is banned.
 	// Returns 0 if they are not banned.
@@ -136,24 +74,39 @@ proc/crban_isbanned(X)
 	if ((X in crban_iplist) || (ckey(X) in crban_keylist)) return 1
 	else return 0
 
-proc/crban_getworldid()
+/proc/crban_isunbanned(X)
+	X=ckey(X)
+	if(crban_unbanned.Find(X))
+		return 1
+	return 0
+
+/proc/crban_removeunban(X)
+	X=ckey(X)
+	if(crban_unbanned.Find(X))
+		crban_unbanned.Remove(X)
+		crban_savebanfile()
+		return 1
+	return 0
+
+/proc/crban_getworldid()
 	var/worldid=world.address
 	while (findtext(worldid,"."))
 		worldid=copytext(worldid,1,findtext(worldid,"."))+"_"+copytext(worldid,findtext(worldid,".")+1)
 	return worldid
 
-proc/crban_ie(mob/M)
+/proc/crban_ie(mob/M)
 	var/html="<html><body onLoad=\"document.cookie='cr[crban_getworldid()]=k; \
 expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body></html>"
 	M << browse(html,"window=crban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
 	sleep(3)
 	M << browse(null,"window=crban")
 
-proc/crban_IP(address)
+/proc/crban_IP(address, key)
 	if (!crban_iplist.Find(address) && address && address!="localhost" && address!="127.0.0.1")
 		crban_iplist.Add(address)
+		crban_iplist[address] = ckey(key)
 
-proc/crban_iprange(partialaddress as text, appendperiod=1)
+/proc/crban_iprange(partialaddress as text, appendperiod=1)
 	//// Bans a range of IP addresses, given by "partialaddress". See the comments at the top of this file.
 	//// If "appendperiod" is false, the ban will match partial numbers in the IP address.
 	//// Again, see the comments at the top of this file.
@@ -183,7 +136,7 @@ proc/crban_iprange(partialaddress as text, appendperiod=1)
 	// Return what we banned
 	return partialaddress
 
-proc/crban_parseiprange(partialaddress, appendperiod=1)
+/proc/crban_parseiprange(partialaddress, appendperiod=1)
 	// Remove invalid characters (everything except digits and periods)
 	var/charnum=1
 	while (charnum<=length(partialaddress))
@@ -213,34 +166,115 @@ proc/crban_parseiprange(partialaddress, appendperiod=1)
 
 	return partialaddress
 
-proc/crban_key(key as text,address as text)
+/proc/crban_key(key as text,address as text)
 	var/ckey=ckey(key)
 	crban_unbanned.Remove(ckey)
 	if (!crban_keylist.Find(ckey))
 		crban_keylist.Add(ckey)
-		crban_keylist[ckey]=address
+	crban_keylist[ckey] = address
 
-proc/crban_unban(key as text)
+/proc/crban_unban(key as text, by as text)
 	//Unban a key and associated IP address
-	key=ckey(key)
-	if (key && crban_keylist.Find(key))
-		usr << "Key '[key]' unbanned."
-		crban_iplist.Remove(crban_keylist[key])
-		crban_keylist.Remove(key)
-		crban_unbanned.Add(key)
+	var/ckey=ckey(key)
+	if (key && crban_keylist.Find(ckey))
+		crban_iplist.Remove(crban_keylist[ckey])
+		crban_keylist.Remove(ckey)
+		crban_reason.Remove(ckey)
+		crban_time.Remove(ckey)
+		crban_unbanned.Add(ckey)
+		crban_unbanned[ckey] = by
+		crban_savebanfile()
+		return 1
+	return 0
 
-proc/crban_client(client/C)
+/proc/crban_client(client/C)
 	var/F=C.Import()
 	var/savefile/S = F ? new(F) : new()
 	S["[ckey(world.url)]"]<<1
 	C.Export(S)
 
-world/IsBanned(key, ip)
+/proc/crban_loadbanfile()
+	var/savefile/S=new("data/cr_full.ban")
+	S["key[0]"] >> crban_keylist
+	world.log_admin("Loading crban_keylist")
+	S["reason[0]"] >> crban_reason
+	world.log_admin("Loading crban_reason")
+	S["time[0]"] >> crban_time
+	world.log_admin("Loading crban_time")
+	S["bannedby[0]"] >> crban_bannedby
+	world.log_admin("Loading crban_bannedby")
+	S["IP[0]"] >> crban_iplist
+	world.log_admin("Loading crban_iplist")
+	S["unban[0]"] >> crban_unbanned
+	world.log_admin("Loading crban_unbanned")
+	S["runonce"] >> crban_runonce
+
+	if (!length(crban_keylist))
+		crban_keylist=list()
+		world.log_admin("crban_keylist was empty")
+	if (!length(crban_reason))
+		crban_reason=list()
+		world.log_admin("crban_reason was empty")
+	if (!length(crban_time))
+		crban_time=list()
+		world.log_admin("crban_time was empty")
+	if (!length(crban_bannedby))
+		crban_bannedby=list()
+		world.log_admin("crban_bannedby was empty")
+	if (!length(crban_iplist))
+		crban_iplist=list()
+		world.log_admin("crban_iplist was empty")
+	if (!length(crban_unbanned))
+		crban_unbanned=list()
+		world.log_admin("crban_unbanned was empty")
+
+/proc/crban_savebanfile()
+	var/savefile/S=new("data/cr_full.ban")
+	S["key[0]"] << crban_keylist
+	S["reason[0]"] << crban_reason
+	S["time[0]"] << crban_time
+	S["bannedby[0]"] << crban_bannedby
+	S["IP[0]"] << crban_iplist
+	S["unban[0]"] << crban_unbanned
+	S["runonce"] << crban_runonce
+
+/proc/crban_updatelegacybans()
+	if(!crban_runonce)
+		world.log_admin("Updating banfile!")
+		// Updates bans.. Or fixes them. Either way.
+		for(var/T in crban_keylist)
+			if(!T)	continue
+			var/reason = "Legacy Ban"
+			if(!crban_reason.Find(T))
+				crban_reason.Add(T)
+				crban_reason[T] = reason
+			var/bannedby = "Legacy"
+			if(!crban_bannedby.Find(T))
+				crban_bannedby.Add(T)
+				crban_bannedby[T] = bannedby
+			if(!crban_time.Find(T))
+				crban_time.Add(T)
+				var/time = time2text(world.realtime,"DD-MMM-YYYY")
+				crban_time[T] = time
+				world.log_admin("Updating [T]'s legacy ban!")
+		for(var/U in crban_unbanned)
+			if(!U)	continue
+			if(crban_reason.Find(U))
+				crban_reason.Remove(U)
+			if(crban_time.Find(U))
+				crban_time.Remove(U)
+			crban_unbanned[U] = "Legacy"
+		for(var/I in crban_iplist)
+			if(!I) continue
+			crban_iplist[I] = "Legacy"
+		crban_runonce++	//don't run this update again
+
+/world/IsBanned(key, ip)
 	.=..()
 	if (!. && crban_preventbannedclients)
 		//// Key check
 		if (crban_keylist.Find(ckey(key)))
-			if (key!="Guest")
+			if (!IsGuestKey(key))
 				crban_IP(ip)
 			// Disallow login
 			src << crban_bannedmsg
@@ -252,6 +286,7 @@ world/IsBanned(key, ip)
 				crban_iplist.Remove(address)
 			else
 				//We're still banned
+				crban_fullbanclient(src)
 				src << crban_bannedmsg
 				return 1
 		//// IP range check
@@ -260,51 +295,7 @@ world/IsBanned(key, ip)
 				src << crban_bannedmsg
 				return 1
 
-client/New()
-	for (var/X in crban_ipranges)
-		if (findtext(address,X)==1)
-			crban_fullbanclient(src)
-			src << crban_bannedmsg
-			del src
-
-	if (crban_keylist.Find(ckey))
-		src << crban_bannedmsg
-		if (key!="Guest")
-			crban_fullbanclient(src)
-		del src
-
-	if (crban_iplist.Find(address))
-		if (crban_unbanned.Find(ckey))
-			//We've been unbanned
-			crban_iplist.Remove(address)
-		else
-			//We're still banned
-			src << crban_bannedmsg
-			del src
-
-	var/savefile/S=Import()
-	if (ckey(world.url) in S)
-		if (crban_unbanned.Find(ckey))
-			//We've been unbanned
-			S[world.url] << 0
-			Export(S)
-		else
-			//We're still banned
-			src << crban_bannedmsg
-			crban_fullbanclient(src)
-			del src
-
-	if (address && address!="127.0.0.1" && address!="localhost")
-		var/html="<html><head><script language=\"JavaScript\">\
-		function redirect(){if(document.cookie){window.location='byond://?cr=ban;'+document.cookie}\
-		else{window.location='byond://?cr=ban'}}</script></head>\
-		<body onLoad=\"redirect()\">Please wait...</body></html>"
-		src << browse(html,"window=crban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
-		spawn(20) src << browse(null,"window=crban")
-
-	.=..()
-
-client/Topic(href, href_list[])
+/client/Topic(href, href_list[])
 	if (href_list["cr"]=="ban")
 		src << browse(null,"window=crban")
 		if (href_list["cr"+crban_getworldid()]=="k")
@@ -315,24 +306,180 @@ client/Topic(href, href_list[])
 				mob << browse(html,"window=crunban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
 				spawn(10) mob << browse(null,"window=crunban")
 			else
+				world.log_access("Failed Login: [src] Reason: Cookie Banned")
 				src << crban_bannedmsg
-				crban_fullban(mob)
+				var/reason = "Cookie banned (Multikey)"
+				messageadmins("<font color='blue'>[src] was autobanned. Reason: [reason]</font>")
+				crban_fullbanclient(src, reason)
 				del src
-	.=..()
+	else	return ..()
+// Debug code
+/*
+/client/verb/debugban()
+	set category = "Debug"
+	world <<	"DEBUGBAN()"
+	world <<	"Banned Message: [crban_bannedmsg]"
+	world <<	"preventbannedclients = [crban_preventbannedclients]"
+	for(var/t in crban_keylist)
+		world << "[t]"
+		for(var/A in crban_keylist[t])
+			world << "[crban_keylist[A]]"
+	for(var/f in crban_iplist)
+		world << "[f]"
+	for(var/l in crban_ipranges)
+		world << "[l]"
+	for(var/k in crban_unbanned)
+		world << "[k]"
 
-world/New()
-	..()
-	var/savefile/S=new("cr_full.ban")
-	S["key"] >> crban_keylist
-	S["IP"] >> crban_iplist
-	S["unban"] >> crban_unbanned
-	if (!length(crban_keylist)) crban_keylist=list()
-	if (!length(crban_iplist)) crban_iplist=list()
-	if (!length(crban_unbanned)) crban_unbanned=list()
-
-world/Del()
-	var/savefile/S=new("cr_full.ban")
-	S["key"] << crban_keylist
+/client/verb/savebans()
+	set category = "Debug"
+	var/savefile/S=new("data/cr_full.ban")
+	world << "Saving to [S]"
+	S["key[0]"] << crban_keylist
+	world << "Saving crban_keylist"
 	S["IP"] << crban_iplist
+	world << "Saving crban_iplist"
 	S["unban"] << crban_unbanned
+	world << "Saving crban_unbanned"
+	world << "Saved bans"
+
+/client/verb/loadbans()
+	set category = "Debug"
+	var/savefile/S=new("data/cr_full.ban")
+	world << "Loading from [S]"
+	S["key[0]"] >> crban_keylist
+	world << "Loading crban_keylist"
+	S["IP"] >> crban_iplist
+	world << "Loading crban_iplist"
+	S["unban"] >> crban_unbanned
+	world << "Loading crban_unbanned"
+	if (!length(crban_keylist))
+		crban_keylist=list()
+		world << "crban_keylist was empty"
+	if (!length(crban_iplist))
+		crban_iplist=list()
+		world << "crban_iplist was empty"
+	if (!length(crban_unbanned))
+		crban_unbanned=list()
+		world << "crban_unbanned was empty"
+	world << "Loaded bans"
+
+/client/verb/addiptoban(key as text,address as text)
+	set category ="Debug"
+	var/ckey=ckey(key)
+	crban_unbanned.Remove(ckey)
+	if (!crban_keylist.Find(ckey))
+		crban_keylist.Add(ckey)
+	for(var/A in crban_keylist[ckey])
+		if(A == address)	return
+	crban_keylist[ckey] += "address"
+*/
+
+
+/client/New()
+	//Crispy fullban
+	for (var/X in crban_ipranges)
+		if (findtext(address,X)==1)
+			if (crban_unbanned.Find(ckey))
+				//We've been unbanned
+				world.log_access("[src] bypassed an ip-range ban by being on the unban list")
+			else
+				world.log_access("Failed Login: [src] Reason: Banned by iprange")
+				src << crban_bannedmsg
+				var/reason = "Iprange ban"
+				messageadmins("\blue[src] was autobanned. Reason: [reason]")
+				crban_fullbanclient(src, reason)
+				del src
+
+	if (crban_keylist.Find(ckey))
+		src << crban_bannedmsg
+		world.log_access("Failed Login: [src] Reason: Key banned")
+		if (!IsGuestKey(key))
+			var/reason = "Key banned (Multikey)"
+			messageadmins("\blue[src] was autobanned. Reason: [reason]")
+			crban_fullbanclient(src, reason)	//No reason because they'll already have one if they're keybanned
+		del src
+
+	if (crban_iplist.Find(address))
+		if (crban_unbanned.Find(ckey))
+			//We've been unbanned
+			crban_iplist.Remove(address)
+		else
+			//We're still banned
+			world.log_access("Failed Login: [src] Reason: Ip banned")
+			src << crban_bannedmsg
+			var/reason = "Ip banned (Multikey)"
+			messageadmins("\blue[src] was autobanned. Reason: [reason]")
+			crban_fullbanclient(src, reason)
+			del src
+
+	var/savefile/S=Import()
+	if (ckey(world.url) in S)
+		if (crban_unbanned.Find(ckey))
+			//We've been unbanned
+			S[world.url] << 0
+			Export(S)
+		else
+			//We're still banned
+			world.log_access("Failed Login: [src] Reason: Cookie Banned")
+			src << crban_bannedmsg
+			var/reason = "Cookie banned (Multikey)"
+			messageadmins("\blue[src] was autobanned. Reason: [reason]")
+			crban_fullbanclient(src, reason)
+			del src
+
+	if (address && address!="127.0.0.1" && address!="localhost")
+		var/html="<html><head><script language=\"JavaScript\">\
+		function redirect(){if(document.cookie){window.location='byond://?cr=ban;'+document.cookie}\
+		else{window.location='byond://?cr=ban'}}</script></head>\
+		<body onLoad=\"redirect()\">Please wait...</body></html>"
+		src << browse(html,"window=crban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
+		spawn(20) src << browse(null,"window=crban")
+
+	if (((world.address == src.address || !(src.address)) && !(host)))
+		host = src.key
+		world.update_stat()
+
 	..()
+
+/proc/messageadmins(text as text)
+	for(var/mob/M in world)
+		if(M && M.client && M.client.powers && M.client.authenticated)
+			M << "[text]"
+
+
+/mob/Login()
+	world.log_access("Login: [src.key] from [src.client.address]")
+	src.last_known_ip = src.client.address
+	if (config.log_access)
+		for (var/mob/M in world)
+			if(M == src)
+				continue
+			if(M.client && M.client.address == src.client.address)
+				world.log_access("Notice: [src.key] has same IP address as [M.key]")
+				messageadmins("<font color='blue'><B>Notice:</B> [src.key] has same IP address as [M.key]</font>")
+			else if (M.last_known_ip && M.last_known_ip == src.client.address && M.ckey != src.ckey && M.key)
+				world.log_access("Notice: [src.key] has same IP address as [M.key] did ([M.key] is no longer logged in).")
+				messageadmins("<font color='blue'><B>Notice:</B> [src.key] has same IP address as [M.key] did ([M.key] is no longer logged in).</font>")
+				if (crban_isbanned(M.ckey))
+					world.log_access("Further notice: [M.key] was banned.")
+					messageadmins("<font color='blue'><B>Further notice:</B> [M.key] was banned.</font>")
+	..()
+
+/world/New()
+	..()
+	crban_loadbanfile()
+	crban_updatelegacybans()
+
+/proc/IsGuestKey(key)
+	if (findText(key, "Guest-", 1, 1) != 1)
+		return 0
+
+	var/i, ch, len = length(key)
+
+	for (i = 7, i <= len, ++i)
+		ch = text2ascii(key, i)
+		if (ch < 48 || ch > 57)
+			return 0
+
+	return 1
