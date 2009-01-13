@@ -18,13 +18,28 @@
 
 /datum/dna/proc/mutate()
 	//75% chance of no mutation at all
-	if(!prob(75))
+	if(prob(75))
 		return
 	for(var/list/chromosome in src.data)
 		for(var/i = 1; i <= chromosome.len; i++)
 			//1% chance of mutating any given locus
 			if(prob(1))
 				chromosome[i] = pick_allele()
+
+/datum/dna/proc/mutateAt(chrom, loc)
+	//75% chance of no mutation at all
+	if(prob(75))
+		return
+	//50% chance of hitting a nearby locus instead
+	if(prob(50))
+		chrom = chrom + rand(-2, 2)
+		loc = loc + rand(-2, 2)
+	//if it's something inaccessible, just don't mutate at all
+	if (chrom < 1 || chrom > NUM_CHROMOSOMES)
+		return
+	if (loc < 1 || loc > NUM_LOCI)
+		return
+	src.data[chrom][loc] = pick_allele()
 
 /datum/dna/proc/apply(mob/carbon/M)
 	var/list/genes = list()

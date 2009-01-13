@@ -178,7 +178,8 @@
 	HAIR_COLOR_BROWN = "brown"
 	HAIR_COLOR_BLACK = "black"
 	HAIR_COLOR_WHITE = "white"
-	HAIR_COLOR_BLOND = "blond"
+// removing blond hair due to reduction in # of alleles
+//	HAIR_COLOR_BLOND = "blond"
 	HAIR_COLOR_GREY  = "grey"
 
 /proc/get_hair_colors()
@@ -187,7 +188,8 @@
 		HAIR_COLOR_BLACK,
 		HAIR_COLOR_WHITE,
 		HAIR_COLOR_GREY,
-		HAIR_COLOR_BLOND
+// removing blond hair due to reduction in # of alleles
+//		HAIR_COLOR_BLOND
 	)
 
 /datum/preferences/proc/choose_hair_color()

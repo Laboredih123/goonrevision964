@@ -4,6 +4,9 @@
 	var/const/JUNK = "junk"
 
 	var/list/attributes = list(JUNK)
+	// NOTE: Currently, you can't have more than 4 attributes and expect it to work.
+	// At some point in the future, genes with >4 attributes will hopefully be
+	// automatically put into multiple loci.
 	var/num_loci = 1
 
 	// if this is set to 1, changing this gene makes you "unknown"
@@ -51,7 +54,7 @@
 
 		//add in 1 copy each of the rest
 		var/used = list(L.default_allele)
-		for(var/attr in src.attributes)
+		for(var/attr in src.attributes - src.default)
 			var/allele = pick_allele_except(used)
 			L.alleles[allele] = attr
 			used += allele

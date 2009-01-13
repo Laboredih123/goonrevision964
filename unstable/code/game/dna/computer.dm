@@ -37,10 +37,15 @@
 		STATE_GAMMA_MENU = 20
 		STATE_GAMMA = 21
 		STATE_GAMMA_DONE = 22
-		STATE_DIFF_MENU_BUF1 = 23
-		STATE_DIFF_MENU_BUF2 = 24
-		STATE_DIFF_DONE = 25
-		STATE_DELETE = 26
+		STATE_IND_GAMMA_MENU = 23
+		STATE_IND_GAMMA_MENU_CHROM = 24
+		STATE_IND_GAMMA_MENU_LOC = 25
+		STATE_IND_GAMMA = 26
+		STATE_IND_GAMMA_DONE = 27
+		STATE_DIFF_MENU_BUF1 = 28
+		STATE_DIFF_MENU_BUF2 = 29
+		STATE_DIFF_DONE = 30
+		STATE_DELETE = 31
 
 		SCAN_SPEED = 50 //loci/second
 		//TODO: adjust to be lower (when not debugging)
@@ -73,6 +78,7 @@
 			dat += "<a href='?src=\ref[src];operation=scan-menu'>Scan Occupant DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=replace-menu'>Replace Occupant DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=gamma-menu'>Subject Occupant to Gamma Radiation</a><br>"
+			dat += "<a href='?src=\ref[src];operation=ind-gamma-menu'>Subject Specific Locus to Gamma Radiation</a><br>"
 			dat += "<a href='?src=\ref[src];operation=splice-menu'>Splice DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=view-menu'>View/Delete/Rename DNA</a><br>"
 			dat += "<a href='?src=\ref[src];operation=diff-menu'>Compare DNA</a><br>"
@@ -202,6 +208,26 @@
 		if(STATE_GAMMA)
 			dat += "Exposing occupant to gamma radiation..."
 		if(STATE_GAMMA_DONE)
+			dat += "Gamma radiation complete!"
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_IND_GAMMA_MENU)
+			dat += "How many seconds of gamma radiation would you like to expose the occupant to?<br>"
+			for(var/i = 5; i <= 100; i+= 5)
+				dat += "<a href='?src=\ref[src];operation=ind-gamma-chrom;num-secs=[i]'>[i]</a> "
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_IND_GAMMA_MENU_CHROM)
+			dat += "What chromosome would you like to target?<br>"
+			for(var/i = 1; i <= NUM_CHROMOSOMES; i++)
+				dat += "<a href='?src=\ref[src];operation=ind-gamma-loc;chrom=[i]'>[i]</a> "
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_IND_GAMMA_MENU_LOC)
+			dat += "What locus would you like to target?<br>"
+			for(var/i = 1; i <= NUM_LOCI; i++)
+				dat += "<a href='?src=\ref[src];operation=ind-gamma;loc=[i]'>[i]</a> "
+			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
+		if(STATE_IND_GAMMA)
+			dat += "Exposing occupant to gamma radiation..."
+		if(STATE_IND_GAMMA_DONE)
 			dat += "Gamma radiation complete!"
 			dat += "<br><br><a href='?src=\ref[src];operation=main'>Main Menu</a>"
 		if(STATE_DIFF_MENU_BUF1)
@@ -350,6 +376,37 @@
 			else
 				src.state = STATE_GAMMA
 				src.secs_gamma = text2num(href_list["num-secs"])
+		if("ind-gamma-menu")
+			if (!src.connected_scanner)
+				src.state = STATE_NO_SCANNER
+			else if(!src.connected_scanner.occupant || !istype(src.connected_scanner.occupant, /mob/carbon) || !src.connected_scanner.occupant.dna)
+				src.state = STATE_NO_OCCUPANT
+			else
+				src.state = STATE_IND_GAMMA_MENU
+		if("ind-gamma-chrom")
+			if (!src.connected_scanner)
+				src.state = STATE_NO_SCANNER
+			else if(!src.connected_scanner.occupant || !istype(src.connected_scanner.occupant, /mob/carbon) || !src.connected_scanner.occupant.dna)
+				src.state = STATE_NO_OCCUPANT
+			else
+				src.state = STATE_IND_GAMMA_MENU_CHROM
+				src.secs_gamma = text2num(href_list["num-secs"])
+		if("ind-gamma-loc")
+			if (!src.connected_scanner)
+				src.state = STATE_NO_SCANNER
+			else if(!src.connected_scanner.occupant || !istype(src.connected_scanner.occupant, /mob/carbon) || !src.connected_scanner.occupant.dna)
+				src.state = STATE_NO_OCCUPANT
+			else
+				src.state = STATE_IND_GAMMA_MENU_LOC
+				src.pos_chromosome = text2num(href_list["chrom"])
+		if("ind-gamma")
+			if (!src.connected_scanner)
+				src.state = STATE_NO_SCANNER
+			else if(!src.connected_scanner.occupant || !istype(src.connected_scanner.occupant, /mob/carbon) || !src.connected_scanner.occupant.dna)
+				src.state = STATE_NO_OCCUPANT
+			else
+				src.state = STATE_IND_GAMMA
+				src.pos_locus = text2num(href_list["loc"])
 		if("diff-menu")
 			src.state = STATE_DIFF_MENU_BUF1
 		if("diff-buffer-primary")
@@ -363,7 +420,7 @@
 	return
 
 /obj/machinery/computer/dna/process()
-	if(src.state != STATE_SCANNING && src.state != STATE_REPLACING && src.state != STATE_GAMMA)
+	if(src.state != STATE_SCANNING && src.state != STATE_REPLACING && src.state != STATE_GAMMA && src.state != STATE_IND_GAMMA)
 		return
 	if(!src.connected_scanner)
 		src.state = STATE_NO_SCANNER
@@ -389,6 +446,13 @@
 		src.secs_gamma--
 		src.connected_scanner.occupant.dna.mutate()
 		src.connected_scanner.occupant.take_damage(electric = 2)
+		src.connected_scanner.occupant.dna.apply(src.connected_scanner.occupant)
+	else if(src.state == STATE_IND_GAMMA)
+		if(src.secs_gamma <= 0)
+			state = STATE_IND_GAMMA_DONE
+		src.secs_gamma--
+		src.connected_scanner.occupant.dna.mutateAt(pos_chromosome, pos_locus)
+		src.connected_scanner.occupant.take_damage(electric = 1)
 		src.connected_scanner.occupant.dna.apply(src.connected_scanner.occupant)
 	src.updateDialog()
 

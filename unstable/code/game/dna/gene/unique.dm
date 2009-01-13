@@ -7,11 +7,10 @@
 	var/salt
 
 	New()
-		//attributes consist of "0" to "14"
+		//attributes consist of "0" to "15"
 		//because you can't have an integer key to a hash (dammit byond)
-		//there are only 15 because otherwise there are problems with pick_allele_except
 		attributes = list()
-		for(var/i = 0; i < NUM_ALLELES - 1; i++)
+		for(var/i = 0; i < NUM_ALLELES; i++)
 			attributes += num2text(i)
 
 	pick_attribute(mob/carbon/M)

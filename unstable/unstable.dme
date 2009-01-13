@@ -4,8 +4,8 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\dna\computer.dm
-DIR: code code\game code\game\admin code\game\admin\admin_powers code\game\dna code\game\dna\gene code\game\machinery code\game\machinery\computer maps
+FILE: code\game\dna\change_dna.dm
+DIR: code code\game code\game\admin code\game\admin\admin_powers code\game\dna code\game\dna\gene code\game\machinery\computer code\game\mob code\game\mob\carbon code\game\mob\carbon\human maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
 */
