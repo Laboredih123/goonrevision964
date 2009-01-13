@@ -1,0 +1,5 @@
+/datum/mission/spawn_meteors/New(var/interval, var/number=1, var/randomness=0)
+	spawn(0)
+		while(1)
+			for(var/i=1 to number) spawn_meteor()
+			sleep(interval+rand(-randomness,randomness))
