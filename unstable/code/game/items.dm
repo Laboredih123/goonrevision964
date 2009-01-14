@@ -2515,7 +2515,7 @@
 
 	for(var/obj/item/weapon/storage/S in src)
 		L += S.return_inv()
-	for(var/obj/item/weapon/gift/G in ticker.killer.contents)
+	for(var/obj/item/weapon/gift/G in src)
 		L += G.gift
 		if (istype(G.gift, /obj/item/weapon/storage))
 			L += G.gift:return_inv()

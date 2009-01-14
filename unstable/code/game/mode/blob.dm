@@ -7,5 +7,5 @@
 
 /datum/game_mode/blob/setup()
 	new /datum/effect/blob(1)
-	missions[new/datum/mission/station_integrity(5)] = MISSION_ACTIVE
-	missions[new/datum/mission/destroy("blob",blobs)] = MISSION_ACTIVE
+	missions += new /datum/mission/station_integrity(5)
+	termination_conditions += new /datum/termination_condition/blob_destroyed()

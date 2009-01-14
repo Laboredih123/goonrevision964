@@ -214,3 +214,8 @@
 /area/turret_protected/ai
 	name = "AI Chamber"
 	icon_state = "ai"
+
+/area/shuttle
+	requires_power = 0
+	name = "Escape Shuttle"
+	icon_state = "shuttle"

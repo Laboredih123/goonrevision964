@@ -13,16 +13,16 @@
 		A << "You have been tasked with removing [Vname] from the face of this station!"
 		//if(prob(25)) V << "It appears a contract has been put on your life; be wary!"
 
-	proc/succeded()
-	if(victim && victim.mob)
-		Vname = victim.mob.spawn_name
-	if(attacker && attacker.mob)
-		Aname = attacker.mob.spawn_name
+	proc/succeeded()
+		if(victim && victim.mob)
+			Vname = victim.mob.spawn_name
+		if(attacker && attacker.mob)
+			Aname = attacker.mob.spawn_name
 
-	if(victim && victim.mob && !victim.mob.is_dead)
-		return false
-	else
-		return true
+		if(victim && victim.mob && !victim.mob.is_dead)
+			return 0
+		else
+			return 1
 
 	conclude()
 		if(src.succeeded())
