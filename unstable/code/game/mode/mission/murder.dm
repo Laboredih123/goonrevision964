@@ -1,25 +1,25 @@
 /datum/mission/murder
-	var/client/victim = null
-	var/client/attacker = null
+	var/mob/victim = null
+	var/mob/attacker = null
 	var/Vname = "your victim"
 	var/Aname = "your attacker"
 
-	New(var/client/A, var/client/V)
-		victim = V
-		attacker = A
-		if(A && A.mob)	Aname = A.mob.spawn_name
-		if(V && V.mob)	Vname = V.mob.spawn_name
-
-		A << "You have been tasked with removing [Vname] from the face of this station!"
-		//if(prob(25)) V << "It appears a contract has been put on your life; be wary!"
+	New(mob/M)
+		attacker = M
+		victim = pick_cliented_mob_except(M)
+		if(attacker)
+			Aname = attacker.spawn_name
+		if(victim)
+			Vname = victim.spawn_name
+		attacker << "You have been tasked with removing [Vname] from the face of this station!"
 
 	proc/succeeded()
-		if(victim && victim.mob)
-			Vname = victim.mob.spawn_name
-		if(attacker && attacker.mob)
-			Aname = attacker.mob.spawn_name
+		if(victim)
+			Vname = victim.spawn_name
+		if(attacker)
+			Aname = attacker.spawn_name
 
-		if(victim && victim.mob && !victim.mob.is_dead)
+		if(victim && !victim.is_dead)
 			return 0
 		else
 			return 1
@@ -47,3 +47,10 @@
 					victim << "You have successfully eluded [Aname], who wished to kill you."
 				else
 					victim << "You have survived, to the great consternation of other folks."
+
+	proc/pick_cliented_mob_except(mob/E)
+		var/list/L = new()
+		for(var/mob/M in world)
+			if(M != E && M.client)
+				L += M
+		return pick(L)

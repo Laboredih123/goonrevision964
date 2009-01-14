@@ -11,3 +11,4 @@
 	curr_language = LANGUAGE_COMPUTER
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list())
 	var/viewalerts = 0
+	var/is_evil = 0

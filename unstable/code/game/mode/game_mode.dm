@@ -16,9 +16,11 @@ var/const/SCENARIO_COMPLETE = 1
 		world << "<font color='red'><B>Game Over!</B></font>"
 		for(var/datum/mission/x in missions)
 			x.conclude()
+		sleep(300)
+		world.Reboot()
 
 	proc/setup()
-		missions[new/datum/mission/survival()] = MISSION_ACTIVE
+		missions += new /datum/mission/survival()
 
 	proc/execute()
 		while(src.state() == SCENARIO_ACTIVE)

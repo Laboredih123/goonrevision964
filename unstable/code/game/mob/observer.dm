@@ -8,7 +8,7 @@
 	var/mob/corpse = null	//	observer mode
 	var/datum/hud/carbon/hud = null // hud
 
-/mob/observer/New(var/mob/corpse)
+/mob/observer/New(mob/corpse)
 	set invisibility = 101
 	src.corpse		= corpse
 	src.loc			= corpse.loc

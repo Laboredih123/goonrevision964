@@ -1,5 +1,5 @@
 // Generic Wire Bundle
-// 
+//
 // Intended for airlocks, atmos panels, and the like. (things with lots of wires to cut)
 // Supports up to 32 wires, using a selection of Crayola colors from 1949 (plus flesh, which kurper really wanted to add)
 
@@ -17,10 +17,10 @@ var/const/MAX_WIRES = 32
 
 	var/obj/master        = null
 
-	var/list/triggers[MAX_WIRES] 
+	var/list/triggers[MAX_WIRES]
 
 // initialize a new wirebundle
-/datum/assembly/wirebundle/New(var/numwires = MAX_WIRES)
+/datum/assembly/wirebundle/New(numwires = MAX_WIRES)
 	if(numwires == 0)
 		// attempting to clone...
 		return
@@ -118,7 +118,7 @@ var/const/MAX_WIRES = 32
 
 	var/mob/carbon/M = usr
 	M.drop_item()
-	
+
 	trigger.assmaster = src
 	trigger.loc = src
 
@@ -128,7 +128,7 @@ var/const/MAX_WIRES = 32
 	if(!src.wirenumhastrigger(wirenum))
 		return "There's no trigger on that wire to detach!"
 	var/obj/item/weapon/trigger = triggers[wirenumtoidx(wirenum)]
-	
+
 	trigger.assmaster = null
 	trigger.loc = usr.loc
 

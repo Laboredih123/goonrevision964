@@ -1,6 +1,6 @@
 /datum/termination_condition/shuttle
 	check()
-		return !blobs.len
+		return 0
 
 	conclude()
-		world << "<font color='blue'>All blobs have been destroyed!</font>"
+		world << "<font color='blue'>The shuttle has left!</font>"

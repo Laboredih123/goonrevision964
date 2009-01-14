@@ -1,5 +1,5 @@
 /datum/mission/destroy
-	New(var/tname, var/list/targets)
+	New(tname, list/targets)
 		src.gname = tname
 		src.group = targets
 

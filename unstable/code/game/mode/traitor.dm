@@ -1,24 +1,6 @@
 /datum/game_mode/traitor
 	name = "traitor"
-
-	var/const/obj_murder = 1
-	var/const/obj_hijack = 2
-	var/const/obj_steal = 3
-	var/const/obj_sabotage = 4
-	var/const/ai_obj_murder = 5
-	var/const/ai_obj_evacuate = 6
-
-	var/const/laser = 1
-	var/const/hand_tele = 2
-	var/const/plasma_bomb = 3
-	var/const/jetpack = 4
-	var/const/captain_card = 5
-	var/const/captain_suit = 6
-
-	var/const/destroy_plasma = 1
-	var/const/destroy_ai = 2
-	var/const/kill_monkeys = 3
-	var/const/cut_power = 4
+	var/mob/traitor
 
 	announce()
 		return
@@ -26,23 +8,52 @@
 	setup()
 		termination_conditions += new/datum/termination_condition/shuttle()
 
+	execute()
+		traitor = pick_synd()
+
+		var/mission = pick_mission(traitor)
+		missions += new mission(traitor)
+		if(istype(traitor, /mob/carbon))
+			new /datum/effect/traitor_radio(traitor)
+		else
+			new /datum/effect/law_zero(traitor)
+		..()
+
+	proc/pick_synd()
 		var/list/synd_list = get_synd_list()
 		if(synd_list.len)
-			killer = pick(synd_list)
+			return pick(synd_list)
 		else
-			killer = pick(get_human_list())
+			var/list/mobs = get_cliented_mob_list()
+			if(mobs.len)
+				return pick(mobs)
+			else
+				world << "OH NO THERE IS NOBODY HERE"
 
-		var/objective = pick_objective(killer)
-
-	proc/pick_objective(mob/killer)
-		var/list/targets = get_human_list()
+	proc/pick_mission(mob/traitor)
+		var/list/targets = get_cliented_mob_list()
 		if(targets.len < 2)
-			if(istype(killer, /mob/silicon/ai))
-				return ai_obj_evacuate
+			if(istype(traitor, /mob/silicon/ai))
+				return /datum/mission/evacuate
 			else
-				return pick(obj_hijack, obj_steal, obj_sabotage)
+				return pick(/datum/mission/steal, /datum/mission/sabotage)
 		else
-			if(istype(killer, /mob/silicon/ai))
-				return pick(ai_obj_evacuate, ai_obj_murder)
+			if(istype(traitor, /mob/silicon/ai))
+				return pick(/datum/mission/evacuate, /datum/mission/murder)
 			else
-				return pick(obj_hijack, obj_steal, obj_sabotage, obj_murder)
+				return pick(/datum/mission/steal, /datum/mission/sabotage, /datum/mission/murder)
+
+	proc/get_synd_list()
+		var/list/L = list()
+		for(var/mob/M in world)
+			if (M.client && (!istype(M, /mob/prespawn) || M:ready) && M.client.prefs && M.client.prefs.be_syndicate)
+				L += M
+		return L
+
+	proc/get_cliented_mob_list()
+		var/list/L = list()
+		for(var/mob/M in world)
+			if(M.client && (!istype(M, /mob/prespawn) || M:ready))
+				L += M
+		return L
+

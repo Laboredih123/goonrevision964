@@ -120,11 +120,6 @@
 	//name = "gameticker"
 	var/timeleft = null
 	var/timing = 0.0
-	var/mob/killer = null
-	var/mob/target = null
-	var/theft_obj = null
-	var/sab_target = null
-	var/objective = null
 
 	var/datum/game_mode/mode = null
 	var/event_time = null

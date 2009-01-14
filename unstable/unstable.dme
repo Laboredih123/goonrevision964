@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\game\mob\carbon\hud.dm
+DIR: code code\data code\game code\game\admin code\game\admin\admin_powers code\game\item code\game\item\weapon code\game\machinery code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\mode code\game\mode\effect code\game\mode\mission code\game\mode\termination_condition code\game\verbs
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR
@@ -254,11 +260,16 @@
 #include "code\game\mode\meteor.dm"
 #include "code\game\mode\traitor.dm"
 #include "code\game\mode\effect\blob.dm"
+#include "code\game\mode\effect\law_zero.dm"
 #include "code\game\mode\effect\meteors.dm"
+#include "code\game\mode\effect\traitor_radio.dm"
 #include "code\game\mode\mission\destroy.dm"
+#include "code\game\mode\mission\evacuate.dm"
 #include "code\game\mode\mission\mission.dm"
 #include "code\game\mode\mission\murder.dm"
+#include "code\game\mode\mission\sabotage.dm"
 #include "code\game\mode\mission\station_integrity.dm"
+#include "code\game\mode\mission\steal.dm"
 #include "code\game\mode\mission\survival.dm"
 #include "code\game\mode\termination_condition\blob_destroyed.dm"
 #include "code\game\mode\termination_condition\shuttle.dm"

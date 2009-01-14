@@ -1,5 +1,5 @@
 /datum/mission/survival
-	New(var/gname, var/group, var/outcasts)
+	New(gname, group, outcasts)
 		src.gname = gname
 		src.group = group
 		src.outcasts = outcasts
@@ -14,7 +14,6 @@
 		return 0
 
 	conclude()
-
 		if(check())
 			world << "<font color='blue'>Not everyone has died!</font>"
 		else

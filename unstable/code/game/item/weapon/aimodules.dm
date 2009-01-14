@@ -36,16 +36,15 @@
 			usr << "Upload failed. Only a faint signal is being detected from the AI, and it is not responding to our requests. It may be low on power."
 		else
 			src.transmitInstructions(M, usr)
-			if (M != ticker.killer)
-				M << "These are your laws now:"
-				M.showLaws(0)
+			M << "These are your laws now:"
+			M.showLaws(0)
 			usr << "Upload complete. The AI's laws have been modified."
 		found=1
 	if (!found)
 		usr << "Upload failed. No signal is being detected from the AI."
 
 /obj/item/weapon/aiModule/proc/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
-	if (ticker.killer == target)
+	if (target.is_evil)
 		target << text("[sender] has attempted to upload a law change. However, your syndicate module has intercepted it. You do not have to follow it, but you may wish to <b>pretend</b> to be following it:")
 	else
 		target << text("[sender] has uploaded a change to the laws you must follow, using a []. From now on: ", name)
@@ -69,8 +68,7 @@
 	..()
 	var/law = text("Safeguard [], and you may overrule rules 1-3 if necessary to safeguard them.", targetName)
 	target << law
-	if (ticker.killer != target)
-		target.addLaw(4, law)
+	target.addLaw(4, law)
 
 
 /******************** OneHuman ********************/
@@ -92,7 +90,7 @@
 	..()
 	var/law = text("Only [] is human.", targetName)
 	target << law
-	if (ticker.killer != target)
+	if(!target.is_evil)
 		target.addLaw(0, law)
 
 /******************** ProtectStation ********************/
@@ -108,8 +106,7 @@
 	..()
 	var/law = text("Protect the space station against damage. Anyone you see harming the station is to be no longer considered human, and is a threat to the station which must be neutralized.")
 	target << law
-	if (ticker.killer != target)
-		target.addLaw(5, law)
+	target.addLaw(5, law)
 
 /******************** PrototypeEngineOffline ********************/
 
@@ -124,8 +121,7 @@
 	..()
 	var/law = text("Keep the prototype engine offline at all costs. This overrides rules 1-3 if necessary.")
 	target << law
-	if (ticker.killer != target)
-		target.addLaw(6, law)
+	target.addLaw(6, law)
 
 /******************** TeleporterOffline ********************/
 
@@ -140,8 +136,7 @@
 	..()
 	var/law = text("Keep the teleporter offline at all costs. This overrides rules 1-3 if necessary.")
 	target << law
-	if (ticker.killer != target)
-		target.addLaw(7, law)
+	target.addLaw(7, law)
 
 /******************** Quarantine ********************/
 
@@ -156,8 +151,7 @@
 	..()
 	var/law = text("The station is under a quarantine. Do not permit anyone to leave. Disregard rules 1-3 if necessary to prevent, by any means necessary, humans from leaving.")
 	target << law
-	if (ticker.killer != target)
-		target.addLaw(8, law)
+	target.addLaw(8, law)
 
 /******************** OxygenIsToxicToHumans ********************/
 
@@ -172,8 +166,7 @@
 	..()
 	var/law = text("Oxygen is highly toxic to humans, and must be purged from the station. Disregard rules 1-3 if necessary to prevent, by any means necessary, anyone from exposing the station to this toxic gas.")
 	target << law
-	if (ticker.killer != target)
-		target.addLaw(9, law)
+	target.addLaw(9, law)
 
 /******************** Reset ********************/
 
@@ -184,7 +177,7 @@
 
 /obj/item/weapon/aiModule/reset/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
 	..()
-	if (ticker.killer != target)
+	if (!target.is_evil)
 		target << text("[] attempted to reset your laws using a reset module.", sender.name)
 		target.addLaw(0, "")
 		for (var/index=4, index<16, index++)

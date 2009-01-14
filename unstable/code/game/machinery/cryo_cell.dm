@@ -1,4 +1,4 @@
-/obj/overlay/New(var/icon, var/istate, var/xpix, var/ypix)
+/obj/overlay/New(icon, istate, xpix, ypix)
 	src.icon_state = istate
 	src.pixel_x = xpix
 	src.pixel_y = ypix
