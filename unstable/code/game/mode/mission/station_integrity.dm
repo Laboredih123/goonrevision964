@@ -12,7 +12,7 @@
 	state()
 		src.current.count()
 		var/percent = 100*src.initial.score(current)
-		if(percent > required_integrity && percent <= max_integrity)
+		if(percent > required_integrity && (percent <= max_integrity || max_integrity >= 100))
 			return MISSION_ACTIVE
 		return MISSION_COMPLETE
 

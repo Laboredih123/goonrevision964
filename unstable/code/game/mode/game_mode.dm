@@ -7,30 +7,26 @@ var/const/SCENARIO_COMPLETE = 1
 	var/votable = 1
 	var/probability = 1
 	var/list/missions = new()
-	var/list/groupings = null
+	var/list/termination_conditions = new()
 
-/datum/game_mode/proc/CheckState(var/datum/mission/A)
-	if(missions[A] != MISSION_ACTIVE) return missions[A]
-	missions[A] = A.state()
-	return missions[A]
+	proc/announce()
+		world << "<font color='blue'><B>Free Form!</B></font>"
 
-/datum/game_mode/proc/announce()
-	world << "<font color='blue'><B>Free Form!</B></font>"
+	proc/conclude()
+		world << "<font color='red'><B>Game Over!</B></font>"
+		for(var/datum/mission/x in missions)
+			x.conclude()
 
-/datum/game_mode/proc/conclude()
-	world << "<font color='red'><B>Game Over!</B></font>"
-	for(var/datum/mission/x in missions)
-		if(missions[x] != MISSION_ACTIVE) x.conclude()
+	proc/setup()
+		missions[new/datum/mission/survival()] = MISSION_ACTIVE
 
-/datum/game_mode/proc/setup()
-	missions[new/datum/mission/survival()] = MISSION_ACTIVE
+	proc/execute()
+		while(src.state() == SCENARIO_ACTIVE)
+			sleep(5)
+		return src.conclude()
 
-/datum/game_mode/proc/execute()
-	while(src.state()==SCENARIO_ACTIVE) sleep(5)
-	return src.conclude()
-
-/datum/game_mode/proc/state()
-	for(var/datum/mission/x in missions)
-		if(CheckState(x) == MISSION_ACTIVE) continue
-		if(x.critical) return SCENARIO_COMPLETE
-	return SCENARIO_ACTIVE
+	proc/state()
+		for(var/datum/termination_condition/t in termination_conditions)
+			if(t.check())
+				return SCENARIO_COMPLETE
+		return SCENARIO_ACTIVE
