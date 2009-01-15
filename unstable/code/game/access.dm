@@ -8,9 +8,6 @@
 // That's it! Now you can make doors on your map require that permission. Don't worry about things like
 // making it show up in the ID computer - it will automatically. This is the only file you have to edit.
 
-//TODO: add the new station engineer position, etc
-//TODO: give access_atmospherics to people
-
 /var/const
 	access_security = 1
 	access_brig = 2

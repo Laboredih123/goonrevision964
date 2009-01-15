@@ -4,10 +4,8 @@
 	if(istype(src.mask, /obj/item/weapon/clothing/mask/muzzle))
 		return 0
 
-	//TODO: completely redo this check so that it isn't absolutely awful
-	//seriously, checking the state of an icon on your HUD? jesus christ
 	var/turf/T = src.loc
-	if (!((src.hud && src.hud.oxygen && src.hud.oxygen.icon_state == "oxy0") || istype(T, /turf) && T.gas.oxygen > 0))
+	if (!istype(T, /turf) || T.gas.oxygen == 0))
 		return 0
 
 	return ..()
