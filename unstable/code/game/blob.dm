@@ -5,7 +5,7 @@
 	src.update()
 	..(loc)
 	spawn(0)
-		while(ticker.processing)
+		while(1)
 			sleep(rand(5,60))
 			src.Life()
 

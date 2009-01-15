@@ -84,7 +84,7 @@
 		fdel(F)
 		F << winner
 
-		if(ticker)
+		if(game_started)
 			world <<"\red <B>World will reboot in 10 seconds</B>"
 
 			sleep(100)

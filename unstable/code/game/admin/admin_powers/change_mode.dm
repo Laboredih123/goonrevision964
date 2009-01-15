@@ -6,7 +6,7 @@
 
 	Topic(href, href_list)
 		if(href_list["action"] == "list")
-			if (!ticker)
+			if (!game_started)
 				var/dat = "<B>What mode do you wish to play?</B><HR>"
 				dat += "<A href='?src=\ref[src];c_mode=secret'>Secret</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=random'>Random</A><br>"
@@ -20,7 +20,7 @@
 				dat += "Now: [master_mode]"
 				ss13_browse(usr, dat, "window=c_mode")
 		else if(href_list["c_mode"])
-			if(!ticker)
+			if(!game_started)
 				switch(href_list["c_mode"])
 					if("secret")
 						master_mode = "secret"
@@ -52,7 +52,7 @@
 
 
 	get_desc()
-		if(ticker)
+		if(game_started)
 			return "<a href='?src=\ref[src];action=list'>Change mode</a>"
 		else
 			return null

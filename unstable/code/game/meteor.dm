@@ -5,7 +5,7 @@
 /var/const/meteors_in_small_wave = 1
 
 /proc/meteor_wave()
-	if(!ticker || wavesecret)
+	if(!game_started || wavesecret)
 		return
 
 	wavesecret = 1

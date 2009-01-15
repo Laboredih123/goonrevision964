@@ -5,8 +5,8 @@
 		return
 
 	Topic(href, href_list)
-		if(ticker && ticker.mode && istype(ticker.mode, /datum/game_mode/traitor))
-			var/mob/t = ticker.mode:traitor
+		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
+			var/mob/t = current_mode:traitor
 			if(t && t.client)
 				alert("The traitor's spawn name is [t.spawn_name] and his key is [t.last_known_ckey]")
 			else if(t)
@@ -15,7 +15,7 @@
 				alert("There doesn't seem to be a traitor. (Perhaps he was banned?)")
 
 	get_desc()
-		if(ticker && ticker.mode && istype(ticker.mode, /datum/game_mode/traitor))
+		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
 			return "<a href='?src=\ref[src]'>Show traitor identity</a>"
 		else
 			return null

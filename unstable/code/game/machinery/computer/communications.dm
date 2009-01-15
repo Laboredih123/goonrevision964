@@ -1,8 +1,9 @@
 /obj/machinery/computer/communications/process()
-	if(stat & (NOPOWER|BROKEN)) return
+	if(stat & (NOPOWER|BROKEN))
+		return
 	..()
-	if(!ticker) return
-	if(!ticker.timing) return
+	if(shuttle_status != SHUTTLE_COMING && shuttle_status != SHUTTLE_RETURNING)
+		return
 	src.updateUsrDialog()
 
 /obj/machinery/computer/communications/Topic(href, href_list)

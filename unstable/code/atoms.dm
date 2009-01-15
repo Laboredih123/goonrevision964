@@ -117,10 +117,6 @@
 	var/time = 0
 
 /datum/control/gameticker
-	//name = "gameticker"
-	var/timeleft = null
-	var/timing = 0.0
-
 	var/datum/game_mode/mode = null
 	var/event_time = null
 	var/event = 0

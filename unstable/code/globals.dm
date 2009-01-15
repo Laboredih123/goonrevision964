@@ -103,12 +103,13 @@ var
 	SS13_version = "2.0 Beta"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
-	datum/control/gameticker/ticker = null
 	obj/datacore/data_core = null
 	obj/overlay/plmaster = null
 	obj/overlay/slmaster = null
-	going = 1.0
+	going = 1
+	game_started = 0
 	master_mode = "random"//"extended"
+	datum/game_mode/current_mode = null
 
 	persistent_file = "mode.txt"
 

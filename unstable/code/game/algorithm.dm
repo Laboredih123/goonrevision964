@@ -143,7 +143,7 @@
 	world.log_game("[M] has joined the game.")
 	if(rank == "Captain")
 		world << "<b>[M] is the captain!</b>"
-	src << "<B>Game mode is [ticker.mode]</B>"
+	src << "<B>Game mode is [current_mode]</B>"
 	src << "<B>You are the [rank].</B>"
 	M.client = src.client
 	M.update_clothing()

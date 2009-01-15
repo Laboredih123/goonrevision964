@@ -38,7 +38,7 @@
 /world/proc/update_stat()
 	src.status = "Goonstation [SS13_version]\]<BR>"
 
-	if(!ticker)
+	if(!game_started)
 		src.status += "<b>STARTING</b>"
 	else if(master_mode)
 		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
@@ -147,10 +147,9 @@
 	spawn (0)
 		sleep(900)		//*****RM was 900
 		Label_482:
-		if (going && (!ticker))
-			ticker = new /datum/control/gameticker(  )
+		if (going && (!game_started))
 			spawn( 0 )
-				ticker.process()
+				start_game()
 				return
 			data_core = new /obj/datacore(  )
 		else
@@ -219,36 +218,38 @@
 /turf/proc/cachecell()			return
 /datum/control/proc/process()	return
 
-/datum/control/gameticker/process()
-
+/proc/start_game()
+	game_started = 1
 	world.update_stat()
 	world << "<B>Welcome to Space Station 13!</B>\n\n"
 
 	if(!master_mode) master_mode = "random"
 	switch (master_mode)
 		if("secret")
-			src.mode = config.pick_random_mode()
+			current_mode = config.pick_random_mode()
 			world << "<B>The current game mode is - Secret!</B>"
 			world << "<B>The game will pick between meteor, traitor, blob, or monkey mode!</B>"
 		if("random")
-			src.mode = config.pick_random_mode()
+			current_mode = config.pick_random_mode()
 			world << "<B>The current game mode is - Random</B>"
-			world << "<B>The game has picked mode: \red [src.mode.name]</B>"
+			world << "<B>The game has picked mode: \red [current_mode.name]</B>"
 		else
-			src.mode = config.pick_mode(master_mode)
-			src.mode.announce()
+			current_mode = config.pick_mode(master_mode)
+			current_mode.announce()
 
-	src.mode.setup()
+	current_mode.setup()
 
 	world << "<B>Now dispensing all identification cards.</B>"
 
-	world.log_game("[src.mode.name] round starting")
+	world.log_game("[current_mode.name] round starting")
 
 	DivideOccupations()
-	for(var/obj/manifest/M in world)	M.manifest()
+	for(var/obj/manifest/M in world)
+		M.manifest()
 	data_core.manifest()
-	src.mode.execute()
-	for(var/obj/start/S in world)		del(S)
+	current_mode.execute()
+	for(var/obj/start/S in world)
+		del(S)
 
 // *****
 // MAIN LOOP OF PROGRAM

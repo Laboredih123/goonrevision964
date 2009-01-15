@@ -44,7 +44,7 @@
 /obj/machinery/door/window/Bumped(atom/movable/AM as mob|obj)
 	if (!( ismob(AM) ))
 		return
-	if (!( ticker ))
+	if (!game_started)
 		return
 	if (src.operating)
 		return
@@ -1938,7 +1938,7 @@
 	return
 
 /obj/stool/chair/MouseDrop_T(mob/carbon/M as mob, mob/user as mob)
-	if (!ticker)
+	if (!game_started)
 		user << "You can't buckle anyone in before the game starts."
 	if ((!( istype(M, /mob/carbon) ) || get_dist(src, user) > 1 || M.loc != src.loc || !user.can_use_hands()))
 		return
@@ -1974,7 +1974,7 @@
 	return
 
 /obj/stool/bed/MouseDrop_T(mob/carbon/M as mob, mob/user as mob)
-	if (!ticker)
+	if (!game_started)
 		user << "You can't buckle anyone in before the game starts."
 	if ((!( istype(M, /mob/carbon) ) || get_dist(src, user) > 1 || M.loc != src.loc || !user.can_use_hands()))
 		return

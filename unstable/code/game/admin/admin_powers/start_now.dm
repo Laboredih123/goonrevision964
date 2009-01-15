@@ -5,17 +5,16 @@
 		return
 
 	Topic(href, href_list)
-		world << "<B>The game will now start immediately thanks to [usr.key]!</B>"
-		going = 1
-		if (!ticker)
-			ticker = new /datum/control/gameticker()
+		if (!game_started)
+			world << "<B>The game will now start immediately thanks to [usr.key]!</B>"
+			going = 1
 			spawn (0)
 				world.log_admin("[usr.key] used start_now")
-				ticker.process()
+				start_game()
 			data_core = new /obj/datacore()
 
 	get_desc()
-		if(!ticker)
+		if(!game_started)
 			return "<a href='?src=\ref[src]'>Start round now</a>"
 		else
 			return null

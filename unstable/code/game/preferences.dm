@@ -141,7 +141,7 @@
 		new_player.ready = 1
 		world.log_game("[usr.key] entered as [usr.name]")
 
-		if (ticker)
+		if (game_started)
 			var/list/L = assistant_occupations
 			var/job
 			if(L.Find(src.job1))		job = src.job1

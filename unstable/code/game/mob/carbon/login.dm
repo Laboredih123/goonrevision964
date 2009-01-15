@@ -5,7 +5,7 @@
 	world.update_stat()
 	src.next_move = 1
 
-	if (ticker && master_mode =="sandbox" && src.client.authenticated)
+	if (game_started && current_mode =="sandbox" && src.client.authenticated)
 		src.CanBuild()
 
 	return ..()

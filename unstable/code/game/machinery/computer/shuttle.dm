@@ -25,7 +25,7 @@
 					world << text("\blue <B>Alert: [] authorizations needed until shuttle is launched early</B>", src.auth_need - src.authorized.len)
 				else
 					world << "\blue <B>Alert: Shuttle launch time shortened to 10 seconds!</B>"
-					ticker.timeleft = 100
+					//ticker.timeleft = 100
 
 					del(src.authorized)
 					src.authorized = list(  )

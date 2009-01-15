@@ -5,7 +5,7 @@
 		return
 
 	Topic(href, href_list)
-		if(ticker)
+		if(game_started)
 			return
 		going = !going
 		if (going)
@@ -16,7 +16,7 @@
 			world.log_admin("[usr.key] delayed the game.")
 
 	get_desc()
-		if(ticker)
+		if(game_started)
 			return null
 		if(going)
 			return "<a href='?src=\ref[src]'>Delay game</a>"
