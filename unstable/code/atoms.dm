@@ -1930,26 +1930,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/mode = 0.0
 	var/printing = null
 	req_access = list(access_change_ids)
-/obj/machinery/computer/communications
-	name = "Communications Console"
-	icon = 'stationobjs.dmi'
-	icon_state = "comm_computer"
-	req_access = list(access_heads)
-	var/prints_intercept = 1
-	var/authenticated = 0
-	var/list/messagetitle = list()
-	var/list/messagetext = list()
-	var/currmsg = 0
-	var/aicurrmsg = 0
-	var/state = STATE_DEFAULT
-	var/aistate = STATE_DEFAULT
-	var/const
-		STATE_DEFAULT = 1
-//		STATE_CALLSHUTTLE = 2
-//		STATE_CANCELSHUTTLE = 3
-		STATE_MESSAGELIST = 4
-		STATE_VIEWMESSAGE = 5
-		STATE_DELMESSAGE = 6
 /obj/machinery/computer/data
 	name = "data"
 	icon = 'weap_sat.dmi'

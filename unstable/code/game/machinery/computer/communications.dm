@@ -1,3 +1,24 @@
+/obj/machinery/computer/communications
+	name = "Communications Console"
+	icon = 'stationobjs.dmi'
+	icon_state = "comm_computer"
+	req_access = list(access_heads)
+	var/prints_intercept = 1
+	var/authenticated = 0
+	var/list/messagetitle = list()
+	var/list/messagetext = list()
+	var/currmsg = 0
+	var/aicurrmsg = 0
+	var/state = STATE_DEFAULT
+	var/aistate = STATE_DEFAULT
+	var/const
+		STATE_DEFAULT = 1
+		STATE_CALLSHUTTLE = 2
+		STATE_CANCELSHUTTLE = 3
+		STATE_MESSAGELIST = 4
+		STATE_VIEWMESSAGE = 5
+		STATE_DELMESSAGE = 6
+
 /obj/machinery/computer/communications/process()
 	if(stat & (NOPOWER|BROKEN))
 		return
@@ -75,6 +96,23 @@
 					src.currmsg = 0
 				src.aicurrmsg = 0
 			src.aistate = STATE_MESSAGELIST
+		if("callshuttle")
+			src.state = STATE_DEFAULT
+			if(src.authenticated)
+				src.state = STATE_CALLSHUTTLE
+		if("callshuttle2")
+			if(src.authenticated)
+				call_shuttle()
+			src.state = STATE_DEFAULT
+		if("cancelshuttle")
+			src.state = STATE_DEFAULT
+			if(src.authenticated)
+				src.state = STATE_CANCELSHUTTLE
+		if("cancelshuttle2")
+			if(src.authenticated)
+				uncall_shuttle()
+			src.state = STATE_DEFAULT
+
 
 	src.updateUsrDialog()
 
@@ -94,7 +132,11 @@
 	switch(src.state)
 		if(STATE_DEFAULT)
 			if(src.authenticated)
-				dat += "<BR>\[ <A HREF='?src=\ref[src];operation=logout'>Log Out</A> \]"
+				if(shuttle_status == SHUTTLE_WAITING || shuttle_status == SHUTTLE_RETURNING)
+					dat += "<br>\[<a href='?src=\ref[src];operation=callshuttle'> Call Emergency Shuttle </a>\]"
+				else if(shuttle_status == SHUTTLE_COMING)
+					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=cancelshuttle'>Cancel Shuttle Call</A> \]"
+				dat += "<br>\[<a href='?src=\ref[src];operation=logout'> Log Out </a>\]"
 			else
 				dat += "<BR>\[ <A HREF='?src=\ref[src];operation=login'>Log In</A> \]"
 			dat += "<BR>\[ <A HREF='?src=\ref[src];operation=messagelist'>Message List</A> \]"
@@ -118,6 +160,11 @@
 				src.state = STATE_MESSAGELIST
 				src.interact(user)
 				return
+		if(STATE_CALLSHUTTLE)
+			dat += "Are you sure you want to call the shuttle? \[ <A HREF='?src=\ref[src];operation=callshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]"
+		if(STATE_CANCELSHUTTLE)
+			dat += "Are you sure you want to cancel the shuttle? \[ <A HREF='?src=\ref[src];operation=cancelshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]"
+
 
 	dat += "<BR>\[ [(src.state != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
 	ss13_browse(user, dat, "window=communications;size=450x500")
