@@ -14,4 +14,4 @@
 			attributes += num2text(i)
 
 	pick_attribute(mob/carbon/M)
-		return num2text(rand(14))
+		return num2text(rand(NUM_ALLELES - 1))

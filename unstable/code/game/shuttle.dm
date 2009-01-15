@@ -1,300 +1,70 @@
+/var/const/SHUTTLE_Z = 2 //where it starts
+/var/const/SHUTTLE_CALLED_Z = 1
+/var/shuttle_loc = SHUTTLE_Z
 
-/obj/machinery/computer/prison_shuttle/ex_act(severity)
+/var/const/SHUTTLE_TIME = 6000 //tenths of a second - 10 minutes
+/var/const/SHUTTLE_TIME_DOCKED = 600 * 3 // 3 minutes
+/var/const/SHUTTLE_TIME_SPED_UP = 100 // 10 seconds
+/var/shuttle_time_left
+/var/last_shuttle_update
 
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				for(var/x in src.verbs)
-					src.verbs -= x
-					//Foreach goto(58)
-				src.icon_state = "broken"
-		if(3.0)
-			if (prob(25))
-				for(var/x in src.verbs)
-					src.verbs -= x
-					//Foreach goto(109)
-				src.icon_state = "broken"
+/var/const/SHUTTLE_WAITING = 0
+/var/const/SHUTTLE_COMING = 1
+/var/const/SHUTTLE_RETURNING = 2
+/var/const/SHUTTLE_DOCKED = 3
+/var/const/SHUTTLE_LEFT = 4
+
+/var/shuttle_status = SHUTTLE_WAITING
+
+/proc/call_shuttle() //does not bring the shuttle, just starts the countdown
+	if(shuttle_status == SHUTTLE_WAITING)
+		spawn() process_shuttle()
+	if(shuttle_status == SHUTTLE_WAITING || shuttle_status == SHUTTLE_RETURNING)
+		shuttle_status = SHUTTLE_COMING
+		shuttle_time_left = SHUTTLE_TIME
+		last_shuttle_update = world.realtime
+		announce_shuttle()
+	else if(shuttle_status == SHUTTLE_COMING)
+		announce_shuttle()
+
+/proc/announce_shuttle()
+	world << "The shuttle has been called and will arrive in [shuttle_time_left/600] minutes."
+
+/proc/process_shuttle()
+	if(shuttle_status == SHUTTLE_RETURNING)
+		if(shuttle_time_left >= SHUTTLE_TIME)
+			shuttle_status = SHUTTLE_WAITING
 		else
-	return
-
-/obj/machinery/computer/prison_shuttle/verb/take_off()
-	set src in oview(1)
-
-	usr << "\red The console seems irreparably damaged!"
-	return
-
-	if ((!usr.can_use_hands()))
-		return
-	src.add_fingerprint(usr)
-	if (prison_entered)
-		var/A = locate(/area/shuttle)
-		for(var/turf/T in A)
-			if (T.z == 1)
-				for(var/atom/movable/AM as mob|obj in T)
-					AM.z = 8
-					//Foreach goto(96)
-				var/turf/U = locate(T.x, T.y, 8)
-				U.gas.copy_cop(T.gas)
-				U.phase1.copy_cop(T.phase1)
-				U.phase2.copy_cop(T.phase2)
-				del(T)
-			//Foreach goto(62)
-		prison_entered = null
-	else
-		if (!( prison_entered ))
-			if (ticker.shuttle_location != 1)
-				var/A = locate(/area/shuttle_prison)
-				for(var/turf/T in A)
-					if (T.z == 8)
-						for(var/atom/movable/AM as mob|obj in T)
-							AM.z = 1
-							//Foreach goto(346)
-						var/turf/U = locate(T.x, T.y, 1)
-						U.gas.copy_cop(T.gas)
-						U.phase1.copy_cop(T.phase1)
-						U.phase2.copy_cop(T.phase2)
-						del(T)
-					//Foreach goto(312)
-				prison_entered = 1
-			else
-				usr << "\blue There is an obstructing shuttle!"
-				return
-	return
-
-/obj/machinery/computer/prison_shuttle/verb/restabalize()
-	set src in oview(1)
-	if(!usr.is_active()) return
-
-	viewers(null, null) << "\red <B>Restabalizing prison shuttle atmosphere!</B>"
-	var/A = locate(/area/shuttle_prison)
-	for(var/obj/move/T in A)
-		T.firelevel = 0
-		T.gas.clear()
-		T.gas.nitrogen = N2STANDARD
-		T.gas.oxygen = O2STANDARD
-		T.gas.temp = T20C
-		T.gas.temp = T20C
-		T.reset_phases()
-	viewers(null, null) << "\red <B>Prison shuttle Restabalized!</B>"
-	src.add_fingerprint(usr)
-	return
-
-/obj/machinery/computer/shuttle/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				for(var/x in src.verbs)
-					src.verbs -= x
-					//Foreach goto(58)
-				src.icon_state = "broken"
-		if(3.0)
-			if (prob(25))
-				for(var/x in src.verbs)
-					src.verbs -= x
-					//Foreach goto(109)
-				src.icon_state = "broken"
+			var/curtime = world.realtime
+			shuttle_time_left = min(SHUTTLE_TIME, shuttle_time_left + curtime - last_shuttle_update)
+			last_shuttle_update = curtime
+			sleep(5)
+			process_shuttle()
+	else if(shuttle_status == SHUTTLE_COMING)
+		if(shuttle_time_left <= 0)
+			shuttle_status = SHUTTLE_DOCKED
+			shuttle_time_left = SHUTTLE_TIME_DOCKED
+			last_shuttle_update = world.realtime
+			shuttle_move(SHUTTLE_Z, SHUTTLE_CALLED_Z)
+			sleep(5)
+			process_shuttle()
 		else
-	return
-
-/obj/machinery/computer/shuttle/verb/restabalize()
-	set src in oview(1)
-
-	world << "\red <B>Restabalizing shuttle atmosphere!</B>"
-	var/A = locate(/area/shuttle)
-	for(var/obj/move/T in A)
-		T.firelevel = 0
-		T.gas.clear()
-		T.gas.nitrogen = N2STANDARD
-		T.gas.oxygen = O2STANDARD
-		T.gas.temp = T20C
-		T.gas.temp = T20C
-		T.reset_phases()
-	world << "\red <B>Shuttle Restabalized!</B>"
-	src.add_fingerprint(usr)
-	return
-
-/obj/machinery/computer/shuttle/attackby(var/obj/item/weapon/card/id/W as obj, var/mob/user as mob)
-
-	if ((!( istype(W, /obj/item/weapon/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
-		return
-	if (!W.access) //no access
-		user << "The access level of [W.registered]\'s card is not high enough. "
-		return
-	var/list/cardaccess = W.access
-	if(!istype(cardaccess, /list) || !cardaccess.len) //no access
-		user << "The access level of [W.registered]\'s card is not high enough. "
-		return
-	var/choice = alert(user, text("Would you like to (un)authorize a shortened launch time? [] authorization\s are still needed. Use abort to cancel all authorizations.", src.auth_need - src.authorized.len), "Shuttle Launch", "Authorize", "Repeal", "Abort")
-	switch(choice)
-		if("Authorize")
-			src.authorized -= W.registered
-			src.authorized += W.registered
-			if (src.auth_need - src.authorized.len > 0)
-				world << text("\blue <B>Alert: [] authorizations needed until shuttle is launched early</B>", src.auth_need - src.authorized.len)
-			else
-				world << "\blue <B>Alert: Shuttle launch time shortened to 10 seconds!</B>"
-				ticker.timeleft = 100
-				//src.authorized = null
-				del(src.authorized)
-				src.authorized = list(  )
-		if("Repeal")
-			src.authorized -= W.registered
-			world << text("\blue <B>Alert: [] authorizations needed until shuttle is launched early</B>", src.auth_need - src.authorized.len)
-		if("Abort")
-			world << "\blue <B>All authorizations to shorting time for shuttle launch have been revoked!</B>"
-			src.authorized.len = 0
-			src.authorized = list(  )
+			var/curtime = world.realtime
+			shuttle_time_left = max(0, shuttle_time_left - (curtime - last_shuttle_update))
+			last_shuttle_update = curtime
+			sleep(5)
+			process_shuttle()
+	else if(shuttle_status == SHUTTLE_DOCKED)
+		if(shuttle_time_left <= 0)
+			shuttle_status = SHUTTLE_LEFT
+			shuttle_move(SHUTTLE_CALLED_Z, SHUTTLE_Z)
 		else
+			var/curtime = world.realtime
+			shuttle_time_left = max(0, shuttle_time_left - (curtime - last_shuttle_update))
+			last_shuttle_update = curtime
+			sleep(5)
+			process_shuttle()
+
+/proc/shuttle_move(src_z, dest_z)
+
 	return
-
-/obj/shut_controller/proc/rotate(direct)
-
-	var/SE_X = 1
-	var/SE_Y = 1
-	var/SW_X = 1
-	var/SW_Y = 1
-	var/NE_X = 1
-	var/NE_Y = 1
-	var/NW_X = 1
-	var/NW_Y = 1
-	for(var/obj/move/M in src.parts)
-		if (M.x < SW_X)
-			SW_X = M.x
-		if (M.x > SE_X)
-			SE_X = M.x
-		if (M.y < SW_Y)
-			SW_Y = M.y
-		if (M.y > NW_Y)
-			NW_Y = M.y
-		if (M.y > NE_Y)
-			NE_Y = M.y
-		if (M.y < SE_Y)
-			SE_Y = M.y
-		if (M.x > NE_X)
-			NE_X = M.x
-		if (M.x < NW_X)
-			NW_X = M.y
-		//Foreach goto(75)
-	var/length = abs(NE_X - NW_X)
-	var/width = abs(NE_Y - SE_Y)
-	var/obj/random = pick(src.parts)
-	var/s_direct = null
-	switch(s_direct)
-		if(1.0)
-			switch(direct)
-				if(90.0)
-					var/tx = SE_X
-					var/ty = SE_Y
-					var/t_z = random.z
-					for(var/obj/move/M in src.parts)
-						M.ty =  -M.x - tx
-						M.tx =  -M.y - ty
-						var/T = locate(M.x, M.y, 11)
-						M.relocate(T)
-						M.ty =  -M.ty
-						M.tx += length
-						//Foreach goto(374)
-					for(var/obj/move/M in src.parts)
-						M.tx += tx
-						M.ty += ty
-						var/T = locate(M.tx, M.ty, t_z)
-						M.relocate(T, 90)
-						//Foreach goto(468)
-				if(-90.0)
-					var/tx = SE_X
-					var/ty = SE_Y
-					var/t_z = random.z
-					for(var/obj/move/M in src.parts)
-						M.ty = M.x - tx
-						M.tx = M.y - ty
-						var/T = locate(M.x, M.y, 11)
-						M.relocate(T)
-						M.ty =  -M.ty
-						M.ty += width
-						//Foreach goto(571)
-					for(var/obj/move/M in src.parts)
-						M.tx += tx
-						M.ty += ty
-						var/T = locate(M.tx, M.ty, t_z)
-						M.relocate(T, -90.0)
-						//Foreach goto(663)
-				else
-		else
-	return
-
-/obj/move/shuttle/door/attackby(obj/item/I as obj, mob/user as mob)
-	if (src.operating)
-		return
-	if (src.density)
-		return open()
-	else
-		return close()
-
-/obj/move/shuttle/door/interact(mob/user as mob)
-	return attackby(user, user)
-
-/obj/move/shuttle/door/proc/open()
-	src.add_fingerprint(usr)
-	if(!src.density)
-		return 0
-	if(src.operating)
-		return 0
-	src.operating = 1
-	flick("doorc0", src)
-	src.icon_state = "door0"
-	sleep(15)
-
-	src.density = 0
-	src.opacity = 0
-	src.operating = 0
-	if(isturf(src.loc))
-		src.loc:buildlinks()
-	return 1
-
-/obj/move/shuttle/door/proc/close()
-	src.add_fingerprint(usr)
-	if(src.density)
-		return 0
-	if(src.operating)
-		return 0
-	src.operating = 1
-	flick("doorc1", src)
-	src.icon_state = "door1"
-	src.density = 1
-	if (src.visible)
-		src.opacity = 1
-	sleep(15)
-
-	src.operating = 0
-	if(isturf(src.loc))
-		src.loc:buildlinks()
-	return 1
-
-/turf/station/shuttle/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			src.ReplaceWithSpace()
-			src.levelupdate()
-			// del(src)
-		if(2.0)
-			if (prob(50))
-				src.ReplaceWithSpace()
-				src.levelupdate()
-				// del(src)
-	return
-
-/turf/station/shuttle/blob_act()
-	if(prob(20))
-		src.ReplaceWithSpace()
-		src.levelupdate()
-		// del(src)

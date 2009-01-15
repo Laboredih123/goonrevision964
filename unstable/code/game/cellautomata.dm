@@ -36,7 +36,7 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Goon Station 13 [SS13_version]\]<BR>"
+	src.status = "Goonstation [SS13_version]\]<BR>"
 
 	if(!ticker)
 		src.status += "<b>STARTING</b>"

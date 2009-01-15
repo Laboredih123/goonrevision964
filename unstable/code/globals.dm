@@ -99,8 +99,8 @@ var
 	auth_motd = null		//	sent to players who do authenticate
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
-	savefile_ver = "Goon 2"
-	SS13_version = "1.0 PR"
+	savefile_ver = "Goon v1"
+	SS13_version = "2.0 Beta"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	datum/control/gameticker/ticker = null
