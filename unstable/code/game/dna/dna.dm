@@ -51,7 +51,7 @@
 				if(genes[G] != L.alleles[src.data[i][j]]) //reset it to default if it conflicts with the original
 					//for instance, if you had one "long hair" allele and one "short hair" allele for a two-part
 					//attribute, it would go to the default (bald)
-					L.alleles[src.data[i][j]] = G.default
+					genes[G] = G.default
 			else
 				var/x = src.data[i][j]
 				genes[G] = L.alleles[x] //the attribute associated with the allele this guy has

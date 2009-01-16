@@ -15,7 +15,7 @@
 		missions += new mission(traitor)
 		if(istype(traitor, /mob/carbon))
 			new /datum/effect/traitor_radio(traitor)
-		else
+		else if(istype(traitor, /mob/silicon/ai))
 			new /datum/effect/law_zero(traitor)
 		..()
 
@@ -27,8 +27,6 @@
 			var/list/mobs = get_cliented_mob_list()
 			if(mobs.len)
 				return pick(mobs)
-			else
-				world << "OH NO THERE IS NOBODY HERE"
 
 	proc/pick_mission(mob/traitor)
 		var/list/targets = get_cliented_mob_list()

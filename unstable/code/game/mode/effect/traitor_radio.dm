@@ -52,5 +52,5 @@
 			T.name = R.name
 			T.icon_state = R.icon_state
 			T.origradio = R
-			M << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [freq] to unlock it's hidden features."
+			M << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [freq] to unlock its hidden features."
 			M.store_memory("<B>Radio Freq:</B> [freq] ([R.name] [loc]).", 0, 0)
