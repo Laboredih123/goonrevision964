@@ -146,11 +146,11 @@
 			return 0
 		if (src.mask)
 			if (emptyHand)
-				src.mask.DblClick()
+				src.mask.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.mask.DblClick()
+				src.mask.interact(src)
 				src.mask = W
 		else
 			src.u_equip(W)
@@ -160,7 +160,7 @@
 	if(text == "back" && src.can_wear_back)
 		if (src.back)
 			if (emptyHand)
-				src.back.DblClick()
+				src.back.interact(src)
 			src.update_clothing()
 			return 1
 		if (!istype(W, /obj/item/weapon))
@@ -176,11 +176,11 @@
 			return 0
 		if (src.headset)
 			if (emptyHand)
-				src.headset.DblClick()
+				src.headset.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.headset.DblClick()
+				src.headset.interact(src)
 				src.headset = W
 		else
 			src.u_equip(W)
@@ -192,11 +192,11 @@
 			return 0
 		if (src.suit)
 			if (emptyHand)
-				src.suit.DblClick()
+				src.suit.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.suit.DblClick()
+				src.suit.interact(src)
 				src.suit = W
 		else
 			src.u_equip(W)
@@ -208,11 +208,11 @@
 			return 0
 		if (src.gloves)
 			if (emptyHand)
-				src.gloves.DblClick()
+				src.gloves.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.gloves.DblClick()
+				src.gloves.interact(src)
 				src.gloves = W
 		else
 			src.u_equip(W)
@@ -224,11 +224,11 @@
 			return 0
 		if (src.shoes)
 			if (emptyHand)
-				src.shoes.DblClick()
+				src.shoes.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.shoes.DblClick()
+				src.shoes.interact(src)
 				src.shoes = W
 		else
 			src.u_equip(W)
@@ -238,13 +238,13 @@
 	if(text == "belt" && src.can_wear_belt)
 		if (src.belt)
 			if (emptyHand)
-				src.belt.DblClick()
+				src.belt.interact(src)
 			else
 				if (!W || !W.flags || !( W.flags & ONBELT ) || !( src.jumpsuit ))
 					return 0
 				src.u_equip(W)
 				reset_db_click()
-				src.belt.DblClick()
+				src.belt.interact(src)
 				src.belt = W
 		else if (!W || !W.flags || !( W.flags & ONBELT ) || !( src.jumpsuit ))
 			return 0
@@ -258,11 +258,11 @@
 			return 0
 		if (src.glasses)
 			if (emptyHand)
-				src.glasses.DblClick()
+				src.glasses.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.glasses.DblClick()
+				src.glasses.interact(src)
 				src.glasses = W
 		else
 			src.u_equip(W)
@@ -274,11 +274,11 @@
 			return 0
 		if (src.helmet)
 			if (emptyHand)
-				src.helmet.DblClick()
+				src.helmet.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.helmet.DblClick()
+				src.helmet.interact(src)
 				src.helmet = W
 		else
 			src.u_equip(W)
@@ -290,12 +290,12 @@
 			return 0
 		if (src.jumpsuit)
 			if (emptyHand)
-				src.jumpsuit.DblClick()
+				src.jumpsuit.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
 				src.changingjumpsuit = 1
-				src.jumpsuit.DblClick()
+				src.jumpsuit.interact(src)
 				src.changingjumpsuit = 0
 				src.jumpsuit = W
 		else
@@ -310,11 +310,11 @@
 			return 0
 		if (src.id)
 			if (emptyHand)
-				src.id.DblClick()
+				src.id.interact(src)
 			else
 				src.u_equip(W)
 				reset_db_click()
-				src.id.DblClick()
+				src.id.interact(src)
 				src.id = W
 		else
 			src.u_equip(W)
@@ -324,13 +324,13 @@
 	if(text == "storage1" && src.can_wear_l_store)
 		if (src.l_store)
 			if (emptyHand)
-				src.l_store.DblClick()
+				src.l_store.interact(src)
 			else
 				if ((!( istype(W, /obj/item/weapon) ) || W.w_class >= 3 || !( src.jumpsuit )))
 					return 0
 				src.u_equip(W)
 				reset_db_click()
-				src.l_store.DblClick()
+				src.l_store.interact(src)
 				src.l_store = W
 		else if ((!( istype(W, /obj/item/weapon) ) || W.w_class >= 3 || !( src.jumpsuit )))
 			return 0
@@ -342,13 +342,13 @@
 	if(text == "storage2" && src.can_wear_r_store)
 		if (src.r_store)
 			if (emptyHand)
-				src.r_store.DblClick()
+				src.r_store.interact(src)
 			else
 				if ((!( istype(W, /obj/item/weapon) ) || W.w_class >= 3 || !( src.jumpsuit )))
 					return 0
 				src.u_equip(W)
 				reset_db_click()
-				src.r_store.DblClick()
+				src.r_store.interact(src)
 				src.r_store = W
 		else if ((!( istype(W, /obj/item/weapon) ) || W.w_class >= 3 || !( src.jumpsuit )))
 			return 0

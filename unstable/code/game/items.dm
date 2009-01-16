@@ -4293,25 +4293,19 @@
 			if(istype(usr, /mob/carbon))
 				src.interact_cuffed(usr)
 
-	else
-		if (istype(src, /obj/screen))
-			usr.prev_move = usr.next_move
-			if (usr.next_move < world.time)
-				usr.next_move = world.time + 10
-			else
-				return
-			if (!( usr.is_handcuffed() ))
-				if ((W && !( istype(src, /obj/screen) )))
-					src.attackby(W, usr)
+	else if (istype(src, /obj/screen))
+		if (!( usr.is_handcuffed() ))
+			if ((W && !( istype(src, /obj/screen) )))
+				src.attackby(W, usr)
 
-					if (W)
-						W.afterattack(src, usr)
-				else
-					if(!istype(src, /obj/item) || istype(usr, /mob/carbon))
-						src.interact(usr)
+				if (W)
+					W.afterattack(src, usr)
 			else
 				if(!istype(src, /obj/item) || istype(usr, /mob/carbon))
-					src.interact_cuffed(usr)
+					src.interact(usr)
+		else
+			if(!istype(src, /obj/item) || istype(usr, /mob/carbon))
+				src.interact_cuffed(usr)
 	return
 
 
