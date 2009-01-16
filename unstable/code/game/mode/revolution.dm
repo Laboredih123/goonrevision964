@@ -32,6 +32,8 @@
 			new /datum/effect/traitor_radio(M)
 			new /datum/effect/convert(M)
 			M.rev_status = REV_LEADER
+			for(var/mob/carbon/N in revs)
+				show_rev(M, N) // give people a rev flag on themselves too
 
 		missions += new /datum/mission/murders(revs, "the revolutionaries", 1, heads, "the heads", 1)
 		missions += new /datum/mission/murders(heads, "the heads", 1, revs, "the revolutionaries", 1)
