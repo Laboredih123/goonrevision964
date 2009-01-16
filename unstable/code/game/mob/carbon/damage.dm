@@ -3,25 +3,25 @@
 		flick("flash", src.hud.flash)
 	var/brute_loss = 0
 	var/burn_loss = 0
-	var/ear_loss = 0
+	var/deafen = 0
 	switch(severity)
 		if(1)
 			brute_loss = 100
 			burn_loss = 100
-			ear_loss = 50
+			deafen = 20
 		if(2)
 			brute_loss = 60
 			burn_loss = 60
-			ear_loss = 30
+			deafen = 10
 			if (prob(50))
 				src.knockdown_until(5)
 		if(3)
 			brute_loss = 30
-			ear_loss = 15
+			deafen = 5
 			if (prob(50))
 				src.knockdown_until(2)
 	src.take_damage(brute = brute_loss, burn = burn_loss)
-	src.take_ear_damage(ear_loss)
+	src.temp_deafen(deafen)
 	return
 
 /mob/carbon/take_damage(brute, burn, suffocation, toxin, electric)
@@ -242,29 +242,18 @@
 /mob/carbon/proc/take_eye_damage(damage)
 	eye_damage += damage
 	if(eye_damage > 50)
-		src.is_perma_blind = 1
-		src.is_blind = 1
-	return
+		//TODO: make peoples' vision blurry at this point
+		//blindness is stupid and unfun
+		//src.is_perma_blind = 1
+		//src.is_blind = 1
+		return
 
 /mob/carbon/proc/heal_eye_damage(damage)
 	eye_damage = max(eye_damage - damage, 0)
-	return
 
 /mob/carbon/proc/get_eye_damage()
 	return eye_damage
 
-/mob/carbon/var/ear_damage = 0
-
-/mob/carbon/proc/take_ear_damage(damage)
-	ear_damage += damage
-	if(ear_damage > 50)
-		src.is_perma_deaf = 1
-		src.is_deaf = 1
+/mob/carbon/proc/temp_deafen(duration)
+	//TODO: implement dis
 	return
-
-/mob/carbon/proc/heal_ear_damage(damage)
-	ear_damage = max(ear_damage - damage, 0)
-	return
-
-/mob/carbon/proc/get_ear_damage()
-	return ear_damage

@@ -42,11 +42,9 @@
 	return
 
 /proc/get_turf(turf/T as turf)
-
-	while((!( istype(T, /turf) ) && T))
+	while(!istype(T, /turf) && T)
 		T = T.loc
 	return T
-	return
 
 /proc/get_area(area/A)
 	while(!istype(A, /area) && A)
@@ -470,22 +468,18 @@
 		if ((get_dist(M, T) <= 2 || src.loc == M.loc || src.loc == M))
 			if(M.hud && M.hud.flash)
 				flick("e_flash", M.hud.flash)
-			M.knockdown_until(2)
+			M.knockdown_until(2 + rand(3))
 			M << "\red <B>BANG</B>"
-			if ((prob(14) || (M == src.loc && prob(70))))
-				M.take_ear_damage(15)
-			else if (prob(30))
-				M.take_ear_damage(10)
+			M.temp_deafen(10)
 			M.take_eye_damage(5)
 			if (M == src.loc)
 				M.take_eye_damage(5)
-				M.take_ear_damage(5)
+				M.temp_deafen(5)
 		else
 			if (get_dist(M, T) <= 5)
 				if(M.hud && M.hud.flash)
 					flick("e_flash", M.hud.flash)
 
-				M.ear_damage += 10
 				if (!istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 					M.knockdown_until(5)
 					M.knockout_until(2)
@@ -495,7 +489,6 @@
 					if(M.hud && M.hud.flash)
 						flick("flash", M.hud.flash)
 				M.take_eye_damage(2)
-				M.take_ear_damage(5)
 				M << "\red <B>BANG</B>"
 		//Foreach goto(39)
 	//SN src = null

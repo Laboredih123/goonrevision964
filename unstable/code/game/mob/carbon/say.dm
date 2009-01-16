@@ -4,9 +4,11 @@
 	if(istype(src.mask, /obj/item/weapon/clothing/mask/muzzle))
 		return 0
 
-	var/turf/T = src.loc
-	if (!istype(T, /turf) || T.gas.oxygen == 0))
-		return 0
+	var/turf/T = get_turf(src)
+	if (!istype(T, /turf) || T.gas.oxygen == 0)
+		//TODO: check if they have air in a better way than looking at their HUD, yuck
+		if(!(src.hud && src.hud.oxygen && src.hud.oxygen.icon_state == "oxy0"))
+			return 0
 
 	return ..()
 
