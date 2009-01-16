@@ -123,3 +123,5 @@
 	icon_state = "monkey1"
 
 	var/fingerprint = null
+
+	var/spawn_rank = null

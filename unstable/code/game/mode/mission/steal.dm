@@ -94,9 +94,3 @@
 			return items - laser //too easy to steal
 		else
 			return items
-
-	proc/get_rank(mob/M)
-		for(var/datum/data/record/R in data_core.general)
-			if (R.fields["name"] == M.name)
-				return R.fields["rank"]
-		return null

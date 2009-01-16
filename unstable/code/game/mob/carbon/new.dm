@@ -1,4 +1,4 @@
-/mob/carbon/New(loc, name, hair_color, hair_style, skin_color, gender, bloodtype, organs, dna)
+/mob/carbon/New(loc, name, hair_color, hair_style, skin_color, gender, bloodtype, organs, dna, rank)
 	..(loc, name)
 	var/unable_to_spawn = -1
 	while(!src.loc)
@@ -56,3 +56,6 @@
 		src.dna = new /datum/dna(src)
 		src.dna.register(src)
 		src.dna.apply(src)
+
+	src.spawn_rank = rank
+	..()
