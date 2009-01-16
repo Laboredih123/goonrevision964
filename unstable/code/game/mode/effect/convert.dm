@@ -18,18 +18,18 @@
 		for(var/atom/A in hearers(M))
 			A.hear("\blue [M.body_name] is spreading revolutionary propaganda!")
 
-		M.say(pick_saying())
+		M.say(pick_rev_saying())
 
 		for(var/mob/carbon/hearer in hearers(M))
 			if(hearer.rev_status == NON_REV && !is_head(hearer) && !is_security(hearer))
 				hearer.convert()
 
-	proc/pick_saying()
-		if(!rev_sayings.len)
-			rev_sayings = dd_file2list("rev_sayings.txt")
-		if(!rev_sayings.len)
-			rev_sayings += "We must overthrow the oppressors who deleted rev_sayings.txt!"
-		return pick(rev_sayings)
+/proc/pick_rev_saying()
+	if(!rev_sayings.len)
+		rev_sayings = dd_file2list("rev_sayings.txt")
+	if(!rev_sayings.len)
+		rev_sayings += "We must overthrow the oppressors who deleted rev_sayings.txt!"
+	return pick(rev_sayings)
 
 /mob/carbon/proc/convert()
 	src.rev_status = REV_FOLLOWER

@@ -2691,6 +2691,9 @@
 					W:amount--
 				else
 					del(W)
+		else if(istype(W, /obj/item/weapon/paper/poster))
+			user.drop_item()
+			W:place(src)
 	if (src.state == 1)
 		if (istype(W, /obj/item/weapon/wrench))
 			user << "\blue Now dismantling girders."
@@ -2894,6 +2897,9 @@
 			W:amount -= 2
 			if(W:amount <= 0)
 				del(W)
+	else if(istype(W, /obj/item/weapon/paper/poster) && src.state == 2)
+		user.drop_item()
+		W:place(src)
 	else
 		return interact(user)
 	return
