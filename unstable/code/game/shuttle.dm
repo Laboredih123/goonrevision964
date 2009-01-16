@@ -2,8 +2,7 @@
 /var/const/SHUTTLE_CALLED_Z = 1
 /var/shuttle_loc = SHUTTLE_Z
 
-/var/const/SHUTTLE_TIME = 600 //tenths of a second - 10 minutes
-	//TODO: change it back to 10 minutes instead of 1
+/var/const/SHUTTLE_TIME = 6000 //tenths of a second - 10 minutes
 /var/const/SHUTTLE_TIME_DOCKED = 600 * 3 // 3 minutes
 /var/const/SHUTTLE_TIME_SPED_UP = 100 // 10 seconds
 /var/shuttle_time_left

@@ -101,13 +101,13 @@ About the new airlock wires panel:
 			if (src.secondsElectrified==0)
 				src.secondsElectrified = 30
 				spawn(10)
-					//TODO: Move this into process() and make pulsing reset secondsElectrified to 30
+					//TODO: Move this into process()
 					while (src.secondsElectrified>0)
-						src.secondsElectrified-=1
-						if (src.secondsElectrified<0)
-							src.secondsElectrified = 0
+						src.secondsElectrified = max(src.secondsElectrified - 1, 0)
 						src.updateUsrDialog()
 						sleep(10)
+			else
+				src.secondsElectrified = 30
 		if(AIRLOCK_WIRE_OPEN_DOOR)
 			//tries to open the door without ID
 			//will succeed only if the ID wire is cut or the door requires no access
