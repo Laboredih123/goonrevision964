@@ -1,6 +1,6 @@
 /datum/termination_condition/shuttle
 	check()
-		return 0
+		return shuttle_status == SHUTTLE_LEFT
 
 	conclude()
 		world << "<font color='blue'>The shuttle has left!</font>"
