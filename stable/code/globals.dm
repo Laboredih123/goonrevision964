@@ -96,7 +96,7 @@
 
 var
 	savefile_ver = "3"
-	SS13_version = "Kurper Stable + Goonstation"
+	SS13_version = "Goonstation + public stable svn"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	datum/control/gameticker/ticker = null
