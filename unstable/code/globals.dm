@@ -95,7 +95,7 @@
 */
 
 var
-	join_motd = "Welcome to SS13!"
+	join_motd = "Welcome to Goonstation!"
 	auth_motd = null		//	sent to players who do authenticate
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
@@ -167,7 +167,7 @@ var
 	list/ai_names = null
 
 world
-	name = "Goon Station 13"
+	name = "Goonstation"
 	mob = /mob/prespawn
 	turf = /turf/space
 	area = /area

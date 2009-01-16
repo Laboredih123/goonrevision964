@@ -4,15 +4,6 @@
 	src.tag = text("landmark*[]", src.name)
 	src.invisibility = 101
 
-	if (name == "airtunnel_stop")
-		airtunnel_stop = src.x
-
-	if (name == "airtunnel_start")
-		airtunnel_start = src.x
-
-	if (name == "airtunnel_bottom")
-		airtunnel_bottom = src.y
-
 	if (name == "monkey")
 		monkeystart += src.loc
 		del(src)

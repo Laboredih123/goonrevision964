@@ -1,11 +1,7 @@
 /obj/equip_e/New()
 	spawn( 100 )
-		//SN src = null
 		del(src)
-		return
-		return
 	..()
-	return
 
 /obj/equip_e/proc/process()
 	var/x = text2num(src.place)
