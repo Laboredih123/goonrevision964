@@ -1857,16 +1857,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/opened = 0.0
 	var/temp = null
 	anchored = 1.0
-/obj/machinery/camera
-	name = "Security Camera"
-	icon = 'stationobjs.dmi'
-	icon_state = "camera"
-	var/network = "SS13"
-	var/c_tag = null
-	var/c_tag_order = 999
-	var/status = 1.0
-	anchored = 1.0
-	var/invuln = null
 /obj/machinery/camera/motion
 /obj/machinery/circulator
 	name = "circulator/heat exchanger"

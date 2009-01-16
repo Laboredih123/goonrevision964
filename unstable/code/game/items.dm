@@ -73,7 +73,7 @@
 		else
 	return
 
-/atom/proc/hear(datum/message/M, source)
+/atom/proc/hear(datum/message/M)
 	return
 
 /obj/item/weapon/table_parts/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -543,7 +543,7 @@
 	if ( (world.time + 600) > src.l_time)
 		src.shots = 5
 	if (src.shots < 1)
-		user.hear("\red *click* *click*", 2)
+		user.hear("\red *click* *click*")
 		return
 	src.l_time = world.time
 	add_fingerprint(user)
@@ -827,7 +827,7 @@
 		return
 	src.add_fingerprint(user)
 	if (src.bullets < 1)
-		user.hear("\red *click* *click*", 2)
+		user.hear("\red *click* *click*")
 		return
 	src.bullets--
 	user.show_viewers(text("\red <B>[] fires a revolver at []!</B>", user, target))
@@ -899,7 +899,7 @@
 		return
 	src.add_fingerprint(user)
 	if (src.charges < 1)
-		user.hear("\red *click* *click*", 2)
+		user.hear("\red *click* *click*")
 		return
 	src.charges--
 	update_icon()

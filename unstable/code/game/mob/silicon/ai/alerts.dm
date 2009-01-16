@@ -1,4 +1,6 @@
 /mob/silicon/ai/proc/switchCamera(var/obj/machinery/camera/C)
+	if(src.current)
+		src.current.viewers -= src
 	usr:cameraFollow = null
 	if (!C)
 		src.machine = null
@@ -10,8 +12,9 @@
 	// ok, we're alive, camera is good and in our network...
 
 	src.machine = src
-	src:current = C
+	src.current = C
 	src.reset_view(C)
+	C.viewers += src
 	return 1
 
 /mob/silicon/ai/proc/triggerAlarm(var/class, area/A, var/O, var/alarmsource)

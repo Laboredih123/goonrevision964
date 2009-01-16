@@ -44,10 +44,6 @@
 	src.stat |= BROKEN
 	src.verbs.len = 0
 
-/obj/machinery/camera/broken()
-	..()
-	src.icon_state = "camera1"
-
 /obj/machinery/mass_driver/broken()
 	..()
 	src.icon_state = "mass_driver-disabled"
