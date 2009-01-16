@@ -15,4 +15,4 @@
 # rank, and is equivalent to no rank at all.
 
 # Example administrator - you should remove this on your server
-Kelson - Host
+kelson - Host
