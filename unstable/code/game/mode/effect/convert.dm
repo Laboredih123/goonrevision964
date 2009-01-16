@@ -34,7 +34,11 @@
 /mob/carbon/proc/convert()
 	src.rev_status = REV_FOLLOWER
 	src << "You have been converted!"
-	//TODO: R flag
+	//TODO: make this work
+	for(var/mob/carbon/M in world)
+		if (M.rev_status != NON_REV)
+			M << image('rev.dmi', src, "rev")
+			src << image('rev.dmi', M,"rev")
 
 /mob/carbon/var/last_conversion
 /var/const/CONVERT_COOLDOWN = 600 //one convert per minute
