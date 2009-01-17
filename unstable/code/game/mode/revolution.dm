@@ -12,7 +12,16 @@
 		return
 
 	setup()
-		return
+		while(1)
+			var/curNum = 0
+			for(var/mob/prespawn/M in world)
+				if(M.client && M.ready)
+					curNum ++
+			if(curNum < 4 + NUM_REVS)
+				world << "Don't seem to be enough people for a decent game of revolution."
+				sleep(50) //5 seconds
+			else
+				break
 
 	execute()
 		var/list/revs
@@ -75,6 +84,8 @@
 
 /proc/is_head(mob/carbon/M)
 	var/rank = M.spawn_rank
+	rank = get_rank(M)
+	world << "rank is [rank] AURLAKUR"
 	//TODO: make this not gross
 	if(rank == "Head of Personnel" || rank == "Head of Research" || rank == "Captain")
 		return 1
