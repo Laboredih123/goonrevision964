@@ -4,7 +4,7 @@
 
 /mob/carbon/var/rev_status = NON_REV
 
-/datum/game_mode/traitor
+/datum/game_mode/revolution
 	name = "revolution"
 	var/const/NUM_REVS = 3
 
