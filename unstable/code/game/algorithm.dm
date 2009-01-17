@@ -35,7 +35,7 @@
 	if (rank == "Medical Doctor")
 		name = addtext("Dr. ", name)
 
-	var/mob/carbon/human/M = new(startloc, name, src.client.prefs.hair_color, src.client.prefs.hair_style, src.client.prefs.skin_color, src.client.prefs.gender, rank)
+	var/mob/carbon/human/M = new(startloc, name, src.client.prefs.hair_color, src.client.prefs.hair_style, src.client.prefs.skin_color, src.client.prefs.gender, rank = rank)
 
 	M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
 	M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)

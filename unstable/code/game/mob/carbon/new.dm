@@ -58,4 +58,3 @@
 		src.dna.apply(src)
 
 	src.spawn_rank = rank
-	..()
