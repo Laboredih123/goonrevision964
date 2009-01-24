@@ -24,4 +24,4 @@ lithiumnitrate - Administrator
 slurm - Administrator
 sledra - Administrator
 slurm - Primary Administrator
-tolth - Moderator
+tolth - Administrator
