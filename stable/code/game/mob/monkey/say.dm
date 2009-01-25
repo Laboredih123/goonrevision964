@@ -1,7 +1,12 @@
 /mob/monkey/say(message as text)
 	message = copytext(sanitize(message), 1, MAX_MESSAGE_LEN)
+
 	if(!message)
 		return
+
+	if (src.stuttering)
+		message = stutter(message)
+
 	world.log_say("[src.name]/[src.key] : [message]")
 
 	if (src.muted)

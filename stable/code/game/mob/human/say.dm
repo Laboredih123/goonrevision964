@@ -1,7 +1,12 @@
 /mob/human/say(message as text)
 	message = copytext(sanitize(message), 1, MAX_MESSAGE_LEN)
+
 	if(!message)
 		return
+
+	if(src.stuttering)
+		message = stutter(message)
+
 	world.log_say("[src.name]/[src.key] : [message]")
 
 	if (src.muted)
@@ -71,8 +76,6 @@
 		var/turf/T = src.loc
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
-		if (src.stuttering)
-			message = stutter(message)
 		if (italics)
 			message = text("<I>[]</I>", message)
 		if (((src.oxygen && src.oxygen.icon_state == "oxy0") || (!( (istype(T, /turf) || istype(T, /obj/move)) ) || T.oxygen > 0)))
