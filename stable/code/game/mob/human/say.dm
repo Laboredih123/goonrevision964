@@ -1,12 +1,7 @@
 /mob/human/say(message as text)
 	message = copytext(sanitize(message), 1, MAX_MESSAGE_LEN)
-
 	if(!message)
 		return
-
-	if(src.stuttering)
-		message = stutter(message)
-
 	world.log_say("[src.name]/[src.key] : [message]")
 
 	if (src.muted)
@@ -35,35 +30,46 @@
 		var/list/L = list(  )
 		var/italics = 0
 		var/obj_range = null
+		var/sentmessage = null
 		if (findtext(message, ";") == 1) //say it into headset - just uses a ;, because it's the most common use case
 			//say "; words" or say ";words"
 			message = copytext(message, 2, length(message) + 1)
+			if(src.stuttering)	sentmessage = stutter(message)
+			else	sentmessage = message
 			if (src.w_radio)
-				src.w_radio.talk_into(usr, message)
+				src.w_radio.talk_into(usr, sentmessage)
 			L += hearers(1, null)
 			obj_range = 1
 			italics = 1
 		else if (findtext(message, ":r") == 1) //say into right hand - say ":r words" or say ":rwords"
 			message = copytext(message, 3, length(message) + 1)
+			if(src.stuttering)	sentmessage = stutter(message)
+			else	sentmessage = message
 			if (src.r_hand)
-				src.r_hand.talk_into(usr, message)
+				src.r_hand.talk_into(usr, sentmessage)
 			L += hearers(1, null)
 			obj_range = 1
 			italics = 1
 		else if (findtext(message, ":l") == 1) // left hand
 			message = copytext(message, 3, length(message) + 1)
+			if(src.stuttering)	sentmessage = stutter(message)
+			else	sentmessage = message
 			if (src.l_hand)
-				src.l_hand.talk_into(usr, message)
+				src.l_hand.talk_into(usr, sentmessage)
 			L += hearers(1, null)
 			obj_range = 1
 			italics = 1
 		else if (findtext(message, ":w") == 1) //whisper
-			message = copytext(message, 3, length(message) + 1)
+			message = copytext(message, 3, length(sentmessage) + 1)
+			if(src.stuttering)	sentmessage = stutter(message)
+			else	sentmessage = message
 			L += hearers(1, null)
 			obj_range = 1
 			italics = 1
 		else if (findtext(message, ":i") == 1)
-			message = copytext(message, 3, length(message) + 1)
+			message = copytext(message, 3, length(sentmessage) + 1)
+			if(src.stuttering)	sentmessage = stutter(message)
+			else	sentmessage = message
 			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
 				I.talk_into(usr, message)
 			L += hearers(1, null)
@@ -76,6 +82,8 @@
 		var/turf/T = src.loc
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
+		if (src.stuttering)
+			message = stutter(message)
 		if (italics)
 			message = text("<I>[]</I>", message)
 		if (((src.oxygen && src.oxygen.icon_state == "oxy0") || (!( (istype(T, /turf) || istype(T, /obj/move)) ) || T.oxygen > 0)))
