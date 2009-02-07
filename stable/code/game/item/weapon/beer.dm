@@ -10,7 +10,7 @@
 			M.stunned += rand(0,5)
 			M.bruteloss += 30
 			M.eye_blurry += rand(0,20)
-			M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
+			M.updatehealth()
 
 		else // Bottle is not broken, intent is hurt
 			if (M == user)
@@ -30,7 +30,7 @@
 				M.stunned += rand(0,5)
 
 				M.bruteloss += 10
-				M.health = 100 - M.oxyloss - M.toxloss - M.fireloss - M.bruteloss
+				M.updatehealth()
 
 	else // Intent = not hurt
 		if (src.icon_state == "broken_beer")
@@ -65,7 +65,7 @@
 		if (prob(20))
 			user << "\blue <B>Sadly, the broken beer bottle disintegrates in your hand, giving you some minor lacerations. A single tear drops from the corner of your eye.</b>"
 			user.bruteloss += 10
-			user.health = 100 - user.oxyloss - user.toxloss - user.fireloss - user.bruteloss
+			user.updatehealth()
 			del(src)
 	else
 		if (prob(5))
