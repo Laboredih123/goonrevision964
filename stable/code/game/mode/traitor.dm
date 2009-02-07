@@ -359,7 +359,7 @@
 			traitorwin = 0
 		if (ticker.killer.stat == 2) //dead
 			traitorwin = 0
-		if (!(loc in shuttle || istype(ticker.killer, /mob/ai))) //not on shuttle, not AI
+		if (!(loc in shuttle && istype(ticker.killer, /mob/ai))) //not on shuttle, not AI
 			traitorwin = 0
 	if (traitorwin)
 		world << "<B>The traitor ([ticker.killer.rname]) wins!</B>"
