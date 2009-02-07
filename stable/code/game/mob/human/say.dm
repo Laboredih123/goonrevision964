@@ -6,6 +6,8 @@
 
 	if (src.muted)
 		return
+
+	var/sentmessage = null	//stupid fix
 	var/alt_name
 	if (src.name != src.rname)
 		if(src.wear_id && src.wear_id.registered)
@@ -30,7 +32,6 @@
 		var/list/L = list(  )
 		var/italics = 0
 		var/obj_range = null
-		var/sentmessage = null
 		if (findtext(message, ";") == 1) //say it into headset - just uses a ;, because it's the most common use case
 			//say "; words" or say ";words"
 			message = copytext(message, 2, length(message) + 1)
@@ -82,22 +83,22 @@
 		var/turf/T = src.loc
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
-		if (src.stuttering)
-			message = stutter(message)
+		if(src.stuttering)	sentmessage = stutter(message)
+		else	sentmessage = message
 		if (italics)
-			message = text("<I>[]</I>", message)
+			sentmessage = text("<I>[]</I>", sentmessage)
 		if (((src.oxygen && src.oxygen.icon_state == "oxy0") || (!( (istype(T, /turf) || istype(T, /obj/move)) ) || T.oxygen > 0)))
 			for(var/mob/M in L)
 				if (istype(M, src.type) || istype(M, /mob/ai))
-					M.show_message(text("<B>[]</B>[]: []", src.rname, alt_name, message), 2)
+					M.show_message(text("<B>[]</B>[]: []", src.rname, alt_name, sentmessage), 2)
 				else
-					M.show_message(text("The human: []", stars(message)), 2)
+					M.show_message(text("The human: []", stars(sentmessage)), 2)
 		for(var/obj/O in view(obj_range, null))
 			spawn( 0 )
 				if (O)
-					O.hear_talk(usr, message)
+					O.hear_talk(usr, sentmessage)
 				return
 	for(var/mob/M in world)
 		if (M.stat > 1)
-			M << text("<B>[]</B>[] []: []", src.rname, alt_name, (src.stat > 1 ? "\[<I>dead</I> \]" : ""), message)
+			M << text("<B>[]</B>[] []: []", src.rname, alt_name, (src.stat > 1 ? "\[<I>dead</I> \]" : ""), sentmessage)
 	return
