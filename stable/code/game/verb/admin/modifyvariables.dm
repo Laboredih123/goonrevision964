@@ -97,7 +97,7 @@
 
 		if("reference")
 			O.vars[variable] = input("Select reference:","Reference",\
-				O.vars[variable]) as mob|obj|turf|area in world
+				O.vars[variable]) as obj|turf|area in world
 
 		if("mob reference")
 			O.vars[variable] = input("Select reference:","Reference",\
