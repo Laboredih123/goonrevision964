@@ -12,7 +12,7 @@
 		return
 
 	world.log_admin("[src.name]/[src.key] used the grillify verb")
-	world << "\blue<big><B>[src.name]/[src.key] used the grillify verb/bitches better get yellow gloves verb!</big></B>"
+	world << "\blue<big><B>[src.name]/[src.key] commenced a metal takeover!</big></B>"
 
 	for(var/turf/T in world)
 		if(!T.density)
