@@ -890,7 +890,7 @@
 	s_istate = "s_helmet"
 	s_fire = 5.625E7
 	fire_protect = 1
-	
+
 /obj/item/weapon/clothing/head/s_helmet/syndicate
 	icon_state = "space_helmet_syndicate"
 	s_istate = "space_helmet_syndicate"
@@ -2454,6 +2454,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/obj/item/weapon/card/data/modify2 = null
 	var/mode = null
 	var/temp = null
+
 /obj/machinery/computer/engine
 	name = "Engine Control"
 	icon = 'enginecomputer.dmi'
@@ -2461,6 +2462,14 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/id = 1
 	var/obj/machinery/gas_sensor/gs
 	req_access = list(access_eject_engine)
+
+/obj/machinery/computer/gasmon
+	name = "Gas Monitor"
+	icon = 'enginecomputer.dmi'
+	var/temp = null
+	var/id = 1
+	var/obj/machinery/gas_sensor/gs
+
 
 /obj/machinery/computer/hologram_comp
 	name = "Hologram Computer"
@@ -3195,6 +3204,27 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/chargemode = 0
 	var/chargecount = 0
 	var/chargelevel = 30000
+	var/online = 1
+	var/stayonline = 0
+	var/n_tag = null
+	var/obj/machinery/power/terminal/terminal = null
+
+#define TRECMAXOUTPUT 200000
+
+/obj/machinery/power/termrec
+	name = "Power Relay"
+	desc = "Transfers power from one network to another via connected terminal"
+	icon_state = "termrec"
+	density = 0
+	anchored = 1
+	var/area/area
+	var/output = 30000
+	var/excess = 0
+	var/lastout = 0
+	var/loaddemand = 0
+	var/charging = 0
+	var/chargecount = 0
+	var/charge = 0
 	var/online = 1
 	var/n_tag = null
 	var/obj/machinery/power/terminal/terminal = null

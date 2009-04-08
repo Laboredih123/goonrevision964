@@ -1,9 +1,7 @@
 /mob/monkey/death()
 	if(src.stat == 2)
 		return
-	var/cancel
-	if (src.healths)
-		src.healths.icon_state = "health5"
+	..()
 	src.stat = 2
 	src.canmove = 0
 	if (src.blind)
@@ -24,7 +22,7 @@
 	if(ticker.mode.name == "Corporate Restructuring")
 		ticker.check_win()
 
-	//src.icon_state = "dead"
+	var/cancel
 	for(var/mob/M in world)
 		if ((M.client && !( M.stat )))
 			cancel = 1

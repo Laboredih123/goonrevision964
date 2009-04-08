@@ -1,4 +1,5 @@
 /mob/ai/death()
+	..()
 	var/cancel
 	src.stat = 2
 	src.canmove = 0

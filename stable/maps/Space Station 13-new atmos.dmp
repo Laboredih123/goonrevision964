@@ -1097,7 +1097,7 @@
 "ve" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/obj/machinery/hologram_ai,/turf/station/floor,/area/bridge)
 "vf" = (/obj/table{icon_state = "corners"; dir = 9},/obj/item/weapon/multitool,/obj/item/weapon/clothing/gloves/black,/turf/station/floor,/area/bridge)
 "vg" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/radio/beacon,/turf/station/floor,/area/bridge)
-"vh" = (/obj/machinery/computer/engine{req_access_txt = "13"; id = "enginecontrolgassensor"},/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor,/area/bridge)
+"vh" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/obj/machinery/computer/gasmon{id = "enginecontrolgassensor"},/turf/station/floor,/area/bridge)
 "vi" = (/obj/cable{icon_state = "2-4"; d1 = 2; d2 = 4},/turf/station/floor/grid,/area/turret_protected/ai)
 "vj" = (/obj/machinery/turret,/obj/cable{icon_state = "4-8"; d1 = 4; d2 = 8},/turf/station/floor/grid,/area/turret_protected/ai)
 "vk" = (/obj/cable{icon_state = "4-8"; d1 = 4; d2 = 8},/obj/cable{icon_state = "1-8"; d1 = 1; d2 = 8},/turf/station/floor/grid,/area/turret_protected/ai)
