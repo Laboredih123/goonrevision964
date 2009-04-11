@@ -42,7 +42,7 @@
 		if (!success)
 			src.verbs += /client/proc/authorize
 			src << "Failed to authenticate your key."
-			src << "If you have not already authorize it at http://byond.lljk.net/ - your BYOND key is [src.key]."
+			src << "If you have not already authorized it at http://byond.lljk.net/ - your BYOND key is [src.key]."
 			src << "Try again using the <b>Authorize</b> command, sometimes the server will hiccup and not correctly authorize."
 			src << "\blue[no_auth_motd]"
 		src.authenticating = 0
