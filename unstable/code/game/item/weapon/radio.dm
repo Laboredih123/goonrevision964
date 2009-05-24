@@ -75,6 +75,8 @@
 	if(!isturf(src.loc) && !istype(src.loc,/mob)) return
 	if(!isturf(src.loc.loc)) return
 
+	M = convert_message_color(M, COLOR_RADIO)
+
 	if(istype(src.loc,/mob))
 		src.loc.hear_message(M,src)
 	for(var/atom/A in oview(src.listenrange,src))
