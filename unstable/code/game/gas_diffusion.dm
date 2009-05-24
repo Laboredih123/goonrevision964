@@ -62,7 +62,7 @@
 	src.no2 -= T.no2
 	src.co2 -= T.co2
 
-/datum/substance/gas/proc/copy_gas(var/datum/substance/gas/T)
+/datum/substance/gas/proc/copy_gas(var/datum/substance/gas/T, amount)
 	src.nitrogen = T.nitrogen
 	src.oxygen = T.oxygen
 	src.plasma = T.plasma
@@ -157,6 +157,21 @@
 		return
 	src.transfer(target.gas,amount) // might need TURF_ADD_FRAC
 	target.reset_phases()
+
+/datum/substance/gas/proc/turf_copy(var/turf/target as turf, amount = -1) //copies amount from target into this
+	if(!amount)
+		return
+	if(!istype(target, /turf))
+		return
+	var/datum/substance/gas/T = target.gas
+	var/frac = 0
+	if(T.total() != 0)
+		frac = amount / T.total()
+	src.nitrogen += T.nitrogen * frac
+	src.oxygen += T.oxygen * frac
+	src.plasma += T.plasma * frac
+	src.no2 += T.no2 * frac
+	src.co2 += T.co2 * frac
 
 /datum/substance/gas/proc/turf_take(var/turf/target as turf, amount)
 	if(!amount)

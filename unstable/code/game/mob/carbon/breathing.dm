@@ -30,7 +30,6 @@
 
 	var/datum/substance/gas/G = src.get_breathed_air(T)	//	breath in
 	src.aircheck(G)										//	process air
-	G.turf_add(T)										//	breath out
 
 /mob/carbon/proc/aircheck(datum/substance/gas/G as obj)
 	if(!G) return
@@ -74,8 +73,10 @@
 /mob/carbon/proc/get_breathed_air(turf/T)
 	var/oxy_required = oxygen_needed * 1.43				// aircheck uses oxygen * 70% => 67 * 100/70 = 95.81
 	var/max_breathed = max_air_breathed					//	require 15% oxygen at STP
-	if(src.get_damage()+25 > src.death_threshold)		max_breathed *= 0.55 // require 27% oxygen
-	else if(src.get_damage()+50 > src.death_threshold)	max_breathed *= 0.75 // require 20% oxygen
+	if(src.get_damage() + 25 > src.death_threshold)
+		max_breathed *= 0.55 // require 27% oxygen
+	else if(src.get_damage() + 50 > src.death_threshold)
+		max_breathed *= 0.75 // require 20% oxygen
 	var/datum/substance/gas/G = new()
 	G.maximum = round(max_breathed,1)+1
 
@@ -83,11 +84,11 @@
 
 	if(!src.internal)
 		if(!T.gas.oxygen) // No air? Take a deep, deep breath
-			G.turf_take(T, max_breathed)
+			G.turf_copy(T, max_breathed)
 			return G
 
 		var/oxy_rate = T.gas.oxygen / turf_total 	//	(21%)^-1 * 67 = 456
-		G.turf_take(T, max(max_breathed, round(oxy_required * oxy_rate,1)))
+		G.turf_copy(T, max(max_breathed, round(oxy_required * oxy_rate,1)))
 		if(src.hud && src.hud.internal) src.hud.internal.icon_state = "internal0"
 		return G
 
@@ -102,16 +103,16 @@
 		if(istype(src.helmet, /obj/item/weapon/clothing/head)) return G
 
 	//	half the air from internals is wasted
-	G.turf_add(T, G.total() * 0.5)
+	G.multiply_gas(0.5)
 
 	//	pull the rest required from the room
 	if(!T.gas.oxygen)	//	No air, again! Take a deeper breath
-		G.turf_take(T, max_breathed - G.total())
+		G.turf_copy(T, max_breathed - G.total())
 		return G
 
 	var/oxy_need = oxy_required - G.oxygen
 	var/oxy_rate = turf_total / T.gas.oxygen
-	if(oxy_need > 0)	G.turf_take(T,max(max_breathed-G.total(),round(oxy_need*oxy_rate,1)))
-	else				G.turf_take(T,max(max_breathed-G.total(),round(max(max_breathed/G.total(),15),1)))
+	if(oxy_need > 0)	G.turf_copy(T,max(max_breathed-G.total(),round(oxy_need*oxy_rate,1)))
+	else				G.turf_copy(T,max(max_breathed-G.total(),round(max(max_breathed/G.total(),15),1)))
 	return G
 
