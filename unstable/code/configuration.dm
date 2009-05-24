@@ -5,7 +5,6 @@
 		// their information, but it is the only way (at least that I know of).
 		var/datum/game_mode/M = new T()
 		if(M.name)
-			world.log_game("Adding game mode [M.name] to configuration")
 			src.modes += M.name
 			src.mode_names[M.name] = M.name
 			src.probabilities[M.name] = M.probability

@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\helpers.dm
+DIR: code code\atoms code\game code\game\admin code\game\mob code\game\mob\prespawn code\game\verbs icons
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR

@@ -16,16 +16,12 @@ LOG_GAME
 # log player votes
 LOG_VOTE
 
-# probablities for game modes chosen in "secret" and "random" modes
-# 
 # default probablity is 1, increase to make that mode more likely to be picked
 # set to 0 to disable that mode
-PROBABILITY EXTENDED 0
-PROBABILITY TRAITOR 1
-PROBABILITY MONKEY 1
-PROBABILITY METEOR 2
-PROBABILITY BLOB 2
-PROBABILITY NUCLEAR 1
+PROBABILITY TRAITOR 10
+PROBABILITY REVOLUTION 2
+PROBABILITY METEOR 1
+PROBABILITY BLOB 1
 
 # allow players to initiate a restart vote
 ALLOW_VOTE_RESTART
