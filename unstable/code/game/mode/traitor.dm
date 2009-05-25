@@ -16,20 +16,22 @@
 				break
 			sleep(30)
 
-		traitor << "\red<font size=3><B>You are the traitor!</B>"
+		traitor << "\red<h2>You are the traitor!</h2>"
 		var/mission_type = pick_mission(traitor)
-		var/datum/mission/mission = new mission_type(traitor)
+		var/datum/mission/mission = new mission_type(list(traitor), "[traitor.client.key] ([traitor.spawn_name])")
 		missions += mission
 		traitor.tell_mission(mission)
 
-		var/datum/mission/survival/s = new("[traitor.client.key] ([traitor.spawn_name])", list(traitor))
-		traitor.tell_mission(s)
-		missions += s
-
 		if(istype(traitor, /mob/carbon))
 			new /datum/effect/traitor_radio(traitor)
+			var/datum/mission/escape/e = new(list(traitor), "[traitor.client.key] ([traitor.spawn_name])")
+			traitor.tell_mission(e)
+			missions += e
 		else if(istype(traitor, /mob/silicon/ai))
 			new /datum/effect/law_zero(traitor)
+			var/datum/mission/survival/s = new(list(traitor), "[traitor.client.key] ([traitor.spawn_name])")
+			traitor.tell_mission(s)
+			missions += s
 		..()
 
 	proc/pick_synd()

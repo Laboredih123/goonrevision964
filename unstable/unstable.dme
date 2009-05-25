@@ -267,6 +267,7 @@
 #include "code\game\mode\effect\law_zero.dm"
 #include "code\game\mode\effect\meteors.dm"
 #include "code\game\mode\effect\traitor_radio.dm"
+#include "code\game\mode\mission\escape.dm"
 #include "code\game\mode\mission\evacuate.dm"
 #include "code\game\mode\mission\mission.dm"
 #include "code\game\mode\mission\murders.dm"

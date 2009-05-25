@@ -1,6 +1,6 @@
 /datum/mission/sabotage
 	var/sab_target
-	var/client/ai_target
+	var/mob/silicon/ai/ai_target
 
 	var/const/percentage_plasma_destroy = 70 // what percentage of the plasma tanks you gotta destroy
 	var/const/percentage_station_cut_power = 80 // what percentage of the tiles have to have power cut
@@ -10,12 +10,12 @@
 	var/const/kill_monkeys = 3
 	var/const/cut_power = 4
 
-	New(mob/M)
-		group = list(M)
-		gname = "[M.client.key] ([M.spawn_name])"
+	New(list/group, gname)
+		..()
 		sab_target = pick_sab_target()
 		if(sab_target == destroy_ai)
 			ai_target = get_mobs_with_rank("AI")[1]
+
 
 	check_success()
 		switch(sab_target)
@@ -30,7 +30,7 @@
 				if(canisters_destroyed > canisters_total * percentage_plasma_destroy / 100)
 					return 0
 			if(destroy_ai)
-				if(ai_target && ai_target.mob && !ai_target.mob.is_dead)
+				if(ai_target && !ai_target.is_dead)
 					return 0
 			if(kill_monkeys)
 				for(var/mob/carbon/monkey/M in world)

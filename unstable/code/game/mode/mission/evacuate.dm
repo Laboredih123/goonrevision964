@@ -1,10 +1,6 @@
 /datum/mission/evacuate
 	var/const/percentage_station_evacuate = 80 // what percentage of people gotta leave
 
-	New(mob/M)
-		gname = "[M.client.key] ([M.spawn_name])"
-		group = list(M)
-
 	description()
 		return "Cause the death or evacuation of [percentage_station_evacuate]% of the crew."
 

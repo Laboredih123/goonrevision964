@@ -2,9 +2,9 @@
 	var/list/victims = null
 	var/vdesc = "your victim"
 
-	New(list/attackers, aname, list/victims, vname)
-		group = attackers
-		gname = aname
+	New(list/group, gname, list/victims, vname)
+		src.group = group
+		src.gname = gname
 		src.victims = victims
 		src.vdesc = vname
 

@@ -2,10 +2,10 @@
 	name = "meteor"
 
 	announce()
-		world << "<B>A major meteor shower is approaching the station! You must escape from the station, or survive the onslaught.</B>"
+		world << "<B>A major meteor shower is approaching the station! You must escape from the station.</B>"
 
 	setup()
-		missions += new /datum/mission/survival()
+		missions += new /datum/mission/escape()
 		termination_conditions += new /datum/termination_condition/shuttle()
 
 	execute()
