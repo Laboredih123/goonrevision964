@@ -32,9 +32,9 @@
 		var/txt = {"<HTML><HEAD><TITLE>Spawn Object</TITLE></HEAD><BODY>
 					<FORM NAME="Spawner" ACTION="?src=\ref[src]" METHOD="GET">
 					Type  <INPUT TYPE="text" NAME="SearchBar" VALUE="" onKeyUp="updateSearch()" onKeyPress="submitFirst(event)" style="width:350px"><BR>
-					Offset: <INPUT TYPE="text" NAME="offset" VALUE="x,y,z" style="width:250px">
-					A <INPUT TYPE="radio" NAME="otype" VALUE="absolute">
-					R <INPUT TYPE="radio" NAME="otype" VALUE="relative" checked="checked"><BR>
+					Offset: <INPUT TYPE="text" NAME="offset" VALUE="x,y,z" style="width:220px">
+					Abs <INPUT TYPE="radio" NAME="otype" VALUE="absolute">
+					Rel <INPUT TYPE="radio" NAME="otype" VALUE="relative" checked="checked"><BR>
 					Number: <INPUT TYPE="text" NAME="number"  VALUE="1" style="width:330px"><BR><BR>
 					<SELECT NAME="ObjectList" id="ObjectList" size="20" multiple style="width:400px"></SELECT><BR>
 					<INPUT TYPE="hidden" name="src" value="\ref[src]">
