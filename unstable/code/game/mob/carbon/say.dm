@@ -1,4 +1,4 @@
-/mob/carbon/proc/can_talk()
+/mob/carbon/can_say()
 	if(!src.is_conscious())
 		return 0
 	if(istype(src.mask, /obj/item/weapon/clothing/mask/muzzle))

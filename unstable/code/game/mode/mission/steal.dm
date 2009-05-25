@@ -11,9 +11,11 @@
 
 	New(mob/M)
 		stealer = M
+		gname = "[M.client.key] ([M.spawn_name])"
+		group = list(M)
 		item = pick(get_pickable_items(M))
 
-	proc/check()
+	check_success()
 		var/list/items = list()
 		if (stealer)
 			items += stealer.contents
@@ -62,11 +64,8 @@
 					return 1
 		return 0
 
-	conclude()
-		if(check())
-			world << "<font color='blue'>[stealer.spawn_name] stole it!</font>"
-		else
-			world << "<font color='blue'>[stealer.spawn_name] didn't steal it!</font>"
+	description()
+		return "steal [get_item_desc(item)]"
 
 	proc/get_item_desc(var/target)
 		switch (target)

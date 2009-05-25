@@ -15,8 +15,16 @@
 				break
 			sleep(30)
 
-		var/mission = pick_mission(traitor)
-		missions += new mission(traitor)
+		traitor << "\red<font size=3><B>You are the traitor!</B>"
+		var/mission_type = pick_mission(traitor)
+		var/datum/mission/mission = new mission_type(traitor)
+		missions += mission
+		traitor.tell_mission(mission)
+
+		var/datum/mission/survival/s = new("[traitor.client.key] ([traitor.spawn_name])", list(traitor))
+		traitor.tell_mission(s)
+		missions += s
+
 		if(istype(traitor, /mob/carbon))
 			new /datum/effect/traitor_radio(traitor)
 		else if(istype(traitor, /mob/silicon/ai))

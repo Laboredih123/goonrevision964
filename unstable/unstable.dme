@@ -3,12 +3,6 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
-/*
-FILE: code\helpers.dm
-DIR: code code\atoms code\game code\game\admin code\game\mob code\game\mob\prespawn code\game\verbs icons
-MAP_ICON_TYPE: 0
-AUTO_FILE_DIR: ON
-*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR
@@ -119,6 +113,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\admin\admin_powers\announce.dm"
 #include "code\game\admin\admin_powers\authorize.dm"
 #include "code\game\admin\admin_powers\ban.dm"
+#include "code\game\admin\admin_powers\boot.dm"
 #include "code\game\admin\admin_powers\change_mode.dm"
 #include "code\game\admin\admin_powers\check_traitor.dm"
 #include "code\game\admin\admin_powers\debug.dm"
@@ -127,6 +122,7 @@ AUTO_FILE_DIR: ON
 #include "code\game\admin\admin_powers\make_object.dm"
 #include "code\game\admin\admin_powers\manage_bans.dm"
 #include "code\game\admin\admin_powers\meteor_wave.dm"
+#include "code\game\admin\admin_powers\mute.dm"
 #include "code\game\admin\admin_powers\observer_mode.dm"
 #include "code\game\admin\admin_powers\power_all.dm"
 #include "code\game\admin\admin_powers\private_message.dm"
@@ -269,7 +265,6 @@ AUTO_FILE_DIR: ON
 #include "code\game\mode\effect\law_zero.dm"
 #include "code\game\mode\effect\meteors.dm"
 #include "code\game\mode\effect\traitor_radio.dm"
-#include "code\game\mode\mission\destroy.dm"
 #include "code\game\mode\mission\evacuate.dm"
 #include "code\game\mode\mission\mission.dm"
 #include "code\game\mode\mission\murders.dm"

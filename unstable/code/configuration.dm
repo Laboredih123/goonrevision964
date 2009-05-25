@@ -128,7 +128,7 @@
 			mode_name = M
 			break
 
-	if(!mode_name)	mode_name = "free form"
+	if(!mode_name)	mode_name = "freeform"
 
 	//world << "Returning mode [mode_name]"
 

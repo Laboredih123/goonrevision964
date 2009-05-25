@@ -15,6 +15,7 @@
 
 	if(!ooc_allowed) return
 	if(!src.client.listen_ooc) return
+	if(src.client.muted) return
 
 	msg = sanitize(msg);	if(!msg) return
 	world.log_ooc("[src.name]/[src.key] : [msg]")

@@ -2,7 +2,7 @@ var/const/SCENARIO_ACTIVE = 0
 var/const/SCENARIO_COMPLETE = 1
 
 /datum/game_mode
-	var/name = "free form"
+	var/name = "freeform"
 
 	var/votable = 1
 	var/probability = 1
@@ -10,12 +10,27 @@ var/const/SCENARIO_COMPLETE = 1
 	var/list/termination_conditions = new()
 
 	proc/announce()
-		world << "<font color='blue'><B>Free Form!</B></font>"
+		world << "<font color='blue'><B>Freeform!</B></font>"
 
 	proc/conclude()
 		world << "<font color='red'><B>Game Over!</B></font>"
 		for(var/datum/mission/x in missions)
-			x.conclude()
+			var/pronoun = null
+			for(var/mob/M in x.group)
+				if(pronoun != null || M.gender == PLURAL)
+					pronoun = "Their"
+				else if(M.gender == NEUTER)
+					pronoun = "Its"
+				else if(M.gender == MALE)
+					pronoun = "His"
+				else // lets be honest here this case might as well not exist
+					pronoun = "Her"
+			if(pronoun == null)
+				pronoun = "The"
+			if(x.check_success())
+				world << "[x.gname] has succeeded! [pronoun] mission was to [x.description()]."
+			else
+				world << "[x.gname] has failed. [pronoun] mission was to [x.description()]."
 		sleep(300)
 		world.Reboot()
 

@@ -45,7 +45,7 @@
 /datum/preferences/proc/setup(var/client/M)
 	if(!M)
 		return
-	if(!trim(src.name))
+	if(!length(trim(src.name)))
 		src.name = M.key
 	if(!(src.gender in list(MALE, FEMALE)))
 		src.gender = MALE

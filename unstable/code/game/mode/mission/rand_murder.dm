@@ -3,13 +3,15 @@
 
 	New(mob/A)
 		var/mob/carbon/V = pick_cliented_human_except(A)
-		var/Aname = "a killer"
-		var/Vname = "a victim"
-		if(A)
-			Aname = A.spawn_name
-		if(V)
-			Vname = V.spawn_name
-		murder = new /datum/mission/murders(list(A), Aname, 0, list(V), Vname, 0)
+		var/aname = A.spawn_name
+		var/vname = V.spawn_name
+		murder = new /datum/mission/murders(list(A), aname, list(V), vname)
 
-	conclude()
-		return murder.conclude()
+		group = list(A)
+		gname = "[A.client.key] ([A.spawn_name])"
+
+	description()
+		return murder.description()
+
+	check_success()
+		return murder.check_success()

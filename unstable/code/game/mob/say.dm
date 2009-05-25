@@ -1,7 +1,12 @@
 /mob/proc/can_say()
-	return 1
+	if(src.client)
+		return !src.client.muted
+	else
+		return 1
 
 /mob/proc/say_dead(message)
+	if(!src.can_say())
+		return
 	var/msg = "<b>[src.spawn_name]</b> <i>(dead)</i>: [message]"
 	if(!msg) return	//	sanitized in /mob/verb/say
 	for(var/mob/M in world)

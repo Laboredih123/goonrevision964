@@ -2,9 +2,13 @@
 	var/const/percentage_station_evacuate = 80 // what percentage of people gotta leave
 
 	New(mob/M)
-		return
+		gname = "[M.client.key] ([M.spawn_name])"
+		group = list(M)
 
-	proc/check()
+	description()
+		return "Cause the death or evacuation of [percentage_station_evacuate]% of the crew."
+
+	check_success()
 		var/gone = 0
 		var/stayed = 0
 		for(var/mob/carbon/M in world)
@@ -18,9 +22,3 @@
 			return 0
 		else
 			return 1
-
-	conclude()
-		if(check())
-			world << "<font color='blue'>Not everyone has left!</font>"
-		else
-			world << "<font color='blue'>Everyone has left!</font>"

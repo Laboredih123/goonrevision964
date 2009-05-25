@@ -11,16 +11,13 @@
 	var/const/cut_power = 4
 
 	New(mob/M)
+		group = list(M)
+		gname = "[M.client.key] ([M.spawn_name])"
 		sab_target = pick_sab_target()
 		if(sab_target == destroy_ai)
 			ai_target = get_mobs_with_rank("AI")[1]
 
-		var/targetdesc = get_sab_desc(sab_target)
-		M << "\red<font size=3><B>You are the traitor!</B> [targetdesc] and then escape.</font>"
-		M << "<B>You don't have to be the lone survivor. Just don't get caught. Just escape!</B>"
-		M.store_memory("<B>Objective:</B> [targetdesc] and escape.", 0, 0)
-
-	proc/check()
+	check_success()
 		switch(sab_target)
 			if(destroy_plasma)
 				var/canisters_total = 0
@@ -58,12 +55,6 @@
 					return 0
 		return 1
 
-	conclude()
-		if(check())
-			world << "<font color='blue'>Not everyone has died!</font>"
-		else
-			world << "<font color='blue'>Everyone has died!</font>"
-
 	proc/pick_sab_target()
 		var/list/targets = list(destroy_plasma, destroy_ai, kill_monkeys, cut_power)
 		var/list/ais = get_mobs_with_rank("AI")
@@ -71,19 +62,19 @@
 			targets -= destroy_ai
 		return pick(targets)
 
-	proc/get_sab_desc(var/target)
-		switch(target)
+	description()
+		switch(sab_target)
 			if(destroy_plasma)
-				return "Destroy at least [percentage_plasma_destroy]% of the plasma canisters on the station"
+				return "destroy at least [percentage_plasma_destroy]% of the plasma canisters on the station"
 			if(destroy_ai)
-				return "Destroy the AI"
+				return "destroy the AI"
 			if(kill_monkeys)
 				var/count = 0
 				for(var/mob/carbon/monkey/M in world)
 					if(M.z == 1)
 						count++
-				return "Kill all [count] of the monkeys on the station"
+				return "kill all [count] of the monkeys on the station"
 			if(cut_power)
-				return "Cut power to at least [percentage_station_cut_power]% of the station"
+				return "cut power to at least [percentage_station_cut_power]% of the station"
 			else
-				return "Error: Invalid sabotage target: [target]"
+				return "Error: Invalid sabotage target: [sab_target]"

@@ -50,4 +50,4 @@
 			T.origradio = R
 			var/display_freq = round(freq/10, 0.1)
 			M << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [display_freq] to unlock its hidden features."
-			M.store_memory("<B>Radio Freq:</B> [display_freq] ([R.name] [loc]).", 0, 0)
+			M.store_memory("<B>Radio Freq:</B> [display_freq] ([R.name] [loc]).", 0)
