@@ -48,7 +48,7 @@
 	for(var/datum/admin_power/P in src.powers)
 		if(P.panel_type == PANEL_TYPE_PLAYER)
 			player_powers += P
-	var/dat = "<html><head><title>Player Panel</title></head><body><table>"
+	var/dat = "<html><head><title>Player Panel</title></head><body><table border=1>"
 	dat += "<tr><th>Name</th><th>Spawn name</th><th>Key</th><th>IP</th>"
 	for(var/datum/admin_power/P in player_powers)
 		dat += "<th>[P.name]</th>"
@@ -66,7 +66,7 @@
 			dat += "<td>[P.get_desc(M)]</td>"
 		dat += "</tr>"
 	dat += "</table></body></html>"
-	ss13_browse(src, dat, "window=mobpanel")
+	ss13_browse(src, dat, "window=mobpanel;size=600x400")
 
 /client/New()
 	..()

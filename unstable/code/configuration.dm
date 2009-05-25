@@ -127,13 +127,11 @@
 			continue
 		total += src.probabilities[M.name]
 		accum[M.name] = total
-		world << "accum [M.name] = [total]"
 
 	var/r = total - (rand() * total)
 
 	for (var/datum/game_mode/M in modes)
 		if(src.probabilities[M.name] > 0 && accum[M.name] >= r)
-			world << "r = [r], returning [M.name]"
 			return M
 
 	return new /datum/game_mode() //freeform

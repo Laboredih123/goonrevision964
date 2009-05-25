@@ -98,7 +98,10 @@
 			if("spawn")		src.spawn_name = capitalize(scrub_input("What name will you spawn with?", "Character Generation", src.spawn_name))
 			if("random")	src.spawn_name = strip_html(capitalize(pick(first_names) + " " + capitalize(pick(last_names))))
 	else if(href_list["gender"])
-		src.gender = input("Select a gender", "Character Generation", src.gender) in list(MALE, FEMALE)
+		if(src.gender == MALE)
+			src.gender = FEMALE
+		else
+			src.gender = MALE
 	else if(href_list["skin_color"])
 		src.choose_skin_color()
 	else if(href_list["hair_color"])
@@ -130,9 +133,11 @@
 		for (var/mob/carbon/H in world)
 			if (cmptext(H.spawn_name, src.name))
 				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
-				//TODO: make this work properly before spawning
 				return
-
+		for (var/mob/prespawn/P in world)
+			if (cmptext(P.name, src.name))
+				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
+				return
 		save()
 		ss13_browse(usr, null, "window=mob_occupations")
 		if(new_player.ready)
