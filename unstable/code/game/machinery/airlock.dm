@@ -683,24 +683,24 @@ About the new airlock wires panel:
 					src.loc:buildlinks()
 				src.operating = 0
 				return
+		else if ((!src.density) && (!( src.blocked ) && !( src.operating ) && !( src.locked )))
+			spawn( 0 )
+				src.operating = 1
+				flick(text("[]doorc1", (src.p_open ? "o_" : null)), src)
+				src.icon_state = text("[]door1", (src.p_open ? "o_" : null))
+				src.density = 1
+				if (src.visible)
+					src.opacity = 1
+				if(isturf(src.loc))
+					src.loc:updatecell = 0
+					src.loc:buildlinks()
+				sleep(15)
+				src.operating = 0
 		else
-			if ((!src.density) && (!( src.blocked ) && !( src.operating ) && !( src.locked )))
-				spawn( 0 )
-					src.operating = 1
-					flick(text("[]doorc1", (src.p_open ? "o_" : null)), src)
-					src.icon_state = text("[]door1", (src.p_open ? "o_" : null))
-					src.density = 1
-					if (src.visible)
-						src.opacity = 1
-					if(isturf(src.loc))
-						src.loc:updatecell = 0
-						src.loc:buildlinks()
-					sleep(15)
-					src.operating = 0
-
+			return ..()
 	else
-		..()
-	return
+		return ..()
+
 
 /obj/machinery/door/airlock/open()
 	if(src.locked)

@@ -9,5 +9,5 @@
 		termination_conditions += new /datum/termination_condition/shuttle()
 
 	execute()
-		new /datum/effect/meteors(rand(30,100),rand(1,15),30)
+		new /datum/effect/meteors(70,15,30)
 		..()
