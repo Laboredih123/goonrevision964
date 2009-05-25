@@ -3749,7 +3749,7 @@
 
 /obj/manifest/New()
 
-	src.invisibility = 100
+	src.invisibility = 101
 	return
 
 /obj/manifest/proc/manifest()

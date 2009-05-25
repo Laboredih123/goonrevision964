@@ -17,13 +17,13 @@
 
 	..()
 	src.tag = text("start*[]", src.name)
-	src.invisibility = 100
+	src.invisibility = 101
 	return
 
 /obj/sp_start/New()
 
 	src.tag = text("spstart[]", src.name)
-	src.invisibility = 100
+	src.invisibility = 101
 	return
 
 /world/proc/update_stat()

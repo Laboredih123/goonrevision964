@@ -35,8 +35,15 @@
 			sleep(30)
 		heads = get_heads()
 
-		termination_conditions += new /datum/termination_condition/deaths(revs, "revolutionaries")
-		termination_conditions += new /datum/termination_condition/deaths(heads, "heads")
+		var/list/headdeaths = list()
+		for(var/mob/head in heads)
+			headdeaths += new /datum/termination_condition/death(head, head.spawn_name)
+		termination_conditions += new /datum/termination_condition/all(headdeaths, "The heads are all dead!")
+
+		var/list/revdeaths = list()
+		for(var/mob/rev in revs)
+			revdeaths += new /datum/termination_condition/death(rev, rev.spawn_name)
+		termination_conditions += new /datum/termination_condition/all(revdeaths, "The revolutionaries are all dead!")
 
 		for(var/mob/carbon/M in revs)
 			new /datum/effect/traitor_radio(M)
