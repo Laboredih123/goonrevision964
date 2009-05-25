@@ -3,15 +3,11 @@
 		if(!M || !istype(M, /mob/carbon/human))
 			return
 		// generate list of radio freqs
-		var/freq = 144.1
 		var/list/freqlist = list()
-		while (freq <= 148.9)
-			if (freq < 145.1 || freq > 145.9)
-				freqlist += freq
-			freq += 0.2
-			if (round(freq * 10, 1) % 2 == 0)
-				freq += 0.1
-		freq = pick(freqlist)
+		for(var/f = 1441, f <= 1489, f += 2)
+			if (f < 1451 || f > 1459)
+				freqlist += f
+		var/freq = pick(freqlist)
 		// find a radio! toolbox(es), backpack, belt, headset
 		var/loc = ""
 		var/obj/item/weapon/radio/R = null
@@ -52,5 +48,6 @@
 			T.name = R.name
 			T.icon_state = R.icon_state
 			T.origradio = R
-			M << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [freq] to unlock its hidden features."
-			M.store_memory("<B>Radio Freq:</B> [freq] ([R.name] [loc]).", 0, 0)
+			var/display_freq = round(freq/10, 0.1)
+			M << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [display_freq] to unlock its hidden features."
+			M.store_memory("<B>Radio Freq:</B> [display_freq] ([R.name] [loc]).", 0, 0)
