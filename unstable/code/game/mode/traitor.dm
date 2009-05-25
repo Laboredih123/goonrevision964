@@ -1,9 +1,10 @@
 /datum/game_mode/traitor
 	name = "traitor"
 	var/mob/traitor
+	min_players = 1
 
 	announce()
-		return
+		world << "LOOK OUT, THERE'S A TRAITOR ON BOARD!"
 
 	setup()
 		termination_conditions += new/datum/termination_condition/shuttle()

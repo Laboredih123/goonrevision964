@@ -5,9 +5,9 @@ var/const/SCENARIO_COMPLETE = 1
 	var/name = "freeform"
 
 	var/votable = 1
-	var/probability = 1
 	var/list/missions = new()
 	var/list/termination_conditions = new()
+	var/min_players = 0
 
 	proc/announce()
 		world << "<font color='blue'><B>Freeform!</B></font>"

@@ -1,15 +1,14 @@
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode)
 	for (var/T in L)
-		// I wish I didn't have to instance the game modes in order to look up
-		// their information, but it is the only way (at least that I know of).
+		// instantiate all the modes once at the start of the round.
+		// somewhat wasteful, but probably the easiest way and its really not much overhead.
 		var/datum/game_mode/M = new T()
 		if(M.name)
-			src.modes += M.name
-			src.mode_names[M.name] = M.name
-			src.probabilities[M.name] = M.probability
+			src.modes += M
+			src.mode_names += M.name
+			src.probabilities[M.name] = 0
 			if(M.votable) src.votable_modes += M.name
-		del(M)
 
 /datum/configuration/proc/load(filename)
 	var/text = file2text(filename)
@@ -80,7 +79,7 @@
 				if(prob_pos)
 					prob_name = lowertext(copytext(value, 1, prob_pos))
 					prob_value = copytext(value, prob_pos + 1)
-					if(prob_name in config.modes)
+					if(prob_name in config.mode_names)
 						config.probabilities[prob_name] = text2num(prob_value)
 					else
 						world.log_game("Unknown game mode probability configuration definition: [prob_name]")
@@ -101,35 +100,40 @@
 		config.require_authentication.Remove(dd_text2list(option,","))
 
 /datum/configuration/proc/pick_mode(mode_name)
-	// I wish I didn't have to instance the game modes in order to look up
-	// their information, but it is the only way (at least that I know of).
-	for(var/T in (typesof(/datum/game_mode)))
-		var/datum/game_mode/M = new T()
+	for(var/datum/game_mode/M in modes)
 		if(M.name == mode_name) return M
-		del(M)
 
 	world.log_game("Invalid Mode ([mode_name]): Selecting new mode at random")
 	return pick_random_mode()
 
 /datum/configuration/proc/pick_random_mode()
+	var/num_clients = 0
+	for(var/mob/prespawn/P in world) //theoretically there should be nothing but /prespawns with clients,
+		// but you never know with SS13 admins
+		if(P.client)
+			num_clients++
+
 	var/total = 0
 	var/list/accum = list()
 
-	if(!src.modes || !src.modes.len) src.modes = typesof(/datum/game_mode)
-	for(var/M in src.modes)
-		total += src.probabilities[M]
-		accum[M] = total
+	if(!src.modes || !src.modes.len)
+		src.modes = list()
+		var/modetypes = typesof(/datum/game_mode)
+		for(var/m in modetypes)
+			src.modes += new m()
+
+	for(var/datum/game_mode/M in src.modes)
+		if(num_clients < M.min_players)
+			continue
+		total += src.probabilities[M.name]
+		accum[M.name] = total
+		world << "accum [M.name] = [total]"
 
 	var/r = total - (rand() * total)
 
-	var/mode_name = null
-	for (var/M in modes)
-		if(src.probabilities[M] > 0 && accum[M] >= r)
-			mode_name = M
-			break
+	for (var/datum/game_mode/M in modes)
+		if(src.probabilities[M.name] > 0 && accum[M.name] >= r)
+			world << "r = [r], returning [M.name]"
+			return M
 
-	if(!mode_name)	mode_name = "freeform"
-
-	//world << "Returning mode [mode_name]"
-
-	return src.pick_mode(mode_name)
+	return new /datum/game_mode() //freeform

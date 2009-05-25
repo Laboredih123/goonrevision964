@@ -10,13 +10,10 @@
 				var/dat = "<B>What mode do you wish to play?</B><HR>"
 				dat += "<A href='?src=\ref[src];c_mode=secret'>Secret</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=random'>Random</A><br>"
-				dat += "<A href='?src=\ref[src];c_modetraitor'>Traitor</A><br>"
+				dat += "<A href='?src=\ref[src];c_mode=traitor'>Traitor</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=meteor'>Meteor</A><br>"
-				dat += "<A href='?src=\ref[src];c_mode=extended'>Extended</A><br>"
-				dat += "<A href='?src=\ref[src];c_mode=monkey'>Monkey</A><br>"
-				dat += "<A href='?src=\ref[src];c_mode=nuclear'>Nuke</A><br>"
+				dat += "<A href='?src=\ref[src];c_mode=freeform'>Freeform</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=blob'>Blob</A><br>"
-				dat += "<A href='?src=\ref[src];c_mode=sandbox'>Sandbox</A><br>"
 				dat += "Now: [master_mode]"
 				ss13_browse(usr, dat, "window=c_mode")
 		else if(href_list["c_mode"])
@@ -30,19 +27,10 @@
 						master_mode = "traitor"
 					if("meteor")
 						master_mode = "meteor"
-					if("extended")
-						master_mode = "extended"
-					if("monkey")
-						master_mode = "monkey"
-					if("nuclear")
-						master_mode = "nuclear"
-					if("megamonkey")
-						master_mode = "megamonkey"
+					if("freeform")
+						master_mode = "freeform"
 					if("blob")
 						master_mode = "blob"
-					if("sandbox")
-						master_mode = "sandbox"
-					else
 				world.log_admin("[usr.key] set the mode as [master_mode].")
 				world << text("\blue <B>The mode is now: []</B>", master_mode)
 

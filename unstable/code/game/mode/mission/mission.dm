@@ -10,5 +10,5 @@
 		return
 
 /mob/proc/tell_mission(datum/mission/M)
-	src << "<b>Objective:</b> [capitalize(M.description())]"
+	src << "<b>Objective:</b> [capitalize(M.description())]."
 	src.store_memory("<b>Objective:</b> [capitalize(M.description())].", 0, 0)

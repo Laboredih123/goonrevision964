@@ -7,9 +7,10 @@
 /datum/game_mode/revolution
 	name = "revolution"
 	var/const/NUM_REVS = 3
+	min_players = 4 + NUM_REVS
 
 	announce()
-		return
+		world << "IT'S A REVOLUTION"
 
 	setup()
 		while(1)
@@ -17,7 +18,7 @@
 			for(var/mob/prespawn/M in world)
 				if(M.client && M.ready)
 					curNum ++
-			if(curNum < 4 + NUM_REVS)
+			if(curNum < min_players)
 				world << "Don't seem to be enough people for a decent game of revolution."
 				sleep(50) //5 seconds
 			else

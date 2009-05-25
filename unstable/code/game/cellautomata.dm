@@ -215,19 +215,8 @@
 	world << "<B>Welcome to Space Station 13!</B>\n\n"
 
 	if(!master_mode) master_mode = "random"
-	switch (master_mode)
-		if("secret")
-			current_mode = config.pick_random_mode()
-			world << "<B>The current game mode is - Secret!</B>"
-			world << "<B>The game will pick between meteor, traitor, blob, or monkey mode!</B>"
-		if("random")
-			current_mode = config.pick_random_mode()
-			world << "<B>The current game mode is - Random</B>"
-			world << "<B>The game has picked mode: \red [current_mode.name]</B>"
-		else
-			current_mode = config.pick_mode(master_mode)
-			current_mode.announce()
-
+	current_mode = config.pick_mode(master_mode)
+	current_mode.announce()
 	current_mode.setup()
 
 	world << "<B>Now dispensing all identification cards.</B>"
