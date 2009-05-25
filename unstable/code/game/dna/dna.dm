@@ -60,23 +60,6 @@
 	for(var/datum/gene/G in genes)
 		G.apply(M, genes[G])
 
-	switch(M.appearance)
-		if(APPEARANCE_MONKEY)
-			if(!istype(M,/mob/carbon/monkey))
-				var/mob/carbon/T = M
-				M = new/mob/carbon/monkey(T.loc, T.name, T.hair_color, T.hair_style, T.skin_color, T.gender, T.bloodtype, T.organs, T.dna)
-				if(T.client && T.client.mob == T) T.client.mob = M
-				T.drop_all()
-				del(T)
-
-		if(APPEARANCE_HUMAN)
-			if(!istype(M,/mob/carbon/human))
-				var/mob/carbon/T = M
-				M = new/mob/carbon/human(T.loc, T.name, T.hair_color, T.hair_style, T.skin_color, T.gender, T.bloodtype, T.organs, T.dna)
-				if(T.client && T.client.mob == T) T.client.mob = M
-				T.drop_all()
-				del(T)
-
 	if(M.appearance == APPEARANCE_QUIVERING_MASS)
 		M.body_name = "Unholy quivering mass of flesh"
 		M.voice = "Unholy quivering mass of flesh"
@@ -88,7 +71,8 @@
 		else
 			M.body_name = "Unknown"
 			M.voice = "Unknown"
-	if(M.hud) M.hud.update_slots()
+	if(M.hud)
+		M.hud.update_slots()
 	M.update_body()
 	M.update_face()
 
