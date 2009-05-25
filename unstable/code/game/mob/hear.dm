@@ -17,7 +17,8 @@
 	if(source in oview(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
 		speaker_name += " (disguised as [source.name])"
 	else if(istype(source, /obj/item/weapon/radio))
-		speaker_name = "<font color='[M.speaker_color]'>[speaker_name] on \icon[source]([source:freq/10])"
+		speaker_name = "[speaker_name] on \icon[source]([source:freq/10])"
+	speaker_name = "<font color='[M.speaker_color]'>[speaker_name]</font>"
 	var/text = M.text
 	if(!src.is_dead) //dead people understand everything
 		if(!M.language)

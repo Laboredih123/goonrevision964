@@ -41,26 +41,31 @@
 	if(!txt) return
 	world.log_say("[src.name]/[src.key] says '[txt]'")
 
-	if(src.is_dead)	return src.say_dead(txt)
-	if(!src.can_say()) return
+	if(src.is_dead)
+		return src.say_dead(txt)
+	if(!src.can_say())
+		return
 
 	var/obj/item/weapon/radio/target = null
 	var/hear_range = null
 
 	if(findtext(txt, ";") == 1) //default target
-		//headset for a human; radio #2 for the AI
-		//should be the most common use case, because just using a slash is the easiest thing to type
-		//say "; words" or say ";words"
+		// headset for a human; radio #2 for the AI
+		// should be the most common use case, because just ; is the easiest thing to type that you wouldnt start
+		// a line with ever
+		// say "; words" or say ";words"
 		txt = copytext(txt, 2)
 		target = src.get_default_radio()
 		hear_range = 1
 	else if (findtext(txt, ":") == 1) //saying into something, don't know what
 		//second character indicates what they talk into, third to end indicate actual txt
-		txt = copytext(txt, 3)
 		target = src.get_radio(copytext(txt, 2, 3))
+		if(target)
+			txt = copytext(txt, 3)
 		hear_range = 1
 
-	if(src.is_stuttering())	txt = stutter(txt)
+	if(src.is_stuttering())
+		txt = stutter(txt)
 
 	var/datum/message/msg = new /datum/message(src.voice, txt, src.curr_language)
 	switch(get_rank(src))
@@ -69,16 +74,15 @@
 		if("Head of Research")	msg.speaker_color = "teal"
 		if("Head of Personnel")	msg.speaker_color = "teal"
 
-	if(target && istype(target, /obj/item/weapon/radio)) target.talk_into(msg, usr)
+	if(target && istype(target, /obj/item/weapon/radio))
+		target.talk_into(msg, usr)
 	var/heard = list()
 	var/turf/T = get_turf(src) //if you're in a closet, people can still hear you talk
-	for(var/obj/O as obj|mob in view(hear_range, T))
-		spawn(0)
-			if(O && O != src)
-				O.hear_message(msg, usr)
-				heard += O
+	for(var/obj/O as obj|mob in hearers(hear_range, T))
+		O.hear_message(msg, usr)
+		heard += O
 	for(var/mob/carbon/M in world)
-		if(!(M in heard) && M != src && (M.is_telepathic || M.is_dead))
+		if(!(M in heard) && (M.is_telepathic || M.is_dead))
 			M.hear_message(msg, usr)
 
 /mob/proc/is_stuttering()
