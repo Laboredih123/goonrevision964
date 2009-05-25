@@ -135,7 +135,7 @@
 				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
 				return
 		for (var/mob/prespawn/P in world)
-			if (cmptext(P.name, src.name))
+			if (cmptext(P.name, src.name) && P != src)
 				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
 				return
 		save()

@@ -450,7 +450,6 @@ expires=Fri, 31 Dec 2060 23:59:59 UTC'\"; document.write(document.cookie)></body
 
 /mob/Login()
 	world.log_access("Login: [src.key] from [src.client.address]")
-	src.last_known_ip = src.client.address
 	if (config.log_access)
 		for (var/mob/M in world)
 			if(M == src)
