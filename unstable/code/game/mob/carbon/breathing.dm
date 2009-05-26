@@ -126,8 +126,6 @@
 			if(pos)
 				var/percent = copytext(name, length("internal1-") + 1)
 				internal_percents[percent] = name // would use text2num but can't have arbitrary int keys :(
-			else
-				world << "NO POS"
 	// TODO: Make this work with arbitrary intervals, ideally even mutltiple different intervals at once
 	var/percent = 100 * internal.gas.total() / internal.maximum
 	// TODO: profile, see if num2text uses enough cpu to be worth caching

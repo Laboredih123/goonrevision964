@@ -1,3 +1,0 @@
-/mob/Stat()
-	..()
-	statpanel("Status")
