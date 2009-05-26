@@ -35,8 +35,11 @@
 		reassign_job(oldjob, unassigned, semiassigned)
 		return
 
-/proc/Authenticated(var/mob/prespawn/M, var/job)
-	if(M.client.authenticated)	return 1
+/proc/allowed_to_do_job(mob/prespawn/M, job)
+	if(jobban_isbanned(M, job))
+		return 0
+	if(M.client.authenticated)
+		return 1
 	return !RequiresAuth(job)
 
 /proc/RequiresAuth(var/job)
@@ -46,7 +49,7 @@
 /proc/FindOccupationCandidates(list/unassigned, job, level)
 	var/list/candidates = list()
 	for(var/mob/prespawn/M in unassigned)
-		if(!Authenticated(M,job)) continue
+		if(!allowed_to_do_job(M, job)) continue
 		if(level == 1 && M.client.prefs.job1 == job)	candidates += M
 		if(level == 2 && M.client.prefs.job2 == job)	candidates += M
 		if(level == 3 && M.client.prefs.job3 == job)	candidates += M
@@ -65,7 +68,7 @@
 		if(M.client && M.ready && !M.already_placed)
 			unassigned += M
 
-	if(unassigned.len == 1) // no Captain required
+	if(unassigned.len == 1) // no Captain required. also don't care if they're authenticated or jobbanned.
 		var/mob/prespawn/M = unassigned[1]
 		if(M.client.prefs.job1 in occupation_choices)
 			M.Assign_Rank(M.client.prefs.job1)
@@ -124,7 +127,8 @@
 			// nobody has this job yet, so we have to pick someone to do it
 			// if anyone doesn't have a job yet, give it to them (more fair)
 			for(var/mob/prespawn/M in shuffle(unassigned))
-				if(!Authenticated(M,job)) continue
+				if(!allowed_to_do_job(M,job))
+					continue
 				assigned[M] = job
 				unassigned -= M
 				selected = M
@@ -132,7 +136,8 @@
 
 			if(!selected)	// everyone has a job, just pick randomly
 				for(var/mob/prespawn/M in shuffle(semiassigned))
-					if(!Authenticated(M,job)) continue
+					if(!allowed_to_do_job(M, job))
+						continue
 					semiassigned -= M
 					assigned[M] = job
 					reassign_job(job, unassigned, semiassigned)
@@ -148,7 +153,8 @@
 					remaining_occupations += occupation
 			for(var/occupation in shuffle(remaining_occupations))
 				for(var/mob/prespawn/candidate in shuffle(unassigned))
-					if(!Authenticated(candidate,occupation)) continue
+					if(!allowed_to_do_job(candidate, occupation))
+						continue
 					semiassigned[candidate] = occupation
 					occupation_choices[occupation]--
 					unassigned -= candidate

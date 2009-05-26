@@ -118,6 +118,7 @@
 #include "code\game\admin\admin_powers\check_traitor.dm"
 #include "code\game\admin\admin_powers\debug.dm"
 #include "code\game\admin\admin_powers\delay.dm"
+#include "code\game\admin\admin_powers\jobban.dm"
 #include "code\game\admin\admin_powers\list_bomb_makers.dm"
 #include "code\game\admin\admin_powers\make_object.dm"
 #include "code\game\admin\admin_powers\meteor_wave.dm"

@@ -1,12 +1,9 @@
 
 
 /world/New()
-
 	..()
-	spawn( 0 )
-		SetupOccupationsList()
-		return
-	return
+	SetupOccupationsList()
+	jobban_loadbanfile()
 
 /mob/prespawn/proc/Assign_Rank(rank, joined_late)
 	var/startloc = null

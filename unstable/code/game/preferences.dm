@@ -224,6 +224,9 @@
 
 /datum/preferences/proc/choose_job(job_num)
 	var/jobs = uniquelist(list("Captain") + occupations + assistant_occupations + "No Preference")
+	for(var/j in jobs)
+		if(jobban_isbanned(usr, j))
+			jobs -= j
 	var/curr_job = null
 	switch(job_num)
 		if(1)	curr_job = src.job1
