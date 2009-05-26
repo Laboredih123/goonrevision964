@@ -47,7 +47,6 @@
 		if(shuttle_status == SHUTTLE_RETURNING)
 			if(shuttle_time_left >= SHUTTLE_TIME)
 				shuttle_status = SHUTTLE_WAITING
-				break
 			else
 				var/curtime = world.realtime
 				shuttle_time_left = min(SHUTTLE_TIME, shuttle_time_left + curtime - last_shuttle_update)

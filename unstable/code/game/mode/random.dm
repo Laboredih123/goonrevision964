@@ -5,7 +5,7 @@
 	proc/ensure_m()
 		if(!m)
 			m = config.pick_random_mode()
-			world.log << "Random mode, mode selected: [m.name]"
+			world.log_game("Random mode, mode selected: [m.name]")
 
 	announce()
 		ensure_m()

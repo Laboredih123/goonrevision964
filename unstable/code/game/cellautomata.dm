@@ -78,7 +78,7 @@
 
 		if(newmode)
 			master_mode = newmode
-			world.log << "Read default mode '[newmode]' from [persistent_file]"
+			world.log_game("Read default mode '[newmode]' from [persistent_file]")
 
 
 	// *****
