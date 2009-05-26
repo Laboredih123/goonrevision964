@@ -11,16 +11,16 @@
 	if(medium & SENSE_SIGHT)
 		for(var/mob/M in viewers(src))
 			if(!(M in mobs_seen))
-				if(M.see("[src] [message]."))
+				if(M.see("<font color='[COLOR_EMOTE]'>[src] [message].</font>"))
 					mobs_seen += M
 	if(medium & SENSE_SOUND)
 		for(var/mob/M in hearers(src))
 			if(!(M in mobs_seen))
-				if(M.hear("someone [message]."))
+				if(M.hear("<font color='[COLOR_EMOTE]'>someone [message].</font>"))
 					mobs_seen += M
 
 /mob/carbon/verb/emote_help()
-	src << "The valid emotes are: blink, blush, bow \[at person\], choke, chuckle, clap, cough, cry,  eyebrow, frown, gasp, giggle, groan, grumble, handshake, hug-(none)/mob, glare-(none)/mob,\ngrin, laugh, look-(none)/mob, moan, mumble, nod, pale, point-atom, raise, salute, shake, shiver, shrug,\nsigh, signal-#1-10, smile, sneeze, sniff, snore, stare-(none)/mob, tremble, twitch, twitch_s, whimper,\nwink, yawn"
+	src << "\blue The valid emotes are: blink, blush, bow \[at person\], choke, chuckle, clap, cough, cry,  eyebrow, frown, gasp, giggle, groan, grumble, handshake, hug-(none)/mob, glare-(none)/mob,\ngrin, laugh, look-(none)/mob, moan, mumble, nod, pale, point-atom, raise, salute, shake, shiver, shrug,\nsigh, signal-#1-10, smile, sneeze, sniff, snore, stare-(none)/mob, tremble, twitch, twitch_s, whimper,\nwink, yawn"
 
 /mob/carbon/verb/chuckle()
 	set name = ".chuckle"
@@ -89,7 +89,7 @@
 /mob/carbon/verb/gasp()
 	set name = ".gasp"
 	if(!src.is_muzzled())
-		src.emote("gasps!", SENSE_SOUND & SENSE_SIGHT)
+		src.emote("gasps", SENSE_SOUND & SENSE_SIGHT)
 	else
 		src.emote("makes a weak noise", SENSE_SOUND & SENSE_SIGHT)
 

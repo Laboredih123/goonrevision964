@@ -74,10 +74,10 @@
 
 	var/datum/message/msg = new /datum/message(src.voice, txt, src.curr_language)
 	switch(get_rank(src))
-		if("Captain")			msg.speaker_color = "navy"
-		if("Security Officer")	msg.speaker_color = "maroon"
-		if("Head of Research")	msg.speaker_color = "teal"
-		if("Head of Personnel")	msg.speaker_color = "teal"
+		if("Captain")			msg.speaker_color = COLOR_CAPTAIN
+		if("Security Officer")	msg.speaker_color = COLOR_SECURITY
+		if("Head of Research")	msg.speaker_color = COLOR_HEAD
+		if("Head of Personnel")	msg.speaker_color = COLOR_HEAD
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(msg, usr)

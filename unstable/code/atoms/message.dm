@@ -1,6 +1,10 @@
 /var/const
 	COLOR_DEFAULT = "black"
 	COLOR_RADIO = "green"
+	COLOR_EMOTE = "#ff00ff" // magenta
+	COLOR_HEAD = "teal"
+	COLOR_SECURITY = "maroon"
+	COLOR_CAPTAIN = "navy"
 
 /datum/message
 	var/text = null

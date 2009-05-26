@@ -27,7 +27,7 @@
 			text = replace_language(text, M.language)
 	if(M.language != src.curr_language && (M.language in src.languages || src.is_dead))
 		text = text + " <i>([M.language])</i>"
-	return src.hear("<b>[speaker_name]:</b> <font color=\"[M.message_color]\">[text]</font>")
+	return src.hear("<b>[speaker_name]:</b> <font color='[M.message_color]'>[text]</font>")
 
 /mob/proc/replace_language(message, language)
 	var/list/words = dd_text2list(message, " ")
