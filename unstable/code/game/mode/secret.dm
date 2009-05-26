@@ -5,7 +5,7 @@
 	proc/ensure_m()
 		if(!m)
 			m = config.pick_random_mode()
-		world.log << "MODE IS [m.name]"
+			world.log << "Secret mode, mode selected: [m.name]"
 
 	announce()
 		return

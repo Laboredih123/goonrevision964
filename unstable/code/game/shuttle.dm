@@ -5,7 +5,7 @@
 /var/const/SHUTTLE_TIME = 6000 //tenths of a second - 10 minutes
 /var/const/SHUTTLE_TIME_DOCKED = 600 * 3 // 3 minutes
 /var/const/SHUTTLE_TIME_SPED_UP = 100 // 10 seconds
-/var/shuttle_time_left
+/var/shuttle_time_left = SHUTTLE_TIME
 /var/last_shuttle_update
 
 /var/const/SHUTTLE_WAITING = 0
@@ -15,14 +15,13 @@
 /var/const/SHUTTLE_LEFT = 4
 
 /var/shuttle_status = SHUTTLE_WAITING
+/var/shuttle_processing = 0
 
 /proc/call_shuttle() //does not bring the shuttle, just starts the countdown
 	if(shuttle_status == SHUTTLE_WAITING)
-		spawn(5) process_shuttle()
+		spawn process_shuttle()
 	if(shuttle_status == SHUTTLE_WAITING || shuttle_status == SHUTTLE_RETURNING)
 		shuttle_status = SHUTTLE_COMING
-		shuttle_time_left = SHUTTLE_TIME
-		last_shuttle_update = world.realtime
 		announce_shuttle()
 	else if(shuttle_status == SHUTTLE_COMING)
 		announce_shuttle()
@@ -39,6 +38,11 @@
 		world << "\blue The shuttle has been sent back."
 
 /proc/process_shuttle()
+	if(shuttle_processing)
+		return
+	// don't let anyone call process_shuttle() while i'm at this line ok thanks
+	shuttle_processing = 1
+	last_shuttle_update = world.realtime
 	while(1)
 		if(shuttle_status == SHUTTLE_RETURNING)
 			if(shuttle_time_left >= SHUTTLE_TIME)
@@ -67,8 +71,6 @@
 				var/curtime = world.realtime
 				shuttle_time_left = max(0, shuttle_time_left - (curtime - last_shuttle_update))
 				last_shuttle_update = curtime
-		else
-			break
 		sleep(5)
 
 /proc/shuttle_move(src_z, dest_z)
