@@ -94,7 +94,8 @@
 
 	src.internal.process(src, G)	//	transfer gasses from internals to G
 	if(G.total() > max_breathed) G.turf_add(T, G.total() - max_breathed)
-	if(src.hud && src.hud.internal)	src.hud.internal.icon_state = "internal1"
+	if(src.hud && src.hud.internal)
+		src.hud.internal.icon_state = get_internal_icon_state(src.internal, src.hud.internal)
 	if(src.mask)	//	assumed for internals, but lets check anyhow
 		if(!(src.mask.flags & HALFMASK)) return G
 
@@ -116,3 +117,18 @@
 	else				G.turf_copy(T,max(max_breathed-G.total(),round(max(max_breathed/G.total(),15),1)))
 	return G
 
+/var/list/internal_percents = null
+/mob/carbon/proc/get_internal_icon_state(obj/item/weapon/tank/internal, obj/screen/internal_screen)
+	if(!internal_percents)
+		internal_percents = list()
+		for(var/name in icon_states(internal_screen.icon))
+			var/pos = findtext(name, "internal1-")
+			if(pos)
+				var/percent = copytext(name, length("internal1-") + 1)
+				internal_percents[percent] = name // would use text2num but can't have arbitrary int keys :(
+			else
+				world << "NO POS"
+	// TODO: Make this work with arbitrary intervals, ideally even mutltiple different intervals at once
+	var/percent = 100 * internal.gas.total() / internal.maximum
+	// TODO: profile, see if num2text uses enough cpu to be worth caching
+	return internal_percents[num2text(round(percent, 20))]
