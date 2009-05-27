@@ -10,6 +10,8 @@
 /turf/station/wall/false_wall/interact(mob/carbon/user as mob)
 	if(!istype(user, /mob/carbon))
 		return
+	if(LinkBlocked(get_turf(user), src)) //window or something between
+		return
 	src.add_fingerprint(user)
 	if(!user.is_dextrous || !user.is_intelligent) //only smart dextrous people can use this
 		return ..()
@@ -26,6 +28,14 @@
 		else
 			return ..()
 	else
+		// doesn't close if there's something on it, except observers and other immaterial things
+		for(var/atom/A in src)
+			if(istype(A, /mob/observer) || istype(A, /obj/landmark) || istype(A, /obj/manifest))
+				continue
+			if(istype(A, /obj/start) || istype(A, /mob/prespawn))
+				continue
+			user << "\blue You can't close this, there's something on it!"
+			return
 		if (close())
 			user << "\blue The wall slides shut."
 	return
