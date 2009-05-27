@@ -8,7 +8,7 @@
 	var/list/laws = list()
 	var/has_power = 1
 	languages = list(LANGUAGE_ENGLISH, LANGUAGE_COMPUTER)
-	curr_language = LANGUAGE_COMPUTER
+	curr_language = LANGUAGE_ENGLISH
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list())
 	var/viewalerts = 0
 	var/is_evil = 0

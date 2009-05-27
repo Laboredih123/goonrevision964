@@ -85,7 +85,9 @@
 		usr:cameraFollow = null
 		return
 
-	var/mob/carbon/target = creatures[target_name]
+	track_mob(creatures[target_name])
+
+/mob/silicon/ai/proc/track_mob(mob/carbon/target)
 
 	usr:cameraFollow = target
 	usr << text("Now tracking [] on camera.", target.name)

@@ -4,5 +4,7 @@
 		src.viewalerts = 0
 	if(href_list["switchcamera"])
 		switchCamera(locate(href_list["switchcamera"]))
-	if (href_list["showalerts"])
+	if(href_list["showalerts"])
 		ai_alerts()
+	if(href_list["track"])
+		track_mob(href_list["track"])

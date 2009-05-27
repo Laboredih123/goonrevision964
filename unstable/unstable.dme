@@ -245,6 +245,7 @@
 #include "code\game\mob\silicon\ai\alerts.dm"
 #include "code\game\mob\silicon\ai\cameras.dm"
 #include "code\game\mob\silicon\ai\damage.dm"
+#include "code\game\mob\silicon\ai\hear.dm"
 #include "code\game\mob\silicon\ai\laws.dm"
 #include "code\game\mob\silicon\ai\life.dm"
 #include "code\game\mob\silicon\ai\login.dm"
