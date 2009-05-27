@@ -30,9 +30,11 @@
 	else
 		// doesn't close if there's something on it, except observers and other immaterial things
 		for(var/atom/A in src)
-			if(istype(A, /mob/observer) || istype(A, /obj/landmark) || istype(A, /obj/manifest))
+			if(istype(A, /mob/observer) || istype(A, /mob/prespawn))
 				continue
-			if(istype(A, /obj/start) || istype(A, /mob/prespawn))
+			if(istype(A, /obj/landmark) || istype(A, /obj/manifest) || istype(A, /obj/start))
+				continue
+			if(istype(A, /obj/cable) || istype(A, /obj/machinery/pipes))
 				continue
 			user << "\blue You can't close this, there's something on it!"
 			return

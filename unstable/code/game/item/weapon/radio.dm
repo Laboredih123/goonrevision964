@@ -75,8 +75,9 @@
 
 	M = convert_message_color(M, COLOR_RADIO)
 
-	for(var/atom/A in view(src.listenrange, src))
-		A.hear_message(M, src)
+	for(var/atom/A in view(src.listenrange, get_turf(src)))
+		if(A != src)
+			A.hear_message(M, src)
 
 /obj/item/weapon/radio/proc/transmit(datum/message/M)
 	if(!(src.wires & WIRE_TRANSMIT))	return
