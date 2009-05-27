@@ -5,12 +5,15 @@
 		return
 
 	if (!config.enable_authentication)
-		if(src.mob)
-			src.mob.verbs += /mob/verb/character_setup
 		if(!src.prefs.savefile_loc)
 			src.prefs.savefile_loc = "savefiles/[savefile_ver]/[src.ckey].sav"
 			src.prefs.load()
-		src.prefs.setup(src)
+		if(src.mob)
+			src.mob.verbs += /mob/verb/character_setup
+			if(istype(src.mob, /mob/prespawn))
+				var/mob/prespawn/M = src.mob
+				if(!M.ready)
+					src.prefs.setup(src)
 		src.authenticated = 1
 		return
 
@@ -39,12 +42,15 @@
 				src << "Key Authorized: Hello [html_encode(account)]!"
 				src << "[auth_motd]"
 				success = 1
-				if(src.mob)
-					src.mob.verbs += /mob/verb/character_setup
 				if(!src.prefs.savefile_loc)
 					src.prefs.savefile_loc = "savefiles/[savefile_ver]/[src.ckey].sav"
 					src.prefs.load()
-				src.prefs.setup(src)
+				if(src.mob)
+					src.mob.verbs += /mob/verb/character_setup
+					if(istype(src.mob, /mob/prespawn))
+						var/mob/prespawn/M = src.mob
+						if(!M.ready)
+							src.prefs.setup(src)
 			else if (code == "banned")
 				banned.Add(src.ckey)
 				del(src)
