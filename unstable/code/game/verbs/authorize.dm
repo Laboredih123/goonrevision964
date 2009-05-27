@@ -10,7 +10,6 @@
 			src.prefs.load()
 		spawn(5)
 			if(src.mob)
-				src.mob.verbs += /mob/verb/character_setup
 				if(istype(src.mob, /mob/prespawn))
 					var/mob/prespawn/M = src.mob
 					if(!M.ready)

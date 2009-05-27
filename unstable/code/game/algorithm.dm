@@ -29,7 +29,7 @@
 		del(src)
 		return
 
-	var/name = src.client.prefs.spawn_name
+	var/name = src.client.prefs.name
 	if (rank == "Medical Doctor")
 		name = addtext("Dr. ", name)
 
