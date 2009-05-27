@@ -11,6 +11,12 @@
 		// find a radio! toolbox(es), backpack, belt, headset
 		var/loc = ""
 		var/obj/item/weapon/radio/R = null
+		if (!R && istype(M.l_hand, /obj/item/weapon/radio))
+			R = M.l_hand
+			loc = "in your left hand"
+		if (!R && istype(M.r_hand, /obj/item/weapon/radio))
+			R = M.r_hand
+			loc = "in your right hand"
 		if (!R && istype(M.l_hand, /obj/item/weapon/storage))
 			var/obj/item/weapon/storage/S = M.l_hand
 			var/list/L = S.return_inv()

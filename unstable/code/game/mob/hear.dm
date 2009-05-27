@@ -15,12 +15,13 @@
 /mob/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
 	if((source in view(src)) && istype(source, /mob/carbon) && source.name != speaker_name) //he's in disguise
-		// TODO: make this less ugly, and make it work properly when voice != body_name
+		// TODO: make this less ugly, and make it work properly when voice != body_name and they aren't wearing
+		// a mask (that is not currently possible, but may eventually be)
 		var/mob/carbon/speaker = source
-		if(speaker.name != speaker.body_name)
-			speaker_name = "[speaker.body_name] (as [speaker.name])"
-		if (speaker.id && speaker.id.registered != speaker.body_name)
-			speaker_name = "[speaker.body_name] (as [speaker.id.registered])"
+		if(speaker.name != speaker.voice)
+			speaker_name = "[speaker.voice] (as [speaker.name])"
+		if (speaker.id && speaker.id.registered != speaker.voice)
+			speaker_name = "[speaker.voice] (as [speaker.id.registered])"
 	else if(istype(source, /obj/item/weapon/radio))
 		speaker_name = "[speaker_name] on \icon[source]([source:freq/10])"
 

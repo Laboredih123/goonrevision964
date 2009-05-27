@@ -2835,3 +2835,5 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 /obj/item/weapon/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 /mob/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
+
+/obj/item/weapon/clothing/mask/gasmask/voice_changer

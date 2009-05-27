@@ -58,3 +58,4 @@
 		src.dna.apply(src)
 
 	src.spawn_rank = rank
+	spawn_ranks[name] = rank

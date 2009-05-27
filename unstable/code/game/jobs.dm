@@ -181,6 +181,7 @@
 				aiPlayer.spawn_name = newname
 				aiPlayer.voice = newname
 				aiPlayer.name = newname
+				spawn_ranks[aiPlayer.spawn_name] = "AI"
 
 			world << text("<b>[] is the AI!</b>", aiPlayer.name)
 

@@ -166,6 +166,7 @@ var
 	list/first_names_female = null
 	list/last_names = null
 	list/ai_names = null
+	list/spawn_ranks = list()
 
 world
 	name = "Goonstation"

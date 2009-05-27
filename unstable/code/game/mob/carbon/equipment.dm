@@ -379,6 +379,23 @@
 		src.drop(SLOT_L_HAND)
 		src.drop(SLOT_R_HAND)
 
+	if(src.mask && istype(src.mask, /obj/item/weapon/clothing/mask/gasmask/voice_changer))
+		// if they have no identification, their voice is "Unknown", just like their body
+		var/voice = "Unknown"
+		if(src.id && src.id.registered && voice == "Unknown")
+			voice = src.id.registered
+		else if (istype(src.l_hand, /obj/item/weapon/card/id)  && voice == "Unknown")
+			var/obj/item/weapon/card/id/C = src.l_hand
+			if (C.registered)
+				voice = C.registered
+		else if (istype(src.r_hand, /obj/item/weapon/card/id)  && voice == "Unknown")
+			var/obj/item/weapon/card/id/C = src.r_hand
+			if (C.registered)
+				voice = C.registered
+		src.voice = voice
+	else
+		src.voice = src.body_name
+
 	src.update_invisibility()
 	src.update_vision()
 	src.update_name()

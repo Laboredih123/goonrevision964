@@ -73,7 +73,7 @@
 		txt = stutter(txt)
 
 	var/datum/message/msg = new /datum/message(src.voice, txt, src.curr_language)
-	switch(src.spawn_rank)
+	switch(spawn_ranks[src.voice])
 		if("Captain")			msg.speaker_color = COLOR_CAPTAIN
 		if("Security Officer")	msg.speaker_color = COLOR_SECURITY
 		if("Head of Research")	msg.speaker_color = COLOR_HEAD
