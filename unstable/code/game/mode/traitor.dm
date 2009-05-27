@@ -21,17 +21,21 @@
 		var/datum/mission/mission = new mission_type(list(traitor), "[traitor.client.key] ([traitor.spawn_name])")
 		missions += mission
 		traitor.tell_mission(mission)
+		var/traitorname = "[traitor.client.key] ([traitor.spawn_name])"
 
 		if(istype(traitor, /mob/carbon))
 			new /datum/effect/traitor_radio(traitor)
-			var/datum/mission/escape/e = new(list(traitor), "[traitor.client.key] ([traitor.spawn_name])")
+			var/datum/mission/escape/e = new(list(traitor), "[traitorname]")
 			traitor.tell_mission(e)
 			missions += e
 		else if(istype(traitor, /mob/silicon/ai))
 			new /datum/effect/law_zero(traitor)
-			var/datum/mission/survival/s = new(list(traitor), "[traitor.client.key] ([traitor.spawn_name])")
+			var/datum/mission/survival/s = new(list(traitor), "[traitorname]")
 			traitor.tell_mission(s)
 			missions += s
+
+		new /datum/effect/report_death(traitor, "\red The traitor, [traitorname], has died.")
+
 		..()
 
 	proc/pick_synd()
