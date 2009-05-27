@@ -13,8 +13,8 @@
 	s_istate = "electronic"
 	var/const
 		WIRE_SIGNAL = 1 //sends a signal, like to set off a bomb or electrocute someone
-		WIRE_RECEIVE = 2
-		WIRE_TRANSMIT = 4
+		WIRE_RECEIVE = 1 << 1
+		WIRE_TRANSMIT = 1 << 2
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
 	var/listenrange = 2
 	var/b_stat = 0
@@ -72,14 +72,10 @@
 	if(!src.receiving) return
 	if(freq != src.freq) return
 	if(!(src.wires & WIRE_RECEIVE)) return
-	if(!isturf(src.loc) && !istype(src.loc,/mob)) return
-	if(!isturf(src.loc.loc)) return
 
 	M = convert_message_color(M, COLOR_RADIO)
 
-	if(istype(src.loc,/mob))
-		src.loc.hear_message(M,src)
-	for(var/atom/A in oview(src.listenrange,src))
+	for(var/atom/A in view(src.listenrange, src))
 		A.hear_message(M, src)
 
 /obj/item/weapon/radio/proc/transmit(datum/message/M)

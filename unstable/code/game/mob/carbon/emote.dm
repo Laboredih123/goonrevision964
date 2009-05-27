@@ -42,7 +42,7 @@
 	set name = ".blush"
 	src.emote("blushes")
 
-/mob/carbon/verb/bow(mob/M as mob in oview(src))
+/mob/carbon/verb/bow(mob/M as mob in oview(null, src))
 	set name = ".bow"
 	if(src.is_handcuffed())
 		return
@@ -93,7 +93,7 @@
 	else
 		src.emote("makes a weak noise", SENSE_SOUND & SENSE_SIGHT)
 
-/mob/carbon/verb/glare(mob/M as mob in oview(src))
+/mob/carbon/verb/glare(mob/M as mob in oview(null, src))
 	set name = ".glare"
 	if(src.is_blindfolded())
 		return
@@ -128,7 +128,7 @@
 	else
 		src.emote("makes a noise", SENSE_SOUND & SENSE_SIGHT)
 
-/mob/carbon/verb/look(mob/M as mob in oview(src))
+/mob/carbon/verb/look(mob/M as mob in oview(null, src))
 	set name = ".look"
 	if(src.is_blindfolded())
 		return
@@ -159,7 +159,7 @@
 	set name = ".twitch"
 	src.emote("twitches")
 
-/mob/carbon/verb/salute(mob/M as mob in oview(src))
+/mob/carbon/verb/salute(mob/M as mob in oview(null, src))
 	set name = ".salute"
 	if(src.is_handcuffed())
 		return
@@ -199,7 +199,7 @@
 	else
 		src.emote("makes a loud noise", SENSE_SOUND & SENSE_SIGHT)
 
-/mob/carbon/verb/wink(mob/M as mob in oview(src))
+/mob/carbon/verb/wink(mob/M as mob in oview(null, src))
 	set name = ".wink"
 	if(src.is_blindfolded())
 		return

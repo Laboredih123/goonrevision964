@@ -14,10 +14,23 @@
 
 /mob/hear_message(datum/message/M, atom/source)
 	var/speaker_name = M.voice
-	if(source in oview(src) && istype(source, /mob) && source.name != speaker_name) //he's in disguise
-		speaker_name += " (disguised as [source.name])"
+	if((source in view(src)) && istype(source, /mob/carbon) && source.name != speaker_name) //he's in disguise
+		// TODO: make this less ugly, and make it work properly when voice != body_name
+		var/mob/carbon/speaker = source
+		if(speaker.name != speaker.body_name)
+			speaker_name = "[speaker.body_name] (as [speaker.name])"
+		if (speaker.id && speaker.id.registered != speaker.body_name)
+			speaker_name = "[speaker.body_name] (as [speaker.id.registered])"
 	else if(istype(source, /obj/item/weapon/radio))
 		speaker_name = "[speaker_name] on \icon[source]([source:freq/10])"
+
+	if(istype(src, /mob/silicon/ai)) // TODO: make this more elegant, add a hook or something.
+		// /mob should not reference /mob/silicon/ai
+		for(var/mob/carbon/C in world)
+			if(C.name == M.voice)
+				speaker_name = "<a href='?src=\ref[src];track=\ref[C]'>[speaker_name]</a>"
+				break
+
 	speaker_name = "<font color='[M.speaker_color]'>[speaker_name]</font>"
 	var/text = M.text
 	if(!src.is_dead) //dead people understand everything
