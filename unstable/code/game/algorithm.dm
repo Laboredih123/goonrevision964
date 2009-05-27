@@ -139,14 +139,22 @@
 	M.equip_if_possible(new /obj/item/weapon/pen(M), SLOT_R_STORE)
 	M.equip_if_possible(new /obj/item/weapon/radio/signaler(M), SLOT_BELT)
 
+	M.client = src.client
+	M.update_clothing()
+
 	world.log_game("[M] has joined the game.")
 	if(rank == "Captain")
 		world << "<b>[M] is the captain!</b>"
 	src << "<B>Game mode is [current_mode]</B>"
 	src << "<B>You are the [rank].</B>"
-	M.client = src.client
-	M.update_clothing()
+	if(joined_late)
+		for(var/mob/silicon/ai/ai in world)
+			if(!ai.is_dead)
+				ai.say("[M] has arrived on the station. \He is the [rank].")
+				break
 	del(src)
+
+
 
 /proc/AutoUpdateAI(obj/subject)
 	if (subject!=null)
