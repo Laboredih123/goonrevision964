@@ -210,32 +210,6 @@
 			user.drop_item_v()
 		if("swap")
 			user.swap_hand()
-		if("resist")
-			if (user.next_move < world.time)
-				return
-			user.next_move = world.time + 20
-			if (user.can_use_hands())
-				for(var/obj/O in user.requests)
-					//O = null
-					del(O)
-					//Foreach goto(557)
-				for(var/obj/item/weapon/grab/G in user.grabbed_by)
-					if (G.state == 1)
-						//G = null
-						del(G)
-					else
-						if (G.state == 2)
-							if (prob(25))
-								user.show_viewers(text("\red [] has broken free of []'s grip!", user, G.assailant))
-								del(G)
-						else
-							if (G.state == 3)
-								if (prob(5))
-									user.show_viewers(text("\red [] has broken free of []'s headlock!", user, G.assailant))
-										//Foreach goto(762)
-									//G = null
-									del(G)
-				user.show_viewers(text("\red <B>[] resists!</B>", user))
 		else
 			src.DblClick()
 	return

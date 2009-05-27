@@ -64,7 +64,7 @@
 
 	sun = new /datum/sun()
 
-	// ****stuff for presistent mode picking
+	// ****stuff for persistent mode picking
 	var/newmode = null
 
 	var/modefile = file2text(persistent_file)

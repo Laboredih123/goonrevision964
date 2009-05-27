@@ -6,7 +6,6 @@
 	var/obj/screen/drop
 	var/obj/screen/throw
 	var/obj/screen/swap
-	var/obj/screen/resist
 	var/obj/screen/mask
 	var/obj/screen/back
 	var/obj/screen/r_hand
@@ -68,7 +67,6 @@
 	src.drop = new /obj/screen(src, "drop", null, "7,1", 19, "act_drop")
 	src.throw = new /obj/screen(src, "throw", null, "9,1", 19, "act_throw_off")
 	src.swap = new /obj/screen(src, "swap", null, "11,1", 19, "act_hand")
-	src.resist = new /obj/screen(src, "resist", null, "13,1", 19, "act_resist")
 	src.machine = new /obj/screen(src, "Reset Machine", null, "14,1", null)
 	src.sleep = new /obj/screen(src, "sleep", null, "15,3", null, "sleep0")
 	src.rest = new /obj/screen(src, "rest", null, "15,2", null, "rest0")
@@ -109,7 +107,7 @@
 	src.intent = new /obj/screen(src, "intent", null, "13,15", null, "selector")
 
 	if(src.owner && src.owner.client && src.owner.client.screen)
-		src.owner.client.screen += list(vitals, actions, drop, throw, swap, resist, mask, back,
+		src.owner.client.screen += list(vitals, actions, drop, throw, swap, mask, back,
 			r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
 			storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
 			pull, internal, oxygen, intent, toxin, fire, health
@@ -141,7 +139,7 @@
 
 /datum/hud/carbon/Del()
 	if(src.owner && src.owner.client && src.owner.client.screen)
-		src.owner.client.screen -= list(vitals, actions, drop, throw, swap, resist, mask, back,
+		src.owner.client.screen -= list(vitals, actions, drop, throw, swap, mask, back,
 			r_hand, jumpsuit, l_hand, gloves, shoes, glasses, helmet, belt, id, suit, headset,
 			storage1, storage2, grab, help, disarm, hurt, flash, blind, hand, machine, sleep, rest,
 			pull, internal, oxygen, intent, toxin, fire, health, vimpaired, g_dither

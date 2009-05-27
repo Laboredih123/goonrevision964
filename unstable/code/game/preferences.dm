@@ -168,7 +168,7 @@
 	occs -= "AI"
 	for(var/mob/carbon/C in world)
 		occs[C.spawn_rank] --
-		if(occs[C.spawn_rank] < 0)
+		if(occs[C.spawn_rank] <= 0)
 			occs -= C.spawn_rank
 	return occs
 
