@@ -458,7 +458,7 @@
 	//TODO: handle flashbangs in closets properly
 	var/turf/T = get_turf(src)
 	T.firelevel = T.gas.plasma
-	for(var/mob/carbon/M in viewers(T))
+	for(var/mob/carbon/M in viewers(null, T))
 		if (locate(/obj/item/weapon/cloaking_device, M))
 			for(var/obj/item/weapon/cloaking_device/S in M)
 				S.active = 0
@@ -3435,7 +3435,7 @@
 				O.process()
 				return
 		else
-			for(var/mob/O in viewers(M, null))
+			for(var/mob/O in viewers(null, M))
 				O.see(text("\red [] has been injected with [] by [].", M, src, user))
 				//Foreach goto(192)
 			var/amount = src.chem.transfer_mob(M, 5)
@@ -3494,7 +3494,7 @@
 	if (user.equipped() != src || !user.can_use_hands())
 		return
 	var/T = L[t1]
-	for(var/mob/O in hearers(user))
+	for(var/mob/O in hearers(null, user))
 		O.hear("\blue Locked In")
 	var/obj/portal/P = new /obj/portal( get_turf(src) )
 	P.target = T

@@ -560,7 +560,7 @@
 	if (istype(src.loc, /obj/item/weapon/assembly))
 		icon = src.loc
 	if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
-		for (var/mob/O in viewers(user, null))
+		for (var/mob/O in viewers(null, user))
 			O << "\red [user] has used the analyzer on \icon[icon]"
 		var/total = src.gas.total()
 		var/t1 = 0
@@ -1210,7 +1210,7 @@
 	else
 		user << "\blue It's welded shut!"
 		if(usr.can_use_hands()) //handcuffed folk can't bang
-			for(var/mob/M in hearers(src))
+			for(var/mob/M in hearers(null, src))
 				M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
 	return
 
@@ -1368,7 +1368,7 @@
 		return
 	O.loc = src.loc
 	if (user != O)
-		for(var/mob/B in viewers(user, 3))
+		for(var/mob/B in viewers(3, user))
 			B.see(text("\red [] stuffs [] into []!", user, O, src))
 			//Foreach goto(99)
 	return
@@ -1671,7 +1671,7 @@
 	else
 		user << "\blue It's welded shut!"
 		if(user.can_use_hands()) //handcuffed folks can't bang
-			for(var/mob/M in hearers(src))
+			for(var/mob/M in hearers(null, src))
 				M.hear(text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M))))
 	return
 
@@ -1865,7 +1865,7 @@
 		M.burn(7.5E7)
 		M.knockdown_until(50)
 		//Foreach goto(72)
-	for(var/mob/carbon/M in hearers(src))
+	for(var/mob/carbon/M in hearers(null, src))
 		if (!( M.is_blind ))
 			M.see("\red The electric chair went off!")
 		else

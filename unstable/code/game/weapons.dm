@@ -279,7 +279,7 @@
 			spawn( 0 )
 				src.assmaster:r_signal(1, src)
 		else
-			for(var/mob/O in hearers(null, null))
+			for(var/mob/O in hearers(null, src))
 				O.hear(text("\icon[] *beep* *beep*", src))
 				//Foreach goto(58)
 	return
@@ -395,7 +395,7 @@
 			src.assmaster:r_signal(1, src)
 			return
 	else
-		for(var/mob/O in hearers(null, null))
+		for(var/mob/O in hearers(null, src))
 			O.hear(text("\icon[] *beep* *beep*", src))
 			//Foreach goto(51)
 	return
@@ -550,7 +550,7 @@
 		spawn( 0 )
 			src.assmaster:r_signal(1, src)
 	else
-		for(var/mob/O in hearers(null, null))
+		for(var/mob/O in hearers(null, src))
 			O.hear(text("\icon[] *beep* *beep*", src))
 			//Foreach goto(51)
 	return

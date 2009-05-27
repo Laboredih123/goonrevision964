@@ -24,7 +24,7 @@
 	if(locate(/obj/item/weapon/grab, M.grabbed_by))
 		if(!prob(75)) return
 		var/obj/item/weapon/grab/G = pick(M.grabbed_by)
-		for(var/mob/O in viewers(M, null))
+		for(var/mob/O in viewers(null, M))
 			O.see("<font color='red'>[G.affecting] has been pulled from [G.assailant]'s grip by [src]!</font>")
 		del(G)
 

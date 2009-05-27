@@ -497,7 +497,7 @@ Pipe Valve Status: []<BR>
 		else
 			user.think("\blue There is nothing here with which to connect the canister.")
 	else if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
-		for (var/mob/O in viewers(user, null))
+		for (var/mob/O in viewers(null, user))
 			O.see("\red [user] has used an analyzer on [src].")
 		var/total = src.gas.total()
 		var/t1 = 0

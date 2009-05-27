@@ -233,7 +233,7 @@
 	if(text2num(M.text) != src.code)				return
 	if(src.master && src.wires & WIRE_SIGNAL)		src.master:r_signal(1, src)
 	if(src.assmaster && src.wires & WIRE_SIGNAL)	src.assmaster:r_signal(1, src)
-	for(var/atom/A in hearers(2, src))				A.hear("\icon[src] *beep beep*")
+	for(var/atom/A in view(2, src))					A.hear("\icon[src] *beep beep*")
 
 /obj/item/weapon/radio/signaler/proc/send_signal()
 	if(!(src.wires & WIRE_TRANSMIT)) return

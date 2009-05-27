@@ -261,7 +261,7 @@ obj/machinery/door_control/interact(mob/user as mob)
 /obj/machinery/alarm/attackby(W as obj, user as mob)
 	if (istype(W, /obj/item/weapon/wirecutters))
 		stat ^= BROKEN
-		for(var/mob/O in viewers(user, null))
+		for(var/mob/O in viewers(null, user))
 			O.see(text("\red [] has []activated []!", user, (stat&BROKEN) ? "de" : "re", src))
 		return
 	return ..()

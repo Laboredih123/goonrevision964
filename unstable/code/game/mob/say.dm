@@ -52,7 +52,7 @@
 		return
 
 	var/obj/item/weapon/radio/target = null
-	var/hear_range = null
+	var/hear_range = 7
 
 	if(findtext(txt, ";") == 1) //default target
 		// headset for a human; radio #2 for the AI
@@ -83,7 +83,7 @@
 		target.talk_into(msg, usr)
 	var/heard = list()
 	var/turf/T = get_turf(src) //if you're in a closet, people can still hear you talk
-	for(var/obj/O as obj|mob in hearers(hear_range, T))
+	for(var/obj/O as obj|mob in view(hear_range, T)) // BYOND lacks a hear proc grrrrrr
 		O.hear_message(msg, usr)
 		heard += O
 	for(var/mob/carbon/M in world)

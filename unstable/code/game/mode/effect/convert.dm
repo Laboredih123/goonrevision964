@@ -15,12 +15,12 @@
 			return
 		M.last_conversion = t
 
-		for(var/atom/A in hearers(M))
+		for(var/atom/A in view(null, M))
 			A.hear("\blue [M.body_name] is spreading revolutionary propaganda!")
 
 		M.say(pick_rev_saying())
 
-		for(var/mob/carbon/hearer in hearers(M))
+		for(var/mob/carbon/hearer in hearers(null, M))
 			if(hearer.rev_status == NON_REV && !is_head(hearer) && !is_security(hearer))
 				hearer.convert()
 
