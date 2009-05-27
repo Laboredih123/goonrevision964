@@ -84,7 +84,7 @@
 	proc/get_pickable_items(list/group)
 		var/list/items = list(laser, hand_tele, plasma_bomb, captain_card, jetpack, captain_suit)
 		for(var/mob/M in group)
-			var/killerrank = get_rank(M)
+			var/killerrank = M.spawn_rank
 			if(killerrank == "Captain")
 				items -= list(laser, captain_card, captain_suit, hand_tele, jetpack) //too easy to steal
 			else if(killerrank == "Head of Personnel" || killerrank == "Head of Research")

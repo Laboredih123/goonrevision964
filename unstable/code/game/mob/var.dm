@@ -49,3 +49,4 @@
 	density = 1
 
 	var/cameraFollow = null
+	var/spawn_rank = null

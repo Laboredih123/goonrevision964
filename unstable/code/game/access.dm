@@ -147,21 +147,9 @@
 			targetrank = R.fields["rank"]
 	return "[target.name] the [targetrank]"
 
-/proc/get_rank(mob/M)
-	for(var/datum/data/record/R in data_core.general)
-		if(R.fields["name"] == M.name)
-			return R.fields["rank"]
-	return null
-
 /proc/get_mobs_with_rank(rank)
 	var/list/mobs = list()
-	var/list/names = list()
-	for(var/datum/data/record/R in data_core.general)
-		if(R.fields["rank"] == rank)
-			names += R.fields["name"]
-			break
 	for(var/mob/M in world)
-		for(var/name in names)
-			if(M.name == name)
-				mobs += M
+		if(M.spawn_rank == rank)
+			mobs += M
 	return mobs

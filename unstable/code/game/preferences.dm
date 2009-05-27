@@ -147,17 +147,34 @@
 		world.log_game("[usr.key] entered as [usr.name]")
 
 		if (game_started)
-			var/list/L = assistant_occupations
-			var/job
-			if(L.Find(src.job1))		job = src.job1
-			else if(L.Find(src.job2))	job = src.job2
-			else if(L.Find(src.job3))	job = src.job3
-			else						job = pick(L)
-			new_player.Assign_Rank(job, 1)
+			var/list/jobs = get_available_jobs()
+			var/dat = "<html><head><title>Select job</title></head>"
+			dat += "<p>You spawned late, so you get to select a job! Lucky you!"
+			for(var/job in jobs)
+				if(!jobban_isbanned(new_player, job))
+					dat += "<br><a href='byond://?src=\ref[src];late-job=[job]'>[job]</a>"
+			dat += "</p>"
+			ss13_browse(new_player, dat, "window=late_job;size=300x600")
 		return
-
+	else if(href_list["late-job"])
+		ss13_browse(usr, null, "window=late_job")
+		if(!istype(usr,/mob/prespawn))
+			return save()
+		var/mob/prespawn/new_player = usr
+		new_player.Assign_Rank(href_list["late-job"], 1)
+		return
 	spawn()
 		src.setup(usr.client)
+
+/proc/get_available_jobs()
+	var/list/occs = occupations.Copy()
+	occs["Captain"] = 1
+	occs -= "AI"
+	for(var/mob/carbon/C in world)
+		occs[C.spawn_rank] --
+		if(occs[C.spawn_rank] < 0)
+			occs -= C.spawn_rank
+	return occs
 
 //----------------------------------------------------------------------------
 

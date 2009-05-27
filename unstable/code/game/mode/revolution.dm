@@ -91,8 +91,6 @@
 
 /proc/is_head(mob/carbon/M)
 	var/rank = M.spawn_rank
-	rank = get_rank(M)
-	world << "rank is [rank] AURLAKUR"
 	//TODO: make this not gross
 	if(rank == "Head of Personnel" || rank == "Head of Research" || rank == "Captain")
 		return 1

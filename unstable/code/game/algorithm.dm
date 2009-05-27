@@ -25,6 +25,7 @@
 		var/mob/silicon/ai/A = new()
 		A.client = src.client
 		A.loc = startloc
+		A.spawn_rank = rank
 		del(src)
 		return
 
