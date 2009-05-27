@@ -92,7 +92,13 @@
 	if(href_list["name"])
 		switch(href_list["name"])
 			if("input")		src.name = capitalize(scrub_input("What is your character's name?", "Character Generation", src.name))
-			if("random")	src.name = strip_html(capitalize(pick(first_names) + " " + capitalize(pick(last_names))))
+			if("random")
+				var/first_name
+				if(src.gender == MALE)
+					first_name = pick(first_names_male)
+				else
+					first_name = pick(first_names_female)
+				src.name = strip_html(capitalize(first_name) + " " + capitalize(pick(last_names)))
 	else if(href_list["gender"])
 		if(src.gender == MALE)
 			src.gender = FEMALE

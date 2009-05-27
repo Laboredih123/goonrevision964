@@ -16,7 +16,7 @@ LOG_GAME
 # log player votes
 LOG_VOTE
 
-# default probablity is 1, increase to make that mode more likely to be picked
+# default probablity is 0, increase to make that mode more likely to be picked
 # set to 0 to disable that mode
 PROBABILITY TRAITOR 10
 PROBABILITY REVOLUTION 2

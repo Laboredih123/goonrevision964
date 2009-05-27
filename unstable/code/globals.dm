@@ -162,7 +162,8 @@ var
 
 	datum/dna/canonical/canonical_dna = new()
 
-	list/first_names = null
+	list/first_names_male = null
+	list/first_names_female = null
 	list/last_names = null
 	list/ai_names = null
 

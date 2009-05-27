@@ -95,7 +95,8 @@
 
 	//	Load Default Names
 	if(config.random_names)
-		first_names = dd_file2list("first_names.txt")
+		first_names_male = dd_file2list("first_names_male.txt")
+		first_names_female = dd_file2list("first_names_female.txt")
 		last_names = dd_file2list("last_names.txt")
 
 	if(config.random_ai_names)
