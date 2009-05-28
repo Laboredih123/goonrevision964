@@ -1,19 +1,13 @@
 /mob/prespawn
 	var/ready = 0
-	opacity = 0
-	density = 0
-	icon = null
-	icon_state = null
+	canmove = 1
+	icon = 'quivering_mass.dmi'
 
-/mob/prespawn/New()
-	..()
-	src.sight = BLIND
-	src.verbs -= /mob/verb/add_memory
-	src.verbs -= /mob/verb/cancel_camera
-	src.verbs -= /mob/verb/memory
-	src.verbs -= /mob/verb/observe
-	src.verbs -= /mob/verb/respawn
-	src.verbs -= /mob/verb/switch_language
-	src.verbs -= /mob/verb/character_setup
-
-	return
+	New()
+		. = ..()
+		src.verbs -= /mob/verb/add_memory
+		src.verbs -= /mob/verb/cancel_camera
+		src.verbs -= /mob/verb/memory
+		src.verbs -= /mob/verb/observe
+		src.verbs -= /mob/verb/respawn
+		src.verbs -= /mob/verb/switch_language

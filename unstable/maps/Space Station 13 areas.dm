@@ -219,3 +219,7 @@
 	requires_power = 0
 	name = "Escape Shuttle"
 	icon_state = "shuttle"
+
+/area/prespawn
+	requires_power = 0
+	name = "Prespawn Area"
