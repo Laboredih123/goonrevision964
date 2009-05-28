@@ -1,16 +1,22 @@
+var/const
+	LASER = 1
+	HAND_TELE = 2
+	PLASMA_BOMB = 3
+	JETPACK = 4
+	CAPTAIN_CARD = 5
+	CAPTAIN_SUIT = 6
+	NUKE_DISK = 7
+
+
 /datum/mission/steal
 	var/item
 
-	var/const/laser = 1
-	var/const/hand_tele = 2
-	var/const/plasma_bomb = 3
-	var/const/jetpack = 4
-	var/const/captain_card = 5
-	var/const/captain_suit = 6
-
-	New(list/group, gname)
+	New(list/group, gname, item)
 		..()
-		item = pick(get_pickable_items(group))
+		if(item)
+			src.item = item
+		else
+			item = pick(get_pickable_items(group))
 
 	check_success()
 		var/list/items = list()
@@ -24,11 +30,11 @@
 					items += G.gift:return_inv()
 
 			switch(item)
-				if(laser)
+				if(LASER)
 					for(var/obj/item/weapon/gun/energy/laser_gun/O in items)
 						if (O.charges >= O.maximum_charges)
 							return 1
-				if(plasma_bomb)
+				if(PLASMA_BOMB)
 					// SHOULD work for all bombs and that's it
 					for(var/obj/item/weapon/assembly/O in items)
 						var/istimebomb = istype(O, /obj/item/weapon/assembly/t_i_ptank)
@@ -41,10 +47,10 @@
 							continue
 						if ((P.gas.plasma >= 1600000.0 && P.gas:temp >= 773)) // 500 degrees Celsius
 							return 1
-				if(hand_tele)
+				if(HAND_TELE)
 					for(var/obj/item/weapon/hand_tele/O in items)
 						return 1
-				if(captain_card)
+				if(CAPTAIN_CARD)
 					for(var/obj/item/weapon/card/id/O in items)
 						if(!O.access)
 							continue
@@ -53,11 +59,14 @@
 								continue
 						//he's got all the permissions, GOOD JOB
 						return 1
-				if(jetpack)
+				if(JETPACK)
 					for(var/obj/item/weapon/tank/jetpack/O in items)
 						return 1
-				if(captain_suit)
+				if(CAPTAIN_SUIT)
 					for(var/obj/item/weapon/clothing/under/darkgreen/O in items)
+						return 1
+				if(NUKE_DISK)
+					for(var/obj/item/weapon/disk/nuclear/O in items)
 						return 1
 		return 0
 
@@ -66,27 +75,30 @@
 
 	proc/get_item_desc(var/target)
 		switch (target)
-			if (laser)
+			if (LASER)
 				return "a fully loaded laser gun"
-			if (hand_tele)
+			if (HAND_TELE)
 				return "a hand teleporter"
-			if (plasma_bomb)
+			if (PLASMA_BOMB)
 				return "a fully armed and heated plasma bomb"
-			if (captain_card)
+			if (CAPTAIN_CARD)
 				return "an ID card with universal access"
-			if (captain_suit)
+			if (CAPTAIN_SUIT)
 				return "a captain's dark green jumpsuit"
-			if (jetpack)
+			if (JETPACK)
 				return "a jet pack"
+			if(NUKE_DISK)
+				return "a nuclear disk"
 			else
 				return "Error: Invalid theft target: [target]"
 
 	proc/get_pickable_items(list/group)
-		var/list/items = list(laser, hand_tele, plasma_bomb, captain_card, jetpack, captain_suit)
+		var/list/items = list(LASER, HAND_TELE, PLASMA_BOMB, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK)
+		// not nuke disk
 		for(var/mob/M in group)
 			var/killerrank = M.spawn_rank
 			if(killerrank == "Captain")
-				items -= list(laser, captain_card, captain_suit, hand_tele, jetpack) //too easy to steal
+				items -= list(LASER, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK) //too easy to steal
 			else if(killerrank == "Head of Personnel" || killerrank == "Head of Research")
-				items -= laser //too easy to steal
+				items -= LASER //too easy to steal
 		return items

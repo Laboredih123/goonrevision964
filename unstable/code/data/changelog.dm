@@ -3,6 +3,13 @@ var/changes = {"<FONT color='blue'><B>Recent changes (apart from bugfixes)</B></
 <P><B>Wednesday, May 27. 2009: Revisions</b></p>
 
 <ul>
+<li><b>720</b> - Added Spy vs Spy mode, in which two teams of three spies each both try to steal the nuke disk and
+the crew tries to stop both of them.</li>
+</ul>
+
+<P><B>Wednesday, May 27. 2009: Revisions</b></p>
+
+<ul>
 <li><b>719</b> - Bomb rebalancing. Blast radius is now proportional to sqrt(temp), rather than temp. Bombs above
 500C are now less powerful, while bombs below 500C are more powerful. 500C bombs are the same strength as
 before.</li>
@@ -18,7 +25,8 @@ before.</li>
 <li><b>703</b> - Made internals HUD icon indicate amount of air left.</li>
 <li><b>702</b> - Improved chat color support.</li>
 <li><b>701</b> - Added job ban system.</li>
-<li><b>697</b> - Added separate, explicit "escape" mission in traitor mode - allows for future missions that do not require you to escape.</li>
+<li><b>697</b> - Added separate, explicit "escape" mission in traitor mode - allows for future missions that do not
+require you to escape.</li>
 <li><b>692</b> - Modes can now have minimum numbers of players, so if there are only 3 people on the server
 Revolution mode will never be selected.</li>
 <li><b>689</b> - Added "boot" and "mute" admin powers.</li>

@@ -14,6 +14,7 @@
 				dat += "<A href='?src=\ref[src];c_mode=meteor'>Meteor</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=freeform'>Freeform</A><br>"
 				dat += "<A href='?src=\ref[src];c_mode=blob'>Blob</A><br>"
+				dat += "<A href='?src=\ref[src];c_mode=spyvsspy'>Spy Vs Spy</A><br>"
 				dat += "Now: [master_mode]"
 				ss13_browse(usr, dat, "window=c_mode")
 		else if(href_list["c_mode"])
@@ -31,6 +32,8 @@
 						master_mode = "freeform"
 					if("blob")
 						master_mode = "blob"
+					if("traitor")
+						master_mode = "spyvsspy"
 				world.log_admin("[usr.key] set the mode as [master_mode].")
 				world << text("\blue <B>The mode is now: []</B>", master_mode)
 
