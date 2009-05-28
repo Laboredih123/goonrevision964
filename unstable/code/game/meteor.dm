@@ -42,7 +42,7 @@
 		endy = world.maxy
 	else
 		starty = rand(1, world.maxy)
-		endy = max(min(starty + rand(-5, 5), 1), world.maxy) // up to 5 away from starty
+		endy = min(max(starty + rand(-5, 5), 1), world.maxy) // up to 5 away from starty
 
 	if(startedge & WEST)
 		startx = 3 // because of the dumb way the z-level code works
@@ -52,7 +52,7 @@
 		endx = 1
 	else
 		startx = rand(1, world.maxx)
-		endx = max(min(startx + rand(-5, 5), 1), world.maxx) // up to 5 away from starty
+		endx = min(max(startx + rand(-5, 5), 1), world.maxx) // up to 5 away from starty
 
 	var/obj/meteor/M
 	if(rand(50))
