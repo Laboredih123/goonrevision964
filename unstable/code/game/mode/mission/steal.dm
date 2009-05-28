@@ -98,7 +98,7 @@ var/const
 		for(var/mob/M in group)
 			var/killerrank = M.spawn_rank
 			if(killerrank == "Captain")
-				items -= list(LASER, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK) //too easy to steal
+				items -= list(LASER, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK, HAND_TELE) //too easy to steal
 			else if(killerrank == "Head of Personnel" || killerrank == "Head of Research")
 				items -= LASER //too easy to steal
 		return items

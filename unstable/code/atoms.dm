@@ -582,7 +582,7 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-	var/obj/item/weapon/cell/cell = new()
+	var/obj/item/weapon/cell/cell = new(null, 100)
 
 /obj/item/weapon/clothing
 	name = "clothing"
@@ -1552,10 +1552,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Station Bounced Radio"
 	icon_state = "radio"
 	var/temp = null
-	var/uses = 1.0
-	var/selfdestruct = 0.0
-	flags = 322.0
-	w_class = 2.0
+	var/uses = 3
+	var/selfdestruct = 0
+	flags = 322
+	w_class = 2
 	s_istate = "electronic"
 	throw_speed = 4
 	throw_range = 20
@@ -2495,38 +2495,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/netnum = 0
 	var/directwired = 1		// by default, power machines are connected by a cable in a neighbouring turf
 							// if set to 0, requires a 0-X cable on this turf
-/obj/machinery/power/apc
-	name = "area power controller"
-	icon_state = "apc0"
-	anchored = 1
-	var/area/area
-	var/obj/item/weapon/cell/cell
-	var/start_charge = 90				// initial cell charge %
-	var/cell_type = 2500				// 0=no cell, 1=regular, 2=high-cap (x5) <- old, now it's just 0=no cell, otherwise dictate cellcapacity by changing this value. 1 used to be 1000, 2 was 2500
-	var/opened = 0
-	var/lighting = 3
-	var/equipment = 3
-	var/environ = 3
-	var/operating = 1
-	var/charging = 0
-	var/chargemode = 1
-	var/chargecount = 0
-	var/locked = 1
-	var/coverlocked = 1
-	var/aidisabled = 0
-	var/tdir = null
-	var/obj/machinery/power/terminal/terminal = null
-	var/lastused_light = 0
-	var/lastused_equip = 0
-	var/lastused_environ = 0
-	var/lastused_total = 0
-	var/main_status = 0
-	var/light_consumption = 0
-	var/equip_consumption = 0
-	var/environ_consumption = 0
-	netnum = -1		// set so that APCs aren't found as powernet nodes
-	req_access = list(access_apcs)
-	luminosity = 2
 /obj/machinery/power/terminal
 	name = "terminal"
 	icon_state = "term"

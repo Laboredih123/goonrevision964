@@ -583,19 +583,25 @@
 			zone = 3
 		for(var/atom/A as mob|obj|turf|area in U)
 			A.ex_act(zone)
-			//Foreach goto(209)
 		U.ex_act(zone)
 		U.buildlinks()
-		//Foreach goto(109)
-	//src.master = null
 	del(src.master)
-	//SN src = null
 	del(src)
-	return
-	return
+
+/obj/item/weapon/syndicate_uplink/var/list/item_types = list(
+	list("Revolver Ammo", 1, /obj/item/weapon/ammo/a357),
+	list("Cyanide Pill", 1, /obj/item/weapon/m_pill/cyanide),
+	list("Freedom Implant (with injector)", 1, /obj/item/weapon/implanter),
+	list("Syndicate Card", 1, /obj/item/weapon/card/id/syndicate),
+	list("Sleepy Pen", 1, /obj/item/weapon/pen/sleepypen/),
+	list("OxygenIsToxicToHumans AI Module", 1, /obj/item/weapon/aiModule/oxygen),
+	list("Electromagnet Card", 2, /obj/item/weapon/card/emag),
+	list("Revolver", 2, /obj/item/weapon/gun/revolver),
+	list("Voice Changer", 2, /obj/item/weapon/clothing/mask/gasmask/voice_changer),
+	list("Camera Jammer", 2, /obj/item/weapon/jammer),
+	list("Cloaking Device", 3, /obj/item/weapon/cloaking_device))
 
 /obj/item/weapon/syndicate_uplink/attack_self(mob/user as mob)
-
 	user.machine = src
 	var/dat
 	if (src.selfdestruct)
@@ -604,21 +610,15 @@
 		if (src.temp)
 			dat = text("[]<BR><BR><A href='?src=\ref[];temp=1'>Clear</A>", src.temp, src)
 		else
-			var/dat2 = ""
+			dat = "<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: [src.uses]<BR><B>Request item:</B><BR>"
+			for(var/L in src.item_types)
+				var/name = L[1]
+				var/cost = L[2]
+				dat += "<A href='?src=\ref[src];[name]=1'>[name] ([cost] crystal\s)</A><BR>"
+			dat += "<HR>"
 			if (src.origradio)
-				dat2 = "\n<A href='?src=\ref[src];lock=1'>Lock</A><BR>\n<HR>"
-			dat = {"<B>Syndicate Uplink Console:</B>\n<HR>\nTele-Crystals left: [src.uses]<BR>
-					<B>Request item:</B> (uses 1 tele-crystal)<BR>
-					<A href='?src=\ref[src];item_emag=1'>Electromagnet Card</A><BR>
-					<A href='?src=\ref[src];item_sleepypen=1'>Sleepy Pen</A><BR>
-					<A href='?src=\ref[src];item_cyanide=1'>Cyanide Pill</A><BR>
-					<A href='?src=\ref[src];item_cloak=1'>Cloaking Device</A><BR>
-					<A href='?src=\ref[src];item_jammer=1'>Camera Jammer</A><BR>
-					<A href='?src=\ref[src];item_revolver=1'>Revolver</A><BR>
-					<A href='?src=\ref[src];item_imp_freedom=1'>Implant- Freedom (with injector)</A><BR>
-					<A href='?src=\ref[src];item_ai_module=1'>'OxygenIsToxicToHumans' AI Module</A><BR>
-					<A href='?src=\ref[src];item_voice_changer=1'>Voice Changer</A><BR>
-					<HR>[dat2]\n<A href='?src=\ref[src];selfdestruct=1'>Self-Destruct</A>"}
+				dat += "<A href='?src=\ref[src];lock=1'>Lock</A><BR><HR>"
+			dat += "<A href='?src=\ref[src];selfdestruct=1'>Self-Destruct</A>"
 	ss13_browse(user, dat, "window=radio")
 	return
 
@@ -631,45 +631,23 @@
 	var/mob/carbon/H = usr
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
-		if (href_list["item_emag"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/card/emag( H.loc )
-		else if (href_list["item_sleepypen"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/pen/sleepypen( H.loc )
-		else if (href_list["item_cyanide"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/m_pill/cyanide( H.loc )
-		else if (href_list["item_cloak"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/cloaking_device( H.loc )
-		else if (href_list["item_jammer"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/jammer( H.loc )
-		else if (href_list["item_revolver"])
-			if (src.uses > 0)
-				src.uses--
-				var/obj/item/weapon/gun/revolver/O = new /obj/item/weapon/gun/revolver( H.loc )
-				O.bullets = 7
-		else if (href_list["item_imp_freedom"])
-			if (src.uses > 0)
-				src.uses--
-				var/obj/item/weapon/implanter/O = new /obj/item/weapon/implanter( H.loc )
-				O.imp = new /obj/item/weapon/implant/freedom( O )
-				src.temp = "The implant is triggered by chuckling and has a random amount of uses."
-		else if (href_list["item_ai_module"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/aiModule/oxygen( H.loc )
-		else if (href_list["item_voice_changer"])
-			if (src.uses > 0)
-				src.uses--
-				new /obj/item/weapon/clothing/mask/gasmask/voice_changer( H.loc )
+		var/obj/O
+		for(var/L in src.item_types)
+			var/name = L[1]
+			var/uses = L[2]
+			var/type = L[3]
+			if(href_list[name])
+				if(src.uses >= uses)
+					src.uses -= uses
+					O = new type(H.loc)
+				break
+		if(istype(O, /obj/item/weapon/gun/revolver))
+			var/obj/item/weapon/gun/revolver/R = O
+			R.bullets = 7
+		else if(istype(O, /obj/item/weapon/implanter))
+			var/obj/item/weapon/implanter/I = O
+			I.imp = new /obj/item/weapon/implant/freedom(I)
+			src.temp = "The implant is triggered by chuckling and has a random amount of uses."
 		else if (href_list["lock"])
 			// presto chango, a regular radio again! (reset the freq too...)
 			usr.machine = null
@@ -786,6 +764,13 @@
 		return
 
 	return ..(W,user)
+
+/obj/item/weapon/cloaking_device/examine()
+	set src in view(1)
+	..()
+	usr << "\blue The power cell is [src.cell.charge * 100 / src.cell.maxcharge]% full."
+
+
 
 /obj/item/weapon/ammo/proc/update_icon()
 	return

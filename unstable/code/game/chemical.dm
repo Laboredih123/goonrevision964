@@ -231,7 +231,7 @@
 		if("eye")
 			M.take_eye_damage(volume * 3)
 		else
-			M.knockdown_until(volume)
+			M.knockout_until(volume * 10)
 	return
 
 /datum/chemical/epil/injected(mob/carbon/M as mob, zone)

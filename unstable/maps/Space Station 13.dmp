@@ -743,7 +743,7 @@
 "oo" = (/obj/window{icon_state = "rwindow"; dir = 4; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/machinery/connector{tag = ""; name = "Bridge Connector"; suffix = ""},/turf/station/floor,/area/maintenance/north)
 "op" = (/turf/station/r_wall,/area/bridge)
 "oq" = (/obj/machinery/pipes{tag = ""; icon_state = "3"; p_dir = 3},/turf/station/r_wall,/area/bridge)
-"or" = (/obj/table,/obj/item/weapon/tank/jetpack,/obj/item/weapon/card/id/captains_spare,/obj/item/weapon/hand_tele,/turf/station/floor,/area/bridge)
+"or" = (/obj/table,/obj/item/weapon/tank/jetpack,/obj/item/weapon/card/id/captains_spare,/obj/item/weapon/hand_tele,/obj/item/weapon/disk/nuclear,/turf/station/floor,/area/bridge)
 "os" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/obj/machinery/camera{dir = 4; c_tag = "Bridge North"},/turf/station/floor,/area/bridge)
 "ot" = (/obj/machinery/pipes/heat_exch{tag = ""; icon_state = "5"},/turf/station/engine/floor{name = "engine floor"; oxygen = 2.1e+006; poison = 0; n2 = 0},/area/engine/combustion)
 "ou" = (/obj/machinery/pipes/heat_exch{tag = ""; icon_state = "9"},/turf/station/engine/floor{name = "engine floor"; oxygen = 2.1e+006; poison = 0; n2 = 0},/area/engine/combustion)

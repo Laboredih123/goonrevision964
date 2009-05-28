@@ -1,8 +1,12 @@
 var/changes = {"<FONT color='blue'><B>Recent changes (apart from bugfixes)</B></FONT><BR>
 <HR>
-<P><B>Wednesday, May 27. 2009: Revisions</b></p>
+<P><B>Thursday, May 28. 2009: Revisions</b></p>
 
 <ul>
+<li><b>724</b> - Added several new traitor items. Traitors now get 3 telecrystals, and items cost variable amounts.
+<li><b>723</b> - Added area for prespawns to chillax instead of just a black screen.
+<li><b>721</b> - Made "Change Mode" power and votes not restart the round, they just set what the mode will be next
+round..</li>
 <li><b>720</b> - Added Spy vs Spy mode, in which two teams of three spies each both try to steal the nuke disk and
 the crew tries to stop both of them.</li>
 </ul>
