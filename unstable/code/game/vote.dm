@@ -72,26 +72,9 @@
 			world << "Result is \red No change."
 			return
 
-		// otherwise change mode
-
-
 		world << "Result is change to \red [wintext]"
-
-
-		// write resulting mode to savefile
-
-		var/F = file(persistent_file)
-		fdel(F)
-		F << winner
-
-		if(game_started)
-			world <<"\red <B>World will reboot in 10 seconds</B>"
-
-			sleep(100)
-			world.log_game("Rebooting due to mode vote")
-			world.Reboot()
-		else
-			master_mode = winner
+		master_mode = winner
+		set_default_mode(winner)
 
 	else
 

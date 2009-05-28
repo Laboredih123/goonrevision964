@@ -31,8 +31,8 @@
 
 	if(!game_started)
 		src.status += "<b>STARTING</b>"
-	else if(master_mode)
-		src.status += "Mode: <b>[capitalize(master_mode)]</b>"
+	else if(current_mode)
+		src.status += "Mode: <b>[capitalize(current_mode)]</b>"
 
 	if(host)
 		src.status += ", Host: <b>[host]</b>"
@@ -261,3 +261,8 @@
 		src.var_swap = !(src.var_swap)
 		sleep(2)
 	while (src.processing)
+
+/proc/set_default_mode(mode)
+	var/F = file(persistent_file)
+	fdel(F)
+	F << mode

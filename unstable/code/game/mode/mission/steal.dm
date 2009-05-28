@@ -16,7 +16,7 @@ var/const
 		if(item)
 			src.item = item
 		else
-			item = pick(get_pickable_items(group))
+			src.item = pick(get_pickable_items(group))
 
 	check_success()
 		var/list/items = list()
