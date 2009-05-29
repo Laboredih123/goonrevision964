@@ -1,3 +1,5 @@
+// TODO: make this work with random and secret
+
 /datum/admin_power/check_traitor
 	name = "Traitor?"
 	panel_type = PANEL_TYPE_PLAYER

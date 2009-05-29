@@ -1,3 +1,6 @@
+// TODO: Make this work properly when their first radio selected already is a syndicate uplink. It should either
+//make it another syndicate uplink or try another radio, not overwrite the existing uplink as this does now.
+
 /datum/effect/traitor_radio/New(mob/carbon/human/M)
 	spawn (100)
 		if(!M || !istype(M, /mob/carbon/human))

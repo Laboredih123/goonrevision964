@@ -10,5 +10,5 @@
 				continue
 			if(!istype(get_area(M), /area/shuttle))
 				continue
-			return 1
-		return 0
+			return MISSION_SUCCESS
+		return MISSION_FAILURE

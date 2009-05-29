@@ -32,7 +32,7 @@
 	if(!game_started)
 		src.status += "<b>STARTING</b>"
 	else if(current_mode)
-		src.status += "Mode: <b>[capitalize(current_mode)]</b>"
+		src.status += "Mode: <b>[capitalize(current_mode.name)]</b>"
 
 	if(host)
 		src.status += ", Host: <b>[host]</b>"

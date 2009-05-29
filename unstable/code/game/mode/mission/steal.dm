@@ -33,7 +33,7 @@ var/const
 				if(LASER)
 					for(var/obj/item/weapon/gun/energy/laser_gun/O in items)
 						if (O.charges >= O.maximum_charges)
-							return 1
+							return MISSION_SUCCESS
 				if(PLASMA_BOMB)
 					// SHOULD work for all bombs and that's it
 					for(var/obj/item/weapon/assembly/O in items)
@@ -46,10 +46,10 @@ var/const
 						if(!P || !istype(P, /obj/item/weapon/tank/plasmatank))
 							continue
 						if ((P.gas.plasma >= 1600000.0 && P.gas:temp >= 773)) // 500 degrees Celsius
-							return 1
+							return MISSION_SUCCESS
 				if(HAND_TELE)
 					for(var/obj/item/weapon/hand_tele/O in items)
-						return 1
+						return MISSION_SUCCESS
 				if(CAPTAIN_CARD)
 					for(var/obj/item/weapon/card/id/O in items)
 						if(!O.access)
@@ -58,17 +58,17 @@ var/const
 							if(!A in O.access)
 								continue
 						//he's got all the permissions, GOOD JOB
-						return 1
+						return MISSION_SUCCESS
 				if(JETPACK)
 					for(var/obj/item/weapon/tank/jetpack/O in items)
-						return 1
+						return MISSION_SUCCESS
 				if(CAPTAIN_SUIT)
 					for(var/obj/item/weapon/clothing/under/darkgreen/O in items)
-						return 1
+						return MISSION_SUCCESS
 				if(NUKE_DISK)
 					for(var/obj/item/weapon/disk/nuclear/O in items)
-						return 1
-		return 0
+						return MISSION_SUCCESS
+		return MISSION_FAILURE
 
 	description()
 		return "steal [get_item_desc(item)]"

@@ -1,3 +1,8 @@
+var/const
+	MISSION_SUCCESS = 1
+	MISSION_FAILURE = 2
+	MISSION_UNKNOWN = 3
+
 /datum/mission
 	var/gname = "everyone"						//	default group is everyone
 	var/list/group = null						//	set of mission members
@@ -7,8 +12,8 @@
 		src.group = group
 		src.gname = gname
 
-	proc/check_success() //returns 1 if successful, 0 if unsuccessful.
-		return
+	proc/check_success()
+		return MISSION_UNKNOWN
 
 	proc/description()
 		return

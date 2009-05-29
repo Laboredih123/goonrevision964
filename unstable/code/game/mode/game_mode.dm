@@ -27,10 +27,15 @@ var/const/SCENARIO_COMPLETE = 1
 					pronoun = "Her"
 			if(pronoun == null)
 				pronoun = "The"
-			if(x.check_success())
+			var/outcome = x.check_success()
+			if(outcome == MISSION_SUCCESS)
 				world << "[x.gname] has succeeded! [pronoun] mission was to [x.description()]."
-			else
+			else if(outcome == MISSION_FAILURE)
 				world << "[x.gname] has failed. [pronoun] mission was to [x.description()]."
+			else if(outcome == MISSION_UNKNOWN)
+				world << "[x.gname] might have failed and might have succeeded, I dunno. [pronoun] mission was to [x.description()]."
+			else
+				world << "[x.gname] has me really confused, their mission (to [x.description()]) outcome was [outcome] and I have no idea what that means."
 		sleep(300)
 		world.Reboot()
 
@@ -47,3 +52,6 @@ var/const/SCENARIO_COMPLETE = 1
 			if(t.check())
 				return SCENARIO_COMPLETE
 		return SCENARIO_ACTIVE
+
+	proc/add_mission(datum/mission/m)
+		missions += m

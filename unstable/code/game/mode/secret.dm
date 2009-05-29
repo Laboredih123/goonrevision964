@@ -17,3 +17,6 @@
 	execute()
 		ensure_m()
 		return m.execute()
+
+	add_mission(datum/mission/mission)
+		m.add_mission(mission)

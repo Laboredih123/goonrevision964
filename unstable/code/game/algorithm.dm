@@ -145,7 +145,7 @@
 	world.log_game("[M] has joined the game.")
 	if(rank == "Captain")
 		world << "<b>[M] is the captain!</b>"
-	src << "<B>Game mode is [current_mode]</B>"
+	src << "<B>Game mode is [current_mode.name]</B>"
 	src << "<B>You are the [rank].</B>"
 	if(joined_late)
 		for(var/mob/silicon/ai/ai in world)

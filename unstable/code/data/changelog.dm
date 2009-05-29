@@ -1,8 +1,14 @@
-var/changes = {"<FONT color='blue'><B>Recent changes (apart from bugfixes)</B></FONT><BR>
-<HR>
-<P><B>Thursday, May 28. 2009: Revisions</b></p>
-
+var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></font><br>
+<hr>
+<p><b>Friday, May 28. 2009: Revisions</b></p>
 <ul>
+<li><b>726</b> - Added "make traitor" admin power.</li>
+</ul>
+
+<b><b>Thursday, May 28. 2009: Revisions</b></p>
+<ul>
+<li><b>725</b> - Added nuclear disk pinpointer item and made traitors able to spawn it with traitor radio for
+one crystal. It'll be nice in spy vs spy mode.</li>
 <li><b>724</b> - Added several new traitor items. Traitors now get 3 telecrystals, and items cost variable amounts.
 <li><b>723</b> - Added area for prespawns to chillax instead of just a black screen.
 <li><b>721</b> - Made "Change Mode" power and votes not restart the round, they just set what the mode will be next
@@ -11,8 +17,7 @@ round..</li>
 the crew tries to stop both of them.</li>
 </ul>
 
-<P><B>Wednesday, May 27. 2009: Revisions</b></p>
-
+<p><b>Wednesday, May 27. 2009: Revisions</b></p>
 <ul>
 <li><b>719</b> - Bomb rebalancing. Blast radius is now proportional to sqrt(temp), rather than temp. Bombs above
 500C are now less powerful, while bombs below 500C are more powerful. 500C bombs are the same strength as

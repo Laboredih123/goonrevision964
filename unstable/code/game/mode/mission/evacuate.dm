@@ -15,6 +15,6 @@
 					stayed++
 		var/total = gone + stayed
 		if (stayed > total * percentage_station_evacuate / 100)
-			return 0
+			return MISSION_FAILURE
 		else
-			return 1
+			return MISSION_SUCCESS

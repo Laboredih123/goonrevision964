@@ -16,8 +16,8 @@
 			if(!V)
 				continue
 			if(istype(V, /mob) && !V.is_dead)
-				return 0
-		return 1
+				return MISSION_FAILURE
+		return MISSION_SUCCESS
 
 /proc/pick_cliented_human_except(mob/E)
 	var/list/L = new()

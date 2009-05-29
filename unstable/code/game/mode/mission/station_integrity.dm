@@ -23,6 +23,6 @@
 		var/percent = round(100.0 * src.initial.score(current), 0.1)
 		world << "<B>The station is [percent]% intact.</B>"
 		if(percent > required_integrity && (percent <= max_integrity || max_integrity >= 100))
-			return 1
+			return MISSION_SUCCESS
 		else
-			return 0
+			return MISSION_FAILURE

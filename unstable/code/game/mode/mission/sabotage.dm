@@ -28,16 +28,16 @@
 						if(canister.destroyed)
 							canisters_destroyed++
 				if(canisters_destroyed > canisters_total * percentage_plasma_destroy / 100)
-					return 0
+					return MISSION_FAILURE
 			if(destroy_ai)
 				if(ai_target && !ai_target.is_dead)
-					return 0
+					return MISSION_FAILURE
 			if(kill_monkeys)
 				for(var/mob/carbon/monkey/M in world)
 					if(M.z == 1 && !M.is_dead)
 					// assumes that the station is only on one z-level and it's 1
 					// this assumption is made basically thoughout the code, so one more time shouldn't hurt
-						return 0
+						return MISSION_FAILURE
 			if(cut_power)
 				var/turfs_total = 0
 				var/turfs_unpowered = 0
@@ -52,8 +52,8 @@
 					if(!(A.powered(EQUIP) || A.powered(LIGHT) || A.powered(ENVIRON)))
 						turfs_unpowered++
 				if(turfs_unpowered < turfs_total * percentage_station_cut_power / 100) //didn't cut enough power
-					return 0
-		return 1
+					return MISSION_FAILURE
+		return MISSION_SUCCESS
 
 	proc/pick_sab_target()
 		var/list/targets = list(destroy_plasma, destroy_ai, kill_monkeys, cut_power)

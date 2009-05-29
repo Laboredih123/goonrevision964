@@ -63,13 +63,13 @@
 /proc/get_synd_list()
 	var/list/L = list()
 	for(var/mob/M in world)
-		if (M.client && (!istype(M, /mob/prespawn) || M:ready) && M.client.prefs && M.client.prefs.be_syndicate)
+		if (M.client && !istype(M, /mob/prespawn) && M.client.prefs && M.client.prefs.be_syndicate)
 			L += M
 	return L
 
 /proc/get_cliented_mob_list()
 	var/list/L = list()
 	for(var/mob/M in world)
-		if(M.client && (!istype(M, /mob/prespawn) || M:ready))
+		if(M.client && !istype(M, /mob/prespawn))
 			L += M
 	return L

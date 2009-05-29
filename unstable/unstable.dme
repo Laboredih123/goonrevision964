@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\data\changelog.dm
+DIR: code code\data code\game\admin code\game\admin\admin_powers code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\machinery code\game\machinery\computer code\game\mob code\game\mob\carbon code\game\mob\silicon code\game\mob\silicon\ai code\game\mode code\game\mode\effect code\game\mode\mission code\game\mode\termination_condition maps
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR
@@ -121,6 +127,7 @@
 #include "code\game\admin\admin_powers\jobban.dm"
 #include "code\game\admin\admin_powers\list_bomb_makers.dm"
 #include "code\game\admin\admin_powers\make_object.dm"
+#include "code\game\admin\admin_powers\make_traitor.dm"
 #include "code\game\admin\admin_powers\meteor_wave.dm"
 #include "code\game\admin\admin_powers\mute.dm"
 #include "code\game\admin\admin_powers\observer_mode.dm"
@@ -272,6 +279,7 @@
 #include "code\game\mode\effect\traitor_radio.dm"
 #include "code\game\mode\mission\escape.dm"
 #include "code\game\mode\mission\evacuate.dm"
+#include "code\game\mode\mission\freeform.dm"
 #include "code\game\mode\mission\mission.dm"
 #include "code\game\mode\mission\murders.dm"
 #include "code\game\mode\mission\rand_murder.dm"
