@@ -133,66 +133,66 @@
 		if(STATE_DEFAULT)
 			if(src.authenticated)
 				if(shuttle_status == SHUTTLE_WAITING || shuttle_status == SHUTTLE_RETURNING)
-					dat += "<br>\[<a href='?src=\ref[src];operation=callshuttle'> Call Emergency Shuttle </a>\]"
+					dat += "\[<a href='?src=\ref[src];operation=callshuttle'> Call Emergency Shuttle </a>\]<br>"
 				else if(shuttle_status == SHUTTLE_COMING)
-					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=cancelshuttle'>Cancel Shuttle Call</A> \]"
-				dat += "<br>\[<a href='?src=\ref[src];operation=logout'> Log Out </a>\]"
+					dat += "\[ <A HREF='?src=\ref[src];operation=cancelshuttle'>Cancel Shuttle Call</A> \]<br>"
+				dat += "\[<a href='?src=\ref[src];operation=logout'> Log Out </a>\]<br>"
 			else
-				dat += "<BR>\[ <A HREF='?src=\ref[src];operation=login'>Log In</A> \]"
-			dat += "<BR>\[ <A HREF='?src=\ref[src];operation=messagelist'>Message List</A> \]"
+				dat += "\[ <A HREF='?src=\ref[src];operation=login'>Log In</A> \]<br>"
+			dat += "\[ <A HREF='?src=\ref[src];operation=messagelist'>Message List</A> \]<br>"
 		if(STATE_MESSAGELIST)
-			dat += "Messages:"
+			dat += "Messages:<br>"
 			for(var/i = 1; i<=src.messagetitle.len; i++)
-				dat += "<BR><A HREF='?src=\ref[src];operation=viewmessage;message-num=[i]'>[src.messagetitle[i]]</A>"
+				dat += "<A HREF='?src=\ref[src];operation=viewmessage;message-num=[i]'>[src.messagetitle[i]]</A><br>"
 		if(STATE_VIEWMESSAGE)
 			if(src.currmsg)
-				dat += "<B>[src.messagetitle[src.currmsg]]</B><BR><BR>[src.messagetext[src.currmsg]]"
+				dat += "<B>[src.messagetitle[src.currmsg]]</B><br><br>[src.messagetext[src.currmsg]]<br>"
 				if(src.authenticated)
-					dat += "<BR><BR>\[ <A HREF='?src=\ref[src];operation=delmessage'>Delete \]"
+					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=delmessage'>Delete \]<br>"
 			else
 				src.state = STATE_MESSAGELIST
 				src.interact(user)
 				return
 		if(STATE_DELMESSAGE)
 			if(src.currmsg)
-				dat += "Are you sure you want to delete this message? \[ <A HREF='?src=\ref[src];operation=delmessage2'>OK</A> | <A HREF='?src=\ref[src];operation=viewmessage'>Cancel</A> \]"
+				dat += "Are you sure you want to delete this message?<br>\[ <A HREF='?src=\ref[src];operation=delmessage2'>OK</A> | <A HREF='?src=\ref[src];operation=viewmessage'>Cancel</A> \]<br>"
 			else
 				src.state = STATE_MESSAGELIST
 				src.interact(user)
 				return
 		if(STATE_CALLSHUTTLE)
-			dat += "Are you sure you want to call the shuttle? \[ <A HREF='?src=\ref[src];operation=callshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]"
+			dat += "Are you sure you want to call the shuttle?<br>\[ <A HREF='?src=\ref[src];operation=callshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]<br>"
 		if(STATE_CANCELSHUTTLE)
-			dat += "Are you sure you want to cancel the shuttle? \[ <A HREF='?src=\ref[src];operation=cancelshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]"
+			dat += "Are you sure you want to cancel the shuttle?<br>\[ <A HREF='?src=\ref[src];operation=cancelshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]<br>"
 
 
-	dat += "<BR>\[ [(src.state != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
+	dat += "<br>\[ [(src.state != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
 	ss13_browse(user, dat, "window=communications;size=450x500")
 
 /obj/machinery/computer/communications/proc/interact_ai(var/mob/silicon/ai/user as mob)
 	var/dat = ""
 	switch(src.aistate)
 		if(STATE_DEFAULT)
-			dat += "<BR>\[ <A HREF='?src=\ref[src];operation=ai-messagelist'>Message List</A> \]"
+			dat += "\[ <A HREF='?src=\ref[src];operation=ai-messagelist'>Message List</A> \]<br>"
 		if(STATE_MESSAGELIST)
 			dat += "Messages:"
 			for(var/i = 1; i<=src.messagetitle.len; i++)
-				dat += "<BR><A HREF='?src=\ref[src];operation=ai-viewmessage;message-num=[i]'>[src.messagetitle[i]]</A>"
+				dat += "<A HREF='?src=\ref[src];operation=ai-viewmessage;message-num=[i]'>[src.messagetitle[i]]</A><br>"
 		if(STATE_VIEWMESSAGE)
 			if(src.aicurrmsg)
-				dat += "<B>[src.messagetitle[src.aicurrmsg]]</B><BR><BR>[src.messagetext[src.aicurrmsg]]"
-				dat += "<BR><BR>\[ <A HREF='?src=\ref[src];operation=ai-delmessage'>Delete</A> \]"
+				dat += "<B>[src.messagetitle[src.aicurrmsg]]</B><BR><BR>[src.messagetext[src.aicurrmsg]]<br><br>"
+				dat += "\[ <A HREF='?src=\ref[src];operation=ai-delmessage'>Delete</A> \]<br>"
 			else
 				src.aistate = STATE_MESSAGELIST
 				src.interact(user)
 				return null
 		if(STATE_DELMESSAGE)
 			if(src.aicurrmsg)
-				dat += "Are you sure you want to delete this message? \[ <A HREF='?src=\ref[src];operation=ai-delmessage2'>OK</A> | <A HREF='?src=\ref[src];operation=ai-viewmessage'>Cancel</A> \]"
+				dat += "Are you sure you want to delete this message? \[ <A HREF='?src=\ref[src];operation=ai-delmessage2'>OK</A> | <A HREF='?src=\ref[src];operation=ai-viewmessage'>Cancel</A> \]<br>"
 			else
 				src.aistate = STATE_MESSAGELIST
 				src.interact(user)
 				return
 
-	dat += "<BR>\[ [(src.aistate != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=ai-main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
+	dat += "<br>\[ [(src.aistate != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=ai-main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
 	return dat
