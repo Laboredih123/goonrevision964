@@ -165,6 +165,7 @@
 #include "code\game\item\weapon\implantpad.dm"
 #include "code\game\item\weapon\locator.dm"
 #include "code\game\item\weapon\multitool.dm"
+#include "code\game\item\weapon\pinpointer.dm"
 #include "code\game\item\weapon\poster.dm"
 #include "code\game\item\weapon\radio.dm"
 #include "code\game\item\weapon\tracking_implant.dm"

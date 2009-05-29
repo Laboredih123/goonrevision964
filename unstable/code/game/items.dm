@@ -590,6 +590,7 @@
 
 /obj/item/weapon/syndicate_uplink/var/list/item_types = list(
 	list("Revolver Ammo", 1, /obj/item/weapon/ammo/a357),
+	list("Nuke Disk Pinpointer", 1, /obj/item/weapon/pinpointer),
 	list("Cyanide Pill", 1, /obj/item/weapon/m_pill/cyanide),
 	list("Freedom Implant (with injector)", 1, /obj/item/weapon/implanter),
 	list("Syndicate Card", 1, /obj/item/weapon/card/id/syndicate),
