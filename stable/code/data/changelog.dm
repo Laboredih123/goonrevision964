@@ -8,7 +8,7 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <HR>
 <P><B>Modified Wednesday, April 8th 2009</B><BR>
 <li>Gas sensor computer added. Identical to the Engine Control computer except it lacks ejection functionality.</li>
-<li>Power relay added. Essentially a diode, it allows one way flow of electricity.</li>
+<li>Power relay added. Allows an adjustable one way flow of electricity.</li>
 <li>Power relays are now shown on the Power Monitor computer.</li>
 </ul>
 </p>
