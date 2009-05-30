@@ -5,6 +5,7 @@
 		return
 
 	Topic(href, href_list)
+		..()
 		if(href_list["action"] == "list")
 			var/dat = "<table border=1><tr><th>Key</th><th>Lasts</th><th>Banned by</th><th>Remove</th></tr>"
 			var/savefile/bans_by_id = new(BANFILE_LOC)
@@ -24,7 +25,6 @@
 			var/savefile/F = new(BANFILE_LOC)
 			F.dir -= banid
 			ss13_browse(usr, null, "window=banpanel")
-		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src];action=list'>Manage bans</a>"

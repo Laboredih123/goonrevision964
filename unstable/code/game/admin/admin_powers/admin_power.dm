@@ -9,10 +9,11 @@
 		del(src)
 
 	Topic(href, href_list)
+		var/client/C = usr.client
 		if(panel_type == PANEL_TYPE_PLAYER)
-			usr.player_panel()
+			C.mob_panel()
 		else
-			usr.game_panel()
+			C.game_panel()
 		return
 
 	proc/get_desc()

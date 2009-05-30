@@ -8,6 +8,7 @@
 		return
 
 	Topic(href, href_list)
+		..()
 		if(href_list["mob"])
 			var/mob/M = locate(href_list["mob"])
 			if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
@@ -17,7 +18,6 @@
 					alert("This person is not the traitor.")
 			else
 				alert("There is no traitor!!!")
-		return ..()
 
 	get_desc(mob/M)
 		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))

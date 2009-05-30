@@ -6,6 +6,7 @@
 			del(src)
 
 	Topic(href, href_list)
+		..()
 		if(href_list["display"])
 			DisplayMenu(usr)
 		else if(href_list["ObjectList"])
@@ -25,7 +26,6 @@
 			if(number == 1) world.log_admin("[usr.key] spawned an [object]")
 			else			world.log_admin("[usr.key] spawned [object] x [number]")
 			ss13_browse(usr, null, "window=admin_object_spawn")
-		return ..()
 
 	proc/DisplayMenu(var/mob/user)
 		var/txt = {"<HTML><HEAD><TITLE>Spawn Object</TITLE></HEAD><BODY>

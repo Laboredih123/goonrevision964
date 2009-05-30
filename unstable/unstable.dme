@@ -296,6 +296,7 @@
 #include "code\game\turf\shuttle.dm"
 #include "code\game\verbs\adminhelp.dm"
 #include "code\game\verbs\adminsay.dm"
+#include "code\game\verbs\adminwho.dm"
 #include "code\game\verbs\authorize.dm"
 #include "code\game\verbs\ooc.dm"
 #include "code\game\verbs\suicide.dm"

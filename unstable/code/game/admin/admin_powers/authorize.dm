@@ -3,7 +3,8 @@
 	panel_type = PANEL_TYPE_PLAYER
 
 	New(adminlevel)
-		return
+		if(!config.enable_authentication)
+			del src
 
 	Topic(href, href_list)
 		if(href_list["mob"]) //show the window

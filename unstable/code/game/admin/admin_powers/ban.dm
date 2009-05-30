@@ -21,6 +21,7 @@
 			del(src)
 
 	Topic(href, href_list)
+		..()
 		if(href_list["mob"]) //show the window
 			var/dat = "<html><head><title>Ban</title></head><body>"
 			dat += "<form action='byond://' method='get'>"
@@ -55,7 +56,6 @@
 			if(M.client)
 				del(M.client)
 			ss13_browse(usr, null, "window=ban")
-		return ..()
 
 	get_desc(mob/M)
 		return "<a href='?src=\ref[src];mob=\ref[M]'>Ban</a>"

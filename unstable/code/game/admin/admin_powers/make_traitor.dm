@@ -7,6 +7,7 @@
 			del(src)
 
 	Topic(href, href_list)
+		..()
 		if(href_list["mob"])
 			var/dat = {"<html><head><title>Make Traitor</title></head><body><form action='byond://' method='get'>
 					<input type='hidden' name='src' value='\ref[src]'>
@@ -36,7 +37,6 @@
 			ss13_browse(usr, dat, "window=maketraitor")
 		else
 			ss13_browse(usr, null, "window=maketraitor")
-		return ..()
 
 	get_desc(mob/M)
 		if(game_started)

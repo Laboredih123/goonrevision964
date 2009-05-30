@@ -7,6 +7,7 @@
 			del(src)
 
 	Topic(href, href_list)
+		..()
 		if(href_list["mob"]) //show the window
 			var/mob/M = locate(href_list["mob"])
 			var/dat = "<html><head><title>Job Ban</title></head><body>"
@@ -37,7 +38,6 @@
 			else
 				world.log_admin("[usr.key] banned [M.key]/[M.spawn_name] from [job]")
 				jobban_fullban(M, job)
-		return ..()
 
 
 	get_desc(mob/M)
