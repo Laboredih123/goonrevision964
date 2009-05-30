@@ -14,7 +14,7 @@
 	if(++counter<50) return			// count 50 pticks (50 seconds, roughly - about a 5deg change)
 	counter = 0
 
-	angle = (rate*world.realtime/100)%360		// 60 +/- 15 minute rotation time dependent on rate
+	angle = (rate*ss13time()/100)%360		// 60 +/- 15 minute rotation time dependent on rate
 	// now calculate and cache the (dx,dy) increments for line drawing
 
 	var/s = sin(angle)

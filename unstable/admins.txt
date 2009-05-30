@@ -17,3 +17,4 @@
 # Example administrator - you should remove this on your server
 kelson - Host
 kurper - Host
+kurper2 - Host

@@ -2,10 +2,10 @@
 	var/endat
 
 	New(length = 12000) // 20 minutes (byond uses 1/10 second units)
-		endat = world.realtime + length
+		endat = ss13time() + length
 
 	check()
-		return world.realtime >= endat
+		return ss13time() >= endat
 
 	conclude()
 		world << "<font color='blue'>Time has run out!</font>"

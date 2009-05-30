@@ -33,11 +33,9 @@
 			// TODO: Make admins not able to jobban primary admins, and do that for all other powers too
 			if(jobban_isbanned(M, job))
 				world.log_admin("[usr.key] unbanned [M.key]/[M.spawn_name] from [job]")
-				messageadmins("\blue[usr.key] unbanned [M.key]/[M.spawn_name] from [job]")
 				jobban_unban(M, job)
 			else
 				world.log_admin("[usr.key] banned [M.key]/[M.spawn_name] from [job]")
-				messageadmins("\blue[usr.key] banned [M.key]/[M.spawn_name] from [job]")
 				jobban_fullban(M, job)
 
 

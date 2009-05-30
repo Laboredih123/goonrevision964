@@ -32,7 +32,7 @@
 				else
 					world << "\blue <B>Alert: Shuttle launch time shortened to 10 seconds!</B>"
 					shuttle_time_left = 100
-					last_shuttle_update = world.realtime
+					last_shuttle_update = ss13time()
 					leaving = 1
 			if("Repeal")
 				src.authorized -= W.registered

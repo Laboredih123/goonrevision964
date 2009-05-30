@@ -10,7 +10,7 @@
 			return
 		var/mob/carbon/M = usr
 
-		var/t = world.realtime
+		var/t = ss13time()
 		if(t < M.last_conversion + CONVERT_COOLDOWN)
 			return
 		M.last_conversion = t

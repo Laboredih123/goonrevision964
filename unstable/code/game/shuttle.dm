@@ -46,25 +46,25 @@
 		return
 	// don't let anyone call process_shuttle() while i'm at this line ok thanks
 	shuttle_processing = 1
-	last_shuttle_update = world.realtime
+	last_shuttle_update = ss13time()
 	while(1)
 		if(shuttle_status == SHUTTLE_RETURNING)
 			if(shuttle_time_left >= SHUTTLE_TIME)
 				shuttle_status = SHUTTLE_WAITING
 			else
-				var/curtime = world.realtime
+				var/curtime = ss13time()
 				shuttle_time_left = min(SHUTTLE_TIME, shuttle_time_left + curtime - last_shuttle_update)
 				last_shuttle_update = curtime
 		else if(shuttle_status == SHUTTLE_COMING)
 			if(shuttle_time_left <= 0)
 				shuttle_status = SHUTTLE_DOCKED
 				shuttle_time_left = SHUTTLE_TIME_DOCKED
-				last_shuttle_update = world.realtime
+				last_shuttle_update = ss13time()
 				shuttle_move(SHUTTLE_Z, SHUTTLE_CALLED_Z)
-				world << "\blue The shuttle has arrived! It will depart in [time2text(shuttle_time_left, "mm:ss")]."
+				world << "\blue The shuttle has arrived! It will depart in [time2text(shuttle_time_left, "mm minutes and ss seconds")]."
 				last_shuttle_announce = shuttle_time_left
 			else
-				var/curtime = world.realtime
+				var/curtime = ss13time()
 				shuttle_time_left = max(0, shuttle_time_left - (curtime - last_shuttle_update))
 				last_shuttle_update = curtime
 				for(var/x in shuttle_announce_times)
@@ -77,12 +77,12 @@
 				shuttle_status = SHUTTLE_LEFT
 				shuttle_move(SHUTTLE_CALLED_Z, SHUTTLE_Z)
 			else
-				var/curtime = world.realtime
+				var/curtime = ss13time()
 				shuttle_time_left = max(0, shuttle_time_left - (curtime - last_shuttle_update))
 				last_shuttle_update = curtime
 				for(var/x in shuttle_announce_times_docked)
 					if(last_shuttle_announce > x && shuttle_time_left < x)
-						world << "\blue The shuttle will depart in [time2text(x, "mm:ss")]"
+						world << "\blue The shuttle will depart in [time2text(x, "mm minutes and ss seconds")]"
 						last_shuttle_announce = x
 						break
 		sleep(5)
