@@ -2,7 +2,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Friday, May 28. 2009</b></p>
 <ul>
-<li><b>729</b> - Added "manage bans" admin power. Added bans for a certain number of rounds, to go with permanent
+<li><b>730</b> - Added "manage bans" admin power. Added bans for a certain number of rounds, to go with permanent
 and time bans.</li>
 <li><b>728</b> - Replaced existing ban system with better one, which allows non-permanent bans and various other
 useful features.</li>
