@@ -52,7 +52,6 @@
 						if(!M.ready)
 							src.prefs.setup(src)
 			else if (code == "banned")
-				banned.Add(src.ckey)
 				del(src)
 				return
 

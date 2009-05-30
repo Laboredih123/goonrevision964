@@ -89,6 +89,10 @@
 	if (motd)
 		join_motd = motd
 
+	var/f = file2text(CURROUND_FILENAME)
+	if(f)
+		curround = text2num(f)
+
 	//	Setup Configurations
 	config = new /datum/configuration()
 	config.load("config.txt")
@@ -212,6 +216,10 @@
 
 /proc/start_game()
 	game_started = 1
+	curround++
+	var/F = file(CURROUND_FILENAME)
+	fdel(F)
+	F << curround
 	world.update_stat()
 	world << "<B>Welcome to Space Station 13!</B>\n\n"
 

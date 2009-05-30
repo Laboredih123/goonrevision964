@@ -125,7 +125,6 @@ var
 	list/bombers = list(  )
 	list/admins = list(  )
 	list/reg_dna = list(  )
-	list/banned = list(  )
 
 	CELLRATE = 0.002  // multiplier for watts per tick <> cell storage (eg: .002 means if there is a load of 1000 watts, 20 units will be taken from a cell per second)
 	CHARGELEVEL = 0.001 // Cap for how fast cells charge, as a percentage-per-tick (.001 means cellcharge is capped to 1% per second)
@@ -167,6 +166,8 @@ var
 	list/last_names = null
 	list/ai_names = null
 	list/spawn_ranks = list()
+
+	curround = 0
 
 world
 	name = "Goonstation"
@@ -252,3 +253,5 @@ var/const
 	GAS_PL = 1 << 2
 	GAS_CO2 = 1 << 3
 	GAS_N2O = 1 << 4
+
+	CURROUND_FILENAME = "curround.txt"

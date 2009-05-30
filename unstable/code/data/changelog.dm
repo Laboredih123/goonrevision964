@@ -1,14 +1,16 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></font><br>
 <hr>
-<p><b>Friday, May 28. 2009: Revisions</b></p>
+<p><b>Friday, May 28. 2009</b></p>
 <ul>
+<li><b>729</b> - Added "manage bans" admin power. Added bans for a certain number of rounds, to go with permanent
+and time bans.</li>
 <li><b>728</b> - Replaced existing ban system with better one, which allows non-permanent bans and various other
 useful features.</li>
-<li><b>727</b> - Improved communications computer formatting..</li>
+<li><b>727</b> - Improved communications computer formatting.</li>
 <li><b>726</b> - Added "make traitor" admin power.</li>
 </ul>
 
-<b><b>Thursday, May 28. 2009: Revisions</b></p>
+<p><b>Thursday, May 28. 2009</b></p>
 <ul>
 <li><b>725</b> - Added nuclear disk pinpointer item and made traitors able to spawn it with traitor radio for
 one crystal. It'll be nice in spy vs spy mode.</li>
@@ -20,7 +22,7 @@ round..</li>
 the crew tries to stop both of them.</li>
 </ul>
 
-<p><b>Wednesday, May 27. 2009: Revisions</b></p>
+<p><b>Wednesday, May 27. 2009</b></p>
 <ul>
 <li><b>719</b> - Bomb rebalancing. Blast radius is now proportional to sqrt(temp), rather than temp. Bombs above
 500C are now less powerful, while bombs below 500C are more powerful. 500C bombs are the same strength as

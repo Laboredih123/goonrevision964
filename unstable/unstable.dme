@@ -123,6 +123,7 @@
 #include "code\game\admin\admin_powers\list_bomb_makers.dm"
 #include "code\game\admin\admin_powers\make_object.dm"
 #include "code\game\admin\admin_powers\make_traitor.dm"
+#include "code\game\admin\admin_powers\manage_bans.dm"
 #include "code\game\admin\admin_powers\meteor_wave.dm"
 #include "code\game\admin\admin_powers\mute.dm"
 #include "code\game\admin\admin_powers\observer_mode.dm"

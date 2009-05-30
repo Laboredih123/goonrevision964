@@ -21,8 +21,6 @@
 				world.log_access("Notice: [src.key] has same IP address as [M.key]")
 			else if (M.last_known_ip && M.last_known_ip == src.address && M.ckey != src.ckey)
 				world.log_access("Notice: [src.key] has same IP address as [M.key] did (M.key is no longer logged in).")
-				if (M.ckey in banned) // TODO: make work with new (x4) ban system
-					world.log_access("Further notice: [M.key] was banned.")
 	if (((world.address == src.address || !(src.address)) && !(host)))
 		host = src.key
 		world.update_stat()
