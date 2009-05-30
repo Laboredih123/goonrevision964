@@ -8,6 +8,7 @@
 	Topic(href, href_list)
 		world.log_admin("[usr.key] spawned a meteor wave.")
 		meteor_wave()
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src]'>Meteor wave</a>"

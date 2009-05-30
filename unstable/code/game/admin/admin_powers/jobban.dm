@@ -37,6 +37,7 @@
 			else
 				world.log_admin("[usr.key] banned [M.key]/[M.spawn_name] from [job]")
 				jobban_fullban(M, job)
+		return ..()
 
 
 	get_desc(mob/M)

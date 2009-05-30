@@ -10,6 +10,7 @@
 			var/mob/M = locate(href_list["mob"])
 			if(M.client)
 				del(M.client)
+		return ..()
 
 	get_desc(mob/M)
 		return "<a href='?src=\ref[src];mob=\ref[M]'>Boot</a>"

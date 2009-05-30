@@ -9,6 +9,7 @@
 		for(var/l in bombers)
 			dat += text("[] 'made' a bomb.<BR>", l)
 		ss13_browse(usr, dat, "window=bombers")
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src]'>List bomb makers</a>"

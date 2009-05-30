@@ -11,6 +11,7 @@
 		else
 			world << "<B>The OOC channel has been globally disabled!</B>"
 		world.log_admin("[usr.key] toggled OOC.")
+		return ..()
 
 	get_desc()
 		if(ooc_allowed)

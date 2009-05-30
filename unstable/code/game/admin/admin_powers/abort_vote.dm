@@ -16,6 +16,7 @@
 				if(M.client)
 					ss13_browse(M, null, "window=vote")
 					M.client.showvote = 0
+		return ..()
 
 	get_desc()
 		if(vote.voting)

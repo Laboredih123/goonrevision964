@@ -36,6 +36,7 @@
 			ss13_browse(usr, dat, "window=maketraitor")
 		else
 			ss13_browse(usr, null, "window=maketraitor")
+		return ..()
 
 	get_desc(mob/M)
 		if(game_started)

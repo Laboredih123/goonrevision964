@@ -55,6 +55,7 @@
 			if(M.client)
 				del(M.client)
 			ss13_browse(usr, null, "window=ban")
+		return ..()
 
 	get_desc(mob/M)
 		return "<a href='?src=\ref[src];mob=\ref[M]'>Ban</a>"

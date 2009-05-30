@@ -17,6 +17,7 @@
 					alert("This person is not the traitor.")
 			else
 				alert("There is no traitor!!!")
+		return ..()
 
 	get_desc(mob/M)
 		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))

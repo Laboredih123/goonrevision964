@@ -14,6 +14,7 @@
 			A.power_environ = 1
 
 			A.power_change()
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src]'>Power all areas</a>"

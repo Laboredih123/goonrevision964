@@ -12,6 +12,7 @@
 			world << "<B>You may no longer respawn.</B>"
 		world.log_admin("[usr.key] toggled respawning to [abandon_allowed ? "On" : "Off"].")
 		world.update_stat()
+		return ..()
 
 	get_desc()
 		if(abandon_allowed)

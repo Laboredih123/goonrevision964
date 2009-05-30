@@ -14,6 +14,7 @@
 		else
 			world << text("<B>The game start has been delayed by [] (Administrator to SS13)</B>", usr.key)
 			world.log_admin("[usr.key] delayed the game.")
+		return ..()
 
 	get_desc()
 		if(game_started)

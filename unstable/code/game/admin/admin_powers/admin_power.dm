@@ -9,6 +9,10 @@
 		del(src)
 
 	Topic(href, href_list)
+		if(panel_type == PANEL_TYPE_PLAYER)
+			usr.player_panel()
+		else
+			usr.game_panel()
 		return
 
 	proc/get_desc()

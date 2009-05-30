@@ -12,6 +12,7 @@
 				world.log_admin("[usr.key] used start_now")
 				start_game()
 			data_core = new /obj/datacore()
+		return ..()
 
 	get_desc()
 		if(!game_started)

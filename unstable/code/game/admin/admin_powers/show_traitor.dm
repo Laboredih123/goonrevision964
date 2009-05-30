@@ -13,6 +13,7 @@
 				alert("The traitor's spawn name is [t.spawn_name].")
 			else
 				alert("There doesn't seem to be a traitor. (Perhaps he was banned?)")
+		return ..()
 
 	get_desc()
 		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))

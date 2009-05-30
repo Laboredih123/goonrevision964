@@ -12,7 +12,8 @@
 			del(usr)
 			return
 		usr.client.mob = new/mob/observer(usr)
-		usr << "Entering observer mode"
+		usr << "Entering observer mode."
+		return ..()
 
 	get_desc()
 		if(!istype(usr,/mob/observer))

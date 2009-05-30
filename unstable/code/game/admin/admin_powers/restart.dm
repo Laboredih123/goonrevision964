@@ -10,6 +10,7 @@
 		world << "\red <B> Restarting!</B> \blue Initiated by [usr.key]!"
 		world.log_admin("[usr.key] initiated a restart.")
 		world.Reboot()
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src]'>Restart</a>"

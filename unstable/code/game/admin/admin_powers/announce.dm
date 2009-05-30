@@ -9,6 +9,7 @@
 		if (t)
 			world << "\blue <B>[usr.key] Announces:</B>\n \t [t]"
 			world.log_admin("Announce: [usr.key] : [t]")
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src]'>Announce</a>"

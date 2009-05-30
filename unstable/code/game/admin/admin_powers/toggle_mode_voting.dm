@@ -10,6 +10,7 @@
 		world.log_admin("Mode voting toggled to [config.allow_vote_mode ? "On" : "Off"] by [usr.key].")
 		if(config.allow_vote_mode)
 			vote.nextvotetime = world.timeofday
+		return ..()
 
 	get_desc()
 		if(!config.allow_vote_mode)

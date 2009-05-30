@@ -7,26 +7,25 @@
 
 	Topic(href, href_list)
 		if(href_list["display"])
-			return DisplayMenu(usr)
+			DisplayMenu(usr)
+		else if(href_list["ObjectList"])
+			var/atom/loc = usr.loc
+			var/object = href_list["ObjectList"]
+			var/list/offset = dd_text2list(href_list["offset"],",")
+			var/number = dd_range(1,500,text2num(href_list["number"]))
+			var/X = ((offset.len>0)?text2num(offset[1]) : 0)
+			var/Y = ((offset.len>1)?text2num(offset[2]) : 0)
+			var/Z = ((offset.len>2)?text2num(offset[3]) : 0)
 
-		if(!href_list["ObjectList"]) return
-
-		var/atom/loc = usr.loc
-		var/object = href_list["ObjectList"]
-		var/list/offset = dd_text2list(href_list["offset"],",")
-		var/number = dd_range(1,500,text2num(href_list["number"]))
-		var/X = ((offset.len>0)?text2num(offset[1]) : 0)
-		var/Y = ((offset.len>1)?text2num(offset[2]) : 0)
-		var/Z = ((offset.len>2)?text2num(offset[3]) : 0)
-
-		for(var/i = 1 to number)
-			switch(href_list["otype"])
-				if("absolute")	new object(locate(0+X,0+Y,0+Z))
-				if("relative")	if(loc) new object(locate(loc.x+X,loc.y+Y,loc.z+Z))
-				else			return
-		if(number == 1) world.log_admin("[usr.key] spawned an [object]")
-		else			world.log_admin("[usr.key] spawned [object] x [number]")
-		ss13_browse(usr, null, "window=admin_object_spawn")
+			for(var/i = 1 to number)
+				switch(href_list["otype"])
+					if("absolute")	new object(locate(0+X,0+Y,0+Z))
+					if("relative")	if(loc) new object(locate(loc.x+X,loc.y+Y,loc.z+Z))
+					else			return
+			if(number == 1) world.log_admin("[usr.key] spawned an [object]")
+			else			world.log_admin("[usr.key] spawned [object] x [number]")
+			ss13_browse(usr, null, "window=admin_object_spawn")
+		return ..()
 
 	proc/DisplayMenu(var/mob/user)
 		var/txt = {"<HTML><HEAD><TITLE>Spawn Object</TITLE></HEAD><BODY>

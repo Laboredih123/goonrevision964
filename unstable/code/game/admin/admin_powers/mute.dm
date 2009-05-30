@@ -16,6 +16,7 @@
 			else
 				M.client.muted = 0
 				muted -= M.ckey
+		return ..()
 
 	get_desc(mob/M)
 		return "<a href='?src=\ref[src];mob=\ref[M]'>[M.client.muted ? "Unmute" : "Mute"]</a>"

@@ -10,6 +10,7 @@
 		world.log_admin("Restart voting toggled to [config.allow_vote_restart ? "On" : "Off"] by [usr.key].")
 		if(config.allow_vote_restart)
 			vote.nextvotetime = world.timeofday
+		return ..()
 
 	get_desc()
 		if(!config.allow_vote_restart)

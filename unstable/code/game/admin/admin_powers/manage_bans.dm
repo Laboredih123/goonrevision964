@@ -24,6 +24,7 @@
 			var/savefile/F = new(BANFILE_LOC)
 			F.dir -= banid
 			ss13_browse(usr, null, "window=banpanel")
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src];action=list'>Manage bans</a>"

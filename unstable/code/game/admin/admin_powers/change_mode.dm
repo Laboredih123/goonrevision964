@@ -26,6 +26,7 @@
 		dat += "<A href='?src=\ref[src];c_mode=spyvsspy'>Spy Vs Spy</A><br>"
 		dat += "Now: [master_mode]"
 		ss13_browse(usr, dat, "window=c_mode")
+		return ..()
 
 	get_desc()
 		return "<a href='?src=\ref[src];action=list'>Change mode</a>"
