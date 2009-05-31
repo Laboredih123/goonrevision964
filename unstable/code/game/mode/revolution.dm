@@ -8,6 +8,8 @@
 	name = "revolution"
 	var/const/NUM_REVS = 3
 	min_players = 3 + NUM_REVS
+	var/list/revs = null
+	var/list/heads = null
 
 	announce()
 		world << "IT'S A REVOLUTION"
@@ -25,9 +27,6 @@
 				break
 
 	execute()
-		var/list/revs
-		var/list/heads
-
 		while (1)
 			revs = get_revs()
 			if(revs)
@@ -55,6 +54,9 @@
 		missions += new /datum/mission/murders(revs, "the revolutionaries", heads, "the heads")
 
 		..()
+
+	get_traitors()
+		return revs
 
 	proc/get_heads()
 		var/list/L = list()

@@ -19,6 +19,5 @@
 	get_access()
 		return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
 					access_security_records, access_tox, access_tox_storage, access_genetics, access_engine,
-					access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
-					access_all_personal_lockers, access_chaplain_office, access_medical_records,
-					access_tech_storage, access_atmospherics)
+					access_change_ids, access_ai_upload, access_eva, access_heads, access_all_personal_lockers,
+					access_chaplain_office, access_medical_records, access_tech_storage, access_atmospherics)

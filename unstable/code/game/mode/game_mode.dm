@@ -55,3 +55,6 @@ var/const/SCENARIO_COMPLETE = 1
 
 	proc/add_mission(datum/mission/m)
 		missions += m
+
+	proc/get_traitors()
+		return null

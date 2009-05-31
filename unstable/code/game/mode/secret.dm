@@ -19,4 +19,9 @@
 		return m.execute()
 
 	add_mission(datum/mission/mission)
+		ensure_m()
 		m.add_mission(mission)
+
+	get_traitors()
+		ensure_m()
+		return m.get_traitors()

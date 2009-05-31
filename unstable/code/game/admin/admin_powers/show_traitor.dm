@@ -5,18 +5,17 @@
 		return
 
 	Topic(href, href_list)
-		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
-			var/mob/t = current_mode:traitor
-			if(t && t.client)
-				alert("The traitor's spawn name is [t.spawn_name] and his key is [t.last_known_ckey]")
-			else if(t)
-				alert("The traitor's spawn name is [t.spawn_name].")
-			else
-				alert("There doesn't seem to be a traitor. (Perhaps he was banned?)")
+		if(game_started && current_mode)
+			var/list/traitors = current_mode.get_traitors()
+			var/dat = "<html><head><title>Traitor(s)</title><body><table><tr><th>Spawn Name</th><th>Key</th></tr>"
+			for(var/mob/T in traitors)
+				dat += "<tr><td>[T.spawn_name]</td>"
+				dat += "<td><a href='?src=\ref[usr];priv_msg=\ref[T]'>[T.last_known_ckey]</a></td></tr>"
+			ss13_browse(usr, dat, "window=traitorlist")
 		return ..()
 
 	get_desc()
-		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
-			return "<a href='?src=\ref[src]'>Show traitor identity</a>"
+		if(game_started && current_mode && current_mode.get_traitors())
+			return "<a href='?src=\ref[src]'>Show traitor(s)</a>"
 		else
 			return null

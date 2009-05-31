@@ -9,4 +9,4 @@
 		..()
 
 	get_access()
-		return list(access_medical_supplies, access_morgue, access_genetics, access_medical_records)
+		return list(access_medical_supplies, access_medical_records, access_morgue, access_genetics)

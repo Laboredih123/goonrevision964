@@ -18,7 +18,9 @@ LOG_VOTE
 
 # default probablity is 0, increase to make that mode more likely to be picked
 # set to 0 to disable that mode
+# note that, with under 10 players, multitraitor is exactly equivalent to traitor.
 PROBABILITY TRAITOR 10
+PROBABILITY MULTITRAITOR 10
 PROBABILITY REVOLUTION 2
 PROBABILITY METEOR 0
 PROBABILITY BLOB 0

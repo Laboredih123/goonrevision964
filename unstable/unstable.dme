@@ -276,6 +276,7 @@
 #include "code\game\mode\blob.dm"
 #include "code\game\mode\game_mode.dm"
 #include "code\game\mode\meteor.dm"
+#include "code\game\mode\multitraitor.dm"
 #include "code\game\mode\random.dm"
 #include "code\game\mode\revolution.dm"
 #include "code\game\mode\secret.dm"

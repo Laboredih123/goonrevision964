@@ -1,4 +1,4 @@
-// TODO: make this work with random and secret
+// TODO: make this work with random and secret etc
 
 /datum/admin_power/check_traitor
 	name = "Traitor?"
@@ -11,16 +11,16 @@
 		..()
 		if(href_list["mob"])
 			var/mob/M = locate(href_list["mob"])
-			if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
-				if(M && current_mode:traitor == M)
-					alert("This person is the traitor.")
+			if(game_started && current_mode && current_mode.get_traitors())
+				if(M in current_mode.get_traitors())
+					alert("This person is a traitor.")
 				else
-					alert("This person is not the traitor.")
+					alert("This person is not a traitor.")
 			else
-				alert("There is no traitor!!!")
+				alert("There is no traitor!")
 
 	get_desc(mob/M)
-		if(game_started && current_mode && istype(current_mode, /datum/game_mode/traitor))
+		if(game_started && current_mode && current_mode.get_traitors())
 			return "<a href='?src=\ref[src];mob=\ref[M]'>Traitor?</a>"
 		else
 			return null

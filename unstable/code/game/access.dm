@@ -8,6 +8,9 @@
 // That's it! Now you can make doors on your map require that permission. Don't worry about things like
 // making it show up in the ID computer - it will automatically. This is the only file you have to edit
 // apart from the individual job files.
+//
+// If you want to remove an access level, don't change the numbers of any other access levels. It'll screw up other
+// maps, and probably your own.
 
 /var/const
 	access_security = 1

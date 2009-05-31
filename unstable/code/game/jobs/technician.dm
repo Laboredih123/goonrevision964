@@ -1,6 +1,7 @@
 /datum/job/technician
 	name = "Technician"
-	max = INFINITY
+	max = INFINITY // actually only 10^99, but if we ever get to the point where there are 10^99 technicians there
+	// will be bigger things to worry about than new arrivals not getting a job
 	priority = 2
 
 	give_equipment(mob/carbon/M)
@@ -13,4 +14,4 @@
 
 	get_access()
 		return list(access_engine, access_eject_engine, access_maint_tunnels, access_external_airlocks,
-		            access_emergency_storage, access_apcs, access_tech_storage, access_atmospherics)
+		            access_apcs, access_tech_storage, access_atmospherics)
