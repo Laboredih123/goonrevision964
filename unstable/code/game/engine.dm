@@ -164,8 +164,8 @@
 	if (!( src.status ))
 		if (src.timeleft <= 0)
 			src.timeleft = 60
-		world << "\red <B>Alert: Ejection Sequence for Engine Module has been engaged.</B>"
-		world << text("\red <B>Ejection Time in T-[] seconds!</B>", src.timeleft)
+		station_announce("<B>Alert: Ejection sequence for engine module has been engaged.</B>")
+		station_announce("<B>Ejection in [src.timeleft] seconds!</B>")
 		src.resetting = 0
 
 		var/list/EA = engine_areas()
@@ -190,7 +190,7 @@
 	sleep(50)
 	if (src.resetting)
 		src.timeleft = 60
-		world << "\red <B>Alert: Ejection Sequence Countdown for Engine Module has been reset.</B>"
+		station_announce("<B>Alert: Ejection sequence countdown for engine module has been reset.</B>")
 	return
 
 /datum/engine_eject/proc/countdone()
@@ -234,7 +234,7 @@
 		//Foreach goto(60)
 	defer_powernet_rebuild = 0
 	makepowernets()
-	world << "\red <B>Engine Ejected!</B>"
+	station_announce("<B>Engine Ejected!</B>")
 	for(var/obj/machinery/computer/engine/CE in machines)
 		CE.icon_state = "engaged"
 		//Foreach goto(392)
@@ -244,7 +244,7 @@
 
 	if (src.status > 0)
 		src.status = 0
-		world << "\red <B>Alert: Ejection Sequence for Engine Module has been disengaged!</B>"
+		station_announce("<B>Alert: Ejection sequence for engine module has been disengaged!</B>")
 
 		var/list/E = engine_areas()
 
@@ -267,7 +267,7 @@
 	if (src.status > 0)
 		src.timeleft--
 		if ((src.timeleft <= 15 || src.timeleft == 30))
-			world << text("\red <B>[] seconds until engine ejection.</B>", src.timeleft)
+			station_announce("<B>[src.timeleft] seconds until engine ejection.</B>")
 		spawn( 10 )
 			src.countdown()
 			return

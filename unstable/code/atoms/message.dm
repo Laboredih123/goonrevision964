@@ -5,6 +5,7 @@
 	COLOR_HEAD = "teal"
 	COLOR_SECURITY = "maroon"
 	COLOR_CAPTAIN = "navy"
+	COLOR_ANNOUNCEMENT = "red"
 
 /datum/message
 	var/text = null

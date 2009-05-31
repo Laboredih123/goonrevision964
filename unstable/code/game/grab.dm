@@ -163,7 +163,6 @@
 	return
 
 /obj/screen/Click()
-	//world << "o/s/Click: [src.name]"
 	if(!istype(usr, /mob/carbon))
 		return
 	var/mob/carbon/user = usr

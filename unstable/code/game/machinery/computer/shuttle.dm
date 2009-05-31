@@ -28,17 +28,17 @@
 				src.authorized -= W.registered
 				src.authorized += W.registered
 				if (src.auth_need - src.authorized.len > 0)
-					world << text("\blue <B>Alert: [] authorizations needed until shuttle is launched early</B>", src.auth_need - src.authorized.len)
+					station_announce("<B>Alert: [src.auth_need - src.authorized.len] authorizations needed until shuttle is launched early</B>")
 				else
-					world << "\blue <B>Alert: Shuttle launch time shortened to 10 seconds!</B>"
+					station_announce("<B>Alert: Shuttle launch time shortened to 10 seconds!</B>")
 					shuttle_time_left = 100
 					last_shuttle_update = ss13time()
 					leaving = 1
 			if("Repeal")
 				src.authorized -= W.registered
-				world << text("\blue <B>Alert: [] authorizations needed until shuttle is launched early</B>", src.auth_need - src.authorized.len)
+				station_announce("<B>Alert: [src.auth_need - src.authorized.len] authorizations needed until shuttle is launched early</B>")
 			if("Abort")
-				world << "\blue <B>All authorizations to shorting time for shuttle launch have been revoked!</B>"
+				station_announce("<B>All authorizations to shorting time for shuttle launch have been revoked!</B>")
 				src.authorized.len = 0
 				src.authorized = list(  )
 			else

@@ -4156,7 +4156,6 @@
 	return
 
 /atom/Click()
-	//world << "atom.Click() on [src] by [usr] : src.type is [src.type]"
 	return DblClick()
 
 /atom/DblClick()

@@ -1,7 +1,9 @@
+/var/const/DEFAULT_FREQ = 1459
+
 /obj/item/weapon/radio
 	name = "Station Bounced Radio"
 	icon_state = "radio"
-	var/freq = 1459
+	var/freq = DEFAULT_FREQ
 	var/wires = WIRE_SIGNAL | WIRE_RECEIVE | WIRE_TRANSMIT
 	var/last_transmission
 	var/transmitting = 0
@@ -402,3 +404,8 @@
 	M.language = LANGUAGE_ENCRYPTED
 	M.voice = "Unknown"
 	return ..(M, freq)
+
+/proc/station_announce(message)
+	var/datum/message/M = new("A computer", message, LANGUAGE_ENGLISH, COLOR_ANNOUNCEMENT, COLOR_ANNOUNCEMENT)
+	for(var/obj/item/weapon/radio/R in world)
+		R.receive(M, DEFAULT_FREQ)

@@ -11,7 +11,7 @@
 		return
 
 	src.cancel_camera()
-	world << "\red Lockdown initiated by [src.name]!"
+	station_announce("Lockdown initiated by [src.name]!")
 
 	for(var/obj/machinery/firealarm/FA in world)	//	activate firealarms
 		spawn(0)
@@ -39,7 +39,7 @@
 		return
 
 	src.cancel_camera()
-	world << "\red Lockdown cancelled by [src.name]!"
+	station_announce("Lockdown cancelled by [src.name]!")
 
 	for(var/obj/machinery/firealarm/FA in world)
 		spawn(0)

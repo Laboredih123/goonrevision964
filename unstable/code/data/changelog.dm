@@ -2,13 +2,12 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Saturday, May 29. 2009</b></p>
 <ul>
-<li><b>732</b> - Since it fills the same purpose as the camera jammer, traitor can no longer spawn a syndicate
+<li><b>736</b> - Since it fills the same purpose as the camera jammer, traitor can no longer spawn a syndicate
 ID card.</li>
-<li><b>731</b> - Redid job system to use /datum/job instead of strings. Adding new jobs should now be easier,
+<li><b>735</b> - Redid job system to use /datum/job instead of strings. Adding new jobs should now be easier,
 among other nice things.</li>
 </ul>
 <p><b>Friday, May 28. 2009</b></p>
-<ul>
 <ul>
 <li><b>734</b> - Added adminwho verb.</li>
 <li><b>730</b> - Added "manage bans" admin power. Added bans for a certain number of rounds, to go with permanent

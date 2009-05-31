@@ -187,7 +187,6 @@
 				if(md=="default")
 					disp = "No change"
 
-				//world << "[md]|[disp]|[src.client.vote]|[votes[md]]"
 
 				if(src.client.vote == md)
 					text += "<LI><B>[disp]</B>"
@@ -312,8 +311,6 @@
 	if(href_list["vote"] && vote.voting)
 		if(M)
 			M.client.vote = href_list["vote"]
-
-			//world << "Setting client [M.key]'s vote to: [href_list["vote"]]."
 
 			M.vote()
 		return

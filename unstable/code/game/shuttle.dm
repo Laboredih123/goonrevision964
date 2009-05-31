@@ -36,10 +36,10 @@
 
 /proc/announce_shuttle()
 	if(shuttle_status == SHUTTLE_COMING)
-		world << "\blue The shuttle has been called and will arrive in [shuttle_time_left/600] minutes."
+		station_announce("The shuttle has been called and will arrive in [shuttle_time_left/600] minutes.")
 		last_shuttle_announce = shuttle_time_left
 	else if(shuttle_status == SHUTTLE_RETURNING)
-		world << "\blue The shuttle has been sent back."
+		station_announce("The shuttle has been sent back.")
 
 /proc/process_shuttle()
 	if(shuttle_processing)
@@ -61,7 +61,7 @@
 				shuttle_time_left = SHUTTLE_TIME_DOCKED
 				last_shuttle_update = ss13time()
 				shuttle_move(SHUTTLE_Z, SHUTTLE_CALLED_Z)
-				world << "\blue The shuttle has arrived! It will depart in [time2text(shuttle_time_left, "mm minutes and ss seconds")]."
+				station_announce("\blue The shuttle has arrived! It will depart in [time2text(shuttle_time_left, "mm minutes and ss seconds")].")
 				last_shuttle_announce = shuttle_time_left
 			else
 				var/curtime = ss13time()
@@ -69,7 +69,7 @@
 				last_shuttle_update = curtime
 				for(var/x in shuttle_announce_times)
 					if(last_shuttle_announce > x && shuttle_time_left < x)
-						world << "\blue The shuttle will arrive in [time2text(x, "mm:ss")]"
+						station_announce("\blue The shuttle will arrive in [time2text(x, "mm:ss")]")
 						last_shuttle_announce = x
 						break
 		else if(shuttle_status == SHUTTLE_DOCKED)
@@ -82,7 +82,7 @@
 				last_shuttle_update = curtime
 				for(var/x in shuttle_announce_times_docked)
 					if(last_shuttle_announce > x && shuttle_time_left < x)
-						world << "\blue The shuttle will depart in [time2text(x, "mm minutes and ss seconds")]"
+						station_announce("\blue The shuttle will depart in [time2text(x, "mm minutes and ss seconds")]")
 						last_shuttle_announce = x
 						break
 		sleep(5)

@@ -57,6 +57,7 @@
 
 
 /world/New()
+	jobban_loadbanfile()
 	src.update_stat()
 
 	makepipelines()
@@ -74,7 +75,6 @@
 
 		newmode = ML[1]
 
-		//world << "Savefile: [SF] ([SF["newmode"]])"
 
 		if(newmode)
 			master_mode = newmode

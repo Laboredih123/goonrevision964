@@ -404,25 +404,19 @@
 
 
 	if ((!( src.first ) && (src.state && (istype(src.loc, /turf) || (src.master && istype(src.master.loc, /turf))))))
-		//world << "infra process : at [x] [y] [z]"
 
 		var/obj/beam/i_beam/I = new /obj/beam/i_beam( (src.master ? src.master.loc : src.loc) )
-		//world << "infra spawning beam : \ref[I]"
 		I.master = src
 		I.density = 1
 		I.dir = src.dir
 		step(I, I.dir)
 		if (I)
-			//world << "infra: beam at [I.x] [I.y] [I.z]"
 			I.density = 0
 			src.first = I
-			//world << "infra : vis_spread"
 			I.vis_spread(src.visible)
 			spawn( 0 )
 				if (I)
-					//world << "infra: setting limit"
 					I.limit = 20
-					//world << "infra: processing beam \ref[I]"
 					I.process()
 				return
 	if (!( src.state ))
@@ -752,12 +746,8 @@
 	return
 
 /obj/item/weapon/assembly/shock_kit/r_signal(n, source)
-
-	//*****
-	//world << "Shock kit got r_signal"
 	if (istype(src.loc, /obj/stool/chair/e_chair))
 		var/obj/stool/chair/e_chair/C = src.loc
-		//world << "Shock kit sending shock to EC"
 		C.shock()
 	return
 
@@ -1149,12 +1139,8 @@
 //*****RM
 /obj/item/weapon/assembly/m_i_ptank/Bump(atom/O)
 	spawn(0)
-		//world << "miptank bumped into [O]"
 		if(src.part1.state)
-			//world << "sending signal"
 			r_signal()
-		else
-			//world << "not active"
 	..()
 
 
@@ -1167,7 +1153,6 @@
 	src.icon_state = "m_i_ptank2"
 	spawn( 150 )
 		if (src.part1.state == 0)
-			//world << "\red miptank went active"
 			src.part1.state = !( src.part1.state )
 			src.part1.icon_state = text("motion[]", src.part1.state)
 			src.c_state(src.part1.state, src)
@@ -1182,7 +1167,6 @@
 		return
 	for(var/atom/A in view(1, src.loc))
 		if(A!=src && !istype(A, /turf/space) && !isarea(A))
-			//world << "[A]:[A.type] was sensed"
 			src.part1.sense()
 			break
 
@@ -1267,13 +1251,11 @@
 	return
 
 /obj/item/weapon/assembly/m_i_ptank/r_signal()
-	//world << "miptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
 		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(19)
 
 	if ((src.status && prob(90)))
-		//world << "sent ignite() to [src.part3]"
 		src.part3.ignite()
 	else
 		if(!src.status)
@@ -1359,12 +1341,10 @@
 	return
 
 /obj/item/weapon/assembly/t_i_ptank/r_signal()
-	//world << "tiptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
 		O.hear(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(19)
 	if ((src.status && prob(90)))
-		//world << "sent ignite() to [src.part3]"
 		src.part3.ignite()
 	else
 		if(!src.status)
@@ -1464,12 +1444,10 @@
 	return
 
 /obj/item/weapon/assembly/r_i_ptank/r_signal()
-	//world << "riptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
 		O.see(text("\icon[] *beep* *beep*", src))
 		//Foreach goto(19)
 	if ((src.status && prob(90)))
-		//world << "sent ignite() to [src.part3]"
 		src.part3.ignite()
 	else
 		if(!src.status)
@@ -1521,12 +1499,9 @@
 	return
 
 /obj/beam/a_laser/proc/process()
-	//world << text("laser at [] []:[], target is [] []:[]", src.loc, src.x, src.y, src:current, src.current:x, src.current:y)
 	if ((!( src.current ) || src.loc == src.current))
 		src.current = locate(min(max(src.x + src.xo, 1), world.maxx), min(max(src.y + src.yo, 1), world.maxy), src.z)
-		//world << text("current changed: target is now []. location was [],[], added [],[]", src.current, src.x, src.y, src.xo, src.yo)
 	if ((src.x == 1 || src.x == world.maxx || src.y == 1 || src.y == world.maxy))
-		//world << text("off-world, deleting")
 		//SN src = null
 		del(src)
 		return
@@ -1537,7 +1512,6 @@
 		dudes += M
 	if(dudes.len)
 		src.Bump(pick(dudes))
-	//world << text("laser stepped, now [] []:[], target is [] []:[]", src.loc, src.x, src.y, src.current, src.current:x, src.current:y)
 	src.life--
 	if (src.life <= 0)
 		//SN src = null
@@ -1560,36 +1534,22 @@
 	return
 
 /obj/beam/i_beam/proc/hit()
-
-	//world << "beam \ref[src]: hit"
 	if (src.master)
-		//world << "beam hit \ref[src]: calling master \ref[master].hit"
 		src.master.hit()
-	//SN src = null
 	del(src)
-	return
-	return
 
 /obj/beam/i_beam/proc/vis_spread(v)
-	//world << "i_beam \ref[src] : vis_spread"
 	src.visible = v
 	spawn( 0 )
 		if (src.next)
-			//world << "i_beam \ref[src] : is next [next.type] \ref[next], calling spread"
 			src.next.vis_spread(v)
 		return
 	return
 
 /obj/beam/i_beam/proc/process()
-
-	//world << "i_beam \ref[src] : process"
-
 	if ((src.loc.density || !( src.master )))
-		//SN src = null
-	//	world << "beam hit loc [loc] or no master [master], deleting"
 		del(src)
 		return
-	//world << "proccess: [src.left] left"
 
 	if (src.left > 0)
 		src.left--
@@ -1602,36 +1562,26 @@
 		src.invisibility = 0
 
 
-	//world << "now [src.left] left"
 	var/obj/beam/i_beam/I = new /obj/beam/i_beam( src.loc )
 	I.master = src.master
 	I.density = 1
 	I.dir = src.dir
-	//world << "created new beam \ref[I] at [I.x] [I.y] [I.z]"
 	step(I, I.dir)
 
 	if (I)
-		//world << "step worked, now at [I.x] [I.y] [I.z]"
 		if (!( src.next ))
-			//world << "no src.next"
 			I.density = 0
-			//world << "spreading"
 			I.vis_spread(src.visible)
 			src.next = I
 			spawn( 0 )
-				//world << "limit = [src.limit] "
 				if ((I && src.limit > 0))
 					I.limit = src.limit - 1
-					//world << "calling next process"
 					I.process()
 				return
 		else
-			//world << "is a next: \ref[next], deleting beam \ref[I]"
 			//I = null
 			del(I)
 	else
-		//src.next = null
-		//world << "step failed, deleting \ref[src.next]"
 		del(src.next)
 	spawn( 10 )
 		src.process()

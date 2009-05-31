@@ -3,10 +3,11 @@
 // 2. Add it to get_all_accesses() at the end.
 // 3. Add a description of it to get_access_desc().
 // 4. If you want people other than the captain to be able to access it, add it to get_access for the
-// people you want to be able to access it.
+// jobs you want to be able to access it.
 //
 // That's it! Now you can make doors on your map require that permission. Don't worry about things like
-// making it show up in the ID computer - it will automatically. This is the only file you have to edit.
+// making it show up in the ID computer - it will automatically. This is the only file you have to edit apart from
+// the individual job files.
 
 /var/const
 	access_security = 1

@@ -12,3 +12,9 @@
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list())
 	var/viewalerts = 0
 	var/is_evil = 0
+
+/proc/AutoUpdateAI(obj/subject)
+	if (subject!=null)
+		for(var/mob/silicon/ai/M in world)
+			if ((M.client && M.machine == subject))
+				subject.interact(M)
