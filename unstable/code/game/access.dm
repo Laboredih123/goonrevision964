@@ -6,8 +6,8 @@
 // jobs you want to be able to access it.
 //
 // That's it! Now you can make doors on your map require that permission. Don't worry about things like
-// making it show up in the ID computer - it will automatically. This is the only file you have to edit apart from
-// the individual job files.
+// making it show up in the ID computer - it will automatically. This is the only file you have to edit
+// apart from the individual job files.
 
 /var/const
 	access_security = 1
@@ -58,7 +58,7 @@
 	if(src.check_access(null))		return 1	//	it doesn't require any access at all
 	if(istype(M, /mob/silicon/ai))	return 1	//	AI can do whatever it wants
 	if(istype(M, /mob/carbon))
-		if(src.check_access(M:id))			return 1	//	wearin an ID with access
+		if(src.check_access(M:id))			return 1	//	wearing an ID with access
 		if(src.check_access(M:equipped()))	return 1	//	holding a card with access
 	return 0
 

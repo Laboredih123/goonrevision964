@@ -149,10 +149,10 @@
 					if(job_choices_left[j] < 0)
 						choices -= j
 
-		if(unassigned.len) // STILL? this shouldnt ever happen unless you're jobbanned from assistant
+		if(unassigned.len) // STILL? this shouldnt ever happen unless you're jobbanned from technician
 			// just give them an assistant job
 			for(var/mob/prespawn/P in unassigned)
-				var/datum/job/j = get_job_instance_by_type(/datum/job/assistant)
+				var/datum/job/j = get_job_instance_by_type(/datum/job/technician)
 				semiassigned[P] = j
 				unassigned -= P
 

@@ -154,7 +154,7 @@
 	if(lastgenlev)	overlays += image('power.dmi', "teg-op[lastgenlev]")
 	overlays += image('power.dmi', "teg-oc[c1on][c2on]")
 
-#define GENRATE 0.17			// generator output coefficient from Q
+#define GENRATE 0.02	// generator output coefficient from Q
 /obj/machinery/power/generator/process()
 	if(!circ1 || !c1on)	return
 	if(!circ2 || !c2on)	return

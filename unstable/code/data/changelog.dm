@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></font><br>
 <hr>
-<p><b>Saturday, May 29. 2009</b></p>
+<p><b>Sunday, May 31. 2009</b></p>
+<ul>
+<li><b>741</b> - Folded assistant, atmos tech, and engineer jobs into "technician" job, with more access and
+responsibilities. Made engine start at the start of the round without any human intervention.</li>
+</ul>
+
+<p><b>Saturday, May 30. 2009</b></p>
 <ul>
 <li><b>739</b> - You can finally drag a backpack onto you to view its contents while it's on the ground. Total
 characters needed to make this change: 4.</li>
@@ -9,7 +15,8 @@ ID card.</li>
 <li><b>735</b> - Redid job system to use /datum/job instead of strings. Adding new jobs should now be easier,
 among other nice things.</li>
 </ul>
-<p><b>Friday, May 28. 2009</b></p>
+
+<p><b>Friday, May 29. 2009</b></p>
 <ul>
 <li><b>734</b> - Added adminwho verb.</li>
 <li><b>730</b> - Added "manage bans" admin power. Added bans for a certain number of rounds, to go with permanent

@@ -1,6 +1,7 @@
-/datum/job/engineer
-	name = "Engineer"
-	max = 4
+/datum/job/technician
+	name = "Technician"
+	max = INFINITY
+	priority = 2
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(M), SLOT_JUMPSUIT)
@@ -11,4 +12,5 @@
 		..()
 
 	get_access()
-		return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs, access_tech_storage)
+		return list(access_engine, access_eject_engine, access_maint_tunnels, access_external_airlocks,
+		            access_emergency_storage, access_apcs, access_tech_storage, access_atmospherics)
