@@ -2,6 +2,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Saturday, May 29. 2009</b></p>
 <ul>
+<li><b>739</b> - You can finally drag a backpack onto you to view its contents while it's on the ground. Total
+characters needed to make this change: 4.</li>
 <li><b>736</b> - Since it fills the same purpose as the camera jammer, traitor can no longer spawn a syndicate
 ID card.</li>
 <li><b>735</b> - Redid job system to use /datum/job instead of strings. Adding new jobs should now be easier,

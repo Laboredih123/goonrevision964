@@ -2687,7 +2687,7 @@
 /obj/item/weapon/storage/backpack/MouseDrop(obj/over_object as obj)
 
 	if (src.loc != usr)
-		return
+		return ..()
 	if (usr.check_dexterity())
 		var/mob/carbon/M = usr
 		if(!istype(usr, /mob/carbon))
