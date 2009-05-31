@@ -1,3 +1,5 @@
+note: this document is not completely accurate.
+
 The new (June 2008) DNA system is pretty incredible. Here are the major ways in which it differs from the old system:
 
 "Medical researchers" are now called "genetic researchers."
