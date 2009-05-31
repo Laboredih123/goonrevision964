@@ -307,9 +307,12 @@
 		usr.machine = null
 		return
 
-	if(stat & (NOPOWER|BROKEN))		return 0
-	if(!usr.can_use_hands())		return 0
-	if(!usr.check_intelligence())	return 0
+	if(stat & BROKEN)
+		return 0
+	if(!usr.can_use_hands())
+		return 0
+	if(!usr.check_intelligence())
+		return 0
 
 	if(!usr.contents.Find(src))
 		if(!istype(usr, /mob/silicon/ai))

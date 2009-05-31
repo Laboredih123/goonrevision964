@@ -113,7 +113,7 @@
 	var/tx = destturf.x + rand(precision * -1, precision)
 	var/ty = destturf.y + rand(precision * -1, precision)
 
-	var/tmploc = locate(tx, ty, destination.z)
+	var/tmploc = locate(tx, ty, destturf.z)
 	if(tx == destturf.x && ty == destturf.y && (istype(destination.loc, /obj/closet) || istype(destination.loc, /obj/secloset)))
 		tmploc = destination.loc
 
