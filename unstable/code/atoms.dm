@@ -565,7 +565,7 @@
 	registered = "Captain"
 	assignment = "Captain"
 	New()
-		access = get_access("Captain")
+		access = get_all_accesses()
 		..()
 /obj/item/weapon/clipboard
 	name = "clipboard"
@@ -1959,7 +1959,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	req_access = list(access_medical_records)
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
-	var/rank = null
+	var/job = null
 	var/screen = null
 	var/datum/data/record/active1 = null
 	var/datum/data/record/active2 = null
@@ -1984,7 +1984,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	req_access = list(access_security_records)
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
-	var/rank = null
+	var/job = null
 	var/screen = null
 	var/datum/data/record/active1 = null
 	var/datum/data/record/active2 = null

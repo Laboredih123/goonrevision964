@@ -1,9 +1,9 @@
 /datum/preferences
 	var/name = ""
 	var/gender = MALE
-	var/job1 = "No Preference"
-	var/job2 = "No Preference"
-	var/job3 = "No Preference"
+	var/datum/job/job1 = null
+	var/datum/job/job2 = null
+	var/datum/job/job3 = null
 	var/skin_color = SKIN_COLOR_LIGHT
 	var/hair_color = HAIR_COLOR_BROWN
 	var/hair_style = HAIR_STYLE_SHORT
@@ -17,9 +17,18 @@
 	var/savefile/F = new /savefile(src.savefile_loc, -1)
 	F["name"] >> src.name
 	F["gender"] >> src.gender
-	F["job1"] >> src.job1
-	F["job2"] >> src.job2
-	F["job3"] >> src.job3
+	var/j1type
+	var/j2type
+	var/j3type
+	F["job1"] >> j1type
+	F["job2"] >> j3type
+	F["job3"] >> j3type
+	if(j1type)
+		src.job1 = get_job_instance_by_type(j1type)
+	if(j2type)
+		src.job2 = get_job_instance_by_type(j2type)
+	if(j3type)
+		src.job3 = get_job_instance_by_type(j3type)
 	F["hair_color"] >> src.hair_color
 	F["hair_style"] >> src.hair_style
 	F["skin_color"] >> src.skin_color
@@ -31,9 +40,9 @@
 	var/savefile/F = new /savefile(src.savefile_loc, -1)
 	F["name"] << src.name
 	F["gender"] << src.gender
-	F["job1"] << src.job1
-	F["job2"] << src.job2
-	F["job3"] << src.job3
+	F["job1"] << (src.job1 ? src.job1.type : null)
+	F["job2"] << (src.job2 ? src.job2.type : null)
+	F["job3"] << (src.job3 ? src.job3.type : null)
 	F["hair_color"] << src.hair_color
 	F["hair_style"] << src.hair_style
 	F["skin_color"] << src.skin_color
@@ -56,9 +65,9 @@
 	if(!(src.be_syndicate in list("Yes", "No")))
 		src.be_syndicate = "No"
 	if(!(src.job1))
-		src.job1 = "No Preference"
-		src.job2 = "No Preference"
-		src.job3 = "No Preference"
+		src.job1 = null
+		src.job2 = null
+		src.job3 = null
 
 	var/dat = "<html><body>"
 	var/vars = list(
@@ -77,11 +86,11 @@
 	dat += "<hr>"
 
 	dat += "<b>Occupation Choices</b>:<br>"
-	dat += "First Choice: <a href=\"byond://?src=\ref[src];job=1\">[src.job1 == "No Preference" ? "No Preference" : "<b>[src.job1]</b>"]</a><br>"
-	if (src.job1 != "No Preference")
-		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.job2 == "No Preference" ? "No Preference" : "<b>[src.job2]</b>"]</a><br>"
-		if(src.job2 != "No Preference")
-			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.job3 == "No Preference" ? "No Preference" : "<b>[src.job3]</b>"]</a><br>"
+	dat += "First Choice: <a href=\"byond://?src=\ref[src];job=1\">[src.job1 ? "<b>[src.job1.name]</b>" : "No Preference"]</a><br>"
+	if (src.job1)
+		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.job2 ? "<b>[src.job2]</b>" : "No Preference"]</a><br>"
+		if(src.job2)
+			dat += "Third Choice: <a href=\"byond://?src=\ref[src];job=3\">[src.job3 ? "<b>[src.job3]</b>" : "No Preference"]</a><br>"
 	dat += "<hr>"
 	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
 	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
@@ -149,11 +158,11 @@
 		world.log_game("[usr.key] entered as [usr.name]")
 
 		if (game_started)
-			var/list/jobs = get_available_jobs()
+			var/list/jobs = get_unfilled_jobs()
 			var/dat = "<html><head><title>Select job</title></head>"
 			dat += "<p>You spawned late, so you get to select a job! Lucky you!"
 			for(var/job in jobs)
-				if(!jobban_isbanned(new_player, job))
+				if(allowed_to_do_job(new_player, job))
 					dat += "<br><a href='byond://?src=\ref[src];late-job=[job]'>[job]</a>"
 			dat += "</p>"
 			ss13_browse(new_player, dat, "window=late_job;size=300x600")
@@ -163,20 +172,22 @@
 		if(!istype(usr,/mob/prespawn))
 			return save()
 		var/mob/prespawn/new_player = usr
-		new_player.Assign_Rank(href_list["late-job"], 1)
+		var/datum/job/j = locate(href_list["late-job"])
+		j.create(new_player, 1)
 		return
 	spawn()
 		src.setup(usr.client)
 
-/proc/get_available_jobs()
-	var/list/occs = occupations.Copy()
-	occs["Captain"] = 1
-	occs -= "AI"
+/proc/get_unfilled_jobs()
+	var/list/jobs = list()
+	for(var/datum/job/j in get_all_job_instances())
+		if(j.can_join_late)
+			jobs[j] = j.max
 	for(var/mob/carbon/C in world)
-		occs[C.spawn_rank] --
-		if(occs[C.spawn_rank] <= 0)
-			occs -= C.spawn_rank
-	return occs
+		jobs[C.spawn_job] --
+		if(jobs[C.spawn_job] <= 0)
+			jobs -= C.spawn_job
+	return jobs
 
 //----------------------------------------------------------------------------
 
@@ -242,18 +253,21 @@
 //TODO: make all this use a list instead of 3 variables
 
 /datum/preferences/proc/choose_job(job_num)
-	var/jobs = uniquelist(list("Captain") + occupations + assistant_occupations + "No Preference")
-	for(var/j in jobs)
-		if(jobban_isbanned(usr, j))
-			jobs -= j
-	var/curr_job = null
-	switch(job_num)
-		if(1)	curr_job = src.job1
-		if(2)	curr_job = src.job2
-		if(3)	curr_job = src.job3
+	var/list/L = list()
+	for(var/datum/job/j in get_all_job_instances())
+		if(allowed_to_do_job(usr, j) && j.max > 0) // make sure its not a /datum/job
+			L[j.name] = j
+	L["No Preference"] = null
+	var/curr_job = "No Preference"
+	if(job_num == 1 && src.job1)
+		curr_job = src.job1.name
+	if(job_num == 2 && src.job2)
+		curr_job = src.job2.name
+	if(job_num == 3 && src.job3)
+		curr_job = src.job3.name
 
-	var/job = input("Select a job", "Character Generation", curr_job) in jobs
+	var/job = input("Select a job", "Character Generation", curr_job) in L
 	switch(job_num)
-		if(1)	src.job1 = job
-		if(2)	src.job2 = job
-		if(3)	src.job3 = job
+		if(1)	src.job1 = L[job]
+		if(2)	src.job2 = L[job]
+		if(3)	src.job3 = L[job]

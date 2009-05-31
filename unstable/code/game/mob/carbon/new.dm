@@ -1,4 +1,4 @@
-/mob/carbon/New(loc, name, hair_color, hair_style, skin_color, gender, bloodtype, organs, dna, rank)
+/mob/carbon/New(loc, name, hair_color, hair_style, skin_color, gender, bloodtype, list/organs, datum/dna/dna, datum/job/job)
 	..(loc, name)
 	var/unable_to_spawn = -1
 	while(!src.loc)
@@ -57,5 +57,5 @@
 		src.dna.register(src)
 		src.dna.apply(src)
 
-	src.spawn_rank = rank
-	spawn_ranks[name] = rank
+	src.spawn_job = job
+	spawn_jobs[name] = job

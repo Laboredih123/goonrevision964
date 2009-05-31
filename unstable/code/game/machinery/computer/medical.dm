@@ -106,7 +106,7 @@
 		src.authenticated = null
 	else if(href_list["login"])		//	login player
 		if(istype(usr, /mob/silicon/ai))	//	AI can always log in
-			src.rank = "AI"
+			src.job = "AI"
 			src.screen = 1
 			src.active1 = null
 			src.active2 = null
@@ -116,7 +116,7 @@
 				src.active1 = null
 				src.active2 = null
 				src.authenticated = src.scan.registered
-				src.rank = src.scan.assignment
+				src.job = src.scan.assignment
 				src.screen = 1
 
 	if(!src.authenticated)	//	Not authenticated? Proceed no further.
@@ -229,7 +229,7 @@
 		if(!t1 || src.active2 != a2)	return 1
 		var/counter = 1
 		while(src.active2.fields[text("com_[]", counter)]) counter++
-		src.active2.fields[text("com_[]", counter)] = text("Made by [] ([]) on [], 2053<BR>[]", src.authenticated, src.rank, time2text(world.realtime, "DDD MMM DD hh:mm:ss"), t1)
+		src.active2.fields[text("com_[]", counter)] = text("Made by [] ([]) on [], 2053<BR>[]", src.authenticated, src.job, time2text(world.realtime, "DDD MMM DD hh:mm:ss"), t1)
 	else if(href_list["del_c"])	//	4: Delete Entry
 		if(istype(src.active2, /datum/data/record) && src.active2.fields[text("com_[]", href_list["del_c"])])
 			src.active2.fields[text("com_[]", href_list["del_c"])] = "<B>Deleted</B>"

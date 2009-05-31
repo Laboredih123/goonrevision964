@@ -99,7 +99,7 @@ var
 	auth_motd = null		//	sent to players who do authenticate
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
-	savefile_ver = "Goon v1"
+	savefile_ver = "Goon v2"
 	SS13_version = "2.0 Beta"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
@@ -165,7 +165,7 @@ var
 	list/first_names_female = null
 	list/last_names = null
 	list/ai_names = null
-	list/spawn_ranks = list()
+	list/spawn_jobs = list()
 
 	curround = 0
 

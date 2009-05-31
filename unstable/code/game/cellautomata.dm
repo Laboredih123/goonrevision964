@@ -232,7 +232,7 @@
 
 	world.log_game("[current_mode.name] round starting")
 
-	DivideOccupations()
+	divide_jobs()
 	for(var/obj/manifest/M in world)
 		M.manifest()
 	data_core.manifest()

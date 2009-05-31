@@ -90,16 +90,16 @@
 		return L
 
 /proc/is_head(mob/carbon/M)
-	var/rank = M.spawn_rank
+	var/datum/job/r = M.spawn_job
 	//TODO: make this not gross
-	if(rank == "Head of Personnel" || rank == "Head of Research" || rank == "Captain")
+	if(istype(r, /datum/job/captain) || istype(r, /datum/job/hop) || istype(r, /datum/job/hor))
 		return 1
 	else
 		return 0
 
 /proc/is_security(mob/carbon/M)
-	var/rank = M.spawn_rank
-	if(rank == "Security Officer" || rank == "Forensic Technician")
+	var/datum/job/r = M.spawn_job
+	if(istype(r, /datum/job/detective) || istype(r, /datum/job/security))
 		return 1
 	else
 		return 0

@@ -96,9 +96,9 @@ var/const
 		var/list/items = list(LASER, HAND_TELE, PLASMA_BOMB, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK)
 		// not nuke disk
 		for(var/mob/M in group)
-			var/killerrank = M.spawn_rank
-			if(killerrank == "Captain")
+			var/datum/job/killerjob = M.spawn_job
+			if(istype(killerjob, /datum/job/captain))
 				items -= list(LASER, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK, HAND_TELE) //too easy to steal
-			else if(killerrank == "Head of Personnel" || killerrank == "Head of Research")
+			else if(istype(killerjob, /datum/job/hop) || istype(killerjob, /datum/job/hor))
 				items -= LASER //too easy to steal
 		return items

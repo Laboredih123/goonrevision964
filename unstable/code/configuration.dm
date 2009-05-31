@@ -90,14 +90,6 @@
 
 /datum/configuration/proc/parse_authentication(option)
 	config.enable_authentication = 1
-	if(dd_hasprefix(option,"optional restrict("))
-		option = copytext(option,19,findtext(option,")",19))
-		config.require_authentication = dd_text2list(option,",",get_all_jobs()+"AI")
-
-	else if(dd_hasprefix(option,"optional permit("))
-		config.require_authentication = get_all_jobs()+"AI"
-		option = copytext(option,17,findtext(option,")",17))
-		config.require_authentication.Remove(dd_text2list(option,","))
 
 /datum/configuration/proc/pick_mode(mode_name)
 	for(var/datum/game_mode/M in modes)

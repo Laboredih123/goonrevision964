@@ -17,7 +17,7 @@
 	if(src.mode) // accessing crew manifest
 		var/crew = ""
 		for(var/datum/data/record/t in data_core.general)
-			crew += "[t.fields["name"]] - [t.fields["rank"]]<br>"
+			crew += "[t.fields["name"]] - [t.fields["job"]]<br>"
 		var/dat = {"<tt><b>Crew Manifest:</b><br>
 					Please use security record computer to modify entries.<br>
 					[crew]<a href='?src=\ref[src];print=1'>Print</a><br>
@@ -30,12 +30,12 @@
 				   <i>Please insert the cards into the slots</i><br>"}
 
 	var/target_name = "--------"
-	var/target_rank = "--------"
+	var/target_job = "--------"
 	var/target_owner= "Unassigned"
 
 	if(src.modify)
 		target_name = src.modify.name
-		if(src.modify.assignment)	target_rank = src.modify.assignment
+		if(src.modify.assignment)	target_job = src.modify.assignment
 		if(src.modify.registered)	target_owner = src.modify.registered
 
 	header += "Target: <a href='?src=\ref[src];modify=1'>[target_name]</a><br>"
@@ -50,9 +50,11 @@
 	if(src.authenticated && src.modify)
 		var/jobs = ""
 		var/access = ""
-		var/carddesc = "Registered: <a href='?src=\ref[src];reg=1'>[target_owner]</a><br>Assignment: [target_rank]"
-		var/list/alljobs = get_all_jobs() + "Custom"
-		for(var/job in alljobs)	jobs += "<a href='?src=\ref[src];assign=[job]'>[dd_replacetext(job, " ", "&nbsp")]</a> " //make sure there isn't a line break in the middle of a job
+		var/carddesc = "Registered: <a href='?src=\ref[src];reg=1'>[target_owner]</a><br>Assignment: [target_job]"
+		for(var/datum/job/j in get_all_job_instances())
+			if(!j.switchable_to)
+				continue
+			jobs += "<a href='?src=\ref[src];assign=\ref[j]'>[dd_replacetext(j.name, " ", "&nbsp")]</a> " //make sure there isn't a line break in the middle of a job
 		for(var/A in get_all_accesses())
 			if(A in src.modify.access)
 				access += "<a href='?src=\ref[src];access=[A];allowed=0'><font color=\"red\">[dd_replacetext(get_access_desc(A), " ", "&nbsp")]</font></a> "
@@ -110,15 +112,14 @@
 
 	if(href_list["assign"])
 		if(src.authenticated)
-			var/t1 = href_list["assign"]
-			if(t1 == "Custom") t1 = input("Enter a custom job assignment.","Assignment")
+			var/datum/job/j = locate(href_list["assign"])
+			var/name = j.name
+			if(j.get_access() == null) // custom job
+				name = input("Enter a custom job assignment.","Assignment")
 			else
-				var/list/new_access = get_access(t1)
-				for(var/A in get_all_accesses())
-					src.modify.access -= A
-					if(A in new_access)
-						src.modify.access += A
-			src.modify.assignment = t1
+				var/list/L = j.get_access()
+				src.modify.access = L.Copy()
+			src.modify.assignment = name
 
 	if(href_list["reg"])
 		if(src.authenticated)
@@ -137,7 +138,7 @@
 			var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
 			var/t1 = "<B>Crew Manifest:</B><BR>"
 			for(var/datum/data/record/t in data_core.general)
-				t1 += "<B>[t.fields["name"]]</B> - [t.fields["rank"]]<BR>"
+				t1 += "<B>[t.fields["name"]]</B> - [t.fields["job"]]<BR>"
 			P.info = t1
 			P.name = "paper- 'Crew Manifest'"
 			src.printing = null

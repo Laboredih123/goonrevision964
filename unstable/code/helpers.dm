@@ -104,6 +104,26 @@
 		return (result + L.Copy(Li, 0))
 	return (result + R.Copy(Ri, 0))
 
+/proc/sort_list_num_desc(var/list/L) // sorts a list of numbers numerically, descending
+	// sort_list_num_desc(list(5, 6, 7, 9, 8)) is list(9, 8, 7, 6, 5)
+	if(L.len < 2)
+		return L
+	var/middle = L.len / 2 + 1 // Copy is first,second-1
+	return merge_lists_num_desc(sort_list_num_desc(L.Copy(0,middle)), sort_list_num_desc(L.Copy(middle))) // null second parameter = entire list
+
+/proc/merge_lists_num_desc(var/list/L, var/list/R)
+	var/Li=1
+	var/Ri=1
+	var/list/result = new()
+	while(Li <= L.len && Ri <= R.len)
+		if(L[Li] < R[Ri])
+			result += R[Ri++]
+		else
+			result += L[Li++]
+	if(Li <= L.len)
+		return (result + L.Copy(Li, 0))
+	return (result + R.Copy(Ri, 0))
+
 /proc/dd_file2list(file_path, separator)
 	var/file
 	if(separator == null)

@@ -14,7 +14,7 @@
 		..()
 		sab_target = pick_sab_target()
 		if(sab_target == destroy_ai)
-			ai_target = get_mobs_with_rank("AI")[1]
+			ai_target = get_mobs_with_job(/datum/job/ai)[1]
 
 
 	check_success()
@@ -57,7 +57,7 @@
 
 	proc/pick_sab_target()
 		var/list/targets = list(destroy_plasma, destroy_ai, kill_monkeys, cut_power)
-		var/list/ais = get_mobs_with_rank("AI")
+		var/list/ais = get_mobs_with_job(/datum/job/ai)
 		if(!ais.len)
 			targets -= destroy_ai
 		return pick(targets)

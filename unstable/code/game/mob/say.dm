@@ -73,11 +73,9 @@
 		txt = stutter(txt)
 
 	var/datum/message/msg = new /datum/message(src.voice, txt, src.curr_language)
-	switch(spawn_ranks[src.voice])
-		if("Captain")			msg.speaker_color = COLOR_CAPTAIN
-		if("Security Officer")	msg.speaker_color = COLOR_SECURITY
-		if("Head of Research")	msg.speaker_color = COLOR_HEAD
-		if("Head of Personnel")	msg.speaker_color = COLOR_HEAD
+	var/datum/job/j = spawn_jobs[src.voice]
+	if(j)
+		msg.speaker_color = j.speaker_color
 
 	if(target && istype(target, /obj/item/weapon/radio))
 		target.talk_into(msg, usr)

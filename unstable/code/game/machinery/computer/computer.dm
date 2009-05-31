@@ -26,14 +26,14 @@
 //	src.updateUsrDialog()
 	return 1
 
-/obj/datacore/proc/manifest()
+/obj/datacore/proc/manifest() // TODO: OH JESUS CHRIST MAKE THIS NOT TERRIBLE
 	for(var/mob/carbon/H in world)
 		if(!findtext(H.spawn_name, "Syndicate ", 1, null) && H.client)
 			var/datum/data/record/G = new /datum/data/record()
 			var/datum/data/record/M = new /datum/data/record()
 			var/datum/data/record/S = new /datum/data/record()
 			var/obj/item/weapon/card/id/C = H.id
-			G.fields["rank"]	= (C ? C.assignment : "Unassigned")
+			G.fields["job"]	= (C ? C.assignment : "Unassigned")
 			G.fields["name"]	= H.spawn_name
 			G.fields["id"]		= text("[]", add_zero(num2hex(rand(1, 1.6777215E7)), 6))
 			M.fields["name"]	= G.fields["name"]

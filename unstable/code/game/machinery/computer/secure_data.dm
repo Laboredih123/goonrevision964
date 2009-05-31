@@ -39,12 +39,12 @@
 			if((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
 				dat += text({"Name: <A href='?src=\ref[];field=name'>[]</A> ID: <A href='?src=\ref[];field=id'>[]</A><BR>
 							  Sex: <A href='?src=\ref[];field=sex'>[]</A><BR>
-							  Rank: <A href='?src=\ref[];field=rank'>[]</A><BR>
+							  job: <A href='?src=\ref[];field=job'>[]</A><BR>
 							  Fingerprint: <A href='?src=\ref[];field=fingerprint'>[]</A><BR>
 							  Physical Status: []<BR>
 							  Mental Status: []<BR>"},
 							  src, src.active1.fields["name"],	src, src.active1.fields["id"],
-							  src, src.active1.fields["sex"],	src, src.active1.fields["rank"],
+							  src, src.active1.fields["sex"],	src, src.active1.fields["job"],
 							  src, src.active1.fields["fingerprint"],
 							  src.active1.fields["p_stat"],
 							  src.active1.fields["m_stat"])
@@ -103,7 +103,7 @@
 		src.authenticated = null
 	else if(href_list["login"])
 		if(istype(usr, /mob/silicon/ai))
-			src.rank = "AI"
+			src.job = "AI"
 			src.screen = 1
 			src.active1 = null
 			src.active2 = null
@@ -114,7 +114,7 @@
 			src.active2 = null
 			if(src.check_access(src.scan))
 				src.screen = 1
-				src.rank = src.scan.assignment
+				src.job = src.scan.assignment
 				src.authenticated = src.scan.registered
 				if(access_change_ids in src.scan.access)
 					src.can_change_id = 1
@@ -187,16 +187,16 @@
 			if("criminal")
 				if(istype(src.active2, /datum/data/record))
 					src.temp = text("<B>Criminal Status:</B><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=none'>None</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=arrest'>*Arrest*</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=incarcerated'>Incarcerated</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=parolled'>Parolled</A><BR>\n\t<A href='?src=\ref[];temp=1;criminal2=released'>Released</A><BR>", src, src, src, src, src)
-			if("rank")
+			if("job")
 				if(istype(src.active1, /datum/data/record) && src.can_change_id)
-					src.temp = "<B>Rank:</B><BR>\n"
-					var/list/alljobs = get_all_jobs()
+					src.temp = "<B>job:</B><BR>\n"
+					var/list/alljobs = get_all_job_instances()
 					for(var/job in alljobs)
-						src.temp += "<A HREF='?src=\ref[src];temp=1;rank=[job]'>[dd_replacetext(job, " ", "&nbsp")]</A><BR>\n"
+						src.temp += "<A HREF='?src=\ref[src];temp=1;job=[job]'>[dd_replacetext(job, " ", "&nbsp")]</A><BR>\n"
 			else
-	else if(href_list["rank"])
+	else if(href_list["job"])
 		if(src.can_change_id)
-			src.active1.fields["rank"] = href_list["rank"]
+			src.active1.fields["job"] = href_list["job"]
 	else if(href_list["criminal2"])
 		if(src.active2)
 			switch(href_list["criminal2"])
@@ -241,7 +241,7 @@
 		var/datum/data/record/G = new /datum/data/record()
 		G.fields["name"]	= "New Record"
 		G.fields["id"]		= text("[]", add_zero(num2hex(rand(1, 1.6777215E7)), 6))
-		G.fields["rank"]	= "Unassigned"
+		G.fields["job"]	= "Unassigned"
 		G.fields["sex"]		= "Male"
 		G.fields["fingerprint"]	= "Unknown"
 		G.fields["p_stat"]	= "Active"
@@ -272,7 +272,7 @@
 		if(!t1 || a2 != src.active2) return 1
 		var/counter = 1
 		while(src.active2.fields[text("com_[]", counter)]) counter++
-		src.active2.fields[text("com_[]", counter)] = text("Made by [] ([]) on [], 2053<BR>[]", src.authenticated, src.rank, time2text(world.realtime, "DDD MMM DD hh:mm:ss"), t1)
+		src.active2.fields[text("com_[]", counter)] = text("Made by [] ([]) on [], 2053<BR>[]", src.authenticated, src.job, time2text(world.realtime, "DDD MMM DD hh:mm:ss"), t1)
 	else if(href_list["del_c"])
 		if((istype(src.active2, /datum/data/record) && src.active2.fields[text("com_[]", href_list["del_c"])]))
 			src.active2.fields[text("com_[]", href_list["del_c"])] = "<B>Deleted</B>"

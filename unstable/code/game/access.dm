@@ -73,31 +73,6 @@
 		if(!(req in I.access)) return 0 //doesn't have this access
 	return 1
 
-/proc/get_access(job)
-	switch(job)
-		if("Chaplain")					return list(access_morgue, access_chaplain_office)
-		if("Assistant")					return list(access_genetics, access_maint_tunnels, access_external_airlocks)
-		if("Station Engineer")			return list(access_engine, access_eject_engine, access_external_airlocks, access_apcs, access_tech_storage)
-		if("Forensic Technician")		return list(access_security, access_forensics_lockers, access_morgue)
-		if("Research Technician")		return list(access_medical_supplies, access_tox, access_tox_storage, access_genetics)
-		if("Atmospheric Technician")	return list(access_maint_tunnels, access_emergency_storage, access_atmospherics)
-		if("Medical Doctor")			return list(access_medical_supplies, access_morgue, access_medical_records)
-		if("Captain")					return get_all_accesses()
-		if("Security Officer")			return list(access_security, access_brig, access_security_lockers)
-		if("Genetic Researcher")		return list(access_medical_supplies, access_morgue, access_genetics, access_medical_records)
-		if("Toxin Researcher")			return list(access_tox, access_tox_storage)
-		if("Head of Research")
-			return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_genetics,
-			            access_teleporter, access_heads, access_medical_records, access_tech_storage, access_security)
-		if("Head of Personnel")
-			return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
-						access_security_records, access_tox, access_tox_storage, access_genetics, access_engine,
-						access_emergency_storage, access_change_ids, access_ai_upload, access_eva, access_heads,
-						access_all_personal_lockers, access_chaplain_office, access_medical_records, access_tech_storage,
-						access_atmospherics)
-		else
-			return list()
-
 /proc/get_all_accesses()
 	return list(access_security, access_brig, access_security_lockers, access_forensics_lockers,
 	            access_security_records, access_medical_supplies, access_medical_records, access_morgue, access_tox,
@@ -137,19 +112,16 @@
 		if(access_atmospherics)			return "access atmospherics"
 	return "invalid access"
 
-/proc/get_all_jobs()
-	return list("Assistant", "Station Engineer", "Forensic Technician", "Research Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
-
 /proc/get_target_desc(mob/target) //return a useful string describing the target
-	var/targetrank = null
+	var/targetjob = null
 	for(var/datum/data/record/R in data_core.general)
 		if(R.fields["name"] == target.spawn_name)
-			targetrank = R.fields["rank"]
-	return "[target.name] the [targetrank]"
+			targetjob = R.fields["job"]
+	return "[target.name] the [targetjob]"
 
-/proc/get_mobs_with_rank(rank)
+/proc/get_mobs_with_job(datum/job/job)
 	var/list/mobs = list()
 	for(var/mob/M in world)
-		if(M.spawn_rank == rank)
+		if(istype(M.spawn_job, job))
 			mobs += M
 	return mobs
