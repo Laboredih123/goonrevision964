@@ -48,6 +48,12 @@
 				new /datum/effect/traitor_radio(spy)
 		..()
 
+	get_traitors()
+		var/list/L = list()
+		for(var/list/team in spyteams)
+			L += team
+		return L
+
 /proc/pick_carbon_synd_except(list/exceptions)
 	var/list/synd_list = get_carbon_synd_list()
 	synd_list -= exceptions
