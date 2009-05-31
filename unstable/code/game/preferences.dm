@@ -85,7 +85,7 @@
 		dat += "<a href=\"byond://?src=\ref[src];[x]=input\"><b>[capitalize(vars[x])]</b></a><br>"
 	dat += "<hr>"
 
-	dat += "<b>Occupation Choices</b>:<br>"
+	dat += "<b>Job Choices</b>:<br>"
 	dat += "First Choice: <a href=\"byond://?src=\ref[src];job=1\">[src.job1 ? "<b>[src.job1.name]</b>" : "No Preference"]</a><br>"
 	if (src.job1)
 		dat += "Second Choice: <a href=\"byond://?src=\ref[src];job=2\">[src.job2 ? "<b>[src.job2]</b>" : "No Preference"]</a><br>"
@@ -95,7 +95,7 @@
 	dat += "<br><a href='byond://?src=\ref[src];reset=1'>Reset</a>"
 	dat += "<h2><a href='byond://?src=\ref[src];ready=1'>Ready</a></h2>"
 	dat += "</body></html>"
-	ss13_browse(M, dat, "window=mob_occupations;size=300x600;can_close=[!M.mob || !istype(M.mob,/mob/prespawn)]")
+	ss13_browse(M, dat, "window=mob_jobs;size=300x600;can_close=[!M.mob || !istype(M.mob,/mob/prespawn)]")
 
 /datum/preferences/Topic(href, href_list)
 	if(href_list["name"])
@@ -130,7 +130,7 @@
 		else src.be_syndicate = "No"
 	else if(href_list["ready"])
 		if(!istype(usr,/mob/prespawn))
-			ss13_browse(usr, null, "window=mob_occupations")
+			ss13_browse(usr, null, "window=mob_jobs")
 			return save()
 
 		var/mob/prespawn/new_player = usr
@@ -150,7 +150,7 @@
 				usr << "You are using a name that is very similar to a currently used name, please choose another one using Character Setup."
 				return
 		save()
-		ss13_browse(usr, null, "window=mob_occupations")
+		ss13_browse(usr, null, "window=mob_jobs")
 		if(new_player.ready)
 			return //	they clicked ready before
 

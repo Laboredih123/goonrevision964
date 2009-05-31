@@ -515,9 +515,11 @@
 			return
 
 /mob/carbon/proc/CameraInvisible()
-	for(var/obj/item/weapon/jammer/S in src)
+	for(var/obj/item/weapon/camera_jammer/S in src)
 		if(S.on)
 			return 1
+	if(istype(src.id, /obj/item/weapon/card/id/syndicate))
+		return 1
 	return 0
 
 /mob/carbon/proc/drop_item_v()

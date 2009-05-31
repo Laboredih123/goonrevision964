@@ -593,13 +593,12 @@
 	list("Nuke Disk Pinpointer", 1, /obj/item/weapon/pinpointer),
 	list("Cyanide Pill", 1, /obj/item/weapon/m_pill/cyanide),
 	list("Freedom Implant (with injector)", 1, /obj/item/weapon/implanter),
-	list("Syndicate Card", 1, /obj/item/weapon/card/id/syndicate),
+	list("Camera Jammer", 1, /obj/item/weapon/camera_jammer),
 	list("Sleepy Pen", 1, /obj/item/weapon/pen/sleepypen/),
 	list("OxygenIsToxicToHumans AI Module", 1, /obj/item/weapon/aiModule/oxygen),
 	list("Electromagnet Card", 2, /obj/item/weapon/card/emag),
 	list("Revolver", 2, /obj/item/weapon/gun/revolver),
 	list("Voice Changer", 2, /obj/item/weapon/clothing/mask/gasmask/voice_changer),
-	list("Camera Jammer", 2, /obj/item/weapon/jammer),
 	list("Cloaking Device", 3, /obj/item/weapon/cloaking_device))
 
 /obj/item/weapon/syndicate_uplink/attack_self(mob/user as mob)

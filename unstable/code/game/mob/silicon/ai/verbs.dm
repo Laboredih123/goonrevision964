@@ -60,8 +60,6 @@
 	var/list/namecounts = list()
 	var/list/creatures = list()
 	for (var/mob/carbon/M in world)
-		if (istype(M.id, /obj/item/weapon/card/id/syndicate))
-			continue
 		if(!istype(M.loc, /turf)) //in a closet or something, AI can't see him anyways
 			continue
 		if(M.invisibility) //cloaked
@@ -88,7 +86,6 @@
 	track_mob(creatures[target_name])
 
 /mob/silicon/ai/proc/track_mob(mob/carbon/target)
-
 	usr:cameraFollow = target
 	usr << text("Now tracking [] on camera.", target.name)
 	if (usr.machine == null)
@@ -98,7 +95,7 @@
 		while (usr:cameraFollow == target)
 			if (usr:cameraFollow == null)
 				return
-			else if (istype(target.id, /obj/item/weapon/card/id/syndicate))
+			else if (target.CameraInvisible())
 				usr << "Tracking Error"
 				usr:cameraFollow = null
 				return

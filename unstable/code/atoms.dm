@@ -1181,7 +1181,7 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = 322.0
 	s_istate = "electronic"
 
-/obj/item/weapon/jammer
+/obj/item/weapon/camera_jammer
 	name = "Camera Jammer"
 	desc = "Creates an EM field that blocks camera tracking."
 	icon_state = "jammer0"

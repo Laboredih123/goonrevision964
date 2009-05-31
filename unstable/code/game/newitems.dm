@@ -38,7 +38,7 @@
 
 		sleep(10)
 
-/obj/item/weapon/jammer/attack_self(mob/user)
+/obj/item/weapon/camera_jammer/attack_self(mob/user)
 	on = !on
 	src.add_fingerprint(user)
 	icon_state = "jammer[on]"

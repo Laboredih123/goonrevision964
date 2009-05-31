@@ -2,6 +2,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Saturday, May 29. 2009</b></p>
 <ul>
+<li><b>732</b> - Since it fills the same purpose as the camera jammer, traitor can no longer spawn a syndicate
+ID card.</li>
 <li><b>731</b> - Redid job system to use /datum/job instead of strings. Adding new jobs should now be easier,
 among other nice things.</li>
 </ul>
