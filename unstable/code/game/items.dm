@@ -647,7 +647,7 @@
 		else if(istype(O, /obj/item/weapon/implanter))
 			var/obj/item/weapon/implanter/I = O
 			I.imp = new /obj/item/weapon/implant/freedom(I)
-			src.temp = "The implant is triggered by chuckling and has a random amount of uses."
+			src.temp = "The implant is triggered by chuckling (.chuckle verb) and has a random amount of uses."
 		else if (href_list["lock"])
 			// presto chango, a regular radio again! (reset the freq too...)
 			usr.machine = null
