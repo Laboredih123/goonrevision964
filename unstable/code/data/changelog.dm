@@ -2,6 +2,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Sunday, May 31. 2009</b></p>
 <ul>
+<li><b>748</b> - Clickable "vote" link added to vote notification.</li>
+<li><b>747</b> - Added "disable lockdown" feature to comm computers.</li>
 <li><b>742</b> - Multitraitor.</li>
 <li><b>741</b> - Folded assistant, atmos tech, and engineer jobs into "technician" job, with more access and
 responsibilities. Made engine start at the start of the round without any human intervention.</li>

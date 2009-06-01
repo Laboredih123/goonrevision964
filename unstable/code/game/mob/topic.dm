@@ -2,7 +2,7 @@
 	if (href_list["mach_close"])
 		src.machine = null
 		ss13_browse(src, null, "window=[href_list["mach_close"]]")
-	if(href_list["priv_msg"])
+	else if(href_list["priv_msg"])
 		var/mob/M = locate(href_list["priv_msg"])
 		if(M)
 			if(!ismob(M))	return
@@ -12,4 +12,6 @@
 			usr << "\blue PM to-<B><A href='?src=\ref[usr];priv_msg=\ref[M]'>[M.key]</A></B>: [t]"
 
 			world.log_admin("PM: [usr.key]->[M.key] : [t]")
+	else if(href_list["vote"])
+		src.vote()
 	return ..()

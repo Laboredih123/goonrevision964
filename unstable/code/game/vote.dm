@@ -290,12 +290,11 @@
 		spawn(config.vote_period*10)
 			vote.endvote()
 
-		world << "\red<B>*** A vote to [vote.mode?"change game mode":"restart"] has been initiated by [M.key].</B>"
-		world << "\red     You have [vote.timetext(config.vote_period)] to vote."
-
 		world.log_vote("Voting to [vote.mode ? "change mode" : "restart round"] started by [M.name]/[M.key]")
 
 		for(var/mob/CM in world)
+			CM << "\red<B>*** A vote to [vote.mode?"change game mode":"restart"] has been initiated by [M.key].</B>"
+			CM << "\red     You have [vote.timetext(config.vote_period)] to <a href='?src=\ref[CM];vote=1'>vote.</a>"
 			if(CM.client)
 				if(config.vote_no_default || (config.vote_no_dead && CM.is_dead) || !CM.client.authenticated)
 					CM.client.vote = "none"
