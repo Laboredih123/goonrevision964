@@ -2,6 +2,8 @@
 	set category = "AI Commands"
 	..()
 
+/var/locked_down = 0
+
 /mob/silicon/ai/proc/lockdown()
 	set name = "Lockdown"
 	set category = "AI Commands"
@@ -10,25 +12,15 @@
 		src <<"You cannot initiate lockdown because you are dead!"
 		return
 
-	src.cancel_camera()
-	station_announce("Lockdown initiated by [src.name]!")
+	if(src.last_lockdown + 100 > ss13time())
+		src << "You locked down too recently! Wait a few seconds first."
+		return
 
-	for(var/obj/machinery/firealarm/FA in world)	//	activate firealarms
-		spawn(0)
-			FA.alarm()
+	src.last_lockdown = ss13time()
 
-	for(var/obj/machinery/door/airlock/AL in world) //	close airlocks
-		spawn( 0 )
-			if(AL.close())
-				AL.locked = 1						//	and seal 'em
+	begin_lockdown(src)
 
-	src << "\red Lockdown command removed for 10 seconds."
-
-	src.verbs -= /mob/silicon/ai/proc/lockdown
 	src.verbs += /mob/silicon/ai/proc/disablelockdown
-
-	spawn(100)	//	wait 10 seconds
-		src.verbs += /mob/silicon/ai/proc/lockdown
 
 /mob/silicon/ai/proc/disablelockdown()
 	set name = "Disable Lockdown"
@@ -38,19 +30,39 @@
 		src <<"You cannot disable lockdown because you are dead!"
 		return
 
-	src.cancel_camera()
-	station_announce("Lockdown cancelled by [src.name]!")
+	end_lockdown(src)
+
+	src << "\red Disable lockdown command disabled until lockdown engaged again!"
+	while(/mob/silicon/ai/proc/disablelockdown in src.verbs)
+		src.verbs -= /mob/silicon/ai/proc/disablelockdown
+
+/proc/begin_lockdown(mob/originator)
+	locked_down = 1
+
+	station_announce("Lockdown initiated by [originator.name]!")
+
+
+	for(var/obj/machinery/firealarm/FA in world)	// activate firealarms
+		spawn(0)
+			FA.alarm()
+
+	for(var/obj/machinery/door/airlock/AL in world) // close airlocks
+		spawn(0)
+			if(AL.close())
+				AL.locked = 1 // and seal 'em
+
+/proc/end_lockdown(mob/originator)
+	locked_down = 0
+
+	station_announce("Lockdown cancelled by [originator.name]!")
 
 	for(var/obj/machinery/firealarm/FA in world)
 		spawn(0)
 			FA.reset()
 
-	for(var/obj/machinery/door/airlock/AL in world) //	open airlocks
+	for(var/obj/machinery/door/airlock/AL in world) //	unlock airlocks
 		if(AL.locked && AL.arePowerSystemsOn())
 			AL.locked = 0
-
-	src << "\red Disable lockdown command disabled until lockdown engaged again!"
-	src.verbs -= /mob/silicon/ai/proc/disablelockdown
 
 /mob/silicon/ai/proc/ai_camera_track()
 	set category = "AI Commands"
@@ -100,7 +112,7 @@
 				usr:cameraFollow = null
 				return
 			else if (!target || !istype(target.loc, /turf)) //in a closet
-				usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
+				usr << "Target is not on or near any active cameras on the station. We'll check again in 5 seconds (unless you use the cancel-camera verb)."
 				sleep(40) //because we're sleeping another second after this (a few lines down)
 				continue
 
@@ -131,7 +143,7 @@
 						usr.reset_view(closest)
 						//use_power(50)
 					if (zmatched == 0)
-						usr << "Target is not on or near any active cameras on the station. We'll check again in 30 seconds (unless you use the cancel-camera verb)."
+						usr << "Target is not on or near any active cameras on the station. We'll check again in 5 seconds (unless you use the cancel-camera verb)."
 						sleep(40) //because we're sleeping another second after this (a few lines down)
 			else
 				usr << "Follow camera mode ended."

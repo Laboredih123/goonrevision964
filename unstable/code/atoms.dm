@@ -2139,11 +2139,11 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Fire Alarm"
 	icon = 'items.dmi'
 	icon_state = "firealarm"
-	var/detecting = 1.0
-	var/working = 1.0
-	var/time = 10.0
-	var/timing = 0.0
-	anchored = 1.0
+	var/detecting = 1
+	var/working = 1
+	var/time = 10
+	var/timing = 0
+	anchored = 1
 /obj/machinery/freezer
 	name = "Freezer"
 	icon = 'Cryogenic2.dmi'

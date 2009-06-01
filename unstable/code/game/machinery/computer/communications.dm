@@ -112,6 +112,9 @@
 			if(src.authenticated)
 				uncall_shuttle()
 			src.state = STATE_DEFAULT
+		if("end-lockdown")
+			if(locked_down)
+				end_lockdown()
 
 
 	src.updateUsrDialog()
@@ -136,7 +139,11 @@
 					dat += "\[<a href='?src=\ref[src];operation=callshuttle'> Call Emergency Shuttle </a>\]<br>"
 				else if(shuttle_status == SHUTTLE_COMING)
 					dat += "\[ <A HREF='?src=\ref[src];operation=cancelshuttle'>Cancel Shuttle Call</A> \]<br>"
-				dat += "\[<a href='?src=\ref[src];operation=logout'> Log Out </a>\]<br>"
+
+				if(locked_down)
+					dat += "\[ <a href='?src=\ref[src];operation=end-lockdown'>End Lockdown </a> \]<br>"
+
+				dat += "\[ <a href='?src=\ref[src];operation=logout'>Log Out </a> \]<br>"
 			else
 				dat += "\[ <A HREF='?src=\ref[src];operation=login'>Log In</A> \]<br>"
 			dat += "\[ <A HREF='?src=\ref[src];operation=messagelist'>Message List</A> \]<br>"

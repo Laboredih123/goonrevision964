@@ -12,6 +12,7 @@
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list())
 	var/viewalerts = 0
 	var/is_evil = 0
+	var/last_lockdown = 0
 
 /proc/AutoUpdateAI(obj/subject)
 	if (subject!=null)

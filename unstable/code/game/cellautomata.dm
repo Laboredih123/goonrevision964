@@ -237,8 +237,6 @@
 		M.manifest()
 	data_core.manifest()
 
-	world.log_game("Jobs divided, now starting mode.")
-
 	current_mode.execute()
 	for(var/obj/start/S in world)
 		del(S)
