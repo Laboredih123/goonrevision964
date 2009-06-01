@@ -716,7 +716,6 @@
 
 	// strength of 773 (500C pure plasma) gives m_range around 2, same as in old system
 	var/m_range = min(sqrt(strength/250 - 1), MAX_BOMB_RADIUS)
-	world << "M_RANGE IS [m_range] STRENGTH IS [strength]"
 
 	var/min = round(m_range)
 	var/med = round(m_range * 2)
