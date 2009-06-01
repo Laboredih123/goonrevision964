@@ -7,9 +7,9 @@
 	anchored = 1	//  don't get pushed around
 	var/mob/corpse = null	//	observer mode
 	var/datum/hud/carbon/hud = null // hud
+	invisibility = 101
 
 /mob/observer/New(mob/corpse)
-	set invisibility = 101
 	src.corpse		= corpse
 	src.loc			= corpse.loc
 	src.name		= corpse.name
