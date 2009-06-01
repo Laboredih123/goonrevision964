@@ -16,6 +16,8 @@
 				if(M.client)
 					ss13_browse(M, null, "window=vote")
 					M.client.showvote = 0
+		if(href_list["refresh"] == "0")
+			return
 		return ..()
 
 	get_desc()

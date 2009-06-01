@@ -296,6 +296,10 @@
 			CM << "\red<B>*** A vote to [vote.mode?"change game mode":"restart"] has been initiated by [M.key].</B>"
 			CM << "\red     You have [vote.timetext(config.vote_period)] to <a href='?src=\ref[CM];vote=1'>vote.</a>"
 			if(CM.client)
+				for(var/datum/admin_power/p in CM.client.powers)
+					if(istype(p, /datum/admin_power/abort_vote))
+						CM << "<a href='?src=\ref[p];refresh=0'>Abort Vote</a>"
+						break
 				if(config.vote_no_default || (config.vote_no_dead && CM.is_dead) || !CM.client.authenticated)
 					CM.client.vote = "none"
 				else
