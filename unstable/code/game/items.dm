@@ -3091,7 +3091,8 @@
 		else
 			user.see("\blue The igniter can now be attached!")
 		src.add_fingerprint(user)
-	return ..()
+	else
+		return ..()
 
 /obj/item/weapon/igniter/attack_self(mob/user as mob)
 
