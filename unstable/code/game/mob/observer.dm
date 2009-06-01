@@ -30,10 +30,20 @@
 	if(NewLoc)
 		src.loc = NewLoc
 		return
-	if(direct & NORTH)	src.y++
-	if(direct & SOUTH)	src.y--
-	if(direct & EAST)	src.x++
-	if(direct & WEST)	src.x--
+	if((direct & NORTH) && src.y < world.maxy)
+		src.y++
+	if((direct & SOUTH) && src.y > 1)
+		src.y--
+	if((direct & EAST) && src.x < world.maxx)
+		src.x++
+	if((direct & WEST) && src.x > 1)
+		src.x--
+
+/mob/observer/verb/JumpToZ()
+	var/list/L = list()
+	for(var/z = 1; z <= world.maxz; z++)
+		L += z
+	src.z = input("Choose a z-level to jump to.", "Z LEVEL", src.z) in L
 
 /mob/observer/examine()
 	if(usr)	usr << src.desc

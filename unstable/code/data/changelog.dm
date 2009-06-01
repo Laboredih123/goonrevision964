@@ -2,6 +2,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Monday, June 1. 2009</b></p>
 <ul>
+<li><b>761</b> - Observers can no longer wander off the edge of the map into nothingness. Added "JumpToZ" verb for
+observers, in case they want to observe different z-levels.</li>
 <li><b>760</b> - Added false rwalls.</li>
 <li><b>749</b> - Clickable "abort vote" link added to vote notification for admins.</li>
 </ul>
