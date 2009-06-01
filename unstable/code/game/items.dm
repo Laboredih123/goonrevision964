@@ -3084,15 +3084,14 @@
 		src.add_fingerprint(user)
 
 
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
-		return
-	src.status = !( src.status )
-	if (src.status)
-		user.see("\blue The igniter is ready!")
-	else
-		user.see("\blue The igniter can now be attached!")
-	src.add_fingerprint(user)
-	return
+	else if (istype(W, /obj/item/weapon/screwdriver))
+		src.status = !( src.status )
+		if (src.status)
+			user.see("\blue The igniter is ready!")
+		else
+			user.see("\blue The igniter can now be attached!")
+		src.add_fingerprint(user)
+	return ..()
 
 /obj/item/weapon/igniter/attack_self(mob/user as mob)
 

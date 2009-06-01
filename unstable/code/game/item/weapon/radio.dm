@@ -222,7 +222,6 @@
 	if(src.b_stat)	user.see("<font color='blue'>The radio can now be attached and modified!</font>")
 	else			user.see("<font color='blue'>The radio can no longer be modified or attached!</font>")
 	src.add_fingerprint(user)
-	return ..()
 
 /obj/item/weapon/radio/signaler/receive(datum/message/M, freq)
 	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.
