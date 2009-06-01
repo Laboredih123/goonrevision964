@@ -1186,6 +1186,7 @@ obj/item/weapon/clothing/suit/labcoat
 	desc = "Creates an EM field that blocks camera tracking."
 	icon_state = "jammer0"
 	flags = FPRINT|ONBELT
+	w_class = 2
 	s_istate = "electronic"
 	var/on = 0
 
