@@ -2,6 +2,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></
 <hr>
 <p><b>Monday, June 1. 2009</b></p>
 <ul>
+<li><b>760</b> - Added false rwalls.</li>
 <li><b>749</b> - Clickable "abort vote" link added to vote notification for admins.</li>
 </ul>
 

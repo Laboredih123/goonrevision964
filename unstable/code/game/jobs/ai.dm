@@ -16,7 +16,7 @@
 			return newname
 
 	create(mob/prespawn/P, joined_late)
-		var/name = src.process_name(P.client.prefs.name)
+		var/name = src.process_name(P.client.prefs.name, P)
 		var/loc = src.find_spawnpoint()
 		var/mob/silicon/ai/A = new(loc, name)
 		A.client = P.client

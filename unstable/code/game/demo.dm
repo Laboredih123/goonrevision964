@@ -1700,13 +1700,13 @@
 /obj/stool/blob_act()
 
 	if(prob(50))
-		new /obj/item/weapon/sheet/metal( src.loc )
+		new /obj/item/weapon/sheet/metal(src.loc)
 		del(src)
 
 /obj/stool/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/sheet/metal( src.loc )
+		new /obj/item/weapon/sheet/metal(src.loc)
 		//SN src = null
 		del(src)
 
@@ -2425,16 +2425,14 @@
 	if ((M.icon_state == "flaming" && prob(30)))
 		if (src.state == 2)
 			src.state = 1
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/weapon/sheet/metal(src, 2)
 			update()
 		else
 			if ((prob(20) && src.state == 1))
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/weapon/sheet/metal(F, 2)
 				F.levelupdate()
 	return
 
@@ -2517,16 +2515,14 @@
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/weapon/sheet/metal(src, 2)
 			else
 				src.state = 0
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/weapon/sheet/metal(F, 2)
 				F.levelupdate()
 		if(3.0)
 			if (prob(15))
@@ -2537,8 +2533,7 @@
 				src.intact = 0
 				src.levelupdate()
 				src.state = 1
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/weapon/sheet/metal(src, 2)
 				src.icon_state = "girder"
 				update()
 		else
@@ -2643,8 +2638,7 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/weapon/sheet/metal(F, 2)
 				F.levelupdate()
 		else if (istype(W, /obj/item/weapon/sheet/r_metal))
 			src.state = 2
@@ -2683,8 +2677,7 @@
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/weapon/sheet/metal(src, 2)
 				src.icon_state = "girder"
 			else
 				src.state = 0
@@ -2692,8 +2685,7 @@
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/weapon/sheet/metal(F, 2)
 				F.levelupdate()
 		if(3.0)
 			if (prob(25))
@@ -2703,8 +2695,7 @@
 				src.intact = 0
 				levelupdate()
 				src.state = 1
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/weapon/sheet/metal(src, 2)
 				src.icon_state = "girder"
 	return
 
@@ -2761,8 +2752,7 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-			new /obj/item/weapon/sheet/metal( F )
-			new /obj/item/weapon/sheet/metal( F )
+			new /obj/item/weapon/sheet/metal(F, 2)
 			F.levelupdate()
 	else if ((istype(W, /obj/item/weapon/screwdriver) && src.state == 1))
 		var/turf/T = user.loc
@@ -2812,8 +2802,7 @@
 			src.state = 1
 			src.intact = 0
 			levelupdate()
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/weapon/sheet/metal(src, 2)
 			src.icon_state = "girder"
 	else if (istype(W, /obj/item/weapon/sheet/metal) && src.state == 1 && W:amount >= 2)
 		var/turf/T = user.loc
@@ -2854,15 +2843,13 @@
 			src.updatecell = 1
 			src.buildlinks()
 			src.firelevel = 11
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/weapon/sheet/metal(src, 2)
 		else
 			if ((prob(20) && src.state == 1))
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/weapon/sheet/metal(F, 2)
 				F.levelupdate()
 	return
 

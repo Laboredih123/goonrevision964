@@ -1424,36 +1424,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	force = 7.0
 	throwforce = 10.0
 	s_istate = "shard-glass"
-/obj/item/weapon/sheet
-	name = "sheet"
-	var/amount = 1.0
-	var/length = 2.5
-	var/width = 1.5
-	var/height = 0.01
-	flags = 322.0
-	throwforce = 7.0
-	throw_speed = 1
-	throw_range = 4
-	w_class = 4.0
-/obj/item/weapon/sheet/glass
-	name = "glass"
-	icon_state = "sheet-glass"
-	force = 5.0
-/obj/item/weapon/sheet/rglass
-	name = "reinforced glass"
-	icon_state = "sheet-rglass"
-	s_istate = "sheet-rglass"
-	force = 6.0
-/obj/item/weapon/sheet/metal
-	name = "metal"
-	icon_state = "sheet-metal"
-	throwforce = 14.0
-/obj/item/weapon/sheet/r_metal
-	name = "reinforced metal"
-	icon_state = "sheet-r_metal"
-	force = 5.0
-	throwforce = 14.0
-	s_istate = "sheet-metal"
 /obj/item/weapon/storage
 	name = "storage"
 	var/obj/screen/storage/boxes = null

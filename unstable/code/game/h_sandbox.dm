@@ -96,13 +96,9 @@ datum/hSB
 						if(P.mask)
 							P.internal = P.back
 				if("hsbmetal")
-					var/obj/item/weapon/sheet/hsb = new/obj/item/weapon/sheet/metal
-					hsb.amount = 50
-					hsb.loc = usr.loc
+					new/obj/item/weapon/sheet/metal(usr.loc, 50)
 				if("hsbglass")
-					var/obj/item/weapon/sheet/hsb = new/obj/item/weapon/sheet/glass
-					hsb.amount = 50
-					hsb.loc = usr.loc
+					new/obj/item/weapon/sheet/glass(usr.loc, 50)
 				if("hsbairlock")
 					var/obj/machinery/door/hsb = new/obj/machinery/door/airlock
 

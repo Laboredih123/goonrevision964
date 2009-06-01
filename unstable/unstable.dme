@@ -173,6 +173,7 @@
 #include "code\game\item\weapon\pinpointer.dm"
 #include "code\game\item\weapon\poster.dm"
 #include "code\game\item\weapon\radio.dm"
+#include "code\game\item\weapon\sheet.dm"
 #include "code\game\item\weapon\tracking_implant.dm"
 #include "code\game\jobs\ai.dm"
 #include "code\game\jobs\captain.dm"

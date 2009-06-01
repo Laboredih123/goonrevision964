@@ -24,8 +24,11 @@
 		while(1)
 			var/num_mobs = 0
 			for(var/mob/M in world)
-				if(M.client)
-					num_mobs++
+				if(!M.client)
+					continue
+				if(istype(M, /mob/prespawn))
+					continue
+				num_mobs++
 			if(!num_mobs)
 				sleep(30)
 				continue

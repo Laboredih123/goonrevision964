@@ -1219,21 +1219,21 @@
 "xw" = (/obj/closet,/turf/station/floor,/area/crew_quarters/female)
 "xx" = (/obj/stool/bed,/turf/station/floor,/area/arrival/start)
 "xy" = (/turf/station/floor,/area/crew_quarters/female)
-"xz" = (/obj/machinery/firealarm{pixel_y = 31},/turf/station/wall,/area/crew_quarters/female)
-"xA" = (/obj/item/weapon/extinguisher,/turf/station/floor,/area/crew_quarters/female)
-"xB" = (/obj/stool,/turf/station/floor,/area/crew_quarters/female)
-"xC" = (/obj/table,/obj/item/weapon/game_kit,/turf/station/floor,/area/crew_quarters/female)
-"xD" = (/obj/stool,/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor,/area/crew_quarters/female)
-"xE" = (/obj/window{dir = 10},/turf/station/floor,/area/hallway/primary/west)
-"xF" = (/obj/cable{icon_state = "2-8"; d1 = 2; d2 = 8},/turf/station/wall,/area/hallway/primary/south)
-"xG" = (/obj/machinery/connector{tag = ""; name = "Cell #1 Connector"; icon_state = "connector"; dir = 1; p_dir = 1},/obj/machinery/atmoalter/canister/anesthcanister{maximum = 1.3e+008; c_per = 50000; c_status = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"xH" = (/obj/machinery/connector{tag = ""; name = "Cell #2 Connector"; icon_state = "connector"; dir = 1; p_dir = 1},/obj/machinery/atmoalter/canister/anesthcanister{maximum = 1.3e+008; c_per = 50000; c_status = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"xI" = (/obj/machinery/connector{tag = ""; name = "Cell #3 Connector"; icon_state = "connector"; dir = 1; p_dir = 1},/obj/machinery/atmoalter/canister/anesthcanister{maximum = 1.3e+008; c_per = 50000; c_status = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"xJ" = (/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"xK" = (/obj/closet/emcloset,/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"xL" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"xM" = (/obj/table{icon_state = "sides"; dir = 4},/obj/item/weapon/timer,/turf/station/floor,/area/bridge)
-"xN" = (/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/space,/area)
+"xz" = (/obj/item/weapon/extinguisher,/turf/station/floor,/area/crew_quarters/female)
+"xA" = (/obj/stool,/turf/station/floor,/area/crew_quarters/female)
+"xB" = (/obj/table,/obj/item/weapon/game_kit,/turf/station/floor,/area/crew_quarters/female)
+"xC" = (/obj/stool,/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor,/area/crew_quarters/female)
+"xD" = (/obj/window{dir = 10},/turf/station/floor,/area/hallway/primary/west)
+"xE" = (/obj/cable{icon_state = "2-8"; d1 = 2; d2 = 8},/turf/station/wall,/area/hallway/primary/south)
+"xF" = (/obj/machinery/connector{tag = ""; name = "Cell #1 Connector"; icon_state = "connector"; dir = 1; p_dir = 1},/obj/machinery/atmoalter/canister/anesthcanister{maximum = 1.3e+008; c_per = 50000; c_status = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"xG" = (/obj/machinery/connector{tag = ""; name = "Cell #2 Connector"; icon_state = "connector"; dir = 1; p_dir = 1},/obj/machinery/atmoalter/canister/anesthcanister{maximum = 1.3e+008; c_per = 50000; c_status = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"xH" = (/obj/machinery/connector{tag = ""; name = "Cell #3 Connector"; icon_state = "connector"; dir = 1; p_dir = 1},/obj/machinery/atmoalter/canister/anesthcanister{maximum = 1.3e+008; c_per = 50000; c_status = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"xI" = (/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"xJ" = (/obj/closet/emcloset,/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"xK" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"xL" = (/obj/table{icon_state = "sides"; dir = 4},/obj/item/weapon/timer,/turf/station/floor,/area/bridge)
+"xM" = (/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/space,/area)
+"xN" = (/obj/machinery/firealarm{pixel_y = 31},/turf/station/floor,/area/crew_quarters/female)
 "xO" = (/obj/machinery/power/apc{name = "S APC"; dir = 2; pixel_y = 0; cell_type = 2000; light_consumption = 650; equip_consumption = 700},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor,/area/crew_quarters/female)
 "xP" = (/obj/machinery/door/firedoor,/obj/machinery/door/window{name = "Forensics"; req_access_txt = "4"},/turf/station/floor,/area/security/forensics)
 "xQ" = (/obj/machinery/light_switch{name = "N lightswitch"; dir = 1; pixel_y = 24},/turf/station/floor,/area/security/forensics)
@@ -1334,42 +1334,42 @@
 "zH" = (/obj/machinery/firealarm{pixel_y = -31},/turf/station/floor,/area/hallway/secondary/entry)
 "zI" = (/obj/closet,/turf/station/floor,/area/crew_quarters/male)
 "zJ" = (/turf/station/floor,/area/crew_quarters/male)
-"zK" = (/obj/machinery/firealarm{pixel_y = 31},/turf/station/wall,/area/crew_quarters/male)
-"zL" = (/obj/item/weapon/extinguisher,/turf/station/floor,/area/crew_quarters/male)
-"zM" = (/obj/stool,/turf/station/floor,/area/crew_quarters/male)
-"zN" = (/obj/table,/obj/item/weapon/game_kit,/turf/station/floor,/area/crew_quarters/male)
-"zO" = (/obj/stool,/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor,/area/crew_quarters/male)
-"zP" = (/obj/machinery/alarm{pixel_y = 31},/turf/station/floor,/area/hallway/primary/south)
-"zQ" = (/obj/machinery/camera{c_tag = "South Hallway West"},/turf/station/floor,/area/hallway/primary/south)
-"zR" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor,/area/hallway/primary/south)
-"zS" = (/obj/closet/emcloset,/turf/station/floor,/area/storage/auxillary)
-"zT" = (/obj/item/weapon/sheet/metal{amount = 50},/obj/item/weapon/sheet/metal{amount = 50},/obj/machinery/camera{c_tag = "Auxillary Storage"},/turf/station/floor,/area/storage/auxillary)
-"zU" = (/obj/closet,/obj/machinery/alarm{pixel_y = 31},/turf/station/floor,/area/storage/auxillary)
-"zV" = (/obj/closet,/turf/station/floor,/area/storage/auxillary)
-"zW" = (/obj/item/weapon/radio/intercom{name = "Station Intercom (Main Hallway Storage)"; pixel_y = 24; freq = 1461},/turf/station/floor,/area/storage/auxillary)
-"zX" = (/obj/item/weapon/radio,/obj/machinery/firealarm{pixel_y = 31},/turf/station/floor,/area/storage/auxillary)
-"zY" = (/obj/watertank,/turf/station/floor,/area/storage/auxillary)
-"zZ" = (/obj/weldfueltank,/turf/station/floor,/area/storage/auxillary)
-"Aa" = (/obj/machinery/power/apc{name = "N APC"; dir = 1; pixel_x = 0; cell_type = 2000; light_consumption = 350; equip_consumption = 300; environ_consumption = 25},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor,/area/storage/auxillary)
-"Ab" = (/obj/machinery/power/apc{name = "N APC"; dir = 1; pixel_x = 0; cell_type = 5000; light_consumption = 2000; equip_consumption = 400; environ_consumption = 250},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor,/area/hallway/primary/south)
-"Ac" = (/obj/item/weapon/radio/signaler,/turf/station/floor,/area/hallway/primary/south)
-"Ad" = (/obj/machinery/camera{c_tag = "South Hallway East"},/turf/station/floor,/area/hallway/primary/south)
-"Ae" = (/obj/cable{icon_state = "0-2"; d2 = 2},/obj/machinery/power/apc{name = "W APC"; dir = 8; pixel_x = 0; cell_type = 2000; light_consumption = 500; equip_consumption = 500; environ_consumption = 75},/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
-"Af" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
-"Ag" = (/obj/machinery/vent,/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
-"Ah" = (/obj/cable{icon_state = "0-8"; d2 = 8},/obj/stool/bed,/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
-"Ai" = (/obj/stool/chair{dir = 4},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_sw_red_tiled"},/area/crew_quarters/captain)
-"Aj" = (/obj/table,/obj/item/weapon/radio/beacon,/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_se_red_tiled"},/area/crew_quarters/captain)
-"Ak" = (/obj/stool/chair{dir = 8},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_sw_red_tiled"},/area/crew_quarters/captain)
-"Al" = (/obj/machinery/camera{dir = 8; c_tag = "Captains Quarters"},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_se_red_tiled"},/area/crew_quarters/captain)
-"Am" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"An" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor,/area/hallway/secondary/entry)
-"Ao" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/turf/station/floor,/area/hallway/secondary/entry)
-"Ap" = (/obj/cable{icon_state = "1-4"; d1 = 1; d2 = 4},/turf/station/wall,/area/hallway/secondary/entry)
-"Aq" = (/obj/cable{icon_state = "2-8"; d1 = 2; d2 = 8},/turf/station/wall,/area/hallway/secondary/entry)
-"Ar" = (/obj/machinery/pipes{tag = ""; icon_state = "3"; p_dir = 3},/turf/station/wall,/area/hallway/secondary/entry)
-"As" = (/turf/station/wall,/area/hallway/secondary/entry)
-"At" = (/obj/machinery/atmoalter/siphs/scrubbers/port,/turf/station/floor,/area/hallway/secondary/entry)
+"zK" = (/obj/item/weapon/extinguisher,/turf/station/floor,/area/crew_quarters/male)
+"zL" = (/obj/stool,/turf/station/floor,/area/crew_quarters/male)
+"zM" = (/obj/table,/obj/item/weapon/game_kit,/turf/station/floor,/area/crew_quarters/male)
+"zN" = (/obj/stool,/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor,/area/crew_quarters/male)
+"zO" = (/obj/machinery/alarm{pixel_y = 31},/turf/station/floor,/area/hallway/primary/south)
+"zP" = (/obj/machinery/camera{c_tag = "South Hallway West"},/turf/station/floor,/area/hallway/primary/south)
+"zQ" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor,/area/hallway/primary/south)
+"zR" = (/obj/closet/emcloset,/turf/station/floor,/area/storage/auxillary)
+"zS" = (/obj/item/weapon/sheet/metal{amount = 50},/obj/item/weapon/sheet/metal{amount = 50},/obj/machinery/camera{c_tag = "Auxillary Storage"},/turf/station/floor,/area/storage/auxillary)
+"zT" = (/obj/closet,/obj/machinery/alarm{pixel_y = 31},/turf/station/floor,/area/storage/auxillary)
+"zU" = (/obj/closet,/turf/station/floor,/area/storage/auxillary)
+"zV" = (/obj/item/weapon/radio/intercom{name = "Station Intercom (Main Hallway Storage)"; pixel_y = 24; freq = 1461},/turf/station/floor,/area/storage/auxillary)
+"zW" = (/obj/item/weapon/radio,/obj/machinery/firealarm{pixel_y = 31},/turf/station/floor,/area/storage/auxillary)
+"zX" = (/obj/watertank,/turf/station/floor,/area/storage/auxillary)
+"zY" = (/obj/weldfueltank,/turf/station/floor,/area/storage/auxillary)
+"zZ" = (/obj/machinery/power/apc{name = "N APC"; dir = 1; pixel_x = 0; cell_type = 2000; light_consumption = 350; equip_consumption = 300; environ_consumption = 25},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor,/area/storage/auxillary)
+"Aa" = (/obj/machinery/power/apc{name = "N APC"; dir = 1; pixel_x = 0; cell_type = 5000; light_consumption = 2000; equip_consumption = 400; environ_consumption = 250},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor,/area/hallway/primary/south)
+"Ab" = (/obj/item/weapon/radio/signaler,/turf/station/floor,/area/hallway/primary/south)
+"Ac" = (/obj/machinery/camera{c_tag = "South Hallway East"},/turf/station/floor,/area/hallway/primary/south)
+"Ad" = (/obj/cable{icon_state = "0-2"; d2 = 2},/obj/machinery/power/apc{name = "W APC"; dir = 8; pixel_x = 0; cell_type = 2000; light_consumption = 500; equip_consumption = 500; environ_consumption = 75},/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
+"Ae" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
+"Af" = (/obj/machinery/vent,/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
+"Ag" = (/obj/cable{icon_state = "0-8"; d2 = 8},/obj/stool/bed,/turf/station/floor{icon_state = "Floor2"},/area/crew_quarters/heads)
+"Ah" = (/obj/stool/chair{dir = 4},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_sw_red_tiled"},/area/crew_quarters/captain)
+"Ai" = (/obj/table,/obj/item/weapon/radio/beacon,/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_se_red_tiled"},/area/crew_quarters/captain)
+"Aj" = (/obj/stool/chair{dir = 8},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_sw_red_tiled"},/area/crew_quarters/captain)
+"Ak" = (/obj/machinery/camera{dir = 8; c_tag = "Captains Quarters"},/turf/station/floor{name = "chapel floor"; icon_state = "chapel_floor_se_red_tiled"},/area/crew_quarters/captain)
+"Al" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"Am" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor,/area/hallway/secondary/entry)
+"An" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/turf/station/floor,/area/hallway/secondary/entry)
+"Ao" = (/obj/cable{icon_state = "1-4"; d1 = 1; d2 = 4},/turf/station/wall,/area/hallway/secondary/entry)
+"Ap" = (/obj/cable{icon_state = "2-8"; d1 = 2; d2 = 8},/turf/station/wall,/area/hallway/secondary/entry)
+"Aq" = (/obj/machinery/pipes{tag = ""; icon_state = "3"; p_dir = 3},/turf/station/wall,/area/hallway/secondary/entry)
+"Ar" = (/turf/station/wall,/area/hallway/secondary/entry)
+"As" = (/obj/machinery/atmoalter/siphs/scrubbers/port,/turf/station/floor,/area/hallway/secondary/entry)
+"At" = (/obj/machinery/firealarm{pixel_y = 31},/turf/station/floor,/area/crew_quarters/male)
 "Au" = (/obj/machinery/power/apc{name = "S APC"; dir = 2; pixel_y = 0; cell_type = 2000; light_consumption = 650; equip_consumption = 700},/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/obj/cable{icon_state = "0-2"; d2 = 2},/turf/station/floor,/area/crew_quarters/male)
 "Av" = (/obj/cable{icon_state = "1-4"; d1 = 1; d2 = 4},/turf/station/floor,/area/hallway/primary/west)
 "Aw" = (/obj/cable{icon_state = "4-8"; d1 = 4; d2 = 8},/obj/machinery/door/firedoor,/turf/station/floor,/area/hallway/primary/west)
@@ -1837,27 +1837,27 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaapPwtwuwuwuwuwuwuwupTpT
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaphphphphphphphphphphaajhjhwJwKjhjhjLldjLmUaalQlRmpmpmVmVmVmVmVmVmVmVmVmpmVmVmVmVmVmVmqmrmqoyoxmplRlRlQaawLwMwNwOwPwQwLwRwSwSwTwUwVwUwWwUwUwUwXoNwYwZwYjAjAjAjAwZaaororororxanjnjnjnjninUaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaajhxbnDjLmUaalQlRmpmpmVmVmVmVmVmVmVmVmVmpmVmVmVmVmVmVmVmVmVmpmplRlRlQlQaaxcwPwQwMxdwNwLwRxewUwUwUwVwUwUwUwUwUxfxgxgxhxixjxkaaororororxlxmnjnjnjnjnjnjxnnUaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxojhjLldjLmUaalQlRmpmpowoxmVmVmVmVmVmVmVmpmVmVmVmVmVmVmVowoxmpmplRlQlQaaaawLwMwNwPxdwQwLwRwUwUwUwUwVwUwUwUwUxpwRxqxqxqxrxsxkaaxtxunjnjnjnjnjnjnjnjnjmFxvnUaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxoxwxxxyxwxxxyxwxxxyxwxxxyxwxxxzxAxBxCxDxEjLldjLmUaalQlRlRmpmpmpowoxmVmVmVmVmVmpmVmVmVmVmVowoxmpmpmplRlRlQaaaaaawLwPxdwQwMwNwLwRwUwUwUwRxfxFwRwRwRwRwRxGxHxIxJxKxLaanixMsAnjnjnkmFmGmGmGmGxvxNaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxoxyxyxyxyxyxyxyxyxyxyxyxyxyxyxyxyxyxBxOxEjLldjLmUaaaalQlRlRlRlRmpmpowoxowoxowoyoxowoxowoxmpmplRlRlRlRlQaaaaaaaawLwMxdwNwPwQwLwRwUwUwUxPxQxRxSxTxUxVxWxXxJxJxJxKxYaanlmGmGmGmGmGxvxZyayayayaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaybycybaaaaaaaaybycybaaaaaaaaaaaaaaydyexyxyxyxyxyxyxyxyyfxyxyxyxyxyxyxyygxoyhjhyildjLmUaaaaaalQlQlRlRlRlRlRlRlRlRyjmpmplRlRlRlRlRlRlRlRlQlQaaaaaaaaaawLwPwQwMxdwNwLwRwUwUwUwRykylymymymynxWxkyoxJxJypyqaayayayayayayayaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayrysyraaaaaaaaytysyraaaaaaaaaaaaaaaayuyvxoxoxyxyxyxyxyyuxyxyxyxyxyywxyxyxyyxyyjLldjLyzaaaaaaaaaaaalRlRlRlRlRlRlRlRlRlRlRlRlRlRlRlRlRaaaaaaaaaaaaaaaawLwMwNwPxdwQwLwRwUwUwUwRyAyByCyDymymyEyFxJxJxJyGxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxoxwxxxyxwxxxyxwxxxyxwxxxyxwxxxoxzxAxBxCxDjLldjLmUaalQlRlRmpmpmpowoxmVmVmVmVmVmpmVmVmVmVmVowoxmpmpmplRlRlQaaaaaawLwPxdwQwMwNwLwRwUwUwUwRxfxEwRwRwRwRwRxFxGxHxIxJxKaanixLsAnjnjnkmFmGmGmGmGxvxMaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxoxyxyxyxyxyxyxyxyxyxyxyxyxyxyxNxyxyxAxOxDjLldjLmUaaaalQlRlRlRlRmpmpowoxowoxowoyoxowoxowoxmpmplRlRlRlRlQaaaaaaaawLwMxdwNwPwQwLwRwUwUwUxPxQxRxSxTxUxVxWxXxIxIxIxJxYaanlmGmGmGmGmGxvxZyayayayaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaybycybaaaaaaaaybycybaaaaaaaaaaaaaaydyexyxyxyxyxyxyxyxyyfxyxyxyxyxyxyxyygxoyhjhyildjLmUaaaaaalQlQlRlRlRlRlRlRlRlRyjmpmplRlRlRlRlRlRlRlRlQlQaaaaaaaaaawLwPwQwMxdwNwLwRwUwUwUwRykylymymymynxWxkyoxIxIypyqaayayayayayayayaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayrysyraaaaaaaaytysyraaaaaaaaaaaaaaaayuyvxoxoxyxyxyxyxyyuxyxyxyxyxyywxyxyxyyxyyjLldjLyzaaaaaaaaaaaalRlRlRlRlRlRlRlRlRlRlRlRlRlRlRlRlRaaaaaaaaaaaaaaaawLwMwNwPxdwQwLwRwUwUwUwRyAyByCyDymymyEyFxIxIxIyGxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayHyIyJyKyKyKyKyLyIyMyNyOyPyQyQyQyQyRySyTyUxoxwxxxyxwxxyuxwxxxyxwyVxoxyyWxoyXtRkyyYjLjhaaaaaaaaaaaaaaaaaaaaaaaaaalQlRlQaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawLwPxdxdxdwNwLwRwUwUwUwRxWyZxWxWxWzaxWxkxkxkzbzcxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayHzdzezezezezfzezgzezezhzizizizizizjzkzlzmzlzlzlzlzlzlzkzlzlzlzlzlzlzlzlzlznjhjLldzojhwRwRwRwRwRwRwRwRwRzpzpzpzpzpzpzpzpzpzpzpwRwRzqzrzszrztwRwRwRwRwxwxwxwxwxwxwxwRwzwzwzwRzuzvzwzxzyzzzAzzzBxkzCyGxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayHzizizizizDzEzEzEzEzEzFzEzGzHzizizjzkzIxxzJzIxxzJzIxxzkzIxxzJzIxxzKzLzMzNzOxEjLldjLjiwUzPzQwUwUwUwUwUzRzSzSzTzUzVzWzXzVzYzZAazRwUwUwUwVwUwUwUzPwUwUwUAbwUAcwUAdwUwWwUwUwUwRAeAfAgAhzyAiAjAkAlxkxJyGAmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayMAnAnAnAnAnAnAnAnAnAoApAqArAsziziAtzkzJzJzJzJzJzJzJzJzkzJzJzJzJzJzJzJzJzMAuxEjLAvkyAwAxAxAxAxAxAxAxAxAyAzAzAAABABAzAzAzAzAzACADwUwUwUwVwUwUwUwUwUwUwUAEAxAxAxAxAxAxAxAxAxAFAGAHAIAJzyAKALAMzBxkxJyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkANxqAsAOziAtzkzJzJzJzJzJzJzJzJAPzJzJAQzJzJzJzJARzlznjhjLjLjLjiwUwUwUwUwUwUwUwUASATATAUAVAVAWAWAWAVAXAYASwUwUwUwVwUwUwUwUwUwUwUwUwUwUwUwUwUwUwUwUwUzRAZBaAIBbzyBcBdBeBfxkxJyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAmyGBgBhziziBizkBjzlzlzJzJzJzJzJzkzJzJBkzJzJzJzJzJzJBlyyjLjLjLjiwUwUwUwUwUwUwUBmwRBnBoBpBqBrBsBtBuBvBwBxwRwUwUwUwywxwxwxwxwxwxwxwxwxwxwxBywxwTwUwUBzwRBAzyBBzyzyBCBDzzzBxkxJyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxYyGxJBEziziBiBFBGBHzlzIxxzJzIxxzkzIxxBkzIyVzlBIzJzlznAsBJBJBJAswRwRwRwRwRwRwzwzwRwRwRBKBLBLBLBLBLBMwRwXwRwzwzBNBOBPBPBQBRBSBTBUBVBVBWBXBYBZCaCbwUCcCdCeBeCfCgChBeCfBeCixkxJyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxYyGxJBEziziBizlzlzlzlzlzlzlzlzlzkzlzlzkzlzlzlzlzlzlCjCkziziziybClCmCnCoCpwRwUwUwUwUwUCcwUwUCqwUwUwUCrwVwWwUwUwUCsCtCuCuBYBYBYCvBYBYBYBYCwCxCyCzwUCczRCACBCCCDzBzzBDCECFxkxJyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxYyGxJBEziziziCGCHziCICJziziziziCKziziCKziCLziziziCMysziziziziziCNCmCOCPCQCRwUwUwUwUwUCcwUwUwUwUwUwUwUwVwUwUwUwUCSBYBYBYBYBYCTCvBYBYBYBYCUwywRwRCVCWwRxkxkCXCYxkxkCXxkxkxkCZyGyqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayqyGxJDazizDzGBJziziysziziziziziCKziziCKziziziziziziyszizizHziybDbDcDdDeDfwRwUwUwUwUwUCcwUwUwUwUwUwUwUwVBzwUwUwUwyDgDhDhDhDiDjDkDhDhDhDlCUDmDnDoDoDpDqDrDsDpyGDtDsDpxJxJxJxJyGxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkDuxJAsDvziCKBJziziysziziziziziCKziziCKziziziziziziysziAsAsAsAsDwDwDxDyDwwRwRDzwRwRwRCWDADBDBDBDBDCwRwXCWwRwRwRwyCUCUCUCUCUDDDECUCUCUCUCUDFDGDGDHDGDGDGDGDGDIDGDGDGDGDGDGDGDJxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkzczbAsAsAsArAsAsAsDKAsAsAsAsAsArAsDLDMAsAsAsDNAnAnDOAsAsxJDPxJDQDRDSDTDUxJxkDVxkDWDsDXDGDGDGDGDGDGDYDZEaDGEbDGEcDGDGEdEeDsDpyGxJxJxJxJxJyGEfEgEhEgxkEiEjEjEkEjEjEjEjEjElxkxkxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkyGDQxJxJxJEmDsEnxJyGxJzbxJEoxJxqEpxqxJzbxJxJxJxJxJyGxJzbxJyGxJxJxJxJyGxJxJEqxJzbxJErEsEtDsEuxJxJxJxJxJxJEvDsEwExEyEzDIDGDGDGDIDGDGDGDGDGEAxqxkyGxkEBEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayHzizizizizDzEzEzEzEzEzFzEzGzHzizizjzkzIxxzJzIxxzJzIxxzkzIxxzJzIxxzlzKzLzMzNxDjLldjLjiwUzOzPwUwUwUwUwUzQzRzRzSzTzUzVzWzUzXzYzZzQwUwUwUwVwUwUwUzOwUwUwUAawUAbwUAcwUwWwUwUwUwRAdAeAfAgzyAhAiAjAkxkxIyGAlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayMAmAmAmAmAmAmAmAmAmAnAoApAqArziziAszkzJzJzJzJzJzJzJzJzkzJzJzJzJzJAtzJzJzLAuxDjLAvkyAwAxAxAxAxAxAxAxAxAyAzAzAAABABAzAzAzAzAzACADwUwUwUwVwUwUwUwUwUwUwUAEAxAxAxAxAxAxAxAxAxAFAGAHAIAJzyAKALAMzBxkxIyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkANxqArAOziAszkzJzJzJzJzJzJzJzJAPzJzJAQzJzJzJzJARzlznjhjLjLjLjiwUwUwUwUwUwUwUwUASATATAUAVAVAWAWAWAVAXAYASwUwUwUwVwUwUwUwUwUwUwUwUwUwUwUwUwUwUwUwUwUzQAZBaAIBbzyBcBdBeBfxkxIyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAlyGBgBhziziBizkBjzlzlzJzJzJzJzJzkzJzJBkzJzJzJzJzJzJBlyyjLjLjLjiwUwUwUwUwUwUwUBmwRBnBoBpBqBrBsBtBuBvBwBxwRwUwUwUwywxwxwxwxwxwxwxwxwxwxwxBywxwTwUwUBzwRBAzyBBzyzyBCBDzzzBxkxIyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxYyGxIBEziziBiBFBGBHzlzIxxzJzIxxzkzIxxBkzIyVzlBIzJzlznArBJBJBJArwRwRwRwRwRwRwzwzwRwRwRBKBLBLBLBLBLBMwRwXwRwzwzBNBOBPBPBQBRBSBTBUBVBVBWBXBYBZCaCbwUCcCdCeBeCfCgChBeCfBeCixkxIyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxYyGxIBEziziBizlzlzlzlzlzlzlzlzlzkzlzlzkzlzlzlzlzlzlCjCkziziziybClCmCnCoCpwRwUwUwUwUwUCcwUwUCqwUwUwUCrwVwWwUwUwUCsCtCuCuBYBYBYCvBYBYBYBYCwCxCyCzwUCczQCACBCCCDzBzzBDCECFxkxIyGxYaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxYyGxIBEziziziCGCHziCICJziziziziCKziziCKziCLziziziCMysziziziziziCNCmCOCPCQCRwUwUwUwUwUCcwUwUwUwUwUwUwUwVwUwUwUwUCSBYBYBYBYBYCTCvBYBYBYBYCUwywRwRCVCWwRxkxkCXCYxkxkCXxkxkxkCZyGyqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayqyGxIDazizDzGBJziziysziziziziziCKziziCKziziziziziziyszizizHziybDbDcDdDeDfwRwUwUwUwUwUCcwUwUwUwUwUwUwUwVBzwUwUwUwyDgDhDhDhDiDjDkDhDhDhDlCUDmDnDoDoDpDqDrDsDpyGDtDsDpxIxIxIxIyGxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkDuxIArDvziCKBJziziysziziziziziCKziziCKziziziziziziysziArArArArDwDwDxDyDwwRwRDzwRwRwRCWDADBDBDBDBDCwRwXCWwRwRwRwyCUCUCUCUCUDDDECUCUCUCUCUDFDGDGDHDGDGDGDGDGDIDGDGDGDGDGDGDGDJxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkzczbArArArAqArArArDKArArArArArAqArDLDMArArArDNAmAmDOArArxIDPxIDQDRDSDTDUxIxkDVxkDWDsDXDGDGDGDGDGDGDYDZEaDGEbDGEcDGDGEdEeDsDpyGxIxIxIxIxIyGEfEgEhEgxkEiEjEjEkEjEjEjEjEjElxkxkxkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkyGDQxIxIxIEmDsEnxIyGxIzbxIEoxIxqEpxqxIzbxIxIxIxIxIyGxIzbxIyGxIxIxIxIyGxIxIEqxIzbxIErEsEtDsEuxIxIxIxIxIxIEvDsEwExEyEzDIDGDGDGDIDGDGDGDGDGEAxqxkyGxkEBEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkECDGDGDGDGDGDGDGDGDIDGEDDGDGDGEEDGEFDGEDDGEGDGDGDGDIDGEDDGDIDGDGDGDGDIDGDGDGDGEDDGEsxkEHEIEIEIEIEJxkxkxkxkxkCXCYxkxkxkEHEIEIEIEIEIEIEIEJxkCXEgEhEgEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkxkEKELELELELELELELEMxkxkxJxJxJxJxJxJEgxkEgxkENEOEOEPxkxkxkxkxkxkxkxkEQxJxJxJERxkxkxkxkESEBEBEBEBEBaaaaaaEBEBoNETEBEBaaEBEBEBaaEBEBEBaaEBaaESaaEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkEUEUEUEVxJxJEWEXEWaaaaaaaaEBEBEBEBEBEBEBEBxkEYxJxJxJEZxkEBEBaaESaaaaEBaaaaaaaaEBEBEBFaaaaaaaaaaaaaaaEBaaaaEBEBaaaaESaaEBaaaaEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkxkEiEjEjFbxkEgxkEgaaaaaaaaaaaaEBFcFdFdFdFdFeDsFfxJxJxJxkEBaaaaFaaaaaEBEBEBFgFgEBEBEBEBaaaaEBaaaaaaaaEBEBEBaaaaaaaaoNaaEBEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkxkEKELELELELELELELEMxkxkxIxIxIxIxIxIEgxkEgxkENEOEOEPxkxkxkxkxkxkxkxkEQxIxIxIERxkxkxkxkESEBEBEBEBEBaaaaaaEBEBoNETEBEBaaEBEBEBaaEBEBEBaaEBaaESaaEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkEUEUEUEVxIxIEWEXEWaaaaaaaaEBEBEBEBEBEBEBEBxkEYxIxIxIEZxkEBEBaaESaaaaEBaaaaaaaaEBEBEBFaaaaaaaaaaaaaaaEBaaaaEBEBaaaaESaaEBaaaaEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxkxkEiEjEjFbxkEgxkEgaaaaaaaaaaaaEBFcFdFdFdFdFeDsFfxIxIxIxkEBaaaaFaaaaaEBEBEBFgFgEBEBEBEBaaaaEBaaaaaaaaEBEBEBaaaaaaaaoNaaEBEBaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaEBaaEBEBaaEBEBxkFhFiFiFiFjxkEBEBEBaaaaEBEBEBEBaaaaaaaaEBaaaaEBEBaaaaaaaaaaaaaaaaEBEBaaoNaaaaaaaaaaaaFkFkFkFkFkFlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaEBaaEBEBaaaaaaEBEBEBEBaaEBEBEBEBaaaaaaaaaaEBEBEBEBaaaaaaEBEBaaEBEBaaaaEBEBEBEBaaaaaaEBEBaaEBaaFaaaaaEBaaaaaaFkFmFnFnFoFlFkFkFkFkFkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaEBaaEBaaaaEBEBaaEBEBEBEBEBEBEBEBEBaaaaaaaaFgaaaaaaEBEBaaaaaaaaaaaaEBaaaaEBEBEBEBEBEBEBaaaaaaaaaaaaEBEBaaaaaaFkFpFnFoFqFlFrFrFrFrFkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
