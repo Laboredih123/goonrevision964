@@ -703,18 +703,21 @@
 		if(M.hud && M.hud.flash)
 			flick("flash", M.hud.flash)
 
+	for(var/obj/machinery/atmoalter/canister/C in range(1, T))
+		if (!( C.destroyed ))
+			if (C.gas.plasma >= 35000)
+				C.destroyed = 1
+				strength += 500
+
 	if(strength < 300) // can't be taking the square root of a negative number, now
 		del(src.master)
 		del(src)
 		return
-	var/m_range = sqrt((strength - 400)/100)
-	// strength of 773 (500C pure plasma) gives m_range around 2, same as in old system
 
-	for(var/obj/machinery/atmoalter/canister/C in range(2, T))
-		if (!( C.destroyed ))
-			if (C.gas.plasma >= 35000)
-				C.destroyed = 1
-				m_range++
+	// strength of 773 (500C pure plasma) gives m_range around 2, same as in old system
+	var/m_range = min(sqrt(strength/250 - 1), MAX_BOMB_RADIUS)
+	world << "M_RANGE IS [m_range] STRENGTH IS [strength]"
+
 	var/min = round(m_range)
 	var/med = round(m_range * 2)
 	var/max = round(m_range * 3)

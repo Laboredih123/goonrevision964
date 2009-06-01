@@ -255,3 +255,5 @@ var/const
 	GAS_N2O = 1 << 4
 
 	CURROUND_FILENAME = "curround.txt"
+
+	MAX_BOMB_RADIUS = 10 // note that the full effects of the blast actually go to 4 times this distance

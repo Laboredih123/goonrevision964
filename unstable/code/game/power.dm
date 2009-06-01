@@ -157,7 +157,7 @@
 #define GENRATE 0.02	// generator output coefficient from Q
 /obj/machinery/power/generator/process()
 	if(!circ1 || !c1on)	return
-	if(!circ2 || !c2on)	return
+	if(!circ2 || !c2on || !circ2.ngas1.temp)	return
 
 	var/gc = circ1.ngas1.shc()
 	var/gh = circ2.ngas1.shc()
