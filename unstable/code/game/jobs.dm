@@ -90,6 +90,7 @@
 				if(job.priority < j.priority)
 					jobs_by_priority.Insert(i, j)
 					inserted = 1
+					break
 			if(!inserted)
 				jobs_by_priority += j
 

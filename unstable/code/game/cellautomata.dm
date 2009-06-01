@@ -57,7 +57,6 @@
 
 
 /world/New()
-	jobban_loadbanfile()
 	src.update_stat()
 
 	makepipelines()
@@ -139,6 +138,7 @@
 		return
 
 	src.update_stat()
+	jobban_loadbanfile()
 
 	spawn (0)
 		sleep(900)		//*****RM was 900
@@ -236,6 +236,9 @@
 	for(var/obj/manifest/M in world)
 		M.manifest()
 	data_core.manifest()
+
+	world.log_game("Jobs divided, now starting mode.")
+
 	current_mode.execute()
 	for(var/obj/start/S in world)
 		del(S)

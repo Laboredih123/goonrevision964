@@ -117,7 +117,7 @@
 					var/obj/machinery/camera/closest = C
 					for(var/obj/machinery/camera/C2 in world)
 						if (C2.network == src.network)
-							if (C2.z == target.z)
+							if (C2.z == target.z && target in view(C2))
 								zmatched = 1
 								if (C2.status)
 									var/dist = get_dist(C2, target)
