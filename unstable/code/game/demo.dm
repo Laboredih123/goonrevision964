@@ -709,7 +709,7 @@
 				C.destroyed = 1
 				strength += 500
 
-	if(strength < 300) // can't be taking the square root of a negative number, now
+	if(strength < 250) // can't be taking the square root of a negative number, now
 		del(src.master)
 		del(src)
 		return

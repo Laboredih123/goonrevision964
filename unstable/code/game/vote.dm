@@ -1,24 +1,18 @@
 /datum/vote/New()
 
-	nextvotetime = world.timeofday // + 10*config.vote_delay
+	nextvotetime = ss13time() // + 10*config.vote_delay
 
 
 /datum/vote/proc/canvote()
-
-	var/excess = world.timeofday - vote.nextvotetime
-
-	if(excess < -10000)		// handle clock-wrapping problems - very long delay (>20 hrs) if wrapped
-		vote.nextvotetime = world.timeofday
-		return 1
-	return (excess >= 0)
+	return (ss13time() >= vote.nextvotetime)
 
 
 
 /datum/vote/proc/nextwait()
-	return timetext( round( (nextvotetime - world.timeofday)/10) )
+	return timetext( round( (nextvotetime - ss13time())/10) )
 
 /datum/vote/proc/endwait()
-	return timetext( round( (votetime - world.timeofday)/10) )
+	return timetext( round( (votetime - ss13time())/10) )
 
 /datum/vote/proc/timetext(var/interval)
 	var/minutes = round(interval / 60)
@@ -57,7 +51,7 @@
 	world.log_vote("Voting closed, result was [winner]")
 
 	voting = 0
-	nextvotetime = world.timeofday + 10*config.vote_delay
+	nextvotetime = ss13time() + 10*config.vote_delay
 
 	for(var/mob/M in world)		// clear vote window from all clients
 		if(M.client)
@@ -285,7 +279,7 @@
 
 		vote.mode = text2num(href_list["vmode"])-1 	// hack to yield 0=restart, 1=changemode
 		vote.voting = 1						// now voting
-		vote.votetime = world.timeofday + config.vote_period*10	// when the vote will end
+		vote.votetime = ss13time() + config.vote_period*10	// when the vote will end
 
 		spawn(config.vote_period*10)
 			vote.endvote()

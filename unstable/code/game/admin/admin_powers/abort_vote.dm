@@ -10,7 +10,7 @@
 			world.log_admin("Voting aborted by [usr.key]")
 
 			vote.voting = 0
-			vote.nextvotetime = world.timeofday + 10*config.vote_delay
+			vote.nextvotetime = ss13time() + 10*config.vote_delay
 
 			for(var/mob/M in world)		// clear vote window from all clients
 				if(M.client)

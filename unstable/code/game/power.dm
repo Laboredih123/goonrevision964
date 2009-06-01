@@ -1533,8 +1533,8 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 	if(stat & (NOPOWER | BROKEN)) return
 	use_power(250)
-	if(track && nexttime < world.timeofday && trackrate)
-		nexttime = world.timeofday + 3600/abs(trackrate)
+	if(track && nexttime < ss13time() && trackrate)
+		nexttime = ss13time() + 3600/abs(trackrate)
 		cdir = (cdir+trackrate/abs(trackrate)+360)%360
 		set_panels(cdir)
 		updateicon()
@@ -1585,10 +1585,10 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 		if(href_list["tdir"])
 			src.trackrate = dd_range(-7200,7200,src.trackrate+text2num(href_list["tdir"]))
-			if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+			if(src.trackrate) nexttime = ss13time() + 3600/abs(trackrate)
 
 	if(href_list["track"])
-		if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+		if(src.trackrate) nexttime = ss13time() + 3600/abs(trackrate)
 		track = !track
 
 	src.updateUsrDialog()

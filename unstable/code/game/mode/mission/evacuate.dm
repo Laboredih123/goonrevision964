@@ -2,7 +2,7 @@
 	var/const/percentage_station_evacuate = 80 // what percentage of people gotta leave
 
 	description()
-		return "Cause the death or evacuation of [percentage_station_evacuate]% of the crew."
+		return "cause the death or evacuation of [percentage_station_evacuate]% of the crew"
 
 	check_success()
 		var/gone = 0

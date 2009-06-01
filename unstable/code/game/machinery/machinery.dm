@@ -49,9 +49,10 @@
 	src.icon_state = "mass_driver-disabled"
 
 /obj/machinery/pipes/broken()
-	src.icon_state += "-b"
-	src.stat |= BROKEN
-	src.verbs.len = 0
+	if(!(src.stat & BROKEN))
+		src.icon_state += "-b"
+		src.stat |= BROKEN
+		src.verbs.len = 0
 
 /obj/machinery/door/broken()
 	del(src)

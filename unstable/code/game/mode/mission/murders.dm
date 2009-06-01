@@ -9,7 +9,7 @@
 		src.vdesc = vname
 
 	description()
-		return "Murder [vdesc]."
+		return "murder [vdesc]"
 
 	check_success()
 		for(var/mob/carbon/V in victims)
