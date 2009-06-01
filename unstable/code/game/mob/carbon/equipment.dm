@@ -467,7 +467,7 @@
 		src.back.screen_loc = (src.is_dead) ? null : "3,3"
 
 	if (src.handcuffs)
-		src.overlays += image("icon" = iconsource, "icon_state" = "handcuff[suffix]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = iconsource, "icon_state" = "handcuff[suffix ? suffix : 1]", "layer" = MOB_LAYER)
 	if (src.client)
 		src.client.screen -= src.contents
 		if (!src.is_dead)
