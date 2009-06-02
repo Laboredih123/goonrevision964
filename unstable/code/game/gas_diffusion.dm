@@ -384,6 +384,7 @@
 	if(space)
 		loc.gas.clear()
 		loc.firelevel = 0
+		loc.overlays = null
 		if(loc.icon_state == "burning")
 			loc.unburn()
 		if(loc.gas.temp > TCMB)
