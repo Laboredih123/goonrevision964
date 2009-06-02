@@ -53,6 +53,7 @@
 					B = new /datum/ban/round(new_ban_id(), M.ckey, reason, usr.ckey, rounds)
 			ban(M.last_known_ckey, M.last_known_ip, M.client, B)
 			world << "\red [M.last_known_ckey] has been banned [B.get_duration_desc()] by [usr.ckey]. The reason given for this ban was: [reason]."
+			world.log_admin("[M.last_known_ckey] has been banned [B.get_duration_desc()] by [usr.ckey]. The reason given for this ban was: [reason].")
 			if(M.client)
 				del(M.client)
 			ss13_browse(usr, null, "window=ban")
@@ -60,11 +61,11 @@
 	get_desc(mob/M)
 		return "<a href='?src=\ref[src];mob=\ref[M]'>Ban</a>"
 
-	proc/new_ban_id()
-		// ban IDs have to be strings, and should be sequential. This is a fairly simple way to achieve that.
-		// add a random number on the end in case two people get banned within 1/10 second of each other.
-		// it's unlikely, but better safe than sorry.
-		// note that around 2030 an extra digit will be added, and ban IDs will no longer be completely sequential.
-		// if it is 2030 and your bans are all out of order, I'm sorry.
-		// on the upside, it'll give you some practice for the year 2038 bug.
-		return "[num2text(world.realtime, 10)][world.timeofday][num2text(rand(0, 999))]"
+/proc/new_ban_id()
+	// ban IDs have to be strings, and should be sequential. This is a fairly simple way to achieve that.
+	// add a random number on the end in case two people get banned within 1/10 second of each other.
+	// it's unlikely, but better safe than sorry.
+	// note that around 2030 an extra digit will be added, and ban IDs will no longer be completely sequential.
+	// if it is 2030 and your bans are all out of order, I'm sorry.
+	// on the upside, it'll give you some practice for the year 2038 bug.
+	return "[num2text(world.realtime, 10)][world.timeofday][num2text(rand(0, 999))]"

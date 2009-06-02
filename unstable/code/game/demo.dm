@@ -2653,6 +2653,11 @@
 /turf/station/floor/proc/update()
 	return
 
+/turf/station/floor/unburn()
+	..()
+	src.icon_state = text("Floor[]", (src.burnt ? "1" : ""))
+	return
+
 /turf/station/wall/examine()
 	set src in oview(1)
 

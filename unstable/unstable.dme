@@ -115,6 +115,7 @@
 #include "code\game\admin\admin_powers\boot.dm"
 #include "code\game\admin\admin_powers\change_mode.dm"
 #include "code\game\admin\admin_powers\check_traitor.dm"
+#include "code\game\admin\admin_powers\custom_ban.dm"
 #include "code\game\admin\admin_powers\debug.dm"
 #include "code\game\admin\admin_powers\delay.dm"
 #include "code\game\admin\admin_powers\jobban.dm"

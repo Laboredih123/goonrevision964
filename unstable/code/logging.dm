@@ -1,11 +1,11 @@
 /world/proc/log_admin(text)
-	notify_admins(text)
+	notify_admins("ADMIN: [text]")
 	if(config.log_admin)
 		world.log_file("ADMIN: [text]")
 		world.log << "ADMIN: [text]"
 
 /world/proc/log_game(text)
-	notify_admins(text)
+	notify_admins("GAME: [text]")
 	if(config.log_game)
 		world.log_file("GAME: [text]")
 		world.log << "GAME: [text]"
@@ -21,7 +21,7 @@
 		world.log << "VOTE: [text]"
 
 /world/proc/log_access(text)
-	notify_admins(text)
+	notify_admins("ACCESS: [text]")
 	if(config.log_access)
 		world.log_file("ACCESS: [text]")
 		world.log << "ACCESS: [text]"
