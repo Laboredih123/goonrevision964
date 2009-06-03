@@ -19,7 +19,8 @@
 		return ..()
 
 	get_desc(mob/M)
-		return "<a href='?src=\ref[src];mob=\ref[M]'>[M.client.muted ? "Unmute" : "Mute"]</a>"
+		if(M && M.client)
+			return "<a href='?src=\ref[src];mob=\ref[M]'>[M.client.muted ? "Unmute" : "Mute"]</a>"
 
 /client/var/muted = 0
 

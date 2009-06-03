@@ -100,7 +100,7 @@ var
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
 	savefile_ver = "Goon v2"
-	SS13_version = "2.0 Beta"
+	SS13_version = "DEATH COMMANDO DEATHMATCH"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	obj/datacore/data_core = null
@@ -175,8 +175,8 @@ world
 	turf = /turf/space
 	area = /area
 	view = "15x15"
-	hub = "Slurm.SpaceStation13"
-	hub_password = ""
+	hub = "Exadv1.spacestation13"
+	hub_password = "kMZy3U5jJHSiBQjr"
 
 	//visibility = 0
 	//loop_checks = 0
@@ -257,3 +257,5 @@ var/const
 	CURROUND_FILENAME = "curround.txt"
 
 	MAX_BOMB_RADIUS = 10 // note that the full effects of the blast actually go to 4 times this distance
+
+	// #define DEATH_COMMANDO_DEATHMATCH_FUCK_AROUND 1

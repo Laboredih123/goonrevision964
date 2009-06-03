@@ -1,8 +1,13 @@
 /datum/job/death_commando
 	name = "Death Commando"
+#ifdef DEATH_COMMANDO_DEATHMATCH_FUCK_AROUND
 	max = 10000000
 	priority = 10000000
 	can_join_late = 1 // OH GOD NO TODO: FIX
+#else
+	max = 0
+	can_join_late = 0
+#endif
 	switchable_to = 0
 	var/list/names
 
@@ -12,16 +17,19 @@
 		..()
 		names = dd_file2list("death_commando_names.txt")
 
-	find_spawnpoint()
-		var/area/A = locate(/area/death_commando_shuttle)
-		var/list/possibilities = list()
-		for(var/turf/station/floor/F in A)
-			if(!locate(/mob) in F && !locate(/obj/machinery) in F)
-				possibilities += F
-		if(possibilities.len)
-			return pick(possibilities)
+	find_spawnpoint(joined_late, mob/M)
+		if(joined_late)
+			var/area/A = locate(/area/death_commando_shuttle)
+			var/list/possibilities = list()
+			for(var/turf/station/floor/F in A)
+				if(!locate(/mob) in F && !locate(/obj/machinery) in F)
+					possibilities += F
+			if(possibilities.len)
+				return pick(possibilities)
+			else
+				world << "WARNING: NO SPAWNPOINT FOUND! JOB IS [src.name]."
 		else
-			world << "WARNING: NO SPAWNPOINT FOUND! JOB IS [src.name]."
+			return get_turf(M)
 
 	process_name(name, mob/M)
 		var/randomname = "Killiam Shakespeare"
@@ -33,8 +41,8 @@
 		newname = strip_html(newname,30)
 		return newname
 
-	create(mob/M)
-		..(M, 0, 0, 0)
+	create(mob/M, joined_late)
+		..(M, joined_late, 0, 0)
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/black(M), SLOT_JUMPSUIT)

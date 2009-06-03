@@ -15,14 +15,14 @@
 			newname = strip_html(newname,30)
 			return newname
 
-	create(mob/prespawn/P, joined_late)
-		var/name = src.process_name(P.client.prefs.name, P)
-		var/loc = src.find_spawnpoint()
+	create(mob/M, joined_late)
+		var/name = src.process_name(M.client.prefs.name, M)
+		var/loc = src.find_spawnpoint(joined_late, M)
 		var/mob/silicon/ai/A = new(loc, name)
-		A.client = P.client
+		A.client = M.client
 		A.spawn_job = src
 		src.announce(A, joined_late)
-		del(P)
+		del(M)
 
 	announce(mob/M)
 		..()

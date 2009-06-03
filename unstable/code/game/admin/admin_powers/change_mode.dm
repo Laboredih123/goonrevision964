@@ -25,7 +25,8 @@
 		dat += "<A href='?src=\ref[src];c_mode=freeform'>Freeform</A><br>"
 		dat += "<A href='?src=\ref[src];c_mode=blob'>Blob</A><br>"
 		dat += "<A href='?src=\ref[src];c_mode=spyvsspy'>Spy Vs Spy</A><br>"
-		dat += "<A href='?src=\ref[src];c_mode=multitraitor'>Traitor</A><br>"
+		dat += "<A href='?src=\ref[src];c_mode=multitraitor'>Multitraitor</A><br>"
+		dat += "<A href='?src=\ref[src];c_mode=deathcommandodeathmatch'>Death Commando Deathmatch</A><br>"
 		dat += "Now: [master_mode]"
 		ss13_browse(usr, dat, "window=c_mode")
 

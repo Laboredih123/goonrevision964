@@ -101,12 +101,13 @@
 
 			var/list/existing = list()
 			for(var/mob/prespawn/M in semiassigned)
-				// UNDO THIS
+#ifdef DEATH_COMMANDO_DEATHMATCH_FUCK_AROUND
 				assigned[M] = j
 				semiassigned -= M
-				//if(semiassigned[M] == j)
-				//	existing += M
-
+#else
+				if(semiassigned[M] == j)
+					existing += M
+#endif
 			if(existing.len)
 				var/mob/prespawn/M = pick(existing)
 				semiassigned -= M

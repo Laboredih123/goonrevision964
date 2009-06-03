@@ -9,7 +9,9 @@
 	var/speaker_color = COLOR_DEFAULT
 	var/name = "Custom"
 
-	proc/find_spawnpoint()
+	proc/find_spawnpoint(joined_late, mob/M)
+		if(joined_late)
+			return null
 		for(var/obj/start/sloc in world)
 			if (ckey(sloc.name) != ckey(src.name))
 				continue
@@ -21,23 +23,21 @@
 	proc/process_name(name, mob/M)
 		return name
 
-	proc/create(mob/prespawn/P, joined_late, give_backpack = 1, has_hair = 1)
-		var/startloc = null
-		if(!joined_late)
-			startloc = src.find_spawnpoint()
-		var/datum/preferences/prefs = P.client.prefs
+	proc/create(mob/M, joined_late, give_backpack = 1, has_hair = 1)
+		var/startloc = src.find_spawnpoint(joined_late, M)
+		var/datum/preferences/prefs = M.client.prefs
 		var/name = src.process_name(prefs.name)
 		var/hair_style = prefs.hair_style
 		if(!has_hair)
 			hair_style = HAIR_STYLE_BALD
-		var/mob/carbon/human/M = new(startloc, name, prefs.hair_color, hair_style, prefs.skin_color, prefs.gender, job = src)
+		var/mob/carbon/human/H = new(startloc, name, prefs.hair_color, hair_style, prefs.skin_color, prefs.gender, job = src)
 		if(give_backpack)
-			M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
-		src.give_equipment(M)
-		M.client = P.client
-		M.update_clothing()
-		src.announce(M, joined_late)
-		del(P)
+			H.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
+		src.give_equipment(H)
+		H.client = M.client
+		H.update_clothing()
+		src.announce(H, joined_late)
+		del(M)
 
 	proc/give_equipment(mob/carbon/M)
 		// gives the mob its equipment after it has been created.

@@ -58,3 +58,36 @@ var/const/SCENARIO_COMPLETE = 1
 
 	proc/get_traitors()
 		return null
+
+	proc/give_newcomer_job(mob/new_player)
+		var/list/jobs = get_unfilled_jobs()
+		var/dat = "<html><head><title>Select job</title></head>"
+		dat += "<p>You spawned late, so you get to select a job! Lucky you!"
+		for(var/job in jobs)
+			if(allowed_to_do_job(new_player, job))
+				dat += "<br><a href='byond://?src=\ref[src];late-job=\ref[job]'>[job]</a>"
+		dat += "</p>"
+		ss13_browse(new_player, dat, "window=late_job;size=300x600")
+
+	Topic(href, href_list)
+		if(href_list["late-job"])
+			ss13_browse(usr, null, "window=late_job")
+			if(!istype(usr,/mob/prespawn))
+				return
+			var/mob/prespawn/new_player = usr
+			var/datum/job/j = locate(href_list["late-job"])
+			j.create(new_player, 1)
+			return
+		else
+			return ..()
+
+	proc/get_unfilled_jobs()
+		var/list/jobs = list()
+		for(var/datum/job/j in get_all_job_instances())
+			if(j.can_join_late && j.max)
+				jobs[j] = j.max
+		for(var/mob/carbon/C in world)
+			jobs[C.spawn_job] --
+			if(jobs[C.spawn_job] <= 0)
+				jobs -= C.spawn_job
+		return jobs

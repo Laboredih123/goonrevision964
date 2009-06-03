@@ -42,7 +42,7 @@
 	spawn(0)
 		if(!src.now_pushing)
 			src.now_pushing = 1
-			if(!A.anchored)
+			if(A && !A.anchored)
 				var/t = get_dir(src, A)
 				step(A, t)
 			src.now_pushing = null
