@@ -1,6 +1,6 @@
 /datum/mission/escape_alone
 	description()
-		return "escape alone (apart from other traitors) on the shuttle"
+		return "escape alone (apart from other traitors) on a shuttle"
 
 	check_success()
 		var/someone_escaped = 0

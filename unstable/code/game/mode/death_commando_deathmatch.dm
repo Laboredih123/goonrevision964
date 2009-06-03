@@ -6,7 +6,7 @@
 		world << "Respawning is enabled."
 
 	setup()
-		termination_conditions += new /datum/termination_condition/time_limit(15 * 600)
+		termination_conditions += new /datum/termination_condition/time_limit(15 * 600, "That's enough killing, boys.")
 		config.respawn = 1
 
 	execute()
@@ -19,4 +19,4 @@
 
 	give_newcomer_job(mob/M)
 		var/datum/job/death_commando/j = get_job_instance_by_type(/datum/job/death_commando)
-		j.create(M, 1)
+		j.create(M, JOINED_LATE)

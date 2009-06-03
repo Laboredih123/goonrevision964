@@ -301,6 +301,7 @@
 #include "code\game\mode\mission\freeform.dm"
 #include "code\game\mode\mission\mission.dm"
 #include "code\game\mode\mission\murders.dm"
+#include "code\game\mode\mission\prevent_escape.dm"
 #include "code\game\mode\mission\rand_murder.dm"
 #include "code\game\mode\mission\sabotage.dm"
 #include "code\game\mode\mission\station_integrity.dm"
@@ -324,5 +325,3 @@
 #include "maps\Space Station 13 areas.dm"
 #include "maps\Space Station 13.dmp"
 // END_INCLUDE
-
-

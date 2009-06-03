@@ -1,3 +1,8 @@
+/var/const
+	JOINED_ON_TIME = 1
+	JOINED_LATE = 2
+	JOINED_ALREADY = 3
+
 /datum/job
 	var/priority = 1 // default priority. higher priority jobs must all be filled before lower priority ones are.
 	// note that after the first instance of a job is taken, all further instances are of priority 1 (unless the
@@ -9,8 +14,8 @@
 	var/speaker_color = COLOR_DEFAULT
 	var/name = "Custom"
 
-	proc/find_spawnpoint(joined_late, mob/M)
-		if(joined_late)
+	proc/find_spawnpoint(join_status, mob/M)
+		if(join_status == JOINED_LATE)
 			return null
 		for(var/obj/start/sloc in world)
 			if (ckey(sloc.name) != ckey(src.name))
@@ -23,8 +28,8 @@
 	proc/process_name(name, mob/M)
 		return name
 
-	proc/create(mob/M, joined_late, give_backpack = 1, has_hair = 1)
-		var/startloc = src.find_spawnpoint(joined_late, M)
+	proc/create(mob/M, join_status, give_backpack = 1, has_hair = 1)
+		var/startloc = src.find_spawnpoint(join_status, M)
 		var/datum/preferences/prefs = M.client.prefs
 		var/name = src.process_name(prefs.name)
 		var/hair_style = prefs.hair_style
@@ -36,8 +41,9 @@
 		src.give_equipment(H)
 		H.client = M.client
 		H.update_clothing()
-		src.announce(H, joined_late)
+		src.announce(H, join_status)
 		del(M)
+		return H
 
 	proc/give_equipment(mob/carbon/M)
 		// gives the mob its equipment after it has been created.
@@ -51,12 +57,12 @@
 		M.equip_if_possible(new /obj/item/weapon/radio/signaler(M), SLOT_BELT)
 		M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
 
-	proc/announce(mob/M, joined_late)
+	proc/announce(mob/M, join_status)
 		world.log_game("[M] has joined the game.")
 
 		M << "<B>Game mode is [current_mode.name]</B>"
 		M << "<B>You are the [src.name].</B>"
-		if(joined_late)
+		if(join_status == JOINED_LATE)
 			for(var/mob/silicon/ai/ai in world)
 				if(!ai.is_dead)
 					ai.say("[M] has arrived on the station. \He is the [src.name].")
@@ -78,3 +84,4 @@
 	for(var/datum/job/j in get_all_job_instances())
 		if(istype(j, type))
 			return j
+	return null

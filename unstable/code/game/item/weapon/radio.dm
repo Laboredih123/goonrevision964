@@ -408,3 +408,5 @@
 	var/datum/message/M = new("A computer", message, LANGUAGE_ENGLISH, COLOR_ANNOUNCEMENT, COLOR_ANNOUNCEMENT)
 	for(var/obj/item/weapon/radio/R in world)
 		R.receive(M, DEFAULT_FREQ)
+	for(var/mob/observer/O in world)
+		O.hear_message(M)

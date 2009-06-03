@@ -6,7 +6,7 @@
 
 	setup()
 		missions += new /datum/mission/escape()
-		termination_conditions += new /datum/termination_condition/shuttle()
+		termination_conditions += new /datum/termination_condition/shuttle(emergency_shuttle)
 
 	execute()
 		new /datum/effect/meteors(70,15,30)

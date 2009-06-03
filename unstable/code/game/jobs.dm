@@ -63,7 +63,7 @@
 		var/datum/job/j = M.client.prefs.job1
 		if(!j)
 			j = get_job_instance_by_type(/datum/job/captain)
-		j.create(M)
+		j.create(M, JOINED_ON_TIME)
 	else if(unassigned.len > 1)
 		//first, semiassign jobs to people based on how badly they want them
 		for(var/mob/prespawn/P in unassigned)
@@ -101,13 +101,8 @@
 
 			var/list/existing = list()
 			for(var/mob/prespawn/M in semiassigned)
-#ifdef DEATH_COMMANDO_DEATHMATCH_FUCK_AROUND
-				assigned[M] = j
-				semiassigned -= M
-#else
 				if(semiassigned[M] == j)
 					existing += M
-#endif
 			if(existing.len)
 				var/mob/prespawn/M = pick(existing)
 				semiassigned -= M
@@ -165,9 +160,9 @@
 		// TODO: check that deleting the prespawn in the middle of the loop (as this does) doesnt break things
 		for(var/mob/prespawn/M in semiassigned)
 			var/datum/job/j = semiassigned[M]
-			j.create(M)
+			j.create(M, JOINED_ON_TIME)
 		for(var/mob/prespawn/M in assigned)
 			var/datum/job/j = assigned[M]
-			j.create(M)
+			j.create(M, JOINED_ON_TIME)
 
 	return

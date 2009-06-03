@@ -1,6 +1,6 @@
 /datum/mission/escape
 	description()
-		return "escape on the shuttle"
+		return "escape on a shuttle"
 
 	check_success()
 		for(var/mob/M in group)

@@ -217,13 +217,13 @@
 
 /area/shuttle
 	requires_power = 0
-	name = "Escape Shuttle"
 	icon_state = "shuttle"
 
-/area/death_commando_shuttle
-	requires_power = 0
-	name = "Death Commando Shuttle"
-	icon_state = "shuttle"
+/area/shuttle/emergency
+	name = "Emergency Shuttle"
+
+/area/shuttle/commando
+	name = "Commando Shuttle"
 
 /area/prespawn
 	requires_power = 0

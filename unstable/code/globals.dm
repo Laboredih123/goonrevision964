@@ -100,7 +100,7 @@ var
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
 	savefile_ver = "Goon v2"
-	SS13_version = "DEATH COMMANDO DEATHMATCH"
+	SS13_version = "Unstable 1.0 beta"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	obj/datacore/data_core = null

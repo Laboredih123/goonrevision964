@@ -76,7 +76,7 @@ var/const/SCENARIO_COMPLETE = 1
 				return
 			var/mob/prespawn/new_player = usr
 			var/datum/job/j = locate(href_list["late-job"])
-			j.create(new_player, 1)
+			j.create(new_player, JOINED_LATE)
 			return
 		else
 			return ..()

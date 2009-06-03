@@ -19,14 +19,6 @@
 		STATE_VIEWMESSAGE = 5
 		STATE_DELMESSAGE = 6
 
-/obj/machinery/computer/communications/process()
-	if(stat & (NOPOWER|BROKEN))
-		return
-	..()
-	if(shuttle_status != SHUTTLE_COMING && shuttle_status != SHUTTLE_RETURNING)
-		return
-	src.updateUsrDialog()
-
 /obj/machinery/computer/communications/Topic(href, href_list)
 	if(!..()) return
 
@@ -98,11 +90,11 @@
 			src.aistate = STATE_MESSAGELIST
 		if("callshuttle")
 			src.state = STATE_DEFAULT
-			if(src.authenticated)
+			if(src.authenticated && commando_shuttle.status == commando_shuttle.STATE_WAITING)
 				src.state = STATE_CALLSHUTTLE
 		if("callshuttle2")
-			if(src.authenticated)
-				call_shuttle()
+			if(src.authenticated && commando_shuttle.status == commando_shuttle.STATE_WAITING)
+				emergency_shuttle.callize()
 			src.state = STATE_DEFAULT
 		if("cancelshuttle")
 			src.state = STATE_DEFAULT
@@ -110,7 +102,7 @@
 				src.state = STATE_CANCELSHUTTLE
 		if("cancelshuttle2")
 			if(src.authenticated)
-				uncall_shuttle()
+				emergency_shuttle.uncall()
 			src.state = STATE_DEFAULT
 		if("end-lockdown")
 			if(locked_down)
@@ -135,9 +127,9 @@
 	switch(src.state)
 		if(STATE_DEFAULT)
 			if(src.authenticated)
-				if(shuttle_status == SHUTTLE_WAITING || shuttle_status == SHUTTLE_RETURNING)
+				if((emergency_shuttle.status == emergency_shuttle.STATE_WAITING || emergency_shuttle.status == emergency_shuttle.STATE_RETURNING) && commando_shuttle.status == commando_shuttle.STATE_WAITING)
 					dat += "\[<a href='?src=\ref[src];operation=callshuttle'> Call Emergency Shuttle </a>\]<br>"
-				else if(shuttle_status == SHUTTLE_COMING)
+				else if(emergency_shuttle.status == emergency_shuttle.STATE_COMING)
 					dat += "\[ <A HREF='?src=\ref[src];operation=cancelshuttle'>Cancel Shuttle Call</A> \]<br>"
 
 				if(locked_down)

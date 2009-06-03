@@ -9,7 +9,8 @@
 		world << "LOOK OUT, THERE'S A BUNCH OF SPIES ON BOARD!"
 
 	setup()
-		termination_conditions += new/datum/termination_condition/shuttle()
+		termination_conditions += new/datum/termination_condition/shuttle(emergency_shuttle)
+		termination_conditions += new/datum/termination_condition/shuttle(commando_shuttle)
 
 	execute()
 		var/list/spies

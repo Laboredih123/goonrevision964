@@ -2084,7 +2084,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	opacity = 0
 /obj/machinery/door/window/security
 	name = "security door"
-	icon = 'security2.dmi'
+	icon = 'security.dmi'
 	visible = 0.0
 	flags = 512.0
 	opacity = 0
