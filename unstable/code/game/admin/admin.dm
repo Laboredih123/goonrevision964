@@ -53,10 +53,15 @@
 	for(var/datum/admin_power/P in player_powers)
 		dat += "<th>[P.name]</th>"
 	dat += "</tr>"
+	var/mobs_by_ckey = list()
 	for(var/mob/M in world)
 		if(!M.last_known_ckey) //they're a monkey
 			continue
-
+		if((M.last_known_ckey in mobs_by_ckey) && !M.client)
+			continue
+		mobs_by_ckey[M.last_known_ckey] = M
+	for(var/ckey in mobs_by_ckey)
+		var/mob/M = mobs_by_ckey[ckey]
 		dat += "<tr>"
 		dat += "<td>[M.name]</td>"
 		dat += "<td>[M.spawn_name]</td>"
@@ -66,7 +71,7 @@
 			dat += "<td>[P.get_desc(M)]</td>"
 		dat += "</tr>"
 	dat += "</table></body></html>"
-	ss13_browse(src, dat, "window=mobpanel;size=600x400")
+	ss13_browse(src, dat, "window=mobpanel;size=800x400")
 
 /client/New()
 	..()

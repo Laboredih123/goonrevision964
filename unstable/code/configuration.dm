@@ -59,6 +59,7 @@
 			if("vote_delay")			config.vote_delay = text2num(value)
 			if("vote_period")			config.vote_period = text2num(value)
 			if("allow_ai")				config.allow_ai = 1
+			if("no_respawn")			config.respawn = 0
 
 			if("authentication")
 				switch(lowertext(dd_limittext(value,8)))
