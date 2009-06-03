@@ -38,7 +38,7 @@
 			names -= randomname
 		var/newname = input(M,"You are a death commando. Would you like to change your name?", "Character Creation", randomname)
 		if(!length(newname)) newname = randomname
-		newname = strip_html(newname,30)
+		newname = strip_html(newname,40)
 		return newname
 
 	create(mob/M, joined_late)
