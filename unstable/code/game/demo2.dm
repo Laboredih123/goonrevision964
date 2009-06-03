@@ -531,23 +531,16 @@ Pipe Valve Status: []<BR>
 
 /obj/machinery/atmoalter/canister/las_act(flag)
 
-	if (flag == "bullet")
+	if (flag == PROJECTILE_BULLET || flag == PROJECTILE_LASER || flag == PROJECTILE_PULSE)
 		src.health = 0
 		spawn( 0 )
 			healthcheck()
-			return
-	if (flag)
-		var/turf/T = src.loc
-		if (!( isturf(T) ))
-			return
-		else
-			T.firelevel = T.gas.plasma
+
+	var/turf/T = get_turf(src)
+	if (!( isturf(T) ))
+		return
 	else
-		src.health = 0
-		spawn( 0 )
-			healthcheck()
-			return
-	return
+		T.firelevel = T.gas.plasma
 
 /obj/machinery/atmoalter/canister/poisoncanister/New()
 	..()

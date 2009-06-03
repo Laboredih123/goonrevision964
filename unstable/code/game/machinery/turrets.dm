@@ -188,12 +188,14 @@
 	return
 
 /obj/machinery/turret/las_act(flag)
-	if (flag == "bullet")
-		src.health -= 3
-	if (flag) //taser
+	if (flag == PROJECTILE_BULLET)
+		src.health -= 4
+	else if (flag == PROJECTILE_TASER)
 		src.health -= 1
-	else
+	else if(flag == PROJECTILE_LASER)
 		src.health -= 2
+	else if(flag == PROJECTILE_PULSE)
+		src.health -= 10
 
 	if (src.health <= 0)
 		src.die()

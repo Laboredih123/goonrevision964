@@ -1458,7 +1458,7 @@
 
 	spawn( 0 )
 		if (A)
-			A.las_act("bullet", src)
+			A.las_act(PROJECTILE_BULLET, src)
 		//SN src = null
 		del(src)
 		return
@@ -1491,7 +1491,7 @@
 
 	spawn( 0 )
 		if (A)
-			A.las_act(null, src)
+			A.las_act(PROJECTILE_LASER, src)
 		//SN src = null
 		del(src)
 		return
@@ -1526,7 +1526,7 @@
 
 	spawn( 0 )
 		if(A)
-			A.las_act(1)
+			A.las_act(PROJECTILE_TASER)
 		//SN src = null
 		del(src)
 		return
@@ -1616,8 +1616,9 @@
 /atom/proc/blob_act()
 	return
 
-/atom/proc/las_act()
-
+/atom/proc/las_act(flag)
+	if(flag == PROJECTILE_PULSE)
+		src.ex_act(2)
 	return
 
 /turf/Entered(atom/A as mob|obj)

@@ -2063,12 +2063,9 @@
 	return src.electrocute(user, prb, net)
 
 /obj/window/las_act(flag)
-
-	if (flag == "bullet")
-
+	if (flag == PROJECTILE_BULLET)
 		if(!reinf)
 			new /obj/item/weapon/shard( src.loc )
-			//SN src = null
 			src.density = 0
 			if(isturf(src.loc))
 				src.loc:buildlinks()
@@ -2083,9 +2080,8 @@
 				if(isturf(src.loc))
 					src.loc:buildlinks()
 				del(src)
-
-		return
-	return
+	else
+		..()
 
 /obj/window/ex_act(severity)
 

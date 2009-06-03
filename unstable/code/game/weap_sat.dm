@@ -271,18 +271,3 @@
 	if (istype(T, /turf))
 		T.firelevel = T.gas.plasma
 	return
-
-/obj/laser/Bump()
-
-	src.range--
-	return
-
-/obj/laser/Move()
-
-	src.range--
-	return
-
-/atom/proc/laserhit(L as obj)
-
-	return 1
-	return

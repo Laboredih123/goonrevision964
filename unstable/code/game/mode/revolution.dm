@@ -52,6 +52,7 @@
 				show_rev(M, N) // give people a rev flag on themselves too
 
 		missions += new /datum/mission/murders(revs, "the revolutionaries", heads, "the heads")
+		new /datum/effect/death_commandos()
 
 		..()
 

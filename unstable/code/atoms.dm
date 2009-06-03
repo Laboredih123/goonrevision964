@@ -863,7 +863,7 @@ obj/item/weapon/clothing/suit/labcoat
 	h_filter = 6.0
 	a_filter = 4.0
 	s_istate = "swat_suit"
-	flags = FPRINT | TABLEPASS
+	flags = FPRINT | TABLEPASS | SUITSPACE
 	s_fire = 6.75E7
 	brute_protect = 126
 	fire_protect = 126
@@ -1652,12 +1652,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/landmark/alterations
 	name = "alterations"
-
-/obj/laser
-	name = "laser"
-	icon = 'weap_sat.dmi'
-	var/damage = 0.0
-	var/range = 10.0
 
 /obj/lattice
 	desc = "A lightweight support lattice."

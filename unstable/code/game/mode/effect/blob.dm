@@ -66,8 +66,10 @@
 	else				icon_state = "bloba0"
 
 /obj/blob/las_act(flag)
-	if(flag=="bullet")	src.health -= 10
-	else				src.health -= 20
+	if(flag == PROJECTILE_BULLET)
+		src.health -= 10
+	else
+		src.health -= 20
 	src.update()
 
 /obj/blob/attackby(var/obj/item/weapon/W, var/mob/user)

@@ -46,6 +46,9 @@
 				spy.tell_mission(steal)
 				spy.tell_mission(escape)
 				new /datum/effect/traitor_radio(spy)
+
+		new /datum/effect/death_commandos()
+
 		..()
 
 	get_traitors()

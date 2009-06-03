@@ -220,6 +220,11 @@
 	name = "Escape Shuttle"
 	icon_state = "shuttle"
 
+/area/death_commando_shuttle
+	requires_power = 0
+	name = "Death Commando Shuttle"
+	icon_state = "shuttle"
+
 /area/prespawn
 	requires_power = 0
 	name = "Prespawn Area"

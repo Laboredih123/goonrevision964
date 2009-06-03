@@ -82,6 +82,8 @@
 
 			new /datum/effect/report_death(traitor, "\red A traitor, [traitorname], has died.")
 
+		new /datum/effect/death_commandos()
+
 		..()
 
 	get_traitors()

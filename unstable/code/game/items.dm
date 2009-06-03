@@ -825,7 +825,7 @@
 	if (!( istype(T, /turf) ))
 		return
 	if (U == T)
-		user.las_act()
+		user.las_act(PROJECTILE_BULLET)
 		return
 	var/obj/bullet/A = new /obj/bullet( user.loc )
 	if (!( istype(U, /turf) ))
@@ -897,7 +897,7 @@
 	if (!( istype(T, /turf) ))
 		return
 	if (U == T)
-		user.las_act()
+		user.las_act(PROJECTILE_LASER)
 		return
 	var/obj/beam/a_laser/A = new /obj/beam/a_laser( user.loc )
 	if (!( istype(U, /turf) ))
@@ -956,7 +956,7 @@
 	if (!( istype(T, /turf) ))
 		return
 	if (U == T)
-		user.las_act(1)
+		user.las_act(PROJECTILE_TASER)
 		return
 	var/obj/beam/a_laser/s_laser/A = new /obj/beam/a_laser/s_laser( user.loc )
 	if (!( istype(U, /turf) ))

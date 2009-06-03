@@ -175,7 +175,7 @@
 				safe = G.affecting
 		if (safe)
 			return safe.las_act(flag, A)
-	if (flag == "bullet")
+	if (flag == PROJECTILE_BULLET)
 		var/d = 51
 		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
 			if (prob(70))
@@ -199,7 +199,7 @@
 		if (prob(50))
 			src.knockdown_until(5)
 		return
-	else if (flag) //taser
+	else if (flag == PROJECTILE_TASER)
 		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
 			if (prob(5))
 				src.think("\red Your armor absorbs the hit!")
@@ -212,7 +212,7 @@
 				src.knockout_until(10)
 			else
 				src.knockdown_until(10)
-	else //laser
+	else if (flag == PROJECTILE_LASER)
 		var/d = 20
 		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
 			if (prob(40))
@@ -235,6 +235,29 @@
 		src.take_damage(brute = d)
 		if (prob(25))
 			src.knockdown_until(1)
+	else if(flag == PROJECTILE_PULSE)
+		var/d = 50
+		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))
+			if (prob(20))
+				src.think("\red Your armor absorbs the hit!")
+				return
+			else if (prob(20))
+				src.think("\red Your armor only softens the hit!")
+				if (prob(20))
+					d /=  2
+				d /= 2
+		else if (istype(src.suit, /obj/item/weapon/clothing/suit/swat_suit))
+			if (prob(50))
+				src.think("\red Your armor absorbs the blow!")
+				return
+			else if (prob(50))
+				src.think("\red Your armor only softens the blow!")
+				if (prob(60))
+					d /= 2
+				d /= 2
+		src.take_damage(brute = d)
+		if (prob(50))
+			src.knockdown_until(5)
 	return
 
 /mob/carbon/var/eye_damage = 0

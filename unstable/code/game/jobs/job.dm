@@ -21,14 +21,15 @@
 	proc/process_name(name, mob/M)
 		return name
 
-	proc/create(mob/prespawn/P, joined_late)
+	proc/create(mob/prespawn/P, joined_late, give_backpack = 1)
 		var/startloc = null
 		if(!joined_late)
 			startloc = src.find_spawnpoint()
 		var/datum/preferences/prefs = P.client.prefs
 		var/name = src.process_name(prefs.name)
 		var/mob/carbon/human/M = new(startloc, name, prefs.hair_color, prefs.hair_style, prefs.skin_color, prefs.gender, job = src)
-		M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
+		if(give_backpack)
+			M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
 		src.give_equipment(M)
 		M.client = P.client
 		M.update_clothing()
@@ -46,7 +47,6 @@
 		M.equip_if_possible(new /obj/item/weapon/pen(M), SLOT_R_STORE)
 		M.equip_if_possible(new /obj/item/weapon/radio/signaler(M), SLOT_BELT)
 		M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
-		M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
 
 	proc/announce(mob/M, joined_late)
 		world.log_game("[M] has joined the game.")
