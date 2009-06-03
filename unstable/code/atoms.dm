@@ -863,7 +863,7 @@ obj/item/weapon/clothing/suit/labcoat
 	h_filter = 6.0
 	a_filter = 4.0
 	s_istate = "swat_suit"
-	flags = FPRINT | TABLEPASS | SUITSPACE
+	flags = FPRINT | TABLEPASS
 	s_fire = 6.75E7
 	brute_protect = 126
 	fire_protect = 126

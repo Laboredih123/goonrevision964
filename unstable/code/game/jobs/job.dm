@@ -21,13 +21,16 @@
 	proc/process_name(name, mob/M)
 		return name
 
-	proc/create(mob/prespawn/P, joined_late, give_backpack = 1)
+	proc/create(mob/prespawn/P, joined_late, give_backpack = 1, has_hair = 1)
 		var/startloc = null
 		if(!joined_late)
 			startloc = src.find_spawnpoint()
 		var/datum/preferences/prefs = P.client.prefs
 		var/name = src.process_name(prefs.name)
-		var/mob/carbon/human/M = new(startloc, name, prefs.hair_color, prefs.hair_style, prefs.skin_color, prefs.gender, job = src)
+		var/hair_style = prefs.hair_style
+		if(!has_hair)
+			hair_style = HAIR_STYLE_BALD
+		var/mob/carbon/human/M = new(startloc, name, prefs.hair_color, hair_style, prefs.skin_color, prefs.gender, job = src)
 		if(give_backpack)
 			M.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
 		src.give_equipment(M)

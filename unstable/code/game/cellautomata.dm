@@ -104,8 +104,6 @@
 
 	if(config.random_ai_names)
 		ai_names = dd_file2list("ai_names.txt")
-	death_commando_names = dd_file2list("death_commando_names.txt")
-
 	// apply some settings from config..
 	abandon_allowed = config.respawn
 

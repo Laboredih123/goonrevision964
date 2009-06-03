@@ -1,3 +1,16 @@
+/obj/item/weapon/clothing/suit/swat_suit/death_commando
+	name = "death commando suit"
+	icon = 'death_commando.dmi'
+	icon_state = "death_commando_suit"
+	s_istate = "death_commando_suit"
+	flags = FPRINT | TABLEPASS | SUITSPACE
+
+/obj/item/weapon/clothing/mask/gasmask/death_commando
+	name = "death commando mask"
+	icon = 'death_commando.dmi'
+	icon_state = "death_commando_mask"
+	s_istate = "death_commando_mask"
+
 /var/const/PROJECTILE_TASER = 1
 /var/const/PROJECTILE_LASER = 2
 /var/const/PROJECTILE_BULLET = 3

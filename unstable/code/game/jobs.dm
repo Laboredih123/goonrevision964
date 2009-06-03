@@ -101,8 +101,11 @@
 
 			var/list/existing = list()
 			for(var/mob/prespawn/M in semiassigned)
-				if(semiassigned[M] == j)
-					existing += M
+				// UNDO THIS
+				assigned[M] = j
+				semiassigned -= M
+				//if(semiassigned[M] == j)
+				//	existing += M
 
 			if(existing.len)
 				var/mob/prespawn/M = pick(existing)
