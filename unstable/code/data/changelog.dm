@@ -1,5 +1,10 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></font><br>
 <hr>
+<p><b>Tuesday, June 2. 2009</b></p>
+<ul>
+<li><b>767</b> - Added death commando deathmatch mode. THIS IS RIDICULOUSLY FUN.
+</ul>
+
 <p><b>Monday, June 1. 2009</b></p>
 <ul>
 <li><b>761</b> - Observers can no longer wander off the edge of the map into nothingness. Added "JumpToZ" verb for
