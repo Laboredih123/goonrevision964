@@ -13,14 +13,7 @@
 
 
 	check_success()
-		for(var/mob/M in victims)
-			if(M in outcasts)
-				continue
-			if(M.is_dead)
-				continue
-			if(M.z != SHUTTLE_Z)
-				continue
-			if(!istype(get_area(M), /area/shuttle))
-				continue
-			return MISSION_FAILURE
+		for(var/mob/M in (victims - outcasts))
+			if(on_shuttle(M) && !M.is_dead)
+				return MISSION_FAILURE
 		return MISSION_SUCCESS

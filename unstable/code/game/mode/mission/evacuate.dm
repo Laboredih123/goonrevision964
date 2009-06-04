@@ -9,7 +9,7 @@
 		var/stayed = 0
 		for(var/mob/carbon/M in world)
 			if (M.client)
-				if (M.is_dead || istype(get_area(M), /area/shuttle) || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
+				if (M.is_dead || on_shuttle(M) || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
 					gone++
 				else
 					stayed++

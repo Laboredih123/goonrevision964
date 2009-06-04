@@ -21,6 +21,8 @@ var/const
 	check_success()
 		var/list/items = list()
 		for(var/mob/M in group)
+			if(!on_shuttle(M) || M.is_dead)
+				continue
 			items += M.contents
 			for(var/obj/item/weapon/storage/S in M.contents)
 				items += S.return_inv()

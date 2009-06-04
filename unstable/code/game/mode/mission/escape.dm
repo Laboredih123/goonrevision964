@@ -3,12 +3,10 @@
 		return "escape on a shuttle"
 
 	check_success()
-		for(var/mob/M in group)
-			if(M in outcasts)
+		for(var/mob/M in (group - outcasts))
+			if(!on_shuttle(M))
 				continue
 			if(M.is_dead)
-				continue
-			if(!istype(get_area(M), /area/shuttle))
 				continue
 			return MISSION_SUCCESS
 		return MISSION_FAILURE

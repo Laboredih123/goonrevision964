@@ -52,6 +52,7 @@
 			else
 				traitor_group_name += ", [T.client.key] ([T.spawn_name])"
 
+		// give each traitor a message and a personal mission
 		for(var/mob/T in traitors)
 			if(traitors.len == 1)
 				T << "<font color='red'><h2>You are the traitor!</h2></font>"
@@ -59,15 +60,23 @@
 				T << "<font color='red'><h2>You are a traitor!</h2></font>"
 				T << "<font color='red'><h2>Your fellow traitors are [traitor_group_name].</h2></font>"
 				T.store_memory("Fellow traitors: [traitor_group_name]")
-
-		// select num_traitors missions
-		for(var/i = 1; i <= num_traitors; i++)
-			var/mission_type = pick_mission(traitors)
-			var/datum/mission/mission = new mission_type(traitors, traitor_group_name)
+			var/mission_type = pick_individual_mission(T)
+			var/datum/mission/mission
+			if(mission_type != /datum/mission/murders)
+				mission = new mission_type(T, "[T.client.key] ([T.spawn_name])")
+			else
+				mission = new mission_type(traitors, "[T.client.key] ([T.spawn_name])") // this is a really bad way to do this
+			T.tell_mission(mission)
 			missions += mission
-			for(var/mob/traitor in traitors)
-				traitor.tell_mission(mission)
 
+		if(num_traitors > 1)
+			var/group_mission_type = pick_group_mission()
+			var/datum/mission/group_mission = new group_mission_type(traitors, traitor_group_name)
+			missions += group_mission
+			for(var/mob/T in traitors)
+				T.tell_mission(group_mission)
+
+		// give them all a mission to escape/survive and a traitor radio/law zero. also, report their deaths.
 		for(var/mob/traitor in traitors)
 			var/traitorname = "[traitor.client.key] ([traitor.spawn_name])"
 			if(istype(traitor, /mob/carbon))
@@ -99,24 +108,21 @@
 			if(mobs.len)
 				return pick(mobs - synds)
 
-	proc/pick_mission(list/traitors) // TODO: Prevent multiple copies of the same mission from happening
+	proc/pick_individual_mission(traitor) // TODO: Prevent multiple copies of the same mission from happening
 		var/list/targets = get_cliented_mob_list()
 		if(targets.len < 2)	// since there's only one mob, there can be only one traitor
-			var/traitor = traitors[1]
 			if(istype(traitor, /mob/silicon/ai))
 				return /datum/mission/evacuate
 			else
 				return pick(/datum/mission/steal, /datum/mission/sabotage)
 		else
-			var/missions = list()
-			for(var/T in traitors)
-				if(istype(T, /mob/silicon/ai))
-					missions += list(/datum/mission/evacuate, /datum/mission/rand_murder)
-				else
-					missions += list(/datum/mission/steal, /datum/mission/sabotage, /datum/mission/rand_murder)
-			return pick(missions)
-			// could also do pick(uniquelist(missions))
-			// this way it's weighted by the ai:human ratio of traitors.
+			if(istype(traitor, /mob/silicon/ai))
+				return pick(/datum/mission/evacuate, /datum/mission/murders)
+			else
+				return pick(/datum/mission/steal, /datum/mission/sabotage, /datum/mission/murders)
+
+	proc/pick_group_mission() // TODO: If multiple AIs are ever implemented, make this work properly with only AI traitors.
+		return pick(/datum/mission/escape_alone, /datum/mission/frame, /datum/mission/kill_by_method, /datum/mission/steal_canisters)
 
 /proc/get_synd_list()
 	var/list/L = list()

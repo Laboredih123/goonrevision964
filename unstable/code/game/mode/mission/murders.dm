@@ -5,8 +5,13 @@
 	New(list/group, gname, list/victims, vname)
 		src.group = group
 		src.gname = gname
-		src.victims = victims
-		src.vdesc = vname
+		if(victims)
+			src.victims = victims
+			src.vdesc = vname
+		else
+			var/mob/carbon/V = pick_cliented_human_except(group)
+			victims = list(V)
+			vdesc = V.spawn_name
 
 	description()
 		return "murder [vdesc]"

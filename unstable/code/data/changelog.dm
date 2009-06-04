@@ -1,4 +1,4 @@
-var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes)</b></font><br>
+var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font><br>
 <p>Source, minus the good sprites, available at <a href="http://svn.slurm.us/public/spacestation13/branches/kurper/unstable">
 http://svn.slurm.us/public/spacestation13/branches/kurper/unstable</a>. If you want the good sprites, ask here or
 on irc.synirc.net in #goonstation.</p>
@@ -6,6 +6,10 @@ on irc.synirc.net in #goonstation.</p>
 
 <p><b>Wednesday, June 3. 2009</b></p>
 <ul>
+<li><b>772</b> - In multitraitor, instead of n traitors having n shared, ordinary objectives, they now each have a
+separate individual objective and one group objective. Group objective types are "abduct someone," "frame someone
+(by getting their fingerprints on something)," "steal a bunch of plasma canisters," and "escape alone apart from
+other traitors."</li>
 <li><b>770</b> - If a traitor, multitraitor, or spy vs spy round goes on for more than an hour, Central Command may
 now find out that there are traitors on board and send death commandoes to liquidate the station. Don't fret,
 though - you can always try to hijack their shuttle before the battleships arrive.</li>
