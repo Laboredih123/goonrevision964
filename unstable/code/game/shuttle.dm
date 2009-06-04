@@ -72,7 +72,7 @@
 					status = STATE_DOCKED
 					time_left = time_docked
 					last_update = ss13time()
-					move(SHUTTLE_Z, SHUTTLE_CALLED_Z, /area/shuttle)
+					move(SHUTTLE_Z, SHUTTLE_CALLED_Z, area_type)
 					src.on_arrive()
 					last_announce = time_left
 				else
@@ -161,7 +161,7 @@
 		var/datum/job/death_commando/j = get_job_instance_by_type(/datum/job/death_commando)
 		for(var/mob/observer/M in world)
 			if(M.client)
-				commandos += j.create(M, JOINED_ON_TIME)
+				commandos += j.create(M, JOINED_ON_TIME, 1, 1)
 		var/datum/mission/murders/murders = new /datum/mission/murders(commandos, "the death commandos", station_members, "all station personnel")
 		var/datum/mission/prevent_escape/prevent_escape = new /datum/mission/prevent_escape(commandos, "the death commandos", station_members, "any station personnel")
 		current_mode.missions += murders

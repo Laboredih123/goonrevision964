@@ -37,7 +37,7 @@
 			hair_style = HAIR_STYLE_BALD
 		var/mob/carbon/human/H = new(startloc, name, prefs.hair_color, hair_style, prefs.skin_color, prefs.gender, job = src)
 		if(give_backpack)
-			H.equip_if_possible(new /obj/item/weapon/storage/backpack(M), SLOT_BACK)
+			H.equip_if_possible(new /obj/item/weapon/storage/backpack(H), SLOT_BACK)
 		src.give_equipment(H)
 		H.client = M.client
 		H.update_clothing()
