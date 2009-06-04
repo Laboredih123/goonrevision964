@@ -859,27 +859,10 @@
 	src.gas.plasma = src.maximum
 	return
 
-/obj/secloset/alter_health()
+/obj/closet/secure/personal/var/registered = null
+/obj/closet/secure/personal/req_access = list(access_all_personal_lockers)
 
-	return src.loc
-	return
-
-/obj/secloset/CheckPass(O as mob|obj, target as turf)
-
-	if (!( src.opened ))
-		return 0
-	else
-		return 1
-	return
-
-/obj/secloset/hear_message(datum/message/M, atom/source)
-	for(var/atom/A in src)
-		A.hear_message(M, source)
-
-/obj/secloset/personal/var/registered = null
-/obj/secloset/personal/req_access = list(access_all_personal_lockers)
-
-/obj/secloset/personal/New()
+/obj/closet/secure/personal/New()
 
 	..()
 	sleep(2)
@@ -889,7 +872,7 @@
 	new /obj/item/weapon/radio/headset( src )
 	return
 
-/obj/secloset/personal/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+/obj/closet/secure/personal/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (src.opened)
 		if (istype(W, /obj/item/weapon/grab))
@@ -923,7 +906,7 @@
 		user << "\red Access Denied"
 	return
 
-/obj/secloset/security2/New()
+/obj/closet/secure/security2/New()
 	..()
 	sleep(2)
 	new /obj/item/weapon/clothing/under/red( src )
@@ -941,7 +924,7 @@
 	new /obj/item/weapon/f_print_scanner( src )
 	return
 
-/obj/secloset/security1/New()
+/obj/closet/secure/security1/New()
 	..()
 	sleep(2)
 	new /obj/item/weapon/storage/flashbang_kit(src)
@@ -956,7 +939,7 @@
 	new /obj/item/weapon/baton(src)
 	return
 
-/obj/secloset/highsec/New()
+/obj/closet/secure/highsec/New()
 
 	..()
 	sleep(2)
@@ -971,7 +954,7 @@
 	new /obj/item/weapon/clothing/head/helmet( src )
 	return
 
-/obj/secloset/captains/New()
+/obj/closet/secure/captains/New()
 
 	..()
 	sleep(2)
@@ -985,7 +968,7 @@
 	new /obj/item/weapon/clothing/head/helmet/swat_hel( src )
 	return
 
-/obj/secloset/animal/New()
+/obj/closet/secure/animal/New()
 
 	..()
 	sleep(2)
@@ -997,7 +980,7 @@
 	new /obj/item/weapon/radio/electropack( src )
 	return
 
-/obj/secloset/medical1/New()
+/obj/closet/secure/medical1/New()
 
 	..()
 	sleep(2)
@@ -1019,7 +1002,7 @@
 	new /obj/item/weapon/dropper( src )
 	return
 
-/obj/secloset/medical2/New()
+/obj/closet/secure/medical2/New()
 
 	..()
 	sleep(2)
@@ -1034,7 +1017,7 @@
 	new /obj/item/weapon/clothing/mask/m_mask( src )
 	return
 
-/obj/secloset/toxin/New()
+/obj/closet/secure/toxin/New()
 
 	..()
 	sleep(2)
@@ -1048,65 +1031,7 @@
 
 	return
 
-/obj/secloset/ex_act(severity)
-
-	switch(severity)
-		if(1.0)
-			for(var/atom/movable/A as mob|obj in src)
-				A.loc = src.loc
-				ex_act(severity)
-				//Foreach goto(35)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				for(var/atom/movable/A as mob|obj in src)
-					A.loc = src.loc
-					ex_act(severity)
-					//Foreach goto(108)
-				//SN src = null
-				del(src)
-				return
-		if(3.0)
-			if (prob(5))
-				for(var/atom/movable/A as mob|obj in src)
-					A.loc = src.loc
-					ex_act(severity)
-					//Foreach goto(181)
-				//SN src = null
-				del(src)
-				return
-		else
-	return
-
-/obj/secloset/blob_act()
-
-	if (prob(50))
-		for(var/atom/movable/A as mob|obj in src)
-			A.loc = src.loc
-		del(src)
-
-
-/obj/secloset/meteorhit(obj/O as obj)
-
-	if (O.icon_state == "flaming")
-		for(var/obj/item/I in src)
-			I.loc = src.loc
-			//Foreach goto(29)
-		for(var/mob/M in src)
-			M.loc = src.loc
-			if (M.client)
-				M.client.eye = M.client.mob
-				M.client.perspective = MOB_PERSPECTIVE
-			//Foreach goto(71)
-		src.icon_state = "secloset1"
-		//SN src = null
-		del(src)
-		return
-	return
-
-/obj/secloset/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
+/obj/closet/secure/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
 
 	if (src.opened)
 		if (istype(W, /obj/item/weapon/grab))
@@ -1131,7 +1056,7 @@
 		user << "\red Access Denied"
 	return
 
-/obj/secloset/relaymove(mob/user as mob)
+/obj/closet/secure/relaymove(mob/user as mob)
 
 	if (!user.is_active())
 		return
@@ -1154,21 +1079,7 @@
 				M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
 	return
 
-/obj/secloset/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
-
-	if (!user.can_use_hands())
-		return
-	if ((!( istype(O, /atom/movable) ) || O.anchored || get_dist(user, src) > 1 || get_dist(user, O) > 1 || user.contents.Find(src)))
-		return
-	if(!src.opened)
-		return
-	step_towards(O, src.loc)
-	if (user != O)
-		user.show_viewers(text("\red [] stuffs [] into []!", user, O, src))
-	src.add_fingerprint(user)
-	return
-
-/obj/secloset/interact(mob/user as mob)
+/obj/closet/secure/interact(mob/user as mob)
 
 	src.add_fingerprint(user)
 	if (!src.opened && !src.locked)
@@ -1553,7 +1464,7 @@
 	return
 
 
-/obj/secloset/blob_act()
+/obj/closet/secure/blob_act()
 
 	if (prob(50))
 		for(var/atom/movable/A as mob|obj in src)
