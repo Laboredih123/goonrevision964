@@ -7,41 +7,19 @@
 
 // BEGIN_FILE_DIR
 #define FILE_DIR .
-#define FILE_DIR "code"
-#define FILE_DIR "code/atoms"
-#define FILE_DIR "code/data"
-#define FILE_DIR "code/game"
-#define FILE_DIR "code/game/admin"
-#define FILE_DIR "code/game/admin/admin_powers"
-#define FILE_DIR "code/game/admin/ban"
-#define FILE_DIR "code/game/area"
-#define FILE_DIR "code/game/dna"
-#define FILE_DIR "code/game/dna/gene"
-#define FILE_DIR "code/game/item"
-#define FILE_DIR "code/game/item/weapon"
-#define FILE_DIR "code/game/jobs"
-#define FILE_DIR "code/game/machinery"
-#define FILE_DIR "code/game/machinery/computer"
-#define FILE_DIR "code/game/machinery/pipes"
-#define FILE_DIR "code/game/mob"
-#define FILE_DIR "code/game/mob/carbon"
-#define FILE_DIR "code/game/mob/carbon/human"
-#define FILE_DIR "code/game/mob/carbon/monkey"
-#define FILE_DIR "code/game/mob/prespawn"
-#define FILE_DIR "code/game/mob/silicon"
-#define FILE_DIR "code/game/mob/silicon/ai"
-#define FILE_DIR "code/game/mode"
-#define FILE_DIR "code/game/mode/effect"
-#define FILE_DIR "code/game/mode/mission"
-#define FILE_DIR "code/game/mode/termination_condition"
-#define FILE_DIR "code/game/turf"
-#define FILE_DIR "code/game/verbs"
-#define FILE_DIR "icons"
-#define FILE_DIR "icons/isno"
-#define FILE_DIR "icons/ss13"
-#define FILE_DIR "interface"
-#define FILE_DIR "maps"
 // END_FILE_DIR
+
+// Do not move this inside the "BEGIN_FILE_DIR/END_FILE_DIR" comments!
+// Dream Maker will automatically delete it and everything will break.
+// Note that all the icon files in the "good_icons" directory are (hopefully) duplicates of icon files in the
+// "icons" directory, but better-looking.
+// This means that you can compile without having the good_icons directory, but it will be uglier.
+// The good_icons directory is unfortunately not included in this SVN. To get it, ask on
+// irc.synirc.net #goonstation. You can also email me at <kurper@gmail.com> or send a PM to user "Kurper" on the
+// Something Awful forums,
+#define FILE_DIR "good_icons"
+#define FILE_DIR "icons"
+#define FILE_DIR "docs"
 
 // BEGIN_PREFERENCES
 #define DEBUG
