@@ -137,84 +137,6 @@ obj/machinery/door_control/interact(mob/user as mob)
 			//Foreach goto(737)
 	return
 
-/obj/machinery/autolathe/attackby(var/obj/item/weapon/O as obj, var/mob/user as mob)
-
-	if (istype(O, /obj/item/weapon/sheet/metal))
-		if (src.m_amount < 150000.0)
-			src.m_amount += O:height * O:width * O:length * 1000000.0
-			O:amount--
-			if (O:amount < 1)
-				//O = null
-				del(O)
-	else
-		if (istype(O, /obj/item/weapon/sheet/glass))
-			if (src.g_amount < 75000.0)
-				src.g_amount += O:height * O:width * O:length * 1000000.0
-				O:amount--
-				if (O:amount < 1)
-					//O = null
-					del(O)
-		else
-			if (istype(O, /obj/item/weapon/screwdriver))
-				if (!( src.operating ))
-					src.opened = !( src.opened )
-					src.icon_state = text("autolathe[]", (src.opened ? "f" : null))
-				else
-					user << "\red The machine is in use. You can not maintain it now."
-			else
-				spawn( 0 )
-					src.interact(user)
-					return
-	return
-
-
-/obj/machinery/autolathe/interact(user as mob)
-
-	var/dat
-	if (src.temp)
-		dat = text("<TT>[]</TT><BR><BR><A href='?src=\ref[];temp=1'>Clear Screen</A>", src.temp, src)
-	else
-		dat = text("<B>Metal Amount:</B> [] cm<sup>3</sup> (MAX: 150,000)<BR>\n<FONT color = blue><B>Glass Amount:</B></FONT> [] cm<sup>3</sup> (MAX: 75,000)<HR>", src.m_amount, src.g_amount)
-		var/list/L = list(  )
-/*		L["screwdriver"] = "Make Screwdriver {40 cc}"
-		L["wirecutters"] = "Make Wirecutters {80 cc}"
-		L["wrench"] = "Make Wrench {150 cc}"
-		L["crowbar"] = "Make Crowbar {150 cc}"
-		L["screw"] = "Make Screw (1) {3 cc}"
-		L["5screws"] = "Make Screws (5) {14 cc}"
-		L["rod_t"] = "Make Rod (1x20) {20 cc}"
-		L["rod_l"] = "Make Rod (5x250) {1250 cc}"
-		L["grille_1"] = "Make Grille (250x250x1) {27345 cc}"
-		L["sheet_1"] = "Make Sheet (20x10x.01) {2 cc}"
-		L["sheet_2"] = "Make Sheet (30x10x.01) {3 cc}"
-		L["sheet_3"] = "Make Sheet (30x20x.01) {6 cc}"
-		L["sheet_4"] = "Make Sheet (30x30x.01) {9 cc}"
-		L["sheet_5"] = "Make Sheet (62.5x62.5x4) {15625 cc}" */
-
-
-		for(var/t in L)
-			dat += "<A href='?src=\ref[src];make=[t]'>[L["[t]"]]<BR>"
-			//Foreach goto(230)
-	ss13_browse(user, "<HEAD><TITLE>Autolathe Control Panel</TITLE></HEAD><TT>[dat]</TT>", "window=autolathe")
-	return
-
-/obj/machinery/autolathe/Topic(href, href_list)
-	..()
-	if ((!usr.can_use_hands()))
-		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
-		usr.machine = src
-		src.add_fingerprint(usr)
-
-		if (href_list["temp"])
-			src.temp = null
-
-	for(var/mob/M in viewers(1, src))
-		if ((M.client && M.machine == src))
-			src.interact(M)
-		//Foreach goto(108)
-	return
-
 /obj/machinery/injector/attackby(var/obj/item/weapon/tank/W as obj, var/mob/user as mob)
 
 	if(stat & NOPOWER)
@@ -329,5 +251,4 @@ obj/machinery/door_control/interact(mob/user as mob)
 	if(!InRange(oxygen_press, 20,  30)) safe = 0
 
 	src.icon_state = text("indicator[]", safe)
-	SS13_airtunnel.air_stat = safe
 	return

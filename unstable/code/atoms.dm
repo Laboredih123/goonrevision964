@@ -1812,16 +1812,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "scrubber:0"
 	flags = FPRINT
 	anchored = 0.0
-/obj/machinery/autolathe
-	name = "Autolathe"
-	icon = 'stationobjs.dmi'
-	icon_state = "autolathe"
-	var/m_amount = 0.0
-	var/g_amount = 0.0
-	var/operating = 0.0
-	var/opened = 0.0
-	var/temp = null
-	anchored = 1.0
 /obj/machinery/camera/motion
 /obj/machinery/circulator
 	name = "circulator/heat exchanger"
@@ -1855,10 +1845,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	density = 1
 	anchored = 1.0
 
-/obj/machinery/computer/airtunnel
-	name = "Air Tunnel Control"
-	icon = 'airtunnelcomputer.dmi'
-	icon_state = "console00"
 /obj/machinery/computer/aiupload
 	name = "AI Upload"
 	icon = 'stationobjs.dmi'

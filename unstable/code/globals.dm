@@ -101,7 +101,6 @@ var
 
 	savefile_ver = "Goon v2"
 	SS13_version = "Unstable 1.0 beta"
-	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	obj/datacore/data_core = null
 	obj/overlay/plmaster = null
@@ -128,9 +127,6 @@ var
 
 	CELLRATE = 0.002  // multiplier for watts per tick <> cell storage (eg: .002 means if there is a load of 1000 watts, 20 units will be taken from a cell per second)
 	CHARGELEVEL = 0.001 // Cap for how fast cells charge, as a percentage-per-tick (.001 means cellcharge is capped to 1% per second)
-	airtunnel_start = 68 // default
-	airtunnel_stop = 68 // default
-	airtunnel_bottom = 72 // default
 	list/monkeystart = list()
 	list/blobstart = list()
 	list/blobs = list()

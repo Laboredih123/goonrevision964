@@ -109,8 +109,6 @@
 
 	vote = new /datum/vote()
 
-	SS13_airtunnel = new /datum/air_tunnel/air_tunnel1(  )
-
 	..()
 
 	sleep(50)
