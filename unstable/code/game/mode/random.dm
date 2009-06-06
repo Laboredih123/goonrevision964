@@ -26,3 +26,7 @@
 	get_traitors()
 		ensure_m()
 		return m.get_traitors()
+
+	get_desc() // includes spoilers etc, is only shown to dead people
+		ensure_m()
+		return m.get_desc()

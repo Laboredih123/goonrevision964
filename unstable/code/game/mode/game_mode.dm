@@ -91,3 +91,9 @@ var/const/SCENARIO_COMPLETE = 1
 			if(jobs[C.spawn_job] <= 0)
 				jobs -= C.spawn_job
 		return jobs
+
+	proc/get_desc() // includes spoilers etc, is only shown to dead people
+		var/desc = "The mode is [src.name]."
+		for(var/datum/mission/M in missions)
+			desc += "<br>[M.gname] has the mission to [M.description()]."
+		return desc

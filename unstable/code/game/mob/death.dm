@@ -6,5 +6,6 @@
 	if(src.client)
 		spawn(50)
 			if(src.client && src.is_dead)
+				src << "<br><br>[current_mode.get_desc()]"
 				src.client.mob = new/mob/observer(src)
 	return ..()
