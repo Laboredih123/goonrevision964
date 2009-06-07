@@ -78,6 +78,33 @@
 	icon = 'weap_sat.dmi'
 	icon_state = "grid"
 
+/turf/station/floor/sec
+	icon_state = "secfloor"
+
+/turf/station/floor/seccorner
+	icon_state = "secfloorcorner"
+
+/turf/station/floor/med
+	icon_state = "medfloor"
+
+/turf/station/floor/medcorner
+	icon_state = "medfloorcorner"
+
+/turf/station/floor/cap
+	icon_state = "capfloor"
+
+/turf/station/floor/capcorner
+	icon_state = "capfloorcorner"
+
+/turf/station/floor/eng
+	icon_state = "engfloor"
+
+/turf/station/floor/engcorner
+	icon_state = "engfloorcorner"
+
+/turf/station/floor/chapel
+	icon_state = "chapel"
+
 /turf/station/r_wall
 	name = "r wall"
 	icon = 'wall.dmi'

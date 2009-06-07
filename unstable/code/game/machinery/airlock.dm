@@ -43,6 +43,12 @@
 	var/closeOtherId = null
 	var/datum/assembly/wirebundle/wires = null
 
+/obj/machinery/door/airlock/eng
+	icon = 'dooreng.dmi'
+
+/obj/machinery/door/airlock/sec
+	icon = 'doorsec.dmi'
+
 /*
 About the new airlock wires panel:
 *	An airlock wire dialog can be accessed by the normal way or by using wirecutters or a multitool on the door while the wire-panel is open. This would show the following wires, which you can either wirecut/mend or send a multitool pulse through. There are 9 wires.

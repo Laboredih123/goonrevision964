@@ -7,7 +7,8 @@ on irc.synirc.net in #goonstation.</p>
 
 <p><b>Sunday, June 7. 2009</b></p>
 <ul>
-<li><b>781</b> - Added Supernorn's kickass new icons.</li>
+<li><b>783</b> - Added color-coded airlocks and floors.</li>
+<li><b>782</b> - Added Supernorn's kickass new icons.</li>
 </ul>
 
 <p><b>Saturday, June 6. 2009</b></p>
