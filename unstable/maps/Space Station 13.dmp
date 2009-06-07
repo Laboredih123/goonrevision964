@@ -958,7 +958,7 @@
 "sv" = (/obj/cable{icon_state = "1-8"; d1 = 1; d2 = 8},/turf/station/floor,/area/bridge)
 "sw" = (/obj/stool/chair{dir = 4},/turf/station/floor,/area/bridge)
 "sx" = (/obj/table{icon_state = "sides"; dir = 8},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/turf/station/floor,/area/bridge)
-"sy" = (/obj/table{icon_state = "sides"; dir = 4},/obj/item/weapon/clothing/glasses/blindfold,/turf/station/floor,/area/bridge)
+"sy" = (/obj/table{icon_state = "sides"; dir = 4},/turf/station/floor,/area/bridge)
 "sz" = (/obj/stool/chair{dir = 8},/turf/station/floor,/area/bridge)
 "sA" = (/obj/cable{icon_state = "1-8"; d1 = 1; d2 = 8},/turf/station/r_wall,/area/turret_protected/ai)
 "sB" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor/grid,/area/turret_protected/ai)

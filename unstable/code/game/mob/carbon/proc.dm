@@ -1,9 +1,6 @@
 /mob/carbon/is_muzzled()
 	return istype(src.mask, /obj/item/weapon/clothing/mask/muzzle)
 
-/mob/carbon/is_blindfolded()
-	return istype(src.glasses, /obj/item/weapon/clothing/glasses/blindfold)
-
 /mob/carbon/is_handcuffed()
 	if (istype(src.handcuffs, /obj/item/weapon/handcuffs))
 		return 1

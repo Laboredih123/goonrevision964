@@ -5,9 +5,15 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/unstable</a>. If you w
 on irc.synirc.net in #goonstation.</p>
 <hr>
 
+<p><b>Saturday, June 6. 2009</b></p>
+<ul>
+<li><b>780</b> - Removed blindfold, along with a bunch of other things that aren't used any more because they're
+terrible features.</li>
+</ul>
+
 <p><b>Friday, June 5. 2009</b></p>
 <ul>
-<li><b>774</b> - Your HUD is now cleared when you die (although issues arising from switching mobs may still
+<li><b>775</b> - Your HUD is now cleared when you die (although issues arising from switching mobs may still
 exist). You now are told the mode and who any traitors are when you die.</li>
 </ul>
 

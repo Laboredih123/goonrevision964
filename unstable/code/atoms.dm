@@ -601,10 +601,6 @@
 	w_class = 2.0
 	flags = GLASSESCOVERSEYES
 	s_fire = 7.5E7
-/obj/item/weapon/clothing/glasses/blindfold
-	name = "blindfold"
-	icon_state = "blindfold"
-	s_istate = "blindfold"
 /obj/item/weapon/clothing/glasses/meson
 	name = "Optical Meson Scanner"
 	icon_state = "m_glasses"
