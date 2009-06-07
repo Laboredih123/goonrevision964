@@ -232,23 +232,3 @@ obj/machinery/door_control/interact(mob/user as mob)
 	usr.see(text("\blue \t Temperature: []&deg;C", T.gas.temp - T0C))
 	src.add_fingerprint(usr)
 	return
-
-/obj/machinery/alarm/indicator/process()
-
-	if(stat & NOPOWER)
-		icon_state = "indicator-p"
-		return
-
-	var/safe = 1
-	var/turf/T = src.loc
-	if(!istype(T, /turf)) return
-
-	var/turf_total = max(T.gas.total(), 1)
-	var/air_pressure = turf_total / CELLSTANDARD * 100
-	var/oxygen_press = T.gas.oxygen / turf_total * 100
-
-	if(!InRange(air_pressure, 90, 110))	safe = 0
-	if(!InRange(oxygen_press, 20,  30)) safe = 0
-
-	src.icon_state = text("indicator[]", safe)
-	return

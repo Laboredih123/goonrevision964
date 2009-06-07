@@ -113,12 +113,6 @@ datum/hSB
 					if(hsb.loc && istype(hsb.loc,/turf))
 						hsb.loc:buildlinks()
 					usr << "<b>Sandbox:  Created an airlock."
-				if("hsbregulator")
-					var/obj/machinery/atmoalter/siphs/fullairsiphon/hsb = new/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent
-					hsb.loc = usr.loc
-				if("hsbfilter")
-					var/obj/machinery/atmoalter/siphs/scrubbers/hsb = new/obj/machinery/atmoalter/siphs/scrubbers/air_filter
-					hsb.loc = usr.loc
 				if("hsbcanister")
 					var/list/hsbcanisters = typesof(/obj/machinery/atmoalter/canister/) - /obj/machinery/atmoalter/canister/
 					var/hsbcanister = input(usr, "Choose a canister to spawn.", "Sandbox:") in hsbcanisters + "Cancel"

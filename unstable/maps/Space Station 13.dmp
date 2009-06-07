@@ -1735,7 +1735,7 @@
 "Hs" = (/obj/item/weapon/storage/toolbox,/turf/station/floor,/area/syndicate_station)
 "Ht" = (/obj/watertank,/turf/station/floor,/area/syndicate_station)
 "Hu" = (/obj/item/weapon/crowbar,/turf/station/floor,/area/syndicate_station)
-"Hv" = (/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent,/obj/landmark{name = "CTF-rogue"},/turf/station/floor,/area/syndicate_station)
+"Hv" = (/obj/landmark{name = "CTF-rogue"},/turf/station/floor,/area/syndicate_station)
 "Hw" = (/obj/weldfueltank,/turf/station/floor,/area/syndicate_station)
 "Hx" = (/obj/landmark{name = "Nuclear-Bomb"},/turf/station/floor,/area/syndicate_station)
 "Hy" = (/obj/landmark{name = "Nuclear-Closet"},/turf/station/floor,/area/syndicate_station)

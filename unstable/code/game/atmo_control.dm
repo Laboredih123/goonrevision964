@@ -150,41 +150,6 @@
 	src.setstate()
 	return
 
-/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent/attackby(W as obj, user as mob)
-
-	if (istype(W, /obj/item/weapon/screwdriver))
-		if (src.c_status)
-			src.anchored = 1
-			src.c_status = 0
-		else
-			if (locate(/obj/machinery/connector, src.loc))
-				src.anchored = 1
-				src.c_status = 3
-	else
-		if (istype(W, /obj/item/weapon/wrench))
-			src.alterable = !( src.alterable )
-	return
-
-/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent/setstate()
-
-
-	if(stat & NOPOWER)
-		icon_state = "vent-p"
-		return
-
-	if (src.t_status == 4)
-		src.icon_state = "vent2"
-	else
-		if (src.t_status == 3)
-			src.icon_state = "vent0"
-		else
-			src.icon_state = "vent1"
-	return
-
-/obj/machinery/atmoalter/siphs/fullairsiphon/air_vent/reset(valve, auto)
-	if(auto)
-		src.t_status = 4
-
 /obj/machinery/atmoalter/siphs/scrubbers/process()
 	if(stat & NOPOWER) return
 
@@ -234,43 +199,6 @@
 
 	src.setstate()
 	src.updateDialog()
-
-/obj/machinery/atmoalter/siphs/scrubbers/air_filter/setstate()
-
-	if(stat & NOPOWER)
-		icon_state = "vent-p"
-		return
-
-	if (src.t_status == 4)
-		src.icon_state = "vent2"
-	else
-		if (src.t_status == 3)
-			src.icon_state = "vent0"
-		else
-			src.icon_state = "vent1"
-	return
-
-/obj/machinery/atmoalter/siphs/scrubbers/air_filter/attackby(W as obj, user as mob)
-
-	if (istype(W, /obj/item/weapon/screwdriver))
-		if (src.c_status)
-			src.anchored = 1
-			src.c_status = 0
-		else
-			if (locate(/obj/machinery/connector, src.loc))
-				src.anchored = 1
-				src.c_status = 3
-	else
-		if (istype(W, /obj/item/weapon/wrench))
-			src.alterable = !( src.alterable )
-	return
-
-/obj/machinery/atmoalter/siphs/scrubbers/air_filter/reset(valve, auto)
-
-	if (auto)
-		src.t_status = 4
-	src.setstate()
-	return
 
 /obj/machinery/atmoalter/siphs/scrubbers/port/setstate()
 
