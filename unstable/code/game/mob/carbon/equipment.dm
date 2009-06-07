@@ -440,13 +440,13 @@
 		var/w_type = src.l_hand.s_istate
 		if (!w_type)
 			w_type = src.l_hand.icon_state
-		src.overlays += image("icon" = 'l_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = EAST, "icon_state" = "[w_type]", "layer" = MOB_LAYER)
 		src.l_hand.screen_loc = (src.is_dead) ? null : "3,2"
 	if (src.r_hand)
 		var/w_type = src.r_hand.s_istate
 		if (!w_type)
 			w_type = src.r_hand.icon_state
-		src.overlays += image("icon" = 'r_items.dmi', "icon_state" = "[w_type]", "layer" = MOB_LAYER)
+		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = WEST, "icon_state" = "[w_type]", "layer" = MOB_LAYER)
 		src.r_hand.screen_loc = (src.is_dead) ? null : "1,2"
 	if (src.belt)
 		var/w_type = src.belt.s_istate

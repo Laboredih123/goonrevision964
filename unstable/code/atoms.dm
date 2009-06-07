@@ -249,7 +249,7 @@
 /obj/bedsheetbin
 	name = "Linen Bin"
 	desc = "A bin for containing bedsheets."
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "bedbin"
 	var/amount = 23.0
 	anchored = 1.0
@@ -342,7 +342,7 @@
 /obj/securearea
 	desc = "A warning sign which reads 'SECURE AREA'"
 	name = "SECURE AREA"
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "securearea"
 	anchored = 1.0
 	opacity = 0
@@ -487,7 +487,7 @@
 
 /obj/item/weapon/bedsheet
 	name = "bedsheet"
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "sheet"
 	layer = 4.0
 	s_istate = "w_suit"
@@ -2611,7 +2611,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/rack
 	name = "rack"
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "rack"
 	density = 1
 	flags = FPRINT
@@ -2628,18 +2628,9 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/screen/grab
 	name = "grab"
 	master = null
-/obj/screen/screen2
-	name = "screen2"
-	icon = 'screen.dmi'
 /obj/screen/storage
 	name = "storage"
 	master = null
-/obj/screen/zone_sel
-	name = "Damage Zone"
-	icon = 'zone_sel.dmi'
-	icon_state = "blank"
-	var/selecting = "chest"
-	screen_loc = "15,15"
 
 /obj/shut_controller
 	name = "shut controller"
@@ -2660,7 +2651,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/stool
 	name = "stool"
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "stool"
 	flags = FPRINT
 	weight = 100000

@@ -16,9 +16,11 @@
 // This means that you can compile without having the good_icons directory, but it will be uglier.
 // The good_icons directory is unfortunately not included in this SVN. To get it, ask on
 // irc.synirc.net #goonstation. You can also email me at <kurper@gmail.com> or send a PM to user "Kurper" on the
-// Something Awful forums,
-#define FILE_DIR "good_icons"
+// Something Awful forums.
+// The BYOND reference claims that it searches directories in the order that you #define FILE_DIRs, but it seems to
+// actually be in the reverse of that order.
 #define FILE_DIR "icons"
+#define FILE_DIR "good_icons"
 #define FILE_DIR "docs"
 
 // BEGIN_PREFERENCES

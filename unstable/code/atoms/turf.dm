@@ -39,7 +39,7 @@
 
 /turf/station/command/floor
 	name = "floor"
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "Floor3"
 	updatecell = 1
 
@@ -68,7 +68,7 @@
 
 /turf/station/floor
 	name = "floor"
-	icon = 'Icons.dmi'
+	icon = 'icons.dmi'
 	icon_state = "Floor"
 	var/health = 150.0
 	var/burnt = null
