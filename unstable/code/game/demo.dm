@@ -752,107 +752,47 @@
 
 	if(!istype(user, /mob/carbon))
 		return
-	if (istype(W, /obj/item/weapon/assembly/rad_ignite))
-		var/obj/item/weapon/assembly/rad_ignite/S = W
-		if (!( S.status ))
-			return
-		var/obj/item/weapon/assembly/r_i_ptank/R = new /obj/item/weapon/assembly/r_i_ptank( user )
-		R.part1 = S.part1
-		S.part1.loc = R
-		S.part1.master = R
-		R.part2 = S.part2
-		S.part2.loc = R
-		S.part2.master = R
-		S.layer = initial(S.layer)
-		if (user.client)
-			user.client.screen -= S
-		if (user.r_hand == S)
-			user.u_equip(S)
-			user.r_hand = R
-		else
-			user.u_equip(S)
-			user.l_hand = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.u_equip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part3 = src
-		R.layer = 20
-		R.loc = user
-		S.part1 = null
-		S.part2 = null
-		//S = null
-		del(S)
-	if (istype(W, /obj/item/weapon/assembly/prox_ignite))
-		var/obj/item/weapon/assembly/prox_ignite/S = W
-		if (!( S.status ))
-			return
-		var/obj/item/weapon/assembly/m_i_ptank/R = new /obj/item/weapon/assembly/m_i_ptank( user )
-		R.part1 = S.part1
-		S.part1.loc = R
-		S.part1.master = R
-		R.part2 = S.part2
-		S.part2.loc = R
-		S.part2.master = R
-		S.layer = initial(S.layer)
-		if (user.client)
-			user.client.screen -= S
-		if (user.r_hand == S)
-			user.u_equip(S)
-			user.r_hand = R
-		else
-			user.u_equip(S)
-			user.l_hand = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.u_equip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part3 = src
-		R.layer = 20
-		R.loc = user
-		S.part1 = null
-		S.part2 = null
-		//S = null
-		del(S)
+	var/types = list(/obj/item/weapon/assembly/rad_ignite = /obj/item/weapon/assembly/r_i_ptank,
+	                 /obj/item/weapon/assembly/prox_ignite = /obj/item/weapon/assembly/m_i_ptank,
+	                 /obj/item/weapon/assembly/time_ignite = /obj/item/weapon/assembly/t_i_ptank)
+	for(var/x in types)
+		if (istype(W, x))
+			// not exactly kosher, but they all have the same interface
+			var/obj/item/weapon/assembly/rad_ignite/A = W
+			if (!A.status)
+				return
+			var/type = types[x]
 
-	if (istype(W, /obj/item/weapon/assembly/time_ignite))
-		var/obj/item/weapon/assembly/time_ignite/S = W
-		if (!( S.status ))
-			return
-		var/obj/item/weapon/assembly/t_i_ptank/R = new /obj/item/weapon/assembly/t_i_ptank( user )
-		R.part1 = S.part1
-		S.part1.loc = R
-		S.part1.master = R
-		R.part2 = S.part2
-		S.part2.loc = R
-		S.part2.master = R
-		S.layer = initial(S.layer)
-		if (user.client)
-			user.client.screen -= S
-		if (user.r_hand == S)
-			user.u_equip(S)
-			user.r_hand = R
-		else
-			user.u_equip(S)
-			user.l_hand = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.u_equip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part3 = src
-		R.layer = 20
-		R.loc = user
-		S.part1 = null
-		S.part2 = null
-		//S = null
-		del(S)
-	return
+			// again, same deal
+			var/obj/item/weapon/assembly/r_i_ptank/R = new type(user)
+			R.part1 = A.part1
+			A.part1.loc = R
+			A.part1.master = R
+			R.part2 = A.part2
+			A.part2.loc = R
+			A.part2.master = R
+			A.layer = initial(A.layer)
+			if (user.client)
+				user.client.screen -= A
+			if (user.r_hand == A)
+				user.u_equip(A)
+				user.r_hand = R
+			else
+				user.u_equip(A)
+				user.l_hand = R
+			src.master = R
+			src.layer = initial(src.layer)
+			user.u_equip(src)
+			if (user.client)
+				user.client.screen -= src
+			src.loc = R
+			R.part3 = src
+			R.layer = 20
+			R.loc = user
+			A.part1 = null
+			A.part2 = null
+			//S = null
+			del(A)
 
 /obj/item/weapon/tank/plasmatank/New()
 	..()
