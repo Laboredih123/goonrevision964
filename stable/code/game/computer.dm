@@ -664,7 +664,6 @@
 				temp += text("[] ", t)
 			else
 				temp += text("<A href = '?src=\ref[];power=[]'>[]</A> ", src, t, t)
-			//Foreach goto(172)
 		dat += text("<HR>\nPower Level: []<BR>\n<A href = '?src=\ref[];alarm=1'>Firing Sequence</A><BR>\n<A href = '?src=\ref[];drive=1'>Test Fire Driver</A><BR>\n<A href = '?src=\ref[];door=1'>Toggle Outer Door</A><BR>", temp, src, src, src)
 	//*****RM from 40.93.3S
 	else
@@ -769,7 +768,6 @@
 			src.general += G
 			src.medical += M
 			src.security += S
-		//Foreach goto(15)
 	return
 
 /obj/machinery/mass_driver/proc/drive(amount)
@@ -777,7 +775,9 @@
 		return
 
 	use_power(500)
+	var/amountThrown = 0
 	for(var/atom/movable/O in src.loc)
+		if(amountThrown > 20)	break	//More creates strain
 		if(!O.anchored)
 			spawn( 0 )
 				var/atom/targetarea = locate(src.x, src.y, src.z)

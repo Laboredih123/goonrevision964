@@ -6,6 +6,13 @@ Have an idea? Submit it <a href="http://code.google.com/p/ss13/issues/list">here
 Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/persh/stable">Persh Stable on SVN</a><br>
 
 <HR>
+<P><B>Modified Tuesday, June 9th 2009</B><BR>
+<li>Regular walls now change in appearance if you are welding them.</li>
+<li>In cases where multiple sheets of metal were created, a single sheet with an amount of two is created instead.</li>
+<li>Metal sheets can now be combined upto an amount of 50 from the previous 5.</li>
+</ul>
+</p>
+
 <P><B>Modified Wednesday, April 8th 2009</B><BR>
 <li>Gas sensor computer added. Identical to the Engine Control computer except it lacks ejection functionality.</li>
 <li>Power relay added. Allows an adjustable one way flow of electricity.</li>

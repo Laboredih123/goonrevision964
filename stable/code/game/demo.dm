@@ -1547,11 +1547,11 @@
 	if(prob(50))
 		new /obj/item/weapon/sheet/metal( src.loc )
 		del(src)
+	return
 
 /obj/stool/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if (istype(W, /obj/item/weapon/wrench))
 		new /obj/item/weapon/sheet/metal( src.loc )
-		//SN src = null
 		del(src)
 	return
 
@@ -2226,16 +2226,16 @@
 	if ((M.icon_state == "flaming" && prob(30)))
 		if (src.state == 2)
 			src.state = 1
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(src)
+			ms.amount = 2
 			update()
 		else
 			if ((prob(20) && src.state == 1))
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(F)
+				ms.amount = 2
 				F.buildlinks()
 				F.levelupdate()
 	return
@@ -2384,8 +2384,8 @@
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(src)
+				ms.amount = 2
 			else
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
@@ -2393,8 +2393,8 @@
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(F)
+				ms.amount = 2
 				F.buildlinks()
 				F.levelupdate()
 		if(3.0)
@@ -2405,8 +2405,8 @@
 				src.intact = 0
 				src.levelupdate()
 				src.state = 1
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(src)
+				ms.amount = 2
 				src.icon_state = "girder"
 				update()
 		else
@@ -2435,8 +2435,7 @@
 			new /obj/item/weapon/sheet/metal( src )
 			src.icon_state = "girder"
 			update()
-
-
+	return
 
 /turf/station/r_wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
@@ -2514,8 +2513,8 @@
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(F)
+				ms.amount = 2
 				F.buildlinks()
 				F.levelupdate()
 		else if (istype(W, /obj/item/weapon/sheet/r_metal))
@@ -2571,8 +2570,8 @@
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(src)
+				ms.amount = 2
 				src.icon_state = "girder"
 			else
 				src.state = 0
@@ -2581,8 +2580,8 @@
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(F)
+				ms.amount = 2
 				F.buildlinks()
 				F.levelupdate()
 		if(3.0)
@@ -2593,8 +2592,8 @@
 				src.intact = 0
 				levelupdate()
 				src.state = 1
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(src)
+				ms.amount = 2
 				src.icon_state = "girder"
 		else
 	return
@@ -2621,8 +2620,7 @@
 			levelupdate()
 			new /obj/item/weapon/sheet/metal( src )
 			src.icon_state = "girder"
-
-
+	return
 
 /turf/station/wall/unburn()
 	src.luminosity = 0
@@ -2645,10 +2643,10 @@
 	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
 		return
+	var/turf/T = user.loc
+	if (!istype(T, /turf))
+		return
 	if ((istype(W, /obj/item/weapon/wrench) && src.state == 1))
-		var/turf/T = user.loc
-		if (!( istype(T, /turf) ))
-			return
 		user << "\blue Now dissembling the girders. Please stand still. This is a long process."
 		sleep(100)
 		if (!( istype(src, /turf/station/wall) ))
@@ -2657,15 +2655,11 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-//			F.oxygen = O2STANDARD
-			new /obj/item/weapon/sheet/metal( F )
-			new /obj/item/weapon/sheet/metal( F )
+			var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(F)
+			ms.amount = 2
 			F.buildlinks()
 			F.levelupdate()
 	else if ((istype(W, /obj/item/weapon/screwdriver) && src.state == 1))
-		var/turf/T = user.loc
-		if (!( istype(T, /turf) ))
-			return
 		user << "\blue Now dislodging girders."
 		sleep(100)
 		if (!( istype(src, /turf/station/wall) ))
@@ -2674,14 +2668,10 @@
 			src.state = 0
 			//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 			var/turf/station/floor/F = src.ReplaceWithFloor()
-//			F.oxygen = O2STANDARD
 			new /obj/d_girders( F )
 			new /obj/item/weapon/sheet/metal( F )
 			F.buildlinks()
 	else if (istype(W, /obj/item/weapon/sheet/r_metal) && src.state == 1)
-		var/turf/T = user.loc
-		if (!( istype(T, /turf) ))
-			return
 		user << "\blue Now reinforcing girders."
 		sleep(100)
 		if (!( istype(src, /turf/station/wall) ))
@@ -2690,7 +2680,6 @@
 			src.state = 0
 			//var/turf/station/r_wall/F = new /turf/station/r_wall( locate(src.x, src.y, src.z) )
 			var/turf/station/r_wall/F = src.ReplaceWithRWall()
-//			F.oxygen = O2STANDARD
 			F.icon_state = "r_girder"
 			F.state = 1
 			F.opacity = 0
@@ -2698,15 +2687,22 @@
 			F.levelupdate()
 			F.buildlinks()
 	else if (istype(W, /obj/item/weapon/weldingtool) && src.state == 2 && W:welding)
-		var/turf/T = user.loc
-		if (!( istype(T, /turf) ))
-			return
 		if (W:weldfuel < 5)
 			user << "\blue You need more welding fuel to complete this task."
 			return
 		W:weldfuel -= 5
 		user << "\blue Now dissembling the outer wall plating. Please stand still."
-		sleep(100)
+		if(src.icon_state == "")
+			sleep(20)
+			src.icon_state = "wall-welder-1"
+		else if(src.icon_state == "wall-welder-1")
+			sleep(30)
+			src.icon_state = "wall-welder-2"
+		else if(src.icon_state == "wall-welder-2")
+			sleep(40)
+			src.icon_state = "wall-welder-3"
+		else if(src.icon_state == "wall-welder-3")
+			sleep(10)
 		if ((user.loc == T && src.state == 2 && user.equipped() == W))
 			src.opacity = 0
 			src.updatecell = 1
@@ -2714,13 +2710,10 @@
 			src.state = 1
 			src.intact = 0
 			src.levelupdate()
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(src)
+			ms.amount = 2
 			src.icon_state = "girder"
 	else if (istype(W, /obj/item/weapon/sheet/metal) && src.state == 1 && W:amount >= 2)
-		var/turf/T = user.loc
-		if (!istype(T, /turf))
-			return
 		if (user.loc == src.loc) //on the wall!
 			user << "\blue Move off the wall before trying to finish it!"
 		user << "\blue Now adding plating."
@@ -2754,16 +2747,17 @@
 			src.levelupdate()
 			src.buildlinks()
 			src.firelevel = 11
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal( src )
+			ms.amount = 2
 		else
 			if ((prob(20) && src.state == 1))
 				src.state = 0
 				//var/turf/station/floor/F = new /turf/station/floor( locate(src.x, src.y, src.z) )
 				var/turf/station/floor/F = src.ReplaceWithFloor()
 //				F.oxygen = O2STANDARD
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal( F )
+				ms.amount = 2
+
 				F.buildlinks()
 				F.levelupdate()
 	return

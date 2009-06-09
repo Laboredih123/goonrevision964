@@ -1727,9 +1727,9 @@
 		return
 	if (W.amount >= 5)
 		return
-	if (W.amount + src.amount > 5)
-		src.amount = W.amount + src.amount - 5
-		W.amount = 5
+	if (W.amount + src.amount > 50)
+		src.amount = W.amount + src.amount - 50
+		W.amount = 50
 	else
 		W.amount += src.amount
 		//SN src = null
@@ -1739,7 +1739,6 @@
 
 /obj/item/weapon/sheet/metal/examine()
 	set src in view(1)
-
 	..()
 	usr << text("There are [] metal sheet\s on the stack.", src.amount)
 	return

@@ -93,8 +93,8 @@
 			F.burnt = floorburnt1
 
 			//a false wall turns into a sheet of metal and displaced girders
-			new /obj/item/weapon/sheet/metal(F)
-			new /obj/item/weapon/sheet/metal(F)
+			var/obj/item/weapon/sheet/metal/ms = new /obj/item/weapon/sheet/metal(F)
+			ms.amount = 2
 			new /obj/d_girders(F)
 			F.buildlinks()
 			F.levelupdate()
