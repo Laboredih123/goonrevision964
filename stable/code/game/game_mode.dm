@@ -3,6 +3,7 @@
 	var/config_tag = null
 	var/votable = 1
 	var/probability = 1
+	var/min_players = 0
 
 // Default check win
 /datum/game_mode/proc/announce()

@@ -244,11 +244,11 @@
 	if (src.r_hand)
 		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = WEST, "icon_state" = src.r_hand.s_istate ? src.r_hand.s_istate : src.r_hand.icon_state, "layer" = src.layer)
 		src.r_hand.screen_loc = "1,2"
-	
+
 	if (src.l_hand)
 		src.overlays += image("icon" = 'items_in_hand.dmi', "dir" = EAST, "icon_state" = src.l_hand.s_istate ? src.l_hand.s_istate : src.l_hand.icon_state, "layer" = src.layer)
 		src.l_hand.screen_loc = "3,2"
-	
+
 	if (src.back)
 		if (!( src.lying ))
 			src.overlays += image("icon" = 'monkey.dmi', "icon_state" = "back", "layer" = src.layer)
@@ -350,8 +350,8 @@
 			src.t_oxygen = round( (67.032 - a_oxygen) / 5) + 1
 		if (G.tot_gas() && a_co2/G.tot_gas() > 0.05)
 			if(!co2overloadtime)
-				co2overloadtime = world.time
-			else if(world.time - co2overloadtime > 150)	// 15 seconds for co2 to knock you out (monkeys are detector units for humans)
+				co2overloadtime = ss13time()
+			else if(ss13time() - co2overloadtime > 150)	// 15 seconds for co2 to knock you out (monkeys are detector units for humans)
 				src.paralysis = max(src.paralysis,3)
 		else
 			co2overloadtime = 0

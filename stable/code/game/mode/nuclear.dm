@@ -75,12 +75,7 @@
 
 /datum/game_mode/nuclear/post_setup()
 	spawn (50)
-		var/obj/L = locate("landmark*Nuclear-Disk")
-		if (L)
-			new /obj/item/weapon/disk/nuclear(L.loc)
-			new /obj/item/weapon/pinpointer(L.loc)
-
-		L = locate("landmark*Nuclear-Closet")
+		var/obj/L = locate("landmark*Nuclear-Closet")
 		if (L)
 			new /obj/closet/syndicate/nuclear(L.loc)
 

@@ -401,7 +401,7 @@
 	anchored = 1.0
 /obj/bomb
 	name = "bomb"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	icon_state = "x"
 	var/btype = 0  //0 = radio, 1= prox, 2=time
 	var/explosive = 1	// 0= firebomb
@@ -1330,7 +1330,7 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 4.0
 /obj/item/weapon/grab
 	name = "grab"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	icon_state = "grabbed"
 	var/obj/screen/grab/hud1 = null
 	var/mob/affecting = null
@@ -2154,7 +2154,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 /obj/landmark
 	name = "landmark"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	icon_state = "x2"
 	anchored = 1.0
 /obj/landmark/alterations
@@ -3215,7 +3215,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Power Relay"
 	desc = "Transfers power from one network to another via connected terminal"
 	icon_state = "termrec"
-	density = 0
+	density = 1
 	anchored = 1
 	var/area/area
 	var/output = 30000
@@ -3334,7 +3334,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 /obj/manifest
 	name = "manifest"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	icon_state = "x"
 /obj/morgue
 	name = "morgue"
@@ -3413,7 +3413,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "overlay"
 /obj/point
 	name = "point"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	icon_state = "arrow"
 	layer = 16.0
 	anchored = 1
@@ -3437,7 +3437,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/screen
 	name = "screen"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	layer = 20.0
 	var/id = 0.0
 	var/obj/master
@@ -3479,7 +3479,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 /obj/start
 	name = "start"
-	icon = 'screen1.dmi'
+	icon = 'screen.dmi'
 	icon_state = "x"
 	anchored = 1.0
 /obj/stool

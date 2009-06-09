@@ -363,85 +363,30 @@
 
 /obj/item/weapon/tank/plasmatank/proc/ignite()
 	var/strength = ((src.gas.plasma + src.gas.oxygen/2.0) / 1600000.0) * src.gas.temperature
-	//if ((src.gas.plasma < 1600000.0 || src.gas.temperature < 773))		//500degC
-	if (strength < 773.0)
-		var/turf/T = get_turf(src.loc)
-		T.poison += src.gas.plasma
-		T.firelevel = T.poison
-		T.res_vars()
 
-		if(src.master)
-			src.master.loc = null
-
-		//if ((src.gas.temperature > (450+T0C) && src.gas.plasma == 1600000.0))
-		if (strength > (450+T0C))
-			var/turf/sw = locate(max(T.x - 4, 1), max(T.y - 4, 1), T.z)
-			var/turf/ne = locate(min(T.x + 4, world.maxx), min(T.y + 4, world.maxy), T.z)
-			defer_powernet_rebuild = 1
-
-			for(var/turf/U in block(sw, ne))
-				var/zone = 4
-				if ((U.y <= (T.y + 1) && U.y >= (T.y - 1) && U.x <= (T.x + 2) && U.x >= (T.x - 2)) )
-					zone = 3
-				if ((U.y <= (T.y + 1) && U.y >= (T.y - 1) && U.x <= (T.x + 1) && U.x >= (T.x - 1) ))
-					zone = 2
-				for(var/atom/A in U)
-					A.ex_act(zone)
-					//Foreach goto(342)
-				U.ex_act(zone)
-				U.buildlinks()
-				//Foreach goto(170)
-			defer_powernet_rebuild = 0
-			makepowernets()
-
-		else
-			//if ((src.gas.temperature > (300+T0C) && src.gas.plasma == 1600000.0))
-			if (strength > (300+T0C))
-				var/turf/sw = locate(max(T.x - 4, 1), max(T.y - 4, 1), T.z)
-				var/turf/ne = locate(min(T.x + 4, world.maxx), min(T.y + 4, world.maxy), T.z)
-				defer_powernet_rebuild = 1
-
-				for(var/turf/U in block(sw, ne))
-					var/zone = 4
-					if ((U.y <= (T.y + 2) && U.y >= (T.y - 2) && U.x <= (T.x + 2) && U.x >= (T.x - 2)) )
-						zone = 3
-					for(var/atom/A in U)
-						A.ex_act(zone)
-						//Foreach goto(598)
-					U.ex_act(zone)
-					U.buildlinks()
-					//Foreach goto(498)
-				defer_powernet_rebuild = 0
-				makepowernets()
-
-		//src.master = null
-		del(src.master)
-		//SN src = null
-		del(src)
-		return
-
-	var/turf/T = src.loc
-	while(!( istype(T, /turf) ))
-		T = T.loc
-
-	if(src.master)
-		src.master.loc = null
+	var/turf/T = get_turf(src)
 
 	for(var/mob/M in range(T))
-		flick("flash", M.flash)
-		//Foreach goto(732)
-	//var/m_range = 2
-	var/m_range = round(strength / 387)
-	for(var/obj/machinery/atmoalter/canister/C in range(2, T))
+		if(M && M.flash)
+			flick("flash", M.flash)
+
+	for(var/obj/machinery/atmoalter/canister/C in range(1, T))
 		if (!( C.destroyed ))
 			if (C.gas.plasma >= 35000)
 				C.destroyed = 1
-				m_range++
-		//Foreach goto(776)
-	var/min = m_range
-	var/med = m_range * 2
-	var/max = m_range * 3
-	var/u_max = m_range * 4
+				strength += 500
+
+	if(strength < 250) // can't be taking the square root of a negative number, now
+		del(src)
+		return
+
+	// strength of 773 (500C pure plasma) gives m_range around 2, same as in old system
+	var/m_range = min(sqrt(strength/250 - 1), MAX_BOMB_RADIUS)
+
+	var/min = round(m_range)
+	var/med = round(m_range * 2)
+	var/max = round(m_range * 3)
+	var/u_max = round(m_range * 4)
 
 	var/turf/sw = locate(max(T.x - u_max, 1), max(T.y - u_max, 1), T.z)
 	var/turf/ne = locate(min(T.x + u_max, world.maxx), min(T.y + u_max, world.maxy), T.z)
@@ -460,20 +405,12 @@
 			zone = 1
 		for(var/atom/A in U)
 			A.ex_act(zone)
-			//Foreach goto(1217)
 		U.ex_act(zone)
 		U.buildlinks()
-		//U.mark(zone)
-
-		//Foreach goto(961)
-	//src.master = null
 	defer_powernet_rebuild = 0
 	makepowernets()
 
-	del(src.master)
-	//SN src = null
 	del(src)
-	return
 
 /obj/item/weapon/tank/plasmatank/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
@@ -1666,9 +1603,9 @@
 /obj/stool/chair/e_chair/proc/shock()
 	if (!( src.on ))
 		return
-	if ( (src.last_time + 50) > world.time)
+	if ( (src.last_time + 50) > ss13time())
 		return
-	src.last_time = world.time
+	src.last_time = ss13time()
 
 	// special power handling
 	var/area/A = get_area(src)

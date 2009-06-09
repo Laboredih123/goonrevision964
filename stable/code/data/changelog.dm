@@ -10,6 +10,16 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <li>Regular walls now change in appearance if you are welding them.</li>
 <li>In cases where multiple sheets of metal were created, a single sheet with an amount of two is created instead.</li>
 <li>Metal sheets can now be combined upto an amount of 50 from the previous 5.</li>
+<li>Admins no longer have to manually un unban players.</li>
+<li>Removed alternate hud.</li>
+<li>Fixed terminal relays not requiring power to be turned on, being not dense.</li>
+<li>Monkeys are now able to ready up.</li>
+<li>Job banning implemented.</li>
+<li>AI now announces station arrivals automatically as opposed to the previous magical world message.</li>
+<li>Combined redundant functions in gamemodes.</li>
+<li>Added revolutionary mode.</li>
+<li>Nuke disk now always spawns.</li>
+<li>Jumped on the 'can use backpacks while on the ground' bandwagon.</li>
 </ul>
 </p>
 

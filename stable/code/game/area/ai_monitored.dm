@@ -29,7 +29,7 @@
 /obj/machinery/camera/motion/process()
 	// motion camera event loop
 	if (detectTime > 0)
-		var/elapsed = world.time - detectTime
+		var/elapsed = ss13time() - detectTime
 		if (elapsed > 300)
 			triggerAlarm()
 	else if (detectTime == -1)
@@ -39,7 +39,7 @@
 /obj/machinery/camera/motion/proc/newTarget(var/mob/target)
 	if (istype(target, /mob/ai)) return 0
 	if (detectTime == 0)
-		detectTime = world.time // start the clock
+		detectTime = ss13time() // start the clock
 	if (!(target in motionTargets))
 		motionTargets += target
 	return 1
@@ -78,7 +78,7 @@
 
 	if (istype(W, /obj/item/weapon/wirecutters)) // now handle alarm on/off...
 		if (status) // ok we've just been reconnected... send an alarm!
-			detectTime = world.time - 301
+			detectTime = ss13time() - 301
 			triggerAlarm()
 		else
 			for (var/mob/ai/aiPlayer in world) // manually cancel, to not disturb internal state

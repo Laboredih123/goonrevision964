@@ -1,4 +1,4 @@
 persh - Primary Administrator
-naveegunner - Administrator
+naveegunner - Primary Administrator
 abakahn - Administrator
 slurm - Primary Administrator

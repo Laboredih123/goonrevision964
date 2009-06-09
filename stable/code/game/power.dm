@@ -2166,16 +2166,22 @@
 
 
 /obj/machinery/power/termrec/proc/updateicon()
-
 	overlays = null
-	if(stat & BROKEN)
+	if(stat & (BROKEN|NOPOWER))
 		return
-
 	overlays += image('power.dmi', "termrec-op[(charging ? 3 : online)]")
+	return
 
+/obj/machinery/power/termrec/power_change()
+	if(powered(EQUIP))	//Requires power for its pretty lights to work
+		stat &= ~NOPOWER
+	else
+		stat |= NOPOWER
+	spawn(rand(1,15))
+		src.updateicon()
+	return
 
 /obj/machinery/power/termrec/process()
-
 
 	//Mostly based off SMES code
 	if(stat & BROKEN)
@@ -2488,8 +2494,8 @@
 		return
 
 	use_power(250)
-	if(track && nexttime < world.timeofday && trackrate)
-		nexttime = world.timeofday + 3600/abs(trackrate)
+	if(track && nexttime < ss13time() && trackrate)
+		nexttime = ss13time() + 3600/abs(trackrate)
 		cdir = (cdir+trackrate/abs(trackrate)+360)%360
 
 		set_panels(cdir)
@@ -2544,10 +2550,10 @@
 				updateicon()
 		if(href_list["tdir"])
 			src.trackrate = dd_range(-7200,7200,src.trackrate+text2num(href_list["tdir"]))
-			if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+			if(src.trackrate) nexttime = ss13time() + 3600/abs(trackrate)
 
 	if(href_list["track"])
-		if(src.trackrate) nexttime = world.timeofday + 3600/abs(trackrate)
+		if(src.trackrate) nexttime = ss13time() + 3600/abs(trackrate)
 		track = !track
 
 	src.updateUsrDialog()

@@ -142,6 +142,11 @@
 
 	sleep(50)
 
+	var/obj/D = locate("landmark*Nuclear-Disk")
+	if (D)
+		new /obj/item/weapon/disk/nuclear(D.loc)
+		new /obj/item/weapon/pinpointer(D.loc)
+
 	nuke_code = text("[]", rand(10000, 99999.0))
 	for(var/obj/machinery/nuclearbomb/N in world)
 		if (N.r_code == "ADMIN")
@@ -180,7 +185,6 @@
 		return
 	return
 
-//Crispy fullban
 /world/Del()
 	for(var/mob/M in world)
 		if(M.client)

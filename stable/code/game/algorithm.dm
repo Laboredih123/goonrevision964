@@ -2,6 +2,7 @@
 	..()
 	crban_loadbanfile()
 	crban_updatelegacybans()
+	jobban_loadbanfile()
 
 	spawn(0)
 		SetupOccupationsList()
@@ -23,7 +24,7 @@
 	dat += "<b>Name:</b> <a href=\"byond://?src=\ref[src];rname=input\"><b>[src.rname]</b></a> (<A href=\"byond://?src=\ref[src];rname=random\">&reg;</A>)<br>"
 	dat += "<b>Gender:</b> <a href=\"byond://?src=\ref[src];gender=input\"><b>[src.gender == "male" ? "Male" : "Female"]</b></a><br>"
 	dat += "<b>Age:</b> <a href='byond://?src=\ref[src];age=input'>[src.age]</a>"
-	
+
 	dat += "<hr><b>Occupation Choices</b><br>"
 	if (destructive.Find(src.occupation1))
 		dat += text("\t<a href=\"byond://?src=\ref[];occ=1\"><b>[]</b></a><br>", src, src.occupation1)
@@ -46,35 +47,35 @@
 					dat += text("\tSecond Choice: <a href=\"byond://?src=\ref[];occ=2\">No Preference</a><br>", src)
 		else
 			dat += text("\t<a href=\"byond://?src=\ref[];occ=1\">No Preference</a><br>", src)
-	
+
 	dat += "<hr><b>Body</b><br>"
 	dat += "Blood Type: <a href='byond://?src=\ref[src];b_type=input'>[src.b_type]</a><br>"
 	dat += "Skin Tone: <a href='byond://?src=\ref[src];ns_tone=input'>[-src.ns_tone + 35]/220</a><br>"
 	if (!IsGuestKey(src.key))
 		dat += "Nudist: <a href =\"byond://?src=\ref[src];b_nudist=1\"><b>[(src.be_nudist ? "Yes" : "No")]</b></a><br>"
-	
+
 	dat += "<hr><b>Hair</b><br>"
-	
+
 	dat += "Color: <font color=\"#[num2hex(src.nr_hair, 2)][num2hex(src.ng_hair, 2)][num2hex(src.nb_hair)]\">test</font><br>"
 	dat += " <font color=\"#[num2hex(src.nr_hair, 2)]0000\">Red</font> - <a href='byond://?src=\ref[src];nr_hair=input'>[src.nr_hair]</a>"
 	dat += " <font color=\"#00[num2hex(src.ng_hair, 2)]00\">Green</font> - <a href='byond://?src=\ref[src];ng_hair=input'>[src.ng_hair]</a>"
 	dat += " <font color=\"#0000[num2hex(src.nb_hair, 2)]\">Blue</font> - <a href='byond://?src=\ref[src];nb_hair=input'>[src.nb_hair]</a><br>"
 	dat += "Style: <a href='byond://?src=\ref[src];h_style=input'>[src.h_style]</a>"
-	
+
 	dat += "<hr><b>Facial</b><br>"
-	
+
 	dat += "Color: <font color=\"#[num2hex(src.nr_facial, 2)][num2hex(src.ng_facial, 2)][num2hex(src.nb_facial)]\">test</font><br>"
 	dat += " <font color=\"#[num2hex(src.nr_facial, 2)]0000\">Red</font> - <a href='byond://?src=\ref[src];nr_facial=input'>[src.nr_facial]</a>"
 	dat += " <font color=\"#00[num2hex(src.ng_facial, 2)]00\">Green</font> - <a href='byond://?src=\ref[src];ng_facial=input'>[src.ng_facial]</a>"
 	dat += " <font color=\"#0000[num2hex(src.nb_facial, 2)]\">Blue</font> - <a href='byond://?src=\ref[src];nb_facial=input'>[src.nb_facial]</a><br>"
 	dat += "Style: <a href='byond://?src=\ref[src];f_style=input'>[src.f_style]</a>"
-	
+
 	dat += "<hr><b>Eyes</b><br>"
 	dat += "Color:</b> <font color=\"#[num2hex(src.r_eyes, 2)][num2hex(src.g_eyes, 2)][num2hex(src.b_eyes, 2)]\">test</font><br>"
 	dat += " <font color=\"#[num2hex(src.r_eyes, 2)]0000\">Red</font> - <a href='byond://?src=\ref[src];r_eyes=input'>[src.r_eyes]</a>"
 	dat += " <font color=\"#00[num2hex(src.g_eyes, 2)]00\">Green</font> - <a href='byond://?src=\ref[src];g_eyes=input'>[src.g_eyes]</a>"
 	dat += " <font color=\"#0000[num2hex(src.b_eyes, 2)]\">Blue</font> - <a href='byond://?src=\ref[src];b_eyes=input'>[src.b_eyes]</a>"
-	
+
 	dat += "<hr><b>Disabilities</b><br>"
 	dat += "<i>It is more than likely pretty fucking stupid to enable any of these.</i><br>"
 	dat += text("Need Glasses: <a href=\"byond://?src=\ref[];n_gl=1\"><b>[]</b></a><br>", src, (src.need_gl ? "Yes" : "No"))
@@ -82,20 +83,20 @@
 	dat += text("Tourette Syndrome: <a href=\"byond://?src=\ref[];b_tur=1\"><b>[]</b></a><br>", src, (src.be_tur ? "Yes" : "No"))
 	dat += text("Chronic Cough: <a href=\"byond://?src=\ref[];b_co=1\"><b>[]</b></a><br>", src, (src.be_cough ? "Yes" : "No"))
 	dat += text("Stutter: <a href=\"byond://?src=\ref[];b_stut=1\"><b>[]</b></a><br>", src, (src.be_stut ? "Yes" : "No"))
-	
+
 	dat += "<hr>"
 //	dat += text("<b>Music toggle:</b> <a href =\"byond://?src=\ref[];b_music=1\"><b>[]</b></a><br>", src, (src.be_music ? "Yes" : "No"))
 	dat += text("<b>Be syndicate?:</b> <a href =\"byond://?src=\ref[];b_syndicate=1\"><b>[]</b></a><br>", src, (src.be_syndicate ? "Yes" : "No"))
-	
+
 	dat += "<hr>"
-	
+
 	if (!IsGuestKey(src.key))
 		dat += "<a href='byond://?src=\ref[src];load=1'>Load Setup</a><br>"
 		dat += "<a href='byond://?src=\ref[src];save=1'>Save Setup</a><br>"
-	
+
 	dat += "<a href='byond://?src=\ref[src];reset_all=1'>Reset Setup</a><br>"
 	dat += "</body></html>"
-	
+
 	src << browse(dat, "window=mob_occupations;size=300x640")
 
 /mob/human/proc/SetChoices(occ)

@@ -9,9 +9,11 @@
 		usr << "\blue There is an administrative lock on entering the game!"
 		return
 
-	if (!istype(usr, /mob/human) || usr.start)
+	if (usr.start)
 		usr << "You have already started!"
 		return
+	if(!istype(usr, /mob/human))
+		enter()	//skip the below cause they are likely a monkey!
 
 	var/mob/human/M = usr
 
@@ -53,10 +55,13 @@
 	world.log_game("[usr.key] entered as [usr.name]")
 
 	if (ticker)
-		world << "\blue [usr.rname] has arrived on the station!"
+		for(var/mob/ai in world)
+			if(ai.stat == 0)	//The ai announces your arrival if it's functioning
+				ai.say("[usr.name] has arrived on the station.")
+				break
 		usr << "<B>Game mode is [ticker.mode.name].</B>"
 
-	var/mob/human/M = usr
+	var/mob/M = usr
 	var/area/A = locate(/area/arrival/start)
 	var/list/L = list()
 	for(var/turf/T in A)
@@ -70,10 +75,11 @@
 			if(T.isempty())
 				L += T
 
-	if(ticker)
-		reg_dna[M.primary.uni_identity] = M.rname
+	if(ticker && istype(usr, /mob/human))
+		var/mob/human/H = M
+		reg_dna[H.primary.uni_identity] = H.rname
 		if(ticker.mode.name == "sandbox")
-			M.CanBuild()
+			H.CanBuild()
 
 
 	M << "\blue Now teleporting."

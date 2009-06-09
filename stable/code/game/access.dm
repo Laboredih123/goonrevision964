@@ -81,7 +81,7 @@
 		if("Genetic Researcher")
 			return list(access_medical_supplies, access_morgue, access_medlab)
 		if("Station Engineer")
-			return list(access_engine, access_eject_engine, access_apcs, access_tech_storage)
+			return list(access_engine, access_eject_engine, access_apcs, access_tech_storage, access_maint_tunnels, access_external_airlocks)
 		if("Assistant")
 			return list(access_maint_tunnels, access_external_airlocks)
 		if("Chaplain")

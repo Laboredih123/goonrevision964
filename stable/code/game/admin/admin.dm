@@ -14,7 +14,7 @@
 		if ((src.rank in list( "Moderator", "Administrator", "Primary Administrator" )))
 			vote.mode = text2num(href_list["vmode"])-1 	// hack to yield 0=restart, 1=changemode
 			vote.voting = 1						// now voting
-			vote.votetime = world.timeofday + config.vote_period*10	// when the vote will end
+			vote.votetime = ss13time() + config.vote_period*10	// when the vote will end
 
 			spawn(config.vote_period*10)
 				vote.endvote()
@@ -39,7 +39,7 @@
 			world.log_admin("Voting aborted by [usr.key]")
 
 			vote.voting = 0
-			vote.nextvotetime = world.timeofday + 10*config.vote_delay
+			vote.nextvotetime = ss13time() + 10*config.vote_delay
 
 			for(var/mob/M in world)		// clear vote window from all clients
 				if(M.client)
@@ -55,7 +55,7 @@
 			world.log_admin("Restart voting toggled to [config.allow_vote_restart ? "On" : "Off"] by [usr.key].")
 
 			if(config.allow_vote_restart)
-				vote.nextvotetime = world.timeofday
+				vote.nextvotetime = ss13time()
 			update()
 
 	if (href_list["vt_mode"])
@@ -65,7 +65,7 @@
 			world.log_admin("Mode voting toggled to [config.allow_vote_mode ? "On" : "Off"] by [usr.key].")
 
 			if(config.allow_vote_mode)
-				vote.nextvotetime = world.timeofday
+				vote.nextvotetime = ss13time()
 			update()
 
 	if (href_list["boot"])
@@ -86,7 +86,119 @@
 				messageadmins("\blue[usr.key] booted [M.key]/[M.rname].")
 				//M.client = null
 				del(M.client)
+//
+	if(href_list["jobban1"])
+		if ((src.rank in list( "Administrator", "Primary Administrator" )))
+			var/dat = "<B>Jobban Player:</B><HR>"
+			for(var/mob/M in world)
+				if(M.key)
+					dat += text("<A href='?src=\ref[src];jobban2=[M]'>N: <B>[M.name]</B> R: [M.rname] (K: [(M.client ? M.client : "No client")]) (IP: [M.lastKnownIP])</A><BR>")
+				else
+					dat += text("N: <B>[M.name]</B> R: [M.rname] (K: [(M.client ? M.client : "No client")]) (IP: [M.lastKnownIP])<BR>")
+			usr << browse(dat, "window=jobban1;size=500x400")
+/*	KURPER FRESH
+		if(href_list["mob"]) //show the window
+			var/mob/M = locate(href_list["mob"])
+			var/dat = "<html><head><title>Job Ban</title></head><body>"
+			dat += "<form action='byond://' method='get'>"
+			dat += "<input type='hidden' name='src' value='\ref[src]'>"
+			dat += "<input type='hidden' name='mob-ban' value='[href_list["mob"]]'>"
+			dat += "<b> Choose a job to ban from.</b><br>"
+			dat += "<select name='job'>"
+			for(var/datum/job/job in get_all_job_instances())
+				dat += "<option value='\ref[job]'>[job.name]"
+				if(jobban_isbanned(M, job))
+					dat += " (jobbanned)"
+				dat += "</option>"
+			dat += "</select>"
 
+			dat += "Reason for banning (please be specific)<br>"
+			dat += "<textarea name='reason' rows=5></textarea><br>"
+			dat += "<input type='submit' value='Submit'>"
+			dat += "</form>"
+			ss13_browse(usr, dat, "window=jobban")
+		else if(href_list["mob-ban"])
+			var/datum/job/job = locate(href_list["job"])
+			var/mob/M = locate(href_list["mob-ban"])
+			// TODO: Make admins not able to jobban primary admins, and do that for all other powers too
+			if(jobban_isbanned(M, job))
+				world.log_admin("[usr.key] unbanned [M.key]/[M.spawn_name] from [job.name]")
+				jobban_unban(M, job)
+			else
+				world.log_admin("[usr.key] banned [M.key]/[M.spawn_name] from [job.name]")
+				jobban_fullban(M, job)
+*/
+
+	if(href_list["jobban2"]) //show the window
+		var/mob/M = locate(href_list["jobban2"])
+		var/dat = "<html><head><title>Job Ban</title></head><body>"
+		dat += "<form action='byond://' method='get'>"
+		dat += "<input type='hidden' name='src' value='\ref[src]'>"
+		dat += "<input type='hidden' name='jobban3' value='[href_list["jobban2"]]'>"
+		dat += "<b> Choose a job to ban from.</b><br>"
+		dat += "<select name='job'>"
+		for(var/job in get_all_jobs())
+			dat += "<option value='\ref[job]'>[job]"
+			if(jobban_isbanned(M, job))
+				dat += " (jobbanned)"
+			dat += "</option>"
+		dat += "</select>"
+
+		dat += "Reason for banning (please be specific)<br>"
+		dat += "<textarea name='reason' rows=5></textarea><br>"
+		dat += "<input type='submit' value='Submit'>"
+		dat += "</form>"
+		usr << browse(dat, "window=jobban")
+
+	if(href_list["jobban3"])
+		var/job = locate(href_list["job"])
+		var/mob/M = locate(href_list["jobban3"])
+//		if ((M.client && M.client.holder && (M.client.holder.level >= src.level)))
+//			alert("You cannot perform this action. You must be of a higher administrative rank!")
+//			return
+		if(jobban_isbanned(M, job))
+			world.log_admin("[usr.key] unbanned [M.key]/[M.rname] from [job]")
+			jobban_unban(M, job)
+		else
+//			world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
+			jobban_fullban(M, job)
+		href_list["jobban2"] = 1 // lets it fall through and refresh
+/*
+	if(href_list["jobban2"])
+		var/mob/M = locate(href_list["jobban2"])
+		var/dat = ""
+		var/header = "<b>Pick Job to ban this guy from.<br>"
+		var/body
+		var/list/alljobs = get_all_jobs()
+		var/jobs = ""
+		for(var/job in (alljobs))
+			if(jobban_isbanned(M,job))
+				jobs += "<a href='?src=\ref[src];jobban3=[M][job]'><font color=red>[dd_replacetext(job, " ", "&nbsp")]</font></a> "
+			else
+				jobs += "<a href='?src=\ref[src];jobban3=[M][job]'>[dd_replacetext(job, " ", "&nbsp")]</a> " //why doesn't this work the stupid cunt
+		body = "<br>[jobs]<br><br>"
+		dat = "<tt>[header][body]</tt>"
+		usr << browse(dat, "window=jobban2;size=700x375")
+
+	if(href_list["jobban3"])
+		if (src.rank in list( "Administrator", "Secondary Administrator", "Primary Administrator", "Coder", "Host"  ))
+			var/mob/M = locate(href_list["jobban3"])
+			var/job = locate(href_list["jobban3"])
+			if ((M.client && M.client.holder && (M.client.holder.level >= src.level)))
+				alert("You cannot perform this action. You must be of a higher administrative rank!")
+				return
+			if (jobban_isbanned(M, job))
+				world.log_admin("[usr.key] unbanned [M.key]/[M.rname] from [job]")
+				messageadmins("\blue[usr.key] unbanned [M.key]/[M.rname] from [job]")
+				jobban_unban(M, job)
+				href_list["jobban2"] = 1
+			else
+				world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
+				messageadmins("\blue[usr.key] banned [M.key]/[M.rname] from [job]")
+				jobban_fullban(M, job)
+				href_list["jobban2"] = 1 // lets it fall through and refresh
+*/
+//
 	if (href_list["ban"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			var/dat = "<B>Ban Player:</B><HR>"
@@ -98,12 +210,12 @@
 			dat += "<HR><B>Caught IP's:</B><HR>"
 			for(var/t in crban_iplist)
 				dat += text("IP: [] (N: [])<BR>", ckey(t), crban_iplist[t])
-			dat += "<HR><B>Unbanned Key's: (Safe to remove from this list once they have rejoined once!)</B><HR>"
+			dat += "<HR><B>Unbanned Key's: (Automatically removed after they join)</B><HR>"
 			for(var/t in crban_unbanned)
-			//	dat += text("K: []<BR>", ckey(t))
-				dat += text("<A href='?src=\ref[];ununban=[]'>N: [] (By: [])</A><BR>", src, ckey(t), t, crban_unbanned[ckey(t)])
+				dat += text("K: []<BR>", ckey(t))
+			//	dat += text("<A href='?src=\ref[];ununban=[]'>N: [] (By: [])</A><BR>", src, ckey(t), t, crban_unbanned[ckey(t)])	//done automatically now
 			usr << browse(dat, "window=ban;size=800x600")
-
+/*
 	if (href_list["ununban"])	//NOTE THIS SAYS UNUNBAN. As in un unban them. unbanananananana!
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			var/t = href_list["ununban"]
@@ -112,7 +224,7 @@
 				messageadmins("\blue[usr.key] removed [t]'s unban.")
 				crban_removeunban(t)
 				href_list["ban"] = 1 // lets it fall through and refresh
-
+*/
 	if (href_list["ban2"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			var/mob/M = locate(href_list["ban2"])
@@ -184,7 +296,7 @@
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			if (ticker)
 				return alert(usr, "The game has already started.", null, null, null, null)
-			var/dat = text("<B>What mode do you wish to play?</B><HR>\n<A href='?src=\ref[];c_mode2=secret'>Secret</A><br>\n<A href='?src=\ref[];c_mode2=restructuring'>Corporate Restructuring</A><br>\n<A href='?src=\ref[];c_mode2=random'>Random</A><br>\n<A href='?src=\ref[];c_mode2=traitor'>Traitor</A><br>\n<A href='?src=\ref[];c_mode2=meteor'>Meteor</A><br>\n<A href='?src=\ref[];c_mode2=extended'>Extended</A><br>\n<A href='?src=\ref[];c_mode2=monkey'>Monkey</A><br>\n<A href='?src=\ref[];c_mode2=nuclear'>Nuclear Emergency</A><br>\n<A href='?src=\ref[];c_mode2=blob'>Blob</A><br>\n<A href='?src=\ref[];c_mode2=sandbox'>Sandbox</A><br>\n\nNow: []\n", src, src, src, src, src, src, src, src, src, src, master_mode)
+			var/dat = text("<B>What mode do you wish to play?</B><HR>\n<A href='?src=\ref[];c_mode2=secret'>Secret</A><br>\n<A href='?src=\ref[];c_mode2=restructuring'>Corporate Restructuring</A><br>\n<A href='?src=\ref[];c_mode2=revolution'>Revolution</A><br>\n<A href='?src=\ref[];c_mode2=random'>Random</A><br>\n<A href='?src=\ref[];c_mode2=traitor'>Traitor</A><br>\n<A href='?src=\ref[];c_mode2=meteor'>Meteor</A><br>\n<A href='?src=\ref[];c_mode2=extended'>Extended</A><br>\n<A href='?src=\ref[];c_mode2=monkey'>Monkey</A><br>\n<A href='?src=\ref[];c_mode2=nuclear'>Nuclear Emergency</A><br>\n<A href='?src=\ref[];c_mode2=blob'>Blob</A><br>\n<A href='?src=\ref[];c_mode2=sandbox'>Sandbox</A><br>\n\nNow: []\n", src, src, src, src, src, src, src, src, src, src, src, master_mode)
 			usr << browse(dat, "window=c_mode")
 
 	if (href_list["c_mode2"])
@@ -212,6 +324,8 @@
 					master_mode = "sandbox"
 				if("restructuring")
 					master_mode = "restructuring"
+				if("revolution")
+					master_mode = "revolution"
 				else
 			world.log_admin("[usr.key] set the mode as [master_mode].")
 			messageadmins("\blue[usr.key] set the mode as [master_mode].")
@@ -734,6 +848,7 @@
 				dat += {"
 	<A href='?src=\ref[src];boot=1'>Boot Player/Key</A><br>
 	<A href='?src=\ref[src];ban=1'>Ban/Unban Player/Key</A><br>
+	<A href='?src=\ref[src];jobban1=1'>Joban/UnJobban Player/Key</A><br>
 	<A href='?src=\ref[src];mute=1'>Mute/Unmute Player/Key</A><br>
 	"}
 			dat += "<br>"

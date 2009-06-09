@@ -35,7 +35,6 @@
 			if (istype(T, /turf))
 				if ((T in A))
 					monkeywin = 0
-		//Foreach goto(999)
 	if (monkeywin)
 		monkeywin = 0
 		for(var/mob/monkey/M in world)
@@ -44,13 +43,11 @@
 				if (istype(T, /turf))
 					if ((T in A))
 						monkeywin = 1
-			//Foreach goto(1096)
 	if (monkeywin)
 		world << "<FONT size = 3><B>The monkies have won!</B></FONT>"
 		for(var/mob/monkey/M in world)
 			if (M.client)
 				world << text("<B>[] was a monkey.</B>", M.key)
-			//Foreach goto(1194)
 	else
 		world << "<FONT size = 3><B>The Research Staff has stopped the monkey invasion!</B></FONT>"
 		for(var/mob/human/M in world)

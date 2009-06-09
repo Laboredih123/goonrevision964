@@ -1387,8 +1387,8 @@
 			src.t_oxygen = round( (67.032 - a_oxygen) / 5) + 1
 		if (G.tot_gas() && a_co2/G.tot_gas() > 0.05)
 			if(!co2overloadtime)
-				co2overloadtime = world.time
-			else if(world.time - co2overloadtime > 180)	// 18 seconds for co2 to knock you out (monkeys are detector units for humans)
+				co2overloadtime = ss13time()
+			else if(ss13time() - co2overloadtime > 180)	// 18 seconds for co2 to knock you out (monkeys are detector units for humans)
 				src.paralysis = max(src.paralysis,3)
 		else
 			co2overloadtime = 0
@@ -1517,7 +1517,7 @@
 					if("pockets")
 						message = text("\red <B>[] is trying to empty []'s pockets!!</B>", src.source, src.target)
 					if("CPR")
-						if (src.target.cpr_time >= world.time + 3)
+						if (src.target.cpr_time >= ss13time() + 3)
 							//SN src = null
 							del(src)
 							return
@@ -1850,12 +1850,12 @@
 					src.target.handcuffed = src.item
 					src.item.loc = src.target
 		if("CPR")
-			if (src.target.cpr_time >= world.time + 30)
+			if (src.target.cpr_time >= ss13time() + 30)
 				//SN src = null
 				del(src)
 				return
 			if ((src.target.health >= -75.0 && src.target.health < 0))
-				src.target.cpr_time = world.time
+				src.target.cpr_time = ss13time()
 				if (src.target.health >= -40.0)
 					var/suff = min(src.target.oxyloss, 5)
 					src.target.oxyloss -= suff
@@ -1872,11 +1872,11 @@
 				//SN src = null
 				del(src)
 				return
-			if (S.s_time >= world.time + 30)
+			if (S.s_time >= ss13time() + 30)
 				//SN src = null
 				del(src)
 				return
-			S.s_time = world.time
+			S.s_time = ss13time()
 			var/a = S.inject(src.target)
 			for(var/mob/O in viewers(src.source, null))
 				O.show_message(text("\red [] injects [] with the syringe!", src.source, src.target), 1)
@@ -1887,11 +1887,11 @@
 				//SN src = null
 				del(src)
 				return
-			if (S.s_time >= world.time + 30)
+			if (S.s_time >= ss13time() + 30)
 				//SN src = null
 				del(src)
 				return
-			S.s_time = world.time
+			S.s_time = ss13time()
 			var/a = S.name
 			S.ingest(src.target)
 			for(var/mob/O in viewers(src.source, null))

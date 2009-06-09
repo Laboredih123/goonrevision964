@@ -278,9 +278,9 @@
 				if( !portable() ) use_power(50, ENVIRON)
 				if (T)
 					if (T.firelevel > 900000.0)
-						src.f_time = world.time + 400
+						src.f_time = ss13time() + 400
 					else
-						if (world.time > src.f_time)
+						if (ss13time() > src.f_time)
 							src.gas.extract_toxs(T)
 							if( !portable() ) use_power(150, ENVIRON)
 							var/contain = src.gas.tot_gas()
@@ -441,9 +441,9 @@
 
 				if (T)
 					if (T.firelevel > 900000.0)
-						src.f_time = world.time + 300
+						src.f_time = ss13time() + 300
 					else
-						if (world.time > src.f_time)
+						if (ss13time() > src.f_time)
 							var/difference = CELLSTANDARD - (T.oxygen + T.n2)
 							if (difference > 0)
 								var/t1 = src.gas.tot_gas()

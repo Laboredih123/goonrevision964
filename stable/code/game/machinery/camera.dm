@@ -3,7 +3,7 @@
 /turf/proc/move_camera_by_click()
 	if (usr.stat)
 		return ..()
-	if (world.time <= usr:lastDblClick+2)
+	if (ss13time() <= usr:lastDblClick+2)
 		return ..()
 
 	//try to find the closest working camera in the same area, switch to it
@@ -24,7 +24,7 @@
 
 	if(!best_cam)
 		return ..()
-	usr:lastDblClick = world.time
+	usr:lastDblClick = ss13time()
 	usr:switchCamera(best_cam)
 
 /mob/ai/proc/ai_camera_list()

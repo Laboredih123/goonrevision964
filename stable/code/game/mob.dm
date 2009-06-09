@@ -299,7 +299,7 @@
 	return
 
 /obj/item/weapon/grab/proc/s_click(obj/screen/S as obj)
-	if (src.assailant.next_move > world.time)
+	if (src.assailant.next_move > ss13time())
 		return
 	if ((!( src.assailant.canmove ) || src.assailant.lying))
 		//SN src = null
@@ -312,17 +312,17 @@
 					for(var/mob/O in viewers(src.assailant, null))
 						O.show_message(text("\red [] has temporarily tightened his grip on []!", src.assailant, src.affecting), 1)
 						//Foreach goto(97)
-					src.assailant.next_move = world.time + 10
+					src.assailant.next_move = ss13time() + 10
 					src.affecting.stunned = max(2, src.affecting.stunned)
 					src.affecting.paralysis = max(1, src.affecting.paralysis)
 					src.affecting.losebreath = min(src.affecting.losebreath + 1, 3)
-					src.last_suffocate = world.time
+					src.last_suffocate = ss13time()
 					flick("disarm/killf", S)
 		else
 	return
 
 /obj/item/weapon/grab/proc/s_dbclick(obj/screen/S as obj)
-	if ((src.assailant.next_move > world.time && !( src.last_suffocate < world.time + 2 )))
+	if ((src.assailant.next_move > ss13time() && !( src.last_suffocate < ss13time() + 2 )))
 		return
 	if ((!( src.assailant.canmove ) || src.assailant.lying))
 		del(src)
@@ -359,7 +359,7 @@
 						if (src.killing)
 							for(var/mob/O in viewers(src.assailant, null))
 								O.show_message(text("\red [] has tightened his grip on []'s neck!", src.assailant, src.affecting), 1)
-							src.assailant.next_move = world.time + 10
+							src.assailant.next_move = ss13time() + 10
 							src.affecting.stunned = max(2, src.affecting.stunned)
 							src.affecting.paralysis = max(1, src.affecting.paralysis)
 							src.affecting.losebreath += 1
@@ -555,9 +555,9 @@
 		if("swap")
 			usr.swap_hand()
 		if("resist")
-			if (usr.next_move < world.time)
+			if (usr.next_move < ss13time())
 				return
-			usr.next_move = world.time + 20
+			usr.next_move = ss13time() + 20
 			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
 				for(var/obj/O in usr.requests)
 					del(O)
@@ -746,7 +746,6 @@
 	O.verbs += /mob/ai/proc/ai_camera_list
 	O.verbs += /mob/ai/proc/lockdown
 	O.verbs += /mob/ai/proc/disablelockdown
-	O.verbs -= /mob/verb/switch_hud
 //	O.verbs += /mob/ai/proc/ai_cancel_call
 	del(src)
 	return
@@ -1097,7 +1096,7 @@
 	return
 
 /mob/proc/death()
-	src.timeofdeath = world.time
+	src.timeofdeath = ss13time()
 	return ..()
 
 /mob/proc/restrained()
@@ -1399,49 +1398,6 @@
 	src.machine = null
 	src:cameraFollow = null
 
-/mob/verb/switch_hud()
-	set name = "Switch HUD"
-
-	if (istype(src, /mob/ai))
-		return
-	src.client.screen -= main_hud1.contents
-	src.client.screen -= main_hud2.contents
-	if (src.hud_used == main_hud1)
-		src.hud_used = main_hud2
-		src.throw_icon.icon = 'screen.dmi'
-		src.oxygen.icon = 'screen.dmi'
-		src.toxin.icon = 'screen.dmi'
-		src.internals.icon = 'screen.dmi'
-		src.mach.icon = 'screen.dmi'
-		src.fire.icon = 'screen.dmi'
-		src.bodytemp.icon = 'screen1.dmi'
-		src.healths.icon = 'screen.dmi'
-		src.pullin.icon = 'screen.dmi'
-		src.blind.icon = 'screen.dmi'
-		src.hands.icon = 'screen.dmi'
-		src.flash.icon = 'screen.dmi'
-		src.sleep.icon = 'screen.dmi'
-		src.rest.icon = 'screen.dmi'
-	else
-		src.hud_used = main_hud1
-		src.throw_icon.icon = 'screen1.dmi'
-		src.oxygen.icon = 'screen1.dmi'
-		src.toxin.icon = 'screen1.dmi'
-		src.internals.icon = 'screen1.dmi'
-		src.mach.icon = 'screen1.dmi'
-		src.fire.icon = 'screen1.dmi'
-		src.bodytemp.icon = 'screen1.dmi'	//no alternate icon for body temp yet
-		src.healths.icon = 'screen1.dmi'
-		src.pullin.icon = 'screen1.dmi'
-		src.blind.icon = 'screen1.dmi'
-		src.hands.icon = 'screen1.dmi'
-		src.flash.icon = 'screen1.dmi'
-		src.sleep.icon = 'screen1.dmi'
-		src.rest.icon = 'screen1.dmi'
-	src.client.screen -= src.hud_used.adding
-	src.client.screen += src.hud_used.adding
-	return
-
 /mob/CheckPass(mob/M as mob)
 	if ((src.other_mobs && ismob(M) && M.other_mobs))
 		return 1
@@ -1738,7 +1694,7 @@
 /client/Move(n, direct)
 	if (src.moving)
 		return 0
-	if (world.time < src.move_delay)
+	if (ss13time() < src.move_delay)
 		return
 	if (!( src.mob ))
 		return
@@ -1763,7 +1719,7 @@
 					del(G)
 			else
 				if (G.state == 2)
-					src.move_delay = world.time + 10
+					src.move_delay = ss13time() + 10
 					if ((prob(25) && (!( is_monkey ) || prob(25))))
 						for(var/mob/O in viewers(src.mob, null))
 							O.show_message(text("\red [] has broken free of []'s grip!", src.mob, G.assailant), 1)
@@ -1772,7 +1728,7 @@
 						return
 				else
 					if (G.state == 3)
-						src.move_delay = world.time + 10
+						src.move_delay = ss13time() + 10
 						if ((prob(5) && !( is_monkey ) || prob(25)))
 							for(var/mob/O in viewers(src.mob, null))
 								O.show_message(text("\red [] has broken free of []'s headlock!", src.mob, G.assailant), 1)
@@ -1808,7 +1764,7 @@
 
 
 		if (isturf(src.mob.loc))
-			src.move_delay = world.time
+			src.move_delay = ss13time()
 			if ((j_pack && j_pack < 1))
 				src.move_delay += 5
 			switch(src.mob.m_intent)
@@ -1834,7 +1790,7 @@
 						return 0
 			src.moving = 1
 			if (locate(/obj/item/weapon/grab, src.mob))
-				src.move_delay = max(src.move_delay, world.time + 7)
+				src.move_delay = max(src.move_delay, ss13time() + 7)
 				var/list/L = src.mob.ret_grab()
 				if (istype(L, /list))
 					if (L.len == 2)
@@ -1942,6 +1898,12 @@
 		<body onLoad=\"redirect()\">Please wait...</body></html>"
 		src << browse(html,"window=crban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
 		spawn(20) src << browse(null,"window=crban")
+
+	//Remove their unban AFTER the cookie is modified to show they aren't banned anymore
+	if(src && crban_isunbanned(src.key))
+//		world.log_admin("[src.key] removed from unban list after successful join.")
+//		messageadmins("\blue[src.key] removed from unban list after successful join.")
+		crban_removeunban(src)
 
 	if (((world.address == src.address || !(src.address)) && !(host)))
 		host = src.key

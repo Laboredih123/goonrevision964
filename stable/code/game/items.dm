@@ -19,7 +19,7 @@
 		else
 	return
 
-/proc/get_turf(turf/T as turf)
+/proc/get_turf(atom/T)
 	while(!istype(T, /turf) && T)
 		T = T.loc
 	return T
@@ -276,6 +276,10 @@
 					for(var/mob/O in viewers(M, null))
 						O.show_message(text("\red <B>[] has been knocked unconscious!</B>", H), 1, "\red You hear someone fall.", 2)
 					H.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
+					if (prob(50))
+						if (H.rev_status == REV_FOLLOWER)
+							H.rev_status = NON_REV
+							H << "\red <B>You have been brainwashed! You are no longer a revolutionary!</B>"
 				affecting.take_damage(b_dam, f_dam)
 			else
 				if (def_zone == "chest")
@@ -647,7 +651,7 @@
 	return
 
 /obj/item/weapon/flash/attack_self(mob/user as mob, flag)
-	if ( (world.time + 600) > src.l_time)
+	if ( (ss13time() + 600) > src.l_time)
 		src.shots = 5
 	if (src.shots < 1)
 		user.show_message("\red *click* *click*", 2)
@@ -655,7 +659,7 @@
 	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
 		return
-	src.l_time = world.time
+	src.l_time = ss13time()
 	add_fingerprint(user)
 	src.shots--
 	flick("flash2", src)
@@ -724,7 +728,7 @@
 						else
 							var/mob/M = W.loc
 							if (M.stat == 2)
-								if (M.timeofdeath + 6000 < world.time)
+								if (M.timeofdeath + 6000 < ss13time())
 									continue
 
 						var/turf/tr = get_turf(W)
@@ -1016,7 +1020,7 @@
 	A.current = U
 	A.yo = U.y - T.y
 	A.xo = U.x - T.x
-	user.next_move = world.time + 4
+	user.next_move = ss13time() + 4
 	spawn( 0 )
 		A.process()
 		return
@@ -1102,7 +1106,7 @@
 	A.yo = U.y - T.y
 	A.xo = U.x - T.x
 
-	user.next_move = world.time + 4
+	user.next_move = ss13time() + 4
 	A.process()
 	return
 
@@ -2273,9 +2277,9 @@
 	if (src.icon_state == "fire_extinguisher1")
 		if (src.waterleft < 1)
 			return
-		if (world.time < src.last_use + 20)
+		if (ss13time() < src.last_use + 20)
 			return
-		src.last_use = world.time
+		src.last_use = ss13time()
 		if (istype(target, /area))
 			return
 		var/cur_loc = get_turf(user)
@@ -2302,7 +2306,7 @@
 				sleep(1)
 				t++
 			src.waterleft--
-			src.last_use = world.time
+			src.last_use = ss13time()
 		else
 			if (cur_loc == tar_loc)
 				new /obj/effects/water( cur_loc )
@@ -2321,7 +2325,7 @@
 					sleep(1)
 					t++
 				src.waterleft -= 0.5
-				src.last_use = world.time
+				src.last_use = ss13time()
 
 					// propulsion
 		if(istype(cur_loc, /turf/space))
@@ -2945,7 +2949,7 @@
 /obj/item/weapon/storage/backpack/MouseDrop(obj/over_object as obj)
 
 	if (src.loc != usr)
-		return
+		return ..()
 	if ((istype(usr, /mob/human) || (ticker && ticker.mode.name == "monkey")))
 		var/mob/M = usr
 		if (!( istype(over_object, /obj/screen) ))
@@ -3343,14 +3347,13 @@
 		src.add_fingerprint(user)
 
 
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
-		return
-	src.status = !( src.status )
+	else if (istype(W, /obj/item/weapon/screwdriver))
+		src.status = !( src.status )
 	if (src.status)
 		user.show_message("\blue The igniter is ready!")
 	else
 		user.show_message("\blue The igniter can now be attached!")
-	src.add_fingerprint(user)
+		src.add_fingerprint(user)
 	return
 
 /obj/item/weapon/igniter/attack_self(mob/user as mob)
@@ -3362,20 +3365,12 @@
 	return
 
 /obj/item/weapon/igniter/proc/ignite()
-
 	if (src.status)
-		var/turf/T = src.loc
-		if (src.master)
-			T = src.master.loc
-		if (!( istype(T, /turf) ))
-			T = T.loc
-		if (!( istype(T, /turf) ))
-			T = T.loc
+		var/turf/T = get_turf(src)
 		if (locate(/obj/move, T))
 			T = locate(/obj/move, T)
-		else
-			if (!( istype(T, /turf) ))
-				return
+		else if (!istype(T, /turf))
+			return
 		if (T.firelevel < 900000.0)
 			T.firelevel = T.poison
 	return
@@ -3550,9 +3545,9 @@
 	return
 
 /obj/item/weapon/radio/proc/sendm(msg)
-	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
+	if(last_transmission && ss13time() < (last_transmission + TRANSMISSION_DELAY))
 		return
-	last_transmission = world.time
+	last_transmission = ss13time()
 	if ((src.listening && src.wires & 2))
 		return hearers(1, src.loc)
 	return
@@ -3657,9 +3652,9 @@
 	return
 
 /obj/item/weapon/radio/signaler/proc/s_signal(signal)
-	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
+	if(last_transmission && ss13time() < (last_transmission + TRANSMISSION_DELAY))
 		return
-	last_transmission = world.time
+	last_transmission = ss13time()
 	if (signal == null)
 		signal = 1
 	if (!( src.wires & 4 ))
@@ -5286,12 +5281,12 @@
 	return DblClick()
 
 /atom/DblClick()
-	if (world.time <= usr:lastDblClick+2)
+	if (ss13time() <= usr:lastDblClick+2)
 		//world << "BLOCKED atom.DblClick() on [src] by [usr] : src.type is [src.type]"
 		return
 	else
 		//world << "atom.DblClick() on [src] by [usr] : src.type is [src.type]"
-		usr:lastDblClick = world.time
+		usr:lastDblClick = ss13time()
 
 	..()
 	if(usr.in_throw_mode)
@@ -5321,9 +5316,9 @@
 			return
 
 	if (((t5 || (W && (W.flags & 16))) && !( istype(src, /obj/screen) )))
-		if (usr.next_move < world.time)
+		if (usr.next_move < ss13time())
 			usr.prev_move = usr.next_move
-			usr.next_move = world.time + 10
+			usr.next_move = ss13time() + 10
 		else
 			return
 		if ((src.loc && (get_dist(src, usr) < 2 || src.loc == usr.loc)))
@@ -5433,8 +5428,8 @@
 	else
 		if (istype(src, /obj/screen))
 			usr.prev_move = usr.next_move
-			if (usr.next_move < world.time)
-				usr.next_move = world.time + 10
+			if (usr.next_move < ss13time())
+				usr.next_move = ss13time() + 10
 			else
 				return
 			if (!( usr.restrained() ))

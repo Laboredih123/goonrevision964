@@ -1,99 +1,3 @@
-/*  To-do list
-
-	Bugs:
-	hearing inside closets/pods
-	check head protection when hit by tank etc.
-
-	//gas propagation on obj/move cells? plasma doesn't leak.
-
-	//turf-proc to reveal hidden (invis) pipes/wire/etc. when turf.intact variable is changed.
-						 //(Check also build/remove for walls etc.)
-
-	bug with two single-length pipes overlaying - pipeline ends up with no members
-
-	//cable under wall/rwall when deconstructed - run levelupdate
-	//making rglass with toolbox in r-hand - spawn on ground instead?
-	//also single rod in hand, make it just use 1 of rod with 1 of glass
-
-	//gas in heater loop - can accept infinite amount into canister
-	//valves need power to switch, even manually
-	//heater connection
-
-	alarm continuing when power out?
-	//can't connect new cable to directconnect power machines
-
-	//cable - lay in dirn of mob facing when click on same turf
-
-	New:
-
-	//add/check all cameras & tags
-
-	//prison warden gets grey jumpsuit
-
-	//power/engine - make useful? Needs local power DU, check for all machines. Power reserve. Engine generator.
-	make regular glass melt in fire
-	Blood splatters, can sample DNA & analyze
-	also blood stains on clothing - attacker & defender
-
-	whole body anaylzer in medbay - shows damage areas in popup?
-
-	//special closet for captain - spare ID, special uniform?
-
-	try station map maximizing use of image rather than icon
-
-	useful world/Topic commands
-	//examine object flags
-
-	flow rate maximum for pipes - slowest of two connected notes
-
-	system for breaking / making pipes, handle deletion, pipeline spliting/rejoining etc.
-
-	?give nominal values to all gas.maximum since turf_take depends on them
-
-	//integrate vote system with admin system - allow admin to start vote even if disabled, etc.
-
-	//update canister icons to use overlays for status
-	//impliment other canister colours, e.g. air (O2+N2), new one for N2O
-
-	//add pipe/cable revealing detector a-la infra-sensor
-
-	//add fingerprints to wire/cable actions
-
-
-	add power-off mode for computers & other equipment (with reboot time)
-
-	make grilles conductive for shocks (again)
-
-	for prison warden/sec - baton allows precise targeting
-
-	//recharger for batteries
-
-	//secret - spawn wave of meteors
-	//limit rate of spawn (timer)
-
-	portable generator - hook to wire system
-
-	modular repair/construction system
-	maintainance key
-	diagnostic tool
-	modules - module construction
-
-
-	hats/caps
-	//labcoat
-	suit?
-	//voting while dead, voting defaults
-
-	//admin PM - able to reply - move to mob topic?
-
-	build/unbuild engine floor with rf sheet
-
-	finish compressor/turbine - think about control system, throttle, etc.
-
-	crowbar opens airlocks when no power
-
-*/
-
 var
 	savefile_ver = "3"
 	SS13_version = "Goonstation + public stable svn"
@@ -125,7 +29,7 @@ var
 	list/admins = list(  )
 	list/shuttles = list(  )
 	list/reg_dna = list(  )
-//	Bans handled by Crispy Fullban in /admin/ban.dm now
+//	see admin/ban.dm
 //	list/banned = list(  )
 
 	CELLRATE = 0.002  // multiplier for watts per tick <> cell storage (eg: .002 means if there is a load of 1000 watts, 20 units will be taken from a cell per second)
@@ -183,6 +87,8 @@ var
 
 	//Don't set this very much higher then 1024 unless you like inviting people in to dos your server with message spam
 	const/MAX_MESSAGE_LEN = 1024
+
+	const/MAX_BOMB_RADIUS = 10	// note that the full effects of the blast actually go to 4 times this distance
 
 	const/shuttle_time_in_station = 1800 // 3 minutes in the station
 	const/shuttle_time_to_arrive = 6000 // 10 minutes to arrive

@@ -381,7 +381,9 @@
 	if(ticker.mode.name == "blob" || ticker.mode.name == "Corporate Restructuring" || ticker.mode.name == "sandbox")
 		user << "Under directive 7-10, SS13 is quarantined until further notice."
 		return
-
+	if(ticker.mode.name == "revolution")
+		usr << "Centcom will not allow the shuttle to be called, due to the possibility of sabotage by revolutionaries."
+		return
 	if (!( ticker.timeleft ))
 		ticker.timeleft = shuttle_time_to_arrive
 	world << "\blue <B>Alert: The emergency shuttle has been called. It will arrive in [ticker.timeleft/600] minutes.</B>"
@@ -391,12 +393,9 @@
 /proc/cancel_call_proc(var/mob/user)
 	if ((!( ticker ) || ticker.shuttle_location == 1 || ticker.timing == 0 || ticker.timeleft < 300))
 		return
-	if( ticker.mode.name == "blob" )
-		return
 
 	world << "\blue <B>Alert: The shuttle is going back!</B>"
 	ticker.timing = -1.0
-
 	return
 
 /obj/machinery/computer/card/ex_act(severity)

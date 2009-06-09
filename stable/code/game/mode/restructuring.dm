@@ -22,7 +22,7 @@
 	var/mob/target_desc
 
 	if (!who)
-		target = pick(get_mob_list())
+		target = pick(get_human_list())
 		target_desc = get_target_desc(target)
 		world << "\red <B>HEAD OFFICE: [target_desc] is accused of attempting to start a Union and is now considered a threat to the station. Terminate the employee immediately.</b>"
 	else
@@ -53,13 +53,6 @@
 		world << "\red <B>HEAD OFFICE: It seems we have made a mistake in our paperwork. The previous target for termination was chosen based on race, sex, and/or religious beleifs, which is against company policy. Please cancel previous termination request."
 		pick_target()
 		return 0
-
-/datum/game_mode/restructuring/proc/get_mob_list()
-	var/list/mobs = list()
-	for(var/mob/M in world)
-		if (M.stat<2 && M.client && M.start && istype(M, /mob/human))
-			mobs += M
-	return mobs
 
 /datum/game_mode/restructuring/proc/the_winner()
 	for(var/mob/M in world)

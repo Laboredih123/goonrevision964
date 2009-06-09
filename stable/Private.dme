@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE:
+DIR:
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: ON
+*/
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
@@ -22,6 +28,7 @@
 #define FILE_DIR "code/game/mob/human"
 #define FILE_DIR "code/game/mob/monkey"
 #define FILE_DIR "code/game/mode"
+#define FILE_DIR "code/game/mode/effect"
 #define FILE_DIR "code/game/obj"
 #define FILE_DIR "code/game/verb"
 #define FILE_DIR "code/game/verb/admin"

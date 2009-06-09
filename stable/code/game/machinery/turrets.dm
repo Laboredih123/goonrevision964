@@ -94,9 +94,9 @@
 /obj/machinery/turret/process()
 	if(stat & (NOPOWER|BROKEN))
 		return
-	if(lastfired && world.time - lastfired < shot_delay)
+	if(lastfired && ss13time() - lastfired < shot_delay)
 		return
-	lastfired = world.time
+	lastfired = ss13time()
 	if (src.cover==null)
 		src.cover = new /obj/machinery/turretcover(src.loc)
 	use_power(50)
