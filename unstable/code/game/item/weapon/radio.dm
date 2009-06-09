@@ -119,7 +119,7 @@
 	if(!usr.can_use_hands())		return 0
 	if(!usr.check_intelligence())	return 0
 
-	if(!usr.contents.Find(src))
+	if(!usr.contents.Find(src) && !(usr.contents.Find(src.loc) && istype(src.loc, /obj/item/weapon/assembly)))
 		if(!istype(usr, /mob/silicon/ai))
 			if(!(istype(src.loc,/turf) || get_dist(src,usr)<=1))
 				ss13_browse(usr, null, "window=radio")
@@ -149,7 +149,6 @@
 			else
 				user.u_equip(R)
 				user.equip_if_possible(T, SLOT_L_HAND)
-			R.loc = T
 			T.layer = 20
 			T.attack_self(user)
 			return
@@ -168,9 +167,11 @@
 			if(istype(M.equipped(), /obj/item/weapon/wirecutters))
 				src.wires ^= text2num(href_list["wires"])
 
-	var/tloc = src.loc
-	if(istype(tloc, /mob))	src.attack_self(tloc)
-	else					src.updateDialog()
+	var/atom/tloc = src.loc
+	if(istype(tloc, /mob) || (istype(tloc, /obj/item/weapon/assembly) && istype(tloc.loc, /mob)))
+		src.attack_self(usr)
+	else
+		src.updateDialog()
 
 /obj/item/weapon/radio/beacon/talk_into()		{		return		}
 /obj/item/weapon/radio/beacon/receive()			{		return		}

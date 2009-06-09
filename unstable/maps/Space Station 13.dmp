@@ -292,7 +292,7 @@
 "fF" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor/med,/area/hallway/primary/north)
 "fG" = (/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor/medcorner{tag = "icon-medfloorcorner (NORTH)"; icon_state = "medfloorcorner"; dir = 1},/area/hallway/primary/north)
 "fH" = (/obj/table{icon_state = "sides"; dir = 8},/obj/item/weapon/paper_bin,/obj/item/weapon/brutepack,/turf/station/floor,/area/hallway/primary/north)
-"fI" = (/obj/machinery/mass_driver{dir = 1; req_access_txt = "9"; id = "launcher"},/obj/bomb{btype = 2; explosive = 1; btemp = 400},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/toxins/lab)
+"fI" = (/obj/machinery/mass_driver{dir = 1; req_access_txt = "9"; id = "launcher"},/obj/bomb{btype = 2; btemp = 400},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/toxins/lab)
 "fJ" = (/obj/machinery/door/airlock{name = "Toxins"; req_access_txt = "9"},/turf/station/floor,/area/toxins/lab)
 "fK" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/obj/machinery/camera{dir = 4; c_tag = "Toxins West"},/turf/station/floor,/area/toxins/lab)
 "fL" = (/obj/table{icon_state = "corners"; dir = 10},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/turf/station/floor,/area/toxins/lab)

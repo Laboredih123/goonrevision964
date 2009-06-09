@@ -13,4 +13,8 @@
 	throw_range = 15
 	throw_speed = 3
 	desc = "You can use this on airlocks or APCs to try to hack them without cutting wires."
-	var/datum/assembly/assmaster = null
+	is_actor = 1
+	assembly_name = "multitool"
+
+	signal()
+		return

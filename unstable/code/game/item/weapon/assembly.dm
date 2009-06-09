@@ -3,45 +3,55 @@
 	var/is_actor = 0
 	var/assembly_name = null
 	var/is_attachable = 0
-	var/obj/item/weapon/assembly/master = null
 
 /obj/item/weapon/proc/signal()
 	return
 
-/obj/item/weapon/proc/get_icon_state_suffix()
-	return
 
 /obj/item/weapon/attackby(obj/item/weapon/W, mob/carbon/user)
 	if(src.is_attachable && W.is_attachable && ((src.is_signaller && W.is_actor) || (W.is_signaller && src.is_actor)))
 		var/obj/item/weapon/signaller
 		var/obj/item/weapon/actor
-		if(src.is_signaller)
+		if(src.is_signaller && W.is_actor)
 			signaller = src
 			actor = W
 		else
 			signaller = W
 			actor = src
-		var/obj/item/weapon/assembly/A = new(signaller, actor)
-		A.loc = src.loc
+
+		signaller.add_fingerprint(user)
+		actor.add_fingerprint(user)
+
+		var/obj/item/weapon/assembly/A = new(W.loc, signaller, actor)
+		signaller.loc = A
+		actor.loc = A
 
 		if (user.client)
 			user.client.screen -= signaller
 			user.client.screen -= actor
 
-		if(user.r_hand == src)
-			user.r_hand = A
-			A.layer = 20
-		else if(user.l_hand == src)
-			user.l_hand = A
-			A.layer = 20
+		if(user.r_hand == W)
+			user.u_equip(W)
+			user.equip_if_possible(A, SLOT_R_HAND)
+		else if(user.l_hand == W)
+			user.u_equip(W)
+			user.equip_if_possible(A, SLOT_L_HAND)
 
+		if(user.l_hand == src)
+			user.l_hand = null
+		else if(user.r_hand == src)
+			user.r_hand = null
+
+		user.update_clothing()
 	else if(istype(W, /obj/item/weapon/screwdriver) && (src.is_signaller || src.is_actor))
 		src.is_attachable = !src.is_attachable
 		if(src.is_attachable)
-			user.see("<font color='blue'>The signaller can now be attached and modified!</font>")
+			user.see("<font color='blue'>The [src.name] can now be attached and modified!</font>")
 		else
-			user.see("<font color='blue'>The signaller can no longer be modified or attached!</font>")
+			user.see("<font color='blue'>The [src.name] can no longer be modified or attached!</font>")
 		src.add_fingerprint(user)
+	else
+		return ..()
 
 /obj/item/weapon/examine()
 	set src in view()
@@ -66,39 +76,30 @@
 	var/secured = 0
 	icon = 'assemblies.dmi'
 
-	New(obj/item/weapon/signaller, obj/item/weapon/actor, secured = 0)
+	New(loc, obj/item/weapon/signaller, obj/item/weapon/actor, secured = 0)
+		..()
 		if(signaller)
 			src.signaller = signaller
 		if(actor)
 			src.actor = actor
 
-		signaller.master = src
-		signaller.loc = src
-		actor.master = src
-		actor.loc = src
-
-		signaller.layer = initial(signaller.layer)
-		actor.layer = initial(actor.layer)
-
-		signaller.add_fingerprint(user)
-		actor.add_fingerprint(user)
-
 		src.dir = signaller.dir
 
 		src.secured = secured
 
-		default_icon_state = "[signaller.s_istate]-[actor.s_istate]"
-		update_icon()
+		default_icon_state = "[signaller.assembly_name]-[actor.assembly_name]"
+		icon_state = default_icon_state
+		s_istate = actor.s_istate
 
-		name = "[signaller.assembly_name]-[actor.assembly_name] assembly"
+		name = "[capitalize(signaller.assembly_name)]-[actor.assembly_name] assembly"
 
 	Del()
 		del(signaller)
 		del(actor)
 		..()
 
-	proc/update_icon()
-		icon_state = "[default_icon_state][signaller.get_icon_state_suffix()]"
+	proc/c_state(n)
+		icon_state = "[default_icon_state][n]"
 
 	examine()
 		..()
@@ -120,6 +121,7 @@
 
 			var/turf/T = get_turf(src)
 			actor.loc = T
+			actor.layer = initial(actor.layer)
 
 			actor = null
 			signaller = null
@@ -133,12 +135,20 @@
 				user.see("\blue The [src.name] is now secured!")
 			else
 				user.see("\blue The [src.name] is now unsecured!")
-		return ..()
+		else
+			return ..()
 
 	attack_self(mob/user)
 		signaller.attack_self(user, 1)
 		add_fingerprint(user)
+		return ..()
 
 	signal()
 		if(src.secured)
 			actor.signal()
+
+	HasProximity(atom/movable/A)
+		signaller.HasProximity(A)
+
+	dropped()
+		signaller.dropped()

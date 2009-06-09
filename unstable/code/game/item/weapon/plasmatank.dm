@@ -68,3 +68,32 @@
 	..()
 	src.gas.plasma = src.maximum
 	return
+
+/obj/item/weapon/tank/plasmatank/attackby(obj/item/weapon/W, mob/carbon/user)
+	if(istype(W, /obj/item/weapon/igniter) && W.is_attachable)
+		src.add_fingerprint(user)
+		W.add_fingerprint(user)
+
+		var/obj/item/weapon/igniter_tank/A = new(W.loc, W, src)
+		W.loc = A
+		src.loc = A
+
+		if (user.client)
+			user.client.screen -= src
+			user.client.screen -= W
+
+		if(user.r_hand == W)
+			user.r_hand = A
+			A.layer = 20
+		else if(user.l_hand == W)
+			user.l_hand = A
+			A.layer = 20
+
+		if(user.l_hand == src)
+			user.l_hand = null
+		else if(user.r_hand == src)
+			user.r_hand = null
+
+		user.update_clothing()
+	else
+		return ..()

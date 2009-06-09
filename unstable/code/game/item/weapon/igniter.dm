@@ -19,3 +19,33 @@
 		var/turf/T = get_turf(src) // works properly even if in an assembly!
 		if (T && T.firelevel < 900000.0)
 			T.firelevel = T.gas.plasma
+
+
+	attackby(obj/item/weapon/W, mob/carbon/user)
+		if(istype(W, /obj/item/weapon/tank/plasmatank) && src.is_attachable)
+			src.add_fingerprint(user)
+			W.add_fingerprint(user)
+
+			var/obj/item/weapon/igniter_tank/A = new(W.loc, src, W)
+			W.loc = A
+			src.loc = A
+
+			if (user.client)
+				user.client.screen -= src
+				user.client.screen -= W
+
+			if(user.r_hand == W)
+				user.r_hand = A
+				A.layer = 20
+			else if(user.l_hand == W)
+				user.l_hand = A
+				A.layer = 20
+
+			if(user.l_hand == src)
+				user.l_hand = null
+			else if(user.r_hand == src)
+				user.r_hand = null
+
+			user.update_clothing()
+		else
+			return ..()

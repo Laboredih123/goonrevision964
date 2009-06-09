@@ -7,12 +7,10 @@
 	w_class = 1
 	freq = 1457
 	var/delay = 0
+	is_signaller = 1
+	is_actor = 1
+	assembly_name = "radio"
 
-
-/obj/item/weapon/radio/signaller/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	user.machine = src
-	if(!istype(W, /obj/item/weapon/screwdriver)) return ..()
-	src.add_fingerprint(user)
 
 /obj/item/weapon/radio/signaller/receive(datum/message/M, freq)
 	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.
@@ -20,8 +18,11 @@
 	if(!(src.wires & WIRE_RECEIVE))					return
 	if(M.language != LANGUAGE_COMPUTER)				return
 	if(text2num(M.text) != src.code)				return
-//	if(src.master && src.wires & WIRE_SIGNAL)		src.master:r_signal(1, src)
-	for(var/atom/A in view(2, src))					A.hear("\icon[src] *beep beep*")
+	if(istype(src.loc, /obj/item/weapon/assembly) && src.wires & WIRE_SIGNAL)
+		var/obj/item/weapon/assembly/A = src.loc
+		A.signal()
+	for(var/atom/A in view(2, get_turf(src)))
+		A.hear("\icon[src] *beep beep*")
 
 /obj/item/weapon/radio/signaller/proc/send_signal()
 	if(!(src.wires & WIRE_TRANSMIT)) return
@@ -47,7 +48,7 @@
 	if(!usr.can_use_hands())		return 0
 	if(!usr.check_intelligence())	return 0
 
-	if(!usr.contents.Find(src))
+	if(!usr.contents.Find(src) && !(usr.contents.Find(src.loc) && istype(src.loc, /obj/item/weapon/assembly)))
 		if(!istype(usr, /mob/silicon/ai))
 			if(!(istype(src.loc,/turf) || get_dist(src,usr)<=1))
 				ss13_browse(usr, null, "window=radio")
@@ -64,3 +65,6 @@
 		spawn(0) src.send_signal(t1)
 	else
 		return ..()
+
+/obj/item/weapon/radio/signaller/signal()
+	src.send_signal()

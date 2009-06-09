@@ -117,4 +117,17 @@ require you to escape.</li>
 Revolution mode will never be selected.</li>
 <li><b>689</b> - Added "boot" and "mute" admin powers.</li>
 </ul>
+
+<p><b>May 2008 - Janury 2009</b><p>
+<ul>
+<li>You can do character setup even after you've spawned.</li>
+<li>Posters for revolutionary mode!</li>
+<li>Revolutionaries convert people with convert verb, rather than flashes.</li>
+<li>Removed earmuffs and ear slot.</li>
+<li>Removed speeds other than "running" and speed selector.</li>
+<li>Made intent bar and "more inventory" bar always out.</li>
+<li>Removed speeds other than "running."</li>
+<li>New genetics system added.</li>
+<li>600 commits worth of bugfixes and minor or behind-the-scenes improvements.</li>
+
 "}

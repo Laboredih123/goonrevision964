@@ -1,24 +1,27 @@
 /obj/item/weapon/timer
 	name = "timer"
-	icon_state = "timer0"
+	icon_state = "timer"
 	var/timing = 0.0
 	var/time = null
 	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
 	w_class = 2.0
 	s_istate = "timer"
-
+	is_signaller = 1
+	assembly_name = "timer"
 
 /obj/item/weapon/timer/proc/time()
-
-
-	src.c_state(0)
-
-	for(var/mob/O in hearers(null, src))
+	src.c_state("")
+	for(var/mob/O in hearers(null, get_turf(src)))
 		O.hear(text("\icon[] *beep* *beep*", src))
+	if(istype(src.loc, /obj/item/weapon/assembly))
+		var/obj/item/weapon/assembly/A = src.loc
+		A.signal()
 
-
-/obj/item/weapon/timer/proc/c_state(n)
+/obj/item/weapon/timer/proc/c_state(n = "")
 	src.icon_state = text("timer[]", n)
+	if(istype(src.loc, /obj/item/weapon/assembly))
+		var/obj/item/weapon/assembly/A = src.loc
+		A.c_state(n)
 
 /obj/item/weapon/timer/proc/process()
 
@@ -42,7 +45,7 @@
 					src.attack_self(M)
 	else
 		// If it's not timing, reset the icon so it doesn't look like it's still about to go off.
-		src.c_state(0)
+		src.c_state("")
 	spawn( 10 )
 		src.process()
 		return
@@ -58,7 +61,7 @@
 
 /obj/item/weapon/timer/attack_self(mob/user as mob)
 
-	if ((user.contents.Find(src) || get_dist(src, user) <= 1 && istype(src.loc, /turf)))
+	if ((user.contents.Find(src) || user.contents.Find(src.loc) || get_dist(src, user) <= 1 && istype(src.loc, /turf)))
 
 		user.machine = src
 		var/second = src.time % 60
@@ -76,7 +79,7 @@
 
 	if (!usr.can_use_hands())
 		return
-	if ((usr.contents.Find(src) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
+	if ((usr.contents.Find(src) || (usr.contents.Find(src.loc) && istype(src.loc, /obj/item/weapon/assembly)) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
 		if (href_list["time"])
 			src.timing = text2num(href_list["time"])
@@ -90,6 +93,8 @@
 
 		if (istype(src.loc, /mob))
 			attack_self(src.loc)
+		else if(istype(src.loc, /obj/item/weapon/assembly) && istype(src.loc.loc, /mob))
+			attack_self(src.loc.loc)
 		else
 			for(var/mob/M in viewers(1, src))
 				if (M.client)

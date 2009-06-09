@@ -37,20 +37,17 @@ var/const
 						if (O.charges >= O.maximum_charges)
 							return MISSION_SUCCESS
 				if(PLASMA_BOMB)
-					// SHOULD work for all bombs and that's it
-					/*
-					for(var/obj/item/O in items)
-						var/istimebomb = istype(O, /obj/item/t_i_ptank)
-						var/isproxbomb = istype(O, /obj/item/m_i_ptank)
-						var/isradiobomb = istype(O, /obj/item/r_i_ptank)
-						if(!istimebomb && !isproxbomb && !isradiobomb)
+					for(var/obj/item/weapon/assembly/O in items)
+						if(!istype(O.actor, /obj/item/weapon/igniter_tank))
 							continue
-						var/obj/item/weapon/tank/plasmatank/P = O:part3
-						if(!P || !istype(P, /obj/item/weapon/tank/plasmatank))
+						var/obj/item/weapon/igniter_tank/A = O.actor
+						if(!A.welded || !O.secured)
 							continue
-						if ((P.gas.plasma >= 1600000.0 && P.gas:temp >= 773)) // 500 degrees Celsius
-					*/
-					return MISSION_SUCCESS
+						var/obj/item/weapon/tank/plasmatank/tank = A.tank
+						if(!tank)
+							continue
+						if(tank.gas.plasma >= 1600000 && tank.gas.temp >= 773)
+							return MISSION_SUCCESS
 				if(HAND_TELE)
 					for(var/obj/item/weapon/hand_tele/O in items)
 						return MISSION_SUCCESS

@@ -98,28 +98,27 @@ var/const/MAX_WIRES = 32
 /datum/assembly/wirebundle/proc/wirenumtoidx(var/wirenum as num)
 	return wirenumtoidx[wirenum]
 
-/datum/assembly/wirebundle/proc/attach_trigger(var/wirenum as num, var/obj/item/weapon/multitool/trigger)
+/datum/assembly/wirebundle/proc/attach_trigger(var/wirenum as num, var/obj/item/weapon/assembly/trigger)
 	var/idx = src.wirenumtoidx(wirenum)
 	// if(src.triggers[wirenum] || idx > src.numwires || !(trigger.flags & SENDSRSIGNAL) || src.wireidxiscut(idx)) return 0
 	if(src.triggers[idx])
 		return "There's already a trigger attached to this wire."
 	if(idx > src.numwires)
 		return "You tried to attach a trigger to a non existant wire!"
-	if(!(trigger.flags & SENDSRSIGNAL))
-		return "You try to attach the object, but you can't quite figure out what's going to pulse the wire... (try using a signaller or timer)"
 	if(src.wireidxiscut(idx))
 		return "You can't attach to a cut wire!"
-	if(istype(trigger, /obj/item/weapon/radio/signaller))
-		var/obj/item/weapon/radio/signaller/S = trigger
-		if(!S.is_attachable)
-			return "The radio can't be attached!"
+	if(istype(trigger, /obj/item/weapon/assembly))
+		var/obj/item/weapon/assembly/A = trigger
+		if(!istype(A.actor, /obj/item/weapon/multitool))
+			return "The assembly can't be attached!"
+	else
+		return "You can't attach that to an airlock! (Try using a radio-multitool assembly, for example.)"
 
 	src.triggers[idx] = trigger
 
 	var/mob/carbon/M = usr
 	M.drop_item()
 
-	trigger.assmaster = src
 	trigger.loc = src
 
 	return "You attach the trigger to the wire."
@@ -127,9 +126,8 @@ var/const/MAX_WIRES = 32
 /datum/assembly/wirebundle/proc/detach_trigger(var/wirenum as num)
 	if(!src.wirenumhastrigger(wirenum))
 		return "There's no trigger on that wire to detach!"
-	var/obj/item/weapon/multitool/trigger = triggers[wirenumtoidx(wirenum)]
+	var/obj/item/weapon/assembly/trigger = triggers[wirenumtoidx(wirenum)]
 
-	trigger.assmaster = null
 	trigger.loc = usr.loc
 
 	triggers[wirenumtoidx(wirenum)] = null

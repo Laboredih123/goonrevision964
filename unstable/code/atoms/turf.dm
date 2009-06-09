@@ -76,7 +76,7 @@
 
 /turf/station/floor/grid
 	icon = 'weap_sat.dmi'
-	icon_state = "grid"
+	icon_state = "Floor"
 
 /turf/station/floor/sec
 	icon_state = "secfloor"

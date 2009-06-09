@@ -13,28 +13,32 @@
 
 
 /obj/item/weapon/infra/proc/hit()
+	if(istype(src.loc, /obj/item/weapon/assembly))
+		var/obj/item/weapon/assembly/A = src.loc
+		A.signal()
 	for(var/mob/O in hearers(null, src))
 		O.hear(text("\icon[] *beep* *beep*", src))
 
 /obj/item/weapon/infra/proc/process()
-
-
-	if ((!( src.first ) && (src.state && (istype(src.loc, /turf) ))))
-
-		var/obj/beam/i_beam/I = new /obj/beam/i_beam(src.loc)
-		I.master = src
-		I.density = 1
-		I.dir = src.dir
-		step(I, I.dir)
-		if (I)
-			I.density = 0
-			src.first = I
-			I.vis_spread(src.visible)
-			spawn( 0 )
-				if (I)
-					I.limit = 20
-					I.process()
-				return
+	if (!src.first && src.state)
+		var/loc = src.loc
+		if(istype(src.loc, /obj/item/weapon/assembly))
+			loc = src.loc.loc
+		if(istype(loc, /turf) || (istype(loc, /obj/machinery/door/airlock) && loc:p_open))
+			var/obj/beam/i_beam/I = new /obj/beam/i_beam(get_turf(loc))
+			I.master = src
+			I.density = 1
+			I.dir = src.dir
+			step(I, I.dir)
+			if (I)
+				I.density = 0
+				src.first = I
+				I.vis_spread(src.visible)
+				spawn( 0 )
+					if (I)
+						I.limit = 20
+						I.process()
+					return
 	if (!( src.state ))
 		del(src.first)
 	spawn( 10 )
@@ -61,11 +65,11 @@
 	..()
 	if (!usr.can_use_hands())
 		return
-	if ((usr.contents.Find(src) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
+	if ((usr.contents.Find(src) || (usr.contents.Find(src.loc) && istype(src.loc, /obj/item/weapon/assembly)) || get_dist(src, usr) <= 1 && istype(src.loc, /turf)))
 		usr.machine = src
 		if (href_list["state"])
 			src.state = !( src.state )
-			src.icon_state = text("infrared[]", src.state)
+			src.c_state(src.state)
 		if (href_list["visible"])
 			src.visible = !( src.visible )
 			spawn( 0 )
@@ -74,6 +78,8 @@
 				return
 		if (istype(src.loc, /mob))
 			attack_self(src.loc)
+		else if(istype(src.loc, /obj/item/weapon/assembly) && istype(src.loc.loc, /mob))
+			attack_self(src.loc.loc)
 		else
 			for(var/mob/M in viewers(1, src))
 				if (M.client)
@@ -82,6 +88,15 @@
 		ss13_browse(usr, null, "window=infra")
 		return
 	return
+
+/obj/item/weapon/infra/proc/c_state(n)
+	icon_state = "infrared[n]"
+	if(istype(src.loc, /obj/item/weapon/assembly))
+		var/obj/item/weapon/assembly/A = src.loc
+		if(n)
+			A.c_state(n)
+		else
+			A.c_state("")
 
 /obj/item/weapon/infra/interact()
 
