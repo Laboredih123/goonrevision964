@@ -68,6 +68,8 @@
 			G.maximum = 10000
 			if (src.internal)
 				src.internal.process(src, G)
+				if (src.internals)
+					src.internals.icon_state = get_internal_icon_state(src.internal, src.internals)
 				if (src.wear_mask.flags & 4)
 					G.turf_add(T, G.tot_gas() * 0.5)
 					G.turf_take(T, t / 2 * turf_total - G.tot_gas())

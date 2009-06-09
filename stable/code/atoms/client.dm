@@ -8,3 +8,4 @@
 	var/vote = null
 	var/showvote = null
 	var/adminobs = null
+	var/seenChangelog = 0

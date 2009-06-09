@@ -80,7 +80,7 @@
 				if (src.internal)
 					src.internal.process(src, G)
 					if (src.internals)
-						src.internals.icon_state = "internal1"
+						src.internals.icon_state = get_internal_icon_state(src.internal, src.internals)
 
 
 					if (( src.wear_mask.flags & 4 && (!( istype(src.head, /obj/item/weapon/clothing/head) ) || !( src.head.flags & 2 ))))

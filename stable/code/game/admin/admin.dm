@@ -160,7 +160,7 @@
 			world.log_admin("[usr.key] unbanned [M.key]/[M.rname] from [job]")
 			jobban_unban(M, job)
 		else
-//			world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
+			world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
 			jobban_fullban(M, job)
 		href_list["jobban2"] = 1 // lets it fall through and refresh
 /*

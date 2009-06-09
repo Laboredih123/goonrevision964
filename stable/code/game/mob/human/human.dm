@@ -208,9 +208,6 @@
 	..()
 	statpanel("Status")
 
-
-	//stat(null, "([x], [y], [z])")
-
 	stat(null, text("Intent: []", src.a_intent))
 	stat(null, text("Move Mode: []", src.m_intent))
 
@@ -223,16 +220,6 @@
 				var/icon2 = ticker.target.rname
 				var/area = get_area(ticker.target)
 				stat(null, text("Target: [icon2] (as [icon]) is in [area]"))
-		if (src.internal)
-			if (!( src.internal.gas ))
-				//src.internal = null
-				del(src.internal)
-			else
-				stat(null, text("Internal Atmosphere: []", src.internal))
-				stat(null, text("Internal Oxygen: []", src.internal.gas.oxygen))
-				stat(null, text("Internal Plasma: []", src.internal.gas.plasma))
-
-
 	return
 
 /mob/human/las_act(flag, A as obj)

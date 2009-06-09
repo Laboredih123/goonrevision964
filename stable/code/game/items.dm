@@ -3527,7 +3527,6 @@
 	return
 
 /obj/item/weapon/radio/proc/accept_rad(obj/item/weapon/radio/R as obj, message)
-
 	if ((R.freq == src.freq && message))
 		return 1
 	else

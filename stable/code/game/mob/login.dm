@@ -7,10 +7,10 @@
 				continue
 			if(M.client && M.client.address == src.client.address)
 				world.log_access("Notice: [src.key] has same IP address as [M.key]")
-				messageadmins("<font color='blue'><B>Notice:</B> [src.key] has same IP address as [M.key]</font>")
+				messageadmins("<font color='blue'><B>Notice:</B> <A href='?src=\ref[usr];priv_msg=\ref[src]'>[src.key]</a> has same IP address as [M.key]</font>")
 			else if (M.lastKnownIP && M.lastKnownIP == src.client.address && M.ckey != src.ckey && M.key)
 				world.log_access("Notice: [src.key] has same IP address as [M.key] did ([M.key] is no longer logged in).")
-				messageadmins("<font color='blue'><B>Notice:</B> [src.key] has same IP address as [M.key] did ([M.key] is no longer logged in).</font>")
+				messageadmins("<font color='blue'><B>Notice:</B> <A href='?src=\ref[usr];priv_msg=\ref[src]'>[src.key]</a> has same IP address as [M.key] did ([M.key] is no longer logged in).</font>")
 				if (crban_isbanned(M.ckey))
 					world.log_access("Further notice: [M.key] was banned.")
 					messageadmins("<font color='blue'><B>Further notice:</B> [M.key] was banned.</font>")
@@ -28,7 +28,8 @@
 			src.rname = capitalize(pick(first_names_female) + " " + capitalize(pick(last_names)))
 
 	src.sight |= SEE_SELF
-
-	src << browse(text("[]", changes), "window=changes")
+	if (!src.client.seenChangelog)
+		src << browse(text("[]", changes), "window=changes")
+		src.client.seenChangelog = 1
 	..()
 	return

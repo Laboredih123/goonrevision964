@@ -270,6 +270,9 @@
 					src.currmsg = 0
 				src.aicurrmsg = 0
 			src.aistate = STATE_MESSAGELIST
+		if("end-lockdown")
+			if(locked_down)
+				end_lockdown(usr.name)
 	src.updateUsrDialog()
 
 /obj/machinery/computer/communications/attack_ai(var/mob/user as mob)
@@ -302,6 +305,8 @@
 					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=cancelshuttle'>Cancel Shuttle Call</A> \]"
 				else
 					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=callshuttle'>Call Emergency Shuttle</A> \]"
+				if (locked_down)
+					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=end-lockdown'>End Lockdown</A> \]"
 			else
 				dat += "<BR>\[ <A HREF='?src=\ref[src];operation=login'>Log In</A> \]"
 			dat += "<BR>\[ <A HREF='?src=\ref[src];operation=messagelist'>Message List</A> \]"
@@ -793,5 +798,3 @@
 				O.throw_at(targetarea, drive_range * src.power, src.power)
 	flick("mass_driver1", src)
 	return
-
-

@@ -23,13 +23,13 @@
 	world << "<B>Some crewmembers are attempting to start a revolution!<BR>\nRevolutionaries - Kill the Captain, HoP, and HoR. Convert other crewmembers (excluding the Captain, HoP, HoR, and security officers) to your cause by flashing them. Protect your leaders.<BR>\nPersonnel - Protect the Captain, HoP, and HoR. Kill the leaders of the revolution, and brainwash the other revolutionaries (by beating them in the head).</B>"
 /datum/game_mode/revolution/pre_setup()
 	var/retries
-	while(retries<12)	//try for two minutes
+	while(1)	//try for two minutes
 		var/curNum = 0
 		for(var/mob/M in world)
 			if(M.client && M.start)
 				curNum ++
 		if(curNum < min_players)
-			world << "<b>Minimum amount of players required for revolution not met, waiting 10 seconds...</b>"
+			world << "<b>Minimum amount of players required for revolution not met, waiting 10 seconds...(Retry [retries])</b>"
 			retries ++
 			sleep(100) //10 seconds
 		else
@@ -41,10 +41,13 @@
 		ticker.killer << "\blue You are a member of the revolutionaries' leadership!"
 	if(get_mobs_with_rank("Captain"))
 		head1 = get_mobs_with_rank("Captain")[1]
+		heads += head1
 	if(get_mobs_with_rank("Head of Personnel"))
 		head2 = get_mobs_with_rank("Head of Personnel")[1]
+		heads += head2
 	if(get_mobs_with_rank("Head of Research"))
 		head3 = get_mobs_with_rank("Head of Research")[1]
+		heads += head3
 	spawn (0)
 		ticker.extend_process()
 
