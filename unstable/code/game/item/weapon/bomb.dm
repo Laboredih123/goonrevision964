@@ -6,7 +6,7 @@
 	var/btemp = 500	// bomb temperature (degC)
 
 	New()
-		var/bombtype = /obj/item/weapon/radio
+		var/bombtype = /obj/item/weapon/radio/signaller
 		if(src.btype == 1)
 			bombtype = /obj/item/weapon/prox_sensor
 		else if(src.btype == 2)

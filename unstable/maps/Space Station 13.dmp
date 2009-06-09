@@ -286,7 +286,7 @@
 "fz" = (/obj/cable{icon_state = "0-8"; d2 = 8},/obj/machinery/power/apc{name = "E APC"; dir = 4; pixel_x = 0; cell_type = 2500; light_consumption = 100; equip_consumption = 250; environ_consumption = 55},/turf/station/floor,/area/toxins/storage)
 "fA" = (/obj/machinery/camera{dir = 4; c_tag = "Chapel South"},/turf/station/floor/chapel{tag = "icon-chapel (NORTH)"; icon_state = "chapel"; dir = 1},/area/chapel/main)
 "fB" = (/obj/machinery/door/window{dir = 1},/turf/station/floor,/area/hallway/primary/north)
-"fC" = (/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor/medcorner{tag = "icon-medfloorcorner (SOUTHWEST)"; icon_state = "medfloorcorner"; dir = 10},/area/hallway/primary/north)
+"fC" = (/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor/medcorner,/area/hallway/primary/north)
 "fD" = (/obj/machinery/door/firedoor,/turf/station/floor/med,/area/hallway/primary/north)
 "fE" = (/turf/station/floor/med,/area/hallway/primary/north)
 "fF" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor/med,/area/hallway/primary/north)

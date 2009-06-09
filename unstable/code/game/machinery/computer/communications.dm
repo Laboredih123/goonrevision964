@@ -106,7 +106,7 @@
 			src.state = STATE_DEFAULT
 		if("end-lockdown")
 			if(locked_down)
-				end_lockdown()
+				end_lockdown(usr.name)
 
 
 	src.updateUsrDialog()

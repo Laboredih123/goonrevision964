@@ -7,4 +7,4 @@
 	if(href_list["showalerts"])
 		ai_alerts()
 	if(href_list["track"])
-		track_mob(href_list["track"])
+		track_mob(locate(href_list["track"]))
