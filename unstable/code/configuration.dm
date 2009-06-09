@@ -49,7 +49,7 @@
 			if("log_game")		config.log_game = 1
 			if("log_vote")		config.log_vote = 1
 			if("log_file")
-				config.log_file = value
+				config.log_file = dd_replacetext(value, "ROUNDNUM", "[curround + 1]")
 				fdel(value);
 
 			if("allow_vote_restart")	config.allow_vote_restart = 1

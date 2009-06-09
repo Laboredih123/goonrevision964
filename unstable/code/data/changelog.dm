@@ -5,6 +5,11 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/unstable</a>. If you w
 on irc.synirc.net in #goonstation.</p>
 <hr>
 
+<p><b>Monday, June 8. 2009</b></p>
+<ul>
+<li><b>785</b> - Log files are now permanently kept, rather than deleted at end of round.</li>
+</ul>
+
 <p><b>Sunday, June 7. 2009</b></p>
 <ul>
 <li><b>783</b> - Added color-coded airlocks and floors.</li>
