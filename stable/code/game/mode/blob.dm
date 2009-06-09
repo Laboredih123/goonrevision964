@@ -187,9 +187,6 @@
 		ticker.check_win()
 		return 1
 
-	if (stage == 5)
-		return
-	
 	var/active = 0
 
 	for(var/obj/blob/B in blobs)
