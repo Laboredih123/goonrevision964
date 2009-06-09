@@ -1,5 +1,5 @@
 /obj/item/weapon/infra
-	name = "Infrared Beam (Security)"
+	name = "infrared beam"
 	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted."
 	icon_state = "infrared0"
 	var/obj/beam/i_beam/first = null
@@ -16,7 +16,7 @@
 	if(istype(src.loc, /obj/item/weapon/assembly))
 		var/obj/item/weapon/assembly/A = src.loc
 		A.signal()
-	for(var/mob/O in hearers(null, src))
+	for(var/mob/O in hearers(null, get_turf(src)))
 		O.hear(text("\icon[] *beep* *beep*", src))
 
 /obj/item/weapon/infra/proc/process()
@@ -24,8 +24,8 @@
 		var/loc = src.loc
 		if(istype(src.loc, /obj/item/weapon/assembly))
 			loc = src.loc.loc
-		if(istype(loc, /turf) || (istype(loc, /obj/machinery/door/airlock) && loc:p_open))
-			var/obj/beam/i_beam/I = new /obj/beam/i_beam(get_turf(loc))
+		if(istype(loc, /turf))
+			var/obj/beam/i_beam/I = new /obj/beam/i_beam(loc)
 			I.master = src
 			I.density = 1
 			I.dir = src.dir
@@ -99,8 +99,6 @@
 			A.c_state("")
 
 /obj/item/weapon/infra/interact()
-
-	//src.first = null
 	del(src.first)
 	..()
 	return

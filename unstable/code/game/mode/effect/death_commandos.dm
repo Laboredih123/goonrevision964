@@ -4,7 +4,7 @@
 	//|_   _| || | __| |   \| __| /_\_   _| || |  / __/ _ \|  \/  |  \/  | /_\ | \| |   \ / _ \/ __|
 	//  | | | __ | _|  | |) | _| / _ \| | | __ | | (_| (_) | |\/| | |\/| |/ _ \| .` | |) | (_) \__ \
 	//  |_| |_||_|___| |___/|___/_/ \_\_| |_||_|  \___\___/|_|  |_|_|  |_/_/ \_\_|\_|___/ \___/|___/
-	// time_start, time_offset, and time_distance are both in 1/10 seconds
+	// time_start and time_offset are both in 1/10 seconds
 	// chance is a percent
 	spawn(time_start)
 		while(1)

@@ -6,7 +6,7 @@
 	w_class = 2.0
 	s_istate = "prox"
 	is_signaller = 1
-	assembly_name = "prox"
+	assembly_name = "proximity"
 
 /obj/item/weapon/prox_sensor/dropped()
 	spawn( 0 )
@@ -17,7 +17,7 @@
 		if(istype(src.loc, /obj/item/weapon/assembly))
 			var/obj/item/weapon/assembly/A = src.loc
 			A.signal()
-		for(var/mob/O in hearers(null, src))
+		for(var/mob/O in hearers(null, get_turf(src)))
 			O.hear(text("\icon[] *beep* *beep*", src))
 
 /obj/item/weapon/prox_sensor/HasProximity(atom/movable/AM as mob|obj) // TODO: redo in non-retarded way
@@ -49,8 +49,10 @@
 					src.state = !( src.state )
 					src.c_state(src.state)
 				return
-		if (istype(src.loc, /mob) || (istype(src.loc, /obj/item/weapon/assembly) && istype(src.loc.loc, /mob)))
+		if (istype(src.loc, /mob))
 			attack_self(src.loc)
+		else if(istype(src.loc, /obj/item/weapon/assembly) && istype(src.loc.loc, /mob))
+			attack_self(src.loc.loc)
 		else
 			for(var/mob/M in viewers(1, src))
 				if (M.client)

@@ -77,7 +77,12 @@
 	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
 		return
 	last_transmission = world.time
-	if(istype(src.loc, /turf) || (istype(src.loc, /mob) && istype(src.loc.loc, /turf))) //closets block transmission
+	var/atom/loc = src.loc
+	if(istype(loc, /obj/item/weapon/assembly))
+		loc = loc.loc
+	if(istype(loc, /mob))
+		loc = loc.loc
+	if(istype(loc, /turf)) //closets block transmission
 		if(src.patch_link)	return patch_link.receive(M,src.freq)
 		for(var/obj/item/weapon/radio/R in world)
 			R.receive(M, src.freq)

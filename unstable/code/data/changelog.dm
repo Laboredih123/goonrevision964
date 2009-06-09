@@ -5,6 +5,22 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/unstable</a>. If you w
 on irc.synirc.net in #goonstation.</p>
 <hr>
 
+<p><b>Tuesday, June 9. 2009</b></p>
+<ul>
+<li><b>791</b> - New assembly system. You can now combine any signaller (timer, prox, radio, or infrared) with any
+actor (radio, igniter, igniter-tank assembly, or multitool). Look for more signallers and actors to be added in the
+future. Making bombs now requires a different procedure. Here's how to make a time bomb, for instance:
+<ol>
+	<li>Use screwdriver on timer and igniter.</li>
+	<li>Use igniter on plasma tank.</li>
+	<li>Use screwdriver on igniter-tank assembly.</li>
+	<li>Use welder on igniter-tank assembly.</li>
+	<li>Use igniter-tank assembly on timer.</li>
+	<li>Use screwdriver on timer-igniter-tank assembly.</li>
+</ol>
+</li>
+</ul>
+
 <p><b>Monday, June 8. 2009</b></p>
 <ul>
 <li><b>785</b> - Log files are now permanently kept, rather than deleted at end of round.</li>

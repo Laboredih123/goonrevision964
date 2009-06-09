@@ -666,7 +666,7 @@ About the new airlock wires panel:
 		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/multitool))
 		return src.interact(user)
-	else if (istype(C, /obj/item/weapon/radio/signaller))
+	else if (istype(C, /obj/item/weapon/assembly))
 		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/prox_sensor))
 		return src.interact(user)

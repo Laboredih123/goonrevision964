@@ -379,7 +379,7 @@
 	return
 
 /obj/beam/i_beam/proc/process()
-	if ((src.loc.density || !( src.master )))
+	if (src.loc.density || !src.master)
 		del(src)
 		return
 

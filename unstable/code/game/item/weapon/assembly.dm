@@ -75,6 +75,7 @@
 	var/default_icon_state = ""
 	var/secured = 0
 	icon = 'assemblies.dmi'
+	var/datum/assembly/wirebundle/wirebundle = null
 
 	New(loc, obj/item/weapon/signaller, obj/item/weapon/actor, secured = 0)
 		..()
@@ -83,15 +84,18 @@
 		if(actor)
 			src.actor = actor
 
+		if(istype(src.signaller, /obj/item/weapon/infra))
+			src.verbs += /obj/item/weapon/assembly/proc/rotate
+
 		src.dir = signaller.dir
 
 		src.secured = secured
 
-		default_icon_state = "[signaller.assembly_name]-[actor.assembly_name]"
+		default_icon_state = "[src.signaller.assembly_name]-[src.actor.assembly_name]"
 		icon_state = default_icon_state
-		s_istate = actor.s_istate
+		s_istate = src.actor.s_istate
 
-		name = "[capitalize(signaller.assembly_name)]-[actor.assembly_name] assembly"
+		name = "[src.signaller.assembly_name]-[src.actor.assembly_name] assembly"
 
 	Del()
 		del(signaller)
@@ -152,3 +156,24 @@
 
 	dropped()
 		signaller.dropped()
+
+	proc/rotate()
+		set src in usr
+		if(istype(signaller, /obj/item/weapon/infra))
+			var/obj/item/weapon/infra/s = signaller
+			s.rotate()
+			src.dir = s.dir
+
+	Move()
+		var/t = src.dir
+		..()
+		src.dir = t
+		if(istype(signaller, /obj/item/weapon/infra))
+			var/obj/item/weapon/infra/infra = signaller
+			del infra.first
+
+	interact()
+		..()
+		if(istype(signaller, /obj/item/weapon/infra))
+			var/obj/item/weapon/infra/infra = signaller
+			del infra.first

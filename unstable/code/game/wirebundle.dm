@@ -107,14 +107,15 @@ var/const/MAX_WIRES = 32
 		return "You tried to attach a trigger to a non existant wire!"
 	if(src.wireidxiscut(idx))
 		return "You can't attach to a cut wire!"
-	if(istype(trigger, /obj/item/weapon/assembly))
-		var/obj/item/weapon/assembly/A = trigger
-		if(!istype(A.actor, /obj/item/weapon/multitool))
-			return "The assembly can't be attached!"
-	else
+	if(!istype(trigger, /obj/item/weapon/assembly))
 		return "You can't attach that to an airlock! (Try using a radio-multitool assembly, for example.)"
 
-	src.triggers[idx] = trigger
+	var/obj/item/weapon/assembly/A = trigger
+	if(!istype(A.actor, /obj/item/weapon/multitool))
+		return "The assembly can't be attached!"
+
+	src.triggers[idx] = A
+	A.wirebundle = src
 
 	var/mob/carbon/M = usr
 	M.drop_item()
@@ -129,6 +130,7 @@ var/const/MAX_WIRES = 32
 	var/obj/item/weapon/assembly/trigger = triggers[wirenumtoidx(wirenum)]
 
 	trigger.loc = usr.loc
+	trigger.wirebundle = null
 
 	triggers[wirenumtoidx(wirenum)] = null
 

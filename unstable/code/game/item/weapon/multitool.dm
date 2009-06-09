@@ -17,4 +17,7 @@
 	assembly_name = "multitool"
 
 	signal()
-		return
+		if(istype(src.loc, /obj/item/weapon/assembly))
+			var/obj/item/weapon/assembly/A = src.loc
+			if(A.wirebundle)
+				A.wirebundle.r_signal(1, A)

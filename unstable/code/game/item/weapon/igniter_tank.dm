@@ -14,7 +14,7 @@
 		if(welded)
 			tank.ignite()
 
-	New(obj/item/weapon/igniter/igniter, obj/item/weapon/tank/plasmatank/tank)
+	New(loc, obj/item/weapon/igniter/igniter, obj/item/weapon/tank/plasmatank/tank)
 		if(igniter)
 			src.igniter = igniter
 		else
@@ -27,6 +27,8 @@
 
 		src.tank.layer = initial(src.tank.layer)
 		src.igniter.layer = initial(src.igniter.layer)
+
+		..()
 
 	attackby(obj/item/weapon/W, mob/carbon/user)
 		if (istype(W, /obj/item/weapon/weldingtool))
