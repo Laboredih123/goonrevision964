@@ -87,6 +87,9 @@
 	for(var/mob/carbon/M in world)
 		if(!(M in heard) && (M.is_telepathic || M.is_dead))
 			M.hear_message(msg, usr)
+	for(var/mob/observer/M in world)
+		if(!M in heard)
+			M.hear_message(msg, usr)
 
 /mob/proc/is_stuttering()
 	return 0

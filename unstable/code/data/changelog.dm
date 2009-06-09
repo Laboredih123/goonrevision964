@@ -2,7 +2,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 <p>Source, minus the good sprites, available at
 <a href="http://svn.slurm.us/public/spacestation13/branches/kurper/unstable">
 http://svn.slurm.us/public/spacestation13/branches/kurper/unstable</a>. If you want the good sprites, ask here or
-on irc.synirc.net in #goonstation.</p>
+on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 <hr>
 
 <p><b>Tuesday, June 9. 2009</b></p>

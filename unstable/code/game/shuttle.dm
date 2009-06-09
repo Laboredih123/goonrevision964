@@ -161,7 +161,11 @@
 		var/datum/job/death_commando/j = get_job_instance_by_type(/datum/job/death_commando)
 		for(var/mob/observer/M in world)
 			if(M.client)
-				commandos += j.create(M, JOINED_ON_TIME, 1, 1)
+				spawn()
+					commandos += j.create(M, JOINED_ON_TIME, 1, 1)
+
+		sleep(50) // TODO: come up with a better way to do this, without having spawning able to be held up by anyone
+
 		var/datum/mission/murders/murders = new /datum/mission/murders(commandos, "the death commandos", station_members, "all station personnel")
 		var/datum/mission/prevent_escape/prevent_escape = new /datum/mission/prevent_escape(commandos, "the death commandos", station_members, "any station personnel")
 		current_mode.add_mission(murders)

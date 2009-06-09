@@ -16,17 +16,21 @@
 		var/list/spies
 		while (1)
 			spies = list()
+			var/allspies = list()
 			var/success = 1
 			for(var/i = 1; i <= NUM_TEAMS && success; i++)
-				spies[i] = list()
-				for(var/j = 1; j < SPIES_PER_TEAM && success; i++)
-					var/mob/carbon/synd = pick_carbon_synd_except(spies)
+				var/cur_team = list()
+				for(var/j = 1; j <= SPIES_PER_TEAM && success; j++)
+					var/mob/carbon/synd = pick_carbon_synd_except(allspies)
 					if(!synd)
 						success = 0
 					else
-						spies[i] += synd
+						cur_team += synd
+						allspies += synd
+				spies += list(cur_team) // because BYOND is smarter than me and list(a) + list(b) = list(a, b) not list(a, list(b))
 			if(success)
 				break
+			world.log_game("Not enough players for spyvsspy, waiting 3 seconds.")
 			sleep(30)
 		src.spyteams = spies
 

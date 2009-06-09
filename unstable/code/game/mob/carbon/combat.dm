@@ -19,7 +19,7 @@
 		if (src.get_damage() > src.unconsciousness_threshold)
 			src.sleeping = 0
 			src.resting = 0
-			src.show_viewers("\blue [M] shakes [src] trying to wake \him[src] up!")
+			src.show_viewers("\blue [M] shakes [src] trying to wake \him up!")
 		else if (src.death_threshold - src.get_damage() > 25) // still can survive
 			if ((M.helmet && M.helmet.flags & HEADSPACE) || M.mask || (src.helmet && src.helmet.flags & HEADSPACE) || src.mask)
 				M.think("\blue <B>Remove that mask!</B>")

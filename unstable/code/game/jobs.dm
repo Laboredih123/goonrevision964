@@ -160,9 +160,11 @@
 		// TODO: check that deleting the prespawn in the middle of the loop (as this does) doesnt break things
 		for(var/mob/prespawn/M in semiassigned)
 			var/datum/job/j = semiassigned[M]
-			j.create(M, JOINED_ON_TIME)
+			spawn()
+				j.create(M, JOINED_ON_TIME)
 		for(var/mob/prespawn/M in assigned)
 			var/datum/job/j = assigned[M]
-			j.create(M, JOINED_ON_TIME)
+			spawn()
+				j.create(M, JOINED_ON_TIME)
 
 	return

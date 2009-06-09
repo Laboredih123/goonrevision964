@@ -7,7 +7,7 @@
 /datum/game_mode/revolution
 	name = "revolution"
 	var/const/NUM_REVS = 3
-	min_players = 3 + NUM_REVS
+	min_players = 4 + NUM_REVS // heads, AI, and revs
 	var/list/revs = null
 	var/list/heads = null
 
@@ -21,8 +21,8 @@
 				if(M.client && M.ready)
 					curNum ++
 			if(curNum < min_players)
-				world << "Don't seem to be enough people for a decent game of revolution."
-				sleep(50) //5 seconds
+				world.log_game("Not enough players for revolution, waiting 3 seconds.")
+				sleep(30)
 			else
 				break
 

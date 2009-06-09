@@ -32,6 +32,7 @@
 				num_mobs++
 			if(!num_mobs)
 				sleep(30)
+				world.log_game("Not enough players for multitraitor, waiting 3 seconds.")
 				continue
 			if(!num_traitors)
 				src.num_traitors = round(num_mobs / MOBS_PER_TRAITOR) + 1
