@@ -38,17 +38,19 @@ var/const
 							return MISSION_SUCCESS
 				if(PLASMA_BOMB)
 					// SHOULD work for all bombs and that's it
-					for(var/obj/item/weapon/assembly/O in items)
-						var/istimebomb = istype(O, /obj/item/weapon/assembly/t_i_ptank)
-						var/isproxbomb = istype(O, /obj/item/weapon/assembly/m_i_ptank)
-						var/isradiobomb = istype(O, /obj/item/weapon/assembly/r_i_ptank)
+					/*
+					for(var/obj/item/O in items)
+						var/istimebomb = istype(O, /obj/item/t_i_ptank)
+						var/isproxbomb = istype(O, /obj/item/m_i_ptank)
+						var/isradiobomb = istype(O, /obj/item/r_i_ptank)
 						if(!istimebomb && !isproxbomb && !isradiobomb)
 							continue
 						var/obj/item/weapon/tank/plasmatank/P = O:part3
 						if(!P || !istype(P, /obj/item/weapon/tank/plasmatank))
 							continue
 						if ((P.gas.plasma >= 1600000.0 && P.gas:temp >= 773)) // 500 degrees Celsius
-							return MISSION_SUCCESS
+					*/
+					return MISSION_SUCCESS
 				if(HAND_TELE)
 					for(var/obj/item/weapon/hand_tele/O in items)
 						return MISSION_SUCCESS

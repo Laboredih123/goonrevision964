@@ -580,7 +580,7 @@
 			A.ex_act(zone)
 		U.ex_act(zone)
 		U.buildlinks()
-	del(src.master)
+	del(src.radio)
 	del(src)
 
 /obj/item/weapon/syndicate_uplink/var/list/item_types = list(
@@ -2647,135 +2647,6 @@
 	usr << text("There are [] tile\s left on the stack.", src.amount)
 	return
 
-/obj/item/weapon/igniter/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
-
-	if ((istype(W, /obj/item/weapon/radio/signaler) && !( src.status )))
-		var/obj/item/weapon/radio/signaler/S = W
-		if (!( S.b_stat ))
-			return
-		var/obj/item/weapon/assembly/rad_ignite/R = new /obj/item/weapon/assembly/rad_ignite( user )
-		S.loc = R
-		R.part1 = S
-		S.layer = initial(S.layer)
-		if (user.client)
-			user.client.screen -= S
-		if (user.r_hand == S)
-			user.u_equip(S)
-			user.r_hand = R
-		else
-			user.u_equip(S)
-			user.l_hand = R
-		S.master = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.u_equip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part2 = src
-		R.layer = 20
-		R.loc = user
-		src.add_fingerprint(user)
-
-	else if ((istype(W, /obj/item/weapon/prox_sensor) && !( src.status )))
-
-		var/obj/item/weapon/assembly/prox_ignite/R = new /obj/item/weapon/assembly/prox_ignite( user )
-		W.loc = R
-		R.part1 = W
-		W.layer = initial(W.layer)
-		if (user.client)
-			user.client.screen -= W
-		if (user.r_hand == W)
-			user.u_equip(W)
-			user.r_hand = R
-		else
-			user.u_equip(W)
-			user.l_hand = R
-		W.master = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.u_equip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part2 = src
-		R.layer = 20
-		R.loc = user
-		src.add_fingerprint(user)
-
-	else if ((istype(W, /obj/item/weapon/timer) && !( src.status )))
-
-		var/obj/item/weapon/assembly/time_ignite/R = new /obj/item/weapon/assembly/time_ignite( user )
-		W.loc = R
-		R.part1 = W
-		W.layer = initial(W.layer)
-		if (user.client)
-			user.client.screen -= W
-		if (user.r_hand == W)
-			user.u_equip(W)
-			user.r_hand = R
-		else
-			user.u_equip(W)
-			user.l_hand = R
-		W.master = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.u_equip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part2 = src
-		R.layer = 20
-		R.loc = user
-		src.add_fingerprint(user)
-
-
-	else if (istype(W, /obj/item/weapon/screwdriver))
-		src.status = !( src.status )
-		if (src.status)
-			user.see("\blue The igniter is ready!")
-		else
-			user.see("\blue The igniter can now be attached!")
-		src.add_fingerprint(user)
-	else
-		return ..()
-
-/obj/item/weapon/igniter/attack_self(mob/user as mob)
-
-	src.add_fingerprint(user)
-	spawn( 5 )
-		ignite()
-		return
-	return
-
-/obj/item/weapon/igniter/proc/ignite()
-
-	if (src.status)
-		var/turf/T = src.loc
-		if (src.master)
-			T = src.master.loc
-		if (!( istype(T, /turf) ))
-			T = T.loc
-		if (!( istype(T, /turf) ))
-			T = T.loc
-		else
-			if (!( istype(T, /turf) ))
-				return
-		if (T.firelevel < 900000.0)
-			T.firelevel = T.gas.plasma
-	return
-
-/obj/item/weapon/igniter/examine()
-	set src in view()
-
-	..()
-	if ((get_dist(src, usr) <= 1 || src.loc == usr))
-		if (src.status)
-			usr.see("The igniter is ready!")
-		else
-			usr.see("The igniter can be attached!")
-	return
-
 /obj/item/weapon/shard/Bump()
 
 	spawn( 0 )
@@ -3113,27 +2984,6 @@
 		del(W)
 	return
 
-/obj/item/weapon/hand_tele/attack_self(mob/carbon/user as mob)
-
-	var/list/L = list(  )
-	for(var/obj/machinery/teleport/hub/R in world)
-		var/obj/machinery/computer/teleporter/com = locate(/obj/machinery/computer/teleporter, locate(R.x - 2, R.y, R.z))
-		if (istype(com, /obj/machinery/computer/teleporter))
-			if(R.icon_state == "tele1")
-				L["[com.id] (Active)"] = com.locked
-			else
-				L["[com.id] (Inactive)"] = com.locked
-	var/t1 = input(user, "Please select a teleporter to lock in on.", "Hand Teleporter") in L
-	if (user.equipped() != src || !user.can_use_hands())
-		return
-	var/T = L[t1]
-	for(var/mob/O in hearers(null, user))
-		O.hear("\blue Locked In")
-	var/obj/portal/P = new /obj/portal( get_turf(src) )
-	P.target = T
-	src.add_fingerprint(user)
-	return
-
 /obj/item/weapon/ointment/attack(mob/M as mob, mob/user as mob)
 	if (!user.check_dexterity())
 		return
@@ -3306,69 +3156,6 @@
 	src.pixel_y = rand(-8.0, 8)
 	src.pixel_x = rand(-8.0, 8)
 	return
-
-/obj/item/weapon/weldingtool/examine()
-	set src in usr
-
-	usr << text("\icon[] [] contains [] units of fuel left!", src, src.name, src.weldfuel)
-	return
-
-/obj/item/weapon/weldingtool/afterattack(O as obj, mob/user as mob)
-
-	if (src.welding)
-		src.weldfuel--
-		if (src.weldfuel <= 0)
-			usr << "\blue Need more fuel!"
-			src.welding = 0
-			src.force = 3
-			src.damtype = "brute"
-			src.icon_state = "welder"
-		var/turf/location = user.loc
-		if (!( istype(location, /turf) ))
-			return
-		location.firelevel = location.gas.plasma + 1
-	return
-
-/obj/item/weapon/weldingtool/attack_self(mob/user as mob)
-
-	src.welding = !( src.welding )
-	if (src.welding)
-		if (src.weldfuel <= 0)
-			user << "\blue Need more fuel!"
-			src.welding = 0
-			return 0
-		user << "\blue You will now weld when you attack."
-		src.force = 15
-		src.damtype = "fire"
-		src.icon_state = "welder1"
-		spawn() //start fires while it's lit
-			src.process()
-	else
-		user << "\blue Not welding anymore."
-		src.force = 3
-		src.damtype = "brute"
-		src.icon_state = "welder"
-	return
-
-/obj/item/weapon/weldingtool/var/processing = 0
-
-/obj/item/weapon/weldingtool/proc/process()
-	if(src.processing) //already doing this
-		return
-	src.processing = 1
-
-	while(src.welding)
-		var/turf/location = src.loc
-		if(istype(location, /mob/carbon))
-			var/mob/carbon/M = location
-			if(M.l_hand == src || M.r_hand == src)
-				location = M.loc
-
-		if(isturf(location)) //start a fire if possible
-			location.firelevel = max(location.firelevel, location.gas.plasma + 1)
-
-		sleep(10)
-	processing = 0	//we're done
 
 /obj/item/weapon/card/id/attackby(obj/item/weapon/W as obj, mob/user)
 	. = null

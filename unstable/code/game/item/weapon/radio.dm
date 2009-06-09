@@ -19,7 +19,6 @@
 		WIRE_TRANSMIT = 1 << 2
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
 	var/listenrange = 2
-	var/b_stat = 0
 	var/traitorfreq = 0
 	var/obj/item/weapon/radio/patch_link = null
 	var/obj/item/weapon/syndicate_uplink/traitorradio = null
@@ -39,6 +38,7 @@
 	w_class = 5
 	flags = ONBACK | TABLEPASS | FPRINT
 	s_istate = "electropack"
+	var/obj/item/weapon/shock_kit/shockkit = null
 
 /obj/item/weapon/radio/headset
 	name = "Radio Headset"
@@ -56,15 +56,6 @@
 	var/number = 0
 	listenrange = 7
 	is_ai_interactable = 1
-
-/obj/item/weapon/radio/signaler
-	name = "Remote Signaling Device"
-	icon_state = "signaler"
-	flags = TABLEPASS | FPRINT | ONBELT | SENDSRSIGNAL
-	var/code = 30
-	w_class = 1
-	freq = 1457
-	var/delay = 0
 
 /obj/item/weapon/radio/proc/get_freq_text()
 	return round(src.freq/10, 0.1)
@@ -97,21 +88,13 @@
 /obj/item/weapon/radio/hear_message(datum/message/M, atom/source)
 	if(src.transmitting) src.talk_into(M, source)
 
-/obj/item/weapon/radio/examine()
-	set src in view()
-
-	..()
-	if((get_dist(src, usr) <= 1 || src.loc == usr))
-		if(src.b_stat)	usr.see("<font color='blue'>The radio can be attached and modified!</font>")
-		else			usr.see("<font color='blue'>The radio can not be attached or modified!</font>")
-
 /obj/item/weapon/radio/proc/can_patch()		{	return 0	}
 /obj/item/weapon/radio/intercom/can_patch()	{	return 1	}
 
 /obj/item/weapon/radio/attack_self(mob/user as mob)
 	user.machine = src
 	var/t1 = "-------"
-	if(src.b_stat)
+	if(src.is_attachable)
 		t1 = text({"-------<BR>
 					Green Wire: <A href='?src=\ref[src];wires=4'>[]</A><BR>
 					Red Wire:   <A href='?src=\ref[src];wires=2'>[]</A><BR>
@@ -186,7 +169,6 @@
 				src.wires ^= text2num(href_list["wires"])
 
 	var/tloc = src.loc
-	if(src.master) tloc = src.master.loc
 	if(istype(tloc, /mob))	src.attack_self(tloc)
 	else					src.updateDialog()
 
@@ -214,75 +196,6 @@
 	if(!istype(user,/mob/carbon)) return ..()
 	if(user.db_click("headset",null)) return null
 	return ..()
-
-/obj/item/weapon/radio/signaler/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	user.machine = src
-	if(!istype(W, /obj/item/weapon/screwdriver)) return ..()
-	src.b_stat = !(src.b_stat)
-	if(src.b_stat)	user.see("<font color='blue'>The radio can now be attached and modified!</font>")
-	else			user.see("<font color='blue'>The radio can no longer be modified or attached!</font>")
-	src.add_fingerprint(user)
-
-/obj/item/weapon/radio/signaler/receive(datum/message/M, freq)
-	//Sending a code is actually just sending a message in COMPUTER_LANG to the specified frequency, with text of the code number.
-	if(!M || freq != src.freq)						return
-	if(!(src.wires & WIRE_RECEIVE))					return
-	if(M.language != LANGUAGE_COMPUTER)				return
-	if(text2num(M.text) != src.code)				return
-	if(src.master && src.wires & WIRE_SIGNAL)		src.master:r_signal(1, src)
-	if(src.assmaster && src.wires & WIRE_SIGNAL)	src.assmaster:r_signal(1, src)
-	for(var/atom/A in view(2, src))					A.hear("\icon[src] *beep beep*")
-
-/obj/item/weapon/radio/signaler/proc/send_signal()
-	if(!(src.wires & WIRE_TRANSMIT)) return
-	var/datum/message/M = new(voice = "A computer", text = num2text(src.code), language = LANGUAGE_COMPUTER)
-	src.transmit(M)
-
-/obj/item/weapon/radio/signaler/examine()
-	set src in view()
-
-	..()
-	if(get_dist(src, usr) <= 1 || src.loc == usr)
-		if(src.b_stat)	usr.see("<font color='blue'>The signaler can be attached and modified!</font>")
-		else			usr.see("<font color='blue'>The signaler can not be modified or attached!</font>")
-	return
-
-/obj/item/weapon/radio/signaler/attack_self(mob/user as mob, flag1)
-
-	user.machine = src
-	var/t1
-	if((src.b_stat && !(flag1)))
-		t1 = text("-------<BR>\nGreen Wire: []<BR>\nRed Wire:   []<BR>\nBlue Wire:  []<BR>\n", (src.wires & 4 ? text("<A href='?src=\ref[];wires=4'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=4'>Mend Wire</A>", src)), (src.wires & 2 ? text("<A href='?src=\ref[];wires=2'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=2'>Mend Wire</A>", src)), (src.wires & 1 ? text("<A href='?src=\ref[];wires=1'>Cut Wire</A>", src) : text("<A href='?src=\ref[];wires=1'>Mend Wire</A>", src)))
-	else
-		t1 = "-------"
-	var/dat = text("<TT>Speaker: []<BR>\n<A href='?src=\ref[];send=1'>Send Signal</A><BR>\n<B>Frequency/Code</B> for signaler:<BR>\nFrequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>\nCode: <A href='?src=\ref[];code=-5'>-</A><A href='?src=\ref[];code=-1'>-</A> [] <A href='?src=\ref[];code=1'>+</A><A href='?src=\ref[];code=5'>+</A><BR>\n[]</TT>", (src.receiving ? text("<A href='?src=\ref[];listen=0'>Engaged</A>", src) : text("<A href='?src=\ref[];listen=1'>Disengaged</A>", src)), src, src, src, src.get_freq_text(), src, src, src, src, src.code, src, src, t1)
-	ss13_browse(user, dat, "window=radio")
-	return
-
-/obj/item/weapon/radio/signaler/talk_into()
-	return
-
-/obj/item/weapon/radio/signaler/Topic(href, href_list)
-	if(!usr.can_use_hands())		return 0
-	if(!usr.check_intelligence())	return 0
-
-	if(!usr.contents.Find(src))
-		if(!istype(usr, /mob/silicon/ai))
-			if(!(istype(src.loc,/turf) || get_dist(src,usr)<=1))
-				ss13_browse(usr, null, "window=radio")
-				return 0
-
-	usr.machine = src
-	if(href_list["code"])
-		src.code += text2num(href_list["code"])
-		src.code = round(src.code)
-		src.code = min(100, src.code)
-		src.code = max(1, src.code)
-	else if(href_list["send"])
-		var/t1 = round(text2num(href_list["send"]))
-		spawn(0) src.send_signal(t1)
-	else
-		return ..()
 
 /obj/item/weapon/radio/intercom/interact(mob/user as mob)
 	if(!user.check_intelligence()) return
@@ -312,9 +225,9 @@
 		else			user.see("<font color='blue'>The electric pads have been reinserted!</font>")
 		src.add_fingerprint(user)
 	else if(istype(W, /obj/item/weapon/clothing/head/helmet))
-		var/obj/item/weapon/assembly/shock_kit/A = new /obj/item/weapon/assembly/shock_kit(user)
+		var/obj/item/weapon/shock_kit/A = new /obj/item/weapon/shock_kit(user)
 		W.loc = A
-		A.part1 = W
+		A.helmet = W
 		W.layer = initial(W.layer)
 		if(user.client)
 			user.client.screen -= W
@@ -324,14 +237,13 @@
 		else
 			user.u_equip(W)
 			user.l_hand = A
-		W.master = A
-		src.master = A
+		src.shockkit = A
 		src.layer = initial(src.layer)
 		user.u_equip(src)
 		if(user.client)
 			user.client.screen -= src
 		src.loc = A
-		A.part2 = src
+		A.electropack = src
 		A.layer = 20
 		src.add_fingerprint(user)
 		A.add_fingerprint(user)
@@ -363,7 +275,7 @@
 		src.icon_state = "electropack[src.on]"
 
 	var/atom/tsrc = src
-	if(src.master) tsrc = src.master
+	if(src.shockkit) tsrc = src.shockkit
 	if(istype(tsrc.loc, /mob)) src.attack_self(tsrc.loc)
 	else for(var/mob/M in viewers(1,tsrc)) if(M.client) src.attack_self(M)
 
@@ -372,8 +284,8 @@
 		return
 	if(M.language != LANGUAGE_COMPUTER)	return
 	if(text2num(M.text) != src.code)	return
-	if(src.master && src.wires & WIRE_SIGNAL)
-		src.master:r_signal()
+	if(src.shockkit && src.wires & WIRE_SIGNAL)
+		src.shockkit:r_signal()
 	if((istype(src.loc, /mob/carbon) && src.on))
 		var/mob/carbon/H = src.loc
 		var/turf/T = H.loc

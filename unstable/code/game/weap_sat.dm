@@ -37,7 +37,7 @@
 	var/list/L = list()
 	var/list/areaindex = list()
 	for(var/obj/item/weapon/radio/beacon/R in world)
-		var/turf/T = find_loc(R)
+		var/turf/T = get_turf(R)
 		if (!T)
 			continue
 		var/tmpname = T.loc.name
@@ -63,16 +63,6 @@
 	if (t)
 		src.id = t
 	return
-
-/proc/find_loc(obj/R as obj)
-	if (!( R ))
-		return null
-	var/turf/T = R.loc
-	while(!( istype(T, /turf) ))
-		T = T.loc
-		if(!T || istype(T, /area))
-			return null
-	return T
 
 /obj/machinery/teleport/hub/Bumped(M as mob|obj)
 

@@ -557,8 +557,8 @@
 
 /obj/item/weapon/tank/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	var/obj/item/weapon/icon = src
-	if (istype(src.loc, /obj/item/weapon/assembly))
-		icon = src.loc
+	/*if (istype(src.loc, /obj/item/weapon/assembly))
+		icon = src.loc*/
 	if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1)
 		for (var/mob/O in viewers(null, user))
 			O << "\red [user] has used the analyzer on \icon[icon]"
@@ -610,7 +610,8 @@
 
 /obj/item/weapon/tank/examine()
 	var/obj/item/weapon/icon = src
-	if(istype(src.loc, /obj/item/weapon/assembly))	icon = src.loc
+	/*if(istype(src.loc, /obj/item/weapon/assembly))
+		icon = src.loc*/
 	if(get_dist(src, usr) > 1)
 		if(icon == src)
 			usr << "\blue It's a \icon[icon]! If you want any more information you'll need to get closer."
@@ -680,125 +681,6 @@
 	src.gas.oxygen = 1000000
 	return
 
-/obj/item/weapon/tank/plasmatank/proc/release()
-	var/turf/T = get_turf(src.loc)
-	src.gas.multiply_gas(src.gas.temp/25.0)
-	T.firelevel = src.gas.temp * 3600.0
-	T.gas.copy_gas(src.gas)
-	T.reset_phases()
-	src.gas.clear()
-
-/obj/item/weapon/tank/plasmatank/proc/ignite()
-
-	var/strength = ((src.gas.plasma + src.gas.oxygen/2.0) / 1600000.0) * src.gas.temp
-
-	var/turf/T = src.loc
-	while(!( istype(T, /turf) ))
-		T = T.loc
-
-	if(src.master)
-		src.master.loc = null
-
-	for(var/mob/carbon/M in range(T))
-		if(M.hud && M.hud.flash)
-			flick("flash", M.hud.flash)
-
-	for(var/obj/machinery/atmoalter/canister/C in range(1, T))
-		if (!( C.destroyed ))
-			if (C.gas.plasma >= 35000)
-				C.destroyed = 1
-				strength += 500
-
-	if(strength < 250) // can't be taking the square root of a negative number, now
-		del(src.master)
-		del(src)
-		return
-
-	// strength of 773 (500C pure plasma) gives m_range around 2, same as in old system
-	var/m_range = min(sqrt(strength/250 - 1), MAX_BOMB_RADIUS)
-
-	var/min = round(m_range)
-	var/med = round(m_range * 2)
-	var/max = round(m_range * 3)
-	var/u_max = round(m_range * 4)
-
-	var/turf/sw = locate(max(T.x - u_max, 1), max(T.y - u_max, 1), T.z)
-	var/turf/ne = locate(min(T.x + u_max, world.maxx), min(T.y + u_max, world.maxy), T.z)
-
-	defer_powernet_rebuild = 1
-
-	for(var/turf/U in block(sw, ne))
-
-
-		var/zone = 4
-		if ((U.y <= (T.y + max) && U.y >= (T.y - max) && U.x <= (T.x + max) && U.x >= (T.x - max) ))
-			zone = 3
-		if ((U.y <= (T.y + med) && U.y >= (T.y - med) && U.x <= (T.x + med) && U.x >= (T.x - med) ))
-			zone = 2
-		if ((U.y <= (T.y + min) && U.y >= (T.y - min) && U.x <= (T.x + min) && U.x >= (T.x - min) ))
-			zone = 1
-		for(var/atom/A in U)
-			A.ex_act(zone)
-		U.ex_act(zone)
-		U.buildlinks()
-	defer_powernet_rebuild = 0
-	makepowernets()
-
-	del(src.master)
-	del(src)
-
-/obj/item/weapon/tank/plasmatank/attackby(obj/item/weapon/W as obj, mob/carbon/user as mob)
-	..()
-
-	if(!istype(user, /mob/carbon))
-		return
-	var/types = list(/obj/item/weapon/assembly/rad_ignite = /obj/item/weapon/assembly/r_i_ptank,
-	                 /obj/item/weapon/assembly/prox_ignite = /obj/item/weapon/assembly/m_i_ptank,
-	                 /obj/item/weapon/assembly/time_ignite = /obj/item/weapon/assembly/t_i_ptank)
-	for(var/x in types)
-		if (istype(W, x))
-			// not exactly kosher, but they all have the same interface
-			var/obj/item/weapon/assembly/rad_ignite/A = W
-			if (!A.status)
-				return
-			var/type = types[x]
-
-			// again, same deal
-			var/obj/item/weapon/assembly/r_i_ptank/R = new type(user)
-			R.part1 = A.part1
-			A.part1.loc = R
-			A.part1.master = R
-			R.part2 = A.part2
-			A.part2.loc = R
-			A.part2.master = R
-			A.layer = initial(A.layer)
-			if (user.client)
-				user.client.screen -= A
-			if (user.r_hand == A)
-				user.u_equip(A)
-				user.r_hand = R
-			else
-				user.u_equip(A)
-				user.l_hand = R
-			src.master = R
-			src.layer = initial(src.layer)
-			user.u_equip(src)
-			if (user.client)
-				user.client.screen -= src
-			src.loc = R
-			R.part3 = src
-			R.layer = 20
-			R.loc = user
-			A.part1 = null
-			A.part2 = null
-			//S = null
-			del(A)
-
-/obj/item/weapon/tank/plasmatank/New()
-	..()
-	src.gas.plasma = src.maximum
-	return
-
 /obj/closet/secure/personal/var/registered = null
 /obj/closet/secure/personal/req_access = list(access_all_personal_lockers)
 
@@ -806,7 +688,7 @@
 
 	..()
 	sleep(2)
-	new /obj/item/weapon/radio/signaler( src )
+	new /obj/item/weapon/radio/signaller( src )
 	new /obj/item/weapon/pen( src )
 	new /obj/item/weapon/storage/backpack( src )
 	new /obj/item/weapon/radio/headset( src )
@@ -912,7 +794,7 @@
 
 	..()
 	sleep(2)
-	new /obj/item/weapon/radio/signaler( src )
+	new /obj/item/weapon/radio/signaller( src )
 	new /obj/item/weapon/radio/electropack( src )
 	new /obj/item/weapon/radio/electropack( src )
 	new /obj/item/weapon/radio/electropack( src )
@@ -1570,18 +1452,16 @@
 /obj/stool/chair/attackby(obj/item/weapon/W as obj, mob/user as mob)
 
 	..()
-	if (istype(W, /obj/item/weapon/assembly/shock_kit))
+	if (istype(W, /obj/item/weapon/shock_kit))
 		var/obj/stool/chair/e_chair/E = new /obj/stool/chair/e_chair( src.loc )
+		var/obj/item/weapon/shock_kit/S = W
 		E.dir = src.dir
-		E.part1 = W
-		W.loc = E
-		W.master = E
-		user.u_equip(W)
-		W.layer = initial(W.layer)
-		//SN src = null
+		E.part1 = S
+		S.loc = E
+		S.chair = E
+		user.u_equip(S)
+		S.layer = initial(S.layer)
 		del(src)
-		return
-	return
 
 /obj/stool/chair/e_chair/New()
 
@@ -1606,7 +1486,7 @@
 		var/obj/stool/chair/C = new /obj/stool/chair( src.loc )
 		C.dir = src.dir
 		src.part1.loc = src.loc
-		src.part1.master = null
+		src.part1.chair = null
 		src.part1 = null
 		//SN src = null
 		del(src)

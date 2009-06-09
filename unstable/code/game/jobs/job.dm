@@ -54,7 +54,7 @@
 		C.access = src.get_access()
 		M.equip_if_possible(C, SLOT_ID)
 		M.equip_if_possible(new /obj/item/weapon/pen(M), SLOT_R_STORE)
-		M.equip_if_possible(new /obj/item/weapon/radio/signaler(M), SLOT_BELT)
+		M.equip_if_possible(new /obj/item/weapon/radio/signaller(M), SLOT_BELT)
 		M.equip_if_possible(new /obj/item/weapon/radio/headset(M), SLOT_HEADSET)
 
 	proc/announce(mob/M, join_status)

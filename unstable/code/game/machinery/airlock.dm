@@ -62,7 +62,7 @@ About the new airlock wires panel:
 */
 
 
-/obj/machinery/door/airlock/r_signal(var/wireColor)
+/obj/machinery/door/airlock/proc/r_signal(var/wireColor)
 	src.pulse(wireColor)
 
 /obj/machinery/door/airlock/proc/pulse(var/wireColor)
@@ -437,9 +437,9 @@ About the new airlock wires panel:
 				t1 += "<a href='?src=\ref[src];wires=[wires[wiredesc]]'>Cut</a> "
 				t1 += "<a href='?src=\ref[src];pulse=[wires[wiredesc]]'>Pulse</a> "
 				if(src.wires.wirenumhastrigger(wires[wiredesc]))
-					t1 += "<a href='?src=\ref[src];remove-signaler=[wires[wiredesc]]'>Detach trigger</a>"
+					t1 += "<a href='?src=\ref[src];remove-signaller=[wires[wiredesc]]'>Detach trigger</a>"
 				else
-					t1 += "<a href='?src=\ref[src];signaler=[wires[wiredesc]]'>Attach trigger</a>"
+					t1 += "<a href='?src=\ref[src];signaller=[wires[wiredesc]]'>Attach trigger</a>"
 			t1 += "<br>"
 
 		t1 += text("<br>\n[]<br>\n[]<br>\n[]", (src.locked ? "The door bolts have fallen!" : "The door bolts look up."), ((src.arePowerSystemsOn() && !(stat & NOPOWER)) ? "The test light is on." : "The test light is off!"), (src.aiControlDisabled==0 ? "The 'AI control allowed' light is on." : "The 'AI control allowed' light is off."))
@@ -484,15 +484,15 @@ About the new airlock wires panel:
 					return
 				else
 					src.pulse(t1)
-			else if(href_list["signaler"])
-				var/wirenum = text2num(href_list["signaler"])
-				//if(!istype(usr.equipped(), /obj/item/weapon/radio/signaler))
+			else if(href_list["signaller"])
+				var/wirenum = text2num(href_list["signaller"])
+				//if(!istype(usr.equipped(), /obj/item/weapon/radio/signaller))
 				//	usr << "You need a signaller!"
 				//	return
 				//if(src.isWireColorCut(wirenum))
 				//	usr << "You can't attach a signaller to a cut wire."
 				//	return
-				//var/obj/item/weapon/radio/signaler/R = usr.equipped()
+				//var/obj/item/weapon/radio/signaller/R = usr.equipped()
 				//if(!R.b_stat)
 				//	usr << "This radio can't be attached!"
 				//	return
@@ -500,17 +500,17 @@ About the new airlock wires panel:
 				//M.drop_item()
 				//R.loc = src
 				//R.airlock_wire = wirenum
-				//src.signalers[wirenum] = R
+				//src.signallers[wirenum] = R
 				usr << src.wires.attach_trigger(wirenum, usr.equipped())
-			else if(href_list["remove-signaler"])
-				var/wirenum = text2num(href_list["remove-signaler"])
-				// if(!(src.signalers[wirenum]))
+			else if(href_list["remove-signaller"])
+				var/wirenum = text2num(href_list["remove-signaller"])
+				// if(!(src.signallers[wirenum]))
 				//	usr << "There's no signaller attached to that wire!"
 				//	return
-				//var/obj/item/weapon/radio/signaler/R = src.signalers[wirenum]
+				//var/obj/item/weapon/radio/signaller/R = src.signallers[wirenum]
 				//R.loc = usr.loc
 				//R.airlock_wire = null
-				//src.signalers[wirenum] = null
+				//src.signallers[wirenum] = null
 				usr << src.wires.detach_trigger(wirenum)
 
 		src.updateIconState()
@@ -666,7 +666,7 @@ About the new airlock wires panel:
 		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/multitool))
 		return src.interact(user)
-	else if (istype(C, /obj/item/weapon/radio/signaler))
+	else if (istype(C, /obj/item/weapon/radio/signaller))
 		return src.interact(user)
 	else if (istype(C, /obj/item/weapon/prox_sensor))
 		return src.interact(user)

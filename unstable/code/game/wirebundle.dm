@@ -15,7 +15,7 @@ var/const/MAX_WIRES = 32
 	var/list/wirenumtoidx = list(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0) // 32 elements
 	var/list/wireidxtonum = list(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 
-	var/obj/master        = null
+	var/obj/machinery/door/airlock/master        = null
 
 	var/list/triggers[MAX_WIRES]
 
@@ -98,7 +98,7 @@ var/const/MAX_WIRES = 32
 /datum/assembly/wirebundle/proc/wirenumtoidx(var/wirenum as num)
 	return wirenumtoidx[wirenum]
 
-/datum/assembly/wirebundle/proc/attach_trigger(var/wirenum as num, var/obj/item/weapon/trigger)
+/datum/assembly/wirebundle/proc/attach_trigger(var/wirenum as num, var/obj/item/weapon/multitool/trigger)
 	var/idx = src.wirenumtoidx(wirenum)
 	// if(src.triggers[wirenum] || idx > src.numwires || !(trigger.flags & SENDSRSIGNAL) || src.wireidxiscut(idx)) return 0
 	if(src.triggers[idx])
@@ -109,9 +109,9 @@ var/const/MAX_WIRES = 32
 		return "You try to attach the object, but you can't quite figure out what's going to pulse the wire... (try using a signaller or timer)"
 	if(src.wireidxiscut(idx))
 		return "You can't attach to a cut wire!"
-	if(istype(trigger, /obj/item/weapon/radio/signaler))
-		var/obj/item/weapon/radio/signaler/S = trigger
-		if(!S.b_stat)
+	if(istype(trigger, /obj/item/weapon/radio/signaller))
+		var/obj/item/weapon/radio/signaller/S = trigger
+		if(!S.is_attachable)
 			return "The radio can't be attached!"
 
 	src.triggers[idx] = trigger
@@ -127,7 +127,7 @@ var/const/MAX_WIRES = 32
 /datum/assembly/wirebundle/proc/detach_trigger(var/wirenum as num)
 	if(!src.wirenumhastrigger(wirenum))
 		return "There's no trigger on that wire to detach!"
-	var/obj/item/weapon/trigger = triggers[wirenumtoidx(wirenum)]
+	var/obj/item/weapon/multitool/trigger = triggers[wirenumtoidx(wirenum)]
 
 	trigger.assmaster = null
 	trigger.loc = usr.loc

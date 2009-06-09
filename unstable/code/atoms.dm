@@ -258,14 +258,6 @@
 	icon = 'stationobjs.dmi'
 	icon_state = "begin"
 	anchored = 1.0
-/obj/bomb
-	name = "bomb"
-	icon = 'screen1.dmi'
-	icon_state = "x"
-	var/btype = 0  //0 = radio, 1= prox, 2=time
-	var/explosive = 1	// 0= firebomb
-	var/btemp = 500	// bomb temperature (degC)
-	var/active = 0
 /obj/bullet
 	name = "bullet"
 	icon = 'weap_sat.dmi'
@@ -362,8 +354,6 @@
 	var/health = null
 	var/burn_point = null
 	var/burning = null
-	var/obj/item/weapon/master = null
-	var/datum/assembly/assmaster = null
 	flags = 258.0
 	weight = 500000.0
 /obj/item/weapon/ammo
@@ -383,97 +373,17 @@
 	icon_state = "analyzer"
 	w_class = 2.0
 	flags = 322.0
-/obj/item/weapon/assembly
-	name = "assembly"
-	icon = 'assemblies.dmi'
-	s_istate = "assembly"
-	w_class = 3.0
-	var/status = 0.0
 
-/obj/item/weapon/assembly/m_i_ptank
-	desc = "A very intricate igniter and proximity sensor electrical assembly mounted onto top of a plasma tank."
-	name = "Proximity/Igniter/Plasma Tank Assembly"
-	icon_state = "m_i_ptank0"
-	var/obj/item/weapon/prox_sensor/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	var/obj/item/weapon/tank/plasmatank/part3 = null
-	status = 0.0
-	flags = 322.0
-/obj/item/weapon/assembly/prox_ignite
-	name = "Proximity/Igniter Assembly"
-	desc = "A proximity-activated igniter assembly."
-	icon_state = "prox_igniter0"
-	var/obj/item/weapon/prox_sensor/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	status = null
-	flags = 322.0
-/obj/item/weapon/assembly/r_i_ptank
-	desc = "A very intricate igniter and signaller electrical assembly mounted onto top of a plasma tank."
-	name = "Radio/Igniter/Plasma Tank Assembly"
-	icon_state = "r_i_ptank"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	var/obj/item/weapon/tank/plasmatank/part3 = null
-	status = 0.0
-	flags = 322.0
-/obj/item/weapon/assembly/time_ignite
-	name = "Timer/Igniter Assembly"
-	desc = "A timer-activated igniter assembly."
-	icon_state = "time_igniter0"
-	var/obj/item/weapon/timer/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	status = null
-	flags = 322.0
-	s_istate = "electronic"
-/obj/item/weapon/assembly/t_i_ptank
-	desc = "A very intricate igniter and timer assembly mounted onto top of a plasma tank."
-	name = "Timer/Igniter/Plasma Tank Assembly"
-	icon_state = "t_i_ptank0"
-	var/obj/item/weapon/timer/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	var/obj/item/weapon/tank/plasmatank/part3 = null
-	status = 0.0
-	flags = 322.0
-/obj/item/weapon/assembly/rad_ignite
-	name = "Radio/Igniter Assembly"
-	desc = "A radio-activated igniter assembly."
-	icon_state = "rad_igniter"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	status = null
-	flags = 322.0
-/obj/item/weapon/assembly/rad_infra
-	name = "Signaller/Infrared Assembly"
-	desc = "An infrared-activated radio signaller"
-	icon_state = "infrared0"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/infra/part2 = null
-	status = null
-	flags = 322.0
-/obj/item/weapon/assembly/rad_prox
-	name = "Signaller/Prox Sensor Assembly"
-	desc = "A proximity-activated radio signaller."
-	icon_state = "motion0"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/prox_sensor/part2 = null
-	status = null
-	flags = 322.0
-/obj/item/weapon/assembly/rad_time
-	name = "Signaller/Timer Assembly"
-	desc = "A radio signaller activated by a count-down timer."
-	icon_state = "time_sig"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/timer/part2 = null
-	status = null
-	flags = 322.0
-/obj/item/weapon/assembly/shock_kit
+/obj/item/weapon/shock_kit
 	name = "Shock Kit"
+	icon = 'assemblies.dmi'
 	icon_state = "shock_kit"
-	var/obj/item/weapon/clothing/head/part1 = null
-	var/obj/item/weapon/radio/electropack/part2 = null
-	status = 0.0
-	w_class = 5.0
-	flags = 322.0
+	var/obj/item/weapon/clothing/head/helmet = null
+	var/obj/item/weapon/radio/electropack/electropack = null
+	var/status = 0
+	w_class = 5
+	flags = 322
+	var/obj/stool/chair/e_chair/chair = null
 
 /obj/item/weapon/baton
 	name = "Stun Baton"
@@ -1099,11 +1009,6 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 2
 	throw_range = 10
 	force = 60.0
-/obj/item/weapon/hand_tele
-	name = "hand tele"
-	icon_state = "hand_tele"
-	s_istate = "electronic"
-	w_class = 2.0
 /obj/item/weapon/handcuffs
 	name = "handcuffs"
 	icon_state = "handcuff"
@@ -1115,13 +1020,6 @@ obj/item/weapon/clothing/suit/labcoat
 	desc = "A hand-held body scanner able to distinguish vital signs of the subject."
 	flags = 450.0
 	w_class = 1.0
-/obj/item/weapon/igniter
-	name = "igniter"
-	desc = "A small electronic device able to ignite combustable substances."
-	icon_state = "igniter"
-	var/status = 1.0
-	flags = 322.0
-	s_istate = "electronic"
 /obj/item/weapon/implant
 	name = "implant"
 	var/implanted = null
@@ -1159,16 +1057,6 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/weapon/infra
-	name = "Infrared Beam (Security)"
-	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted."
-	icon_state = "infrared0"
-	var/obj/beam/i_beam/first = null
-	var/state = 0.0
-	var/visible = 0.0
-	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
-	w_class = 2.0
-	s_istate = "electronic"
 /obj/item/weapon/infra_sensor
 	name = "Infrared Sensor"
 	desc = "Scans for infrared beams in the vicinity."
@@ -1382,13 +1270,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/pill_canister/sleep
 	desc = "<B>Sleeping Pills</B>\nAdminister as required to calm person.\nCauses 10 minutes of drowsyness. MAY induce immediate sleep.\n<B>WARNING</B>: Neurodepressant! Do not overdose!\n<B>Warning</B>: Causes drowsiness!If drowsyness persists for over 15 minutes contact medical professional."
 	name = "Pill Canister- 'Sleeping Pills'"
-/obj/item/weapon/prox_sensor
-	name = "Proximity Sensor"
-	icon_state = "motion0"
-	var/state = 0.0
-	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
-	w_class = 2.0
-	s_istate = "electronic"
 /obj/item/weapon/rack_parts
 	name = "rack parts"
 	icon_state = "rack_parts"
@@ -1528,6 +1409,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_range = 20
 	var/traitorfreq = 0
 	var/obj/item/weapon/radio/origradio = null
+	var/obj/item/weapon/radio/radio = null
 /obj/item/weapon/syringe
 	name = "syringe"
 	icon_state = "syringe_0"
@@ -1568,10 +1450,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "oxygentank"
 	icon_state = "oxygen"
 	maximum = 600000
-/obj/item/weapon/tank/plasmatank
-	name = "plasmatank"
-	icon_state = "plasma"
-	maximum = 1600000.0
 /obj/item/weapon/tile
 	name = "steel floor tile"
 	icon_state = "tile"
@@ -1581,25 +1459,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_range = 5
 	force = 6.0
 	throwforce = 7.0
-/obj/item/weapon/timer
-	name = "timer"
-	icon_state = "timer0"
-	var/timing = 0.0
-	var/time = null
-	flags = FPRINT|TABLEPASS|SENDSRSIGNAL
-	w_class = 2.0
-	s_istate = "electronic"
-/obj/item/weapon/weldingtool
-	name = "weldingtool"
-	icon_state = "welder"
-	var/welding = 0.0
-	var/weldfuel = 20.0
-	flags = 322.0
-	force = 3.0
-	throwforce = 5.0
-	throw_speed = 1
-	throw_range = 5
-	w_class = 2.0
 /obj/item/weapon/wire
 	desc = "This is just a simple piece of regular insulated wire."
 	name = "wire"
@@ -2669,7 +2528,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "e_chair0"
 	var/atom/movable/overlay/overl = null
 	var/on = 0.0
-	var/obj/item/weapon/assembly/shock_kit/part1 = null
+	var/obj/item/weapon/shock_kit/part1 = null
 	var/last_time = 1.0
 /obj/substance
 	name = "substance"
