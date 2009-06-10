@@ -10,6 +10,8 @@
 	var/no2_metabolize_rate = 10
 	var/no2_knockdown_threshold = 20
 	var/plasma_damage_threshold = 5
+	var/max_co2 = 500
+	var/max_no2 = 500
 /mob/carbon/var/temperature_resistance = T0C+75
 
 /mob/carbon/proc/breathe()
@@ -54,15 +56,13 @@
 		if(src.mask && src.mask.a_filter >= 4) lung_damage /= 5
 		src.take_damage(burn = lung_damage)
 
-	src.co2_breathed = max(0, src.co2_breathed - src.co2_metabolize_rate) + G.co2
+	src.co2_breathed = min(max(0, src.co2_breathed - src.co2_metabolize_rate), src.max_co2) + G.co2
 	if(src.co2_breathed > src.co2_knockdown_threshold)
-		src.co2_breathed -= src.co2_knockdown_threshold
 		src.take_damage(suffocation = 2)
 		src.knockdown_until(3)
 
-	src.no2_breathed = max(0, src.no2_breathed - src.no2_metabolize_rate) + G.no2
+	src.no2_breathed = min(max(0, src.no2_breathed - src.no2_metabolize_rate), src.max_no2) + G.no2
 	if(src.no2_breathed > src.no2_knockdown_threshold)
-		src.no2_breathed -= src.no2_knockdown_threshold
 		src.knockdown_until(3)
 
 	G.no2 = 0

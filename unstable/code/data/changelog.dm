@@ -5,9 +5,11 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/unstable</a>. If you w
 on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 <hr>
 
-<p><b>Tuesday, June 9. 2009</b></p>
+<p><b>Tuesday, June 9, 2009</b></p>
 <ul>
-<li><b>795</b> - Pulling things now behaves as it used to - moving such that you're one square north and one square
+<li><b>797</b> - You now have a maximum amount of NO2 and CO2 in your system, so if you breathe in a ridiculous
+amount of NO2 you'll still wake up in a few minutes (assuming you get enough O2 in the meantime).</li>
+<li><b>796</b> - Pulling things now behaves as it used to - moving such that you're one square north and one square
 west of the thing you're pulling will pull it to where you used to be.</li>
 <li><b>791</b> - New assembly system. You can now combine any signaller (timer, prox, radio, or infrared) with any
 actor (radio, igniter, igniter-tank assembly, or multitool). Look for more signallers and actors to be added in the
@@ -23,7 +25,7 @@ future. Making bombs now requires a different procedure. Here's how to make a ti
 </li>
 </ul>
 
-<p><b>Monday, June 8. 2009</b></p>
+<p><b>Monday, June 8, 2009</b></p>
 <ul>
 <li><b>785</b> - Log files are now permanently kept, rather than deleted at end of round.</li>
 </ul>
@@ -34,19 +36,19 @@ future. Making bombs now requires a different procedure. Here's how to make a ti
 <li><b>782</b> - Added Supernorn's kickass new icons.</li>
 </ul>
 
-<p><b>Saturday, June 6. 2009</b></p>
+<p><b>Saturday, June 6, 2009</b></p>
 <ul>
 <li><b>780</b> - Removed blindfold, along with a bunch of other things that aren't used any more because they're
 terrible features.</li>
 </ul>
 
-<p><b>Friday, June 5. 2009</b></p>
+<p><b>Friday, June 5, 2009</b></p>
 <ul>
 <li><b>775</b> - Your HUD is now cleared when you die (although issues arising from switching mobs may still
 exist). You now are told the mode and who any traitors are when you die.</li>
 </ul>
 
-<p><b>Wednesday, June 3. 2009</b></p>
+<p><b>Wednesday, June 3, 2009</b></p>
 <ul>
 <li><b>772</b> - In multitraitor, instead of n traitors having n shared, ordinary objectives, they now each have a
 separate individual objective and one group objective. Group objective types are "abduct someone," "frame someone
@@ -57,12 +59,12 @@ now find out that there are traitors on board and send death commandoes to liqui
 though - you can always try to hijack their shuttle before the battleships arrive.</li>
 </ul>
 
-<p><b>Tuesday, June 2. 2009</b></p>
+<p><b>Tuesday, June 2, 2009</b></p>
 <ul>
 <li><b>767</b> - Added death commando deathmatch mode.
 </ul>
 
-<p><b>Monday, June 1. 2009</b></p>
+<p><b>Monday, June 1, 2009</b></p>
 <ul>
 <li><b>761</b> - Observers can no longer wander off the edge of the map into nothingness. Added "JumpToZ" verb for
 observers, in case they want to observe different z-levels.</li>
@@ -70,7 +72,7 @@ observers, in case they want to observe different z-levels.</li>
 <li><b>749</b> - Clickable "abort vote" link added to vote notification for admins.</li>
 </ul>
 
-<p><b>Sunday, May 31. 2009</b></p>
+<p><b>Sunday, May 31, 2009</b></p>
 <ul>
 <li><b>748</b> - Clickable "vote" link added to vote notification.</li>
 <li><b>747</b> - Added "disable lockdown" feature to comm computers.</li>
@@ -79,7 +81,7 @@ observers, in case they want to observe different z-levels.</li>
 responsibilities. Made engine start at the start of the round without any human intervention.</li>
 </ul>
 
-<p><b>Saturday, May 30. 2009</b></p>
+<p><b>Saturday, May 30, 2009</b></p>
 <ul>
 <li><b>739</b> - You can finally drag a backpack onto you to view its contents while it's on the ground. Total
 characters needed to make this change: 4.</li>
@@ -89,7 +91,7 @@ ID card.</li>
 among other nice things.</li>
 </ul>
 
-<p><b>Friday, May 29. 2009</b></p>
+<p><b>Friday, May 29, 2009</b></p>
 <ul>
 <li><b>734</b> - Added adminwho verb.</li>
 <li><b>730</b> - Added "manage bans" admin power. Added bans for a certain number of rounds, to go with permanent
@@ -100,7 +102,7 @@ useful features.</li>
 <li><b>726</b> - Added "make traitor" admin power.</li>
 </ul>
 
-<p><b>Thursday, May 28. 2009</b></p>
+<p><b>Thursday, May 28, 2009</b></p>
 <ul>
 <li><b>725</b> - Added nuclear disk pinpointer item and made traitors able to spawn it with traitor radio for
 one crystal. It'll be nice in spy vs spy mode.</li>
@@ -112,7 +114,7 @@ round..</li>
 the crew tries to stop both of them.</li>
 </ul>
 
-<p><b>Wednesday, May 27. 2009</b></p>
+<p><b>Wednesday, May 27, 2009</b></p>
 <ul>
 <li><b>719</b> - Bomb rebalancing. Blast radius is now proportional to sqrt(temp), rather than temp. Bombs above
 500C are now less powerful, while bombs below 500C are more powerful. 500C bombs are the same strength as
