@@ -22,7 +22,7 @@
 	world << "<B>The current game mode is - Revolution!</B>"
 	world << "<B>Some crewmembers are attempting to start a revolution!<BR>\nRevolutionaries - Kill the Captain, HoP, and HoR. Convert other crewmembers (excluding the Captain, HoP, HoR, and security officers) to your cause by flashing them. Protect your leaders.<BR>\nPersonnel - Protect the Captain, HoP, and HoR. Kill the leaders of the revolution, and brainwash the other revolutionaries (by beating them in the head).</B>"
 /datum/game_mode/revolution/pre_setup()
-	var/retries
+	var/retries = 1
 	while(1)	//try for two minutes
 		var/curNum = 0
 		for(var/mob/M in world)

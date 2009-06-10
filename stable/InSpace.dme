@@ -108,6 +108,7 @@
 #include "code\game\area\space.dm"
 #include "code\game\item\weapon\aimodules.dm"
 #include "code\game\item\weapon\beer.dm"
+#include "code\game\item\weapon\cleaner.dm"
 #include "code\game\item\weapon\flamethrower.dm"
 #include "code\game\item\weapon\flashlight.dm"
 #include "code\game\item\weapon\game_kit.dm"

@@ -837,6 +837,8 @@
 				t1 = src.icon_state
 
 			src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[t1][!src.lying ? "_s" : "_l"]", "layer" = MOB_LAYER)
+			if (src.w_uniform.blood)
+				src.overlays += image("icon" = 'blood.dmi', "icon_state" = "uniformblood[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
 
 	if (src.wear_id)
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = "id[!src.lying ? null : "2"]", "layer" = MOB_LAYER)
@@ -857,6 +859,10 @@
 			t1 = src.gloves.icon_state
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = MOB_LAYER)
 		src.gloves.screen_loc = src.client && src.other ? "4,2" : null
+		if (src.gloves.blood)
+			src.overlays += image("icon" = 'blood.dmi', "icon_state" = "bloodyhands[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
+	else if (src.blood)
+		src.overlays += image("icon" = 'blood.dmi', "icon_state" = "bloodyhands[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
 
 	// Glasses
 	if (src.glasses)
@@ -893,6 +899,8 @@
 			if (!t1)
 				t1 = src.wear_mask.icon_state
 			src.overlays += image("icon" = 'mob.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = MOB_LAYER)
+			if (src.wear_mask.blood)
+				src.overlays += image("icon" = 'blood.dmi', "icon_state" = "helmetblood[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
 		src.wear_mask.screen_loc = "2,3"
 
 	if (src.client)
@@ -915,6 +923,11 @@
 			if (!t1)
 				t1 = src.wear_suit.icon_state
 			src.overlays += image("icon" = 'mob.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = MOB_LAYER)
+		if (src.wear_suit.blood)
+			if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/armor))
+				src.overlays += image("icon" = 'blood.dmi', "icon_state" = "armorblood[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
+			else
+				src.overlays += image("icon" = 'blood.dmi', "icon_state" = "suitblood[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
 		src.wear_suit.screen_loc = "2,1"
 		if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/straight_jacket))
 			if (src.handcuffed)
@@ -935,6 +948,8 @@
 		if (!t1)
 			t1 = src.head.icon_state
 		src.overlays += image("icon" = 'mob.dmi', "icon_state" = text("[][]", t1, (!( src.lying ) ? null : "2")), "layer" = MOB_LAYER)
+		if (src.head.blood)
+			src.overlays += image("icon" = 'blood.dmi', "icon_state" = "helmetblood[!src.lying ? "" : "2"]", "layer" = MOB_LAYER)
 		src.head.screen_loc = src.client && src.other ? "7,2" : null
 
 	// Belt

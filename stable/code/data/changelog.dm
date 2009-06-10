@@ -20,6 +20,7 @@ Want the source? <a href="http://svn.slurm.us/public/spacestation13/branches/per
 <li>Added revolutionary mode.</li>
 <li>Nuke disk now always spawns.</li>
 <li>Jumped on the 'can use backpacks while on the ground' bandwagon.</li>
+<li>You can now end a lockdown from the communication terminal.</li>
 </ul>
 </p>
 

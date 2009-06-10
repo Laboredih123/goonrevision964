@@ -848,7 +848,7 @@
 				dat += {"
 	<A href='?src=\ref[src];boot=1'>Boot Player/Key</A><br>
 	<A href='?src=\ref[src];ban=1'>Ban/Unban Player/Key</A><br>
-	<A href='?src=\ref[src];jobban1=1'>Joban/UnJobban Player/Key</A><br>
+	<A href='?src=\ref[src];jobban1=1'>Joban/UnJobban Player/Key (persh says: Don't use this yet!)</A><br>
 	<A href='?src=\ref[src];mute=1'>Mute/Unmute Player/Key</A><br>
 	"}
 			dat += "<br>"

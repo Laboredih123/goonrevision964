@@ -6,6 +6,7 @@
 	var/level = 2
 	var/flags = FPRINT
 	var/fingerprints = null
+	var/blood = null
 
 /atom/movable
 	layer = 3
@@ -536,6 +537,7 @@
 /obj/item/weapon
 	name = "weapon"
 	icon = 'items.dmi'
+	var/icon/initial_icon = null
 	var/abstract = 0.0
 	var/force = null
 	var/s_istate = null
@@ -758,6 +760,12 @@
 	New()
 		access = get_access("Captain")
 		..()
+/obj/item/weapon/cleaner
+	desc = "Complicated device used specifically to clean the toughest stains."
+	name = "Cleaning Tool"
+	icon_state = "cleaner"
+	var/waterleft = 8
+	s_istate = "cleaner"
 /obj/item/weapon/clipboard
 	name = "clipboard"
 	icon_state = "clipboard00"
@@ -3409,6 +3417,15 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	opacity = 1
 	density = 1
 	updatecell = 0.0
+/obj/bloodtemplate
+	name = "blood"
+	desc = "Upon examination, you come to the conclusion that: 1. It is red 2. It is blood"
+	density = 0
+	anchored = 1
+	layer = 2
+	icon = 'blood.dmi'
+	icon_state = "floorblood"
+	blood = null
 /obj/overlay
 	name = "overlay"
 /obj/point

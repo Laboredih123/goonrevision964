@@ -246,7 +246,7 @@
 		var/mob/human/H = M
 		var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
 		if (istype(user, /mob/human))
-			if (!( def_zone ))
+			if (!def_zone)
 				var/mob/user2 = user
 				var/t = user2.zone_sel.selecting
 				if ((t in list( "hair", "eyes", "mouth", "neck" )))
@@ -276,49 +276,133 @@
 					for(var/mob/O in viewers(M, null))
 						O.show_message(text("\red <B>[] has been knocked unconscious!</B>", H), 1, "\red You hear someone fall.", 2)
 					H.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
-					if (prob(50))
+					if (prob(50) && ticker.mode.name == "revolution")
 						if (H.rev_status == REV_FOLLOWER)
 							H.rev_status = NON_REV
 							H << "\red <B>You have been brainwashed! You are no longer a revolutionary!</B>"
 				affecting.take_damage(b_dam, f_dam)
-			else
-				if (def_zone == "chest")
-					if ((b_dam && (((H.wear_suit && H.wear_suit.brute_protect & 2) || (H.w_uniform && H.w_uniform.brute_protect & 2)) && prob(90 - src.force))))
-						H.show_message("\red You have been protected from a hit to the chest.")
-						return
-					if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
-						if (prob(50))
-							if (H.weakened < 5)
-								H.weakened = 5
-							for(var/mob/O in viewers(H, null))
-								O.show_message(text("\red <B>[] has been knocked down!</B>", H), 1, "\red You hear someone fall.", 2)
+				if (b_dam && prob(25 + (b_dam * 2)))
+					src.add_blood(H)
+					if (prob(33))
+						var/turf/location = H.loc
+						if (istype(location, /turf/station))
+							location.add_blood(H)
+					if (H.wear_mask)
+						H.wear_mask.add_blood(H)
+					if (H.head)
+						H.head.add_blood(H)
+					if (H.glasses && prob(33))
+						H.glasses.add_blood(H)
+					if (istype(user, /mob/human))
+						var/mob/human/user2 = user
+						if (user2.gloves)
+							user2.gloves.add_blood(H)
 						else
-							if (H.stunned < 2)
-								H.stunned = 2
-							for(var/mob/O in viewers(H, null))
-								O.show_message(text("\red <B>[] has been stunned!</B>", H), 1)
-						if(H.stat != 2)	H.stat = 1
-					affecting.take_damage(b_dam, f_dam)
-				else
-					if (def_zone == "diaper")
-						if ((b_dam && (((H.wear_suit && H.wear_suit.brute_protect & 4) || (H.w_uniform && H.w_uniform.brute_protect & 4)) && prob(90 - src.force))))
-							H.show_message("\red You have been protected from a hit to the lower chest/diaper.")
-							return
-						if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
-							if (prob(50))
-								if (H.weakened < 5)
-									H.weakened = 5
-								for(var/mob/O in viewers(H, null))
-									O.show_message(text("\red <B>[] has been knocked down!</B>", H), 1, "\red You hear someone fall.", 2)
-							else
-								if (H.stunned < 2)
-									H.stunned = 2
-								for(var/mob/O in viewers(H, null))
-									O.show_message(text("\red <B>[] has been stunned!</B>", H), 1)
-							if(H.stat != 2)	H.stat = 1
-						affecting.take_damage(b_dam, f_dam)
+							user2.add_blood(H)
+						if (prob(15))
+							if (user2.wear_suit)
+								user2.wear_suit.add_blood(H)
+							else if (user2.w_uniform)
+								user2.w_uniform.add_blood(H)
+			else if (def_zone == "chest")
+				if ((b_dam && (((H.wear_suit && H.wear_suit.brute_protect & 2) || (H.w_uniform && H.w_uniform.brute_protect & 2)) && prob(90 - src.force))))
+					H.show_message("\red You have been protected from a hit to the chest.")
+					return
+				if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
+					if (prob(50))
+						if (H.weakened < 5)
+							H.weakened = 5
+						for(var/mob/O in viewers(H, null))
+							O.show_message(text("\red <B>[] has been knocked down!</B>", H), 1, "\red You hear someone fall.", 2)
 					else
-						affecting.take_damage(b_dam, f_dam)
+						if (H.stunned < 2)
+							H.stunned = 2
+						for(var/mob/O in viewers(H, null))
+							O.show_message(text("\red <B>[] has been stunned!</B>", H), 1)
+					if(H.stat != 2)	H.stat = 1
+				if (b_dam && prob(25 + (b_dam * 2)))
+					src.add_blood(H)
+					if (prob(33))
+						var/turf/location = H.loc
+						if (istype(location, /turf/station))
+							location.add_blood(H)
+					if (H.wear_suit)
+						H.wear_suit.add_blood(H)
+					if (H.w_uniform)
+						H.w_uniform.add_blood(H)
+					if (istype(user, /mob/human))
+						var/mob/human/user2 = user
+						if (user2.gloves)
+							user2.gloves.add_blood(H)
+						else
+							user2.add_blood(H)
+						if (prob(15))
+							if (user2.wear_suit)
+								user2.wear_suit.add_blood(H)
+							else if (user2.w_uniform)
+								user2.w_uniform.add_blood(H)
+				affecting.take_damage(b_dam, f_dam)
+			else if (def_zone == "diaper")
+				if ((b_dam && (((H.wear_suit && H.wear_suit.brute_protect & 4) || (H.w_uniform && H.w_uniform.brute_protect & 4)) && prob(90 - src.force))))
+					H.show_message("\red You have been protected from a hit to the lower chest/diaper.")
+					return
+				if ((b_dam && prob(src.force + affecting.brute_dam + affecting.burn_dam)))
+					if (prob(50))
+						if (H.weakened < 5)
+							H.weakened = 5
+						for(var/mob/O in viewers(H, null))
+							O.show_message(text("\red <B>[] has been knocked down!</B>", H), 1, "\red You hear someone fall.", 2)
+					else
+						if (H.stunned < 2)
+							H.stunned = 2
+						for(var/mob/O in viewers(H, null))
+							O.show_message(text("\red <B>[] has been stunned!</B>", H), 1)
+				if(H.stat != 2)	H.stat = 1
+				if (b_dam && prob(25 + (b_dam * 2)))
+					src.add_blood(H)
+					if (prob(33))
+						var/turf/location = H.loc
+						if (istype(location, /turf/station))
+							location.add_blood(H)
+					if (H.wear_suit)
+						H.wear_suit.add_blood(H)
+					if (H.w_uniform)
+						H.w_uniform.add_blood(H)
+					if (istype(user, /mob/human))
+						var/mob/human/user2 = user
+						if (user2.gloves)
+							user2.gloves.add_blood(H)
+						else
+							user2.add_blood(H)
+						if (prob(15))
+							if (user2.wear_suit)
+								user2.wear_suit.add_blood(H)
+							else if (user2.w_uniform)
+								user2.w_uniform.add_blood(H)
+				affecting.take_damage(b_dam, f_dam)
+			else
+				if (b_dam && prob(25 + (b_dam * 2)))
+					src.add_blood(H)
+					if (prob(33))
+						var/turf/location = H.loc
+						if (istype(location, /turf/station))
+							location.add_blood(H)
+					if (H.wear_suit)
+						H.wear_suit.add_blood(H)
+					if (H.w_uniform)
+						H.w_uniform.add_blood(H)
+					if (istype(user, /mob/human))
+						var/mob/human/user2 = user
+						if (user2.gloves)
+							user2.gloves.add_blood(H)
+						else
+							user2.add_blood(H)
+						if (prob(15))
+							if (user2.wear_suit)
+								user2.wear_suit.add_blood(H)
+							else if (user2.w_uniform)
+								user2.w_uniform.add_blood(H)
+				affecting.take_damage(b_dam, f_dam)
 		H.UpdateDamageIcon()
 	else
 		switch(src.damtype)
@@ -2605,6 +2689,60 @@
 				F.amount = --src.amount
 				src.amount = 1
 			src.icon_state = "f_print_card1"
+	return
+
+/atom/proc/add_blood(mob/human/M as mob)
+	if (!istype(M, /mob/human))
+		return 0
+	if (!src.flags & 256)
+		return 0
+	if (!src.blood)
+		if (istype(src, /obj/item/weapon))
+			var/obj/item/weapon/source2 = src
+			source2.initial_icon = src.icon
+			var/icon/I = new /icon(src.icon, src.icon_state)
+			I.Blend(new /icon('blood.dmi', "blank"),ICON_ADD)
+			I.Blend(new /icon('blood.dmi', "itemblood"),ICON_MULTIPLY)
+			I.Blend(new /icon(src.icon, src.icon_state),ICON_UNDERLAY)
+			src.icon = I
+			src.blood = M.primary.uni_identity
+		else if (istype(src, /turf/station))
+			var/turf/station/source2 = src
+			var/randomp
+
+			if(locate(/obj/bloodtemplate,get_turf(M)))	return
+			var/obj/bloodtemplate/this = new /obj/bloodtemplate( source2 )
+			this.blood = M.primary.uni_identity
+			randomp = pick("1","2","3","4","5","6","7")
+			this.icon_state = "floor[randomp]"
+
+		else if (istype(src, /mob/human))
+			src.blood = M.primary.uni_identity
+		else
+			return
+	else
+		var/list/L = params2list(src.blood)
+		L -= M.primary.uni_identity
+		while(L.len >= 3)
+			L -= L[1]
+		L += M.primary.uni_identity
+		src.blood = list2params(L)
+	return
+
+/atom/proc/clean_blood()
+	if (!src.flags & 256)
+		return
+	if (src.blood)
+		if (istype (src, /obj/item/weapon))
+			var/obj/item/weapon/source2 = src
+			source2.blood = null
+			var/icon/I = new /icon(source2.initial_icon, source2.icon_state)
+			source2.icon = I
+		else if (istype(src, /turf/station))
+			var/obj/item/weapon/source2 = src
+			source2.blood = null
+			var/icon/I = new /icon(source2.initial_icon, source2.icon_state)
+			source2.icon = I
 	return
 
 /obj/item/weapon/f_print_scanner/attackby(obj/item/weapon/f_card/W as obj, mob/user as mob)
@@ -5044,12 +5182,16 @@
 		else
 	return
 
-/obj/watertank/attackby(obj/item/weapon/extinguisher/W as obj, mob/user as mob)
-	if (!( istype(W, /obj/item/weapon/extinguisher) ))
-		return
-	W.waterleft = 20
-	W.suffix = text("[][]", (user.equipped() == src ? "equipped " : ""), W.waterleft)
-	user << "\blue Extinguisher refueled"
+/obj/watertank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	if (istype(W, /obj/item/weapon/extinguisher))
+		var/obj/item/weapon/extinguisher/E = W
+		E.waterleft = 20
+		E.suffix = text("[][]", (user.equipped() == src ? "equipped " : ""), E.waterleft)
+		user.show_message("\blue Extinguisher refueled")
+	else if(istype(W, /obj/item/weapon/cleaner))
+		var/obj/item/weapon/cleaner/C = W
+		C.waterleft = 8
+		user.show_message("\blue Cleaner refilled")
 	return
 
 /obj/watertank/ex_act(severity)
