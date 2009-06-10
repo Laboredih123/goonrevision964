@@ -155,6 +155,7 @@
 #include "code\game\item\weapon\igniter_tank.dm"
 #include "code\game\item\weapon\implantpad.dm"
 #include "code\game\item\weapon\infra.dm"
+#include "code\game\item\weapon\jumpsuits.dm"
 #include "code\game\item\weapon\locator.dm"
 #include "code\game\item\weapon\multitool.dm"
 #include "code\game\item\weapon\pinpointer.dm"

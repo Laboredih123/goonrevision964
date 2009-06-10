@@ -5,7 +5,7 @@
 	speaker_color = COLOR_HEAD
 
 	give_equipment(mob/carbon/M)
-		M.equip_if_possible(new /obj/item/weapon/clothing/under/green(M), SLOT_JUMPSUIT)
+		M.equip_if_possible(new /obj/item/weapon/clothing/under/hopgreen(M), SLOT_JUMPSUIT)
 		M.equip_if_possible(new /obj/item/weapon/clothing/suit/armor(M), SLOT_SUIT)
 		M.equip_if_possible(new /obj/item/weapon/clothing/shoes/brown(M), SLOT_SHOES)
 		M.equip_if_possible(new /obj/item/weapon/clothing/head/helmet(M), SLOT_HELMET)

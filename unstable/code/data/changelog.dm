@@ -7,6 +7,8 @@ on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 <p><b>Tuesday, June 9. 2009</b></p>
 <ul>
+<li><b>795</b> - Pulling things now behaves as it used to - moving such that you're one square north and one square
+west of the thing you're pulling will pull it to where you used to be.</li>
 <li><b>791</b> - New assembly system. You can now combine any signaller (timer, prox, radio, or infrared) with any
 actor (radio, igniter, igniter-tank assembly, or multitool). Look for more signallers and actors to be added in the
 future. Making bombs now requires a different procedure. Here's how to make a time bomb, for instance:

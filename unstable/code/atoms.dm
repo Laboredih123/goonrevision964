@@ -773,54 +773,6 @@ obj/item/weapon/clothing/suit/labcoat
 	s_fire = 6.75E7
 	brute_protect = 126
 	fire_protect = 126
-/obj/item/weapon/clothing/under
-	name = "under"
-	clothing_name = "jumpsuit"
-	s_fire = 1.875E7
-	fb_filter = 1.0
-	fire_protect = 46
-/obj/item/weapon/clothing/under/black
-	name = "Black Jumpsuit"
-	icon_state = "bl_suit"
-	color = "black"
-/obj/item/weapon/clothing/under/blue
-	name = "Blue Jumpsuit"
-	icon_state = "b_suit"
-	color = "blue"
-/obj/item/weapon/clothing/under/green
-	name = "Green Jumpsuit"
-	icon_state = "g_suit"
-	color = "green"
-/obj/item/weapon/clothing/under/orange
-	name = "Orange Jumpsuit"
-	icon_state = "o_suit"
-	color = "orange"
-/obj/item/weapon/clothing/under/pink
-	name = "Pink Jumpsuit (F)"
-	icon_state = "p_suit"
-	color = "pink"
-/obj/item/weapon/clothing/under/red
-	name = "Red Jumpsuit"
-	icon_state = "r_suit"
-	color = "red"
-/obj/item/weapon/clothing/under/white
-	desc = "Made of a special fiber that gives special protection against biohazards"
-	name = "White Jumpsuit"
-	icon_state = "w_suit"
-	color = "white"
-	fb_filter = 5.0
-/obj/item/weapon/clothing/under/yellow
-	name = "Yellow Jumpsuit"
-	icon_state = "y_suit"
-	color = "yellow"
-/obj/item/weapon/clothing/under/darkgreen
-	name = "Dark Green Jumpsuit"
-	icon_state = "dg_suit"
-	color = "darkgreen"
-/obj/item/weapon/clothing/under/grey
-	name = "Grey Jumpsuit"
-	icon_state = "gy_suit"
-	color = "grey"
 
 #define MAXCOIL 30
 /obj/item/weapon/cable_coil

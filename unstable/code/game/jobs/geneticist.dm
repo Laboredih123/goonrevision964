@@ -3,7 +3,7 @@
 	max = 1
 
 	give_equipment(mob/carbon/M)
-		M.equip_if_possible(new /obj/item/weapon/clothing/under/white(M), SLOT_JUMPSUIT)
+		M.equip_if_possible(new /obj/item/weapon/clothing/under/geneticswhite(M), SLOT_JUMPSUIT)
 		M.equip_if_possible(new /obj/item/weapon/clothing/shoes/white(M), SLOT_SHOES)
 		M.equip_if_possible(new /obj/item/weapon/clothing/suit/labcoat(M), SLOT_SUIT)
 		..()

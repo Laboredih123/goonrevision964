@@ -15,7 +15,8 @@
 
 	var/turf/oldloc = src.loc
 	. = ..()
-	if(get_dist(src, src.pulling) <= 1) return
+	var/dir = get_dir(src, src.pulling)
+	if(get_dist(src, src.pulling) <= 1 && !(dir & dir - 1)) return // dir & dir - 1 is true iff it's a cardinal dir
 	if(!istype(src.pulling, /mob/carbon))
 		step(src.pulling, get_dir(src.pulling,oldloc))
 		return
