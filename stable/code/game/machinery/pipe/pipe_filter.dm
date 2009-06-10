@@ -105,6 +105,9 @@
 	return ndelta
 
 /obj/machinery/pipefilter/attackby(obj/item/weapon/W, mob/user as mob)
+	var/turf/T = get_turf(user)
+	if (!istype(T, /turf))
+		return
 	if(istype(W, /obj/item/weapon/f_print_scanner))
 		return ..()
 	if(istype(W, /obj/item/weapon/screwdriver))
@@ -114,10 +117,11 @@
 		src.add_fingerprint(user)
 		user.show_message(text("\red Now []securing the access system panel...", (src.locked) ? "un" : "re"), 1)
 		sleep(30)
-		locked =! locked
-		user.show_message(text("\red Done!"),1)
-		src.updateicon()
-		return
+		if(user.loc == T && W && user.equipped() == W)
+			locked =! locked
+			user.show_message(text("\red Done!"),1)
+			src.updateicon()
+			return
 	if(istype(W, /obj/item/weapon/cable_coil) && !bypassed)
 		if(src.locked)
 			user.show_message(text("\red You must remove the panel first!"),1)
@@ -127,19 +131,22 @@
 			user.show_message(text("\red You unravel some cable.."),1)
 		else
 			user.show_message(text("\red Not enough cable! <I>(Requires four pieces)</I>"),1)
+			return
 		src.add_fingerprint(user)
 		user.show_message(text("\red Now bypassing the access system... <I>(This may take a while)</I>"), 1)
 		sleep(100)
-		bypassed = 1
-		src.updateicon()
-		return
+		if(user.loc == T && C && user.equipped() == C)
+			bypassed = 1
+			src.updateicon()
+			return
 	if(istype(W, /obj/item/weapon/wirecutters) && bypassed)
 		src.add_fingerprint(user)
 		user.show_message(text("\red Now removing the bypass wires... <I>(This may take a while)</I>"), 1)
 		sleep(50)
-		bypassed = 0
-		src.updateicon()
-		return
+		if(user.loc == T && W && user.equipped() == W)
+			bypassed = 0
+			src.updateicon()
+			return
 	if(istype(W, /obj/item/weapon/card/emag) && (!emagged))
 		emagged++
 		src.add_fingerprint(user)

@@ -2628,26 +2628,26 @@
 			user << "\blue You need more welding fuel to complete this task."
 			return
 		user << "\blue Now dissembling the outer wall plating. Please stand still."
-		if((src.icon_state == "" || !src.icon_state) && user.loc == T && user.equipped() == W && W:welding)	//the result of many fixed exploits and not caring
+		if((src.icon_state == "" || !src.icon_state) && user.loc == T && W && user.equipped() == W && W:welding)	//the result of many fixed exploits and not caring
 			sleep(20)
 			if(user.loc == T && W:weldfuel >= 2)
 				src.icon_state = "wall-welder-1"
 				W:weldfuel -= 2
-		if(src.icon_state == "wall-welder-1" && user.loc == T && user.equipped() == W && W:welding)
+		if(src.icon_state == "wall-welder-1" && user.loc == T && W && user.equipped() == W && W:welding)
 			sleep(30)
 			if(user.loc == T && W:weldfuel >= 1)
 				src.icon_state = "wall-welder-2"
 				W:weldfuel -= 1
-		if(src.icon_state == "wall-welder-2" && user.loc == T && user.equipped() == W && W:welding)
+		if(src.icon_state == "wall-welder-2" && user.loc == T && W && user.equipped() == W && W:welding)
 			sleep(40)
 			if(user.loc == T && W:weldfuel >= 1)
 				src.icon_state = "wall-welder-3"
 				W:weldfuel -= 1
-		if(src.icon_state == "wall-welder-3" && user.loc == T && user.equipped() == W && W:welding)
+		if(src.icon_state == "wall-welder-3" && user.loc == T && W && user.equipped() == W && W:welding)
 			sleep(10)
 			if(user.loc == T && W:weldfuel >= 1)
 				W:weldfuel -= 1
-		if ((user.loc == T && src.state == 2 && user.equipped() == W && W:welding))
+		if ((user.loc == T && src.state == 2 && W && user.equipped() == W && W:welding))
 			src.opacity = 0
 			src.updatecell = 1
 			src.buildlinks()
