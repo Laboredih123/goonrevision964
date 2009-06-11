@@ -80,7 +80,7 @@
 			var/mob/M = locate(href_list["boot2"])
 			if (ismob(M))
 				if ((M.client && M.client.holder && M.client.holder.rank >= src.rank))
-					alert("You cannot perform this. Action you must be of a higher administrative rank!", null, null, null, null, null)
+					alert("You cannot perform this. Action you must be of a higher administrative rank!")
 					return
 				world.log_admin("[usr.key] booted [M.key]/[M.rname].")
 				messageadmins("\blue[usr.key] booted [M.key]/[M.rname].")
@@ -99,7 +99,7 @@
 
 	if(href_list["jobban2"]) //show the window
 		var/mob/M = locate(href_list["jobban2"])
-		var/dat = "<html><head><title>Job Ban</title></head><body>"
+		var/dat = "<html><head><title>Job Ban [M.key]</title></head><body>"
 		dat += "<form action='byond://' method='get'>"
 		dat += "<input type='hidden' name='src' value='\ref[src]'>"
 		dat += "<input type='hidden' name='jobban3' value='[href_list["jobban2"]]'>"
@@ -112,60 +112,31 @@
 			dat += "</option>"
 		dat += "</select>"
 
-		dat += "Reason for banning (please be specific)<br>"
-		dat += "<textarea name='reason' rows=5></textarea><br>"
+//		dat += "Reason for banning (please be specific)<br>"
+//		dat += "<textarea name='reason' rows=5></textarea><br>"
 		dat += "<input type='submit' value='Submit'>"
 		dat += "</form>"
-		usr << browse(dat, "window=jobban")
+		usr << browse(dat, "window=jobban2;size=225x100")
+
 
 	if(href_list["jobban3"])
 		var/job = locate(href_list["job"])
 		var/mob/M = locate(href_list["jobban3"])
-//		if ((M.client && M.client.holder && (M.client.holder.level >= src.level)))
-//			alert("You cannot perform this action. You must be of a higher administrative rank!")
-//			return
+		if (M.client && M.client.holder && M.client.holder.level >= src.level && !(M == usr))	//you can ban yourself from jobs
+			alert("You cannot perform this action. You must be of a higher administrative rank!")
+			return
 		if(jobban_isbanned(M, job))
 			world.log_admin("[usr.key] unbanned [M.key]/[M.rname] from [job]")
+			messageadmins("\blue[usr.key] unbanned [M.key]/[M.rname] from [job]")
+			M << "\blue[usr.key] unbanned you from [job]."
 			jobban_unban(M, job)
 		else
 			world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
+			messageadmins("\blue[usr.key] banned [M.key]/[M.rname] from [job]")
+			M << "\blue[usr.key] banned you from [job]."
 			jobban_fullban(M, job)
 		href_list["jobban2"] = 1 // lets it fall through and refresh
-/*
-	if(href_list["jobban2"])
-		var/mob/M = locate(href_list["jobban2"])
-		var/dat = ""
-		var/header = "<b>Pick Job to ban this guy from.<br>"
-		var/body
-		var/list/alljobs = get_all_jobs()
-		var/jobs = ""
-		for(var/job in (alljobs))
-			if(jobban_isbanned(M,job))
-				jobs += "<a href='?src=\ref[src];jobban3=[M][job]'><font color=red>[dd_replacetext(job, " ", "&nbsp")]</font></a> "
-			else
-				jobs += "<a href='?src=\ref[src];jobban3=[M][job]'>[dd_replacetext(job, " ", "&nbsp")]</a> " //why doesn't this work the stupid cunt
-		body = "<br>[jobs]<br><br>"
-		dat = "<tt>[header][body]</tt>"
-		usr << browse(dat, "window=jobban2;size=700x375")
 
-	if(href_list["jobban3"])
-		if (src.rank in list( "Administrator", "Secondary Administrator", "Primary Administrator", "Coder", "Host"  ))
-			var/mob/M = locate(href_list["jobban3"])
-			var/job = locate(href_list["jobban3"])
-			if ((M.client && M.client.holder && (M.client.holder.level >= src.level)))
-				alert("You cannot perform this action. You must be of a higher administrative rank!")
-				return
-			if (jobban_isbanned(M, job))
-				world.log_admin("[usr.key] unbanned [M.key]/[M.rname] from [job]")
-				messageadmins("\blue[usr.key] unbanned [M.key]/[M.rname] from [job]")
-				jobban_unban(M, job)
-				href_list["jobban2"] = 1
-			else
-				world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
-				messageadmins("\blue[usr.key] banned [M.key]/[M.rname] from [job]")
-				jobban_fullban(M, job)
-				href_list["jobban2"] = 1 // lets it fall through and refresh
-*/
 //
 	if (href_list["ban"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
@@ -198,7 +169,7 @@
 			var/mob/M = locate(href_list["ban2"])
 			if (ismob(M))
 				if ((M.client && M.client.holder && M.client.holder.rank >= src.rank))
-					alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
+					alert("You cannot perform this action. You must be of a higher administrative rank!")
 					return
 				if (crban_isbanned(M))
 					alert("You cannot perform this action. [M] is already banned!")
@@ -233,7 +204,7 @@
 			var/mob/M = locate(href_list["mute2"])
 			if (ismob(M))
 				if ((M.client && M.client.holder && M.client.holder.rank >= src.rank))
-					alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
+					alert("You cannot perform this action. You must be of a higher administrative rank!")
 					return
 				world.log_admin("[usr.key] altered [M.key]/[M.rname]'s mute status.")
 				messageadmins("\blue[usr.key] altered [M.key]/[M.rname]'s mute status.")
@@ -263,14 +234,14 @@
 	if (href_list["c_mode"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			if (ticker)
-				return alert(usr, "The game has already started.", null, null, null, null)
+				return alert(usr, "The game has already started.")
 			var/dat = text("<B>What mode do you wish to play?</B><HR>\n<A href='?src=\ref[];c_mode2=secret'>Secret</A><br>\n<A href='?src=\ref[];c_mode2=restructuring'>Corporate Restructuring</A><br>\n<A href='?src=\ref[];c_mode2=revolution'>Revolution</A><br>\n<A href='?src=\ref[];c_mode2=random'>Random</A><br>\n<A href='?src=\ref[];c_mode2=traitor'>Traitor</A><br>\n<A href='?src=\ref[];c_mode2=meteor'>Meteor</A><br>\n<A href='?src=\ref[];c_mode2=extended'>Extended</A><br>\n<A href='?src=\ref[];c_mode2=monkey'>Monkey</A><br>\n<A href='?src=\ref[];c_mode2=nuclear'>Nuclear Emergency</A><br>\n<A href='?src=\ref[];c_mode2=blob'>Blob</A><br>\n<A href='?src=\ref[];c_mode2=sandbox'>Sandbox</A><br>\n\nNow: []\n", src, src, src, src, src, src, src, src, src, src, src, master_mode)
 			usr << browse(dat, "window=c_mode")
 
 	if (href_list["c_mode2"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			if (ticker)
-				return alert(usr, "The game has already started.", null, null, null, null)
+				return alert(usr, "The game has already started.")
 			switch(href_list["c_mode2"])
 				if("secret")
 					master_mode = "secret"
@@ -329,7 +300,7 @@
 				N.monkeyize()
 				href_list["l_players"] = 1 // lets it fall through and refresh
 			if(istype(M, /mob/ai))
-				alert("The AI can't be monkeyized!", null, null, null, null, null)
+				alert("The AI can't be monkeyized!")
 				return
 
 	if (href_list["forcespeech"])
@@ -343,7 +314,7 @@
 				messageadmins("\blue[usr.key] forced [M.key]/[M.rname] to say: [speech]")
 				href_list["l_players"] = 1 // lets it fall through and refresh
 		else
-			alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
+			alert("You cannot perform this action. You must be of a higher administrative rank!")
 			return
 
 	if (href_list["sendtoprison"])
@@ -351,7 +322,7 @@
 			var/mob/M = locate(href_list["sendtoprison"])
 			if (ismob(M))
 				if(istype(M, /mob/ai))
-					alert("The AI can't be sent to prison you jerk!", null, null, null, null, null)
+					alert("The AI can't be sent to prison you jerk!")
 					return
 				//strip their stuff before they teleport into a cell :downs:
 				for(var/obj/item/weapon/W in M)
@@ -376,7 +347,7 @@
 				messageadmins("\blue[usr.key] sent [M.key]/[M.rname] to the prison station.")
 				href_list["l_players"] = 1 // lets it fall through and refresh
 		else
-			alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
+			alert("You cannot perform this action. You must be of a higher administrative rank!")
 			return
 
 	if (href_list["adminauth"])
@@ -470,9 +441,11 @@
 
 	if (href_list["startnow"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
-			world << "<B>The game will now start immediately thanks to [usr.key]!</B>"
-			going = 1
+			if(ticker)
+				return alert("The game has already started!")
 			if (!ticker)
+				world << "<B>The game will now start immediately thanks to [usr.key]!</B>"
+				going = 1
 				ticker = new /datum/control/gameticker()
 				spawn (0)
 					world.log_admin("[usr.key] used start_now")
@@ -517,7 +490,7 @@
 	if (href_list["delay"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
 			if (ticker)
-				return alert("Too late... The game has already started!", null, null, null, null, null)
+				return alert("Too late... The game has already started!")
 			going = !( going )
 			if (!( going ))
 				world << "<B>The game start has been delayed.</B>"
@@ -546,8 +519,6 @@
 <A href='?src=\ref[src];secrets2=activateprison'>Send Prison Shuttle</A><BR>
 <A href='?src=\ref[src];secrets2=deactivateprison'>Return Prison Shuttle</A><BR>
 <A href='?src=\ref[src];secrets2=prisonwarp'>Warp all Players to Prison</A><BR>"}
-//<A href='?src=\ref[src];secrets2=flicklights'>Flicker Lights (Pass out to stop)</A><BR>"}
-//<A href='?src=\ref[src];secrets2=shockwave'>Station Shockwave</A><BR>"}
 //<A href='?src=\ref[src];secrets2=wave'>Spawn a wave of meteors</A><BR>"}
 
 			usr << browse(dat, "window=secrets")
@@ -612,11 +583,11 @@
 							if (ticker.killer.ckey)
 								alert(text("The traitor is [] ([]) @ [].", ticker.killer.rname, ticker.killer.ckey, get_area(ticker.killer)), null, null, null, null, null)
 							else
-								alert("It seems like the traitor logged out...", null, null, null, null, null)
+								alert("It seems like the traitor logged out...")
 						else
-							alert("There is no traitor.", null, null, null, null, null)
+							alert("There is no traitor.")
 					else
-						alert("The game has not started yet.", null, null, null, null, null)
+						alert("The game has not started yet.")
 				if("monkey")
 					for(var/mob/human/H in world)
 						spawn(0)
@@ -672,7 +643,7 @@
 						messageadmins("\blue [usr.key] toggled status of prison shuttle to [PS.allowedtocall].")
 				if("prisonwarp")
 					if(!ticker)
-						alert("The game hasn't started yet!", null, null, null, null, null)
+						alert("The game hasn't started yet!")
 						return
 					messageadmins("\blue [usr.key] teleported all players to the prison station.")
 					for(var/mob/human/H in world)
@@ -715,79 +686,8 @@
 									lawIndex = 1
 								usr << text("[]. []", lawIndex, law)
 								lawIndex += 1
-/*				if("flicklights")
-					while(!usr.stat)	//knock yourself out to stop the ghosts
-						for(var/mob/M in world)
-							if(M.client && M.stat != 2 && prob(25))
-								var/area/AffectedArea = get_area(M)
-								if(AffectedArea.name != "Space" && AffectedArea.name != "Engine Walls" && AffectedArea.name != "Toxin Test Chamber" && AffectedArea.name != "Escape Shuttle" && AffectedArea.name != "Arrival Area" && AffectedArea.name != "Arrival Shuttle" && AffectedArea.name != "start area" && AffectedArea.name != "Engine Combustion Chamber")
-									AffectedArea.power_light = 0
-									AffectedArea.power_change()
-									spawn(rand(55,185))
-										AffectedArea.power_light = 1
-										AffectedArea.power_change()
-									var/Message = rand(1,4)
-									switch(Message)
-										if(1)
-											M.show_message(text("\blue You shudder as if cold..."), 1)
-										if(2)
-											M.show_message(text("\blue You feel something gliding across your back..."), 1)
-										if(3)
-											M.show_message(text("\blue Your eyes twitch, you feel like something you can't see is here..."), 1)
-										if(4)
-											M.show_message(text("\blue You notice something moving out of the corner of your eye, but nothing is there..."), 1)
-									for(var/obj/W in orange(5,M))
-										if(prob(25) && !W.anchored)
-											step_rand(W)
-						sleep(rand(100,1000))
-					for(var/mob/M in world)
-						if(M.client && M.stat != 2)
-							M.show_message(text("\blue The chilling wind suddenly stops..."), 1)
-				if("shockwave")
-					ok = 1
-					world << "\red <B><big>ALERT: STATION STRESS CRITICAL</big></B>"
-					sleep(60)
-					world << "\red <B><big>ALERT: STATION STRESS CRITICAL. TOLERABLE LEVELS EXCEEDED!</big></B>"
-					sleep(80)
-					world << "\red <B><big>ALERT: STATION STRUCTURAL STRESS CRITICAL. SAFETY MECHANISMS FAILED!</big></B>"
-					sleep(40)
-					for(var/mob/M in world)
-						shake_camera(M, 400, 1)
-					for(var/obj/window/W in world)
-						spawn(0)
-							sleep(rand(10,400))
-							W.ex_act(rand(2,1))
-					for(var/obj/grille/G in world)
-						spawn(0)
-							sleep(rand(20,400))
-							G.ex_act(rand(2,1))
-					for(var/obj/machinery/door/D in world)
-						spawn(0)
-							sleep(rand(20,400))
-							D.ex_act(rand(2,1))
-					for(var/turf/station/floor/Floor in world)
-						spawn(0)
-							sleep(rand(30,400))
-							Floor.ex_act(rand(2,1))
-					for(var/obj/cable/Cable in world)
-						spawn(0)
-							sleep(rand(30,400))
-							Cable.ex_act(rand(2,1))
-					for(var/obj/closet/Closet in world)
-						spawn(0)
-							sleep(rand(30,400))
-							Closet.ex_act(rand(2,1))
-					for(var/obj/machinery/Machinery in world)
-						spawn(0)
-							sleep(rand(30,400))
-							Machinery.ex_act(rand(1,3))
-					for(var/turf/station/wall/Wall in world)
-						spawn(0)
-							sleep(rand(30,400))
-							Wall.ex_act(rand(2,1))
 				if("wave")
 					meteor_wave()
-*/
 				else
 			if (usr)
 				world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
