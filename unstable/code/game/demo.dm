@@ -200,8 +200,10 @@
 		icon_state = "igniter0"
 
 /obj/machinery/firealarm/burn(fi_amount)
-
-	if(src.detecting) src.alarm()			// added check of detector status here
+	if(stat & NOPOWER)
+		return
+	if(src.detecting)
+		src.alarm()			// added check of detector status here
 	return
 
 /obj/machinery/firealarm/attackby(obj/item/weapon/W as obj, mob/user as mob)
