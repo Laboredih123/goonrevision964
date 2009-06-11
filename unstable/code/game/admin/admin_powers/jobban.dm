@@ -14,14 +14,14 @@
 			dat += "<form action='byond://' method='get'>"
 			dat += "<input type='hidden' name='src' value='\ref[src]'>"
 			dat += "<input type='hidden' name='mob-ban' value='[href_list["mob"]]'>"
-			dat += "<b> Choose a job to ban from.</b><br>"
+			dat += "Choose a job to toggle jobban status for: "
 			dat += "<select name='job'>"
 			for(var/datum/job/job in get_all_job_instances())
 				dat += "<option value='\ref[job]'>[job.name]"
 				if(jobban_isbanned(M, job))
-					dat += " (jobbanned)"
+					dat += " (jobbanned - [jobban_banreason(M, job)])"
 				dat += "</option>"
-			dat += "</select>"
+			dat += "</select><br>"
 
 			dat += "Reason for banning (please be specific)<br>"
 			dat += "<textarea name='reason' rows=5></textarea><br>"
@@ -31,13 +31,14 @@
 		else if(href_list["mob-ban"])
 			var/datum/job/job = locate(href_list["job"])
 			var/mob/M = locate(href_list["mob-ban"])
+			var/reason = href_list["reason"]
 			// TODO: Make admins not able to jobban primary admins, and do that for all other powers too
 			if(jobban_isbanned(M, job))
 				world.log_admin("[usr.key] unbanned [M.key]/[M.spawn_name] from [job.name]")
 				jobban_unban(M, job)
 			else
-				world.log_admin("[usr.key] banned [M.key]/[M.spawn_name] from [job.name]")
-				jobban_fullban(M, job)
+				world.log_admin("[usr.key] banned [M.key]/[M.spawn_name] from [job.name] - [reason]")
+				jobban_fullban(M, job, reason)
 
 
 	get_desc(mob/M)
@@ -48,13 +49,17 @@ var
 
 
 //TODO: make this not suck
-/proc/jobban_fullban(mob/M, datum/job/job)
+
+/proc/jobban_banreason(mob/M, datum/job/job)
+	return jobban_keylist["[M.ckey] - [job.name]"]
+
+/proc/jobban_fullban(mob/M, datum/job/job, reason)
 	if (!M || !M.key || !M.client) return
-	jobban_keylist.Add(text("[M.ckey] - [job.name]"))
+	jobban_keylist["[M.ckey] - [job.name]"] = reason
 	jobban_savebanfile()
 
 /proc/jobban_isbanned(mob/M, datum/job/job)
-	if (jobban_keylist.Find(text("[M.ckey] - [job.name]")))
+	if("[M.ckey] - [job.name]" in jobban_keylist)
 		return 1
 	else
 		return 0
@@ -72,12 +77,5 @@ var
 	S["keys[0]"] << jobban_keylist
 
 /proc/jobban_unban(mob/M, datum/job/job)
-	jobban_keylist.Remove(text("[M.ckey] - [job.name]"))
+	jobban_keylist -= "[M.ckey] - [job.name]"
 	jobban_savebanfile()
-
-/proc/jobban_remove(X)
-	if(jobban_keylist.Find(X))
-		jobban_keylist.Remove(X)
-		jobban_savebanfile()
-		return 1
-	return 0
