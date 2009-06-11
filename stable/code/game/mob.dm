@@ -656,7 +656,6 @@
 	src.icon = null
 	src.invisibility = 100
 	for(var/t in src.organs)
-		//src.organs[text("[]", t)] = null
 		del(src.organs[text("[]", t)])
 	var/atom/movable/overlay/animation = new /atom/movable/overlay( src.loc )
 	animation.icon_state = "blank"
@@ -677,7 +676,6 @@
 	O << "<B>You are now a monkey.</B>"
 	O << "<B>Don't be angry at the source as now you are just like him so deal with it.</B>"
 	O << "<B>Follow your objective.</B>"
-	//SN src = null
 	del(src)
 	return
 
@@ -693,7 +691,6 @@
 			W.dropped(src)
 			W.layer = initial(W.layer)
 			del(W)
-		//Foreach goto(25)
 	src.UpdateClothing()
 	src.monkeyizing = 1
 	src.canmove = 0
@@ -702,7 +699,6 @@
 	for(var/t in src.organs)
 		//src.organs[text("[]", t)] = null
 		del(src.organs[text("[]", t)])
-		//Foreach goto(154)
 	src.client.screen -= main_hud1.contents
 	src.client.screen -= main_hud2.contents
 	src.client.screen -= src.hud_used.adding

@@ -29,13 +29,17 @@
 	if (ticker)
 		var/list/L = assistant_occupations
 		var/job
-		if (L.Find(M.occupation1))
+		if (L.Find(M.occupation1) && !jobban_isbanned(M,M.occupation1))
 			job = M.occupation1
-		else if (L.Find(M.occupation2))
+		else if (L.Find(M.occupation2) && !jobban_isbanned(M,M.occupation2))
 			job = M.occupation2
-		else if (L.Find(M.occupation3))
+		else if (L.Find(M.occupation3) && !jobban_isbanned(M,M.occupation3))
 			job = M.occupation3
 		else
+//			while(1)
+//				job = pick(L)
+//				if(!jobban_isbanned(M,job)
+//					break
 			job = pick(L)
 		var/joined_late = 1
 		M.Assign_Rank(job, joined_late)

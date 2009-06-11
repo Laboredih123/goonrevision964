@@ -14,13 +14,13 @@
 	var/list/candidates = list()
 
 	for (var/mob/human/M in unassigned)
-		if (level == 1 && M.occupation1 == job)
+		if (level == 1 && M.occupation1 == job && !jobban_isbanned(M, job))
 			candidates += M
 
-		if (level == 2 && M.occupation2 == job)
+		if (level == 2 && M.occupation2 == job && !jobban_isbanned(M, job))
 			candidates += M
 
-		if (level == 3 && M.occupation3 == job)
+		if (level == 3 && M.occupation3 == job && !jobban_isbanned(M, job))
 			candidates += M
 
 	return candidates
@@ -68,9 +68,11 @@
 			break
 
 	if (captain_choice == null && unassigned.len > 1)
-		unassigned = shuffle(unassigned)
-		captain_choice = unassigned[1]
-		unassigned -= captain_choice
+		for(var/mob/U in shuffle(unassigned))
+			if(!jobban_isbanned(U,"Captain"))
+				captain_choice = U
+				unassigned -= captain_choice
+				break
 
 	if (captain_choice == null)
 		world << text("Captainship not forced on someone since this is a one-player game.")

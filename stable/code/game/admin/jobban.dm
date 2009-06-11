@@ -1,7 +1,6 @@
 var
 	jobban_keylist[0]		//to store the keys & jobs
 
-
 //TODO: make this not suck
 /proc/jobban_fullban(mob/M, rank)
 	if (!M || !M.key || !M.client) return

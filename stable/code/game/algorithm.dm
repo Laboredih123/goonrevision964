@@ -116,7 +116,6 @@
 	for(var/job in uniquelist(occupations + assistant_occupations) )
 		if (job!="AI" || config.allow_ai)
 			HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=[]\">[]</a><br>", src, occ, job, job)
-		//Foreach goto(105)
 	HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=Captain\">Captain</a><br>", src, occ)
 	HTML += "<br>"
 	HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=No Preference\">\[No Preference\]</a><br>", src, occ)
@@ -132,28 +131,25 @@
 		job = "Captain"
 	if ((!( occupations.Find(job) ) && !( assistant_occupations.Find(job) ) && job != "Captain"))
 		return
-	if (job=="AI" && (!config.allow_ai))
+	if (job=="AI" && !config.allow_ai)
 		return
 	switch(occ)
 		if(1.0)
 			if (job == src.occupation1)
 				usr << browse(null, "window=mob_occupation")
 				return
+			else if (job == "No Preference")
+				src.occupation1 = "No Preference"
+			else if (job == src.occupation2)
+				job = src.occupation1
+				src.occupation1 = src.occupation2
+				src.occupation2 = job
+			else if (job == src.occupation3)
+				job = src.occupation1
+				src.occupation1 = src.occupation3
+				src.occupation3 = job
 			else
-				if (job == "No Preference")
-					src.occupation1 = "No Preference"
-				else
-					if (job == src.occupation2)
-						job = src.occupation1
-						src.occupation1 = src.occupation2
-						src.occupation2 = job
-					else
-						if (job == src.occupation3)
-							job = src.occupation1
-							src.occupation1 = src.occupation3
-							src.occupation3 = job
-						else
-							src.occupation1 = job
+				src.occupation1 = job
 		if(2.0)
 			if (job == src.occupation2)
 				src << browse(null, "window=mob_occupation")
@@ -184,27 +180,24 @@
 			if (job == src.occupation3)
 				usr << browse(null, "window=mob_occupation")
 				return
+			else if (job == "No Preference")
+				src.occupation3 = "No Preference"
+			else if (job == src.occupation1)
+				if (src.occupation3 == "No Preference")
+					src << browse(null, "window=mob_occupation")
+					return
+				job = src.occupation3
+				src.occupation3 = src.occupation1
+				src.occupation1 = job
+			else if (job == src.occupation2)
+				if (src.occupation3 == "No Preference")
+					src << browse(null, "window=mob_occupation")
+					return
+				job = src.occupation3
+				src.occupation3 = src.occupation2
+				src.occupation2 = job
 			else
-				if (job == "No Preference")
-					src.occupation3 = "No Preference"
-				else
-					if (job == src.occupation1)
-						if (src.occupation3 == "No Preference")
-							src << browse(null, "window=mob_occupation")
-							return
-						job = src.occupation3
-						src.occupation3 = src.occupation1
-						src.occupation1 = job
-					else
-						if (job == src.occupation2)
-							if (src.occupation3 == "No Preference")
-								src << browse(null, "window=mob_occupation")
-								return
-							job = src.occupation3
-							src.occupation3 = src.occupation2
-							src.occupation2 = job
-						else
-							src.occupation3 = job
+				src.occupation3 = job
 		else
 	src.ShowChoices()
 	src << browse(null, "window=mob_occupation")
