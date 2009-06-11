@@ -1,6 +1,9 @@
 /datum/job/plasmologist // TODO: come up with less retarded name that isn't "scientist"
 	name = "Plasmologist"
 	max = 2
+	responsibilities = {"Test incendiary devices in the test chamber, and make them for the heads if they require
+	    any. You may wish to experiment with devices containing gases other than pure plasma, particularly their
+	    effects on monkey test subjects. DON'T FUCKING BOMB THE STATION YOU DICK."}
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/toxinswhite(M), SLOT_JUMPSUIT)

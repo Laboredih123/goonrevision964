@@ -1,6 +1,8 @@
 /datum/job/detective
 	name = "Detective"
 	max = 1
+	responsibilities = {"Investigate crimes after they occur with your scanners, and report any that you see
+	    happening with your thermal goggles. Your responsibilities do not include subduing or arresting criminals."}
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/red(M), SLOT_JUMPSUIT)

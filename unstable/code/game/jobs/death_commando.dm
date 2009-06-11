@@ -4,6 +4,7 @@
 	can_join_late = 0
 	switchable_to = 0
 	var/list/names
+	responsibilities = "KILL! KILL! KILL!"
 
 	speaker_color = COLOR_DEATH_COMMANDO
 

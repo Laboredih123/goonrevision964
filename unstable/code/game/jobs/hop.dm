@@ -3,6 +3,11 @@
 	priority = 5
 	max = 1
 	speaker_color = COLOR_HEAD
+	responsibilities = {"Keep an eye on security, make sure they aren't arresting innocent people and their sentences
+	    are reasonable. Patrol areas they can't go into every once in a while to make sure no crimes happen there.
+	    If necessary, arrest any criminals that you find (although security should be able to do it themselves).
+	    Promote people when necessary to fill vacancies or provide additional access. If the captain is killed, you
+	    are next in the chain of command."}
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/hopgreen(M), SLOT_JUMPSUIT)

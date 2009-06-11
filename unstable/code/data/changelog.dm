@@ -7,6 +7,7 @@ on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 <p><b>Thursday, June 10, 2009</b></p>
 <ul>
+<li><b>809</b> - You're now told your job's responsibilities when you spawn.</li>
 <li><b>808</b> - Voting now shows you a brief description of each mode.</li>
 <li><b>807</b> - Voting now works again.</li>
 </ul>

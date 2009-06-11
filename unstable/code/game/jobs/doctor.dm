@@ -2,6 +2,7 @@
 	name = "Doctor"
 	priority = 2
 	max = 2
+	responsibilities = "Heal people, give them medicine if they need it, and try not to lose any patients."
 
 	process_name(name, mob/M)
 		return "Dr. [name]"

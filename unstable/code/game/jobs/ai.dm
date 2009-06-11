@@ -4,6 +4,7 @@
 	max = 1
 	switchable_to = 0
 	name = "AI"
+	responsibilities = "Try to keep the station in one piece, while following your laws (FOLLOW YOUR LAWS DAMMIT)."
 
 	process_name(name, mob/M)
 		if(config.random_ai_names)

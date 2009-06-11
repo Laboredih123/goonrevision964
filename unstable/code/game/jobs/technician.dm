@@ -3,6 +3,9 @@
 	max = INFINITY // actually only 10^99, but if we ever get to the point where there are 10^99 technicians there
 	// will be bigger things to worry about than new arrivals not getting a job
 	priority = 2
+	responsibilities = {"Keep the station in one piece. If the engine starts to run out of fuel, add more. Maintain
+	    proper atmospheric pressure and composition throughout the station. If you run out of things to do, add new
+	    rooms to the outside of the station."}
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/yellow(M), SLOT_JUMPSUIT)

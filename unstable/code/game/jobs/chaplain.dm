@@ -1,6 +1,7 @@
 /datum/job/chaplain
 	name = "Chaplain"
 	max = 1
+	responsibilities = "Provide spiritual guidance for your flock. Don't start a cult, you unfunny fuck."
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/chapblack(M), SLOT_JUMPSUIT)

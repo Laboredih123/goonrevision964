@@ -13,6 +13,7 @@
 	// everything but AI
 	var/speaker_color = COLOR_DEFAULT
 	var/name = "Custom"
+	var/responsibilities = "Do what you want broski."
 
 	proc/find_spawnpoint(join_status, mob/M)
 		if(join_status == JOINED_LATE)
@@ -62,6 +63,7 @@
 
 		M << "<B>Game mode is [current_mode.long_name]</B>"
 		M << "<B>You are the [src.name].</B>"
+		M << "<b>Your responsibilities are:</b> [src.responsibilities]"
 		if(join_status == JOINED_LATE)
 			for(var/mob/silicon/ai/ai in world)
 				if(!ai.is_dead)

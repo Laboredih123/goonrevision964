@@ -3,6 +3,7 @@
 	priority = 5
 	max = 1
 	speaker_color = COLOR_HEAD
+	responsibilities = "Keep an eye on your researchers, helping them out if they need any help."
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/hopgreen(M), SLOT_JUMPSUIT)

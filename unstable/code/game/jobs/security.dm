@@ -3,6 +3,10 @@
 	priority = 2
 	max = 5
 	speaker_color = COLOR_SECURITY
+	responsibilities = {"Preserve order on the station by arresting criminals. Either release them after a short
+	    time in the brig, or put them on trial if the crime is more serious. Use force only if it is unavoidable.
+	    You, along with the other security officers, are third in the chain of command after the captain and HoP,
+	    so be prepared to take over if necessary."}
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/red(M), SLOT_JUMPSUIT)
