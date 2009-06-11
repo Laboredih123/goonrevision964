@@ -7,6 +7,7 @@
 /datum/game_mode/revolution
 	config_name = "revolution"
 	long_name = "Revolution"
+	desc = "Revolution on the station! If you get converted, kill the heads."
 	var/const/NUM_REVS = 3
 	min_players = 4 + NUM_REVS // heads, AI, and revs
 	var/list/revs = null

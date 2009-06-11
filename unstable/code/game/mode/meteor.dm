@@ -1,6 +1,7 @@
 /datum/game_mode/meteor
 	config_name = "meteor"
 	long_name = "Meteor"
+	desc = "Survive all the meteors that hit the station."
 
 	announce()
 		world << "<B>A major meteor shower is approaching the station! You must escape from the station.</B>"

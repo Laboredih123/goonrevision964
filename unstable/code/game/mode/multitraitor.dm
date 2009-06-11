@@ -2,6 +2,7 @@
 	// a mode where multiple traitors are working together to achieve a set of common goals.
 	config_name = "multitraitor"
 	long_name = "Multitraitor"
+	desc = "10% (rounded up) of the station is traitorous, and you have to stop them."
 	min_players = 1
 
 	var/mob/list/traitors = list()

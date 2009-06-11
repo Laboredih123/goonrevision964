@@ -1,6 +1,7 @@
 /datum/game_mode/spyvsspy
 	config_name = "spyvsspy"
 	long_name = "Spy vs Spy"
+	desc = "Two teams of spies compete to steal the nuke disk."
 	var/list/spyteams // list of lists of mobs
 	var/const/SPIES_PER_TEAM = 3
 	var/const/NUM_TEAMS = 2

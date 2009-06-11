@@ -1,6 +1,7 @@
 /datum/game_mode/random
 	config_name = "random"
 	long_name = "Random"
+	desc = "Who knows? You will, once the round starts."
 	var/datum/game_mode/m
 
 	proc/ensure_m()

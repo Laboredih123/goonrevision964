@@ -1,6 +1,7 @@
 /datum/game_mode/random/traitor
 	config_name = "traitor"
 	long_name = "Traitor"
+	desc = "There's a traitor on the station somewhere!"
 	min_players = 1
 
 	ensure_m()

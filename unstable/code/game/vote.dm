@@ -85,12 +85,12 @@
 			world.log_vote("Voting to [src.desc] started by [usr.name]/[usr.key]")
 
 			for(var/mob/M in world)
-				M << "A vote to [src.desc] has been initiated by [usr.key]."
-				M << "You have [src.timetext(config.vote_period)] to <a href='?src=\ref[M];vote=1'>vote.</a>"
+				M << "\red A vote to [src.desc] has been initiated by [usr.key]."
+				M << "\red You have [src.timetext(config.vote_period)] to <a href='?src=\ref[M];vote=1'>vote.</a>"
 				if(M.client)
 					for(var/datum/admin_power/p in M.client.powers)
 						if(istype(p, /datum/admin_power/abort_vote))
-							M << "<a href='?src=\ref[p];refresh=0'>Abort Vote</a>"
+							M << "<h3><a href='?src=\ref[p];refresh=0'>Abort Vote</a></h3>"
 							break
 
 					if(!config.vote_no_default && !(config.vote_no_dead && M.is_dead) && M.client.authenticated)
@@ -188,9 +188,9 @@
 			<ul>"}
 		for(var/datum/game_mode/option in get_mode_instances())
 			if(votes[C] == option)
-				text += "<li><b>[option.long_name]</b>"
+				text += "<li><b>[option.long_name]</b> <i>([option.desc])</i>"
 			else
-				text += "<li><a href='?src=\ref[src];voter=\ref[C];vote=\ref[option]'>[option.long_name]</a>"
+				text += "<li><a href='?src=\ref[src];voter=\ref[C];vote=\ref[option]'>[option.long_name]</a> <i>([option.desc])</i>"
 			if(votetotals[option])
 				text += " ([votetotals[option]] vote\s)"
 			text += "</li>"
@@ -278,7 +278,7 @@
 				text += "<a href='?src=\ref[V];startvote=1'>Begin [V.desc] vote.</a><br>"
 		text += footer
 
-	ss13_browse(usr, text, "window=vote;size=500x450")
+	ss13_browse(usr, text, "window=vote;size=650x400")
 
 	spawn(20)
 		if(usr.client && usr.client.showvote)

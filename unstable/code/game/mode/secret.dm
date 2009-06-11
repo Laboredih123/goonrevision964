@@ -1,6 +1,7 @@
 /datum/game_mode/random/secret
 	config_name = "secret"
 	long_name = "Secret"
+	desc = "Who knows? Nobody!"
 
 	ensure_m()
 		if(!m)

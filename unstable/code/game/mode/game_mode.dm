@@ -4,6 +4,7 @@ var/const/SCENARIO_COMPLETE = 1
 /datum/game_mode
 	var/config_name = "freeform"
 	var/long_name = "Freeform"
+	var/desc = "Do whatever."
 
 	var/votable = 1
 	var/list/missions = new()
