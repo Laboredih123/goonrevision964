@@ -1,5 +1,6 @@
 /datum/game_mode/blob
-	name = "blob"
+	config_name = "blob"
+	long_name = "Blob"
 
 	announce()
 		world << "<B>A dangerous alien organism is rapidly spreading throughout the station!</B>"

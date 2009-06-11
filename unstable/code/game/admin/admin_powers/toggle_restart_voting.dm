@@ -9,7 +9,7 @@
 		world << "<B>Player restart voting toggled to [config.allow_vote_restart ? "On" : "Off"]</B>."
 		world.log_admin("Restart voting toggled to [config.allow_vote_restart ? "On" : "Off"] by [usr.key].")
 		if(config.allow_vote_restart)
-			vote.nextvotetime = ss13time()
+			restartvote.nextvotetime = ss13time()
 		return ..()
 
 	get_desc()

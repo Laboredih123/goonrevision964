@@ -32,7 +32,7 @@
 	if(!game_started)
 		src.status += "<b>STARTING</b>"
 	else if(current_mode)
-		src.status += "Mode: <b>[capitalize(current_mode.name)]</b>"
+		src.status += "Mode: <b>[current_mode.long_name]</b>"
 
 	if(host)
 		src.status += ", Host: <b>[host]</b>"
@@ -74,10 +74,11 @@
 
 		newmode = ML[1]
 
-
 		if(newmode)
-			master_mode = newmode
+			master_mode = get_mode(newmode)
 			world.log << "Read default mode '[newmode]' from [persistent_file]"
+		else
+			master_mode = get_mode("secret")
 
 
 	// *****
@@ -106,8 +107,6 @@
 		ai_names = dd_file2list("ai_names.txt")
 	// apply some settings from config..
 	abandon_allowed = config.respawn
-
-	vote = new /datum/vote()
 
 	..()
 
@@ -220,14 +219,13 @@
 	world.update_stat()
 	world << "<B>Welcome to Space Station 13!</B>\n\n"
 
-	if(!master_mode) master_mode = "random"
-	current_mode = config.pick_mode(master_mode)
+	current_mode = master_mode
 	current_mode.announce()
 	current_mode.setup()
 
 	world << "<B>Now dispensing all identification cards.</B>"
 
-	world.log_game("[current_mode.name] round starting")
+	world.log_game("[current_mode.long_name] round starting")
 
 	divide_jobs()
 	for(var/obj/manifest/M in world)
@@ -268,7 +266,7 @@
 		sleep(2)
 	while (src.processing)
 
-/proc/set_default_mode(mode)
+/proc/set_default_mode(datum/game_mode/mode)
 	var/F = file(persistent_file)
 	fdel(F)
-	F << mode
+	F << mode.config_name

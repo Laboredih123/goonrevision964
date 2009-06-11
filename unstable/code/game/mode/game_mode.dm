@@ -2,7 +2,8 @@ var/const/SCENARIO_ACTIVE = 0
 var/const/SCENARIO_COMPLETE = 1
 
 /datum/game_mode
-	var/name = "freeform"
+	var/config_name = "freeform"
+	var/long_name = "Freeform"
 
 	var/votable = 1
 	var/list/missions = new()
@@ -93,7 +94,7 @@ var/const/SCENARIO_COMPLETE = 1
 		return jobs
 
 	proc/get_desc() // includes spoilers etc, is only shown to dead people
-		var/desc = "The mode is [src.name]."
+		var/desc = "The mode is [src.long_name]."
 		for(var/datum/mission/M in missions)
 			desc += "<br>[M.gname] has the mission to [M.description()]."
 		return desc

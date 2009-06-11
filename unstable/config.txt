@@ -43,7 +43,7 @@ VOTE_PERIOD 60
 #NO_DEAD_VOTE
 
 # players' votes default to "No vote" (otherwise,  default to "No change")
-DEFAULT_NO_VOTE
+# DEFAULT_NO_VOTE
 
 # allow AI job
 # DISALLOW_AI
@@ -55,4 +55,4 @@ RANDOM_NAMES 1
 
 LOG_FILE logs/logROUNDNUM.txt
 
-NO_RESPAWN
+# NO_RESPAWN

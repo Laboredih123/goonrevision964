@@ -1,5 +1,6 @@
 /datum/game_mode/random/traitor
-	name = "traitor"
+	config_name = "traitor"
+	long_name = "Traitor"
 	min_players = 1
 
 	ensure_m()

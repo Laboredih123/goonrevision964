@@ -1,5 +1,6 @@
 /datum/game_mode/spyvsspy
-	name = "spyvsspy"
+	config_name = "spyvsspy"
+	long_name = "Spy vs Spy"
 	var/list/spyteams // list of lists of mobs
 	var/const/SPIES_PER_TEAM = 3
 	var/const/NUM_TEAMS = 2

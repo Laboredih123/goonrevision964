@@ -5,7 +5,8 @@
 /mob/carbon/var/rev_status = NON_REV
 
 /datum/game_mode/revolution
-	name = "revolution"
+	config_name = "revolution"
+	long_name = "Revolution"
 	var/const/NUM_REVS = 3
 	min_players = 4 + NUM_REVS // heads, AI, and revs
 	var/list/revs = null

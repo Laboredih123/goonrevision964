@@ -1,147 +1,242 @@
-/datum/vote/New()
+/datum/vote
+	var/voting = 0 // true if currently voting
+	var/nextvotetime // time at which next vote can be started
+	var/timeleft = 600
+	var/is_processing = 0
+	var/list/votes = list()
+	var/list/votetotals = list()
+	var/aborted = 1
+	var/desc = ""
+	var/const
+		VOTE_NO = "No"
+		VOTE_YES = "Yes"
 
-	nextvotetime = ss13time() // + 10*config.vote_delay
+	New()
+		nextvotetime = ss13time()
 
+	proc/canvote()
+		return (ss13time() >= nextvotetime)
 
-/datum/vote/proc/canvote()
-	return (ss13time() >= vote.nextvotetime)
+	proc/nextwait()
+		return timetext( round( (nextvotetime - ss13time())/10) )
 
+	proc/endwait()
+		return timetext( round(timeleft/10) )
 
+	proc/timetext(var/interval)
+		var/minutes = round(interval / 60)
+		var/seconds = round(interval % 60)
 
-/datum/vote/proc/nextwait()
-	return timetext( round( (nextvotetime - ss13time())/10) )
+		var/tmin = "[minutes>0?num2text(minutes)+" min":null]"
+		var/tsec = "[seconds>0?num2text(seconds)+" sec":null]"
 
-/datum/vote/proc/endwait()
-	return timetext( round( (votetime - ss13time())/10) )
+		if(tmin && tsec)				// hack to skip inter-space if either field is blank
+			return "[tmin] [tsec]"
+		else
+			if(!tmin && !tsec)		// return '0sec' if 0 time left
+				return "0 sec"
+			return "[tmin][tsec]"
 
-/datum/vote/proc/timetext(var/interval)
-	var/minutes = round(interval / 60)
-	var/seconds = round(interval % 60)
+	proc/conclude()
+		if(!voting) // means that voting was aborted by an admin
+			return
+		world << "\red <B>***Voting has closed.</B>"
 
-	var/tmin = "[minutes>0?num2text(minutes)+"min":null]"
-	var/tsec = "[seconds>0?num2text(seconds)+"sec":null]"
+		voting = 0
+		nextvotetime = ss13time() + 10*config.vote_delay
 
-	if(tmin && tsec)				// hack to skip inter-space if either field is blank
-		return "[tmin] [tsec]"
-	else
-		if(!tmin && !tsec)		// return '0sec' if 0 time left
-			return "0sec"
-		return "[tmin][tsec]"
+		for(var/mob/M in world)	// clear vote window from all clients
+			if(M.client)
+				ss13_browse(M, null, "window=vote")
+				M.client.showvote = 0
 
-/datum/vote/proc/getvotes()
+		apply()
 
-	var/list/L = list()
-
-
-	for(var/mob/M in world)
-		if(M.client && M.client.inactivity < 1200)		// clients inactive for 2 minutes don't count
-			L[M.client.vote] += 1
-
-
-	return L
-
-
-/datum/vote/proc/endvote()
-
-	if(!voting)		// means that voting was aborted by an admin
+	proc/apply()
 		return
 
-	world << "\red <B>***Voting has closed.</B>"
+	proc/get_vote_text(client/C)
+		return
 
-	world.log_vote("Voting closed, result was [winner]")
+	Topic(href, href_list)
+		..()
+		if(href_list["vote"] && src.voting)
+			if(votes[usr.client]) // remove old vote
+				votetotals[votes[usr.client]]--
+			votes[usr.client] = href_list["vote"]
+			votetotals[href_list["vote"]]++
+			usr.vote()
+		else if(href_list["startvote"])
+			if(currentvote && currentvote.voting)
+				return
+			if(!src.canvote() && !(usr.client && usr.client.powers))
+				return
 
-	voting = 0
-	nextvotetime = ss13time() + 10*config.vote_delay
+			currentvote = src
+			src.voting = 1
+			src.timeleft = config.vote_period * 10
+			aborted = 0
+			spawn()
+				src.process()
 
-	for(var/mob/M in world)		// clear vote window from all clients
-		if(M.client)
-			ss13_browse(M, null, "window=vote")
-			M.client.showvote = 0
+			votes = list()
+			votetotals = list()
 
-	calcwin()
+			world.log_vote("Voting to [src.desc] started by [usr.name]/[usr.key]")
 
-	if(mode)
-		var/wintext = capitalize(winner)
-		if(winner=="default")
-			world << "Result is \red No change."
-			return
+			for(var/mob/M in world)
+				M << "A vote to [src.desc] has been initiated by [usr.key]."
+				M << "You have [src.timetext(config.vote_period)] to <a href='?src=\ref[M];vote=1'>vote.</a>"
+				if(M.client)
+					for(var/datum/admin_power/p in M.client.powers)
+						if(istype(p, /datum/admin_power/abort_vote))
+							M << "<a href='?src=\ref[p];refresh=0'>Abort Vote</a>"
+							break
 
-		world << "Result is change to \red [wintext]"
-		master_mode = winner
-		set_default_mode(winner)
+					if(!config.vote_no_default && !(config.vote_no_dead && M.is_dead) && M.client.authenticated)
+						votes[M.client] = default_vote()
+						votetotals[default_vote()]++
 
-	else
+			usr.vote()
 
-		if(winner=="default")
-			world << "Result is \red No restart."
-			return
-
-		world << "Result is \red Restart round."
-
-		world <<"\red <B>World will reboot in 5 seconds</B>"
-
-		sleep(50)
-		world.log_game("Rebooting due to restart vote")
-		world.Reboot()
-	return
-
-
-/datum/vote/proc/calcwin()
-
-	var/list/votes = getvotes()
-
-	if(vote.mode)
+	proc/current_winners()
 		var/best = -1
+		var/winners = list()
+		for(var/voted in votetotals)
+			if(votetotals[voted] == best)
+				winners += voted
+			else if(votetotals[voted] > best)
+				winners = list(voted)
+				best = votetotals[voted]
+		return winners
 
-		for(var/v in votes)
-			if(v=="none")
-				continue
-			if(best < votes[v])
-				best = votes[v]
+	proc/default_vote()
+		return
 
-
-		var/list/winners = list()
-
-		for(var/v in votes)
-			if(votes[v] == best)
-				winners += v
-
-		var/ret = ""
-
-
-		for(var/w in winners)
-			if(lentext(ret) > 0)
-				ret += "/"
-			if(w=="default")
-				winners = list("default")
-				ret = "No change"
-				break
+	proc/process()
+		if(is_processing)
+			world.log_bug("Entered process() a second time in __FILE__ at __LINE__, uh oh")
+			return
+		is_processing = 1
+		var/last_update = ss13time()
+		while(1)
+			if(aborted)
+				is_processing = 0
+				return
+			if(timeleft <= 0)
+				is_processing = 0
+				conclude()
+				return
 			else
-				ret += capitalize(w)
+				var/curtime = ss13time()
+				timeleft = max(timeleft + last_update - curtime, 0)
+				last_update = curtime
+			sleep(5)
 
+/datum/vote/restart
+	desc = "restart"
 
+	get_vote_text(client/C)
+		var/text = {"
+			Vote to restart round in progress.<br>
+			[src.endwait()] until voting is closed.<br><br>
+			Restart the world?<br>
+			<ul>"}
+		for(var/option in list(VOTE_NO, VOTE_YES))
+			if(votes[C] == option)
+				text += "<li><b>[option]</b>"
+			else
+				text += "<li><a href='?src=\ref[src];voter=\ref[C];vote=[option]'>[option]</a>"
+			if(votetotals[option])
+				text += " ([votetotals[option]] vote\s)"
+			text += "</li>"
+		text += "</ul>"
+		var/list/L = current_winners()
+		if(L.len == 1)
+			text += "<p>Current winner: <b>[L[1]]</b><br>"
+		else
+			text += "<p>Current winner: <b>No</b><br>"
+		return text
 
+	default_vote()
+		return VOTE_NO
+
+	apply()
+		var/list/winners = current_winners()
 		if(winners.len != 1)
-			ret = "Tie: " + ret
+			winners = list(VOTE_NO)
+		var/winner = pick(winners)
 
-
-		if(winners.len == 0)
-			vote.winner = "default"
-			ret = "No change"
+		if(winner == VOTE_NO)
+			world << "Result is: \red No restart."
 		else
-			vote.winner = pick(winners)
+			world << "Result is: \red Restart."
+			world <<"\red <B>World will reboot in 5 seconds</B>"
+			sleep(50)
+			world.log_game("Rebooting due to restart vote")
+			world.Reboot()
 
-		return ret
-	else
+/datum/vote/mode
+	desc = "change mode"
 
-		if(votes["default"] < votes["restart"])
+	get_vote_text(client/C)
+		var/text = {"
+			Vote to change mode in progress.<br>
+			[src.endwait()] until voting is closed.<br><br>
+			Current game mode is: <b>[master_mode.long_name]</b>.
+			Select the mode to change to:<br>
+			<ul>"}
+		for(var/datum/game_mode/option in get_mode_instances())
+			if(votes[C] == option)
+				text += "<li><b>[option.long_name]</b>"
+			else
+				text += "<li><a href='?src=\ref[src];voter=\ref[C];vote=\ref[option]'>[option.long_name]</a>"
+			if(votetotals[option])
+				text += " ([votetotals[option]] vote\s)"
+			text += "</li>"
+		text += "</ul>"
 
-			vote.winner = "restart"
-			return "Restart"
+		var/list/L = current_winners()
+		if(!L.len)
+			text += "<p>Current winner: <b>No change</b></p>"
 		else
-			vote.winner = "default"
-			return "No restart"
+			text += "<p>Current winner:<b>"
+			if(L.len > 1)
+				text += " Tie:"
+			for(var/datum/game_mode/M in L)
+				if(M != master_mode)
+					text += " [M.long_name]"
+				else
+					text += " No change"
+			text += "</b><br>"
+		return text
 
+	default_vote()
+		return master_mode
+
+	apply()
+		var/list/winners = current_winners()
+		if(!winners.len)
+			winners = list(master_mode)
+		var/datum/game_mode/winner = pick(winners)
+
+		if(winner == master_mode)
+			world << "Result is: \red No change."
+		else
+			world << "Result is change to \red [winner.long_name]"
+			world.log_vote("Voting closed, changing mode to [winner.long_name]")
+			master_mode = winner
+			set_default_mode(winner)
+
+	Topic(href, href_list)
+		if(href_list["vote"] && src.voting)
+			if(votes[usr.client]) // remove old vote
+				votetotals[votes[usr.client]]--
+			votes[usr.client] = locate(href_list["vote"])
+			votetotals[locate(href_list["vote"])]++
+			usr.vote()
+		else
+			return ..()
 
 /mob/verb/vote()
 	set name = "Vote"
@@ -150,104 +245,40 @@
 		return
 	usr.client.showvote = 1
 
-
 	var/text = "<HTML><HEAD><TITLE>Voting</TITLE></HEAD><BODY scroll=no>"
-
-	var/footer = "<HR><A href='?src=\ref[vote];voter=\ref[src];vclose=1'>Close</A></BODY></HTML>"
-
+	var/footer = "<HR><A href='?src=\ref[src];vclose=1'>Close</A></BODY></HTML>"
 
 	if(!(usr.client && usr.client.powers) && (config.vote_no_dead && usr.is_dead)) //admins can vote while dead
 		text += "Voting while dead has been disallowed."
 		text += footer
 		ss13_browse(usr, text, "window=vote")
 		usr.client.showvote = 0
-		usr.client.vote = "none"
 		return
 
-	if(vote.voting)
+	if(currentvote && currentvote.voting)
 		// vote in progress, do the current
-
-		text += "Vote to [vote.mode?"change mode":"restart round"] in progress.<BR>"
-		text += "[vote.endwait()] until voting is closed.<BR>"
-
-		var/list/votes = vote.getvotes()
-
-		if(vote.mode)		// true if changing mode
-
-			text += "Current game mode is: <B>[master_mode]</B>.<BR>Select the mode to change to:<UL>"
-
-			for(var/md in config.votable_modes)
-				var/disp = capitalize(md)
-				if(md=="default")
-					disp = "No change"
-
-
-				if(src.client.vote == md)
-					text += "<LI><B>[disp]</B>"
-				else
-					text += "<LI><A href='?src=\ref[vote];voter=\ref[src];vote=[md]'>[disp]</A>"
-
-				text += "[votes[md]>0?" - [votes[md]] vote\s":null]<BR>"
-
-			text += "</UL>"
-
-			text +="<p>Current winner: <B>[vote.calcwin()]</B><BR>"
-
-			text += footer
-
-			ss13_browse(usr, text, "window=vote")
-
-		else	// voting to restart
-
-			text += "Restart the world?<BR><UL>"
-
-			var/list/VL = list("default","restart")
-
-			for(var/md in VL)
-				var/disp = (md=="default"? "No":"Yes")
-
-				if(src.client.vote == md)
-					text += "<LI><B>[disp]</B>"
-				else
-					text += "<LI><A href='?src=\ref[vote];voter=\ref[src];vote=[md]'>[disp]</A>"
-
-				text += "[votes[md]>0?" - [votes[md]] vote\s":null]<BR>"
-
-			text += "</UL>"
-
-			text +="<p>Current winner: <B>[vote.calcwin()]</B><BR>"
-
-			text += footer
-
-			ss13_browse(usr, text, "window=vote")
-
-
+		text += currentvote.get_vote_text(usr.client)
+		text += footer
 	else		//no vote in progress
-
 		if(!(usr.client && usr.client.powers) && !config.allow_vote_restart && !config.allow_vote_mode)
 			text += "<P>Player voting is disabled.</BODY></HTML>"
-
 			ss13_browse(usr, text, "window=vote")
 			usr.client.showvote = 0
 			return
+		var/list/L = list()
+		L[restartvote] = config.allow_vote_restart
+		L[modevote] = config.allow_vote_mode
 
-		if(!(usr.client && usr.client.powers) && !vote.canvote())		// not time to vote yet
-			if(config.allow_vote_restart) text+="Voting to restart is enabled.<BR>"
-			if(config.allow_vote_mode) text+="Voting to change mode is enabled.<BR>"
+		for(var/datum/vote/V in L)
+			if(!L[V])
+				continue
+			if(!(usr.client && usr.client.powers) && !V.canvote()) // not time to vote yet
+				text+="Voting to [V.desc] is enabled. Next vote can begin in [V.nextwait()].<br>"
+			else
+				text += "<a href='?src=\ref[V];startvote=1'>Begin [V.desc] vote.</a><br>"
+		text += footer
 
-			text+="<BR><P>Next vote can begin in [vote.nextwait()]."
-			text+=footer
-
-			ss13_browse(usr, text, "window=vote")
-
-		else			// voting can begin
-			if(config.allow_vote_restart)
-				text += "<A href='?src=\ref[vote];voter=\ref[src];vmode=1'>Begin restart vote.</A><BR>"
-			if(config.allow_vote_mode)
-				text += "<A href='?src=\ref[vote];voter=\ref[src];vmode=2'>Begin change mode vote.</A><BR>"
-
-			text += footer
-			ss13_browse(usr, text, "window=vote")
+	ss13_browse(usr, text, "window=vote;size=500x450")
 
 	spawn(20)
 		if(usr.client && usr.client.showvote)
@@ -255,59 +286,9 @@
 		else
 			ss13_browse(usr, null, "window=vote")
 
-		return
-
-
-/datum/vote/Topic(href, href_list)
-	..()
-
-	var/mob/M = locate(href_list["voter"])			// mob of player that clicked link
-
+/mob/Topic(href, href_list)
 	if(href_list["vclose"])
-
-		if(M)
-			ss13_browse(M, null, "window=vote")
-			M.client.showvote = 0
-		return
-
-	if(href_list["vmode"])
-		if(vote.voting)
-			return
-
-		if(!vote.canvote() )	// double check even though this shouldn't happen
-			return
-
-		vote.mode = text2num(href_list["vmode"])-1 	// hack to yield 0=restart, 1=changemode
-		vote.voting = 1						// now voting
-		vote.votetime = ss13time() + config.vote_period*10	// when the vote will end
-
-		spawn(config.vote_period*10)
-			vote.endvote()
-
-		world.log_vote("Voting to [vote.mode ? "change mode" : "restart round"] started by [M.name]/[M.key]")
-
-		for(var/mob/CM in world)
-			CM << "\red<B>*** A vote to [vote.mode?"change game mode":"restart"] has been initiated by [M.key].</B>"
-			CM << "\red     You have [vote.timetext(config.vote_period)] to <a href='?src=\ref[CM];vote=1'>vote.</a>"
-			if(CM.client)
-				for(var/datum/admin_power/p in CM.client.powers)
-					if(istype(p, /datum/admin_power/abort_vote))
-						CM << "<a href='?src=\ref[p];refresh=0'>Abort Vote</a>"
-						break
-				if(config.vote_no_default || (config.vote_no_dead && CM.is_dead) || !CM.client.authenticated)
-					CM.client.vote = "none"
-				else
-					CM.client.vote = "default"
-
-		if(M) M.vote()
-		return
-
-
-		return
-
-	if(href_list["vote"] && vote.voting)
-		if(M)
-			M.client.vote = href_list["vote"]
-
-			M.vote()
-		return
+		ss13_browse(src, null, "window=vote")
+		src.client.showvote = 0
+	else
+		return ..()

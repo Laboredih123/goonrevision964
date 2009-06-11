@@ -1,5 +1,6 @@
 /datum/game_mode/death_commando_deathmatch
-	name = "deathcommandodeathmatch"
+	config_name = "deathmatch"
+	long_name = "Death Commando Deathmatch"
 
 	announce()
 		world << "<b>Death commando deathmatch! Kill everyone else! But watch out, they might come back!</b>"

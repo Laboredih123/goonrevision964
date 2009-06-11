@@ -65,7 +65,6 @@
 #include "code\game\engine.dm"
 #include "code\game\gas_diffusion.dm"
 #include "code\game\grab.dm"
-#include "code\game\h_sandbox.dm"
 #include "code\game\hologram.dm"
 #include "code\game\instructions.dm"
 #include "code\game\items.dm"

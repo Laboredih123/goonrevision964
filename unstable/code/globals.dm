@@ -107,7 +107,7 @@ var
 	obj/overlay/slmaster = null
 	going = 1
 	game_started = 0
-	master_mode = "random"//"extended"
+	datum/game_mode/master_mode = null
 	datum/game_mode/current_mode = null
 
 	persistent_file = "mode.txt"
@@ -134,7 +134,9 @@ var
 
 	datum/station_state/start_state = null
 	datum/configuration/config = null
-	datum/vote/vote = null
+	datum/vote/currentvote = null
+	datum/vote/restart/restartvote = new()
+	datum/vote/mode/modevote = new()
 	datum/sun/sun = null
 
 	list/plines = list()

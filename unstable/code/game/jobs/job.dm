@@ -60,7 +60,7 @@
 	proc/announce(mob/M, join_status)
 		world.log_game("[M] has joined the game.")
 
-		M << "<B>Game mode is [current_mode.name]</B>"
+		M << "<B>Game mode is [current_mode.long_name]</B>"
 		M << "<B>You are the [src.name].</B>"
 		if(join_status == JOINED_LATE)
 			for(var/mob/silicon/ai/ai in world)

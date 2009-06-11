@@ -14,9 +14,6 @@
 	var/vote_no_dead = 0				// dead people can't vote (tbi)
 	var/enable_authentication = 0		// three-stage authentication (required,disabled,optional)
 
-	var/list/mode_names = list()
-	var/list/modes = list()				// allowed modes
-	var/list/votable_modes = list()		// votable modes
 	var/list/probabilities = list()		// relative probability of each mode
 	var/allow_ai = 1					// allow ai job
 	var/hostedby = null

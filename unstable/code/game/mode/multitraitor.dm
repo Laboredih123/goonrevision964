@@ -1,6 +1,7 @@
 /datum/game_mode/multitraitor
 	// a mode where multiple traitors are working together to achieve a set of common goals.
-	name = "multitraitor"
+	config_name = "multitraitor"
+	long_name = "Multitraitor"
 	min_players = 1
 
 	var/mob/list/traitors = list()

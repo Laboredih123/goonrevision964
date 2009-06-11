@@ -19,7 +19,7 @@ mob
 		datum/hSB/sandbox = null
 	proc
 		CanBuild()
-			if(master_mode == "sandbox")
+			if(istype(master_mode, /datum/game_mode/sandbox))
 				sandbox = new/datum/hSB
 				sandbox.owner = src.ckey
 				if(src.client.powers)
