@@ -68,13 +68,6 @@
 				vote.nextvotetime = ss13time()
 			update()
 
-	if (href_list["boot"])
-		if ((src.rank in list( "Moderator", "Administrator", "Primary Administrator" )))
-			var/dat = "<B>Boot Player:</B><HR>"
-			for(var/mob/M in world)
-				dat += text("<A href='?src=\ref[];boot2=\ref[]'>N:[] R:[] (K:[]) (IP:[])</A><BR>", src, M, M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP)
-			usr << browse(dat, "window=boot")
-
 	if (href_list["boot2"])
 		if ((src.rank in list( "Moderator", "Administrator", "Primary Administrator" )))
 			var/mob/M = locate(href_list["boot2"])
@@ -84,44 +77,35 @@
 					return
 				world.log_admin("[usr.key] booted [M.key]/[M.rname].")
 				messageadmins("\blue[usr.key] booted [M.key]/[M.rname].")
-				//M.client = null
 				del(M.client)
 //
-	if(href_list["jobban1"])
-		if ((src.rank in list( "Administrator", "Primary Administrator" )))
-			var/dat = "<B>Jobban Player:</B><HR>"
-			for(var/mob/M in world)
-				if(M.key)
-					dat += text("<A href='?src=\ref[src];jobban2=\ref[M]'>N: <B>[M.name]</B> R: [M.rname] (K: [(M.client ? M.client : "No client")]) (IP: [M.lastKnownIP])</A><BR>")
-				else
-					dat += text("N: <B>[M.name]</B> R: [M.rname] (K: [(M.client ? M.client : "No client")]) (IP: [M.lastKnownIP])<BR>")
-			usr << browse(dat, "window=jobban1;size=500x400")
 
-	if(href_list["jobban2"]) //show the window
-		var/mob/M = locate(href_list["jobban2"])
+	if(href_list["jobban1"]) //show the window
+		var/mob/M = locate(href_list["jobban1"])
 		var/dat = "<html><head><title>Job Ban [M.key]</title></head><body>"
 		dat += "<form action='byond://' method='get'>"
 		dat += "<input type='hidden' name='src' value='\ref[src]'>"
-		dat += "<input type='hidden' name='jobban3' value='[href_list["jobban2"]]'>"
+		dat += "<input type='hidden' name='jobban2' value='[href_list["jobban1"]]'>"
 		dat += "<b> Choose a job to ban from.</b><br>"
 		dat += "<select name='job'>"
 		for(var/job in get_all_jobs())
 			dat += "<option value='\ref[job]'>[job]"
 			if(jobban_isbanned(M, job))
-				dat += " (jobbanned)"
+				dat += " (jobbanned - [jobban_banreason(M, job)])"
 			dat += "</option>"
 		dat += "</select>"
 
-//		dat += "Reason for banning (please be specific)<br>"
-//		dat += "<textarea name='reason' rows=5></textarea><br>"
+		dat += "Reason for banning (please be specific)<br>"
+		dat += "<textarea name='jobbanreason' rows=5></textarea><br>"
 		dat += "<input type='submit' value='Submit'>"
 		dat += "</form>"
-		usr << browse(dat, "window=jobban2;size=225x100")
+		usr << browse(dat, "window=jobban;size=400x300")
 
 
-	if(href_list["jobban3"])
+	if(href_list["jobban2"])
 		var/job = locate(href_list["job"])
-		var/mob/M = locate(href_list["jobban3"])
+		var/mob/M = locate(href_list["jobban2"])
+		var/reason = href_list["jobbanreason"]
 		if (M.client && M.client.holder && M.client.holder.level >= src.level && !(M == usr))	//you can ban yourself from jobs
 			alert("You cannot perform this action. You must be of a higher administrative rank!")
 			return
@@ -134,8 +118,8 @@
 			world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
 			messageadmins("\blue[usr.key] banned [M.key]/[M.rname] from [job]")
 			M << "\blue[usr.key] banned you from [job]."
-			jobban_fullban(M, job)
-		href_list["jobban2"] = 1 // lets it fall through and refresh
+			jobban_fullban(M, job, reason)
+		href_list["jobban1"] = 1 // lets it fall through and refresh
 
 //
 	if (href_list["ban"])
@@ -303,6 +287,43 @@
 				alert("The AI can't be monkeyized!")
 				return
 
+	if (href_list["makeai"]) //Yes, im fucking lazy, so what? it works ... hopefully
+		if ((src.rank in list( "Administrator", "Primary Administrator" )))
+			var/mob/human/M = locate(href_list["makeai"])
+			if(!istype(M, /mob/human))
+				alert("Target is not human, AIization failed.")
+				return
+			var/obj/S = null
+			messageadmins("\blue Admin [usr.key] attempting to AIize [M.key]/[M.rname]!")
+			world.log_admin("[usr.key] AIized [M.key]/[M.rname]")
+			for(var/obj/start/sloc in world)
+				if (sloc.name != "AI")
+					continue
+				S = sloc
+				break
+			M.loc = S.loc
+			var/randomname = pick(ai_names)
+			var/newname = input(
+				M,
+				"You are the AI. Would you like to change your name to something else?", "Name change",
+				randomname)
+
+			if (length(newname) == 0)
+				newname = randomname
+
+			if (newname)
+				if (length(newname) >= 26)
+					newname = copytext(newname, 1, 26)
+				newname = dd_replacetext(newname, ">", "'")
+				M.rname = newname
+				M.name = newname
+
+			world << text("<b>[] is the AI!</b>", M.rname)
+			M.AIize()
+		else
+			alert("You cannot perform this action. You must be of a higher administrative rank!")
+			return
+
 	if (href_list["forcespeech"])
 		if ((src.rank in list( "Primary Administrator" )))
 			var/mob/M = locate(href_list["forcespeech"])
@@ -362,38 +383,55 @@
 				href_list["l_players"] = 1 // lets it fall through and refresh
 
 	if (href_list["l_players"])
-		var/dat = "<B>Name/Real Name/Key/IP:</B><HR>"
+		var/dat = "<html><head><title>Player Menu</title></head>"
+		dat += "<body><table><B><tr><th>Name</th><th>Real Name</th><th>Key</th><th>IP:</th></tr></B>"
 		for(var/mob/M in world)
-			var/foo = ""
-			if (ismob(M) && M.client)
-				if(!M.client.authenticated && !M.client.authenticating)
-					foo += text("\[ <A HREF='?src=\ref[];adminauth=\ref[]'>Authorize</A> | ", src, M)
-				else
-					foo += text("\[ <B>Authorized</B> | ")
-				if(M.z != 2)
-					foo += text("<A HREF='?src=\ref[];sendtoprison=\ref[]'>Prison</A> | ", src, M)
-				else
-					foo += text("<B>At Prison</B> | ")
-				if(!istype(M, /mob/monkey) && M.start)
+			if(M.lastKnownIP)
+				dat += text("<tr><td>N: [M.name]</td><td>R: [M.rname]</td><td>(K: [(M.client ? M.client : "No client")])</td><td>(IP: [M.lastKnownIP])</td><td><A HREF='?src=\ref[src];playeropts=\ref[M]'>Player Options</A></td></tr>")
+		dat += "</table></body></html>"
+		usr << browse(dat, "window=players;size=650x480")
+
+	if (href_list["playeropts"])
+		var/mob/M = locate(href_list["playeropts"])
+		var/dat = "<html><head><title>Options for [M.key]</title></head>"
+		var/foo = ""
+		if (ismob(M) && M.client)
+			if(!M.client.authenticated && !M.client.authenticating)
+				foo += text("\[ <A HREF='?src=\ref[];adminauth=\ref[]'>Authorize</A> | ", src, M)
+			else
+				foo += text("\[ <B>Authorized</B> | ")
+			if(M.start)
+				if(!istype(M, /mob/monkey))
 					foo += text("<A HREF='?src=\ref[];monkeyone=\ref[]'>Monkeyize</A> | ", src, M)
 				else
 					foo += text("<B>Monkeyized</B> | ")
-				foo += text("<A HREF='?src=\ref[];forcespeech=\ref[]'>Say</A> \]", src, M)
-			dat += text("N: [] R: [] (K: []) (IP: []) []<BR>", M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP, foo)
-
-		usr << browse(dat, "window=players;size=800x480")
+				if(istype(M, /mob/ai))
+					foo += text("<B>Is an AI</B> | ")
+				else
+					foo += text("<A HREF='?src=\ref[];makeai=\ref[]'>Make AI</A> | ", src, M)
+				if(M.z != 2)
+					foo += text("<A HREF='?src=\ref[];sendtoprison=\ref[]'>Prison</A> | ", src, M)
+				else
+//					foo += text("<A HREF='?src=\ref[];sendtostation=\ref[]'><color='red'>Unprison</color></A> | ", src, M)
+					foo += text("Prisoned | ")
+			else
+				foo += text("<B>Hasn't Entered Game</B> | ")
+			foo += text("<A HREF='?src=\ref[src];forcespeech=\ref[M]'>Say</A> | ")
+			foo += text("<A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A> | ")
+			foo += text("<A href='?src=\ref[src];mute2=\ref[M]'>Mute: [(M.muted ? "Muted" : "Voiced")]</A> | ")
+			foo += text("<A href='?src=\ref[src];boot2=\ref[M]'>Boot</A> | ")
+			foo += text("<A href='?src=\ref[src];jobban1=\ref[M]'>Jobban</A> | ")
+			foo += text("<A href='?src=\ref[src];ban2=\ref[M]'>Ban</A> \]")
+		else
+			foo += text("<color='red'>Player Has Logged Out!</color>")
+		dat += text("<body>[foo]</body></html>")
+		usr << browse(dat, "window=playeropts;size=380x70")
 
 	if (href_list["g_send"])
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message
 		if (t)
 			world << "\blue <B>[usr.key] Announces:</B>\n \t [t]"
 			world.log_admin("Announce: [usr.key] : [t]")
-
-	if (href_list["p_send"])
-		var/dat = "<B>Who are you sending a message to?</B><HR>"
-		for(var/mob/M in world)
-			dat += "<A href='?src=\ref[usr];priv_msg=\ref[M]'>N:[M.name] R:[M.rname] (K:[(M.client ? M.client : "No client")])</A><BR>"
-		usr << browse(dat, "window=p_send")
 
 	if (href_list["create_object"])
 		return DisplayMenu(usr)
@@ -688,7 +726,6 @@
 								lawIndex += 1
 				if("wave")
 					meteor_wave()
-				else
 			if (usr)
 				world.log_admin("[usr.key] used secret [href_list["secrets2"]]")
 				if (ok)
@@ -696,7 +733,6 @@
 	return
 
 /obj/admins/proc/update()
-
 	var/dat
 	var/lvl = 0
 	switch(src.rank)
@@ -712,27 +748,25 @@
 
 			dat += "<center><B>Admin Control Console</B></center><hr>\n"
 
-			if(lvl >= 2)
-				dat += {"
-	<A href='?src=\ref[src];boot=1'>Boot Player/Key</A><br>
-	<A href='?src=\ref[src];ban=1'>Ban/Unban Player/Key</A><br>
-	<A href='?src=\ref[src];jobban1=1'>Joban/UnJobban Player/Key</A><br>
-	<A href='?src=\ref[src];mute=1'>Mute/Unmute Player/Key</A><br>
-	"}
 			dat += "<br>"
+			if(lvl > 1)
+				dat += "<A href='?src=\ref[src];l_players=1'>Player Management</A><br>"
+				dat += "<A href='?src=\ref[src];dna=1'>List DNA</A><br>"
+				dat += "<A href='?src=\ref[src];l_keys=1'>List Keys</A><br>"
+
+			dat += "<BR>"
 
 			if(lvl > 0)
 				dat += "<A href='?src=\ref[src];t_ooc=1'>Toggle OOC</A><br>"
 				dat += "<A href='?src=\ref[src];delay=1'>Delay Game</A><br>"
 				dat += "<A href='?src=\ref[src];startnow=1'>Start Round Now</A><br>"
 
-			if(lvl >= 2 )
+			if(lvl > 1 )
 				dat += "<A href='?src=\ref[src];toggle_enter=1'>Toggle Entering [enter_allowed]</A><br>"
 				dat += "<A href='?src=\ref[src];toggle_abandon=1'>Toggle Abandon [abandon_allowed]</A><br>"
 				dat += "<A href='?src=\ref[src];toggle_ai=1'>Toggle AI [config.allow_ai]</A><br>"
-
 				dat += "<A href='?src=\ref[src];c_mode=1'>Change Game Mode</A><br>"
-			if(lvl >= 2)
+			if(lvl > 1)
 				dat += "<A href='?src=\ref[src];restart=1'>Restart Game</A><br>"
 				dat += "<A href='?src=\ref[src];restart3=1'>Immediate Reboot</A><br>"
 
@@ -743,28 +777,19 @@
 				dat += "<A href='?src=\ref[src];vmode=2'>Begin change mode vote.</A><BR>"
 				dat += "<A href='?src=\ref[src];votekill=1'>Abort current vote.</A><BR>"
 
-			if(lvl >= 2)
+			if(lvl > 1)
 				dat += "<A href='?src=\ref[src];vt_rst=1'>Toggle restart voting [config.allow_vote_restart].</A><BR>"
 				dat += "<A href='?src=\ref[src];vt_mode=1'>Toggle mode voting [config.allow_vote_mode].</A><BR>"
 
 			dat += "<BR>"
 
-			if(lvl >= 2 )
+			if(lvl > 1 )
 				dat += "<A href='?src=\ref[src];secrets=1'>Activate Secrets</A><br>"
 				dat += "<A href='?src=\ref[src];create_object=1'>Create Object</A><br>"
 
 			dat += "<BR>"
 
-			if(lvl >= 2 )
-
-				dat += "<A href='?src=\ref[src];dna=1'>List DNA</A><br>"
-				dat += "<A href='?src=\ref[src];l_keys=1'>List Keys</A><br>"
-				dat += "<A href='?src=\ref[src];l_players=1'>List Players/Keys</A><br>"
-
 			dat += "<A href='?src=\ref[src];g_send=1'>Send Global Message</A><br>"
-			dat += "<A href='?src=\ref[src];p_send=1'>Send Private Message</A><br>"
-
-
 		else
 			dat = text("<center><B>Admin Control Center</B></center><hr>\n<A href='?src=\ref[];access=1'>Access Admin Commands</A><br>\n<A href='?src=\ref[];contact=1'>Contact Admins</A><br>\n<A href='?src=\ref[];message=1'>Access Messageboard</A><br>\n<br>\n<A href='?src=\ref[];l_keys=1'>List Keys</A><br>\n<A href='?src=\ref[];l_players=1'>List Players/Keys</A><br>\n<A href='?src=\ref[];g_send=1'>Send Global Message</A><br>\n<A href='?src=\ref[];p_send=1'>Send Private Message</A><br>", src, src, src, src, src, src, src)
 	usr << browse(dat, "window=admin")

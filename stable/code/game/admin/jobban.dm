@@ -1,10 +1,12 @@
 var
 	jobban_keylist[0]		//to store the keys & jobs
 
-//TODO: make this not suck
-/proc/jobban_fullban(mob/M, rank)
+/proc/jobban_banreason(mob/M, job)
+	return jobban_keylist["[M.ckey] - [job]"]
+
+/proc/jobban_fullban(mob/M, job, reason)
 	if (!M || !M.key || !M.client) return
-	jobban_keylist.Add(text("[M.ckey] - [rank]"))
+	jobban_keylist["[M.ckey] - [job]"] = reason
 	jobban_savebanfile()
 
 /proc/jobban_isbanned(mob/M, rank)
