@@ -7,7 +7,9 @@ on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 <p><b>Wednesday, June 10, 2009</b></p>
 <ul>
-<li><b>798</b> - AI no longer gets an alert from fire alarms with no power.</li>
+<li><b>801</b> - No more 10-second wait before you get your traitor radio. AI now gets law 0 after the "survive"
+mission, rather than before.</li>
+<li><b>800</b> - AI no longer gets an alert from fire alarms with no power.</li>
 
 <p><b>Tuesday, June 9, 2009</b></p>
 <ul>
