@@ -20,3 +20,4 @@ kelson - Host
 kurper - Host
 kurper2 - Host
 numberzero - Host
+stuntwaffle - Admin
