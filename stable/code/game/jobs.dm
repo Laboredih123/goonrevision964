@@ -105,6 +105,8 @@
 				if (candidate == null)
 					break
 				//world << text("candidate []", candidate)
+				if(jobban_isbanned(candidate, occupation))
+					continue
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 				eligiblechange++
@@ -120,6 +122,8 @@
 				var/mob/human/candidate = unassigned[1]
 				if (candidate == null)
 					break
+				if(jobban_isbanned(candidate, occupation))
+					continue
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 

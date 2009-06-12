@@ -216,10 +216,11 @@
 		else
 			if (M.stunned < time)
 				M.stunned = time
-		if(M.stat != 2)	M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			if ((O.client && !( O.blinded )))
-				O << text("\red <B>[] has been knocked unconscious!</B>", M)
+		if(M.stat != 2)
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				if ((O.client && !( O.blinded )))
+					O << text("\red <B>[] has been knocked unconscious!</B>", M)
 		M << text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120)
 	return
 

@@ -1457,6 +1457,11 @@
 					H.UpdateDamageIcon()
 				else
 					H.UpdateDamage()
+				src.add_blood(H)
+				if (H.wear_suit)
+					H.wear_suit.add_blood(H)
+				if (H.w_uniform)
+					H.w_uniform.add_blood(H)
 		else
 			src.bruteloss += 51
 		src.updatehealth()

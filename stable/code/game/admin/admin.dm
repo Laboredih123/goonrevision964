@@ -88,7 +88,7 @@
 		dat += "<input type='hidden' name='jobban2' value='[href_list["jobban1"]]'>"
 		dat += "<b> Choose a job to ban from.</b><br>"
 		dat += "<select name='job'>"
-		for(var/job in get_all_jobs())
+		for(var/job in get_all_jobs() - "Assistant")
 			dat += "<option value='\ref[job]'>[job]"
 			if(jobban_isbanned(M, job))
 				dat += " (jobbanned - [jobban_banreason(M, job)])"
@@ -106,6 +106,7 @@
 		var/job = locate(href_list["job"])
 		var/mob/M = locate(href_list["jobban2"])
 		var/reason = href_list["jobbanreason"]
+		reason = copytext(sanitize(reason), 1, MAX_MESSAGE_LEN)
 		if (M.client && M.client.holder && M.client.holder.level >= src.level && !(M == usr))	//you can ban yourself from jobs
 			alert("You cannot perform this action. You must be of a higher administrative rank!")
 			return
@@ -119,7 +120,7 @@
 			messageadmins("\blue[usr.key] banned [M.key]/[M.rname] from [job]")
 			M << "\blue[usr.key] banned you from [job]."
 			jobban_fullban(M, job, reason)
-		href_list["jobban1"] = 1 // lets it fall through and refresh
+		href_list["jobban1"] = "/ref[M]" // lets it fall through and refresh
 
 //
 	if (href_list["ban"])
@@ -287,20 +288,25 @@
 				alert("The AI can't be monkeyized!")
 				return
 
-	if (href_list["makeai"]) //Yes, im fucking lazy, so what? it works ... hopefully
+	if (href_list["makeai"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
+			if(!ticker)
+				alert("Cannot AIize before game has started.")
+				return
 			var/mob/human/M = locate(href_list["makeai"])
 			if(!istype(M, /mob/human))
 				alert("Target is not human, AIization failed.")
 				return
-			var/obj/S = null
 			messageadmins("\blue Admin [usr.key] attempting to AIize [M.key]/[M.rname]!")
 			world.log_admin("[usr.key] AIized [M.key]/[M.rname]")
+			var/obj/S = null
 			for(var/obj/start/sloc in world)
-				if (sloc.name != "AI")
-					continue
+				if (sloc.name != "AI")	continue
 				S = sloc
 				break
+			if(!S)
+				alert("Could not get AI spawn location! Aborting!")
+				return
 			M.loc = S.loc
 			var/randomname = pick(ai_names)
 			var/newname = input(

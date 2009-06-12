@@ -272,9 +272,10 @@
 					else
 						if (H.weakened < time)
 							H.weakened = time
-					if(H.stat != 2)	H.stat = 1
-					for(var/mob/O in viewers(M, null))
-						O.show_message(text("\red <B>[] has been knocked unconscious!</B>", H), 1, "\red You hear someone fall.", 2)
+					if(H.stat != 2)
+						H.stat = 1
+						for(var/mob/O in viewers(M, null))
+							O.show_message(text("\red <B>[] has been knocked unconscious!</B>", H), 1, "\red You hear someone fall.", 2)
 					H.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
 					if (prob(50) && ticker.mode.name == "revolution")
 						if (H.rev_status == REV_FOLLOWER)
@@ -1211,9 +1212,10 @@
 		else
 			if (M.weakened < time)
 				M.weakened = time
-		if(M.stat != 2)	M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			if(O.client)	O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall", 2)
+		if(M.stat != 2)
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				if(O.client)	O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall", 2)
 		M.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
 	return
 
@@ -1277,9 +1279,10 @@
 			if (M.stuttering < 10)
 				M.stuttering = 10
 			..()
-			if(M.stat != 2)	M.stat = 1
-			for(var/mob/O in viewers(M, null))
-				O.show_message("\red <B>[M] has been knocked unconscious!</B>", 1, "\red You hear someone fall", 2)
+			if(M.stat != 2)
+				M.stat = 1
+				for(var/mob/O in viewers(M, null))
+					O.show_message("\red <B>[M] has been knocked unconscious!</B>", 1, "\red You hear someone fall", 2)
 		else
 			if (prob(50))
 				if (M.paralysis < 60)
@@ -1289,9 +1292,10 @@
 					M.weakened = 60
 			if (M.stuttering < 60)
 				M.stuttering = 60
-			if(M.stat != 2)	M.stat = 1
-			for(var/mob/O in viewers(M, null))
-				if (O.client)	O.show_message("\red <B>[M] has been stunned with the taser gun by [user]!</B>", 1, "\red You hear someone fall", 2)
+			if(M.stat != 2)
+				M.stat = 1
+				for(var/mob/O in viewers(M, null))
+					if (O.client)	O.show_message("\red <B>[M] has been stunned with the taser gun by [user]!</B>", 1, "\red You hear someone fall", 2)
 		src.charges--
 		update_icon()
 	else // no charges in the gun, so they just wallop the target with it
@@ -3244,9 +3248,10 @@
 		else
 			if (M.stunned < time)
 				M.stunned = time
-		if(M.stat != 2)	M.stat = 1
-		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall.", 2)
+		if(M.stat != 2)
+			M.stat = 1
+			for(var/mob/O in viewers(M, null))
+				O.show_message(text("\red <B>[] has been knocked unconscious!</B>", M), 1, "\red You hear someone fall.", 2)
 		M.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
 	return
 

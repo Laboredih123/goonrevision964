@@ -176,5 +176,4 @@
 			return "access atmospherics"
 
 /proc/get_all_jobs()
-	return list("Assistant", "Station Engineer", "Forensic Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
-
+	return list("AI", "Assistant", "Station Engineer", "Forensic Technician", "Medical Doctor", "Captain", "Security Officer", "Genetic Researcher", "Toxin Researcher", "Head of Research", "Head of Personnel", "Atmospheric Technician", "Chaplain")
