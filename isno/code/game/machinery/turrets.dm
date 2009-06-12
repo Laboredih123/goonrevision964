@@ -105,7 +105,7 @@
 	if (istype(loc, /turf))
 		loc = loc:loc
 	if (!istype(loc, /area))
-		world << text("Badly positioned turret - loc.loc is [].", loc)
+		world.log_bug(text("Badly positioned turret - loc.loc is [].", loc))
 		return
 	var/area/area = loc
 	if (istype(area, /area))

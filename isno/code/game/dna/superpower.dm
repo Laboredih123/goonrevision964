@@ -15,4 +15,3 @@
 	var/allele = L[3]
 	src.dna.data[i][j] = allele
 	src.dna.apply(src)
-	world << "GENE IS [G.type] MOB IS [src.name]"

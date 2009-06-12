@@ -23,7 +23,7 @@
 			if(possibilities.len)
 				return pick(possibilities)
 			else
-				world << "WARNING: NO SPAWNPOINT FOUND! JOB IS [src.name]."
+				world.log_bug("No spawnpoint found for [src.name].")
 		else if(join_status == JOINED_ALREADY)
 			return get_turf(M)
 		else
