@@ -27,7 +27,7 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Goonstation [SS13_version]\]<BR>"
+	src.status = "[SS13_version]\]<BR>"
 
 	if(!game_started)
 		src.status += "<b>STARTING</b>"
@@ -217,7 +217,7 @@
 	fdel(F)
 	F << curround
 	world.update_stat()
-	world << "<B>Welcome to Space Station 13!</B>\n\n"
+	world << "<B>Welcome to the station!</B>\n\n"
 
 	current_mode = master_mode
 	current_mode.announce()

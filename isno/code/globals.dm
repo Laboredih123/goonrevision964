@@ -95,12 +95,12 @@
 */
 
 var
-	join_motd = "Welcome to Goonstation!"
+	join_motd = "Welcome to the station!"
 	auth_motd = null		//	sent to players who do authenticate
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
-	savefile_ver = "Goon v2"
-	SS13_version = "Unstable 1.0 beta"
+	savefile_ver = "Isno v1"
+	SS13_version = "Isno beta"
 	datum/control/cellular/cellcontrol = null
 	obj/datacore/data_core = null
 	obj/overlay/plmaster = null
@@ -168,7 +168,7 @@ var
 	curround = 0
 
 world
-	name = "Goonstation"
+	name = "Isno"
 	mob = /mob/prespawn
 	turf = /turf/space
 	area = /area

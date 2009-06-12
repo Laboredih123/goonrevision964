@@ -12,7 +12,7 @@
 				break
 			sleep(time_offset)
 
-		station_announce("Central Command has learned that subversive elements are present on Space Station 13.")
+		station_announce("Central Command has learned that subversive elements are present on the station.")
 		station_announce("Trained commandos will arrive to liquidate the station shortly.")
 
 		commando_shuttle.callize()
