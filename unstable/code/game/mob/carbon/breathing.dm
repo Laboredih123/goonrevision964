@@ -15,6 +15,8 @@
 /mob/carbon/var/temperature_resistance = T0C+75
 
 /mob/carbon/proc/breathe()
+	if(src.unbreathing)
+		return
 	if(src.internal)
 		if(!src.mask)								src.internal = null
 		else if(!src.contents.Find(src.internal))	src.internal = null

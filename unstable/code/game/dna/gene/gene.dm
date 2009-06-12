@@ -15,6 +15,8 @@
 	// what you get if you choose an otherwise unassigned allele for this
 	var/default = JUNK
 
+	var/is_superpower = 0
+
 	proc/pre_apply(mob/carbon/M)
 		// first all the genes get pre_apply()ed, then they get apply()ed
 		// for instance, if there were separate baldness and hair style genes,

@@ -1,6 +1,7 @@
 /datum/gene/super_strength
 	default = JUNK
 	var/const/SUPER_STRONG = "HULK"
+	is_superpower = 1
 
 	New()
 		attributes = list(SUPER_STRONG)

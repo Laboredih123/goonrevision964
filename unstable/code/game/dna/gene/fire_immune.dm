@@ -1,6 +1,7 @@
 /datum/gene/fire_immune
 	default = JUNK
 	var/const/FIRE_IMMUNE = "BURN"
+	is_superpower = 1
 
 	New()
 		attributes = list(FIRE_IMMUNE)

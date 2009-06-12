@@ -7,6 +7,11 @@ on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 <p><b>Thursday, June 10, 2009</b></p>
 <ul>
+<li><b>810</b> - A random monkey in Genetics now gets a superpower each round. Hopefully, this will give them
+something. to work on besides abducting people. Added "unbreathing" superpower, which does about what you'd expect.
+Other current superpowers are fire immunity (not as great as it sounds unless you have air), super strength (nowhere
+near as powerful as on other servers, just makes you a beast in combat), telepathy (you can hear anything anyone
+says), and x-ray vision (you can see everything).</li>
 <li><b>809</b> - You're now told your job's responsibilities when you spawn.</li>
 <li><b>808</b> - Voting now shows you a brief description of each mode.</li>
 <li><b>807</b> - Voting now works again.</li>

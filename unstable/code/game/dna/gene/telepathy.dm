@@ -1,6 +1,7 @@
 /datum/gene/telepathy
 	default = JUNK
 	var/const/TELEPATHIC = "BIGBROTHER"
+	is_superpower = 1
 
 	New()
 		attributes = list(TELEPATHIC)

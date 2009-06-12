@@ -45,6 +45,13 @@ var/const/SCENARIO_COMPLETE = 1
 		missions += new /datum/mission/survival()
 
 	proc/execute()
+		// make one of the monkeys have super powers
+		var/list/L = list()
+		for(var/mob/carbon/monkey/M in locate(/area/medical/research))
+			L += M
+		var/mob/carbon/monkey/M = pick(L)
+		M.give_random_superpower()
+
 		while(src.state() == SCENARIO_ACTIVE)
 			sleep(5)
 		return src.conclude()

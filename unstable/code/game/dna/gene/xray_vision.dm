@@ -1,6 +1,7 @@
 /datum/gene/xray_vision
 	default = JUNK
 	var/const/XRAY_VISION = "SUPERMAN"
+	is_superpower = 1
 
 	New()
 		attributes = list(XRAY_VISION)

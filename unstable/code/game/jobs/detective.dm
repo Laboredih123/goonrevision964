@@ -1,7 +1,7 @@
 /datum/job/detective
 	name = "Detective"
 	max = 1
-	responsibilities = {"Investigate crimes after they occur with your scanners, and report any that you see
+	responsibilities = {"<html>Investigate crimes after they occur with your scanners, and report any that you see
 	    happening with your thermal goggles. Your responsibilities do not include subduing or arresting criminals."}
 
 	give_equipment(mob/carbon/M)

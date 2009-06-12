@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: code\game\mob\carbon\vision.dm
+DIR: code code\data code\game code\game\dna code\game\dna\gene code\game\jobs code\game\mob code\game\mob\carbon code\game\mode maps Lib
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: OFF
+*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR
@@ -28,6 +34,7 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include <shadowdarke\sd_alert\sd_Alert.dme>
 #include "code\atoms.dm"
 #include "code\configuration.dm"
 #include "code\globals.dm"
@@ -125,6 +132,7 @@
 #include "code\game\dna\dna.dm"
 #include "code\game\dna\dna_scanner.dm"
 #include "code\game\dna\locus.dm"
+#include "code\game\dna\superpower.dm"
 #include "code\game\dna\gene\appearance.dm"
 #include "code\game\dna\gene\blobbishness.dm"
 #include "code\game\dna\gene\bloodtype.dm"
@@ -140,6 +148,7 @@
 #include "code\game\dna\gene\skin_color.dm"
 #include "code\game\dna\gene\super_strength.dm"
 #include "code\game\dna\gene\telepathy.dm"
+#include "code\game\dna\gene\unbreathing.dm"
 #include "code\game\dna\gene\unique.dm"
 #include "code\game\dna\gene\xray_vision.dm"
 #include "code\game\item\weapon\aimodules.dm"

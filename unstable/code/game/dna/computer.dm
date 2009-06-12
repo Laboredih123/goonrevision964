@@ -47,9 +47,8 @@
 		STATE_DIFF_DONE = 30
 		STATE_DELETE = 31
 
-		SCAN_SPEED = 50 //loci/second
-		//TODO: adjust to be lower (when not debugging)
-		REPLACE_SPEED = 50
+		SCAN_SPEED = 5 //loci/second
+		REPLACE_SPEED = 2
 
 /obj/machinery/computer/dna/New()
 	..()

@@ -1,8 +1,8 @@
 /datum/job/geneticist
 	name = "Geneticist"
-	max = 1
-	responsibilities = {"Experiment on monkeys and any willing test subjects. Try to isolate superpowers, if you're
-	    feeling adventurous."}
+	max = 2
+	responsibilities = {"<html>Experiment on monkeys and any willing test subjects. One of your monkeys has a
+	    superpower, perhaps you should try to find out which?</html>"}
 
 	give_equipment(mob/carbon/M)
 		M.equip_if_possible(new /obj/item/weapon/clothing/under/geneticswhite(M), SLOT_JUMPSUIT)
