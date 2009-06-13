@@ -24,7 +24,7 @@
 			if (locate(/mob) in sloc.loc)
 				continue
 			return sloc.loc
-		world << "WARNING: NO SPAWNPOINT FOUND! JOB IS [src.name]."
+		world.log_bug("No spawnpoint found for [src.name].")
 
 	proc/process_name(name, mob/M)
 		return name

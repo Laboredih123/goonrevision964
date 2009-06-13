@@ -1507,11 +1507,6 @@
 
 /obj/stool/chair/e_chair/proc/shock()
 
-	//*****
-	//world << "EC: got shock, status is [on]"
-
-
-
 	if (!( src.on ))
 		return
 	if ( (src.last_time + 50) > world.time)
@@ -1871,9 +1866,6 @@
 	return
 
 /obj/window/meteorhit()
-
-	//*****RM
-	//world << "glass at [x],[y],[z] Mhit"
 	src.health = 0
 	new /obj/item/weapon/shard( src.loc )
 	if(reinf) new /obj/item/weapon/rods( src.loc)

@@ -130,7 +130,7 @@
 			if (src.wasvalid)
 				src.die()
 			else
-				world << text("ERROR: Turret at [], [], [] is NOT in a turret-protected area!", x, y, z)
+				world.log_bug("Turret at [x], [y], [z] is NOT in a turret-protected area!")
 
 /obj/machinery/turret/proc/isDown()
 	return (invisibility!=0)
@@ -296,7 +296,7 @@
 	if (istype(loc, /turf))
 		loc = loc:loc
 	if (!istype(loc, /area))
-		world << text("Turret badly positioned - loc.loc is [].", loc)
+		world.log_bug("Turret badly positioned - loc.loc is [loc].")
 		return
 	var/area/area = loc
 

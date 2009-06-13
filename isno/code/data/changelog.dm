@@ -5,8 +5,14 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want 
 on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 <hr>
 
+<p><b>Friday, June 11, 2009</b></p>
+<ul>
+<li><b>815</b> - Updated job responsibilities paper for the first time in at least a year. It now auto-updates.</li>
+</ul>
+
 <p><b>Thursday, June 10, 2009</b></p>
 <ul>
+<li><b>813</b> - Changed name from "unstable" to "isno" (short for "isnochysn").</li>
 <li><b>812</b> - A random monkey in Genetics now gets a superpower each round. Hopefully, this will give them
 something. to work on besides abducting people. Added "unbreathing" superpower, which does about what you'd expect.
 Other current superpowers are fire immunity (not as great as it sounds unless you have air), super strength (nowhere
