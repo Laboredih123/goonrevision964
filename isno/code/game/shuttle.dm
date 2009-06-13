@@ -1,7 +1,7 @@
 /var/datum/shuttle/emergency_shuttle = new()
 /var/datum/shuttle/commando/commando_shuttle = new()
 
-/var/list/shuttles_by_area_type = list(/area/shuttle/emergency = emergency_shuttle, /area/shuttle/commando = commando_shuttle)
+/var/list/shuttles_by_area_type = null
 
 /var/const/SHUTTLE_Z = 2 //where it starts
 /var/const/SHUTTLE_CALLED_Z = 1 // where it arrives

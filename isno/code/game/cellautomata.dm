@@ -57,6 +57,7 @@
 
 
 /world/New()
+	shuttles_by_area_type = list(/area/shuttle/emergency = emergency_shuttle, /area/shuttle/commando = commando_shuttle)
 	src.update_stat()
 
 	makepipelines()

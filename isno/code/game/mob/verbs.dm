@@ -24,7 +24,7 @@
 
 /mob/verb/changes()
 	set name = "Changelog"
-	ss13_browse(src, text("[]", changes), "window=changes")
+	ss13_browse(src, text("[]", changes), "window=changes;size=500x500")
 	return
 
 /mob/verb/observe()

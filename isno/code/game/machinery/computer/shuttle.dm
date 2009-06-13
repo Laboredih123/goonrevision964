@@ -9,8 +9,9 @@
 	var/datum/shuttle/shuttle = null
 
 	New()
-		var/area/A = get_area(src)
-		shuttle = shuttles_by_area_type[A.type]
+		spawn(10)
+			var/area/A = get_area(src)
+			shuttle = shuttles_by_area_type[A.type]
 
 	attackby(obj/item/weapon/card/id/W, mob/user)
 		if (!istype(W, /obj/item/weapon/card/id) || shuttle.status != shuttle.STATE_DOCKED || !user )
