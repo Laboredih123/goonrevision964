@@ -51,7 +51,7 @@
 				var/rounds = min(text2num(href_list["rounds"]), src.max_rounds)
 				if(rounds)
 					B = new /datum/ban/round(new_ban_id(), M.ckey, reason, usr.ckey, rounds)
-			ban(M.last_known_ckey, M.last_known_ip, M.client, B)
+			ban(M.last_known_ckey, M.last_known_ip, M.last_known_computer_id, M.client, B)
 			world << "\red [M.last_known_ckey] has been banned [B.get_duration_desc()] by [usr.ckey]. The reason given for this ban was: [reason]."
 			world.log_admin("[M.last_known_ckey] has been banned [B.get_duration_desc()] by [usr.ckey]. The reason given for this ban was: [reason].")
 			if(M.client)

@@ -19,6 +19,7 @@
 
 	var/last_known_ip = null
 	var/last_known_ckey = null
+	var/last_known_computer_id = null
 
 	var/voice = null
 	var/spawn_name = null

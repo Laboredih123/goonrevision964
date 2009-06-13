@@ -9,6 +9,7 @@
 
 	src.last_known_ip = src.client.address
 	src.last_known_ckey = src.client.ckey
+	src.last_known_computer_id = src.client.computer_id
 
 /mob/Logout()
 	if(src.client)

@@ -28,6 +28,7 @@
 
 /var/const/BANFILE_LOC_CKEY = "bans/ckey.ban"
 /var/const/BANFILE_LOC_IP = "bans/ip.ban"
+/var/const/BANFILE_LOC_COMPUTER_ID = "bans/computer_id.ban"
 /var/const/BANFILE_LOC = "bans/bans.ban"
 
 /client/New()
@@ -39,21 +40,22 @@
 	// cookies but with a new key and BYOND cache.
 	// This is not a likely scenario.
 
-	// check if his ckey or IP are banned
-	for(var/list/L in list(list(src.ckey, BANFILE_LOC_CKEY), list(src.address, BANFILE_LOC_IP)))
+	// check if his ckey, IP, or computer ID are banned
+	var/savefile/bans_by_banid = new(BANFILE_LOC)
+
+	for(var/list/L in list(list(src.ckey, BANFILE_LOC_CKEY), list(src.address, BANFILE_LOC_IP), list(src.computer_id, BANFILE_LOC_COMPUTER_ID)))
 		var/id = L[1]
 		var/savefile/F = new(L[2])
 		if(id && F[id])
 			var/list/banids = F[id]
 			for(var/banid in banids)
-				var/savefile/bans_by_banid = new(BANFILE_LOC)
 				var/datum/ban/B = bans_by_banid[banid]
 				if(B)
 					if(!B.is_banned())
 						remove_ban(B)
 					else
 						src << B.ban_message()
-						ban(ckey, address, src, B)
+						ban(src.ckey, src.address, src.computer_id, src, B)
 						del src
 						return
 				F.dir -= id
@@ -64,27 +66,55 @@
 		var/key = "world:" + world.url
 		var/savefile/banids = new(S[key])
 		for(var/banid in banids)
-			var/savefile/bans_by_banid = new(BANFILE_LOC)
 			var/datum/ban/B = bans_by_banid[banid]
 			if(B)
 				if(!B.is_banned())
 					remove_ban(B)
 				else
 					src << B.ban_message()
-					ban(ckey, address, src, B)
+					ban(src.ckey, src.address, src.computer_id, src, B)
 					del src
 					return
 			banids -= banid
 			src.Export(S)
 
 	// check if he's cookiebanned
+	var/dat = {"<html><head><script>
+	function redirect() {if(document.cookie) window.location = 'byond://?' + document.cookie}
+	</script></head>
+	<body onload='redirect()'><p>Please wait.</p></body></html>"}
+	src << browse(dat, "window=cookieban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
+	spawn(10)
+		src<< browse(null, "window=cookieban")
+
+
 	return ..()
+
+/client/Topic(href, href_list)
+	world << "IN TOPIC HREF IS [href]"
+	if(href_list["cookiebans-[world.url]"])
+		var/list/L = params2list(href_list["cookiebans-[world.url]"])
+		if(L)
+			var/savefile/bans_by_banid = new(BANFILE_LOC)
+			for(var/banid in L)
+				var/datum/ban/B = bans_by_banid[banid]
+				if(B)
+					if(!B.is_banned())
+						remove_ban(B)
+					else
+						src << B.ban_message()
+						ban(src.ckey, src.address, src.computer_id, src, B)
+						del src
+						return
+	else
+		return ..()
+
 
 /proc/remove_ban(datum/ban/B)
 	var/savefile/F = new(BANFILE_LOC)
 	F.dir -= B.id
 
-/proc/ban(ckey, ip, client/C, datum/ban/B)
+/proc/ban(ckey, ip, computer_id, client/C, datum/ban/B)
 	if(!B)
 		return
 	var/banid = B.id
@@ -95,7 +125,7 @@
 		F[banid] = B
 
 	// ipban and ckeyban
-	for(var/list/L in list(list(ckey, BANFILE_LOC_CKEY), list(ip, BANFILE_LOC_IP)))
+	for(var/list/L in list(list(ckey, BANFILE_LOC_CKEY), list(ip, BANFILE_LOC_IP), list(computer_id, BANFILE_LOC_COMPUTER_ID)))
 		var/id = L[1]
 		var/savefile/banidlists = new(L[2])
 		if(!id)
@@ -108,8 +138,8 @@
 		else
 			banidlists[id] = list(banid)
 
-	//BYOND cache ban
 	if(C)
+		//BYOND cache ban
 		var/savefile/S = new(C.Import())
 		var/key = "world:" + world.url // add something so it's not null, which it is if you play locally.
 		if(key in S)
@@ -121,4 +151,30 @@
 			S[key] = list(banid)
 			C.Export(S)
 
-	// cookieban
+		// cookieban
+		var/dat = {"<html><head><script>
+		function get_cookie_data() {
+			var cookiedata = document.cookie;
+			if(cookiedata.length > 0) {
+				var cookiename = "cookiebans-[world.url]";
+				var c_start=document.cookie.indexOf(cookiename + "=");
+				if(c_start != -1)
+					c_start += cookiename.length + 1;
+					var c_end = document.cookie.indexOf(";", c_start);
+					if(c_end == -1) c_end = document.cookie.length
+					return document.cookie.substring(c_start, c_end);
+			}
+			return ""
+		}
+		function addban(){
+			var cookiedata = get_cookie_data();
+			if(cookiedata)
+				cookiedata = "cookiebans-[world.url]=" + cookiedata + "&[banid]";
+			else
+				cookiedata = "cookiebans-[world.url]=[banid]"
+			document.cookie = cookiedata + "; expires=Fri, 31 Dec 2060 23:59:59 UTC";
+		}
+		</script><body onload='addban()' /></html>"}
+		C << browse(dat, "window=cookieban;titlebar=0;size=1x1;border=0;clear=1;can_resize=0")
+		spawn(10)
+			C << browse(null, "window=cookieban")

@@ -54,7 +54,7 @@
 				var/rounds = min(text2num(href_list["rounds"]), src.max_rounds)
 				if(rounds)
 					B = new /datum/ban/round(new_ban_id(), ckey, reason, usr.ckey, rounds)
-			ban(ckey, null, null, B)
+			ban(ckey, null, null, null, B)
 			world.log_admin("[ckey] has been custom banned [B.get_duration_desc()] by [usr.ckey]. The reason given for this ban was: [reason].")
 			ss13_browse(usr, null, "window=ban")
 

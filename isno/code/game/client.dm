@@ -21,6 +21,8 @@
 				world.log_access("Notice: [src.key] has same IP address as [M.key]")
 			else if (M.last_known_ip && M.last_known_ip == src.address && M.last_known_ckey != src.ckey)
 				world.log_access("Notice: [src.key] has same IP address as [M.last_known_ckey] did ([M.last_known_ckey] is no longer logged in).")
+			else if (M.last_known_computer_id && M.last_known_computer_id == src.computer_id && M.last_known_ckey != src.ckey)
+				world.log_access("Notice: [src.key] has same computer ID as [M.last_known_ckey] did ([M.last_known_ckey] is no longer logged in).")
 	if (((world.address == src.address || !(src.address)) && !(host)))
 		host = src.key
 		world.update_stat()

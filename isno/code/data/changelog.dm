@@ -5,6 +5,12 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want 
 on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 <hr>
 
+<p><b>Saturday, June 12, 2009</b></p>
+<ul>
+<li><b>819</b> - Bans should now be tougher to evade.</li>
+</ul>
+
+
 <p><b>Friday, June 11, 2009</b></p>
 <ul>
 <li><b>817</b> - Updated legal SOP document. It's now reasonably short and less unrealistic.</li>
