@@ -7,6 +7,7 @@ on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 <p><b>Friday, June 11, 2009</b></p>
 <ul>
+<li><b>816</b> - Updated legal SOP document. It's now reasonably short and less unrealistic.</li>
 <li><b>815</b> - Updated job responsibilities paper for the first time in at least a year. It now auto-updates.</li>
 </ul>
 
