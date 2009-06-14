@@ -91,7 +91,6 @@
 	return ..()
 
 /client/Topic(href, href_list)
-	world << "IN TOPIC HREF IS [href]"
 	if(href_list["cookiebans-[world.url]"])
 		var/list/L = params2list(href_list["cookiebans-[world.url]"])
 		if(L)
