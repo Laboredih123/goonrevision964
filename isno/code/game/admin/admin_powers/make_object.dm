@@ -23,8 +23,10 @@
 					if("absolute")	new object(locate(0+X,0+Y,0+Z))
 					if("relative")	if(loc) new object(locate(loc.x+X,loc.y+Y,loc.z+Z))
 					else			return
-			if(number == 1) world.log_admin("[usr.key] spawned an [object]")
-			else			world.log_admin("[usr.key] spawned [object] x [number]")
+			if(number == 1)
+				world.log_admin("[usr.key] spawned an [object]")
+			else
+				world.log_admin("[usr.key] spawned [object] x [number]")
 			ss13_browse(usr, null, "window=admin_object_spawn")
 
 	proc/DisplayMenu(var/mob/user)

@@ -11,9 +11,11 @@
 			if(!M || !M.client)
 				return
 			if(!M.client.muted)
+				world.log_admin("[usr.key] muted [M.ckey]")
 				M.client.muted = 1
 				muted += M.ckey
 			else
+				world.log_admin("[usr.key] unmuted [M.ckey]")
 				M.client.muted = 0
 				muted -= M.ckey
 		return ..()

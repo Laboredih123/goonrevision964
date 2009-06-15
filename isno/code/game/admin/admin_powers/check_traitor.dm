@@ -11,6 +11,9 @@
 		..()
 		if(href_list["mob"])
 			var/mob/M = locate(href_list["mob"])
+			if(!M)
+				return
+			world.log_admin("[usr.key] checked whether [M.key] was a traitor.")
 			if(game_started && current_mode && current_mode.get_traitors())
 				if(M in current_mode.get_traitors())
 					alert("This person is a traitor.")

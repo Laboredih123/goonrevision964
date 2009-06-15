@@ -6,6 +6,7 @@
 
 	Topic(href, href_list)
 		if(game_started && current_mode)
+			world.log_admin("[usr.key] viewed the traitor lost..")
 			var/list/traitors = current_mode.get_traitors()
 			var/dat = "<html><head><title>Traitor(s)</title><body><table><tr><th>Spawn Name</th><th>Key</th></tr>"
 			for(var/mob/T in traitors)

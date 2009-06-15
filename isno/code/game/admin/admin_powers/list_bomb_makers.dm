@@ -6,6 +6,7 @@
 
 	Topic(href, href_list)
 		..()
+		world.log_admin("[usr.key] viewed the list of bomb makers.")
 		var/dat = "<B>Don't be insane about this list</B> Get the facts. They also could have disarmed one.<HR>"
 		for(var/ckey in bombers)
 			dat += "[ckey] 'made' a bomb.<BR>"

@@ -10,9 +10,11 @@
 			src << "Exiting observer mode"
 			usr.client.mob = usr:corpse
 			del(usr)
-			return
-		usr.client.mob = new/mob/observer(usr)
-		usr << "Entering observer mode."
+			world.log_admin("[usr.key] left observer mode.")
+		else
+			usr.client.mob = new/mob/observer(usr)
+			usr << "Entering observer mode."
+			world.log_admin("[usr.key] entered observer mode.")
 		return ..()
 
 	get_desc()

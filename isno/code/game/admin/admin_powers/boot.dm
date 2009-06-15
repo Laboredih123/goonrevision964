@@ -9,6 +9,7 @@
 		if(href_list["mob"]) //show the window
 			var/mob/M = locate(href_list["mob"])
 			if(M.client)
+				world.log_admin("[M.key] has been booted by [usr.key].")
 				del(M.client)
 		return ..()
 

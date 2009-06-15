@@ -22,8 +22,10 @@
 			ss13_browse(usr, dat, "window=banpanel;size=600x400")
 		else if(href_list["banid"])
 			var/banid = text2num(href_list["banid"])
-			var/savefile/F = new(BANFILE_LOC)
-			F.dir -= banid
+			var/savefile/bans_by_id = new(BANFILE_LOC)
+			var/datum/ban/B = bans_by_id[banid]
+			world.log_admin("[usr.key] removed ban [banid] on [B.origckey].")
+			bans_by_id.dir -= banid
 			ss13_browse(usr, null, "window=banpanel")
 
 	get_desc()

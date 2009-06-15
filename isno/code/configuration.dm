@@ -52,9 +52,15 @@
 			if("log_game")		config.log_game = 1
 			if("log_vote")		config.log_vote = 1
 			if("log_file")
-				config.log_file = dd_replacetext(value, "ROUNDNUM", "[curround + 1]")
-				fdel(value);
-
+				var/fname = dd_replacetext(value, "ROUNDNUM", "[curround + 1]")
+				config.log_file = dd_replacetext(fname, "LOGTYPE", "")
+				config.log_file_admin = dd_replacetext(fname, "LOGTYPE", "admin")
+				config.log_file_game = dd_replacetext(fname, "LOGTYPE", "game")
+				config.log_file_bug = dd_replacetext(fname, "LOGTYPE", "bug")
+				config.log_file_vote = dd_replacetext(fname, "LOGTYPE", "vote")
+				config.log_file_access = dd_replacetext(fname, "LOGTYPE", "access")
+				config.log_file_say = dd_replacetext(fname, "LOGTYPE", "say")
+				config.log_file_ooc = dd_replacetext(fname, "LOGTYPE", "ooc")
 			if("allow_vote_restart")	config.allow_vote_restart = 1
 			if("allow_vote_mode")		config.allow_vote_mode = 1
 			if("no_dead_vote")			config.vote_no_dead = 1

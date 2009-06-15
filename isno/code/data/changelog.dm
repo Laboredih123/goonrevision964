@@ -5,6 +5,11 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want 
 on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 <hr>
 
+<p><b>Monday, June 15, 2009</b></p>
+<ul>
+<li><b>823</b> - Added some more logging for admin powers. All use of admin powers should now be logged.</li>
+</ul>
+
 <p><b>Sunday, June 14, 2009</b></p>
 <ul>
 <li><b>822</b> - In meteor mode, meteors now come in larger waves spaced further apart. It's now 10 seconds of
