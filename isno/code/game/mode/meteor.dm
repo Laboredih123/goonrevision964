@@ -11,5 +11,6 @@
 		termination_conditions += new /datum/termination_condition/shuttle(emergency_shuttle)
 
 	execute()
-		new /datum/effect/meteors(70,15,30)
+		spawn(300)
+			new /datum/effect/meteors(interval = 600, nummeteors = 500, wavelength = 100)
 		..()

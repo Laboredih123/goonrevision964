@@ -21,38 +21,31 @@
 			spawn_meteor()
 
 /proc/spawn_meteor()
-	var/startedge = pick(prob(20); NORTH,
-	                     prob(5); NORTHEAST,
-	                     prob(20); EAST,
-	                     prob(5); SOUTHEAST,
-	                     prob(20); SOUTH,
-	                     prob(5); SOUTHWEST,
-	                     prob(20); WEST,
-	                     prob(5); NORTHWEST)
+	var/startedge = pick(NORTH, SOUTH, EAST, WEST)
 	var/startx
 	var/starty
 	var/endx
 	var/endy
 
-	if(startedge & NORTH)
-		starty = world.maxy - 2
+	if(startedge == NORTH)
+		starty = world.maxy - 2 // because of the dumb way the z-level code works
 		endy = 1
-	else if(startedge & SOUTH)
-		starty = 3
+	else if(startedge == SOUTH)
+		starty = 3  // because of the dumb way the z-level code works
 		endy = world.maxy
 	else
-		starty = rand(1, world.maxy)
-		endy = min(max(starty + rand(-5, 5), 1), world.maxy) // up to 5 away from starty
+		starty = rand(3, world.maxy - 2)
+		endy = rand(3, world.maxy - 2)
 
-	if(startedge & WEST)
-		startx = 3 // because of the dumb way the z-level code works
+	if(startedge == WEST)
+		startx = 3
 		endx = world.maxx
-	else if(startedge & EAST)
+	else if(startedge == EAST)
 		startx = world.maxx - 2 // because of the dumb way the z-level code works
 		endx = 1
 	else
-		startx = rand(1, world.maxx)
-		endx = min(max(startx + rand(-5, 5), 1), world.maxx) // up to 5 away from starty
+		startx = rand(3, world.maxx - 2)
+		endx = rand(3, world.maxx - 2)
 
 	var/obj/meteor/M
 	if(rand(50))

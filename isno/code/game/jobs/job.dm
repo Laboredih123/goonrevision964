@@ -63,7 +63,7 @@
 
 		M << "<B>Game mode is [current_mode.long_name]</B>"
 		M << "<B>You are the [src.name].</B>"
-		M << "<b>Your responsibilities are:</b> [src.responsibilities]"
+		M << "<b>Your responsibilities are:</b> [src.responsibilities]<br>"
 		if(join_status == JOINED_LATE)
 			for(var/mob/silicon/ai/ai in world)
 				if(!ai.is_dead)

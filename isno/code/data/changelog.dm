@@ -7,6 +7,8 @@ on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 <p><b>Sunday, June 14, 2009</b></p>
 <ul>
+<li><b>822</b> - In meteor mode, meteors now come in larger waves spaced further apart. It's now 10 seconds of
+meteors followed by 50 seconds of peace.</li>
 <li><b>821</b> - Fixed mass driver exploit.</li>
 </ul>
 
