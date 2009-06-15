@@ -255,5 +255,4 @@ var/const
 	CURROUND_FILENAME = "curround.txt"
 
 	MAX_BOMB_RADIUS = 10 // note that the full effects of the blast actually go to 4 times this distance
-
-	// #define DEATH_COMMANDO_DEATHMATCH_FUCK_AROUND 1
+	MAX_OBJS_DRIVEN = 15 // mass drivers only operate with up to this many objects on them

@@ -5,19 +5,23 @@ http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want 
 on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 <hr>
 
-<p><b>Saturday, June 12, 2009</b></p>
+<p><b>Sunday, June 14, 2009</b></p>
+<ul>
+<li><b>821</b> - Fixed mass driver exploit.</li>
+</ul>
+
+<p><b>Saturday, June 13, 2009</b></p>
 <ul>
 <li><b>819</b> - Bans should now be tougher to evade.</li>
 </ul>
 
-
-<p><b>Friday, June 11, 2009</b></p>
+<p><b>Friday, June 12, 2009</b></p>
 <ul>
 <li><b>817</b> - Updated legal SOP document. It's now reasonably short and less unrealistic.</li>
 <li><b>816</b> - Updated job responsibilities paper for the first time in at least a year. It now auto-updates.</li>
 </ul>
 
-<p><b>Thursday, June 10, 2009</b></p>
+<p><b>Thursday, June 11, 2009</b></p>
 <ul>
 <li><b>813</b> - Changed name from "unstable" to "isno" (short for "isnochysn").</li>
 <li><b>812</b> - A random monkey in Genetics now gets a superpower each round. Hopefully, this will give them

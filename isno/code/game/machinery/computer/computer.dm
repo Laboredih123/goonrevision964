@@ -68,13 +68,19 @@
 	if(stat & (BROKEN|NOPOWER))	return
 	use_power(500)
 
+	var/list/objs = list()
 	for(var/atom/movable/O in src.loc)
 		if(!O.anchored)
-			var/atom/targetarea = locate(src.x, src.y, src.z)
-			if(src.dir & NORTH)	targetarea = locate(targetarea.x, world.maxy, targetarea.z)
-			if(src.dir & SOUTH)	targetarea = locate(targetarea.x, 1, targetarea.z)
-			if(src.dir & EAST)	targetarea = locate(world.maxx, targetarea.y, targetarea.z)
-			if(src.dir & WEST)	targetarea = locate(1, targetarea.y, targetarea.z)
+			objs += O
+	if(objs.len > MAX_OBJS_DRIVEN)
+		return
+	for(var/atom/movable/O in objs)
+		var/atom/targetarea = locate(src.x, src.y, src.z)
+		if(src.dir & NORTH)	targetarea = locate(targetarea.x, world.maxy, targetarea.z)
+		if(src.dir & SOUTH)	targetarea = locate(targetarea.x, 1, targetarea.z)
+		if(src.dir & EAST)	targetarea = locate(world.maxx, targetarea.y, targetarea.z)
+		if(src.dir & WEST)	targetarea = locate(1, targetarea.y, targetarea.z)
+		spawn()
 			O.throw_at(targetarea, drive_range * src.power, src.power)
 	flick("mass_driver1", src)
 
