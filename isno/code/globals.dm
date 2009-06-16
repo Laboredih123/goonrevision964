@@ -167,6 +167,8 @@ var
 
 	curround = 0
 
+	emergency_lockers_opened = 0
+
 world
 	name = "Isno"
 	mob = /mob/prespawn

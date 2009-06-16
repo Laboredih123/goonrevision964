@@ -1361,7 +1361,7 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	w_class = 4.0
 /obj/item/weapon/storage/toolbox/electrical
 	name = "electical toolbox"
-	icon_state = "toolbox-y"
+	icon_state = "toolbox_yellow"
 	flags = 322.0
 	force = 8.0
 	w_class = 4.0

@@ -1,9 +1,11 @@
-var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font><br>
-<p>Source, minus the good sprites, available at
-<a href="http://svn.slurm.us/public/spacestation13/branches/kurper/isno">
-http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want the good sprites, ask here or
-on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
+var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
+<p><b>Tuesday, June 16, 2009</b></p>
+<ul>
+<li><b>824</b> - Emergency lockers are now locked. They can be unlocked by captains or heads, by the atmospheric
+alarm in the area going off. The communications computer now has the ability to unlock and open all emergency
+lockers.</li>
+</ul>
 
 <p><b>Monday, June 15, 2009</b></p>
 <ul>
@@ -192,5 +194,12 @@ Revolution mode will never be selected.</li>
 <li>Removed speeds other than "running."</li>
 <li>New genetics system added.</li>
 <li>600 commits worth of bugfixes and minor or behind-the-scenes improvements.</li>
+</ul>
+
+<hr>
+<p>Source, minus the good sprites, available at
+<a href="http://svn.slurm.us/public/spacestation13/branches/kurper/isno">
+http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want the good sprites, ask here or
+on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
 
 "}

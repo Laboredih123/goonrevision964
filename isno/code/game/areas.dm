@@ -79,6 +79,11 @@
 			var/retval = aiPlayer.cancelAlarm("Atmosphere", src, source)
 			if (retval == 0) // alarm(s) cleared
 				atmos = 1
+	if(state == 0)
+		for(var/obj/closet/secure/emergency/E in src)
+			if(E.locked)
+				E.locked = 0
+				E.open()
 	return 1
 
 /area/proc/poweralert(var/state, var/source)

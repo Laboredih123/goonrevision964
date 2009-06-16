@@ -40,6 +40,7 @@
 	access_chaplain_office = 25
 	access_tech_storage = 26
 	access_atmospherics = 27
+	access_emergency = 28
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
@@ -83,7 +84,7 @@
 	            access_tox_storage, access_genetics, access_engine, access_eject_engine, access_maint_tunnels,
 	            access_external_airlocks, access_emergency_storage, access_apcs, access_change_ids, access_ai_upload,
 	            access_teleporter, access_eva, access_heads, access_captain, access_all_personal_lockers,
-	            access_chaplain_office, access_tech_storage, access_atmospherics)
+	            access_chaplain_office, access_tech_storage, access_atmospherics, access_emergency)
 
 /proc/get_access_desc(A)
 	switch(A)
@@ -114,6 +115,7 @@
 		if(access_chaplain_office)		return "access chaplain's office"
 		if(access_tech_storage)			return "access technical storage"
 		if(access_atmospherics)			return "access atmospherics"
+		if(access_emergency)			return "open the emergency lockers"
 	return "invalid access"
 
 /proc/get_target_desc(mob/target) //return a useful string describing the target

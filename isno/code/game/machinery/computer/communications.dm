@@ -18,6 +18,7 @@
 		STATE_MESSAGELIST = 4
 		STATE_VIEWMESSAGE = 5
 		STATE_DELMESSAGE = 6
+		STATE_OPENLOCKERS = 7
 
 /obj/machinery/computer/communications/Topic(href, href_list)
 	if(!..()) return
@@ -107,8 +108,19 @@
 		if("end-lockdown")
 			if(locked_down)
 				end_lockdown(usr.name)
-
-
+		if("openlockers")
+			if(src.authenticated)
+				src.state = STATE_OPENLOCKERS
+			else
+				src.state = STATE_DEFAULT
+		if("openlockers2")
+			if(src.authenticated)
+				station_announce("Opening all emergency lockers.")
+				emergency_lockers_opened = 1
+				for(var/obj/closet/secure/emergency/E in world)
+					E.locked = 0
+					E.open()
+			src.state = STATE_DEFAULT
 	src.updateUsrDialog()
 
 /obj/machinery/computer/communications/interact(var/mob/user as mob)
@@ -134,6 +146,9 @@
 
 				if(locked_down)
 					dat += "\[ <a href='?src=\ref[src];operation=end-lockdown'>End Lockdown </a> \]<br>"
+
+				if(!emergency_lockers_opened)
+					dat += "\[ <a href='?src=\ref[src];operation=openlockers'>Open Emergency Lockers </a> \]<br>"
 
 				dat += "\[ <a href='?src=\ref[src];operation=logout'>Log Out </a> \]<br>"
 			else
@@ -163,6 +178,12 @@
 			dat += "Are you sure you want to call the shuttle?<br>\[ <A HREF='?src=\ref[src];operation=callshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]<br>"
 		if(STATE_CANCELSHUTTLE)
 			dat += "Are you sure you want to cancel the shuttle?<br>\[ <A HREF='?src=\ref[src];operation=cancelshuttle2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]<br>"
+		if(STATE_OPENLOCKERS)
+			if(!emergency_lockers_opened)
+				dat += "Are you sure you want to open the lockers?<br>\[ <A HREF='?src=\ref[src];operation=openlockers2'>OK</A> | <A HREF='?src=\ref[src];operation=main'>Cancel</A> \]<br>"
+			else
+				src.state = STATE_DEFAULT
+				src.interact(user)
 
 
 	dat += "<br>\[ [(src.state != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
