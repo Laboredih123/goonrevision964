@@ -1,5 +1,10 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
+<p><b>Wednesday, June 17, 2009</b></p>
+<ul>
+<li><b>825</b> - Icons no longer default to retarded "stretch to fit" size. 32x32 is finally the default now.</li>
+</ul>
+
 <p><b>Tuesday, June 16, 2009</b></p>
 <ul>
 <li><b>824</b> - Emergency lockers are now locked. They can be unlocked by captains or heads, by the atmospheric

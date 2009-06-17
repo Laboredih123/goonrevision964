@@ -47,6 +47,15 @@ macro "macro"
 
 menu "menu"
 	elem 
+		name = "&File"
+		command = ""
+		category = ""
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
 		name = "&Options and Messages...\tF1"
 		command = ".options"
 		category = "&File"
@@ -73,11 +82,20 @@ menu "menu"
 		group = ""
 		is-disabled = false
 		saved-params = "is-checked"
+	elem 
+		name = "&Icons"
+		command = ""
+		category = ""
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
 	elem "stretch"
 		name = "&Stretch to fit"
 		command = ".winset \"mapwindow.map.icon-size=0\""
 		category = "&Icons"
-		is-checked = true
+		is-checked = false
 		can-check = true
 		group = "size"
 		is-disabled = false
@@ -86,7 +104,7 @@ menu "menu"
 		name = "&32x32"
 		command = ".winset \"mapwindow.map.icon-size=32\""
 		category = "&Icons"
-		is-checked = false
+		is-checked = true
 		can-check = true
 		group = "size"
 		is-disabled = false
@@ -117,7 +135,7 @@ menu "menu"
 		can-check = true
 		group = ""
 		is-disabled = false
-		saved-params = ""
+		saved-params = "is-checked"
 
 
 window "mainwindow"
@@ -129,6 +147,7 @@ window "mainwindow"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -146,7 +165,10 @@ window "mainwindow"
 		can-minimize = true
 		can-resize = true
 		is-pane = false
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -154,6 +176,7 @@ window "mainwindow"
 		alpha = 255
 		macro = "macro"
 		menu = "menu"
+		on-close = ""
 	elem "mainvsplit"
 		type = CHILD
 		pos = 3,0
@@ -162,6 +185,7 @@ window "mainwindow"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -176,6 +200,8 @@ window "mainwindow"
 		right = "rpane"
 		is-vert = true
 		splitter = 50
+		show-splitter = true
+		lock = none
 	elem "input"
 		type = INPUT
 		pos = 3,420
@@ -184,6 +210,7 @@ window "mainwindow"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = #d3b5b5
 		is-visible = true
@@ -197,6 +224,7 @@ window "mainwindow"
 		command = ""
 		multi-line = false
 		is-password = false
+		no-command = false
 	elem "saybutton"
 		type = BUTTON
 		pos = 550,420
@@ -205,6 +233,7 @@ window "mainwindow"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -231,6 +260,7 @@ window "mainwindow"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -253,12 +283,13 @@ window "mainwindow"
 window "mapwindow"
 	elem "mapwindow"
 		type = MAIN
-		pos = none
+		pos = 281,0
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -276,7 +307,10 @@ window "mapwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -284,14 +318,16 @@ window "mapwindow"
 		alpha = 255
 		macro = ""
 		menu = ""
+		on-close = ""
 	elem "map"
 		type = MAP
 		pos = 0,0
-		size = 0x0
+		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -302,7 +338,7 @@ window "mapwindow"
 		drop-zone = true
 		right-click = false
 		saved-params = "icon-size"
-		icon-size = 0
+		icon-size = 32
 		text-mode = false
 		on-show = ".winset\"mainwindow.mainvsplit.left=mapwindow\""
 		on-hide = ".winset\"mainwindow.mainvsplit.left=\""
@@ -316,6 +352,7 @@ window "outputwindow"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -333,7 +370,10 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -341,6 +381,7 @@ window "outputwindow"
 		alpha = 255
 		macro = ""
 		menu = ""
+		on-close = ""
 	elem "output"
 		type = OUTPUT
 		pos = 0,0
@@ -349,6 +390,7 @@ window "outputwindow"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = #ffffff
 		is-visible = true
@@ -364,6 +406,7 @@ window "outputwindow"
 		style = ""
 		enable-http-images = false
 		max-lines = 1000
+		image = ""
 
 window "rpane"
 	elem "rpane"
@@ -374,6 +417,7 @@ window "rpane"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -391,7 +435,10 @@ window "rpane"
 		can-minimize = true
 		can-resize = true
 		is-pane = true
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -399,6 +446,7 @@ window "rpane"
 		alpha = 255
 		macro = ""
 		menu = ""
+		on-close = ""
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
@@ -407,6 +455,7 @@ window "rpane"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -421,6 +470,8 @@ window "rpane"
 		right = "outputwindow"
 		is-vert = false
 		splitter = 50
+		show-splitter = true
+		lock = none
 	elem "textb"
 		type = BUTTON
 		pos = 0,0
@@ -429,6 +480,7 @@ window "rpane"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = false
@@ -455,6 +507,7 @@ window "rpane"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = false
@@ -481,6 +534,7 @@ window "rpane"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = false
@@ -509,6 +563,7 @@ window "browserwindow"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -526,7 +581,10 @@ window "browserwindow"
 		can-minimize = true
 		can-resize = true
 		is-pane = true
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -534,6 +592,7 @@ window "browserwindow"
 		alpha = 255
 		macro = ""
 		menu = ""
+		on-close = ""
 	elem "browser"
 		type = BROWSER
 		pos = 0,0
@@ -542,6 +601,7 @@ window "browserwindow"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = #ffffff
 		is-visible = true
@@ -568,6 +628,7 @@ window "infowindow"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
@@ -585,7 +646,10 @@ window "infowindow"
 		can-minimize = true
 		can-resize = true
 		is-pane = true
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -593,6 +657,7 @@ window "infowindow"
 		alpha = 255
 		macro = ""
 		menu = ""
+		on-close = ""
 	elem "info"
 		type = INFO
 		pos = 0,0
@@ -601,6 +666,7 @@ window "infowindow"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = #ffffff
 		is-visible = true
@@ -616,10 +682,12 @@ window "infowindow"
 		tab-background-color = none
 		tab-font-family = ""
 		tab-font-size = 0
+		tab-font-style = ""
 		allow-html = false
 		multi-line = true
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
+		on-tab = ""
 
 window "admin_chat"
 	elem "admin_chat"
@@ -630,6 +698,7 @@ window "admin_chat"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = false
@@ -647,7 +716,10 @@ window "admin_chat"
 		can-minimize = true
 		can-resize = false
 		is-pane = false
+		is-minimized = false
 		is-maximized = false
+		can-scroll = none
+		icon = ""
 		image = ""
 		image-mode = stretch
 		keep-aspect = false
@@ -655,6 +727,7 @@ window "admin_chat"
 		alpha = 255
 		macro = ""
 		menu = ""
+		on-close = ""
 	elem "admin_input1"
 		type = INPUT
 		pos = 0,444
@@ -663,6 +736,7 @@ window "admin_chat"
 		anchor2 = 100,100
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = #ffffff
 		is-visible = true
@@ -676,6 +750,7 @@ window "admin_chat"
 		command = "report \""
 		multi-line = false
 		is-password = false
+		no-command = false
 	elem "admin_chat1"
 		type = OUTPUT
 		pos = 0,0
@@ -684,6 +759,7 @@ window "admin_chat"
 		anchor2 = 71,96
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = #ffffff
 		is-visible = true
@@ -699,6 +775,7 @@ window "admin_chat"
 		style = ""
 		enable-http-images = false
 		max-lines = 1000
+		image = ""
 	elem "add-user"
 		type = BUTTON
 		pos = 380,2
@@ -707,6 +784,7 @@ window "admin_chat"
 		anchor2 = 99,75
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = false
@@ -733,6 +811,7 @@ window "admin_chat"
 		anchor2 = 99,82
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = false
@@ -759,6 +838,7 @@ window "admin_chat"
 		anchor2 = none
 		font-family = ""
 		font-size = 0
+		font-style = ""
 		text-color = #000000
 		background-color = none
 		is-visible = true
