@@ -246,7 +246,7 @@ var/const
 	MAINT = 1 << 3	// under maintaince
 	EMAGGED = 1 << 4 // is something (such as airlocks!) emagged?
 
-	ENGINE_EJECT_Z = 2
+	ENGINE_EJECT_Z = 3
 
 	GAS_O2 = 1 << 0
 	GAS_N2 = 1 << 1

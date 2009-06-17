@@ -2,6 +2,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 <hr>
 <p><b>Wednesday, June 17, 2009</b></p>
 <ul>
+<li><b>828</b> - Engine now ejects to z-level 3 instead of 2. This means you can find it when you're lost in space,
+but you can't eject and then go from the engine to the shuttles or the prespawn area.</li>
 <li><b>827</b> - Prespawn blobs can now move around in the prespawn area in addition to chillaxing and having fun.
 </li>
 <li><b>826</b> - "Manage Bans" window now shows original ban time.</li>
