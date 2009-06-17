@@ -7,7 +7,7 @@
 	Topic(href, href_list)
 		..()
 		if(href_list["action"] == "list")
-			var/dat = "<table border=1><tr><th>Key</th><th>Lasts</th><th>Banned by</th><th>Remove</th></tr>"
+			var/dat = "<table border=1><tr><th>Key</th><th>Lasts</th><th>Banned by</th><th>Banned at</th><th>Remove</th></tr>"
 			var/savefile/bans_by_id = new(BANFILE_LOC)
 			for(var/banid in bans_by_id)
 				var/datum/ban/B = bans_by_id[banid]
@@ -16,10 +16,11 @@
 					dat += "<td>[B.origckey]</td>"
 					dat += "<td>[B.get_duration_desc()]</td>"
 					dat += "<td>[B.adminckey]</td>"
+					dat += "<td>[time2text(B.bantime, "hh:mm Month DD, YYYY")]</td>"
 					dat += "<td><a href='?src=\ref[src];banid=[banid]'>Remove</a></td>"
 					dat += "</tr>"
 			dat += "</table>"
-			ss13_browse(usr, dat, "window=banpanel;size=600x400")
+			ss13_browse(usr, dat, "window=banpanel;size=800x600")
 		else if(href_list["banid"])
 			var/banid = text2num(href_list["banid"])
 			var/savefile/bans_by_id = new(BANFILE_LOC)

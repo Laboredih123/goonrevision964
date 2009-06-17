@@ -2,6 +2,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 <hr>
 <p><b>Wednesday, June 17, 2009</b></p>
 <ul>
+<li><b>826</b> - "Manage Bans" window now shows original ban time.</li>
 <li><b>825</b> - Icons no longer default to retarded "stretch to fit" size. 32x32 is finally the default now.</li>
 </ul>
 
