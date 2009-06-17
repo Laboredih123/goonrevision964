@@ -63,8 +63,7 @@
 	else if(href_list["send"])
 		var/t1 = round(text2num(href_list["send"]))
 		spawn(0) src.send_signal(t1)
-	else
-		return ..()
+	return ..()
 
 /obj/item/weapon/radio/signaller/signal()
 	src.send_signal()

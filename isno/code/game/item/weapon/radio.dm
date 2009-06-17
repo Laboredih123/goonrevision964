@@ -72,6 +72,21 @@
 		if(A != src)
 			A.hear_message(M, src)
 
+/obj/item/weapon/radio/headset/receive(datum/message/M, freq)
+	if(!M) return
+	if(!src.receiving) return
+	if(freq != src.freq) return
+	if(!(src.wires & WIRE_RECEIVE)) return
+
+	M = convert_message_color(M, COLOR_RADIO)
+
+	if(istype(src.loc, /mob))
+		src.loc.hear_message(M, src)
+	else
+		for(var/atom/A in view(src.listenrange, get_turf(src)))
+			if(A != src)
+				A.hear_message(M, src)
+
 /obj/item/weapon/radio/proc/transmit(datum/message/M)
 	if(!(src.wires & WIRE_TRANSMIT))	return
 	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
