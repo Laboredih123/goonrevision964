@@ -124,3 +124,4 @@
 	icon_state = "monkey1"
 
 	var/fingerprint = null
+	is_dead = 0

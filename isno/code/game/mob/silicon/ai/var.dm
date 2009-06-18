@@ -13,6 +13,7 @@
 	var/viewalerts = 0
 	var/is_evil = 0
 	var/last_lockdown = 0
+	is_dead = 0
 
 /proc/AutoUpdateAI(obj/subject)
 	if (subject!=null)

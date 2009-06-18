@@ -29,7 +29,7 @@
 			for(var/mob/M in world)
 				if(!M.client)
 					continue
-				if(istype(M, /mob/prespawn))
+				if(M.is_dead)
 					continue
 				num_mobs++
 			if(!num_mobs)
@@ -130,13 +130,13 @@
 /proc/get_synd_list()
 	var/list/L = list()
 	for(var/mob/M in world)
-		if (M.client && !istype(M, /mob/prespawn) && M.client.prefs && M.client.prefs.be_syndicate)
+		if (M.client && !M.is_dead && M.client.prefs && M.client.prefs.be_syndicate)
 			L += M
 	return L
 
 /proc/get_cliented_mob_list()
 	var/list/L = list()
 	for(var/mob/M in world)
-		if(M.client && !istype(M, /mob/prespawn))
+		if(M.client && !M.is_dead)
 			L += M
 	return L

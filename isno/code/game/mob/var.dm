@@ -14,7 +14,7 @@
 	var/unconsciousness_threshold = 100
 	var/is_intelligent = 1
 
-	var/is_dead = 0
+	var/is_dead = 1
 	var/be_syndicate = "Yes"
 
 	var/last_known_ip = null

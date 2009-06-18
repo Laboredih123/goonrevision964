@@ -180,6 +180,7 @@
 #include "code\game\jobs\hop.dm"
 #include "code\game\jobs\hor.dm"
 #include "code\game\jobs\job.dm"
+#include "code\game\jobs\observer.dm"
 #include "code\game\jobs\plasmologist.dm"
 #include "code\game\jobs\security.dm"
 #include "code\game\jobs\technician.dm"

@@ -76,7 +76,7 @@ var/const/SCENARIO_COMPLETE = 1
 			if(allowed_to_do_job(new_player, job))
 				dat += "<br><a href='byond://?src=\ref[src];late-job=\ref[job]'>[job]</a>"
 		dat += "</p>"
-		ss13_browse(new_player, dat, "window=late_job;size=300x600")
+		ss13_browse(new_player, dat, "window=late_job;size=300x600;can_close=0")
 
 	Topic(href, href_list)
 		if(href_list["late-job"])
@@ -93,7 +93,7 @@ var/const/SCENARIO_COMPLETE = 1
 	proc/get_unfilled_jobs()
 		var/list/jobs = list()
 		for(var/datum/job/j in get_all_job_instances())
-			if(j.can_join_late && j.max)
+			if(j.can_join_late && j.max || istype(j, /datum/job/observer))
 				jobs[j] = j.max
 		for(var/mob/carbon/C in world)
 			jobs[C.spawn_job] --

@@ -2,7 +2,9 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 <hr>
 <p><b>Wednesday, June 17, 2009</b></p>
 <ul>
-<li><b>828</b> - Fixed bug that was preventing dead folks from hearing things that happened. Improved emote help.
+<li><b>830</b> - You can now choose to spawn as an observer if you join midgame, rather than having to kill yourself
+if you don't want to play.</li>
+<li><b>829</b> - Dead folks can now hear everything anyone says. Improved emote help.
 </li>
 <li><b>828</b> - Engine now ejects to z-level 3 instead of 2. This means you can find it when you're lost in space,
 but you can't eject and then go from the engine to the shuttles or the prespawn area.</li>
