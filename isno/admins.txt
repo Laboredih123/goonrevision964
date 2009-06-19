@@ -24,6 +24,6 @@
 # It's happened before.
 kelson - Host
 kurper - Host
-kurper2 - GM Developer
+kurper2 - GM Superadmin Developer
 stuntwaffle - Mod Developer
 weasello - Admin Developer

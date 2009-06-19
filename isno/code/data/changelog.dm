@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Thursday, June 18, 2009</b></p>
 <ul>
+<li><b>833</b> - Admins can now PM people by right-clicking them.</li>
 <li><b>832</b> - Slight adjustment to admin system. Rather than a strict hierarchy of admins, there are now several
 independent types of admin, and you can be any or all of them. The admin types are GM, Mod, Admin, Superadmin,
 Developer, and Host. GMs can do game-related things like spawning items, starting the game, changing the mode, etc.

@@ -34,7 +34,7 @@
 			if(x.len >= 3)
 				var/key = ckey(x[1])
 				var/powers = 0
-				for(var/i = 3; i < x.len; i++)
+				for(var/i = 3; i <= x.len; i++)
 					powers |= get_power(x[i])
 				admins[key] = powers
 	return ..()
@@ -119,6 +119,7 @@
 			src.verbs += /client/proc/game_panel
 			src.verbs += /client/proc/mob_panel
 			src.verbs += /client/proc/adminsay
+			src.verbs += /client/proc/private_message
 
 			if(src.adminlevel & ADMIN_DEVELOPER)
 				src.verbs += /proc/variables
