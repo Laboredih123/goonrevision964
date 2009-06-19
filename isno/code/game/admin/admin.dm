@@ -1,6 +1,27 @@
-/var/const/ADMIN_MOD = "Mod"
-/var/const/ADMIN_ADMIN = "Admin"
-/var/const/ADMIN_HOST = "Host"
+/var/const
+	ADMIN_GM         = 1 << 0
+	ADMIN_MOD        = 1 << 1
+	ADMIN_ADMIN      = 1 << 2
+	ADMIN_SUPERADMIN = 1 << 3
+	ADMIN_DEVELOPER  = 1 << 4
+	ADMIN_ALL        = ~0 // all one bits
+
+/proc/get_power(name)
+	switch(name)
+		if("GM")
+			return ADMIN_GM
+		if("Mod")
+			return ADMIN_MOD
+		if("Admin")
+			return ADMIN_ADMIN
+		if("Superadmin")
+			return ADMIN_SUPERADMIN
+		if("Developer")
+			return ADMIN_DEVELOPER
+		if("Host")
+			return ADMIN_ALL
+		else
+			return 0
 
 /world/New()
 	var/ad_text = file2text("admins.txt")
@@ -9,11 +30,13 @@
 		if (t)
 			if (copytext(t, 1, 2) == "#")
 				continue
-			var/name_loc = findtext(t, " - ")
-			if (name_loc)
-				var/key = copytext(t, 1, name_loc)
-				var/admin_level = copytext(t, name_loc + 3)
-				admins[key] = admin_level
+			var/list/x = dd_text2list(t, " ")
+			if(x.len >= 3)
+				var/key = ckey(x[1])
+				var/powers = 0
+				for(var/i = 3; i < x.len; i++)
+					powers |= get_power(x[i])
+				admins[key] = powers
 	return ..()
 
 /client/proc/is_host()
@@ -78,24 +101,34 @@
 
 	spawn (50) //TODO: Try removing this spawn, see if it still works
 		if (src.is_host())
-			admins[src.ckey] = ADMIN_HOST
-		if(admins.Find(src.ckey))
+			admins[src.ckey] = ADMIN_ALL
+		if(src.ckey in admins)
 			src.verbs += /client/proc/adminsay
-			var/admin_level = admins[src.ckey]
-			src.powers = list()
-			for(var/power_type in typesof(/datum/admin_power))
-				var/datum/admin_power/P = new power_type(admin_level)
-				if(P) //they delete themselves if they are inapplicable
-					//shut up it's totally good design
-					powers += P
 
-			src << text("\blue The game ip is byond://[]:[] !", world.address, world.port)
+			src.adminlevel = admins[src.ckey]
+			src.powers = list()
+			for(var/datum/admin_power/P in get_admin_power_instances())
+				if(P.is_applicable(src.adminlevel))
+					src.powers += P
+
+			if(world.url)
+				src << "\blue The game ip is [world.url]!"
+			else
+				src << "\blue The world is running locally!"
 
 			src.verbs += /client/proc/game_panel
 			src.verbs += /client/proc/mob_panel
-
 			src.verbs += /client/proc/adminsay
-			src.verbs += /proc/variables
 
-			if(admin_level == ADMIN_HOST)
+			if(src.adminlevel & ADMIN_DEVELOPER)
+				src.verbs += /proc/variables
 				src.verbs += /proc/delete
+
+/var/list/admin_power_instances = null
+/proc/get_admin_power_instances()
+	if(!admin_power_instances)
+		admin_power_instances = list()
+		for(var/T in typesof(/datum/admin_power))
+			var/datum/admin_power/P = new T()
+			admin_power_instances += P
+	return admin_power_instances

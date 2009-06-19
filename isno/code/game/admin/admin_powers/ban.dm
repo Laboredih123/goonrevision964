@@ -1,24 +1,7 @@
 /datum/admin_power/ban
 	name = "Ban"
 	panel_type = PANEL_TYPE_PLAYER
-
-	var/max_hours = 0
-	var/max_rounds = 0
-	var/can_permaban = 0
-
-	New(adminlevel)
-		if(adminlevel == ADMIN_MOD)
-			src.max_hours = 3
-			src.max_rounds = 3
-		else if(adminlevel == ADMIN_ADMIN)
-			src.max_hours = 24*7 //1 week
-			src.max_rounds = 100
-		else if(adminlevel == ADMIN_HOST)
-			src.max_hours = INFINITY
-			src.max_rounds = INFINITY
-			src.can_permaban = 1
-		else
-			del(src)
+	allowed_for = ADMIN_MOD | ADMIN_ADMIN | ADMIN_SUPERADMIN
 
 	Topic(href, href_list)
 		..()
@@ -29,7 +12,7 @@
 			dat += "<input type='hidden' name='mob-ban' value='[href_list["mob"]]'>"
 			dat += "<input type='radio' name='type' value='round' checked='1'> Rounds: <input type='text' name='rounds' value='1'><br>"
 			dat += "<input type='radio' name='type' value='hours'> Hours: <input type='text' name='hours' value='1'><br>"
-			if(src.can_permaban)
+			if(can_permaban(usr.client.adminlevel))
 				dat += "<input type='radio' name='type' value='permanent'>Permanent<br>"
 			dat += "Reason for banning (please be specific)<br>"
 			dat += "<textarea name='reason' rows=5></textarea><br>"
@@ -41,14 +24,14 @@
 			var/mob/M = locate(href_list["mob-ban"])
 			var/reason = href_list["reason"]
 			var/datum/ban/B
-			if(type == "permanent" && src.can_permaban)
+			if(type == "permanent" && can_permaban(usr.client.adminlevel))
 				B = new /datum/ban/perma(new_ban_id(), M.ckey, reason, usr.ckey)
 			else if(type == "hours")
-				var/hours = min(text2num(href_list["hours"]), src.max_hours)
+				var/hours = min(text2num(href_list["hours"]), get_max_hours(usr.client.adminlevel))
 				if(hours) // must convert to 1/10 sec
 					B = new /datum/ban/time(new_ban_id(), M.ckey, reason, usr.ckey, hours * 60 * 60 * 10)
 			else if(type == "round")
-				var/rounds = min(text2num(href_list["rounds"]), src.max_rounds)
+				var/rounds = min(text2num(href_list["rounds"]), get_max_rounds(usr.client.adminlevel))
 				if(rounds)
 					B = new /datum/ban/round(new_ban_id(), M.ckey, reason, usr.ckey, rounds)
 			ban(M.last_known_ckey, M.last_known_ip, M.last_known_computer_id, M.client, B)
@@ -69,3 +52,23 @@
 	// if it is 2030 and your bans are all out of order, I'm sorry.
 	// on the upside, it'll give you some practice for the year 2038 bug.
 	return "[num2text(world.realtime, 10)][world.timeofday][num2text(rand(0, 999))]"
+
+/proc/get_max_hours(adminlevel)
+	if(adminlevel & ADMIN_SUPERADMIN)
+		return INFINITY
+	else if(adminlevel & ADMIN_ADMIN)
+		return 24*7
+	else if(adminlevel & ADMIN_MOD)
+		return 24
+
+/proc/get_max_rounds(adminlevel)
+	if(adminlevel & ADMIN_SUPERADMIN)
+		return INFINITY
+	else if(adminlevel & ADMIN_ADMIN)
+		return 200
+	else if(adminlevel & ADMIN_MOD)
+		return 25
+
+/proc/can_permaban(adminlevel)
+	if(adminlevel & ADMIN_SUPERADMIN)
+		return 1

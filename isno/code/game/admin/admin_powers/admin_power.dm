@@ -4,9 +4,12 @@
 /datum/admin_power
 	var/name = "Nondescript admin power"
 	var/panel_type = null
+	var/allowed_for = 0 // all admin levels which get this, ORed together.
 
-	New(adminlevel)
-		del(src)
+	proc/is_applicable(adminlevel)
+		if(adminlevel & allowed_for)
+			return 1
+		return 0
 
 	Topic(href, href_list)
 		var/client/C = usr.client

@@ -1,10 +1,7 @@
 /datum/admin_power/make_traitor
 	name = "Make Traitor"
 	panel_type = PANEL_TYPE_PLAYER
-
-	New(adminlevel)
-		if(adminlevel != ADMIN_HOST)
-			del(src)
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		..()

@@ -1,10 +1,7 @@
 /datum/admin_power/jobban
 	name = "Job Ban"
 	panel_type = PANEL_TYPE_PLAYER
-
-	New(adminlevel)
-		if(adminlevel == ADMIN_MOD)
-			del(src)
+	allowed_for = ADMIN_MOD | ADMIN_ADMIN | ADMIN_SUPERADMIN
 
 	Topic(href, href_list)
 		..()

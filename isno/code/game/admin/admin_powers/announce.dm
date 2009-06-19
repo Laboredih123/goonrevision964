@@ -1,8 +1,6 @@
 /datum/admin_power/announce
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_ALL
 
 	Topic(href, href_list)
 		var/t = input("Global message to send:", "Admin Announce", null, null)  as message

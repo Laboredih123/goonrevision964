@@ -1,10 +1,6 @@
-//TODO: auto-generate
-
 /datum/admin_power/change_mode
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		..()

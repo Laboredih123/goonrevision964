@@ -1,10 +1,11 @@
 /datum/admin_power/authorize
 	name = "Authorize"
 	panel_type = PANEL_TYPE_PLAYER
+	allowed_for = ADMIN_GM
 
-	New(adminlevel)
-		if(!config.enable_authentication)
-			del src
+	is_applicable(adminlevel)
+		if(config.enable_authentication)
+			return 1
 
 	Topic(href, href_list)
 		if(href_list["mob"]) //show the window

@@ -1,8 +1,6 @@
 /datum/admin_power/manage_bans
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_MOD | ADMIN_ADMIN | ADMIN_SUPERADMIN
 
 	Topic(href, href_list)
 		..()

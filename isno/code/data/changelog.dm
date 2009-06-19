@@ -1,5 +1,16 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
+
+<p><b>Thursday, June 18, 2009</b></p>
+<ul>
+<li><b>832</b> - Slight adjustment to admin system. Rather than a strict hierarchy of admins, there are now several
+independent types of admin, and you can be any or all of them. The admin types are GM, Mod, Admin, Superadmin,
+Developer, and Host. GMs can do game-related things like spawning items, starting the game, changing the mode, etc.
+Mods, admins, and superadmins can ban people, mute people, and jobban people, for lengths of time depending on their
+admin level (admins can ban for longer than mods, and superadmins longer still). Developers can view variables and
+do various other debugging-related things. Hosts can do everything.</li>
+</ul>
+
 <p><b>Wednesday, June 17, 2009</b></p>
 <ul>
 <li><b>830</b> - You can now choose to spawn as an observer if you join midgame, rather than having to kill yourself

@@ -1,9 +1,7 @@
 /datum/admin_power/boot
 	name = "Boot"
 	panel_type = PANEL_TYPE_PLAYER
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_MOD | ADMIN_ADMIN | ADMIN_SUPERADMIN
 
 	Topic(href, href_list)
 		if(href_list["mob"]) //show the window

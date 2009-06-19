@@ -1,11 +1,7 @@
-// TODO: make this work with random and secret etc
-
 /datum/admin_power/check_traitor
 	name = "Traitor?"
 	panel_type = PANEL_TYPE_PLAYER
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		..()

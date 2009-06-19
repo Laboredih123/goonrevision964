@@ -1,8 +1,6 @@
 /datum/admin_power/list_bomb_makers
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_ALL
 
 	Topic(href, href_list)
 		..()

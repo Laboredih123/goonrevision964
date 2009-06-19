@@ -2,6 +2,4 @@
 	spawn(10)
 		while(M && !M.is_dead)
 			sleep(10)
-		for(var/mob/reportee in world)
-			if(reportee.client && length(reportee.client.powers))
-				reportee << message
+		notify_admins(message)

@@ -1,9 +1,6 @@
 /datum/admin_power/power_all
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		if(adminlevel == ADMIN_MOD)
-			del(src)
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		world.log_admin("[usr.key] used power_all.")

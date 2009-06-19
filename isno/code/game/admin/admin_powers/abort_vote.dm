@@ -1,8 +1,6 @@
 /datum/admin_power/abort_vote
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		if(currentvote && currentvote.voting)

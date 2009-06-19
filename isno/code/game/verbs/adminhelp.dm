@@ -6,13 +6,7 @@
 	msg = sanitize(msg)
 	if(!msg) return
 
-	var/yep = 0
-	for(var/mob/M in world)
-		if (M.client && M.client.powers)
-			M << "\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"
-			yep = 1
-
-	if (yep)
+	if (notify_admins("\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"))
 		src << "Your message has been broadcast to administrators."
 		world.log_ooc("ADMINHELP: RECIPIENTS: [src.name] ([src.key]): [msg]")
 	else

@@ -1,9 +1,6 @@
 /datum/admin_power/meteor_wave
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		if(adminlevel != ADMIN_HOST)
-			del(src)
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		world.log_admin("[usr.key] spawned a meteor wave.")

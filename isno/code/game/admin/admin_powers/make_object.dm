@@ -1,9 +1,6 @@
 /datum/admin_power/make_object
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		if(adminlevel == ADMIN_MOD)
-			del(src)
+	allowed_for = ADMIN_GM | ADMIN_DEVELOPER
 
 	Topic(href, href_list)
 		..()

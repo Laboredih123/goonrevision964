@@ -7,3 +7,4 @@
 	var/moving = null
 	var/showvote = null
 	var/is_observing = null
+	var/adminlevel = 0

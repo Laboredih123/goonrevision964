@@ -1,8 +1,6 @@
 /datum/admin_power/toggle_restart_voting
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		config.allow_vote_restart = !config.allow_vote_restart

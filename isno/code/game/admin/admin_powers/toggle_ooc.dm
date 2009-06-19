@@ -1,8 +1,6 @@
 /datum/admin_power/toggle_ooc
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
 		ooc_allowed = !( ooc_allowed )

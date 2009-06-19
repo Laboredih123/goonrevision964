@@ -1,9 +1,7 @@
 /datum/admin_power/observer_mode
 	name = "Observer Mode"
 	panel_type = PANEL_TYPE_GAME
-
-	New(adminlevel)
-		return
+	allowed_for = ADMIN_ALL
 
 	Topic(href, href_list)
 		if(istype(usr,/mob/observer))

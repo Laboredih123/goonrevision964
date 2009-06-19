@@ -42,7 +42,10 @@
 	if(file)
 		text2file(text, file)
 
-/proc/notify_admins(text)
+/proc/notify_admins(text) // returns true if any admins were notified
+	var/notified = 0
 	for(var/mob/M in world)
 		if(M.client && M.client.powers)
 			M << text
+			notified = 1
+	return notified
