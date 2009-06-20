@@ -125,10 +125,7 @@
 //
 	if (href_list["ban"])
 		if ((src.rank in list( "Administrator", "Primary Administrator" )))
-			var/dat = "<B>Ban Player:</B><HR>"
-			for(var/mob/M in world)
-				dat += text("<A href='?src=\ref[];ban2=\ref[]'>N: <B>[]</B> R: [] (K: []) (IP: [])</A><BR>", src, M, M.name, M.rname, (M.client ? M.client : "No client"), M.lastKnownIP)
-			dat += "<HR><B>Unban Player:</B><HR>"
+			var/dat = "<B>Banned Players:</B><HR>"
 			for(var/t in crban_keylist)
 				dat += text("<A href='?src=\ref[];unban2=[]'>K: <B>[]</B> (IP: []) (Time: []) (By: []) (Reason: [])</A><BR>", src, ckey(t), t, crban_keylist[ckey(t)], crban_time[ckey(t)], crban_bannedby[ckey(t)], crban_reason[ckey(t)])
 			dat += "<HR><B>Caught IP's:</B><HR>"
@@ -757,6 +754,7 @@
 			dat += "<br>"
 			if(lvl > 1)
 				dat += "<A href='?src=\ref[src];l_players=1'>Player Management</A><br>"
+				dat += "<A href='?src=\ref[src];ban=1'>Ban Management/Listing</A><br>"
 				dat += "<A href='?src=\ref[src];dna=1'>List DNA</A><br>"
 				dat += "<A href='?src=\ref[src];l_keys=1'>List Keys</A><br>"
 
