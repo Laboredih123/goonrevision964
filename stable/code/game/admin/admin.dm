@@ -113,12 +113,12 @@
 		if(jobban_isbanned(M, job))
 			world.log_admin("[usr.key] unbanned [M.key]/[M.rname] from [job]")
 			messageadmins("\blue[usr.key] unbanned [M.key]/[M.rname] from [job]")
-			M << "\blue[usr.key] unbanned you from [job]."
+			//M << "\blue[usr.key] unbanned you from [job]."
 			jobban_unban(M, job)
 		else
 			world.log_admin("[usr.key] banned [M.key]/[M.rname] from [job]")
 			messageadmins("\blue[usr.key] banned [M.key]/[M.rname] from [job]")
-			M << "\blue[usr.key] banned you from [job]."
+			//M << "\blue[usr.key] banned you from [job]."
 			jobban_fullban(M, job, reason)
 		href_list["jobban1"] = "/ref[M]" // lets it fall through and refresh
 

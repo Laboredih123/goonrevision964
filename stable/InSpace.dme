@@ -4,7 +4,7 @@
 
 // BEGIN_INTERNALS
 /*
-FILE: code\game\begin.dm
+FILE: code\game\admin\admin.dm
 DIR: code code\game code\game\admin code\game\machinery code\game\machinery\doors code\game\mob code\game\verb icons maps
 MAP_ICON_TYPE: 0
 AUTO_FILE_DIR: ON
