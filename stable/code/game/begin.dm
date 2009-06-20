@@ -61,7 +61,7 @@
 	if (ticker)
 		for(var/mob/ai/ai in world)
 			if(ai.stat == 0)	//The ai announces your arrival if it's functioning
-				ai.say("[usr.name] has arrived on the station.")
+				ai.say(":1[usr.name] has arrived on the station.")
 				break
 		usr << "<B>Game mode is [ticker.mode.name].</B>"
 

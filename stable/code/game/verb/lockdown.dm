@@ -13,7 +13,7 @@ var/locked_down = 0
 
 	for(var/obj/machinery/door/airlock/AL in world) // close airlocks
 		spawn(0)
-			if(AL.close())
+			if(AL.canAIControl() && AL.close())
 				AL.locked = 1 // and seal 'em
 	return 1
 
@@ -29,6 +29,6 @@ var/locked_down = 0
 			FA.reset()
 
 	for(var/obj/machinery/door/airlock/AL in world) //	unlock airlocks
-		if(AL.locked && AL.arePowerSystemsOn())
+		if(AL.locked && AL.arePowerSystemsOn() && AL.canAIControl())
 			AL.locked = 0
 	return 1
