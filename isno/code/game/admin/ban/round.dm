@@ -1,11 +1,11 @@
 /datum/ban/round
 	var/endat = 0
 
-	New(id, origckey, reason, adminckey, length) // length in rounds
+	New(banclass, datum/job/banfrom, id, origckey, reason, adminckey, length) // length in rounds
 		..()
 		endat = length + curround
 
-	is_banned()
+	still_applicable()
 		if(endat <= curround)
 			return 0
 		else

@@ -1,6 +1,6 @@
 /datum/ban/perma
 	// TODO: make this simpler, it's much much too complicated
-	is_banned()
+	still_applicable()
 		return 1
 
 	get_duration_desc()

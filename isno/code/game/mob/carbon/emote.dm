@@ -20,10 +20,10 @@
 					mobs_seen += M
 
 /mob/carbon/verb/emote_help()
-	src << {"\blue To emote, type a period followed by the emote. For instance, to blink you use .blink.<br>
+	src << {"\blue <html>To emote, type a period followed by the emote. For instance, to blink you use .blink.<br>
 	The valid emotes are: chuckle, blink, blush, bow, choke, clap, cry, cough, eyebrow, frown, faint, gasp, glare,
 	grin, groan, grumble, laugh, look, moan, mumble, nod, twitch, salute, shake, shiver, shrug, sigh, smile, snore,
-	wink, yawn, and tail."}
+	wink, yawn, and tail.</html>"}
 
 /mob/carbon/verb/chuckle()
 	set name = ".chuckle"

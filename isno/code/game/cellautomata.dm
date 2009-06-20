@@ -135,7 +135,6 @@
 		return
 
 	src.update_stat()
-	jobban_loadbanfile()
 
 	spawn (0)
 		sleep(900)		//*****RM was 900

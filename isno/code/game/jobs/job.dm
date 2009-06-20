@@ -87,3 +87,9 @@
 		if(istype(j, type))
 			return j
 	return null
+
+/proc/get_job_instance_by_name(name)
+	for(var/datum/job/j in get_all_job_instances())
+		if(j.name == name)
+			return j
+	return null

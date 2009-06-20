@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Friday, June 19, 2009</b></p>
+<ul>
+<li><b>834</b> - Modified jobban system to use existing ban system, rather than a less-robust, less-featureful one.
+Jobbans should now be much more difficult to evade, and can last for periods of time other than "forever."</li>
+</ul>
+
 <p><b>Thursday, June 18, 2009</b></p>
 <ul>
 <li><b>833</b> - Admins can now PM people by right-clicking them.</li>

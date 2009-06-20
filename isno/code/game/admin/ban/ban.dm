@@ -1,35 +1,64 @@
+/var/const/BAN_SERVER = 1
+/var/const/BAN_JOB = 2
+
 /datum/ban
 	var/id = "0"
 	var/origckey = ""
 	var/reason = ""
 	var/adminckey = ""
 	var/bantime = 0
+	var/banclass = null
+	var/banfrom = ""
 
-	New(id, origckey, reason, adminckey)
+	New(banclass, datum/job/banfrom, id, origckey, reason, adminckey)
+		src.banclass = banclass
+		if(banfrom)
+			src.banfrom = banfrom.name
 		src.id = id
 		src.origckey = origckey
 		src.reason = reason
 		src.adminckey = adminckey
 		bantime = world.realtime
 
-	proc/is_banned()
-		// returns 1 if the person this ban applies to is banned, 0 if they aren't
+	proc/still_applicable()
+		// returns 1 if this ban is still valid, 0 if it is not
 		// if 0, ban is deleted
 		// TODO: make bans never 100% deleted, there should still be a log somewhere that isn't autoloaded at game start
 		return 0
 
+	proc/get_banclass_desc()
+		if(banclass == BAN_SERVER)
+			return "from this server"
+		else if(banclass == BAN_JOB)
+			return "from being [banfrom]"
+
+	proc/get_duration_desc()
+		return "for an extremely short amount of time"
+
 	proc/ban_message()
-		return {"<html><font color='red'>You have been banned [get_duration_desc()] by [adminckey].<br>
+		return {"<html><font color='red'>You have been banned [get_banclass_desc()] [get_duration_desc()] by [adminckey].<br>
 				 The reason given was: [reason].<br>
 				 You were banned on [time2text(bantime, "Day, Month DD, YYYY, at hh:mm")].<br>
 				 The original key banned was [origckey].<br></font>"}
-	proc/get_duration_desc()
-		return "for an extremely short amount of time"
+
+	proc/apply(client/C)
+		if(C)
+			ban(C.ckey, C.address, C.computer_id, C, src)
+			C << ban_message()
+			if(banclass == BAN_SERVER)
+				del C
+			else
+				C.jobbans += get_job_instance_by_name(banfrom)
+		else
+			ban(src.origckey, null, null, null, src)
+
 
 /var/const/BANFILE_LOC_CKEY = "bans/ckey.ban"
 /var/const/BANFILE_LOC_IP = "bans/ip.ban"
 /var/const/BANFILE_LOC_COMPUTER_ID = "bans/computer_id.ban"
 /var/const/BANFILE_LOC = "bans/bans.ban"
+
+/client/var/list/jobbans = list()
 
 /client/New()
 	// Note: Only the first still-valid ban encountered is updated to also hit the banned guy's new IP, key, or
@@ -42,6 +71,7 @@
 
 	// check if his ckey, IP, or computer ID are banned
 	var/savefile/bans_by_banid = new(BANFILE_LOC)
+	var/list/bans_done = list()
 
 	for(var/list/L in list(list(src.ckey, BANFILE_LOC_CKEY), list(src.address, BANFILE_LOC_IP), list(src.computer_id, BANFILE_LOC_COMPUTER_ID)))
 		var/id = L[1]
@@ -49,16 +79,18 @@
 		if(id && F[id])
 			var/list/banids = F[id]
 			for(var/banid in banids)
+				if(banid in bans_done)
+					continue
+				bans_done += banid
 				var/datum/ban/B = bans_by_banid[banid]
 				if(B)
-					if(!B.is_banned())
+					if(!B.still_applicable())
 						remove_ban(B)
+						F.dir -= id
 					else
-						src << B.ban_message()
-						ban(src.ckey, src.address, src.computer_id, src, B)
-						del src
-						return
-				F.dir -= id
+						B.apply(src)
+				else
+					F.dir -= id
 
 	// check for BYOND cache ban
 	var/savefile/S = src.Import()
@@ -66,17 +98,20 @@
 		var/key = "world:" + world.url
 		var/savefile/banids = new(S[key])
 		for(var/banid in banids)
+			if(banid in bans_done)
+				continue
+			bans_done += banid
 			var/datum/ban/B = bans_by_banid[banid]
 			if(B)
-				if(!B.is_banned())
+				if(!B.still_applicable())
 					remove_ban(B)
+					banids -= banid
+					src.Export(S)
 				else
-					src << B.ban_message()
-					ban(src.ckey, src.address, src.computer_id, src, B)
-					del src
-					return
-			banids -= banid
-			src.Export(S)
+					B.apply(src)
+			else
+				banids -= banid
+				src.Export(S)
 
 	// check if he's cookiebanned
 	var/dat = {"<html><head><script>
@@ -98,13 +133,10 @@
 			for(var/banid in L)
 				var/datum/ban/B = bans_by_banid[banid]
 				if(B)
-					if(!B.is_banned())
+					if(!B.still_applicable())
 						remove_ban(B)
 					else
-						src << B.ban_message()
-						ban(src.ckey, src.address, src.computer_id, src, B)
-						del src
-						return
+						B.apply(src)
 	else
 		return ..()
 
@@ -125,17 +157,19 @@
 
 	// ipban and ckeyban
 	for(var/list/L in list(list(ckey, BANFILE_LOC_CKEY), list(ip, BANFILE_LOC_IP), list(computer_id, BANFILE_LOC_COMPUTER_ID)))
-		var/id = L[1]
+		var/userid = L[1]
 		var/savefile/banidlists = new(L[2])
-		if(!id)
+		if(!userid)
 			continue
-		if(banidlists[id])
-			if(banid in banidlists[id])
+		if(banidlists[userid])
+			if(banid in banidlists[userid])
 				continue
 			else
-				banidlists[id] += banid
+				var/list/banidlist = banidlists[userid]
+				banidlist += banid
+				banidlists[userid] = banidlist
 		else
-			banidlists[id] = list(banid)
+			banidlists[userid] = list(banid)
 
 	if(C)
 		//BYOND cache ban

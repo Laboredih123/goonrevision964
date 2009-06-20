@@ -1,11 +1,11 @@
 /datum/ban/time
 	var/endat = 0
 
-	New(id, origckey, reason, adminckey, length) // length in 1/10 second
+	New(banclass, datum/job/banfrom, id, origckey, reason, adminckey, length) // length in 1/10 second
 		..()
 		endat = length + world.realtime
 
-	is_banned()
+	still_applicable()
 		if(endat < world.realtime)
 			return 0
 		else

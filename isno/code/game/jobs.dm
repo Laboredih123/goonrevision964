@@ -24,7 +24,9 @@
 		return
 
 /proc/allowed_to_do_job(mob/prespawn/M, job)
-	if(jobban_isbanned(M, job))
+	if(!M.client)
+		return 0
+	if(job in M.client.jobbans)
 		return 0
 	if(M.client.authenticated)
 		return 1
@@ -69,7 +71,7 @@
 		for(var/mob/prespawn/P in unassigned)
 			var/datum/preferences/prefs = P.client.prefs
 			for(var/datum/job/j in list(prefs.job1, prefs.job2, prefs.job3))
-				if(job_choices_left[j] > 0)
+				if(job_choices_left[j] > 0 && allowed_to_do_job(P, j))
 					semiassigned[P] = j
 					job_choices_left[j]--
 					unassigned -= P
@@ -112,7 +114,7 @@
 			// nobody has this job yet, so we have to pick someone to do it
 			// if anyone doesn't have a job yet, give it to them (more fair)
 			for(var/mob/prespawn/M in shuffle(unassigned))
-				if(!allowed_to_do_job(M,j))
+				if(!allowed_to_do_job(M, j))
 					continue
 				assigned[M] = j
 				unassigned -= M
