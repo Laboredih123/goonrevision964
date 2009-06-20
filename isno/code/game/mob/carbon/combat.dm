@@ -47,7 +47,9 @@
 		src.grabbed_by += G
 		G.synch()
 		src.show_viewers("\red [M] has grabbed [src] passively!")
+		world.log_attack("[M] ([M.ckey]) has grabbed [src] ([src.ckey]) passively!")
 	else if(M.intent == "disarm")
+		world.log_attack("[M] ([M.ckey]) attacked [src] ([src.ckey]) with the disarm intent.")
 		if(!M.can_use_hands())
 			return
 		if(!M.has_super_strength)
@@ -65,6 +67,7 @@
 			src.knockout_until(20)
 			src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>")
 	else if(M.intent == "harm")
+		world.log_attack("[M] ([M.ckey]) attacked [src] ([src.ckey]) with the harm intent.")
 		if(M.attack_type == ATTACK_BITE)
 			if(M.is_muzzled())
 				return

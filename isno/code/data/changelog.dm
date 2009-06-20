@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Saturday, June 20, 2009</b></p>
+<ul>
+<li><b>836</b> - Attacks and most other aggressive actions are now permanently logged. This should help stop some
+griefing.</li>
+</ul>
+
 <p><b>Friday, June 19, 2009</b></p>
 <ul>
 <li><b>834</b> - Modified jobban system to use existing ban system, rather than a less-robust, less-featureful one.

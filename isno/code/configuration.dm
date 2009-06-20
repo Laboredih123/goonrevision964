@@ -49,12 +49,14 @@
 			if("log_access")	config.log_access = 1
 			if("log_say")		config.log_say = 1
 			if("log_admin")		config.log_admin = 1
+			if("log_attack")	config.log_attack = 1
 			if("log_game")		config.log_game = 1
 			if("log_vote")		config.log_vote = 1
 			if("log_file")
 				var/fname = dd_replacetext(value, "ROUNDNUM", "[curround + 1]")
 				config.log_file = dd_replacetext(fname, "LOGTYPE", "")
 				config.log_file_admin = dd_replacetext(fname, "LOGTYPE", "admin")
+				config.log_file_attack = dd_replacetext(fname, "LOGTYPE", "attack")
 				config.log_file_game = dd_replacetext(fname, "LOGTYPE", "game")
 				config.log_file_bug = dd_replacetext(fname, "LOGTYPE", "bug")
 				config.log_file_vote = dd_replacetext(fname, "LOGTYPE", "vote")

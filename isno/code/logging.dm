@@ -4,6 +4,12 @@
 		world.log_file("[time2text(world.realtime)] - ADMIN: [text]", config.log_file_admin)
 		world.log << "ADMIN: [text]"
 
+/world/proc/log_attack(text)
+	notify_admins("ATTACK: [text]")
+	if(config.log_attack)
+		world.log_file("[time2text(world.realtime)] - ATTACK: [text]", config.log_file_attack)
+		world.log << "ATTACK: [text]"
+
 /world/proc/log_game(text)
 	notify_admins("GAME: [text]")
 	if(config.log_game)

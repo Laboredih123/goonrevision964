@@ -537,7 +537,6 @@
 	return
 
 /obj/item/weapon/tank/attack(mob/M as mob, mob/user as mob)
-
 	..()
 	if(!istype(M, /mob/carbon))
 		return

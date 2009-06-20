@@ -301,6 +301,7 @@
 	return
 
 /obj/item/weapon/proc/attack(mob/carbon/M as mob, mob/carbon/attacker as mob, def_zone)
+	world.log_attack("[attacker] ([attacker.ckey]) attacked [M] ([M.ckey]) with [src]")
 	if(!src.force)
 		return
 	M.show_viewers("\red <B>[M] has been attacked with [src][attacker ? " by [attacker]." : "."] </B>")
@@ -514,6 +515,7 @@
 	if(!istype(M, /mob/carbon))
 		return ..()
 	if (src.shots > 0)
+		world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 		var/safety = null
 		if (istype(M.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
 			safety = 1
@@ -688,9 +690,6 @@
 				//Foreach goto(488)
 	return
 
-/obj/item/weapon/sword/attack(target as mob, mob/user as mob)
-	..()
-
 /obj/item/weapon/sword/attack_self(mob/user as mob)
 
 	src.active = !( src.active )
@@ -847,8 +846,8 @@
 	if(!istype(M, /mob/carbon))
 		return ..()
 	var/mob/carbon/H = M
-
 	if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+		world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	if ((user.intent == "hurt" && src.bullets > 0))
@@ -866,7 +865,6 @@
 		src.force = 30
 		..()
 		M.show_viewers(text("\red <B>[] has been pistol whipped []!</B>", M, user))
-			//Foreach goto(315)
 	return
 
 /obj/item/weapon/gun/energy/proc/update_icon()
@@ -914,7 +912,6 @@
 	return
 
 /obj/item/weapon/gun/energy/laser_gun/attack(mob/carbon/M as mob, mob/user as mob)
-
 	..()
 	src.add_fingerprint(user)
 	if(!istype(M, /mob/carbon))
@@ -923,6 +920,7 @@
 		var/mob/carbon/H = M
 		if (istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80))
 			H.think("\red The helmet protects you from being hit hard in the head!")
+			world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 			return
 		H.knockdown_until(rand(1,12))
 		H.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
@@ -972,27 +970,29 @@
 	return
 
 /obj/item/weapon/gun/energy/taser_gun/attack(mob/M as mob, mob/carbon/user as mob)
-
 	src.add_fingerprint(user)
 	if(!istype(M, /mob/carbon))
 		return ..()
 	var/mob/carbon/H = M
-	if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+	if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(30)))
+		M.show_viewers("\red <B>[M] has been unsuccessfully attacked with the taser gun by [user]!</B>")
 		H << "\red The helmet protects you from being hit hard in the head!"
+		world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 		return
 	if(src.charges >= 1)
 		if (user.intent == "hurt")
+			H.show_viewers("\red <B>[H] has been knocked unconscious with the taser gun by [user]!</B>")
 			if (prob(20))
 				H.knockout_until(5)
 			H.knockdown_until(10)
 			..()
-			H.show_viewers("\red <B>[H] has been knocked unconscious!</B>")
 		else
+			M.show_viewers("\red <B>[M] has been stunned with the taser gun by [user]!</B>")
 			if (prob(50))
 				H.knockout_until(5)
 			else
 				H.knockdown_until(5)
-			M.show_viewers("\red <B>[M] has been stunned with the taser gun by [user]!</B>")
+			world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 		src.charges--
 		update_icon()
 	else // no charges in the gun, so they just wallop the target with it
@@ -1171,6 +1171,7 @@
 
 /obj/item/weapon/m_pill/attack(mob/carbon/M as mob, mob/user as mob)
 	if(!istype(M, /mob/carbon))	return
+	world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 	if(M.helmet && M.helmet.flags & HEADCOVERSMOUTH)
 		user.think("\blue You need to remove [(user == M) ? "your" : "their"] helmet first.")
 		return
@@ -1274,6 +1275,7 @@
 	return
 
 /obj/item/weapon/handcuffs/attack(mob/carbon/M as mob, mob/carbon/user as mob)
+	world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 	if (!user.check_dexterity())
 		return
 	var/obj/equip_e/O = new /obj/equip_e()
@@ -1765,12 +1767,12 @@
 	return
 
 /obj/item/weapon/pen/sleepypen/attack(mob/M as mob, mob/user as mob)
-
 	if (!( istype(M, /mob) ))
 		return
 	if (src.desc == "It's a normal black ink pen.")
 		return ..()
 	if (user)
+		world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 		M.show_viewers(text("\red [] has been stabbed with [] by [].", M, src, user))
 		var/amount = src.chem.transfer_mob(M, src.chem.maximum)
 		user.think(text("\red You inject [] units into the [].", amount, M))
@@ -2758,6 +2760,7 @@
 	return
 
 /obj/item/weapon/dropper/attack(mob/carbon/M as mob, mob/user as mob)
+	world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 	if(!user.check_dexterity())
 		return
 	if ((M.helmet && M.helmet.flags & HEADCOVERSEYES) || (M.mask && M.mask.flags & MASKCOVERSEYES) || (M.glasses && M.glasses.flags & GLASSESCOVERSEYES))
@@ -2923,6 +2926,7 @@
 	return
 
 /obj/item/weapon/syringe/attack(mob/carbon/M as mob, mob/carbon/user as mob)
+	world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 	if (!user.check_dexterity())
 		return
 	if (user)

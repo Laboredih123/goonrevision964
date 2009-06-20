@@ -3,6 +3,7 @@
 	var/log_access = 0					// log login/logout
 	var/log_say = 0						// log client say
 	var/log_admin = 0					// log admin actions
+	var/log_attack = 0					// log attacks
 	var/log_game = 0					// log game events
 	var/log_vote = 0					// log voting
 	var/allow_vote_restart = 0 			// allow votes to restart
@@ -24,6 +25,7 @@
 
 	var/log_file // logfile name
 	var/log_file_admin
+	var/log_file_attack
 	var/log_file_game
 	var/log_file_bug
 	var/log_file_vote
