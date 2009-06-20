@@ -57,14 +57,17 @@
 		return
 
 	world.log_game("[usr.key] entered as [usr.name]")
-
+	if(ticker)
+		world << "[usr.rname] has arrived on the station!"
+		usr << "<B>Game mode is [ticker.mode.name].</B>"
+/*
 	if (ticker)
 		for(var/mob/ai/ai in world)
 			if(ai.stat == 0)	//The ai announces your arrival if it's functioning
 				ai.say(":1[usr.name] has arrived on the station.")
 				break
-		usr << "<B>Game mode is [ticker.mode.name].</B>"
 
+*/
 	var/mob/M = usr
 	var/area/A = locate(/area/arrival/start)
 	var/list/L = list()
