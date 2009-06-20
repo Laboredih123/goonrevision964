@@ -28,6 +28,12 @@
 	dat += "<br><a href='?src=\ref[src];item=[SLOT_HANDCUFFS]'>[src.handcuffs ? "" : "Not "]Handcuffed</A><br>"
 	if(src.can_wear_jumpsuit)
 		dat += "<a href='?src=\ref[src];item=[SLOT_IN_POCKETS]'>Empty Pockets</A><br>"
+
+	if(src.internal)
+		dat += "<a href='?src=\ref[src];item=[SLOT_INTERNAL]'>Remove Internal</A><br>"
+	else if(istype(src.back, /obj/item/weapon/tank) && (src.mask.flags & MASKINTERNALS))
+		dat += "<a href='?src=\ref[src];item=[SLOT_INTERNAL]'>Set Internal</A><br>"
+
 	dat += "<a href='?src=\ref[user];mach_close=mob[src.spawn_name]'>Close</A>"
 	ss13_browse(user, dat, "window=mob[src.spawn_name];size=300x600")
 	return

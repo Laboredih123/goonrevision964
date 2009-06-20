@@ -618,7 +618,7 @@
 	name = "gasmask"
 	desc = "A close-fitting mask that can filter some environmental toxins or be connected to an air supply."
 	icon_state = "mask"
-	flags = FPRINT|TABLEPASS|SUITSPACE|MASKCOVERSMOUTH|MASKCOVERSEYES
+	flags = FPRINT|TABLEPASS|MASKINTERNALS|MASKCOVERSMOUTH|MASKCOVERSEYES
 	w_class = 3.0
 	fb_filter = 5.0
 	a_filter = 6.0
@@ -630,7 +630,7 @@
 	desc = "This mask does not work very well in low pressure environments."
 	name = "Medical Mask"
 	icon_state = "m_mask"
-	flags = FPRINT|TABLEPASS|SUITSPACE|HEADSPACE|MASKCOVERSMOUTH
+	flags = FPRINT|TABLEPASS|MASKINTERNALS|HALFMASK|MASKCOVERSMOUTH
 	w_class = 3.0
 	fb_filter = 4.0
 	a_filter = 6.0
@@ -647,7 +647,7 @@
 /obj/item/weapon/clothing/mask/robot
 	name = "Robot Mask"
 	icon_state = "r_head"
-	flags = FPRINT|TABLEPASS|SUITSPACE|MASKCOVERSMOUTH|MASKCOVERSEYES
+	flags = FPRINT|TABLEPASS|MASKINTERNALS|MASKCOVERSMOUTH|MASKCOVERSEYES
 	w_class = 3.0
 	fb_filter = 5.0
 	a_filter = 6.0
@@ -662,7 +662,7 @@
 	name = "Sterile Mask"
 	icon_state = "s_mask"
 	w_class = 1.0
-	flags = FPRINT|TABLEPASS|HEADSPACE|MASKCOVERSMOUTH
+	flags = FPRINT|TABLEPASS|HALFMASK|MASKCOVERSMOUTH
 	fb_filter = 5.0
 	a_filter = 6.0
 	s_istate = "s_mask"

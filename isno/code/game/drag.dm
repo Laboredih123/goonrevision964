@@ -29,7 +29,7 @@
 			if("syringe")			return
 			if("pill")				return
 			if(SLOT_INTERNAL)
-				if ((!( (istype(src.target.mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
+				if (!(istype(src.target.mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank)) && !src.target.internal)
 					del(src)
 					return
 
@@ -433,20 +433,14 @@
 			if (src.target.internal)
 				src.target.internal.add_fingerprint(src.source)
 				src.target.internal = null
-			else
-				if (src.target.internal)
-					src.target.internal = null
-				if (!( istype(src.target.mask, /obj/item/weapon/clothing/mask) ))
-					return
-				else
-					if (istype(src.target.back, /obj/item/weapon/tank))
-						src.target.internal = src.target.back
-						src.target.show_viewers(text("[] is now running on internals.", src.target))
-							//Foreach goto(3913)
-						src.target.internal.add_fingerprint(src.source)
-		else
+				src.target.show_viewers(text("[] is no longer running on internals.", src.target))
+			else if (!(src.target.mask.flags & MASKINTERNALS))
+				return
+			else if (istype(src.target.back, /obj/item/weapon/tank))
+				src.target.internal = src.target.back
+				src.target.show_viewers(text("[] is now running on internals.", src.target))
+				src.target.internal.add_fingerprint(src.source)
 	src.source.update_clothing()
 	src.target.update_clothing()
-	//SN src = null
 	del(src)
 	return
