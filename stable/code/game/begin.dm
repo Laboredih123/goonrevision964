@@ -58,7 +58,7 @@
 
 	world.log_game("[usr.key] entered as [usr.name]")
 	if(ticker)
-		world << "[usr.rname] has arrived on the station!"
+		world << "\blue [usr.rname] has arrived on the station!"
 		usr << "<B>Game mode is [ticker.mode.name].</B>"
 /*
 	if (ticker)
