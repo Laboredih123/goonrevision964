@@ -37,8 +37,6 @@
 
 /obj/machinery/door/window/New()
 	..()
-	if (src.req_access && src.req_access.len)
-		src.icon = 'security.dmi'
 	spawn(10) // make sure that the brig computer's been created too
 		if(src.cellname)
 			for(var/obj/machinery/computer/brig/B in get_area(src))

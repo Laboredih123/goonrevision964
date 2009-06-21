@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Sunday, June 21, 2009</b></p>
 <ul>
+<li><b>845</b> - Fire now does significantly less damage. Needs further testing to be sure if it's balanced.</li>
 <li><b>844</b> - Split EVA into secure (jetpacks) and regular (everything else) sections. Technicians have access to
 regular EVA.</li>
 <li><b>843</b> - Outer brig doors are now remote openable from inside the cell, so prisoners can get out but people

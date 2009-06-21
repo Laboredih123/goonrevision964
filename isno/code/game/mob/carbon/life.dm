@@ -58,8 +58,10 @@
 	src.handle_knockout()
 	src.handle_knockdown()
 
-	if(!src.buckled) src.density = !src.lying
-	else			src.density = 1
+	if(!src.buckled)
+		src.density = !src.lying
+	else
+		src.density = 1
 
 	src.update_grabs()
 
@@ -85,4 +87,4 @@
 	var/fire_dam = T.gas.temp
 	if(src.suit) resist = src.suit.fire_resist
 	if(fire_dam < resist) return
-	src.take_damage(burn = (fire_dam-resist))
+	src.take_damage(burn = (fire_dam-resist)/50)
