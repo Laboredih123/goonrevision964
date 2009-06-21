@@ -47,7 +47,7 @@
 				spy << "\red Your fellow spies are:"
 				for(var/mob/carbon/otherspy in team)
 					if(otherspy != spy)
-						spy << "\ref [otherspy.spawn_name]"
+						spy << "\red [otherspy.spawn_name]"
 				var/datum/mission/escape/escape = new(list(spy), "[spy.client.key] ([spy.spawn_name])")
 				missions += escape
 				spy.tell_mission(steal)

@@ -26,7 +26,7 @@
 					continue
 			if(M.is_dead) // victims can be dead, otherwise you'll get abductees suiciding just to be dicks
 				continue
-			if(!(M in group) || M in outcasts)
+			if(!(M in group))
 				return MISSION_FAILURE
 			someone_escaped = 1
 		if(someone_escaped)

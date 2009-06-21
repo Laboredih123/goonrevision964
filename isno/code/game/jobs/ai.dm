@@ -12,7 +12,8 @@
 			if(ai_names)
 				randomname = pick(ai_names)
 			var/newname = input(M,"You are the AI. Would you like to change your name?", "Character Creation", randomname)
-			if(!length(newname)) newname = randomname
+			if(!length(trim(newname)))
+				newname = randomname
 			newname = strip_html(newname,30)
 			return newname
 

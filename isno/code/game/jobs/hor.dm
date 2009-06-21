@@ -20,4 +20,4 @@
 	get_access()
 		return list(access_medical_supplies, access_morgue, access_tox, access_tox_storage, access_genetics,
 		            access_teleporter, access_heads, access_medical_records, access_tech_storage, access_security,
-		            access_emergency)
+		            access_emergency, access_secure_eva)

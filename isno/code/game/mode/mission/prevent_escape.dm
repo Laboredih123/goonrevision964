@@ -13,7 +13,7 @@
 
 
 	check_success()
-		for(var/mob/M in (victims - outcasts))
+		for(var/mob/M in victims)
 			if(on_shuttle(M) && !M.is_dead)
 				return MISSION_FAILURE
 		return MISSION_SUCCESS

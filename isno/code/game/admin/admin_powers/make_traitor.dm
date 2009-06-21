@@ -31,6 +31,7 @@
 			var/dat = "<html><head><title>Traitor made!</title></head><body>"
 			dat += "<p>[traitorname] given mission to [href_list["mission"]]!</p>"
 			dat += "<p><a href='?src=\ref[src];close=1'>Close</a>"
+			world.log_admin("[usr.ckey] made [M] ([M.ckey]) a traitor with mission to [href_list["mission"]]")
 			ss13_browse(usr, dat, "window=maketraitor")
 		else
 			ss13_browse(usr, null, "window=maketraitor")

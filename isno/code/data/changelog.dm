@@ -3,6 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Sunday, June 21, 2009</b></p>
 <ul>
+<li><b>844</b> - Split EVA into secure (jetpacks) and regular (everything else) sections. Technicians have access to
+regular EVA.</li>
 <li><b>843</b> - Outer brig doors are now remote openable from inside the cell, so prisoners can get out but people
 can't steal their stuff.</li>
 <li><b>842</b> - Some map changes - people now start on a shuttle instead of in crew quarters, death commando

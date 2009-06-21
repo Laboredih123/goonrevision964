@@ -9,7 +9,7 @@
 				continue
 			if(M.is_dead)
 				continue
-			if(!(M in group) || (M in outcasts))
+			if(!(M in group))
 				return MISSION_FAILURE
 			someone_escaped = 1
 		if(someone_escaped)

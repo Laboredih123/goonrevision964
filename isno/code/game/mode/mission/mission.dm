@@ -6,7 +6,6 @@ var/const
 /datum/mission
 	var/gname = "everyone"						//	default group is everyone
 	var/list/group = null						//	set of mission members
-	var/list/outcasts = null					//	set of non-mission members
 
 	New(list/group, gname)
 		src.group = group

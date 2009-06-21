@@ -26,4 +26,4 @@
 					access_security_records, access_tox, access_tox_storage, access_genetics, access_engine,
 					access_change_ids, access_ai_upload, access_eva, access_heads, access_all_personal_lockers,
 					access_chaplain_office, access_medical_records, access_tech_storage, access_atmospherics,
-					access_emergency)
+					access_emergency, access_secure_eva)

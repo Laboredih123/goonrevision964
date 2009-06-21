@@ -17,4 +17,4 @@
 
 	get_access()
 		return list(access_engine, access_eject_engine, access_maint_tunnels, access_external_airlocks,
-		            access_apcs, access_tech_storage, access_atmospherics)
+		            access_apcs, access_tech_storage, access_atmospherics, access_eva)
