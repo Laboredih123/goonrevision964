@@ -7,7 +7,7 @@
 	for(var/obj/machinery/door/poddoor/M in machines)
 		if(M.id != src.id) continue
 		spawn(0)
-			M.openpod()
+			M.do_open()
 
 	sleep(20)
 	for(var/obj/machinery/mass_driver/M in machines)
@@ -19,7 +19,7 @@
 	for(var/obj/machinery/door/poddoor/M in machines)
 		if(M.id != src.id) continue
 		spawn(0)
-			M.closepod()
+			M.do_close()
 
 /obj/machinery/computer/pod/New()
 	..()
@@ -91,25 +91,23 @@
 		for(var/obj/machinery/door/poddoor/M in machines)
 			if(M.id != src.id) continue
 			spawn(0)
-				if(M.density) M.openpod()
-				else M.closepod()
+				if(M.density) M.do_open()
+				else M.do_close()
 
 	src.updateUsrDialog()
 
-/obj/machinery/door/poddoor/open()
+/obj/machinery/door/poddoor/try_open()
 	usr << "This is a remote controlled door!"
 
-/obj/machinery/door/poddoor/close()
+/obj/machinery/door/poddoor/try_close()
 	usr << "This is a remote controlled door!"
 
 /obj/machinery/door/poddoor/attackby(obj/item/weapon/C as obj, mob/user as mob)
 	src.add_fingerprint(user)
 	if(!istype(C, /obj/item/weapon/crowbar)) return
-	spawn(0) src.openpod()
+	spawn(0) src.do_open()
 
-/obj/machinery/door/poddoor/proc/openpod()
-	set src in oview(1)
-
+/obj/machinery/door/poddoor/do_open()
 	if(!src.density)	return 0
 	if(src.operating)	return 0
 	if(stat & NOPOWER)	return 0
@@ -128,7 +126,7 @@
 	src.operating = 0
 	return 1
 
-/obj/machinery/door/poddoor/proc/closepod()
+/obj/machinery/door/poddoor/do_close()
 	set src in oview(1)
 
 	if(src.density)		return 0

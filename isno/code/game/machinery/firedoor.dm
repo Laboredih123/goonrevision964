@@ -62,7 +62,7 @@
 				return
 	return
 
-/obj/machinery/door/firedoor/close()
+/obj/machinery/door/firedoor/try_close()
 	if(src.density)
 		return 0
 	if(src.operating)
@@ -74,7 +74,7 @@
 		T.firelevel = 0
 	return ..()
 
-/obj/machinery/door/firedoor/open()
+/obj/machinery/door/firedoor/try_open()
 	if(!src.density)
 		return 0
 	if(src.operating)
@@ -89,8 +89,8 @@
 	if(src.nextstate)
 		if(src.nextstate == OPEN && src.density)
 			spawn()
-				src.open()
+				src.try_open()
 		else if(src.nextstate == CLOSED && !src.density)
 			spawn()
-				src.close()
+				src.try_close()
 		src.nextstate = null

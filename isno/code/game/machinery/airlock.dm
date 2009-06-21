@@ -119,9 +119,9 @@ About the new airlock wires panel:
 			//will succeed only if the ID wire is cut or the door requires no access
 			if (!src.requiresID() || src.check_access(null))
 				if (src.density)
-					open()
+					try_open()
 				else
-					close()
+					try_close()
 
 
 
@@ -567,7 +567,7 @@ About the new airlock wires panel:
 					else if (src.locked)
 						usr << text("The door bolts are down!<br>\n")
 					else if (!src.density)
-						close()
+						try_close()
 					else
 						usr << text("The airlock is already closed.<br>\n")
 
@@ -628,7 +628,7 @@ About the new airlock wires panel:
 					else if (src.locked)
 						usr << text("The door bolts are down!<br>\n")
 					else if (src.density)
-						open()
+						try_open()
 					else
 						usr << text("The airlock is already opened.<br>\n")
 
@@ -707,7 +707,7 @@ About the new airlock wires panel:
 		return ..()
 
 
-/obj/machinery/door/airlock/open()
+/obj/machinery/door/airlock/try_open()
 	if(src.locked)
 		return 0
 	if(src.blocked)
@@ -724,10 +724,10 @@ About the new airlock wires panel:
 	use_power(50)
 	if(src.closeOther && istype(src.closeOther, /obj/machinery/door/airlock))
 		if(!src.closeOther.density)
-			src.closeOther.close()
+			src.closeOther.try_close()
 	return ..()
 
-/obj/machinery/door/airlock/close()
+/obj/machinery/door/airlock/try_close()
 	if(src.locked)
 		return 0
 	if(src.blocked)

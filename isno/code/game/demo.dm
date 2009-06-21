@@ -1,5 +1,5 @@
 /obj/machinery/door/meteorhit(obj/M as obj)
-	src.open()
+	src.try_open()
 
 /obj/machinery/door/Move()
 	..()
@@ -23,14 +23,14 @@
 		flick("door_spark", src)
 		sleep(6)
 		src.operating = null
-		open()
+		try_open()
 		src.stat |= EMAGGED
 		return 1
 	if (!src.requiresID() || src.allowed(user))
 		if (src.density)
-			open()
+			try_open()
 		else
-			close()
+			try_close()
 	else if (src.density)
 		flick("door_deny", src)
 	return
@@ -56,10 +56,10 @@
 		return
 	if(!src.allowed(AM))
 		return
-	open()
+	try_open()
 	if(src.delay)
 		sleep(src.delay)
-		close()
+		try_close()
 
 /obj/machinery/door/window/CheckPass(atom/movable/O as mob|obj, target as turf)
 	if (src.density)
@@ -128,14 +128,16 @@
 		src.loc:buildlinks()
 	return
 
-/obj/machinery/door/proc/open()
+/obj/machinery/door/proc/try_open()
 	if(!src.density)
 		return 0
 	if(src.operating)
 		return 0
 	if(stat & EMAGGED)
 		return 0
+	return src.do_open()
 
+/obj/machinery/door/proc/do_open()
 	src.operating = 1
 	flick(text("[]doorc0", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door0", (src.p_open ? "o_" : null))
@@ -149,14 +151,16 @@
 	src.operating = 0
 	return 1
 
-/obj/machinery/door/proc/close()
+/obj/machinery/door/proc/try_close()
 	if(src.density)
 		return 0
 	if(src.operating)
 		return 0
 	if(stat & EMAGGED)
 		return 0
+	return src.do_close()
 
+/obj/machinery/door/proc/do_close()
 	src.operating = 1
 	flick(text("[]doorc1", (src.p_open ? "o_" : null)), src)
 	src.icon_state = text("[]door1", (src.p_open ? "o_" : null))

@@ -48,7 +48,7 @@
 
 	for(var/obj/machinery/door/airlock/AL in world) // close airlocks
 		spawn(0)
-			if(AL.close())
+			if(AL.try_close())
 				AL.locked = 1 // and seal 'em
 
 /proc/end_lockdown(mob/originator)

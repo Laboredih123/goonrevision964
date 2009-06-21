@@ -41,11 +41,11 @@
 			if("open")
 				var/obj/machinery/door/window/W = cells_by_name[href_list["cell"]]
 				if(W)
-					spawn W.open()
+					spawn W.try_open()
 			if("close")
 				var/obj/machinery/door/window/W = cells_by_name[href_list["cell"]]
 				if(W)
-					spawn W.close()
+					spawn W.try_close()
 			if("set")
 				src.state = STATE_SENTENCE
 				src.cur_cellname = href_list["cell"]
@@ -146,4 +146,4 @@
 			return
 		station_announce("The prisoner in cell [name] is being released after [time2text(served_by_name[name], "mm minutes and ss seconds")]. He was imprisoned for [reason_by_name[name]].")
 		served_by_name[W.cellname] = 0
-		W.open()
+		W.try_open()

@@ -1874,12 +1874,13 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	var/p_open = 0.0
 	var/operating = null
 	anchored = 1.0
+	var/id = 1
 
 /obj/machinery/door/poddoor
 	name = "Podlock"
 	icon = 'Door1.dmi'
 	icon_state = "pdoor1"
-	var/id = 1.0
+
 /obj/machinery/door/window
 	name = "interior door"
 	icon = 'windoor.dmi'

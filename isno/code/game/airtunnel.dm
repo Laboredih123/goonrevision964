@@ -8,14 +8,14 @@ obj/machinery/door_control/interact(mob/user as mob)
 	use_power(5)
 	icon_state = "doorctrl1"
 
-	for(var/obj/machinery/door/poddoor/M in machines)
+	for(var/obj/machinery/door/M in machines)
 		if(M.id != src.id) continue
 		if(M.density)
 			spawn(0)
-				M.openpod()
+				M.do_open()
 		else
 			spawn(0)
-				M.closepod()
+				M.do_close()
 
 	spawn(15)
 		if(!(stat & NOPOWER))
@@ -91,45 +91,45 @@ obj/machinery/door_control/interact(mob/user as mob)
 				if (src.check_access(src.scan))
 					if (src.d1.density)
 						spawn( 0 )
-							src.d1.open()
+							src.d1.try_open()
 							return
 					else
 						spawn( 0 )
-							src.d1.close()
+							src.d1.try_close()
 							return
 		if (href_list["door2"])
 			if (src.scan)
 				if (src.check_access(src.scan))
 					if (src.d2.density)
 						spawn( 0 )
-							src.d2.open()
+							src.d2.try_open()
 							return
 					else
 						spawn( 0 )
-							src.d2.close()
+							src.d2.try_close()
 							return
 		if (href_list["em_cl"])
 			if (src.scan)
 				if (src.check_access(src.scan))
 					if (!( src.d1.density ))
-						src.d1.close()
+						src.d1.try_close()
 						return
 					sleep(1)
 					spawn( 0 )
 						if (!( src.d2.density ))
-							src.d2.close()
+							src.d2.try_close()
 						return
 		if (href_list["em_op"])
 			if (src.scan)
 				if (src.check_access(src.scan))
 					spawn( 0 )
 						if (src.d1.density)
-							src.d1.open()
+							src.d1.try_open()
 						return
 					sleep(1)
 					spawn( 0 )
 						if (src.d2.density)
-							src.d2.open()
+							src.d2.try_open()
 						return
 		src.add_fingerprint(usr)
 		src.updateUsrDialog()

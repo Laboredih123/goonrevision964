@@ -112,7 +112,7 @@
 				D.nextstate = CLOSED
 			else if(!D.density)
 				spawn()
-					D.close()
+					D.try_close()
 		var/list/cameras = list()
 		for (var/obj/machinery/camera/C in src)
 			cameras += C
@@ -130,7 +130,7 @@
 				D.nextstate = OPEN
 			else if(D.density)
 				spawn()
-					D.open()
+					D.try_open()
 		for (var/mob/silicon/ai/aiPlayer in world)
 			aiPlayer.cancelAlarm("Fire", src, src)
 	return
