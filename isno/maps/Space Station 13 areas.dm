@@ -225,6 +225,9 @@
 /area/shuttle/commando
 	name = "Commando Shuttle"
 
+/area/shuttle/arrival
+	name = "Arrival Shuttle"
+
 /area/prespawn
 	requires_power = 0
 	name = "Prespawn Area"

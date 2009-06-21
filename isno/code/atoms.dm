@@ -1875,7 +1875,6 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	var/operating = null
 	anchored = 1.0
 
-
 /obj/machinery/door/poddoor
 	name = "Podlock"
 	icon = 'Door1.dmi'
@@ -1887,24 +1886,23 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	visible = 0.0
 	flags = 512.0
 	opacity = 0
+	var/cellname = null
+	var/delay = 50 // 5 seconds to close after being bumped. if 0, doesn't auto-close.
+
 /obj/machinery/door/window/security
 	name = "security door"
 	icon = 'security.dmi'
-	visible = 0.0
-	flags = 512.0
-	opacity = 0
+	delay = 20 // secure doors close faster
+
 /obj/machinery/door/window/alt
 	name = "interior door"
 	icon = 'windoor2.dmi'
-	visible = 0.0
-	flags = 512.0
-	opacity = 0
+
 /obj/machinery/door/window/alt/security
 	name = "security door"
 	icon = 'security2.dmi'
-	visible = 0.0
-	flags = 512.0
-	opacity = 0
+	delay = 20 // secure doors close faster
+
 /obj/machinery/firealarm
 	name = "Fire Alarm"
 	icon = 'items.dmi'

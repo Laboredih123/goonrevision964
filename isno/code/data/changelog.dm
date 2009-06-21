@@ -1,9 +1,20 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Sunday, June 21, 2009</b></p>
+<ul>
+<li><b>842</b> - Some map changes - people now start on a shuttle instead of in crew quarters, death commando
+shuttle now is south of where it used to be, and security area is redesigned. Brig redone - cells are now two rooms,
+with an outer room for putting the convict's gear in and an inner room for putting the convict himself in (so people
+don't steal their stuff). Inner room automatically releases after 5 minutes by default. The period can be adjusted
+by security at the brig computer. When they're released, an announcement is made on the station about why they were
+imprisoned and how long they were imprisoned. This isn't quite complete yet, since they have no way to get out of
+the outer room or free themselves from handcuffs. Both of these problems should be fixed soon.</li>
+</ul>
+
 <p><b>Saturday, June 20, 2009</b></p>
 <ul>
-<li><b>836</b> - Attacks and most other aggressive actions are now permanently logged. This should help stop some
+<li><b>841</b> - Attacks and most other aggressive actions are now permanently logged. This should help stop some
 griefing.</li>
 </ul>
 

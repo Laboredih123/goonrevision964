@@ -39,6 +39,10 @@
 	..()
 	if (src.req_access && src.req_access.len)
 		src.icon = 'security.dmi'
+	spawn(10) // make sure that the brig computer's been created too
+		if(src.cellname)
+			for(var/obj/machinery/computer/brig/B in get_area(src))
+				B.register_door(src)
 	return
 
 /obj/machinery/door/window/Bumped(atom/movable/AM as mob|obj)
@@ -53,11 +57,9 @@
 	if(!src.allowed(AM))
 		return
 	open()
-	if(src.check_access(null))
-		sleep(50)
-	else //secure doors close faster
-		sleep(20)
-	close()
+	if(src.delay)
+		sleep(src.delay)
+		close()
 
 /obj/machinery/door/window/CheckPass(atom/movable/O as mob|obj, target as turf)
 	if (src.density)

@@ -92,7 +92,6 @@
 /obj/closet/secure/toxin
 	name = "Toxin Researcher Locker"
 	req_access = list(access_tox_storage)
-
 /obj/closet/secure/emergency
 	desc = "A bulky (yet mobile) closet. Comes prestocked with a gasmask and o2 tank for emergencies."
 	name = "Emergency Closet"
