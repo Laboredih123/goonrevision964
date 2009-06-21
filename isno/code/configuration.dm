@@ -116,17 +116,17 @@
 	return pick(get_mode_instances())
 
 /datum/configuration/proc/pick_random_mode()
-	var/num_clients = 0
+	var/num_readied_clients = 0
 	for(var/mob/prespawn/P in world)
 		//theoretically there should be nothing but /prespawns with clients, but you never know with SS13 admins
-		if(P.client)
-			num_clients++
+		if(P.client && P.ready)
+			num_readied_clients++
 
 	var/total = 0
 	var/list/accum = list()
 
 	for(var/datum/game_mode/M in get_mode_instances())
-		if(num_clients < M.min_players)
+		if(num_readied_clients < M.min_players)
 			continue
 		total += src.probabilities[M]
 		accum[M] = total
