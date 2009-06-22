@@ -54,7 +54,7 @@
 				var/cell = href_list["cell"]
 				var/mins = text2num(href_list["length-min"])
 				var/secs = text2num(href_list["length-sec"])
-				var/reason = href_list["reason"]
+				var/reason = sanitize(href_list["reason"])
 				var/length = secs * 10 + mins * 600
 				if(length)
 					src.reason_by_name[cell] = reason

@@ -115,7 +115,7 @@
 			var/datum/job/j = locate(href_list["assign"])
 			var/name = j.name
 			if(j.get_access() == null) // custom job
-				name = input("Enter a custom job assignment.","Assignment")
+				name = sanitize(input("Enter a custom job assignment.","Assignment"))
 			else
 				var/list/L = j.get_access()
 				src.modify.access = L.Copy()
@@ -124,7 +124,7 @@
 	if(href_list["reg"])
 		if(src.authenticated)
 			var/t2 = src.modify
-			var/t1 = input(usr, "What name?", "ID computer", null)  as text
+			var/t1 = sanitize(input(usr, "What name?", "ID computer", null) as text)
 			if((src.authenticated && src.modify == t2 && (get_dist(src, usr) <= 1 || (istype(usr, /mob/silicon/ai))) && istype(src.loc, /turf)))
 				src.modify.registered = t1
 

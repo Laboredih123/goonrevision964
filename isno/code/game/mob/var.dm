@@ -47,7 +47,5 @@
 	var/is_blind = 0
 	var/is_perma_blind = 0
 
-	density = 1
-
 	var/cameraFollow = null
 	var/datum/job/spawn_job = null

@@ -73,12 +73,12 @@
 		var/ckey
 		var/client/C = null
 		if(mobban == CUSTOM_BAN)
-			ckey = href_list["key"]
+			ckey = sanitize(ckey(href_list["key"]))
 		else
 			var/mob/M = locate(mobban)
 			ckey = M.ckey
 			C = M.client
-		var/reason = href_list["reason"]
+		var/reason = sanitize(href_list["reason"])
 
 		var/banclass
 		var/datum/job/banfrom
