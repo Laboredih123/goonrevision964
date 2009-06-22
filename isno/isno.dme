@@ -164,6 +164,7 @@
 #include "code\game\item\weapon\poster.dm"
 #include "code\game\item\weapon\prox_sensor.dm"
 #include "code\game\item\weapon\radio.dm"
+#include "code\game\item\weapon\radio_jammer.dm"
 #include "code\game\item\weapon\sheet.dm"
 #include "code\game\item\weapon\signaller.dm"
 #include "code\game\item\weapon\timer.dm"

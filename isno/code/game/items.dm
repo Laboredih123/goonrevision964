@@ -596,6 +596,7 @@
 	list("Electromagnet Card", 2, /obj/item/weapon/card/emag),
 	list("Revolver", 2, /obj/item/weapon/gun/revolver),
 	list("Voice Changer", 2, /obj/item/weapon/clothing/mask/gasmask/voice_changer),
+	list("Radio Jammer", 2, /obj/item/weapon/radio_jammer),
 	list("Cloaking Device", 3, /obj/item/weapon/cloaking_device))
 
 /obj/item/weapon/syndicate_uplink/attack_self(mob/user as mob)

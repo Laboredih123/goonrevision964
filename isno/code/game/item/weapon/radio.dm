@@ -89,6 +89,8 @@
 
 /obj/item/weapon/radio/proc/transmit(datum/message/M)
 	if(!(src.wires & WIRE_TRANSMIT))	return
+	if(src.is_jammed())
+		return
 	if(last_transmission && world.time < (last_transmission + TRANSMISSION_DELAY))
 		return
 	last_transmission = world.time
@@ -98,9 +100,28 @@
 	if(istype(loc, /mob))
 		loc = loc.loc
 	if(istype(loc, /turf)) //closets block transmission
-		if(src.patch_link)	return patch_link.receive(M,src.freq)
+		if(src.patch_link && !src.patch_link.is_jammed())
+			return patch_link.receive(M,src.freq)
 		for(var/obj/item/weapon/radio/R in world)
-			R.receive(M, src.freq)
+			if(!R.is_jammed())
+				R.receive(M, src.freq)
+
+/proc/contains_active_radio_jammer(atom/A)
+	if(istype(A, /obj/item/weapon/radio_jammer))
+		if(A:on)
+			return 1
+	for(var/atom/content in A.contents)
+		if(contains_active_radio_jammer(content))
+			return 1
+	return 0
+
+/var/const/JAMMER_RANGE = 6
+
+/obj/item/weapon/radio/proc/is_jammed()
+	for(var/turf/T in range(JAMMER_RANGE, get_turf(src)))
+		if(contains_active_radio_jammer(T))
+			return 1
+	return 0
 
 /obj/item/weapon/radio/talk_into(datum/message/M, atom/source)
 	src.transmit(M, source)
@@ -332,14 +353,15 @@
 		M.text += "&nbsp;&nbsp;&nbsp;(encrypted)"
 	return ..(M, freq)
 
-/obj/item/weapon/radio/headset/syndicate/transmit(datum/message/M, freq)
+/obj/item/weapon/radio/headset/syndicate/transmit(datum/message/M)
 	M.language = LANGUAGE_ENCRYPTED
 	M.voice = "Unknown"
-	return ..(M, freq)
+	return ..(M)
 
 /proc/station_announce(message)
 	var/datum/message/M = new("A computer", message, LANGUAGE_ENGLISH, COLOR_ANNOUNCEMENT, COLOR_ANNOUNCEMENT)
 	for(var/obj/item/weapon/radio/R in world)
-		R.receive(M, DEFAULT_FREQ)
+		if(!R.is_jammed())
+			R.receive(M, DEFAULT_FREQ)
 	for(var/mob/observer/O in world)
 		O.hear_message(M)

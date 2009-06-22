@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Monday, June 22, 2009</b></p>
+<ul>
+<li><b>846</b> - Added radio jammer traitor item, which prevents radios within 6 tiles from operating. This should
+make it easier for traitors to kill people undetected without making it even easier to grief.</li>
+</ul>
+
 <p><b>Sunday, June 21, 2009</b></p>
 <ul>
 <li><b>845</b> - Fire now does significantly less damage. Needs further testing to be sure if it's balanced.</li>
