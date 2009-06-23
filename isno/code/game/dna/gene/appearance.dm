@@ -15,6 +15,16 @@
 
 	pre_apply(mob/carbon/M)
 		M.appearance = APPEARANCE_HUMAN
+		M.can_wear_jumpsuit = 1
+		M.can_wear_suit = 1
+		M.can_wear_l_store = 1
+		M.can_wear_r_store = 1
+		M.can_wear_headset = 1
+		M.can_wear_shoes = 1
+		M.can_wear_helmet = 1
+		M.can_wear_gloves = 1
+		M.can_wear_glasses = 1
+		M.can_wear_id = 1
 
 	apply(mob/carbon/M, attribute)
 		if(M.appearance != APPEARANCE_QUIVERING_MASS)

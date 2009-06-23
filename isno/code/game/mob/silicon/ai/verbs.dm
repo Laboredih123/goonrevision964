@@ -4,37 +4,33 @@
 
 /var/locked_down = 0
 
-/mob/silicon/ai/proc/lockdown()
+/mob/silicon/ai/verb/lockdown()
 	set name = "Lockdown"
 	set category = "AI Commands"
 
 	if(!src.is_active())
-		src <<"You cannot initiate lockdown because you are dead!"
+		src <<"You cannot initiate a lockdown because you are dead!"
 		return
 
 	if(src.last_lockdown + 100 > ss13time())
-		src << "You locked down too recently! Wait a few seconds first."
+		src << "You locked down too recently! You can lock down again in [(100 - ss13time() + src.last_lockdown)/10] seconds."
 		return
 
 	src.last_lockdown = ss13time()
 
 	begin_lockdown(src)
 
-	src.verbs += /mob/silicon/ai/proc/disablelockdown
-
-/mob/silicon/ai/proc/disablelockdown()
+/mob/silicon/ai/verb/disablelockdown()
 	set name = "Disable Lockdown"
 	set category = "AI Commands"
 
 	if(!src.is_active())
 		src <<"You cannot disable lockdown because you are dead!"
 		return
+	if(!locked_down)
+		src << "The station is not locked down!"
 
 	end_lockdown(src)
-
-	src << "\red Disable lockdown command disabled until lockdown engaged again!"
-	while(/mob/silicon/ai/proc/disablelockdown in src.verbs)
-		src.verbs -= /mob/silicon/ai/proc/disablelockdown
 
 /proc/begin_lockdown(mob/originator)
 	locked_down = 1

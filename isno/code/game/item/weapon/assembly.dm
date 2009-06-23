@@ -132,7 +132,7 @@
 			del src
 			return
 		else if(istype(W, /obj/item/weapon/weldingtool) && istype(actor, /obj/item/weapon/igniter_tank))
-			return actor.attackby(W)
+			return actor.attackby(W, user)
 		else if(istype(W, /obj/item/weapon/screwdriver))
 			src.secured = !src.secured
 			if(src.secured)
