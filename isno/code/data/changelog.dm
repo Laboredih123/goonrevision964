@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Wednesday, June 24, 2009</b></p>
+<ul>
+<li><b>852</b> - Added a second monkey holding area to genetics, in case you want to go through all the monkeys and
+test them for superpowers or something. Also added oxygen tank dispenser.</li>
+</ul>
+
 <p><b>Tuesday, June 23, 2009</b></p>
 <ul>
 <li><b>851</b> - Added handcuff remover in brig, so prisoners aren't stuck in their cuffs the whole time when
