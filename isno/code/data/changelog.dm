@@ -1,9 +1,15 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Tuesday, June 23, 2009</b></p>
+<ul>
+<li><b>851</b> - Added handcuff remover in brig, so prisoners aren't stuck in their cuffs the whole time when
+security are lazy.</li>
+</ul>
+
 <p><b>Monday, June 22, 2009</b></p>
 <ul>
-<li><b>846</b> - Added radio jammer traitor item, which prevents radios within 6 tiles from operating. This should
+<li><b>848</b> - Added radio jammer traitor item, which prevents radios within 6 tiles from operating. This should
 make it easier for traitors to kill people undetected without making it even easier to grief.</li>
 </ul>
 
