@@ -146,6 +146,8 @@
 
 /obj/item/weapon/grab/Del()
 	del(src.hud1)
+	if(src.affecting)
+		src.affecting.grabbed_by -= src
 	..()
 	return
 

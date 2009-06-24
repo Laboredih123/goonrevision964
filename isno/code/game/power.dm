@@ -96,9 +96,12 @@
 
 /obj/item/weapon/cell/proc/discharge(var/amount)
 	if(!amount) return 0
-	if(istype(src.loc,/obj/machinery/power/apc)) src.loc:surge(amount)
-	if(amount>charge && amount/maxcharge>0.005) src.explode()
-	if(amount/maxcharge > 0.20) src.explode()
+	if(istype(src.loc, /obj/machinery/power/apc))
+		src.loc:surge(amount)
+	if(amount > charge && amount / maxcharge > 0.005)
+		src.explode()
+	if(amount / maxcharge > 0.20)
+		src.explode()
 	amount = min(charge,amount)
 	charge -= amount
 	return amount
@@ -106,9 +109,10 @@
 /obj/item/weapon/cell/proc/explode()
 	if(!src.loc) del(src)
 	var/atom/tloc = src.loc
-	if(!isturf(tloc)) tloc = tloc.loc
+	if(!isturf(tloc))
+		tloc = tloc.loc
 	var/obj/effects/sparks/O = new /obj/effects/sparks(tloc)
-	O.amount = (maxcharge>10000? 5 : (maxcharge>2000? 3 : 2)) * charge/maxcharge*pick(1,20;1.4,5;2.1)
+	O.amount = (maxcharge > 10000 ? 5 : (maxcharge>2000? 3 : 2)) * charge/maxcharge*pick(1,20;1.4,5;2.1)
 	O.dir = pick(NORTH, SOUTH, EAST, WEST)
 	O.Life()
 	del(src)
