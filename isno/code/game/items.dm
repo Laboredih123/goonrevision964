@@ -3605,7 +3605,7 @@
 	if(RateLimit(usr,2)) return
 
 	..()
-	if(usr.ui_mode == UI_MODE_THROW && istype(usr, /mob/carbon))
+	if(usr.ui_mode == UI_MODE_THROW && istype(usr, /mob/carbon) && src)
 		var/mob/carbon/M = usr
 		return M.throw_item(src)
 	var/obj/item/weapon/W = null

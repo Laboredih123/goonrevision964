@@ -4,16 +4,16 @@
 	allowed_for = ADMIN_ALL
 
 	Topic(href, href_list)
+		..()
 		if(istype(usr,/mob/observer))
 			src << "Exiting observer mode"
 			usr.client.mob = usr:corpse
-			del(usr)
 			world.log_admin("[usr.key] left observer mode.")
+			del(usr)
 		else
 			usr.client.mob = new/mob/observer(usr)
 			usr << "Entering observer mode."
 			world.log_admin("[usr.key] entered observer mode.")
-		return ..()
 
 	get_desc()
 		if(!istype(usr,/mob/observer))

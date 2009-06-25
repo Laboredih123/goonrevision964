@@ -1,6 +1,6 @@
 // shows a browser pop-up window listing the variables in a datum
 
-/proc/variables(datum/D in view())
+/proc/variables(datum/D in world)
 	set category = "Debug"
 
 	var/dat = "<HEAD><TITLE>Variables for "
@@ -59,7 +59,7 @@
 	if(href_list["Vars"])		// if this link came from the vars window
 		variables(src)				// invoke a new window for this object
 
-/proc/delete(atom/A in view())
+/proc/delete(atom/A in world)
 	set category = "Debug"
 	switch(alert("Are you sure you wish to delete \the [A.name] at ([A.x],[A.y],[A.z]) ?", "Admin Delete Object","Yes","No"))
 		if("Yes")

@@ -20,6 +20,8 @@
 	src.see_infrared = 100
 	src.see_in_dark = 100
 
+	src.verbs += /mob/observer/proc/examine_anything
+
 	if(istype(corpse,/mob/carbon))
 		src.hud = corpse:hud
 		if(!src.corpse.is_dead)
@@ -53,3 +55,7 @@
 
 /mob/observer/Life()
 	if(src.hud) src.hud.update_icons()
+
+/mob/observer/proc/examine_anything(atom/A in world)
+	set name = "examine"
+	A.examine()
