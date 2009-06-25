@@ -1,9 +1,15 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Thursday, June 25, 2009</b></p>
+<ul>
+<li><b>854</b> - Added "freeze" ability, so admins can prevent people from causing more havoc while they ask them
+questions. Monkeys (and people who disconnect) now wander around and emote significantly less.</li>
+</ul>
+
 <p><b>Wednesday, June 24, 2009</b></p>
 <ul>
-<li><b>852</b> - Added a second monkey holding area to genetics, in case you want to go through all the monkeys and
+<li><b>853</b> - Added a second monkey holding area to genetics, in case you want to go through all the monkeys and
 test them for superpowers or something. Also added oxygen tank dispenser.</li>
 </ul>
 
@@ -272,6 +278,7 @@ Revolution mode will never be selected.</li>
 <p>Source, minus the good sprites, available at
 <a href="http://svn.slurm.us/public/spacestation13/branches/kurper/isno">
 http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want the good sprites, ask here or
-on irc.synirc.net in #goonstation and you might be allowed to have them.</p>
+on irc.synirc.net in #goonstation and you might be allowed to have them. If you want to contribute, come to
+#goonstation on irc.synirc.net.</p>
 
 "}

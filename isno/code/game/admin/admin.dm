@@ -121,6 +121,9 @@
 			src.verbs += /client/proc/adminsay
 			src.verbs += /client/proc/private_message
 
+			if(src.adminlevel & ADMIN_GM)
+				src.verbs += /client/proc/toggle_frozen
+
 			if(src.adminlevel & ADMIN_DEVELOPER)
 				src.verbs += /proc/variables
 				src.verbs += /proc/delete

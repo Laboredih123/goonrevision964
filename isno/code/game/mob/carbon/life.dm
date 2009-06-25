@@ -72,9 +72,9 @@
 	src.update_clothing()
 
 	if(!src.client)
-		if(src.is_active() && src.canmove && prob(10) && isturf(src.loc) && !src.resting)
+		if(src.is_active() && src.canmove && prob(1) && isturf(src.loc) && !src.resting)
 			step(src, pick(NORTH, SOUTH, EAST, WEST))
-		if(prob(1) && src.is_conscious())
+		if(prob(0.1) && src.is_conscious())
 			pick(src.sigh(), src.yawn(), src.cough(), src.tail())
 
 /mob/carbon/proc/check_burning()

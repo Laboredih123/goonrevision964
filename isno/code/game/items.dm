@@ -3600,6 +3600,8 @@
 
 /atom/DblClick()
 	if(!usr.is_active()) return
+	if(usr.client && usr.client.frozen)
+		return
 	if(RateLimit(usr,2)) return
 
 	..()

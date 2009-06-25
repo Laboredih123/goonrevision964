@@ -8,3 +8,4 @@
 	var/showvote = null
 	var/is_observing = null
 	var/adminlevel = 0
+	var/frozen = 0

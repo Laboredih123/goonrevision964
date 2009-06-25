@@ -77,6 +77,8 @@
 		return 0
 	if(!src.mob)
 		return
+	if(src.frozen)
+		return
 	if(istype(src.mob, /mob/observer) || istype(src.mob, /mob/prespawn))
 		return src.mob.Move(n, direct)
 	if(src.mob.is_dead)

@@ -1,8 +1,6 @@
 /mob/proc/reset_view(atom/A)
-
 	if (src.client)
 		src.client.reset_view(A)
-	return
 
 /mob/proc/is_muzzled()
 	return 0
