@@ -100,34 +100,33 @@
 /client/New()
 	..()
 
-	spawn (50) //TODO: Try removing this spawn, see if it still works
-		if (src.is_host())
-			admins[src.ckey] = ADMIN_ALL
-		if(src.ckey in admins)
-			src.verbs += /client/proc/adminsay
+	if (src.is_host())
+		admins[src.ckey] = ADMIN_ALL
+	if(src.ckey in admins)
+		src.verbs += /client/proc/adminsay
 
-			src.adminlevel = admins[src.ckey]
-			src.powers = list()
-			for(var/datum/admin_power/P in get_admin_power_instances())
-				if(P.is_applicable(src.adminlevel))
-					src.powers += P
+		src.adminlevel = admins[src.ckey]
+		src.powers = list()
+		for(var/datum/admin_power/P in get_admin_power_instances())
+			if(P.is_applicable(src.adminlevel))
+				src.powers += P
 
-			if(world.url)
-				src << "\blue The game ip is [world.url]!"
-			else
-				src << "\blue The world is running locally!"
+		if(world.url)
+			src << "\blue The game ip is [world.url]!"
+		else
+			src << "\blue The world is running locally!"
 
-			src.verbs += /client/proc/game_panel
-			src.verbs += /client/proc/mob_panel
-			src.verbs += /client/proc/adminsay
-			src.verbs += /client/proc/private_message
+		src.verbs += /client/proc/game_panel
+		src.verbs += /client/proc/mob_panel
+		src.verbs += /client/proc/adminsay
+		src.verbs += /client/proc/private_message
 
-			if(src.adminlevel & ADMIN_GM)
-				src.verbs += /client/proc/toggle_frozen
+		if(src.adminlevel & ADMIN_GM)
+			src.verbs += /client/proc/toggle_frozen
 
-			if(src.adminlevel & ADMIN_DEVELOPER)
-				src.verbs += /proc/variables
-				src.verbs += /proc/delete
+		if(src.adminlevel & ADMIN_DEVELOPER)
+			src.verbs += /proc/variables
+			src.verbs += /proc/delete
 
 /var/list/admin_power_instances = null
 /proc/get_admin_power_instances()

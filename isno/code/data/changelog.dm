@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Friday, June 26, 2009</b></p>
 <ul>
+<li><b>861</b> - Admins now get their powers as soon as they log in, rather than having to wait a few seconds.</li>
 <li><b>859</b> - Lawyer suit on the bridge.</li>
 </ul>
 
