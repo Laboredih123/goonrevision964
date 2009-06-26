@@ -3,6 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Thursday, June 25, 2009</b></p>
 <ul>
+<li><b>856</b> - Rwalls now do not produce any byproducts during deconstruction except at the very end. This will
+hopefully make them less painful to destroy.</li>
 <li><b>855</b> - Observers can now use examine (and, if they're admins, delete and variables) verb while observing
 a person. AIs and cameras cannot, unfortuntely.</li>
 <li><b>854</b> - Added "freeze" ability, so admins can prevent people from causing more havoc while they ask them

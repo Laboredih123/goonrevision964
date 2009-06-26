@@ -35,10 +35,7 @@
 
 		var/turf/curloc = user.loc
 		var/atom/targloc = get_turf(target)
-		if (!targloc || !istype(targloc, /turf) || !curloc)
-			return
-		if (targloc == curloc)
-			user.las_act(PROJECTILE_PULSE)
+		if (!targloc || !istype(targloc, /turf) || !curloc || targloc == curloc)
 			return
 
 		var/obj/beam/a_laser/A = new /obj/beam/a_laser/pulse_laser(user.loc)

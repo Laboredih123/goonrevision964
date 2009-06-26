@@ -208,10 +208,7 @@
 			if (prob(70))
 				src.think("\red Your armor absorbs the hit!")
 				return
-			if (prob(75))
-				src.knockout_until(10)
-			else
-				src.knockdown_until(10)
+		src.knockdown_until(10)
 	else if (flag == PROJECTILE_LASER)
 		var/d = 20
 		if (istype(src.suit, /obj/item/weapon/clothing/suit/armor))

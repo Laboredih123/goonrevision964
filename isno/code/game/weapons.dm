@@ -326,9 +326,6 @@
 			A.las_act(PROJECTILE_LASER, src)
 		//SN src = null
 		del(src)
-		return
-		return
-	return
 
 /obj/beam/a_laser/proc/process()
 	if ((!( src.current ) || src.loc == src.current))
@@ -361,9 +358,6 @@
 			A.las_act(PROJECTILE_TASER)
 		//SN src = null
 		del(src)
-		return
-		return
-	return
 
 /obj/beam/i_beam/proc/hit()
 	if (src.master)
