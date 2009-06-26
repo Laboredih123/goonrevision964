@@ -1,6 +1,7 @@
 /datum/admin_power/make_object
 	panel_type = PANEL_TYPE_GAME
 	allowed_for = ADMIN_GM | ADMIN_DEVELOPER
+	var/list/unspawnable_types = list(/obj/item/weapon/gun/energy/pulse_rifle)
 
 	Topic(href, href_list)
 		..()
@@ -42,7 +43,7 @@
 					<SCRIPT LANGUAGE="JavaScript">
 						var OldSearch = "";
 						var ObjectList = document.Spawner.ObjectList;
-						var ObjectTypes = "[dd_list2text(typesof(/obj),";")]";
+						var ObjectTypes = "[dd_list2text(typesof(/obj) - unspawnable_types,";")]";
 						var ObjectArray = ObjectTypes.split(";");
 						document.Spawner.SearchBar.focus();
 						populateList();

@@ -430,6 +430,7 @@
 /obj/item/weapon/flashbang/afterattack(atom/target as mob|obj|turf|area, mob/carbon/user as mob)
 
 	if (user.equipped() == src)
+		world.log_attack("[user] ([user.ckey]) threw a flashbang at [target].")
 		if (!( src.state ))
 			user << "\red You prime the flashbang! [det_time/10] seconds!"
 			src.state = 1
@@ -805,7 +806,6 @@
 	return
 
 /obj/item/weapon/gun/revolver/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
-
 	if (flag)
 		return
 	if (!user.check_dexterity())
@@ -814,6 +814,7 @@
 	if (src.bullets < 1)
 		user.hear("\red *click* *click*")
 		return
+	world.log_attack("[user] ([user.ckey]) fired a revolver at [target].")
 	src.bullets--
 	user.show_viewers(text("\red <B>[] fires a revolver at []!</B>", user, target))
 	var/turf/T = user.loc
@@ -876,7 +877,6 @@
 	return
 
 /obj/item/weapon/gun/energy/laser_gun/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
-
 	if (flag)
 		return
 	if (!user.check_dexterity())
@@ -885,6 +885,7 @@
 	if (src.charges < 1)
 		user.hear("\red *click* *click*")
 		return
+	world.log_attack("[user] ([user.ckey]) fired a laser gun at [target].")
 	src.charges--
 	update_icon()
 	var/turf/T = user.loc
@@ -935,7 +936,6 @@
 	return
 
 /obj/item/weapon/gun/energy/taser_gun/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
-
 	if (flag)
 		return
 	if (!user.check_dexterity())
@@ -944,6 +944,7 @@
 	if (src.charges < 1)
 		user.hear("\red *click* *click*")
 		return
+	world.log_attack("[user] ([user.ckey]) fired a taser at [target].")
 	src.charges--
 	update_icon()
 	var/turf/T = user.loc
