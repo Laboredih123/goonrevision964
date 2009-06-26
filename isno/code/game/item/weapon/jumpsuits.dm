@@ -85,3 +85,8 @@
 		name = "Nazi Jumpsuit"
 		color = "nazi"
 		icon_state = "nazi1"
+
+	lawyer
+		name = "Lawyer Suit"
+		color = "lawyer"
+		icon_state = "lawyer"

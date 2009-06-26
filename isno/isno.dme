@@ -3,6 +3,12 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
+/*
+FILE: good_icons\human.dmi
+DIR: code code\atoms code\data code\game code\game\item code\game\item\weapon code\game\jobs code\game\mob code\game\mob\carbon code\game\mode code\game\mode\mission good_icons icons maps
+MAP_ICON_TYPE: 0
+AUTO_FILE_DIR: OFF
+*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR

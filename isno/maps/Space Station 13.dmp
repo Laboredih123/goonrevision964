@@ -980,7 +980,7 @@
 "sR" = (/obj/cable{icon_state = "1-8"; d1 = 1; d2 = 8},/turf/station/floor,/area/bridge)
 "sS" = (/obj/stool/chair{dir = 4},/turf/station/floor,/area/bridge)
 "sT" = (/obj/table{icon_state = "sides"; dir = 8},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/turf/station/floor,/area/bridge)
-"sU" = (/obj/table{icon_state = "sides"; dir = 4},/turf/station/floor,/area/bridge)
+"sU" = (/obj/table{icon_state = "sides"; dir = 4},/obj/item/weapon/clothing/under/lawyer,/obj/item/weapon/clothing/under/lawyer,/obj/item/weapon/clothing/under/lawyer,/turf/station/floor,/area/bridge)
 "sV" = (/obj/stool/chair{dir = 8},/turf/station/floor,/area/bridge)
 "sW" = (/obj/cable{icon_state = "1-8"; d1 = 1; d2 = 8},/turf/station/r_wall,/area/turret_protected/ai)
 "sX" = (/obj/cable{icon_state = "1-2"; d1 = 1; d2 = 2},/turf/station/floor/grid,/area/turret_protected/ai)

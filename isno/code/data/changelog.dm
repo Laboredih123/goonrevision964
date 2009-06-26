@@ -1,6 +1,11 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Friday, June 26, 2009</b></p>
+<ul>
+<li><b>859</b> - Lawyer suit on the bridge.</li>
+</ul>
+
 <p><b>Thursday, June 25, 2009</b></p>
 <ul>
 <li><b>858</b> - Reorganized and compacted security and forensics, added courtroom.</li>
