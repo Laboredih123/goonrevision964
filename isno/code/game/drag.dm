@@ -434,7 +434,7 @@
 				src.target.internal.add_fingerprint(src.source)
 				src.target.internal = null
 				src.target.show_viewers(text("[] is no longer running on internals.", src.target))
-			else if (!(src.target.mask.flags & MASKINTERNALS))
+			else if (!src.target.mask || !(src.target.mask.flags & MASKINTERNALS))
 				return
 			else if (istype(src.target.back, /obj/item/weapon/tank))
 				src.target.internal = src.target.back

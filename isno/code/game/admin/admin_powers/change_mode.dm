@@ -6,11 +6,11 @@
 		..()
 		if(href_list["c_mode"])
 			master_mode = locate(href_list["c_mode"])
-			world.log_admin("[usr.key] set the mode as [master_mode].")
+			world.log_admin("[usr.key] set the mode as [master_mode.long_name].")
 			if(!game_started)
-				world << "\blue <B>The mode is now: [master_mode]</B>"
+				world << "\blue <B>The mode is now: [master_mode.long_name]</B>"
 			else
-				world << "\blue <B>The mode next round will be: [master_mode]</B>"
+				world << "\blue <B>The mode next round will be: [master_mode.long_name]</B>"
 
 			set_default_mode(master_mode)
 		var/dat = "<B>What mode do you wish to play?</B><HR>"

@@ -24,9 +24,9 @@
 				return MISSION_FAILURE
 		return MISSION_SUCCESS
 
-/proc/pick_cliented_human_except(mob/E)
+/proc/pick_cliented_human_except(list/exceptions)
 	var/list/L = new()
 	for(var/mob/carbon/human/M in world)
-		if(M != E && M.client)
+		if(!(M in exceptions) && M.client)
 			L += M
 	return pick(L)

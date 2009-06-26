@@ -15,9 +15,10 @@
 		var/list/mobs = list()
 		for(var/mob/carbon/M in world)
 			mobs += M
-		for(var/mob/carbon/M in mobs)
-			if(M.client)
-				new /datum/effect/death_commandoize(M)
+		spawn(5)
+			for(var/mob/carbon/M in mobs)
+				if(M.client)
+					new /datum/effect/death_commandoize(M)
 
 	give_newcomer_job(mob/M)
 		var/datum/job/death_commando/j = get_job_instance_by_type(/datum/job/death_commando)

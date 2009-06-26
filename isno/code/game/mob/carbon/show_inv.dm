@@ -31,7 +31,7 @@
 
 	if(src.internal)
 		dat += "<a href='?src=\ref[src];item=[SLOT_INTERNAL]'>Remove Internal</A><br>"
-	else if(istype(src.back, /obj/item/weapon/tank) && (src.mask.flags & MASKINTERNALS))
+	else if(istype(src.back, /obj/item/weapon/tank) && src.mask && (src.mask.flags & MASKINTERNALS))
 		dat += "<a href='?src=\ref[src];item=[SLOT_INTERNAL]'>Set Internal</A><br>"
 
 	dat += "<a href='?src=\ref[user];mach_close=mob[src.spawn_name]'>Close</A>"

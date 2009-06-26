@@ -8,7 +8,7 @@
 		var/gone = 0
 		var/stayed = 0
 		for(var/mob/carbon/M in world)
-			if (M.client)
+			if (M.last_known_ckey)
 				if (M.is_dead || on_shuttle(M) || istype(M.loc, /obj/machinery/vehicle/pod) || istype(M.loc, /turf/space))
 					gone++
 				else
