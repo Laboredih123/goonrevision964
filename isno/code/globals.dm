@@ -100,7 +100,7 @@ var
 	no_auth_motd = null		//	sent to players who fail to authenticate
 
 	savefile_ver = "Isno v1"
-	SS13_version = "Isno beta"
+	SS13_version = "Isno (formerly kurper unstable)"
 	datum/control/cellular/cellcontrol = null
 	obj/datacore/data_core = null
 	obj/overlay/plmaster = null
