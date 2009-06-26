@@ -3,6 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Thursday, June 25, 2009</b></p>
 <ul>
+<li><b>857</b> - You can no longer set headsets to perma-transmit. Hopefully this will get new people to actually
+read the MOTD and use say "; blah blah" (but probably not).</li>
 <li><b>856</b> - Rwalls now do not produce any byproducts during deconstruction except at the very end. This will
 hopefully make them less painful to destroy.</li>
 <li><b>855</b> - Observers can now use examine (and, if they're admins, delete and variables) verb while observing

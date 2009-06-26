@@ -143,16 +143,14 @@
 					(src.wires & 4 ? "Cut Wire" : "Mend Wire"),
 					(src.wires & 2 ? "Cut Wire" : "Mend Wire"),
 					(src.wires & 1 ? "Cut Wire" : "Mend Wire"))
-
-	var/dat = text({"<TT>Microphone: <A href='?src=\ref[src];talk=[]</A><BR>
-					 Speaker: <A href='?src=\ref[src];listen=[]</A><BR>
-					 []
-					 Frequency: <A href='?src=\ref[];freq=-10'>-</A><A href='?src=\ref[];freq=-2'>-</A> [] <A href='?src=\ref[];freq=2'>+</A><A href='?src=\ref[];freq=10'>+</A><BR>
-					 []</TT>"},
-					 (src.transmitting ? "0'>Engaged" : "1'>Disengaged"),
-					 (src.receiving   ? "0'>Engaged" : "1'>Disengaged"),
-					 (!src.can_patch() ? "" : text("Patch: <A href='?src=\ref[src];patch=0'>[]</A><BR>",(src.patch_link ? "[patch_link]" : "Disengaged"))),
-					 src, src, src.get_freq_text(), src, src, t1)
+	var/t2 = ""
+	if(!istype(src, /obj/item/weapon/radio/headset)) // don't let people turn headset mics perma-on
+		t2 = "Microphone: <A href='?src=\ref[src];talk=[src.transmitting ? "0'>Engaged" : "1'>Disengaged"]</A><BR>"
+	var/dat = {"<TT>[t2]
+					 Speaker: <A href='?src=\ref[src];listen=[(src.receiving   ? "0'>Engaged" : "1'>Disengaged")]</A><BR>
+					 [src.can_patch() ? "Patch: <A href='?src=\ref[src];patch=0'>[src.patch_link ? "[patch_link]" : "Disengaged"]</A><BR>" : ""]
+					 Frequency: <A href='?src=\ref[src];freq=-10'>-</A><A href='?src=\ref[src];freq=-2'>-</A> [src.get_freq_text()] <A href='?src=\ref[src];freq=2'>+</A><A href='?src=\ref[src];freq=10'>+</A><BR>
+					 [t1]</TT>"}
 	ss13_browse(user, dat, "window=radio")
 	return
 
