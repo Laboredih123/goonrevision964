@@ -72,7 +72,7 @@
 		if(P.panel_type == PANEL_TYPE_PLAYER)
 			player_powers += P
 	var/dat = "<html><head><title>Player Panel</title></head><body><table border=1>"
-	dat += "<tr><th>Name</th><th>Spawn name</th><th>Key</th><th>IP</th>"
+	dat += "<tr><th>Name</th><th>Spawn name</th><th>Logged in?</th><th>Key</th><th>IP</th>"
 	for(var/datum/admin_power/P in player_powers)
 		dat += "<th>[P.name]</th>"
 	dat += "</tr>"
@@ -88,6 +88,7 @@
 		dat += "<tr>"
 		dat += "<td>[M.name]</td>"
 		dat += "<td>[M.spawn_name]</td>"
+		dat += "<td>[M.client ? "Yes" : "No"]</td>"
 		dat += "<td>[M.last_known_ckey]</td>"
 		dat += "<td>[M.last_known_ip]</td>"
 		for(var/datum/admin_power/P in player_powers)

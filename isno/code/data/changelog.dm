@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Thursday, June 25, 2009</b></p>
 <ul>
+<li><b>858</b> - Reorganized and compacted security and forensics, added courtroom.</li>
 <li><b>857</b> - You can no longer set headsets to perma-transmit. Hopefully this will get new people to actually
 read the MOTD and use say "; blah blah" (but probably not).</li>
 <li><b>856</b> - Rwalls now do not produce any byproducts during deconstruction except at the very end. This will

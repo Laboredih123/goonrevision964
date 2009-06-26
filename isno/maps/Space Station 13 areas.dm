@@ -231,3 +231,7 @@
 /area/prespawn
 	requires_power = 0
 	name = "Prespawn Area"
+
+/area/courtroom
+	name = "Courtroom"
+	icon_state = "courtroom"

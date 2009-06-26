@@ -1,5 +1,5 @@
 /obj/closet/secure
-	desc = "An immobile card-locked storage closet."
+	desc = "A card-locked storage closet."
 	name = "Security Locker"
 	icon = 'stationobjs.dmi'
 	icon_state = "1secloset0"
@@ -92,8 +92,11 @@
 /obj/closet/secure/toxin
 	name = "Toxin Researcher Locker"
 	req_access = list(access_tox_storage)
+/obj/closet/secure/evidence
+	name = "Evidence Locker"
+	req_access = list(access_forensics_lockers)
 /obj/closet/secure/emergency
-	desc = "A bulky (yet mobile) closet. Comes prestocked with a gasmask and o2 tank for emergencies."
+	desc = "A bulky closet. Comes prestocked with a gasmask and o2 tank for emergencies."
 	name = "Emergency Closet"
 	req_access = list(access_emergency)
 	icon_state = "1emcloset0"
