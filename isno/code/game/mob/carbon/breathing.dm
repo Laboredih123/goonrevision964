@@ -9,7 +9,8 @@
 	var/co2_knockdown_threshold = 100
 	var/no2_metabolize_rate = 10
 	var/no2_knockdown_threshold = 20
-	var/plasma_damage_threshold = 5
+	var/plasma_damage_threshold = 10
+	var/plasma_per_damage = 20
 	var/max_co2 = 500
 	var/max_no2 = 500
 /mob/carbon/var/temperature_resistance = T0C+75
@@ -47,7 +48,7 @@
 		src.taking_suff_damage = 1
 
 	if(G.plasma > plasma_damage_threshold)
-		var/plasma_dam = round(G.plasma/8) + 1
+		var/plasma_dam = round(G.plasma / plasma_per_damage) + 1
 		if(src.mask && src.mask.a_filter >= 4)
 			plasma_dam = max(0,plasma_dam - 20)
 		if(plasma_dam > 0)
