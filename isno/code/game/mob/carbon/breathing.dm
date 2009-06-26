@@ -10,7 +10,7 @@
 	var/no2_metabolize_rate = 10
 	var/no2_knockdown_threshold = 20
 	var/plasma_damage_threshold = 10
-	var/plasma_per_damage = 20
+	var/plasma_per_damage = 10
 	var/max_co2 = 500
 	var/max_no2 = 500
 /mob/carbon/var/temperature_resistance = T0C+75
