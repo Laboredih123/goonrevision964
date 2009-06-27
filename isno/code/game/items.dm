@@ -2484,7 +2484,7 @@
 		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
-		var/time = rand(1, 5)
+		var/time = rand(5, 20)
 		if (prob(90))
 			M.knockout_until(time)
 		else
