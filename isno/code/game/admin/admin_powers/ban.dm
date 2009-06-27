@@ -10,7 +10,7 @@
 		if(!M || !M.client)
 			return
 		var/targ_adminlevel = M.client.adminlevel
-		var/usr_adminlevel = src.client.adminlevel
+		var/usr_adminlevel = usr.client.adminlevel
 		if(targ_adminlevel && !(usr_adminlevel & ADMIN_SUPERADMIN)) // only superadmins can ban other admins
 			return
 		if((targ_adminlevel & ADMIN_SUPERADMIN) && !(usr_adminlevel == ADMIN_ALL)) // only hosts can ban superadmins
