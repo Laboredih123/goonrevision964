@@ -47,12 +47,13 @@
 		else
 			return MISSION_FAILURE
 
-	New(num, method)
+	New(list/group, gname, num, method)
+		..()
 		if(num)
 			src.num = num
 		else
 			var/list/mobs = get_cliented_mob_list()
-			num = mobs.len / 3
+			num = round(mobs.len / 4)
 		if(method)
 			src.method = method
 		else

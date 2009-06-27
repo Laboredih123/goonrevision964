@@ -12,7 +12,7 @@
 		else
 			return "ensure that between [required_integrity]% and [max_integrity]% of the station survives"
 
-	New(group, gname, min_remaining=90, max_remaining = 100)
+	New(list/group, gname, min_remaining=90, max_remaining = 100)
 		..()
 		required_integrity = min_remaining
 		max_integrity = max_remaining

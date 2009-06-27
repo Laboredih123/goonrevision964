@@ -3,8 +3,7 @@
 	var/vdesc = "your victim"
 
 	New(list/group, gname, list/victims, vname)
-		src.group = group
-		src.gname = gname
+		..()
 		if(victims)
 			src.victims = victims
 			src.vdesc = vname
