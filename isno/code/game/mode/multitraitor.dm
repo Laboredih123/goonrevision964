@@ -112,8 +112,8 @@
 				return pick(mobs - synds)
 
 	proc/pick_individual_mission(traitor) // TODO: Prevent multiple copies of the same mission from happening
-		var/list/targets = get_cliented_mob_list()
-		if(targets.len < 2)	// since there's only one mob, there can be only one traitor
+		var/list/targets = get_cliented_carbon_list() - traitor
+		if(targets.len < 1)	// no targets to murder
 			if(istype(traitor, /mob/silicon/ai))
 				return /datum/mission/evacuate
 			else

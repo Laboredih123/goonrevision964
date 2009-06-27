@@ -289,6 +289,7 @@
 /mob/Topic(href, href_list)
 	if(href_list["vclose"])
 		ss13_browse(src, null, "window=vote")
-		src.client.showvote = 0
+		if(src.client)
+			src.client.showvote = 0
 	else
 		return ..()
