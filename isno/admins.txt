@@ -12,9 +12,10 @@
 # Mod - Can ban, mute, jobban, and so on. Does things related to the players rather
 # than SS13 itself. Can ban for a maximum of 1 day or 25 rounds.
 # Admin - Like a mod, but can ban for up to a week or 200 rounds.
-# Superadmin - Like an admin, but can ban for an arbitrary number of weeks or rounds.
+# Superadmin - Like an admin, but can ban for an arbitrary number of weeks or rounds,
+# and can ban other administrators (except other superadmins)
 # Developer - Has access to debugging powers, such as deleting and spawning objects.
-# Host - Has all powers of all other ranks.
+# Host - Has all powers of all other ranks, and can't be banned. Can ban superadmins.
 
 # Don't put any whitespace after the rank - "Host " is not a 
 # rank, and is equivalent to no rank at all.

@@ -7,6 +7,16 @@
 		..()
 
 	get_desc(mob/M)
+		if(!M || !M.client)
+			return
+		var/targ_adminlevel = M.client.adminlevel
+		var/usr_adminlevel = src.client.adminlevel
+		if(targ_adminlevel && !(usr_adminlevel & ADMIN_SUPERADMIN)) // only superadmins can ban other admins
+			return
+		if((targ_adminlevel & ADMIN_SUPERADMIN) && !(usr_adminlevel == ADMIN_ALL)) // only hosts can ban superadmins
+			return
+		if(targ_adminlevel == ADMIN_ALL) // nobody can ban hosts
+			return
 		return "<a href='?src=\ref[usr];mob-ban=\ref[M]'>Ban</a>"
 
 /proc/new_ban_id()
