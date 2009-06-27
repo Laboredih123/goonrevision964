@@ -990,9 +990,9 @@
 		else
 			M.show_viewers("\red <B>[M] has been stunned with the taser gun by [user]!</B>")
 			if (prob(50))
-				H.knockout_until(5)
+				H.knockout_until(15)
 			else
-				H.knockdown_until(5)
+				H.knockdown_until(15)
 			world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 		src.charges--
 		update_icon()
@@ -2484,12 +2484,13 @@
 		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
-		var/time = rand(5, 20)
-		if (prob(90))
+		var/time = rand(10, 50)
+		if (prob(20))
 			M.knockout_until(time)
+			user.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
 		else
 			M.knockdown_until(time)
-		user.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
+			user.show_viewers("\red <B>[M] has been knocked down!</B>")
 	return
 
 /obj/item/weapon/storage/firstaid/fire/New()

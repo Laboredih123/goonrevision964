@@ -552,12 +552,13 @@
 		if ((istype(H, /mob/carbon) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
 			H << "\red The helmet protects you from being hit hard in the head!"
 			return
-		var/time = rand(1, 12)
-		if (prob(90))
+		var/time = rand(10, 30)
+		if (prob(20))
 			H.knockout_until(time)
+			M.show_viewers("\red <B>[M] has been knocked unconscious!</B>")
 		else
 			H.knockdown_until(time)
-		M.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
+			M.show_viewers("\red <B>[M] has been knocked down!</B>")
 	return
 
 /obj/item/weapon/tank/attackby(obj/item/weapon/W as obj, mob/user as mob)

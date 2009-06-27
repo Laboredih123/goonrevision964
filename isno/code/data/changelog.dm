@@ -3,6 +3,9 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Friday, June 26, 2009</b></p>
 <ul>
+<li><b>871</b> - Rebalanced weapons. Many things now knock people down rather than knocking them out most of the
+time, so if they have a radio that isn't being jammed they can call for help. Traitors still have plenty of ways to
+prevent this, of course, so it should only really fuck over griefers.</li>
 <li><b>870</b> - Brig computer now gives a list of suggested sentences.</li>
 <li><b>866</b> - Posters are now a traitor item, costing 0.2 charges. Hopefully people will use them in rev mode (or
 in other modes, to throw people off their trail).</li>
