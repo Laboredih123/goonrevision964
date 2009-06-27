@@ -22,7 +22,7 @@ VOTE_DELAY 600
 VOTE_PERIOD 60
 
 # prevents dead players from voting or starting votes
-#NO_DEAD_VOTE
+# NO_DEAD_VOTE
 
 # players' votes default to "No vote" (otherwise,  default to "No change")
 DEFAULT_NO_VOTE
@@ -32,8 +32,6 @@ DEFAULT_NO_VOTE
 
 # goon authentication
 # AUTHENTICATION
-
-RANDOM_NAMES 1
 
 LOG_FILE logs/logROUNDNUMLOGTYPE.txt
 

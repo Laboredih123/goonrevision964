@@ -63,7 +63,7 @@
 			if("default_no_vote")		config.vote_no_default = 1
 			if("vote_delay")			config.vote_delay = text2num(value)
 			if("vote_period")			config.vote_period = text2num(value)
-			if("allow_ai")				config.allow_ai = 1
+			if("disallow_ai")			config.allow_ai = 0
 			if("no_respawn")			config.respawn = 0
 
 			if("authentication")
@@ -74,9 +74,6 @@
 				if(!value) config.enable_authentication = 2
 
 			if("rate_limit")			config.rate_limit = text2num(value)
-			if("random_names")			config.random_names = text2num(value)
-			if("random_ai_names")		config.random_ai_names  = text2num(value)
-
 			if("probability")
 				var/prob_pos = findtext(value, " ")
 				var/prob_name = null

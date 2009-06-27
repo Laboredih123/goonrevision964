@@ -7,15 +7,14 @@
 	responsibilities = "Try to keep the station in one piece, while following your laws (FOLLOW YOUR LAWS DAMMIT)."
 
 	process_name(name, mob/M)
-		if(config.random_ai_names)
-			var/randomname = "HAL"	//	default name
-			if(ai_names)
-				randomname = pick(ai_names)
-			var/newname = input(M,"You are the AI. Would you like to change your name?", "Character Creation", randomname)
-			if(!length(trim(newname)))
-				newname = randomname
-			newname = strip_html(newname,30)
-			return newname
+		var/randomname = "HAL"	//	default name
+		if(ai_names)
+			randomname = pick(ai_names)
+		var/newname = input(M,"You are the AI. Would you like to change your name?", "Character Creation", randomname)
+		if(!length(trim(newname)))
+			newname = randomname
+		newname = strip_html(newname,30)
+		return newname
 
 	create(mob/M, join_status)
 		var/name = src.process_name(M.client.prefs.name, M)
