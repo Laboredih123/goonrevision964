@@ -30,7 +30,7 @@
 	if(!locked_down)
 		src << "The station is not locked down!"
 
-	end_lockdown(src)
+	end_lockdown(src.name)
 
 /proc/begin_lockdown(mob/originator)
 	locked_down = 1
@@ -47,10 +47,10 @@
 			if(AL.try_close())
 				AL.locked = 1 // and seal 'em
 
-/proc/end_lockdown(mob/originator)
+/proc/end_lockdown(originatorname)
 	locked_down = 0
 
-	station_announce("Lockdown cancelled by [originator.name]!")
+	station_announce("Lockdown cancelled by [originatorname]!")
 
 	for(var/obj/machinery/firealarm/FA in world)
 		spawn(0)

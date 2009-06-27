@@ -941,7 +941,7 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 3.0
 	throw_speed = 2
 	throw_range = 10
-	force = 7.0
+	force = 20
 /obj/item/weapon/gun/energy/taser_gun
 	name = "taser gun"
 	icon_state = "t_gun"

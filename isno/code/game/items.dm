@@ -923,7 +923,7 @@
 			H.think("\red The helmet protects you from being hit hard in the head!")
 			world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 			return
-		H.knockdown_until(rand(1,12))
+		H.knockdown_until(rand(10,20))
 		H.show_viewers(text("\red <B>[] has been knocked unconscious!</B>", M))
 	return
 
