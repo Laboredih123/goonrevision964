@@ -1,4 +1,5 @@
 /client/proc/adminsay(msg as text)
+	set name = "asay"
 	//	All admins should be authenticated, but... what if?
 	if(!src.authenticated || !src.powers)
 		src << "Only administrators may use this command."

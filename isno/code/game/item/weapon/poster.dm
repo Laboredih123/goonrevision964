@@ -20,9 +20,6 @@
 	attack_self()
 		return
 
-	add_fingerprint()
-		return
-
 	attackby(obj/item/weapon/P, mob/user)
 		if (istype(P, /obj/item/weapon/pen))
 			return // TODO: allow vandalizing posters

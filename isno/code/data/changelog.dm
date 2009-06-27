@@ -3,6 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Friday, June 26, 2009</b></p>
 <ul>
+<li><b>866</b> - Posters are now a traitor item, costing 0.2 charges. Hopefully people will use them in rev mode (or
+in other modes, to throw people off their trail).</li>
 <li><b>861</b> - Admins now get their powers as soon as they log in, rather than having to wait a few seconds.</li>
 <li><b>859</b> - Lawyer suit on the bridge.</li>
 </ul>

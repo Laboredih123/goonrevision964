@@ -6,23 +6,21 @@
 	..()
 
 /client/New()
-	//TODO: get rid of mob/prespawn in favor of doing everything with clients
 	world.log_access("Login: [src.key] from [src.address]")
 
 	src << "\blue <B>[join_motd]</B>"
 
 	src.authorize()
 
-	if (config.log_access)
-		for (var/mob/M in world)
-			if(M.client == src)
-				continue
-			if(M.client && M.client.address == src.address)
-				world.log_access("Notice: [src.key] has same IP address as [M.key]")
-			else if (M.last_known_ip && M.last_known_ip == src.address && M.last_known_ckey != src.ckey)
-				world.log_access("Notice: [src.key] has same IP address as [M.last_known_ckey] did ([M.last_known_ckey] is no longer logged in).")
-			else if (M.last_known_computer_id && M.last_known_computer_id == src.computer_id && M.last_known_ckey != src.ckey)
-				world.log_access("Notice: [src.key] has same computer ID as [M.last_known_ckey] did ([M.last_known_ckey] is no longer logged in).")
+	for (var/mob/M in world)
+		if(M.client == src)
+			continue
+		if(M.client && M.client.address == src.address)
+			world.log_access("Notice: [src.key] has same IP address as [M.key]")
+		else if (M.last_known_ip && M.last_known_ip == src.address && M.last_known_ckey != src.ckey)
+			world.log_access("Notice: [src.key] has same IP address as [M.last_known_ckey] did ([M.last_known_ckey] is no longer logged in).")
+		else if (M.last_known_computer_id && M.last_known_computer_id == src.computer_id && M.last_known_ckey != src.ckey)
+			world.log_access("Notice: [src.key] has same computer ID as [M.last_known_ckey] did ([M.last_known_ckey] is no longer logged in).")
 	if (((world.address == src.address || !(src.address)) && !(host)))
 		host = src.key
 		world.update_stat()

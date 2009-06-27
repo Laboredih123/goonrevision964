@@ -1,21 +1,3 @@
-# log OOC channel
-LOG_OOC
-
-# log client Say 
-LOG_SAY
-
-# log admin actions
-LOG_ADMIN
-
-# log client access (logon/logoff)
-LOG_ACCESS
-
-# log game actions (start of round, results, etc.)
-LOG_GAME
-
-# log player votes
-LOG_VOTE
-
 # default probablity is 0, increase to make that mode more likely to be picked
 # set to 0 to disable that mode
 # note that, with under 10 players, multitraitor is exactly equivalent to traitor.

@@ -114,9 +114,7 @@
 
 		// move over contents
 		for(var/atom/movable/M in A)
-			if(M.z == src_z && !istype(M, /area))
-				// TODO: determine if /area check is necessary
-				// I don't THINK it is
+			if(M.z == src_z)
 				M.z = dest_z
 
 		// replace the turfs it's coming from with space
@@ -164,7 +162,7 @@
 				spawn()
 					commandos += j.create(M, JOINED_ON_TIME, 1, 1)
 
-		sleep(50) // TODO: come up with a better way to do this, without having spawning able to be held up by anyone
+		sleep(50)
 
 		var/datum/mission/murders/murders = new /datum/mission/murders(commandos, "the death commandos", station_members, "all station personnel")
 		var/datum/mission/prevent_escape/prevent_escape = new /datum/mission/prevent_escape(commandos, "the death commandos", station_members, "any station personnel")

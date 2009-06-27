@@ -487,8 +487,6 @@
 						flick("flash", M.hud.flash)
 				M.take_eye_damage(2)
 				M << "\red <B>BANG</B>"
-		//Foreach goto(39)
-	//SN src = null
 
 	for(var/obj/blob/B in view(8,T))
 		var/damage = round(30/(get_dist(B,T)+1))
@@ -587,6 +585,7 @@
 	del(src)
 
 /obj/item/weapon/syndicate_uplink/var/list/item_types = list(
+	list("Poster", 0.2, /obj/item/weapon/paper/poster),
 	list("Revolver Ammo", 1, /obj/item/weapon/ammo/a357),
 	list("Nuke Disk Pinpointer", 1, /obj/item/weapon/pinpointer),
 	list("Cyanide Pill", 1, /obj/item/weapon/m_pill/cyanide),

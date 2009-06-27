@@ -22,7 +22,7 @@
 				dat += "<td>[B.get_banclass_desc()]</td>"
 				dat += "<td>[B.get_duration_desc()]</td>"
 				dat += "<td>[B.adminckey]</td>"
-				dat += "<td>[time2text(B.bantime, "hh:mm Month DD, YYYY")]</td>"
+				dat += "<td>[time2text(B.bantime, "YYYY-MM-DD hh:mm ")]</td>"
 				dat += "<td>[B.reason]</td>"
 				dat += "<td><a href='?src=\ref[src];banid=[banid]'>Remove</a></td>"
 				dat += "</tr>"

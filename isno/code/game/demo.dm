@@ -1509,12 +1509,14 @@
 		src.d_state = 0
 		src.state = 1
 	if (src.state == 2)
-		src.icon_state = text("r_wall[]", (src.d_state > 0 ? text("-[]", src.d_state) : null))
+		src.icon = initial(src.icon)
+		src.icon_state = text("[initial(src.icon_state)][]", (src.d_state > 0 ? text("-[]", src.d_state) : null))
 		src.opacity = 1
 		src.density = 1
 		src.updatecell = 0
 		src.buildlinks()
 	else
+		src.icon = 'doorf.dmi'
 		src.icon_state = "r_girder"
 		src.opacity = 0
 		src.density = 1

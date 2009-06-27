@@ -16,8 +16,6 @@
 			M.knockdown_until(rand(0,5))
 			M.take_damage(brute = 30)
 			//TODO: blurry vision
-
-
 		else // Bottle is not broken, intent is hurt
 			if (M == user)
 				user << "\red <B>You let out a ferocious yell and smash the beer bottle into your own face!</b>"

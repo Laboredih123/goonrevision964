@@ -45,13 +45,6 @@
 		if(!name)	continue
 
 		switch (name)
-			if("log_ooc")		config.log_ooc = 1
-			if("log_access")	config.log_access = 1
-			if("log_say")		config.log_say = 1
-			if("log_admin")		config.log_admin = 1
-			if("log_attack")	config.log_attack = 1
-			if("log_game")		config.log_game = 1
-			if("log_vote")		config.log_vote = 1
 			if("log_file")
 				var/fname = dd_replacetext(value, "ROUNDNUM", "[curround + 1]")
 				config.log_file = dd_replacetext(fname, "LOGTYPE", "")
@@ -63,6 +56,7 @@
 				config.log_file_access = dd_replacetext(fname, "LOGTYPE", "access")
 				config.log_file_say = dd_replacetext(fname, "LOGTYPE", "say")
 				config.log_file_ooc = dd_replacetext(fname, "LOGTYPE", "ooc")
+				config.log_file_construct = dd_replacetext(fname, "LOGTYPE", "construct")
 			if("allow_vote_restart")	config.allow_vote_restart = 1
 			if("allow_vote_mode")		config.allow_vote_mode = 1
 			if("no_dead_vote")			config.vote_no_dead = 1
