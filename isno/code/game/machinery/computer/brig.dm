@@ -98,16 +98,33 @@
 				dat += "<input type='hidden' name='src' value='\ref[src]'>"
 				dat += "<input type='hidden' name='cell' value='[cur_cellname]'>"
 				dat += "<input type='hidden' name='operation' value='set-sentence'>"
-				dat += "Sentence length:<br><input type='text' name='length-min' value='0' size='5'> minutes <input type='text' name='length-sec' value='60' size='5'> seconds<br>"
-				dat += "Reason:<br><textarea name='reason' rows='5' cols='40'>Miscellaneous criminality</textarea><br>"
+				dat += "Sentence length:<br><input type='text' name='length-min' value='[round(time_by_name[cur_cellname] / 600)]' size='5'> minutes <input type='text' name='length-sec' value='[round((time_by_name[cur_cellname] % 600)/10)]' size='5'> seconds<br>"
+				dat += "Reason:<br><textarea name='reason' rows='5' cols='40'>[reason_by_name[cur_cellname]]</textarea><br>"
 				dat += "<br><input type='submit' value='Submit'>"
 				dat += "</form>"
+				dat += {"<h3>Suggested sentences:</h3>
+				<ul>
+					<li><b>Murder</b> - Execution</li>
+					<li><b>Mutiny</b> - 20 minutes</li>
+					<li><b>Sabotage</b> - 5 to 30 minutes</li>
+					<li><b>Assault</b> - 15 minutes</li>
+					<li><b>Kidnapping</b> - 15 minutes</li>
+					<li><b>Possession of contraband</b> - 5 to 15 minutes</li>
+					<li><b>Crimes against nature</b> - 5 to 15 minutes</li>
+					<li><b>Tampering with AI</b> - 15 minutes</li>
+					<li><b>Unauthorized bomb-making</b> - 10 minutes</li>
+					<li><b>Unauthorized airlock hacking</b> - 5 minutes</li>
+					<li><b>Identity theft</b> - 5 minutes</li>
+					<li><b>Resisting arrest</b> - 5 minutes</li>
+					<li><b>Theft</b> - 3 minutes</li>
+					<li><b>Public indecency</b> - 2 minutes</li>
+				</ul>"}
 		dat += "<a href='?src=\ref[src];operation=close-window'>Close</a>"
-		ss13_browse(user, dat, "window=brig")
+		ss13_browse(user, dat, "window=brig;size=400x650")
 
 	proc/get_doors(cellname)
 		var/list/L = list()
-		for(var/obj/machinery/door/window/W in get_area(src))
+		for(var/obj/machinery/door/window/W in world)
 			if(W.cellname == cellname)
 				L += W
 		return L

@@ -39,7 +39,7 @@
 	..()
 	spawn(10) // make sure that the brig computer's been created too
 		if(src.cellname)
-			for(var/obj/machinery/computer/brig/B in get_area(src))
+			for(var/obj/machinery/computer/brig/B in world)
 				B.register_door(src)
 	return
 
