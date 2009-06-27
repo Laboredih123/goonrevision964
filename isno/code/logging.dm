@@ -22,6 +22,7 @@
 	world.log << "VOTE: [text]"
 
 /world/proc/log_access(text)
+	notify_admins("ACCESS: [text]")
 	world.log_file("[time2text(world.realtime)] - ACCESS: [text]", config.log_file_access)
 	world.log << "ACCESS: [text]"
 

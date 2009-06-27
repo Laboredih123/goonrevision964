@@ -1,5 +1,5 @@
 /turf/station/wall/false_wall
-	icon = 'Doorf.dmi'
+	icon = 'doorf.dmi'
 	var/operating = null
 	var/visible = 1
 	var/const/delay = 15
@@ -111,7 +111,7 @@
 
 /turf/station/r_wall/false_rwall
 	name = "r wall"
-	icon = 'Doorf.dmi'
+	icon = 'doorf.dmi'
 	icon_state = "rdoor1"
 	var/operating = null
 	var/visible = 1

@@ -40,5 +40,21 @@
 			bombers -= user.ckey
 			bombers += user.ckey
 			src.add_fingerprint(user)
+		else if(istype(W, /obj/item/weapon/wrench))
+			tank.loc = src.loc
+			if(user.r_hand == src)
+				user.r_hand = tank
+				tank.layer = 20
+			else if(user.l_hand == src)
+				user.l_hand = tank
+				tank.layer = 20
+
+			var/turf/T = get_turf(src)
+			igniter.loc = T
+			igniter.layer = initial(igniter.layer)
+
+			igniter = null
+			tank = null
+			del src
 		else
 			return ..()
