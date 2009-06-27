@@ -116,26 +116,30 @@
 /datum/hud/carbon/proc/update_slots()
 	// make the slots they can't use have the "blocked" icon
 	var/list/slots = list(
-		src.mask = src.owner.can_wear_mask,
-		src.back = src.owner.can_wear_back,
-		src.r_hand = src.owner.can_wear_r_hand,
-		src.jumpsuit = src.owner.can_wear_jumpsuit,
-		src.l_hand = src.owner.can_wear_l_hand,
-		src.gloves = src.owner.can_wear_gloves,
-		src.shoes = src.owner.can_wear_shoes,
-		src.glasses = src.owner.can_wear_glasses,
-		src.helmet = src.owner.can_wear_helmet,
-		src.belt = src.owner.can_wear_belt,
-		src.id = src.owner.can_wear_id,
-		src.suit = src.owner.can_wear_suit,
-		src.headset = src.owner.can_wear_headset,
-		src.storage1 = src.owner.can_wear_l_store,
-		src.storage2 = src.owner.can_wear_r_store
+		src.mask = list(src.owner.can_wear_mask, "equip", "mask"),
+		src.back = list(src.owner.can_wear_back, "equip", "back"),
+		src.r_hand = list(src.owner.can_wear_r_hand, "equip", "l_hand"),
+		src.jumpsuit = list(src.owner.can_wear_jumpsuit, "center", "jumpsuit"),
+		src.l_hand = list(src.owner.can_wear_l_hand, "equip", "r_hand"),
+		src.gloves = list(src.owner.can_wear_gloves, "gloves", "gloves"),
+		src.shoes = list(src.owner.can_wear_shoes, "shoes", "shoes"),
+		src.glasses = list(src.owner.can_wear_glasses, "glasses", "glasses"),
+		src.helmet = list(src.owner.can_wear_helmet, "hair", "head"),
+		src.belt = list(src.owner.can_wear_belt, "belt", "belt"),
+		src.id = list(src.owner.can_wear_id, "equip", "id"),
+		src.suit = list(src.owner.can_wear_suit, "equip", "o_clothing"),
+		src.headset = list(src.owner.can_wear_headset, "equip", "headset"),
+		src.storage1 = list(src.owner.can_wear_l_store, "block", "storage1"),
+		src.storage2 = list(src.owner.can_wear_r_store, "block", "storage2")
 	)
 	for(var/obj/screen/x in slots)
-		if(!slots[x])
+		var/list/L = slots[x]
+		if(!L[1])
 			x.icon_state = "blocked"
 			x.name = "blocked"
+		else
+			x.icon_state = L[2]
+			x.name = L[3]
 
 /datum/hud/carbon/Del()
 	if(src.owner && src.owner.client && src.owner.client.screen)
