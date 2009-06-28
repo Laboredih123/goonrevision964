@@ -202,8 +202,11 @@
 		else
 			text += "<p>Current winner:<b>"
 			if(L.len > 1)
-				text += " Tie:"
-			for(var/datum/game_mode/M in L)
+				text += " Tie: "
+			for(var/i = 1; i <= L.len; i++)
+				if(i > 1)
+					text += "/"
+				var/datum/game_mode/M = L[i]
 				if(M != master_mode)
 					text += " [M.long_name]"
 				else

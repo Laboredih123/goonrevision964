@@ -86,7 +86,7 @@
 		return
 
 	var/mob/eye = creatures[eye_name]
-	if (eye && eye != src.client.mob)
+	if (eye && src.client && eye != src.client.mob)
 		src.reset_view(eye)
 		src.client.is_observing = 1
 	else

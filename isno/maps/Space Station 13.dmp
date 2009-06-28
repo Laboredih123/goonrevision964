@@ -768,7 +768,7 @@
 "oN" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor,/area)
 "oO" = (/turf/station/wall,/area/bridge)
 "oP" = (/obj/machinery/pipes{tag = ""; icon_state = "3"; p_dir = 3},/turf/station/r_wall,/area/bridge)
-"oQ" = (/obj/table,/obj/item/weapon/tank/jetpack,/obj/item/weapon/card/id/captains_spare,/obj/item/weapon/hand_tele,/obj/item/weapon/disk/code,/turf/station/floor,/area/bridge)
+"oQ" = (/obj/table,/obj/item/weapon/tank/jetpack,/obj/item/weapon/card/id/captains_spare,/obj/item/weapon/hand_tele,/obj/item/weapon/disk/code,/obj/machinery/camera{dir = 1; c_tag = "Bridge Northwest"},/turf/station/floor,/area/bridge)
 "oR" = (/turf/station/r_wall,/area/bridge)
 "oS" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/obj/machinery/camera{dir = 4; c_tag = "Bridge North"},/turf/station/floor,/area/bridge)
 "oT" = (/obj/machinery/pipes/heat_exch{tag = ""; icon_state = "3"},/obj/machinery/atmoalter/canister/oxygencanister{name = "High Capacity Canister: \[O2]"; weight = 7.9e+009; maximum = 4.2e+008; holding = null; max_valve = 2e+006; health = 30},/turf/station/engine/floor{name = "engine floor"; oxygen = 2.1e+006; poison = 0; n2 = 0},/area/engine/combustion)

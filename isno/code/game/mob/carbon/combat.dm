@@ -66,14 +66,14 @@
 		else
 			src.knockout_until(20)
 			src.show_viewers("\red <b>[M] has punched out [src] with superhuman strength!</b>")
-	else if(M.intent == "harm")
-		world.log_attack("[M] ([M.ckey]) attacked [src] ([src.ckey]) with the harm intent.")
+	else if(M.intent == "hurt")
+		world.log_attack("[M] ([M.ckey]) attacked [src] ([src.ckey]) with the hurt intent.")
 		if(M.attack_type == ATTACK_BITE)
 			if(M.is_muzzled())
 				return
 			if(!M.has_super_strength)
 				var/success = 1
-				if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(95))
+				if(istype(src.suit, /obj/item/weapon/clothing/suit/sp_suit) && prob(90))
 					success = 0
 				else if(istype(src.suit, /obj/item/weapon/clothing/suit/armor) && prob(60))
 					success = 0
