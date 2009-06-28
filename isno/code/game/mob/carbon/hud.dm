@@ -118,9 +118,9 @@
 	var/list/slots = list(
 		src.mask = list(src.owner.can_wear_mask, "equip", "mask"),
 		src.back = list(src.owner.can_wear_back, "equip", "back"),
-		src.r_hand = list(src.owner.can_wear_r_hand, "equip", "l_hand"),
+		src.r_hand = list(src.owner.can_wear_r_hand, "equip", "r_hand"),
 		src.jumpsuit = list(src.owner.can_wear_jumpsuit, "center", "jumpsuit"),
-		src.l_hand = list(src.owner.can_wear_l_hand, "equip", "r_hand"),
+		src.l_hand = list(src.owner.can_wear_l_hand, "equip", "l_hand"),
 		src.gloves = list(src.owner.can_wear_gloves, "gloves", "gloves"),
 		src.shoes = list(src.owner.can_wear_shoes, "shoes", "shoes"),
 		src.glasses = list(src.owner.can_wear_glasses, "glasses", "glasses"),
