@@ -3,6 +3,9 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Sunday, June 28, 2009</b></p>
 <ul>
+<li><b>881</b> - Replaced most rwalls with regular walls, except in the engine, plasma storage areas, and the
+room storing the captain's spare ID. Electrified the grilles at the northeast of the engine, so it's not TOO
+easy to release engine fire.</li>
 <li><b>880</b> - Ripped out code relating to nukes, changed nuke disk to a codes disk.</li>
 </ul>
 
