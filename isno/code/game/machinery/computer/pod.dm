@@ -143,6 +143,7 @@
 	if(istype(T, /turf))
 		T.updatecell = 0
 		T.buildlinks()
+		T.firelevel = 0
 	sleep(15)
 	src.operating = 0
 	return 1

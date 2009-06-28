@@ -25,7 +25,8 @@
 	for(var/obj/machinery/atmoalter/canister/C in range(1, T))
 		if (!( C.destroyed ))
 			if (C.gas.plasma >= 35000)
-				C.destroyed = 1
+				C.health = 0
+				C.healthcheck()
 				strength += 500
 
 	if(strength < 250) // can't be taking the square root of a negative number, now

@@ -32,7 +32,7 @@
 			return
 		src.add_fingerprint(user)
 
-		world.log_attack("[user] ([user.ckey]) fired a pulse rifle at [target].")
+		world.log_attack("[user] ([user.ckey]) fired a pulse rifle at [target][ismob(target) ? " ([target:ckey]))" : ""].")
 
 		var/turf/curloc = user.loc
 		var/atom/targloc = get_turf(target)

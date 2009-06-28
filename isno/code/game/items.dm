@@ -813,7 +813,7 @@
 	if (src.bullets < 1)
 		user.hear("\red *click* *click*")
 		return
-	world.log_attack("[user] ([user.ckey]) fired a revolver at [target].")
+	world.log_attack("[user] ([user.ckey]) fired a revolver at [target][ismob(target) ? " ([target:ckey]))" : ""].")
 	src.bullets--
 	user.show_viewers(text("\red <B>[] fires a revolver at []!</B>", user, target))
 	var/turf/T = user.loc
@@ -884,7 +884,7 @@
 	if (src.charges < 1)
 		user.hear("\red *click* *click*")
 		return
-	world.log_attack("[user] ([user.ckey]) fired a laser gun at [target].")
+	world.log_attack("[user] ([user.ckey]) fired a laser gun at [target][ismob(target) ? " ([target:ckey]))" : ""].")
 	src.charges--
 	update_icon()
 	var/turf/T = user.loc
@@ -943,7 +943,7 @@
 	if (src.charges < 1)
 		user.hear("\red *click* *click*")
 		return
-	world.log_attack("[user] ([user.ckey]) fired a taser at [target].")
+	world.log_attack("[user] ([user.ckey]) fired a taser at [target][ismob(target) ? " ([target:ckey]))" : ""].")
 	src.charges--
 	update_icon()
 	var/turf/T = user.loc

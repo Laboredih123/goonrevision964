@@ -29,3 +29,4 @@ kurper2 - GM Superadmin Developer
 stuntwaffle - Mod Developer
 weasello - Admin Developer
 nannek - GM Superadmin Developer
+sam0rz - GM Admin

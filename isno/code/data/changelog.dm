@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Sunday, June 28, 2009</b></p>
 <ul>
+<li><b>888</b> - Added Thunderbeast's space tiles, at least for now. Doors should no longer hold fires in.</li>
 <li><b>884</b> - Added "jump" verb for observers and admins.</li>
 <li><b>882</b> - Replaced most rwalls with regular walls, except in the engine, plasma storage areas, and the
 room storing the captain's spare ID. Electrified the grilles at the northeast of the engine, so it's not TOO

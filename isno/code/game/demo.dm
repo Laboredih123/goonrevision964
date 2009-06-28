@@ -126,6 +126,12 @@
 		src.loc:buildlinks()
 	return
 
+/obj/machinery/door/Del()
+	..()
+	var/turf/T = get_turf(src)
+	T.updatecell = 1
+	T.buildlinks()
+
 /obj/machinery/door/proc/try_open()
 	if(!src.density)
 		return 0
@@ -168,6 +174,7 @@
 	if(isturf(src.loc))
 		if(!istype(src,/obj/machinery/door/window))
 			src.loc:updatecell = 0
+			src.loc:firelevel = 0
 		src.loc:buildlinks()
 	sleep(15)
 	src.operating = 0

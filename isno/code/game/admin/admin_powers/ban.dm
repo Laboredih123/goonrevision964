@@ -111,7 +111,7 @@
 
 		var/desc = "[ckey] has been banned [B.get_banclass_desc()] [B.get_duration_desc()] by [src.ckey]. The reason given was: [reason]"
 		world.log_admin(desc)
-		world << "<font color='red'>[desc]</font>"
+		world << "<b><font color='red'>[desc]</font></b>"
 		B.apply(C)
 		ss13_browse(usr, null, "window=ban")
 	else

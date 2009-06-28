@@ -1,5 +1,6 @@
 /turf/station/wall/false_wall
 	icon = 'doorf.dmi'
+	icon_state = ""
 	var/operating = null
 	var/visible = 1
 	var/const/delay = 15
@@ -91,6 +92,7 @@
 	flick("doorc1", src) //show the door closing animation
 	src.icon_state = "door1"
 	src.density = 1
+	src.firelevel = 0
 	if (src.visible)
 		src.opacity = 1
 	src.updatecell = 0
@@ -204,6 +206,7 @@
 		flick("rdoorc1", src) //show the door closing animation
 		src.icon_state = "rdoor1"
 		src.density = 1
+		src.firelevel = 0
 		if (src.visible)
 			src.opacity = 1
 		src.updatecell = 0
