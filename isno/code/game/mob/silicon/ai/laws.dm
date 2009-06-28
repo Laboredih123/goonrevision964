@@ -17,14 +17,20 @@
 	else
 		src << "<b>Obey these laws:</b>"
 
+	showTo << laws_to_text()
+
+
+/mob/silicon/ai/proc/laws_to_text()
+	var/txt = "<html>"
 	var/lawIndex = 0
 	for (var/index=1, index<=src.laws.len, index++)
 		var/law = src.laws[index]
 		if (length(law)>0)
 			if (index==2 && lawIndex==0)
 				lawIndex = 1
-			showTo << text("[]. []", lawIndex, law)
+			txt += "[lawIndex]. [law]<br>"
 			lawIndex += 1
+	return txt
 
 /mob/silicon/ai/proc/addLaw(var/number, var/law)
 	while (src.laws.len < number+1)

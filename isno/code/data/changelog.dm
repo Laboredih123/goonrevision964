@@ -1,6 +1,11 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Saturday, June 27, 2009</b></p>
+<ul>
+<li><b>878</b> - Added "show AI laws" admin power.</li>
+</ul>
+
 <p><b>Friday, June 26, 2009</b></p>
 <ul>
 <li><b>872</b> - Rebalanced weapons. Many things now knock people down rather than knocking them out most of the
