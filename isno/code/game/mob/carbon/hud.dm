@@ -88,11 +88,11 @@
 	src.l_hand = new /obj/screen(src, "l_hand", EAST, "3,2", 19, "equip")
 	src.gloves = new /obj/screen(src, "gloves", null, "4,2", 19, "gloves")
 	src.shoes = new /obj/screen(src, "shoes", null, "5,2", 19, "shoes")
-	src.glasses = new /obj/screen(src, "eyes", null, "6,2", 19, "glasses")
+	src.glasses = new /obj/screen(src, "glasses", null, "6,2", 19, "glasses")
 	src.helmet = new /obj/screen(src, "head", null, "7,2", 19, "hair")
 	src.belt = new /obj/screen(src, "belt", null, "8,2", 19, "belt")
 	src.id = new /obj/screen(src, "id", SOUTHEAST, "1,1", 19, "equip")
-	src.suit = new /obj/screen(src, "o_clothing", SOUTH, "2,1", 19, "equip")
+	src.suit = new /obj/screen(src, "suit", SOUTH, "2,1", 19, "equip")
 	src.headset = new /obj/screen(src, "headset", SOUTHEAST, "3,1", 19, "equip")
 	src.storage1 = new /obj/screen(src, "storage1", null, "4,1", 19, "block")
 	src.storage2 = new /obj/screen(src, "storage2", null, "5,1", 19, "block")
@@ -127,7 +127,7 @@
 		src.helmet = list(src.owner.can_wear_helmet, "hair", "head"),
 		src.belt = list(src.owner.can_wear_belt, "belt", "belt"),
 		src.id = list(src.owner.can_wear_id, "equip", "id"),
-		src.suit = list(src.owner.can_wear_suit, "equip", "o_clothing"),
+		src.suit = list(src.owner.can_wear_suit, "equip", "suit"),
 		src.headset = list(src.owner.can_wear_headset, "equip", "headset"),
 		src.storage1 = list(src.owner.can_wear_l_store, "block", "storage1"),
 		src.storage2 = list(src.owner.can_wear_r_store, "block", "storage2")

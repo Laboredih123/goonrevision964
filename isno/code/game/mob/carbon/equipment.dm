@@ -187,7 +187,7 @@
 			src.headset = W
 		src.update_clothing()
 		return 1
-	if(text == "o_clothing" && src.can_wear_suit)
+	if(text == "suit" && src.can_wear_suit)
 		if (W && !( istype(W, /obj/item/weapon/clothing/suit) ))
 			return 0
 		if (src.suit)
@@ -253,7 +253,7 @@
 			src.belt = W
 		src.update_clothing()
 		return 1
-	if(text == "eyes" && src.can_wear_glasses)
+	if(text == "glasses" && src.can_wear_glasses)
 		if (W && !( istype(W, /obj/item/weapon/clothing/glasses) ))
 			return 0
 		if (src.glasses)

@@ -507,7 +507,7 @@
 	var/fire_protect = 0
 /obj/item/weapon/clothing/glasses
 	name = "glasses"
-	clothing_name = "eyes"
+	clothing_name = "glasses"
 	w_class = 2.0
 	flags = GLASSESCOVERSEYES
 	s_fire = 7.5E7
@@ -696,7 +696,7 @@
 	fb_filter = 5.0
 /obj/item/weapon/clothing/suit
 	name = "suit"
-	clothing_name = "o_clothing"
+	clothing_name = "suit"
 	var/fire_resist = T0C+100
 /obj/item/weapon/clothing/suit/armor
 	name = "armor"
