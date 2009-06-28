@@ -44,8 +44,8 @@
 	var/list/names = list()
 	var/list/namecounts = list()
 	var/list/creatures = list()
-	for (var/obj/item/weapon/disk/nuclear/D in world)
-		var/name = "Nuclear Disk"
+	for (var/obj/item/weapon/disk/code/D in world)
+		var/name = "Code Disk"
 		if (name in names)
 			namecounts[name]++
 			name = "[name] ([namecounts[name]])"

@@ -1,6 +1,11 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Sunday, June 28, 2009</b></p>
+<ul>
+<li><b>880</b> - Ripped out code relating to nukes, changed nuke disk to a codes disk.</li>
+</ul>
+
 <p><b>Saturday, June 27, 2009</b></p>
 <ul>
 <li><b>878</b> - Added "show AI laws" admin power.</li>

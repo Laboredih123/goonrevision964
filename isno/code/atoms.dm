@@ -799,8 +799,8 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 2.0
 /obj/item/weapon/disk
 	name = "disk"
-/obj/item/weapon/disk/nuclear
-	name = "Nuclear Authentication Disk"
+/obj/item/weapon/disk/code
+	name = "Code Disk"
 	icon_state = "nucleardisk"
 	s_istate = "card-id"
 	w_class = 1.0
@@ -1989,22 +1989,6 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	var/obj/machinery/pipes/target = null
 	anchored = 1.0
 	var/average = 0
-/obj/machinery/nuclearbomb
-	desc = "Uh oh."
-	name = "Nuclear Fission Explosive"
-	icon = 'stationobjs.dmi'
-	icon_state = "nuclearbomb0"
-	density = 1
-	var/deployable = 0.0
-	var/extended = 0.0
-	var/timeleft = 60.0
-	var/timing = 0.0
-	var/r_code = "ADMIN"
-	var/code = ""
-	var/yes_code = 0.0
-	var/safety = 1.0
-	var/obj/item/weapon/disk/nuclear/auth = null
-	flags = FPRINT
 /obj/machinery/valve
 	var/datum/substance/gas/gas1 = null
 	var/datum/substance/gas/ngas1 = null

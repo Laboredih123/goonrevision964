@@ -111,12 +111,6 @@
 
 	sleep(50)
 
-	nuke_code = text("[]", rand(10000, 99999.0))
-	for(var/obj/machinery/nuclearbomb/N in world)
-		if (N.r_code == "ADMIN")
-			N.r_code = nuke_code
-	sleep(50)
-
 	plmaster = new /obj/overlay(  )
 	plmaster.icon = 'plasma.dmi'
 	plmaster.icon_state = "onturf"

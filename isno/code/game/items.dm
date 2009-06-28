@@ -587,7 +587,7 @@
 /obj/item/weapon/syndicate_uplink/var/list/item_types = list(
 	list("Poster", 0.2, /obj/item/weapon/paper/poster),
 	list("Revolver Ammo", 1, /obj/item/weapon/ammo/a357),
-	list("Nuke Disk Pinpointer", 1, /obj/item/weapon/pinpointer),
+	list("Code Disk Pinpointer", 1, /obj/item/weapon/pinpointer),
 	list("Cyanide Pill", 1, /obj/item/weapon/m_pill/cyanide),
 	list("Freedom Implant (with injector)", 1, /obj/item/weapon/implanter),
 	list("Camera Jammer", 1, /obj/item/weapon/camera_jammer),

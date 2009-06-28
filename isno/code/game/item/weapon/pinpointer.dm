@@ -16,7 +16,7 @@
 		if (src.temp)
 			dat = "[src.temp]<BR><BR><A href='byond://?src=\ref[src];temp=1'>Clear</A>"
 		else
-			dat = "<B>Nuclear Disk Pinpointer</B><HR>"
+			dat = "<B>Code Disk Pinpointer</B><HR>"
 			dat += "<A href='byond://?src=\ref[src];refresh=1'>Refresh</A>"
 
 		user << browse(dat, "window=radio")
@@ -30,13 +30,13 @@
 		if ((usr.contents.Find(src) || ((get_dist(src, usr) <= 1) && istype(src.loc, /turf))))
 			usr.machine = src
 			if (href_list["refresh"])
-				src.temp = "<B>Nuclear Disk Pinpointer</B><HR>"
+				src.temp = "<B>Code Disk Pinpointer</B><HR>"
 				var/turf/sr = get_turf(src)
 
 				if (sr)
 					src.temp += "<B>Located Disks:</B><BR>"
 
-					for(var/obj/item/weapon/disk/nuclear/W in world)
+					for(var/obj/item/weapon/disk/code/W in world)
 						var/turf/tr = get_turf(W)
 						if (tr && tr.z == sr.z)
 							var/distance = max(abs(tr.x - sr.x), abs(tr.y - sr.y))

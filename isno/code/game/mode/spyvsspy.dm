@@ -1,7 +1,7 @@
 /datum/game_mode/spyvsspy
 	config_name = "spyvsspy"
 	long_name = "Spy vs Spy"
-	desc = "Two teams of spies compete to steal the nuke disk."
+	desc = "Two teams of spies compete to steal the disk."
 	var/list/spyteams // list of lists of mobs
 	var/const/SPIES_PER_TEAM = 3
 	var/const/NUM_TEAMS = 2
@@ -38,7 +38,7 @@
 
 		var/x = 1 // TODO: real spy team names
 		for(var/team in src.spyteams)
-			var/datum/mission/steal = new(team, "Spy Team Number [x]", NUKE_DISK)
+			var/datum/mission/steal = new(team, "Spy Team Number [x]", DISK)
 			x++
 			missions += steal
 

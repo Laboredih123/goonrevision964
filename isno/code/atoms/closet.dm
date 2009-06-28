@@ -25,18 +25,6 @@
 	icon_closed = "l3closet0"
 	icon_opened = "l3closet1"
 
-/obj/closet/syndicate
-	desc = "Why is this here?"
-	name = "Syndicate Weapons Closet"
-	icon_state = "syndicate0"
-	icon_closed = "syndicate0"
-
-/obj/closet/syndicate/personal
-	desc = "Gear preperations closet."
-
-/obj/closet/syndicate/nuclear
-	desc = "Nuclear preperations closet."
-
 /obj/closet/wardrobe
 	desc = "A bulky (yet mobile) wardrobe closet. Comes prestocked with 6 changes of clothes."
 	name = "Wardrobe"
@@ -97,35 +85,6 @@
 	else
 		return 1
 	return
-
-/obj/closet/syndicate/nuclear/New()
-
-	..()
-	sleep(2)
-	new /obj/item/weapon/ammo/a357( src )
-	new /obj/item/weapon/ammo/a357( src )
-	new /obj/item/weapon/ammo/a357( src )
-	new /obj/item/weapon/storage/handcuff_kit( src )
-	new /obj/item/weapon/storage/flashbang_kit( src )
-	new /obj/item/weapon/gun/energy/taser_gun( src )
-	new /obj/item/weapon/gun/energy/taser_gun( src )
-	new /obj/item/weapon/gun/energy/taser_gun( src )
-	var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink( src )
-	U.uses = 10
-	return
-
-/obj/closet/syndicate/personal/New()
-
-	..()
-	sleep(2)
-	new /obj/item/weapon/tank/jetpack(src)
-	new /obj/item/weapon/clothing/mask/m_mask(src)
-	new /obj/item/weapon/clothing/head/s_helmet(src)
-	new /obj/item/weapon/clothing/suit/sp_suit(src)
-	new /obj/item/weapon/crowbar(src)
-	new /obj/item/weapon/cell(src)
-	new /obj/item/weapon/card/id/syndicate(src)
-	new /obj/item/weapon/multitool(src)
 
 /obj/closet/l3closet/New()
 

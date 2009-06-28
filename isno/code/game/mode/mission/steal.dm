@@ -5,7 +5,7 @@ var/const
 	JETPACK = 4
 	CAPTAIN_CARD = 5
 	CAPTAIN_SUIT = 6
-	NUKE_DISK = 7
+	DISK = 7
 
 
 /datum/mission/steal
@@ -66,8 +66,8 @@ var/const
 				if(CAPTAIN_SUIT)
 					for(var/obj/item/weapon/clothing/under/darkgreen/O in items)
 						return MISSION_SUCCESS
-				if(NUKE_DISK)
-					for(var/obj/item/weapon/disk/nuclear/O in items)
+				if(DISK)
+					for(var/obj/item/weapon/disk/code/O in items)
 						return MISSION_SUCCESS
 		return MISSION_FAILURE
 
@@ -88,14 +88,14 @@ var/const
 				return "a captain's dark green jumpsuit"
 			if (JETPACK)
 				return "a jet pack"
-			if(NUKE_DISK)
-				return "a nuclear disk"
+			if(DISK)
+				return "a disk"
 			else
 				return "Error: Invalid theft target: [target]"
 
 	proc/get_pickable_items(list/group)
 		var/list/items = list(LASER, HAND_TELE, PLASMA_BOMB, CAPTAIN_CARD, CAPTAIN_SUIT, JETPACK)
-		// not nuke disk
+		// not disk
 		for(var/mob/M in group)
 			var/datum/job/killerjob = M.spawn_job
 			if(istype(killerjob, /datum/job/captain))
