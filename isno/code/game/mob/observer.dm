@@ -59,3 +59,6 @@
 /mob/observer/proc/examine_anything(atom/A in world)
 	set name = "examine"
 	A.examine()
+
+/mob/observer/verb/jump(mob/M in world)
+	src.loc = get_turf(M)

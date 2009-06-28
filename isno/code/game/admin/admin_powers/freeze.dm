@@ -9,7 +9,7 @@
 		if(M.client)
 			return "<A href='?src=\ref[usr];freeze=\ref[M]'>[M.client.frozen ? "Unfreeze" : "Freeze"]</A>"
 
-/client/proc/toggle_frozen(mob/M as mob)
+/client/proc/toggle_frozen(mob/M in world)
 	if(!M.client)
 		var/change = "froze"
 		if(M.last_known_ckey in frozen_ckeys)

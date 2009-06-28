@@ -120,6 +120,7 @@
 		src.verbs += /client/proc/mob_panel
 		src.verbs += /client/proc/adminsay
 		src.verbs += /client/proc/private_message
+		src.verbs += /client/proc/jump
 
 		if(src.adminlevel & ADMIN_GM)
 			src.verbs += /client/proc/toggle_frozen

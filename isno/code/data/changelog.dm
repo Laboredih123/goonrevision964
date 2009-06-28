@@ -3,7 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Sunday, June 28, 2009</b></p>
 <ul>
-<li><b>881</b> - Replaced most rwalls with regular walls, except in the engine, plasma storage areas, and the
+<li><b>884</b> - Added "jump" verb for observers and admins.</li>
+<li><b>882</b> - Replaced most rwalls with regular walls, except in the engine, plasma storage areas, and the
 room storing the captain's spare ID. Electrified the grilles at the northeast of the engine, so it's not TOO
 easy to release engine fire.</li>
 <li><b>880</b> - Ripped out code relating to nukes, changed nuke disk to a codes disk.</li>
@@ -311,7 +312,8 @@ Revolution mode will never be selected.</li>
 <hr>
 <p>Source, minus the good sprites, available at
 <a href="http://svn.slurm.us/public/spacestation13/branches/kurper/isno">
-http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. If you want the good sprites, ask here or
+http://svn.slurm.us/public/spacestation13/branches/kurper/isno</a>. You'll want to use
+<a href='http://tortoisesvn.tigris.org/'>tortoisesvn</a> to get it. If you want the good sprites, ask here or
 on irc.synirc.net in #goonstation and you might be allowed to have them. If you want to contribute, come to
 #goonstation on irc.synirc.net.</p>
 

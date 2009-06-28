@@ -98,6 +98,7 @@
 #include "code\game\admin\admin_powers\debug.dm"
 #include "code\game\admin\admin_powers\delay.dm"
 #include "code\game\admin\admin_powers\freeze.dm"
+#include "code\game\admin\admin_powers\jump.dm"
 #include "code\game\admin\admin_powers\list_bomb_makers.dm"
 #include "code\game\admin\admin_powers\make_object.dm"
 #include "code\game\admin\admin_powers\make_traitor.dm"
