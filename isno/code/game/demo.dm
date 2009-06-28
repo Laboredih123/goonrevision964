@@ -1517,7 +1517,7 @@
 		src.updatecell = 0
 		src.buildlinks()
 	else
-		src.icon = 'doorf.dmi'
+		src.icon = 'wall.dmi'
 		src.icon_state = "r_girder"
 		src.opacity = 0
 		src.density = 1
