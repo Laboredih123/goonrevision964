@@ -5,7 +5,7 @@
 	desc = "10% (rounded up) of the station is traitorous, and you have to stop them."
 	min_players = 1
 
-	var/mob/list/traitors = list()
+	var/list/traitors = list()
 	var/num_traitors = 0
 	var/const/MOBS_PER_TRAITOR = 10 // every 10 people means another traitor
 	// 1-9 people: 1 traitor, 10-19 people: 2 traitors, etc
@@ -66,7 +66,7 @@
 			var/mission_type = pick_individual_mission(T)
 			var/datum/mission/mission
 			if(mission_type != /datum/mission/murders)
-				mission = new mission_type(T, "[T.client.key] ([T.spawn_name])")
+				mission = new mission_type(list(T), "[T.client.key] ([T.spawn_name])")
 			else
 				mission = new mission_type(traitors, "[T.client.key] ([T.spawn_name])") // this is a really bad way to do this
 			T.tell_mission(mission)
