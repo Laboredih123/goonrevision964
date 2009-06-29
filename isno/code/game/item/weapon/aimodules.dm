@@ -168,6 +168,26 @@
 	target << law
 	target.addLaw(9, law)
 
+/******************** Freeform ********************/
+
+/obj/item/weapon/aiModule/freeform
+	name = "'Freeform' AI Module"
+	var/newFreeFormLaw = "freeform"
+	desc = "A 'freeform' AI module: '<freeform>'"
+
+/obj/item/weapon/aiModule/freeform/interact(var/mob/user as mob)
+	..()
+	var/freelaw = "Don't be a butt"
+	var/targName = input(usr, "Please enter anything you want the AI to do. Anything. Serious.", "What?", freelaw)
+	newFreeFormLaw = targName
+	desc = text("A 'freeform' AI module: '[]'", newFreeFormLaw)
+
+/obj/item/weapon/aiModule/freeform/transmitInstructions(var/mob/silicon/ai/target, var/mob/sender)
+	..()
+	var/law = text("[]", newFreeFormLaw)
+	target << law
+	target.addLaw(10, law)
+
 /******************** Reset ********************/
 
 /obj/item/weapon/aiModule/reset
