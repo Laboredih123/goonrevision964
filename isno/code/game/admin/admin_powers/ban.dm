@@ -59,6 +59,7 @@
 			dat += "Key of user to ban: <input type='text' name='key'><br><br>"
 		dat += "<input type='radio' name='type' value='round' checked='1'> Rounds: <input type='text' name='rounds' value='1'>"
 		dat += "<br><input type='radio' name='type' value='hours'> Hours: <input type='text' name='hours' value='1'>"
+		dat += "<br><input type='radio' name='type' value='days'> Days: <input type='text' name='days' value='1'>"
 		if(can_permaban(src.adminlevel))
 			dat += "<br><input type='radio' name='type' value='permanent'>Permanent"
 		dat += "<hr>"
@@ -102,6 +103,10 @@
 			B = new /datum/ban/perma(banclass, banfrom, new_ban_id(), ckey, reason, src.ckey)
 		else if(type == "hours")
 			var/hours = min(text2num(href_list["hours"]), get_max_hours(src.adminlevel))
+			if(hours) // must convert to 1/10 sec
+				B = new /datum/ban/time(banclass, banfrom, new_ban_id(), ckey, reason, src.ckey, hours * 60 * 60 * 10)
+		else if(type == "days")
+			var/hours = min(24 * text2num(href_list["hours"]), get_max_hours(src.adminlevel))
 			if(hours) // must convert to 1/10 sec
 				B = new /datum/ban/time(banclass, banfrom, new_ban_id(), ckey, reason, src.ckey, hours * 60 * 60 * 10)
 		else if(type == "round")

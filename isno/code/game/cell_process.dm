@@ -102,7 +102,6 @@
 		del(src)
 
 /turf/space/New()
-	src.icon = 'space.dmi'
 	src.icon_state = "[9 - (src.y % 10)][src.x % 10]"
 	gas.clear()
 	gas.temp=TCMB

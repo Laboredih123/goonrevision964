@@ -74,7 +74,7 @@
 
 /obj/equip_e/proc/done()
 	if(!src.source || !src.target)						return
-	if(src.source.frozen)
+	if(src.source && src.source.client && src.source.client.frozen)
 		return
 	if(src.source.loc != src.s_loc)						return
 	if(src.target.loc != src.t_loc)						return

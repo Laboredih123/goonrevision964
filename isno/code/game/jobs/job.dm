@@ -30,6 +30,8 @@
 		return name
 
 	proc/create(mob/M, join_status, give_backpack = 1, has_hair = 1)
+		if(!M.client)
+			return
 		var/startloc = src.find_spawnpoint(join_status, M)
 		var/datum/preferences/prefs = M.client.prefs
 		var/name = src.process_name(prefs.name)

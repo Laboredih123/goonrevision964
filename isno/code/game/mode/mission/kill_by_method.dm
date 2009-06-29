@@ -52,9 +52,12 @@
 		if(num)
 			src.num = num
 		else
-			var/list/mobs = get_cliented_mob_list()
-			num = round(mobs.len / 4)
+			var/nummobs = 0
+			for(var/mob/M in world)
+				if(M.client)
+					nummobs++
+			src.num = round(nummobs / 4)
 		if(method)
 			src.method = method
 		else
-			method = pick(BRUTE, BURN, TOXIN, SUFFOCATION)
+			src.method = pick(BRUTE, BURN, TOXIN, SUFFOCATION)

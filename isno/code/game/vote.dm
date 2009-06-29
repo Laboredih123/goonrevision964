@@ -148,7 +148,7 @@
 			else
 				text += "<li><a href='?src=\ref[src];voter=\ref[C];vote=[option]'>[option]</a>"
 			if(votetotals[option])
-				text += " ([votetotals[option]] vote\s)"
+				text += " <b>([votetotals[option]] vote\s)</b>"
 			text += "</li>"
 		text += "</ul>"
 		var/list/L = current_winners()

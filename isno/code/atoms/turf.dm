@@ -25,7 +25,8 @@
 
 /turf/space
 	name = "space"
-	icon_state = "space"
+	icon = 'space.dmi'
+	icon_state = "00"
 	var/previousArea = null
 	updatecell = 1.0
 	checkfire = 0

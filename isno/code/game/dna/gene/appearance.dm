@@ -25,7 +25,9 @@
 		M.can_wear_gloves = 1
 		M.can_wear_glasses = 1
 		M.can_wear_id = 1
+		M.can_wear_belt = 1
 		M.attack_type = M.ATTACK_PUNCH
+		M.flags &= ~TABLEPASS
 
 	apply(mob/carbon/M, attribute)
 		if(M.appearance != APPEARANCE_QUIVERING_MASS)
@@ -44,6 +46,8 @@
 			M.can_wear_gloves = 0
 			M.can_wear_glasses = 0
 			M.can_wear_id = 0
+			M.can_wear_belt = 0
+			M.flags |= TABLEPASS
 
 	pick_attribute(mob/carbon/M)
 		return M.appearance

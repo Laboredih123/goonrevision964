@@ -1009,6 +1009,7 @@
 		M.knockdown_until(5)
 		..()
 	else
+		world.log_attack("[user] ([user.ckey]) stunned [M] ([M.ckey]) with [src]")
 		M.knockdown_until(20)
 	M.show_viewers("\red <B>[M] has been stunned with the stun baton by [user]!</B>")
 
@@ -3263,16 +3264,15 @@
 
 /obj/table/interact(mob/carbon/user as mob)
 	if(istype(user, /mob/carbon) && user.appearance == APPEARANCE_MONKEY)
-		if (!( locate(/obj/table, user.loc) ))
-			step(user, get_dir(user, src))
-			if (user.loc == src.loc)
-				user.layer = TURF_LAYER
-				user.show_viewers("[src] hides under the table!")
+		step(user, get_dir(user, src))
+		if (user.loc == src.loc)
+			user.layer = TURF_LAYER
+			user.show_viewers("[user] hides under the table!")
 	return ..()
 
 /obj/table/CheckPass(atom/movable/O as mob|obj, target as turf)
 
-	if ((O.flags & 2 || istype(O, /obj/meteor)))
+	if ((O.flags & TABLEPASS || istype(O, /obj/meteor)))
 		return 1
 	else
 		return 0
@@ -3328,7 +3328,7 @@
 
 /obj/rack/CheckPass(atom/movable/O as mob|obj, target as turf)
 
-	if (O.flags & 2)
+	if (O.flags & TABLEPASS)
 		return 1
 	else
 		return 0
