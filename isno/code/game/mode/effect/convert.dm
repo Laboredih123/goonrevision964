@@ -15,7 +15,7 @@
 			return
 		M.last_conversion = t
 
-		for(var/atom/A in hearers(M))
+		for(var/atom/A in view(M.loc))
 			A.hear("\blue [M.body_name] is spreading revolutionary propaganda!")
 
 		M.say(pick_rev_saying())

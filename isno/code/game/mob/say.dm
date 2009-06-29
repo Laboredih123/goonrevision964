@@ -81,7 +81,7 @@
 		target.talk_into(msg, usr)
 	var/heard = list()
 	var/turf/T = get_turf(src) //if you're in a closet, people can still hear you talk
-	for(var/obj/O as obj|mob in hearers(hear_range, T))
+	for(var/obj/O as obj|mob in view(hear_range, T.loc)) // BYOND lacks a hear proc grrrrrr
 		O.hear_message(msg, usr)
 		heard += O
 	for(var/mob/carbon/M in world)
