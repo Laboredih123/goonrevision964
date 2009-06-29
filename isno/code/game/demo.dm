@@ -928,12 +928,11 @@
 		M.burn(7.5E7)
 		M.knockdown_until(50)
 		//Foreach goto(72)
-	for(var/mob/carbon/M in hearers(null, src))
+	for(var/mob/carbon/M in hearers(src))
 		if (!( M.is_blind ))
 			M.see("\red The electric chair went off!")
 		else
 			M.hear("\red You hear a deep sharp shock.")
-		//Foreach goto(142)
 
 	A.power_light = light
 	A.updateicon()

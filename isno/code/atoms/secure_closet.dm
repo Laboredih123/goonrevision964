@@ -47,7 +47,7 @@
 	else
 		user << "\blue It's welded shut!"
 		if(usr.can_use_hands()) //handcuffed folk can't bang
-			for(var/mob/M in hearers(null, src))
+			for(var/mob/M in hearers(src))
 				M << text("<FONT size=[]>BANG, bang!</FONT>", max(0, 5 - get_dist(src, M)))
 	return
 

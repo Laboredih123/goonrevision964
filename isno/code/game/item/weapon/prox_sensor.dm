@@ -17,7 +17,7 @@
 		if(istype(src.loc, /obj/item/weapon/assembly))
 			var/obj/item/weapon/assembly/A = src.loc
 			A.signal()
-		for(var/mob/O in hearers(null, get_turf(src)))
+		for(var/mob/O in hearers(get_turf(src)))
 			O.hear(text("\icon[] *beep* *beep*", src))
 
 /obj/item/weapon/prox_sensor/HasProximity(atom/movable/AM as mob|obj) // TODO: redo in non-retarded way

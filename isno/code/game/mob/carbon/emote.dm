@@ -14,7 +14,7 @@
 				if(M.see("<font color='[COLOR_EMOTE]'>[src] [message].</font>"))
 					mobs_seen += M
 	if(medium & SENSE_SOUND)
-		for(var/mob/M in hearers(null, src))
+		for(var/mob/M in hearers(src))
 			if(!(M in mobs_seen))
 				if(M.hear("<font color='[COLOR_EMOTE]'>someone [message].</font>"))
 					mobs_seen += M

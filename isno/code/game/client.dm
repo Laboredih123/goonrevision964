@@ -28,7 +28,7 @@
 	winset(src,"mainwindow.saybutton","is-checked = true")
 	winset(src,"mainwindow.input","command=\"!say \\\"\"")
 
-	..()
+	return ..()
 
 /client/proc/reset_view(atom/A)
 	if (istype(A, /atom/movable))

@@ -11,7 +11,7 @@
 
 /obj/item/weapon/timer/proc/time()
 	src.c_state("")
-	for(var/mob/O in hearers(null, get_turf(src)))
+	for(var/mob/O in hearers(get_turf(src)))
 		O.hear(text("\icon[] *beep* *beep*", src))
 	if(istype(src.loc, /obj/item/weapon/assembly))
 		var/obj/item/weapon/assembly/A = src.loc

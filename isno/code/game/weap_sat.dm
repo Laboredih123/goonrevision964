@@ -48,7 +48,7 @@
 		L[tmpname] = R
 	var/desc = input("Please select a location to lock in.", "Locking Computer") in L
 	src.locked = L[desc]
-	for(var/mob/O in hearers(null, src))
+	for(var/mob/O in hearers(src))
 		O.hear("\blue Locked In")
 	src.add_fingerprint(usr)
 	return
@@ -80,7 +80,7 @@
 	if (!( com ))
 		return
 	if (!( com.locked ))
-		for(var/mob/O in hearers(null, src))
+		for(var/mob/O in hearers(src))
 			O.hear("\red Failure: Cannot authenticate locked on coordinates. Please reinstantiate coordinate matrix.")
 		return
 	if (istype(M, /atom/movable))
@@ -93,7 +93,7 @@
 		O.dir = pick(NORTH, SOUTH, EAST, WEST)
 		spawn( 0 )
 			O.Life()
-		for(var/mob/B in hearers(null, src))
+		for(var/mob/B in hearers(src))
 			B.hear("\blue Test fire completed.")
 	return
 
@@ -131,7 +131,7 @@
 	if (com)
 		com.icon_state = "tele1"
 		use_power(5000)
-		for(var/mob/O in hearers(null, src))
+		for(var/mob/O in hearers(src))
 			O.hear("\blue Teleporter engaged!")
 	src.add_fingerprint(usr)
 	src.engaged = 1
@@ -144,7 +144,7 @@
 	var/atom/com = locate(/obj/machinery/teleport/hub, locate(l.x + 1, l.y, l.z))
 	if (com)
 		com.icon_state = "tele0"
-		for(var/mob/O in hearers(null, src))
+		for(var/mob/O in hearers(src))
 			O.hear("\blue Teleporter disengaged!")
 	src.add_fingerprint(usr)
 	src.engaged = 0
@@ -160,7 +160,7 @@
 	var/obj/machinery/teleport/hub/com = locate(/obj/machinery/teleport/hub, locate(l.x + 1, l.y, l.z))
 	if (com && !active)
 		active = 1
-		for(var/mob/O in hearers(null, src))
+		for(var/mob/O in hearers(src))
 			O.hear("\blue Test firing!")
 			//Foreach goto(60)
 		com.teleport()
