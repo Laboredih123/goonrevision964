@@ -60,11 +60,15 @@
 		src.take_damage(burn = lung_damage)
 
 	src.co2_breathed = min(max(0, src.co2_breathed - src.co2_metabolize_rate), src.max_co2) + G.co2
+	if(src.co2_breathed)
+		src.taking_suff_damage = 1
 	if(src.co2_breathed > src.co2_knockdown_threshold)
 		src.take_damage(suffocation = 2)
 		src.knockdown_until(3)
 
 	src.no2_breathed = min(max(0, src.no2_breathed - src.no2_metabolize_rate), src.max_no2) + G.no2
+	if(src.no2_breathed)
+		src.taking_suff_damage = 1
 	if(src.no2_breathed > src.no2_knockdown_threshold)
 		src.knockdown_until(3)
 

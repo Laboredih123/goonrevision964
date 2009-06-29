@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Monday, June 29, 2009</b></p>
 <ul>
+<li><b>896</b> - CO2 and sleeping gas will now make your oxygen meter turn red.</li>
 <li><b>895</b> - Added freeform AI module, thanks Pantaloons!</li>
 <li><b>894</b> - Changed "escape alone" multitraitor objective to "prevent any nontraitors from escaping."</li>
 </ul>

@@ -8,6 +8,11 @@
 		src.canmove = 0
 		if(src.lying)	src.icon = src.lying_icon
 		else			src.icon = src.stand_icon
+		if(!src.buckled)
+			src.density = !src.lying
+		else
+			src.density = 1
+		src.update_grabs()
 		src.update_clothing()
 		return
 
