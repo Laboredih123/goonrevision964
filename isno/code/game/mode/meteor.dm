@@ -8,7 +8,7 @@
 
 	setup()
 		missions += new /datum/mission/escape()
-		termination_conditions += new /datum/termination_condition/shuttle(emergency_shuttle)
+		src.add_termination_condition(new /datum/termination_condition/shuttle(emergency_shuttle))
 
 	execute()
 		spawn(300)

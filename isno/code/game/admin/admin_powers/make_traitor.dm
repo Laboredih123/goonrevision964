@@ -21,7 +21,7 @@
 			M << "\red<h2>You are a traitor now!</h2>"
 			var/traitorname = "[M.client.key] ([M.spawn_name])"
 			var/datum/mission/freeform/mission = new (list(M), traitorname, href_list["mission"])
-			current_mode.add_mission(mission)
+			config.current_mode.add_mission(mission)
 			M.tell_mission(mission)
 
 			if(istype(M, /mob/carbon))

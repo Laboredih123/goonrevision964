@@ -17,4 +17,4 @@
 
 		commando_shuttle.callize()
 		station_announce("Central Command battleships will arrive in five minutes.")
-		current_mode.termination_conditions += new /datum/termination_condition/time_limit(5 * 600, "Battleships have arrived. No way you guys are escaping now.")
+		config.current_mode.add_termination_condition(new /datum/termination_condition/time_limit(5 * 600, "Battleships have arrived. No way you guys are escaping now."))

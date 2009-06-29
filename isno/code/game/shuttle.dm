@@ -151,7 +151,7 @@
 			if(!M.is_dead && M.client)
 				station_members += M
 		var/datum/mission/escape/E = new /datum/mission/escape(station_members, "station personnel")
-		current_mode.add_mission(E)
+		config.current_mode.add_mission(E)
 		for(var/mob/carbon/M in station_members)
 			M.tell_mission(E)
 
@@ -166,8 +166,8 @@
 
 		var/datum/mission/murders/murders = new /datum/mission/murders(commandos, "the death commandos", station_members, "all station personnel")
 		var/datum/mission/prevent_escape/prevent_escape = new /datum/mission/prevent_escape(commandos, "the death commandos", station_members, "any station personnel")
-		current_mode.add_mission(murders)
-		current_mode.add_mission(prevent_escape)
+		config.current_mode.add_mission(murders)
+		config.current_mode.add_mission(prevent_escape)
 		for(var/mob/M in commandos)
 			M.tell_mission(murders)
 			M.tell_mission(prevent_escape)

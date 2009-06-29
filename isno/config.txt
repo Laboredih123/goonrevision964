@@ -33,6 +33,7 @@ DEFAULT_NO_VOTE
 # goon authentication
 # AUTHENTICATION
 
-LOG_FILE logs/logROUNDNUMLOGTYPE.txt
+# round number, log type, and .txt are appended
+LOG_FILE logs/log
 
 NO_RESPAWN

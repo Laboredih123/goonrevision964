@@ -10,8 +10,8 @@
 			if(!M)
 				return
 			world.log_admin("[usr.key] checked whether [M.key] was a traitor.")
-			if(game_started && current_mode && current_mode.get_traitors())
-				if(M in current_mode.get_traitors())
+			if(game_started && config.current_mode && config.current_mode.get_traitors())
+				if(M in config.current_mode.get_traitors())
 					alert("This person is a traitor.")
 				else
 					alert("This person is not a traitor.")
@@ -19,7 +19,7 @@
 				alert("There is no traitor!")
 
 	get_desc(mob/M)
-		if(game_started && current_mode && current_mode.get_traitors())
+		if(game_started && config.current_mode && config.current_mode.get_traitors())
 			return "<a href='?src=\ref[src];mob=\ref[M]'>Traitor?</a>"
 		else
 			return null

@@ -107,8 +107,6 @@ var
 	obj/overlay/slmaster = null
 	going = 1
 	game_started = 0
-	datum/game_mode/master_mode = null
-	datum/game_mode/current_mode = null
 
 	persistent_file = "mode.txt"
 

@@ -10,4 +10,4 @@
 	setup()
 		new /datum/effect/blob(1)
 		missions += new /datum/mission/station_integrity(min_remaining = 5)
-		termination_conditions += new /datum/termination_condition/blob_destroyed()
+		src.add_termination_condition(new /datum/termination_condition/blob_destroyed())

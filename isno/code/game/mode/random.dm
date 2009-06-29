@@ -32,3 +32,6 @@
 	get_desc() // includes spoilers etc, is only shown to dead people
 		ensure_m()
 		return m.get_desc()
+
+	add_termination_condition(datum/termination_condition/t)
+		m.add_termination_condition(t)

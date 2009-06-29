@@ -65,6 +65,9 @@ var/const/SCENARIO_COMPLETE = 1
 	proc/add_mission(datum/mission/m)
 		missions += m
 
+	proc/add_termination_condition(datum/termination_condition/t)
+		termination_conditions += t
+
 	proc/get_traitors()
 		return null
 

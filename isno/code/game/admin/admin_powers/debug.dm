@@ -1,5 +1,10 @@
 // shows a browser pop-up window listing the variables in a datum
 
+/proc/config_variables()
+	set category = "Debug"
+
+	variables(config)
+
 /proc/variables(datum/D in world)
 	set category = "Debug"
 

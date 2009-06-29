@@ -10,8 +10,7 @@
 
 /datum/configuration/New()
 	for(var/datum/game_mode/M in get_mode_instances())
-		if(M.config_name)
-			src.probabilities[M.config_name] = 0
+		src.probabilities[M] = 0
 
 /datum/configuration/proc/load(filename)
 	var/text = file2text(filename)
@@ -46,17 +45,7 @@
 
 		switch (name)
 			if("log_file")
-				var/fname = dd_replacetext(value, "ROUNDNUM", "[curround + 1]")
-				config.log_file = dd_replacetext(fname, "LOGTYPE", "")
-				config.log_file_admin = dd_replacetext(fname, "LOGTYPE", "admin")
-				config.log_file_attack = dd_replacetext(fname, "LOGTYPE", "attack")
-				config.log_file_game = dd_replacetext(fname, "LOGTYPE", "game")
-				config.log_file_bug = dd_replacetext(fname, "LOGTYPE", "bug")
-				config.log_file_vote = dd_replacetext(fname, "LOGTYPE", "vote")
-				config.log_file_access = dd_replacetext(fname, "LOGTYPE", "access")
-				config.log_file_say = dd_replacetext(fname, "LOGTYPE", "say")
-				config.log_file_ooc = dd_replacetext(fname, "LOGTYPE", "ooc")
-				config.log_file_construct = dd_replacetext(fname, "LOGTYPE", "construct")
+				config.log_file = "[value][curround + 1]"
 			if("allow_vote_restart")	config.allow_vote_restart = 1
 			if("allow_vote_mode")		config.allow_vote_mode = 1
 			if("no_dead_vote")			config.vote_no_dead = 1

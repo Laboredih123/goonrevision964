@@ -183,7 +183,7 @@
 		var/text = {"
 			Vote to change mode in progress.<br>
 			[src.endwait()] until voting is closed.<br><br>
-			Current game mode is: <b>[master_mode.long_name]</b>.
+			Current game mode is: <b>[config.master_mode.long_name]</b>.
 			Select the mode to change to:<br>
 			<ul>"}
 		for(var/datum/game_mode/option in get_mode_instances())
@@ -207,7 +207,7 @@
 				if(i > 1)
 					text += "/"
 				var/datum/game_mode/M = L[i]
-				if(M != master_mode)
+				if(M != config.master_mode)
 					text += " [M.long_name]"
 				else
 					text += " No change"
@@ -215,20 +215,20 @@
 		return text
 
 	default_vote()
-		return master_mode
+		return config.master_mode
 
 	apply()
 		var/list/winners = current_winners()
 		if(!winners.len)
-			winners = list(master_mode)
+			winners = list(config.master_mode)
 		var/datum/game_mode/winner = pick(winners)
 
-		if(winner == master_mode)
+		if(winner == config.master_mode)
 			world << "Result is: \red No change."
 		else
 			world << "Result is change to \red [winner.long_name]"
 			world.log_vote("Voting closed, changing mode to [winner.long_name]")
-			master_mode = winner
+			config.master_mode = winner
 			set_default_mode(winner)
 
 	Topic(href, href_list)

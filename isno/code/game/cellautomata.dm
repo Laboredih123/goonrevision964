@@ -31,8 +31,8 @@
 
 	if(!game_started)
 		src.status += "<b>STARTING</b>"
-	else if(current_mode)
-		src.status += "Mode: <b>[current_mode.long_name]</b>"
+	else if(config.current_mode)
+		src.status += "Mode: <b>[config.current_mode.long_name]</b>"
 
 	if(host)
 		src.status += ", Host: <b>[host]</b>"
@@ -65,23 +65,6 @@
 
 	sun = new /datum/sun()
 
-	// ****stuff for persistent mode picking
-	var/newmode = null
-
-	var/modefile = file2text(persistent_file)
-
-	if(modefile)			// stuff to fix trailing NL problems
-		var/list/ML = dd_text2list(modefile, "\n")
-
-		newmode = ML[1]
-
-		if(newmode)
-			master_mode = get_mode(newmode)
-			world.log << "Read default mode '[newmode]' from [persistent_file]"
-		else
-			master_mode = get_mode("secret")
-
-
 	// *****
 
 	var/motd = file2text("motd.txt")
@@ -97,6 +80,24 @@
 	//	Setup Configurations
 	config = new /datum/configuration()
 	config.load("config.txt")
+
+	// ****stuff for persistent mode picking
+	var/newmode = null
+
+	var/modefile = file2text(persistent_file)
+
+	if(modefile)			// stuff to fix trailing NL problems
+		var/list/ML = dd_text2list(modefile, "\n")
+
+		newmode = ML[1]
+
+		if(newmode)
+			config.master_mode = get_mode(newmode)
+			world.log << "Read default mode '[newmode]' from [persistent_file]"
+		else
+			config.master_mode = get_mode("secret")
+
+
 
 	//	Load Default Names
 	first_names_male = dd_file2list("first_names_male.txt")
@@ -211,20 +212,20 @@
 	world.update_stat()
 	world << "<B>Welcome to the station!</B>\n\n"
 
-	current_mode = master_mode
-	current_mode.announce()
-	current_mode.setup()
+	config.current_mode = config.master_mode
+	config.current_mode.announce()
+	config.current_mode.setup()
 
 	world << "<B>Now dispensing all identification cards.</B>"
 
-	world.log_game("[current_mode.long_name] round starting")
+	world.log_game("[config.current_mode.long_name] round starting")
 
 	divide_jobs()
 	for(var/obj/manifest/M in world)
 		M.manifest()
 	data_core.manifest()
 
-	current_mode.execute()
+	config.current_mode.execute()
 	for(var/obj/start/S in world)
 		del(S)
 

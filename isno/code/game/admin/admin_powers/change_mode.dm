@@ -5,18 +5,18 @@
 	Topic(href, href_list)
 		..()
 		if(href_list["c_mode"])
-			master_mode = locate(href_list["c_mode"])
-			world.log_admin("[usr.key] set the mode as [master_mode.long_name].")
+			config.master_mode = locate(href_list["c_mode"])
+			world.log_admin("[usr.key] set the mode as [config.master_mode.long_name].")
 			if(!game_started)
-				world << "\blue <B>The mode is now: [master_mode.long_name]</B>"
+				world << "\blue <B>The mode is now: [config.master_mode.long_name]</B>"
 			else
-				world << "\blue <B>The mode next round will be: [master_mode.long_name]</B>"
+				world << "\blue <B>The mode next round will be: [config.master_mode.long_name]</B>"
 
-			set_default_mode(master_mode)
+			set_default_mode(config.master_mode)
 		var/dat = "<B>What mode do you wish to play?</B><HR>"
 		for(var/datum/game_mode/M in get_mode_instances())
 			dat += "<A href='?src=\ref[src];c_mode=\ref[M]'>[M.long_name]</A><br>"
-		dat += "Now: [master_mode.long_name]"
+		dat += "Now: [config.master_mode.long_name]"
 		ss13_browse(usr, dat, "window=c_mode")
 
 	get_desc()

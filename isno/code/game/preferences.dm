@@ -158,7 +158,7 @@
 		world.log_game("[usr.key] entered as [usr.name]")
 
 		if (game_started)
-			current_mode.give_newcomer_job(new_player)
+			config.current_mode.give_newcomer_job(new_player)
 		return
 	spawn()
 		src.setup(usr.client)

@@ -8,7 +8,7 @@
 		world << "Respawning is enabled."
 
 	setup()
-		termination_conditions += new /datum/termination_condition/time_limit(15 * 600, "That's enough killing, boys.")
+		src.add_termination_condition(new /datum/termination_condition/time_limit(15 * 600, "That's enough killing, boys."))
 		abandon_allowed = 1
 
 	execute()

@@ -127,6 +127,7 @@
 
 		if(src.adminlevel & ADMIN_DEVELOPER)
 			src.verbs += /proc/variables
+			src.verbs += /proc/config_variables
 			src.verbs += /proc/delete
 
 /var/list/admin_power_instances = null
