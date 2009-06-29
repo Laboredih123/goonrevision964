@@ -50,6 +50,7 @@
 			new /datum/effect/traitor_radio(M)
 			new /datum/effect/convert(M)
 			M.rev_status = REV_LEADER
+			M << "You are a revolutionary! Kill the heads! Use the 'convert' verb to convert people to your cause!"
 			for(var/mob/carbon/N in revs)
 				show_rev(M, N) // give people a rev flag on themselves too
 

@@ -21,7 +21,7 @@
 		M.say(pick_rev_saying())
 
 		for(var/mob/carbon/hearer in hearers(M))
-			if(hearer.rev_status == NON_REV && !is_head(hearer) && !is_security(hearer))
+			if(hearer.rev_status == NON_REV && !is_head(hearer) && !is_security(hearer) && hearer.last_known_ckey)
 				hearer.convert()
 
 /proc/pick_rev_saying()
@@ -33,7 +33,7 @@
 
 /mob/carbon/proc/convert()
 	src.rev_status = REV_FOLLOWER
-	src << "You have been converted!"
+	src << "You have been converted! Help kill the heads!"
 	//TODO: make this work better?
 	show_rev(src, src)
 	for(var/mob/carbon/M in world)
