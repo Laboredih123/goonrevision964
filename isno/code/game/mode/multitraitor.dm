@@ -125,7 +125,7 @@
 				return pick(/datum/mission/steal, /datum/mission/sabotage, /datum/mission/murders)
 
 	proc/pick_group_mission() // TODO: If multiple AIs are ever implemented, make this work properly with only AI traitors.
-		return pick(/datum/mission/escape_alone, /datum/mission/frame, /datum/mission/kill_by_method, /datum/mission/steal_canisters)
+		return pick(/datum/mission/prevent_escapes, /datum/mission/frame, /datum/mission/kill_by_method, /datum/mission/steal_canisters)
 
 /proc/get_synd_list()
 	var/list/L = list()

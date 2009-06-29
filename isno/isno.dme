@@ -3,13 +3,6 @@
 // New source code should be placed in .dm files: choose File/New --> Code File.
 
 // BEGIN_INTERNALS
-/*
-FILE: maps\Space Station 13.dmp
-DIR: code code\atoms code\data code\game code\game\admin code\game\admin\admin_powers code\game\admin\ban code\game\dna code\game\dna\gene code\game\item code\game\item\weapon code\game\jobs code\game\machinery code\game\machinery\computer maps
-UPDATE_OBJ_TREE: ON
-MAP_ICON_TYPE: 0
-AUTO_FILE_DIR: OFF
-*/
 // END_INTERNALS
 
 // BEGIN_FILE_DIR

@@ -17,4 +17,4 @@
 		return MISSION_FAILURE
 
 	description()
-		return "steal [num] full plasma canisters"
+		return "steal [num] full plasma canisters by getting them onto the shuttle with you"

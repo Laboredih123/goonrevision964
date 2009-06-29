@@ -1,6 +1,10 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Monday, June 29, 2009</b></p>
+<li><b>894</b> - Changed "escape alone" multitraitor objective to "prevent any nontraitors from escaping."</li>
+</ul>
+
 <p><b>Sunday, June 28, 2009</b></p>
 <ul>
 <li><b>888</b> - Added Thunderbeast's space tiles, at least for now. Doors should no longer hold fires in.</li>
