@@ -59,7 +59,7 @@
 /obj/item/weapon/cell/New(atom/location, charge_percent, charge_limit)
 	..()
 	if(charge_limit != null)	maxcharge = charge_limit
-	if(charge_percent == null)	charge *= maxcharge/100.0	// map obj has charge as percentage, convert to real value here
+	if(charge_percent == null)	charge = maxcharge	// map obj has charge as percentage, convert to real value here
 	else						charge = charge_percent * maxcharge/100.0
 
 	spawn(5)

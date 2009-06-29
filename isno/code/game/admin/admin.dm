@@ -95,7 +95,7 @@
 			dat += "<td>[P.get_desc(M)]</td>"
 		dat += "</tr>"
 	dat += "</table></body></html>"
-	ss13_browse(src, dat, "window=mobpanel;size=800x400")
+	ss13_browse(src, dat, "window=mobpanel;size=900x600")
 
 /client/New()
 	..()
