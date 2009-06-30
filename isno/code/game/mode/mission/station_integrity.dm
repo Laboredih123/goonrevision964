@@ -1,6 +1,6 @@
 /datum/mission/station_integrity
-	var/datum/station_state/initial = new()
-	var/datum/station_state/current = new()
+	var/datum/station_state/initial = new /datum/station_state()
+	var/datum/station_state/current = new /datum/station_state()
 	var/required_integrity
 	var/max_integrity
 

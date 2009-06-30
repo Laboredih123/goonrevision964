@@ -38,7 +38,7 @@
 
 		var/x = 1 // TODO: real spy team names
 		for(var/team in src.spyteams)
-			var/datum/mission/steal = new(team, "Spy Team Number [x]", DISK)
+			var/datum/mission/steal/steal = new /datum/mission/steal(team, "Spy Team Number [x]", DISK)
 			x++
 			missions += steal
 
@@ -48,7 +48,7 @@
 				for(var/mob/carbon/otherspy in team)
 					if(otherspy != spy)
 						spy << "\red [otherspy.spawn_name]"
-				var/datum/mission/escape/escape = new(list(spy), "[spy.client.key] ([spy.spawn_name])")
+				var/datum/mission/escape/escape = new /datum/mission/escape(list(spy), "[spy.client.key] ([spy.spawn_name])")
 				missions += escape
 				spy.tell_mission(steal)
 				spy.tell_mission(escape)

@@ -24,7 +24,7 @@
 		return MISSION_SUCCESS
 
 /proc/pick_cliented_human_except(list/exceptions)
-	var/list/L = new()
+	var/list/L = list()
 	for(var/mob/carbon/human/M in world)
 		if(!(M in exceptions) && M.client)
 			L += M

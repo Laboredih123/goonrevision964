@@ -16,23 +16,12 @@
 	announce()
 		world << "IT'S A REVOLUTION"
 
-	setup()
-		while(1)
-			var/curNum = 0
-			for(var/mob/prespawn/M in world)
-				if(M.client && M.ready)
-					curNum ++
-			if(curNum < min_players)
-				world.log_game("Not enough players for revolution, waiting 3 seconds.")
-				sleep(30)
-			else
-				break
-
 	execute()
 		while (1)
 			revs = get_revs()
 			if(revs)
 				break
+			world.log_game("Not enough players for revolution, waiting 3 seconds.")
 			sleep(30)
 		heads = get_heads()
 
