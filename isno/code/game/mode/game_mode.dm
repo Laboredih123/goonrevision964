@@ -7,8 +7,8 @@ var/const/SCENARIO_COMPLETE = 1
 	var/desc = "Do whatever."
 
 	var/votable = 1
-	var/list/missions = new()
-	var/list/termination_conditions = new()
+	var/list/missions = list()
+	var/list/termination_conditions = list()
 	var/min_players = 0
 
 	proc/announce()

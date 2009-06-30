@@ -139,9 +139,11 @@
 			if("stool")
 				src.amount--
 				new /obj/stool( usr.loc )
+				world.log_construct("[usr] ([usr.ckey]) constructed a stool at [usr.x], [usr.y], [usr.z].")
 			if("chair")
 				src.amount--
 				var/obj/stool/chair/C = new /obj/stool/chair( usr.loc )
+				world.log_construct("[usr] ([usr.ckey]) constructed a chair at [usr.x], [usr.y], [usr.z].")
 				C.dir = usr.dir
 				if (C.dir == NORTH)
 					C.layer = 5
@@ -154,11 +156,13 @@
 				src.amount -= 2
 				var/obj/machinery/atmoalter/canister/oxygencanister/C = new /obj/machinery/atmoalter/canister/oxygencanister( usr.loc )
 				C.gas.oxygen = 0
+				world.log_construct("[usr] ([usr.ckey]) constructed an oxygen canister at [usr.x], [usr.y], [usr.z].")
 			if("plcan")
 				if (src.amount < 2)
 					return
 				src.amount -= 2
 				var/obj/machinery/atmoalter/canister/poisoncanister/C = new /obj/machinery/atmoalter/canister/poisoncanister( usr.loc )
+				world.log_construct("[usr] ([usr.ckey]) constructed a plasma canister at [usr.x], [usr.y], [usr.z].")
 				C.gas.plasma = 0
 			if("reinforced")
 				if (src.amount < 2)
@@ -171,6 +175,7 @@
 					return
 				src.amount -= 2
 				new /obj/closet( usr.loc )
+				world.log_construct("[usr] ([usr.ckey]) constructed a closet at [usr.x], [usr.y], [usr.z].")
 			if("fl_tiles")
 				src.amount--
 				var/obj/item/weapon/tile/R = new /obj/item/weapon/tile( usr.loc )
@@ -183,6 +188,7 @@
 				if (!( istype(F, /turf/station/floor) ))
 					return
 				var/turf/station/wall/W = F.ReplaceWithWall()
+				world.log_construct("[usr] ([usr.ckey]) constructed a wall at [usr.x], [usr.y], [usr.z].")
 
 				W.icon_state = "girder"
 				W.updatecell = 1
@@ -288,6 +294,7 @@
 	switch(alert("Sheet-Glass", "Would you like full tile glass or one direction?", "one direct", "full (2 sheets)", "cancel", null))
 		if("one direct")
 			var/obj/window/W = new /obj/window( usr.loc )
+			world.log_construct("[usr] ([usr.ckey]) constructed a window at [usr.x], [usr.y], [usr.z].")
 			W.anchored = 0
 			if (src.amount < 1)
 				return
@@ -297,6 +304,7 @@
 				return
 			src.amount -= 2
 			var/obj/window/W = new /obj/window( usr.loc )
+			world.log_construct("[usr] ([usr.ckey]) constructed a window at [usr.x], [usr.y], [usr.z].")
 			W.dir = SOUTHWEST
 			W.ini_dir = SOUTHWEST
 			W.anchored = 0
@@ -363,6 +371,7 @@
 	switch(alert("Sheet Reinf. Glass", "Would you like full tile glass or one direction?", "one direct", "full (2 sheets)", "cancel", null))
 		if("one direct")
 			var/obj/window/W = new /obj/window( usr.loc, 1 )
+			world.log_construct("[usr] ([usr.ckey]) constructed a reinforced window at [usr.x], [usr.y], [usr.z].")
 			W.anchored = 0
 			W.state = 0
 			if (src.amount < 1)
@@ -373,6 +382,7 @@
 				return
 			src.amount -= 2
 			var/obj/window/W = new /obj/window( usr.loc, 1 )
+			world.log_construct("[usr] ([usr.ckey]) constructed a reinforced window at [usr.x], [usr.y], [usr.z].")
 			W.dir = SOUTHWEST
 			W.ini_dir = SOUTHWEST
 			W.anchored = 0

@@ -1,6 +1,11 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Tuesday, June 30, 2009</b></p>
+<ul>
+<li><b>899</b> - Constructing things like walls, racks, tables, etc, is now logged, so it's much easier to find out
+who the douchebags that build 80 walls all over the station are and ban them.</li>
+
 <p><b>Monday, June 29, 2009</b></p>
 <ul>
 <li><b>896</b> - CO2 and sleeping gas will now make your oxygen meter turn red.</li>

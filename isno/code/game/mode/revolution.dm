@@ -28,7 +28,7 @@
 		var/list/headdeaths = list()
 		for(var/mob/head in heads)
 			headdeaths += new /datum/termination_condition/death(head, head.spawn_name)
-		add_termination_condition(new /datum/termination_condition/all(headdeaths, "The heads are all dead!"))
+		src.add_termination_condition(new /datum/termination_condition/all(headdeaths, "The heads are all dead!"))
 
 		var/list/revdeaths = list()
 		for(var/mob/rev in revs)

@@ -14,7 +14,7 @@
 	world.log_generic(text, "bug")
 
 /world/proc/log_construct(text)
-	world.log_generic(text, "construct")
+	world.log_generic(text, "construct", 1)
 
 /world/proc/log_game(text)
 	world.log_generic(text, "game", 1)

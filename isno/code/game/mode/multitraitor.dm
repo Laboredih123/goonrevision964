@@ -83,12 +83,12 @@
 		for(var/mob/traitor in traitors)
 			var/traitorname = "[traitor.client.key] ([traitor.spawn_name])"
 			if(istype(traitor, /mob/carbon))
-				var/datum/mission/escape/e = new(list(traitor), "[traitorname]")
+				var/datum/mission/escape/e = new /datum/mission/escape(list(traitor), "[traitorname]")
 				traitor.tell_mission(e)
 				missions += e
 				new /datum/effect/traitor_radio(traitor)
 			else if(istype(traitor, /mob/silicon/ai))
-				var/datum/mission/survival/s = new(list(traitor), "[traitorname]")
+				var/datum/mission/survival/s = new /datum/mission/survival(list(traitor), "[traitorname]")
 				traitor.tell_mission(s)
 				missions += s
 				new /datum/effect/law_zero(traitor)

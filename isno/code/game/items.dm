@@ -92,6 +92,7 @@
 		if (state == "sides")
 			direct = input(user, "Direction?", "Assembling Table", null) in list( "north", "east", "south", "west" )
 	var/obj/table/T = new /obj/table( user.loc )
+	world.log_construct("[usr] ([usr.ckey]) constructed a table at [usr.x], [usr.y], [usr.z].")
 	T.icon_state = state
 	T.dir = text2dir(direct)
 	T.add_fingerprint(user)
@@ -109,6 +110,7 @@
 /obj/item/weapon/rack_parts/attack_self(mob/user as mob)
 
 	var/obj/rack/R = new /obj/rack( user.loc )
+	world.log_construct("[usr] ([usr.ckey]) constructed a rack at [usr.x], [usr.y], [usr.z].")
 	R.add_fingerprint(user)
 	//SN src = null
 	del(src)
