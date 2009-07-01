@@ -8,7 +8,7 @@
 	world.log_generic(text, "attack", 1)
 
 /world/proc/log_bomb(text)
-	world.log_generic(text, "bomb")
+	world.log_generic(text, "bomb", 1)
 
 /world/proc/log_bug(text)
 	world.log_generic(text, "bug")
@@ -30,6 +30,7 @@
 
 
 /world/proc/log_generic(text, type, notify)
+	world.log << "[uppertext(type)]: [text]"
 	world.log_file("[time2text(world.realtime)] - [uppertext(type)]: [text]", type)
 	if(notify)
 		notify_admins("[uppertext(type)]: [text]")

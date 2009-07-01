@@ -27,34 +27,19 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "[SS13_version]\]<BR>"
-
-	if(!game_started)
-		src.status += "<b>STARTING</b>"
-	else if(config.current_mode)
-		src.status += "Mode: <b>[config.current_mode.long_name]</b>"
+	src.status = "[SS13_version]\]<br>"
 
 	if(host)
-		src.status += ", Host: <b>[host]</b>"
+		src.status += "Host: <b>[host]</b>"
 	else if(config && config.hostedby)
-		src.status += ", Host: <b>[config.hostedby]</b>"
+		src.status += "Host: <b>[config.hostedby]</b>"
 
 	src.status += "<br>"
 
-	var/list/features = list()
-
-	if(config)
-		switch(config.enable_authentication)
-			if(0)	features += "public mode"
-			if(1)	features += "limited mode"
-			if(2)	features += "private mode"
-		if(config.allow_vote_mode)
-			features += "voting"
-
-	if(!enter_allowed)		features += "closed"
-	if(abandon_allowed)	features += "respawning"
-	if(features)			src.status += "\[[dd_list2text(features, ", ")]"
-
+	if(!game_started)
+		src.status += "\[<b>STARTING</b>"
+	else if(config.current_mode)
+		src.status += "\[Mode: <b>[config.current_mode.long_name]</b>"
 
 /world/New()
 	shuttles_by_area_type = list(/area/shuttle/emergency = emergency_shuttle, /area/shuttle/commando = commando_shuttle)
