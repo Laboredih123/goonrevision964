@@ -38,8 +38,10 @@
 
 		var/x = 1 // TODO: real spy team names
 		for(var/team in src.spyteams)
-			var/datum/mission/steal/steal = new /datum/mission/steal(team, "Spy Team Number [x]", DISK)
+			var/teamname = "Spy Team Number [x] ([join_mob_names(team)])"
 			x++
+
+			var/datum/mission/steal/steal = new /datum/mission/steal(team, teamname, DISK)
 			missions += steal
 
 			for(var/mob/carbon/spy in team)

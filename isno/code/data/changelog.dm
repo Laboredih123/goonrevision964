@@ -1,10 +1,17 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Wednesday, July 1, 2009</b></p>
+<ul>
+<li><b>900</b> - "Show Traitors" admin power now shows missions as well as who the traitors are. The names of the
+members of the revolutionary and spy teams are now shown at the end of the round.</li>
+</ul>
+
 <p><b>Tuesday, June 30, 2009</b></p>
 <ul>
 <li><b>899</b> - Constructing things like walls, racks, tables, etc, is now logged, so it's much easier to find out
 who the douchebags that build 80 walls all over the station are and ban them.</li>
+</ul>
 
 <p><b>Monday, June 29, 2009</b></p>
 <ul>
@@ -15,7 +22,8 @@ who the douchebags that build 80 walls all over the station are and ban them.</l
 
 <p><b>Sunday, June 28, 2009</b></p>
 <ul>
-<li><b>888</b> - Added Thunderbeast's space tiles, at least for now. Doors should no longer hold fires in.</li>
+<li><b>888</b> - Added Thunderbeast's space tiles, at least for now. Closing doors should now put out fires on them.
+</li>
 <li><b>884</b> - Added "jump" verb for observers and admins.</li>
 <li><b>882</b> - Replaced most rwalls with regular walls, except in the engine, plasma storage areas, and the
 room storing the captain's spare ID. Electrified the grilles at the northeast of the engine, so it's not TOO
@@ -317,7 +325,6 @@ Revolution mode will never be selected.</li>
 <li>Removed earmuffs and ear slot.</li>
 <li>Removed speeds other than "running" and speed selector.</li>
 <li>Made intent bar and "more inventory" bar always out.</li>
-<li>Removed speeds other than "running."</li>
 <li>New genetics system added.</li>
 <li>600 commits worth of bugfixes and minor or behind-the-scenes improvements.</li>
 </ul>

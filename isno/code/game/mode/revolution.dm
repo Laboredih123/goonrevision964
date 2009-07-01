@@ -35,15 +35,22 @@
 			revdeaths += new /datum/termination_condition/death(rev, rev.spawn_name)
 		src.add_termination_condition(new /datum/termination_condition/all(revdeaths, "The revolutionaries are all dead!"))
 
+		var/rev_group_name = "the revolutionaries ([join_mob_names(revs)])"
+		var/head_group_name = "the heads ([join_mob_names(heads)])"
+		var/datum/mission/murders/killheads = new /datum/mission/murders(revs, rev_group_name, heads, head_group_name)
+		var/datum/mission/murders/killrevs = new /datum/mission/murders(heads, head_group_name, revs, rev_group_name)
+
+		src.add_mission(killheads)
+		src.add_mission(killrevs)
+
 		for(var/mob/carbon/M in revs)
 			new /datum/effect/traitor_radio(M)
 			new /datum/effect/convert(M)
 			M.rev_status = REV_LEADER
 			M << "You are a revolutionary! Kill the heads! Use the 'convert' verb to convert people to your cause!"
+			M.tell_mission(killheads)
 			for(var/mob/carbon/N in revs)
 				show_rev(M, N) // give people a rev flag on themselves too
-
-		missions += new /datum/mission/murders(revs, "the revolutionaries", heads, "the heads")
 
 		..()
 

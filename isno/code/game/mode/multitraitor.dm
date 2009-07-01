@@ -46,14 +46,7 @@
 			traitors += T
 
 		// determine the name the group of traitors
-		var/mob/first_traitor = traitors[1]
-		var/traitor_group_name = "[first_traitor.client.key] ([first_traitor.spawn_name])"
-		for(var/i = 2; i <= num_traitors; i++)
-			var/mob/T = traitors[i]
-			if(i == num_traitors)
-				traitor_group_name += " and [T.client.key] ([T.spawn_name])" // Oxford comma? more like LAMEford comma
-			else
-				traitor_group_name += ", [T.client.key] ([T.spawn_name])"
+		var/traitor_group_name = join_mob_names(traitors)
 
 		// give each traitor a message and a personal mission
 		for(var/mob/T in traitors)
@@ -66,9 +59,9 @@
 			var/mission_type = pick_individual_mission(T)
 			var/datum/mission/mission
 			if(mission_type != /datum/mission/murders)
-				mission = new mission_type(list(T), "[T.client.key] ([T.spawn_name])")
+				mission = new mission_type(list(T), "[T.key] ([T.spawn_name])")
 			else
-				mission = new mission_type(traitors, "[T.client.key] ([T.spawn_name])") // this is a really bad way to do this
+				mission = new mission_type(traitors, "[T.key] ([T.spawn_name])") // this is a really bad way to do this
 			T.tell_mission(mission)
 			missions += mission
 
@@ -140,3 +133,14 @@
 		if(M.client && !M.is_dead)
 			L += M
 	return L
+
+/proc/join_mob_names(list/mobs)
+	var/mob/first = mobs[1]
+	var/group_name = "[first.key] ([first.spawn_name])"
+	for(var/i = 2; i <= mobs.len; i++)
+		var/mob/M = mobs[i]
+		if(i == mobs.len)
+			group_name += " and [M.key] ([M.spawn_name])" // Oxford comma? more like LAMEford comma
+		else
+			group_name += ", [M.key] ([M.spawn_name])"
+	return group_name
