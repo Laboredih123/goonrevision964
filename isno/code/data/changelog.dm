@@ -3,6 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Wednesday, July 1, 2009</b></p>
 <ul>
+<li><b>901</b> - Attack logs now show whether the attacker was the traitor, and make it easy to PM both the attacker
+and the victim.</li>
 <li><b>900</b> - "Show Traitors" admin power now shows missions as well as who the traitors are. The names of the
 members of the revolutionary and spy teams are now shown at the end of the round.</li>
 </ul>

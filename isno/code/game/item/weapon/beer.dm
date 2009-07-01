@@ -5,7 +5,6 @@
 /obj/item/weapon/bottle/beer/attack(mob/carbon/M as mob, mob/carbon/user as mob)
 	if(!istype(M, /mob/carbon))
 		return ..()
-	world.log_attack("[user] ([user.ckey]) attacked [M] ([M.ckey]) with [src]")
 	if (user.intent == "hurt")
 		if (src.icon_state == "broken_beer")
 			if (M == user)

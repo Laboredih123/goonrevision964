@@ -3,9 +3,7 @@
 		src.machine = null
 		ss13_browse(src, null, "window=[href_list["mach_close"]]")
 	else if(href_list["priv_msg"])
-		var/mob/M = locate(href_list["priv_msg"])
-		if(M)
-			usr.client.private_message(M)
+		usr.client.private_message(src)
 	else if(href_list["freeze"])
 		var/mob/M = locate(href_list["freeze"])
 		if(M)

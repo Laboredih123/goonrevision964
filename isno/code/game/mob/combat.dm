@@ -12,4 +12,5 @@
 		if (safe)
 			return safe.attackby(W, user)
 	spawn( 0 )
+		W.pre_attack(src, user)
 		W.attack(src, user)

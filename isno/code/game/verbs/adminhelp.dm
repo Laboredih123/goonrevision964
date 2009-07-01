@@ -6,7 +6,7 @@
 	msg = sanitize(msg)
 	if(!msg) return
 
-	if (notify_admins("\blue <b>HELP: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.name]</a>/([src.key]):</b> [msg]"))
+	if (notify_admins("\blue <b>HELP: <a href='?src=\ref[src];priv_msg=1'>[src.name]</a>/([src.key]):</b> [msg]"))
 		src << "Your message has been broadcast to administrators."
 		world.log_ooc("ADMINHELP: RECIPIENTS: [src.name] ([src.key]): [msg]")
 	else

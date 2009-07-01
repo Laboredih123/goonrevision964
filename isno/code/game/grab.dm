@@ -77,7 +77,8 @@
 	return
 
 /obj/item/weapon/grab/proc/s_dbclick(obj/screen/S as obj)
-	world.log_attack("[src.assailant] ([src.assailant.ckey]) attempted to tighten \his grab on [src.affecting] ([src.affecting.ckey]).")
+	if(src.affecting.last_known_ckey)
+		world.log_attack("[src.assailant] ([src.assailant.ckey]) attempted to tighten \his grab on [src.affecting] ([src.affecting.ckey]).")
 	if ((src.assailant.next_move > world.time && !( src.last_suffocate < world.time + 2 )))
 		return
 	if ((!( src.assailant.canmove ) || src.assailant.lying))

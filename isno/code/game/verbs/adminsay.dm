@@ -16,4 +16,4 @@
 
 	for(var/mob/M in world)
 		if (M.client && M.client.powers)
-			M << "\blue <b>ADMIN: <a href='?src=\ref[usr];priv_msg=\ref[usr]'>[src.key]</a>/([name]):</b> [msg]"
+			M << "\blue <b>ADMIN: <a href='?src=\ref[usr];priv_msg=1'>[src.key]</a>/([name]):</b> [msg]"
