@@ -157,6 +157,9 @@
 /obj/item/weapon/radio/Topic(href, href_list)
 	if(!usr.can_use_hands())		return 0
 	if(!usr.check_intelligence())	return 0
+	// make sure people can't click things after it should be traitorized
+	if(src.traitorfreq && src.freq == src.traitorfreq)
+		return
 
 	if(!usr.contents.Find(src) && !(usr.contents.Find(src.loc) && istype(src.loc, /obj/item/weapon/assembly)))
 		if(!istype(usr, /mob/silicon/ai))
