@@ -1966,13 +1966,6 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	icon_state = "igniter1"
 	var/on = 1.0
 	anchored = 1.0
-/obj/machinery/injector
-	name = "injector"
-	icon = 'stationobjs.dmi'
-	icon_state = "injector"
-	density = 1
-	anchored = 1.0
-	flags = 512.0
 /obj/machinery/mass_driver
 	name = "mass driver"
 	icon = 'stationobjs.dmi'

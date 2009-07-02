@@ -137,20 +137,6 @@ obj/machinery/door_control/interact(mob/user as mob)
 			//Foreach goto(737)
 	return
 
-/obj/machinery/injector/attackby(var/obj/item/weapon/tank/W as obj, var/mob/user as mob)
-
-	if(stat & NOPOWER)
-		return
-	use_power(25)
-
-	var/obj/item/weapon/tank/ptank = W
-	if (!( istype(ptank, /obj/item/weapon/tank) ))
-		return
-	var/turf/T = get_step(src.loc, get_dir(user, src))
-	ptank.gas.turf_add(T, -1.0)
-	src.add_fingerprint(user)
-	return
-
 /obj/machinery/alarm/process()
 	if(stat & (NOPOWER|BROKEN))
 		icon_state = "alarm-p"
