@@ -37,7 +37,7 @@
 				user.see("\blue A pressure hole has been bored to the plasma tank valve. The plasma tank can now be ignited.")
 				bombers -= user.ckey
 				bombers += user.ckey
-				world.log_bomb("[user] ([user.ckey]) welded an igniter-tank assembly with temperature [src.tank.gas.temp]")
+				world.log_bomb("[user] ([user.ckey]) welded an igniter-tank assembly with temperature [src.tank.gas.temp - T0C]")
 			else
 				user.see("\blue The hole has been closed.")
 			src.add_fingerprint(user)

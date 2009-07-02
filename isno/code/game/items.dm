@@ -2059,6 +2059,8 @@
 		user.see(text("\blue Bloodstream Analysis located [] units of rejuvenation chemicals.", M.rejuv))
 	src.add_fingerprint(user)
 	return
+
+/obj/item/weapon/healthanalyzer/pre_attack()
 	return
 
 /obj/item/weapon/analyzer/attack_self(mob/carbon/user as mob)
@@ -2968,6 +2970,9 @@
 		del(W)
 	return
 
+/obj/item/weapon/brutepack/pre_attack()
+	return
+
 /obj/item/weapon/ointment/attack(mob/M as mob, mob/user as mob)
 	if (!user.check_dexterity())
 		return
@@ -2979,6 +2984,9 @@
 		if (src.amount <= 0)
 			del(src)
 
+
+/obj/item/weapon/ointment/pre_attack()
+	return
 
 /obj/item/weapon/ointment/examine()
 	set src in view(1)

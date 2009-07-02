@@ -23,6 +23,7 @@
 		actor.add_fingerprint(user)
 
 		var/obj/item/weapon/assembly/A = new(W.loc, signaller, actor)
+		user.see("\blue You have attached the [signaller] to the [actor]!")
 		signaller.loc = A
 		actor.loc = A
 

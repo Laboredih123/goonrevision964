@@ -1,5 +1,5 @@
 /world/proc/log_access(text)
-	world.log_generic(text, "access")
+	world.log_generic(text, "access", 1)
 
 /world/proc/log_admin(text)
 	world.log_generic(text, "admin", 1)
