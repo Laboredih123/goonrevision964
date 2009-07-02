@@ -39,7 +39,8 @@
 		return {"<html><font color='red'>You have been banned [get_banclass_desc()] [get_duration_desc()] by [adminckey].<br>
 				 The reason given was: [reason].<br>
 				 You were banned on [time2text(bantime, "Day, Month DD, YYYY, at hh:mm")].<br>
-				 The original key banned was [origckey].<br></font>"}
+				 The original key banned was [origckey].<br>
+				 If you wish to appeal your ban, don't do it in the thread! Come to #goonstation on irc.synirc.net, or just wait it out.<br></font>"}
 
 	proc/apply(client/C)
 		if(C)
