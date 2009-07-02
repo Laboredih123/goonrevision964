@@ -3,6 +3,8 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Thursday, July 2, 2009</b></p>
 <ul>
+<li><b>905</b> - Delete verb for admins is now inaccessible by default, although you can enable it in the config
+file. It's rarely useful and easy to accidentally click on.</li>
 <li><b>903</b> - Admins now have a separate "log" tab next to "chat", to reduce the spam but keep them updated.</li>
 </ul>
 

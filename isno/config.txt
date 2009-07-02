@@ -37,3 +37,6 @@ DEFAULT_NO_VOTE
 LOG_FILE logs/log
 
 NO_RESPAWN
+
+# allow hosts and developers to delete objects on the map
+# DELETE_VERB

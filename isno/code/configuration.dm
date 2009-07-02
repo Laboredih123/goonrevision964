@@ -54,6 +54,7 @@
 			if("vote_period")			config.vote_period = text2num(value)
 			if("disallow_ai")			config.allow_ai = 0
 			if("no_respawn")			config.respawn = 0
+			if("delete_verb")			config.delete_verb = 1
 
 			if("authentication")
 				switch(lowertext(dd_limittext(value,8)))

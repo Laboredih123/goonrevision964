@@ -6,6 +6,7 @@
 	vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
 	vote_no_dead = 0				// dead people can't vote (tbi)
 	enable_authentication = 0		// three-stage authentication (required,disabled,optional)
+	delete_verb = 0					// admins can delete things
 
 	list/probabilities = list()		// relative probability of each mode
 	allow_ai = 1					// allow ai job
