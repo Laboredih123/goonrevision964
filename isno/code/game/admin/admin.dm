@@ -110,6 +110,12 @@
 		for(var/datum/admin_power/P in get_admin_power_instances())
 			if(P.is_applicable(src.adminlevel))
 				src.powers += P
+		if(src.powers.len)
+			winset(src, "rpanewindow", "bottom=outputpane")
+			winset(src, "outputpane.tab2", "tabs=outputwindow,log")
+			winshow(src, "outputwindow") // focus it
+		else
+			del(src.powers)
 
 		if(world.url)
 			src << "\blue The game ip is [world.url]!"

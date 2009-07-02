@@ -1,6 +1,11 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Thursday, July 2, 2009</b></p>
+<ul>
+<li><b>903</b> - Admins now have a separate "log" tab next to "chat", to reduce the spam but keep them updated.</li>
+</ul>
+
 <p><b>Wednesday, July 1, 2009</b></p>
 <ul>
 <li><b>901</b> - Attack logs now show whether the attacker was the traitor, and make it easy to PM both the attacker

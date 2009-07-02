@@ -1,5 +1,5 @@
 /world/proc/log_access(text)
-	world.log_generic(text, "access", 1)
+	world.log_generic(text, "access")
 
 /world/proc/log_admin(text)
 	world.log_generic(text, "admin", 1)
@@ -14,10 +14,10 @@
 	world.log_generic(text, "bug")
 
 /world/proc/log_construct(text)
-	world.log_generic(text, "construct", 1)
+	world.log_generic(text, "construct")
 
 /world/proc/log_game(text)
-	world.log_generic(text, "game", 1)
+	world.log_generic(text, "game")
 
 /world/proc/log_ooc(text)
 	world.log_generic(text, "ooc")
@@ -29,12 +29,15 @@
 	world.log_generic(text, "vote")
 
 
-/world/proc/log_generic(text, type, notify)
-	world.log << "[uppertext(type)]: [text]"
-	world.log_file("[time2text(world.realtime)] - [uppertext(type)]: [text]", type)
-	if(notify)
-		notify_admins("[uppertext(type)]: [text]")
-
+/world/proc/log_generic(text, type, important = 0)
+	var/txt = "[uppertext(type)]: [text]"
+	world.log << txt
+	world.log_file("[time2text(world.realtime)] - [txt]", type)
+	for(var/mob/M in world)
+		if(M.client && M.client.powers)
+			M << output(txt, "log")
+			if(important) // show it in regular chat
+				M << txt
 
 /world/proc/log_file(text, file)
 	if(config.log_file)
