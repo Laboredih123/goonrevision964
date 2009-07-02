@@ -11,10 +11,10 @@
 	world.log_generic(text, "bomb", 1)
 
 /world/proc/log_bug(text)
-	world.log_generic(text, "bug")
+	world.log_generic(text, "bug", 1)
 
 /world/proc/log_construct(text)
-	world.log_generic(text, "construct")
+	world.log_generic(text, "construct", 1)
 
 /world/proc/log_game(text)
 	world.log_generic(text, "game")

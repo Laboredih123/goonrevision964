@@ -3,6 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Thursday, July 2, 2009</b></p>
 <ul>
+<li><b>907</b> - Added a bunch more cameras.</li>
 <li><b>905</b> - Removed injector.</li>
 <li><b>905</b> - Delete verb for admins is now inaccessible by default, although you can enable it in the config
 file. It's rarely useful and easy to accidentally click on.</li>
