@@ -436,6 +436,7 @@ Pipe Valve Status: []<BR>
 /obj/machinery/atmoalter/canister/Topic(href, href_list)
 	..()
 	if(!usr.can_use_hands()) return
+	if(istype(usr, /mob/silicon/ai)) return
 	if(get_dist(src,usr) > 1 || !istype(src.loc,/turf)) return ss13_browse(usr, null, "window=canister")
 
 	usr.machine = src

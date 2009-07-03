@@ -31,13 +31,13 @@ var/const/SCENARIO_COMPLETE = 1
 				pronoun = "The"
 			var/outcome = x.check_success()
 			if(outcome == MISSION_SUCCESS)
-				world << "[x.gname] has succeeded! [pronoun] mission was to [x.description()]."
+				world << "<b>[x.gname]</b> has <b>succeeded</b>! [pronoun] mission was to [x.description()]."
 			else if(outcome == MISSION_FAILURE)
-				world << "[x.gname] has failed. [pronoun] mission was to [x.description()]."
+				world << "<b>[x.gname]</b> has <b>failed</b>. [pronoun] mission was to [x.description()]."
 			else if(outcome == MISSION_UNKNOWN)
-				world << "[x.gname] might have failed and might have succeeded, I dunno. [pronoun] mission was to [x.description()]."
+				world << "<b>[x.gname]</b> might have failed and might have succeeded, I dunno. [pronoun] mission was to [x.description()]."
 			else
-				world << "[x.gname] has me really confused, their mission (to [x.description()]) outcome was [outcome] and I have no idea what that means."
+				world << "<b>[x.gname]</b> has me really confused, their mission (to [x.description()]) outcome was [outcome] and I have no idea what that means."
 		sleep(300)
 		world.Reboot()
 

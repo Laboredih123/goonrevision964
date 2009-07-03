@@ -1,6 +1,13 @@
 /proc/reassign_job(datum/job/job, list/unassigned, list/semiassigned, job_choices)
 	//gives job to someone who wants it more than their current job, and reassigns their current job if any
 	job_choices[job]--
+	world.log_game("job is [job.name]")
+	for(var/x in unassigned)
+		world.log_game("unassigned has [x]")
+	for(var/x in semiassigned)
+		world.log_game("semiassigned has [x]")
+	for(var/x in job_choices)
+		world.log_game("job_choices has [x] its [job_choices[x]]")
 	for (var/level = 1; level <= 3; level++)
 		var/list/candidates = find_job_candidates(unassigned + semiassigned, job, level)
 		for(var/mob/prespawn/M in candidates) //make sure they want this job more than their old one
