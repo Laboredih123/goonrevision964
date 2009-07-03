@@ -56,6 +56,8 @@
 	for (var/mob/M in world)
 		if(!istype(M, /mob/carbon) && !istype(M, /mob/silicon)) //don't show prespawn people, etc
 			continue
+		if(!M.last_known_ckey) // don't show monkeys, who needs em
+			continue
 		var/name = M.name
 
 		if (name in names)
