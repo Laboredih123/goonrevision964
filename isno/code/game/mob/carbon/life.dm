@@ -54,7 +54,7 @@
 		src.plasma--
 		src.take_damage(toxin = 1)
 
-	src.heal_damage(suff = 1)
+	src.heal_damage(suffocation = 1)
 
 	if(src.drowsyness > 0)
 		src.drowsyness--
