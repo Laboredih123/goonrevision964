@@ -13,6 +13,11 @@
 	return 0
 
 /mob/hear_message(datum/message/M, atom/source)
+	var/datum/message/message = src.last_heard_message
+	if(message && M.voice == message.voice && M.text == message.text && M.language == message.language)
+		return
+	src.last_heard_message = M
+
 	var/speaker_name = M.voice
 	if((source in view(src)) && istype(source, /mob/carbon) && source.name != speaker_name) //he's in disguise
 		// TODO: make this less ugly, and make it work properly when voice != body_name and they aren't wearing

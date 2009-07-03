@@ -181,6 +181,9 @@ obj/machinery/door_control/interact(mob/user as mob)
 		stat |= NOPOWER
 
 
+/obj/machinery/alarm/interact()
+	src.examine()
+
 /obj/machinery/alarm/examine()
 	set src in oview(1)
 

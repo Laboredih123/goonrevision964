@@ -1,6 +1,6 @@
 /var/const
 	COLOR_DEFAULT = "black"
-	COLOR_RADIO = "green"
+	COLOR_RADIO = "#00dd00"
 	COLOR_EMOTE = "#ff00ff" // magenta
 	COLOR_HEAD = "teal"
 	COLOR_SECURITY = "maroon"

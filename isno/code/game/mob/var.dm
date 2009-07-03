@@ -49,3 +49,5 @@
 
 	var/cameraFollow = null
 	var/datum/job/spawn_job = null
+
+	var/datum/message/last_heard_message = null

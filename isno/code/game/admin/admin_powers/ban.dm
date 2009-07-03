@@ -106,7 +106,7 @@
 			if(hours) // must convert to 1/10 sec
 				B = new /datum/ban/time(banclass, banfrom, new_ban_id(), ckey, reason, src.ckey, hours * 60 * 60 * 10)
 		else if(type == "days")
-			var/hours = min(24 * text2num(href_list["hours"]), get_max_hours(src.adminlevel))
+			var/hours = min(24 * text2num(href_list["days"]), get_max_hours(src.adminlevel))
 			if(hours) // must convert to 1/10 sec
 				B = new /datum/ban/time(banclass, banfrom, new_ban_id(), ckey, reason, src.ckey, hours * 60 * 60 * 10)
 		else if(type == "round")
