@@ -34,7 +34,8 @@
 					return MISSION_FAILURE
 			if(kill_monkeys)
 				for(var/mob/carbon/monkey/M in world)
-					if(M.z == 1 && !M.is_dead)
+					var/turf/T = get_turf(M)
+					if(T.z == 1 && !M.is_dead)
 					// assumes that the station is only on one z-level and it's 1
 					// this assumption is made basically thoughout the code, so one more time shouldn't hurt
 						return MISSION_FAILURE
