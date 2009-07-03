@@ -13,6 +13,8 @@
 		for(var/mob/prespawn/M in candidates) //make sure they want this job more than their old one
 			if(!(M in semiassigned))
 				continue
+			if(semiassigned[M] == job) // already have this job, can't really reassign it to them
+				continue
 			if(level >= 2 && M.client.prefs.job1 == semiassigned[M]) //first choice is their current job
 				candidates -= M
 			else if(level >= 3 && M.client.prefs.job2 == semiassigned[M]) //second choice is current job
