@@ -23,4 +23,4 @@
 		..()
 
 	get_access()
-		return list(access_security, access_brig, access_security_lockers)
+		return list(access_security, access_brig, access_security_lockers, access_security_records)

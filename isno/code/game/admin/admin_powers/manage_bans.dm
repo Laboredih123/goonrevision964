@@ -3,8 +3,6 @@
 	allowed_for = ADMIN_MOD | ADMIN_ADMIN | ADMIN_SUPERADMIN
 
 	Topic(href, href_list)
-		..()
-
 		if(href_list["banid"])
 			var/banid = href_list["banid"]
 			var/savefile/bans_by_id = new(BANFILE_LOC)

@@ -14,4 +14,5 @@
 		..()
 
 	get_access()
-		return list(access_security, access_forensics_lockers, access_morgue, access_maint_tunnels)
+		return list(access_security, access_forensics_lockers, access_security_records, access_morgue,
+		            access_maint_tunnels)

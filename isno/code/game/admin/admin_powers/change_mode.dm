@@ -3,7 +3,6 @@
 	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
-		..()
 		if(href_list["c_mode"])
 			config.master_mode = locate(href_list["c_mode"])
 			world.log_admin("[usr.key] set the mode as [config.master_mode.long_name].")

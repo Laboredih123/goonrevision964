@@ -4,7 +4,6 @@
 	var/list/unspawnable_types = list(/obj/item/weapon/gun/energy/pulse_rifle)
 
 	Topic(href, href_list)
-		..()
 		if(href_list["display"])
 			DisplayMenu(usr)
 		else if(href_list["ObjectList"])

@@ -4,7 +4,6 @@
 	allowed_for = ADMIN_GM
 
 	Topic(href, href_list)
-		..()
 		if(href_list["mob"])
 			var/dat = {"<html><head><title>Make Traitor</title></head><body><form action='byond://' method='get'>
 					<input type='hidden' name='src' value='\ref[src]'>
