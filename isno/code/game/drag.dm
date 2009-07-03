@@ -375,7 +375,7 @@
 				return
 			if ((src.target.get_damage() >= src.target.unconsciousness_threshold && src.target.get_damage() < (src.target.death_threshold - 25)))
 				src.target.cpr_time = world.time
-				if (src.target.get_damage() >= -40.0)
+				if (src.target.get_damage() >= 50)
 					src.target.heal_damage(suff = 5)
 				src.target.rejuv = max(src.target.rejuv, 10)
 				src.source.show_viewers(text("\red [] performs CPR on []!", src.source, src.target))
