@@ -839,16 +839,16 @@
 		return
 	if ((user.intent == "hurt" && src.bullets > 0))
 		if (prob(20))
-			H.knockout_until(5)
+			H.knockout_until(50)
 		else
-			H.knockdown_until(5)
+			H.knockdown_until(50)
 		src.bullets--
 		src.force = 75
 		..()
 		src.force = 60
 		M.show_viewers(text("\red <B>[] has been shot point-blank by []!</B>", M, user), 1, "\red You hear someone fall", 2)
 	else
-		H.knockdown_until(5)
+		H.knockdown_until(50)
 		src.force = 30
 		..()
 		M.show_viewers(text("\red <B>[] has been pistol whipped []!</B>", M, user))

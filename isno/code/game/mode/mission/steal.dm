@@ -89,7 +89,7 @@ var/const
 			if (JETPACK)
 				return "a jet pack"
 			if(DISK)
-				return "a disk"
+				return "the code disk"
 			else
 				return "Error: Invalid theft target: [target]"
 

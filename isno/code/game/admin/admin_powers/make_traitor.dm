@@ -8,7 +8,7 @@
 			var/dat = {"<html><head><title>Make Traitor</title></head><body><form action='byond://' method='get'>
 					<input type='hidden' name='src' value='\ref[src]'>
 			        <input type='hidden' name='mob-traitor' value=[href_list["mob"]]>
-			        <p>Mission: <input type='text' name='mission' value='kill a whole bunch of people' size=40/></p>
+			        <p>Mission: <input type='text' name='mission' value='kill a moderate amount of people' size=40/></p>
 			        <input type='submit' value='Submit'>
 			        </body></html>"}
 			ss13_browse(usr, dat, "window=maketraitor;size=400x500")

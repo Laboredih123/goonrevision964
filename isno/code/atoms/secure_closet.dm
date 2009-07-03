@@ -7,6 +7,7 @@
 	density = 1
 	var/locked = 1.0
 	var/broken = 0
+	anchored = 1
 
 /obj/closet/secure/get_closed_icon_state()
 	return "[src.locked ? 1 : null][src.orig_icon_state]0"

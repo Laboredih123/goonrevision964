@@ -149,6 +149,8 @@
 	del(src.hud1)
 	if(src.affecting)
 		src.affecting.grabbed_by -= src
+		if(!src.affecting.is_conscious())
+			src.affecting.lying = 1
 	..()
 	return
 

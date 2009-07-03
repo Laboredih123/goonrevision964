@@ -6,12 +6,11 @@
 
 	if(src.is_dead)
 		src.canmove = 0
-		if(src.lying)	src.icon = src.lying_icon
-		else			src.icon = src.stand_icon
 		if(!src.buckled)
-			src.density = !src.lying
+			src.icon = src.lying_icon
 		else
-			src.density = 1
+			src.icon = src.stand_icon
+		src.density = !src.lying
 		src.update_grabs()
 		src.update_clothing()
 		return

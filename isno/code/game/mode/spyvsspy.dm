@@ -1,7 +1,7 @@
 /datum/game_mode/spyvsspy
 	config_name = "spyvsspy"
 	long_name = "Spy vs Spy"
-	desc = "Two teams of spies compete to steal the disk."
+	desc = "Two teams of spies compete to steal the code disk."
 	var/list/spyteams // list of lists of mobs
 	var/const/SPIES_PER_TEAM = 3
 	var/const/NUM_TEAMS = 2
@@ -50,6 +50,7 @@
 				for(var/mob/carbon/otherspy in team)
 					if(otherspy != spy)
 						spy << "\red [otherspy.spawn_name]"
+				spy << "<h2>THEY ARE ON YOUR TEAM DO NOT KILL THEM KILL THE OTHER SPIES</h2>"
 				var/datum/mission/escape/escape = new /datum/mission/escape(list(spy), "[spy.client.key] ([spy.spawn_name])")
 				missions += escape
 				spy.tell_mission(steal)
