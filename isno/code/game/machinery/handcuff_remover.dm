@@ -4,6 +4,7 @@
 	name = "Handcuff Remover"
 	var/const/WAIT_TIME = 100 // 10 seconds
 	var/operating = 0
+	anchored = 1
 	layer = 5 // got to be above pipes at least, might need to be adjusted when it's put with something else
 
 	interact_cuffed(mob/carbon/user)
