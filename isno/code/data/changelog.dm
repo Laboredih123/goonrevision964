@@ -1,6 +1,11 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Friday, July 3, 2009</b></p>
+<ul>
+<li><b>922</b> - More or less eliminated checkerboarding when fires burn out.</li>
+</ul>
+
 <p><b>Thursday, July 2, 2009</b></p>
 <ul>
 <li><b>914</b> - Observe verb no longer lists monkeys. Suffocation damage will now slowly heal.</li>

@@ -99,7 +99,13 @@
 		levelupdate()
 
 	if (src.health <= 0)
-		del(src)
+		spawn(100)
+			if(src)
+				src.ReplaceWithSpace()
+				for(var/dir in cardinal.Copy())
+					var/turf/station/floor/N = get_step(src,dir)
+					if(istype(N, /turf/station/floor) && N.health <= 30) // prevent checkerboarding
+						N.health = 0
 
 /turf/space/New()
 	src.icon_state = "[9 - (src.y % 10)][src.x % 10]"
