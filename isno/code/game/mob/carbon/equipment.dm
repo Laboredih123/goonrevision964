@@ -417,7 +417,6 @@
 		src.overlays += image("icon" = 'uniforms.dmi', "icon_state" = "[color][suffix]", "layer" = MOB_LAYER)
 		src.jumpsuit.screen_loc = "2,2"
 	var/icons = list()
-	icons[src.suit] = "2,1"
 	icons[src.headset] = "3,1"
 	icons[src.mask] = "2,3"
 
@@ -425,6 +424,8 @@
 	icons[src.shoes] = "5,2"
 	icons[src.glasses] = "6,2"
 	icons[src.helmet] = "7,2"
+
+	icons[src.suit] = "2,1"
 
 	var/iconsource = src.appearance == APPEARANCE_MONKEY ? 'monkey.dmi' : 'mob.dmi'
 	for(var/obj/item/weapon/W in icons)

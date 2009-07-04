@@ -161,7 +161,8 @@
 			config.current_mode.give_newcomer_job(new_player)
 		return
 	spawn()
-		src.setup(usr.client)
+		if(usr)
+			src.setup(usr.client)
 
 //----------------------------------------------------------------------------
 
