@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Sunday, July 5, 2009</b></p>
+<ul>
+<li><b>923</b> - "jump" verb no longer shows monkeys, shows their spawn name if different from their current name,
+etc.</li>
+</ul>
+
 <p><b>Friday, July 3, 2009</b></p>
 <ul>
 <li><b>922</b> - More or less eliminated checkerboarding when fires burn out.</li>
