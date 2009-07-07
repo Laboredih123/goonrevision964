@@ -1,7 +1,7 @@
 /datum/job/observer
 	name = "Observer"
 	max = 0
-	can_join_late = 1
+	switchable_to = 0
 	responsibilities = "uh watch the show i guess"
 
 	find_spawnpoint()
