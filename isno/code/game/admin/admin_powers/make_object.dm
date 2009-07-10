@@ -24,7 +24,7 @@
 				world.log_admin("[usr.key] spawned an [object]")
 			else
 				world.log_admin("[usr.key] spawned [object] x [number]")
-			ss13_browse(usr, null, "window=admin_object_spawn")
+//			ss13_browse(usr, null, "window=admin_object_spawn")
 
 	proc/DisplayMenu(var/mob/user)
 		var/txt = {"<HTML><HEAD><TITLE>Spawn Object</TITLE></HEAD><BODY>

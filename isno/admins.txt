@@ -23,15 +23,8 @@
 # Example administrators - you should remove this on your server.
 # If you don't and you are a moron in any other way, we will probably come on and abuse it.
 # It's happened before.
+persh - Host
 kelson - Host
 kurper - Host
 rolandtdapperman - GM Admin
 twingecrab - Mod
-#pantaloons - Host
-#kurper2 - GM Superadmin Developer
-#stuntwaffle - Mod Developer
-#weasello - Admin Developer
-#nannek - GM Superadmin Developer
-#sam0rz - GM Admin
-#thunderbeast - GM Admin
-#febrezeninja - GM Admin
