@@ -2427,6 +2427,7 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	density = 1
 	var/obj/item/weapon/radio/beacon/target = null
 	anchored = 1.0
+	var/creator = null
 /obj/projection
 	name = "Projection"
 	anchored = 1.0

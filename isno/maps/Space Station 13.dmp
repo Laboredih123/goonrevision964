@@ -2043,73 +2043,76 @@
 "No" = (/turf/station/r_wall,/area/security/brig)
 "Np" = (/turf/station/r_wall,/area/maintenance/south)
 "Nq" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/space,/area/medical/medbay)
-"Nr" = (/obj/machinery/computer/security,/turf/station/floor,/area/security/main)
-"Ns" = (/obj/table{icon_state = "corners"; dir = 10},/obj/item/weapon/paper_bin,/obj/item/weapon/flashlight,/obj/item/weapon/flashlight,/turf/station/floor,/area/security/main)
-"Nt" = (/obj/table{icon_state = "corners"; dir = 6},/obj/item/weapon/extinguisher,/turf/station/floor,/area/security/main)
-"Nu" = (/obj/item/weapon/radio/signaller,/turf/station/floor,/area/security/brig)
-"Nv" = (/obj/machinery/computer/communications{prints_intercept = 0},/turf/station/floor,/area/bridge)
-"Nw" = (/obj/start{name = "Captain"},/turf/station/floor,/area/bridge)
-"Nx" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
-"Ny" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
-"Nz" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
-"NA" = (/obj/closet/secure/emergency,/turf/station/floor{icon_state = "Floor2"},/area/medical/medbay)
-"NB" = (/obj/machinery/door/window/security{name = "Senior Staff"; dir = 4; req_access_txt = "22"},/turf/station/floor,/area/bridge)
-"NC" = (/obj/machinery/door/window/security{name = "Captain"; dir = 8; req_access_txt = "23"},/turf/station/floor,/area/bridge)
-"ND" = (/obj/machinery/atmoalter/siphs/fullairsiphon/port,/turf/station/floor,/area/security/brig)
-"NE" = (/obj/machinery/atmoalter/siphs/scrubbers/port,/turf/station/floor,/area/security/brig)
-"NF" = (/obj/machinery/computer/brig,/turf/station/floor,/area/security/brig)
-"NG" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
-"NH" = (/obj/item/weapon/extinguisher,/turf/station/floor,/area/bridge)
-"NI" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/main)
-"NJ" = (/obj/closet/secure/medical2{anchored = 0},/turf/station/floor{icon_state = "Floor2"},/area/medical/medbay)
-"NK" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
-"NL" = (/obj/machinery/computer/card,/turf/station/floor,/area/bridge)
-"NM" = (/obj/stool/chair,/turf/station/floor,/area/bridge)
-"NN" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 2; req_access_txt = "22"},/turf/station/floor,/area/bridge)
-"NO" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 2; req_access_txt = "22"},/turf/station/floor,/area/security/main)
-"NP" = (/obj/machinery/door/airlock/sec{name = "Security"},/turf/station/floor,/area/security/main)
-"NQ" = (/obj/machinery/door/airlock/sec{name = "Security"},/turf/station/floor,/area/security/brig)
-"NR" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/space,/area/medical/medbay)
-"NS" = (/obj/machinery/hologram_ai,/turf/station/floor,/area/bridge)
-"NT" = (/obj/table{tag = "icon-sides (NORTH)"; icon_state = "sides"; dir = 1},/obj/item/weapon/pill_canister/placebo{name = "Pill Canister- 'Baby Medicine'"; desc = "<B>Baby Medicine</B>\nManagements special medicine."},/turf/station/floor,/area/bridge)
-"NU" = (/obj/table{tag = "icon-sides (NORTH)"; icon_state = "sides"; dir = 1},/obj/item/weapon/analyzer,/turf/station/floor,/area/bridge)
-"NV" = (/obj/table{tag = "icon-sides (NORTH)"; icon_state = "sides"; dir = 1},/obj/item/weapon/clipboard,/obj/item/weapon/infra,/turf/station/floor,/area/bridge)
-"NW" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/turf/station/floor,/area/bridge)
-"NX" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 1; req_access_txt = "22"},/turf/station/floor,/area/bridge)
-"NY" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 1; req_access_txt = "22"},/turf/station/floor,/area/security/main)
-"NZ" = (/obj/table{icon_state = "corners"; dir = 9},/obj/item/weapon/infra,/obj/item/weapon/infra,/turf/station/floor,/area/security/main)
-"Oa" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/storage/toolbox,/obj/item/weapon/crowbar,/obj/item/weapon/radio/signaller,/turf/station/floor,/area/security/main)
-"Ob" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/obj/cable{icon_state = "4-8"; d1 = 4; d2 = 8},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
-"Oc" = (/obj/machinery/firealarm,/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"Od" = (/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor,/area/bridge)
-"Oe" = (/obj/table{icon_state = "corners"; dir = 10},/obj/item/weapon/bottle/rejuvenators,/obj/item/weapon/bottle/rejuvenators,/obj/item/weapon/syringe,/turf/station/floor,/area/bridge)
-"Of" = (/obj/table{icon_state = "sides"; dir = 2},/obj/item/weapon/bottle/antitoxins,/turf/station/floor,/area/bridge)
-"Og" = (/obj/table{icon_state = "sides"; dir = 2},/obj/item/weapon/crowbar,/obj/item/weapon/paper/jobs,/obj/item/weapon/handcuffs,/turf/station/floor,/area/bridge)
-"Oh" = (/obj/table{icon_state = "sides"; dir = 2},/obj/item/weapon/radio/beacon,/turf/station/floor,/area/bridge)
-"Oi" = (/obj/table{icon_state = "corners"; dir = 6},/obj/item/weapon/clothing/under/lawyer,/obj/item/weapon/clothing/under/lawyer,/turf/station/floor,/area/bridge)
-"Oj" = (/obj/item/weapon/clothing/under/nazi{name = "an owl suit to run around in"; icon_state = "owl"; color = "owl"},/turf/station/floor,/area/bridge)
-"Ok" = (/obj/item/weapon/clothing/under/nazi{name = "a clown suit to run around in"; icon_state = "clown"; color = "clown"},/turf/station/floor,/area/bridge)
-"Ol" = (/obj/table{icon_state = "alone"},/obj/machinery/recharger,/turf/station/floor,/area/bridge)
-"Om" = (/obj/table{icon_state = "corners"; dir = 10},/obj/machinery/recharger,/obj/item/weapon/clothing/glasses/thermal,/turf/station/floor,/area/security/main)
-"On" = (/obj/table{icon_state = "corners"; dir = 6},/obj/item/weapon/handcuffs,/obj/item/weapon/handcuffs,/obj/item/weapon/multitool,/turf/station/floor,/area/security/main)
-"Oo" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/main)
-"Op" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"Oq" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
-"Or" = (/obj/stool/chair{dir = 1},/turf/station/floor,/area/bridge)
-"Os" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
-"Ot" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
-"Ou" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
-"Ov" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 10; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/main)
-"Ow" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 10; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
-"Ox" = (/obj/machinery/computer/security,/turf/station/floor,/area/bridge)
-"Oy" = (/obj/machinery/computer/secure_data,/turf/station/floor,/area/bridge)
-"Oz" = (/obj/machinery/computer/engine,/turf/station/floor,/area/bridge)
-"OA" = (/obj/machinery/computer/communications,/turf/station/floor,/area/bridge)
-"OB" = (/obj/machinery/computer/data/weapon/log,/turf/station/floor,/area/bridge)
-"OC" = (/obj/machinery/computer/brig,/turf/station/floor,/area/security/main)
-"OD" = (/obj/item/weapon/crowbar,/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
-"OE" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
-"OF" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"Nr" = (/obj/machinery/door/window/alt/security{name = "Captain"; req_access_txt = "23"},/turf/station/floor,/area/bridge)
+"Ns" = (/obj/machinery/computer/security,/turf/station/floor,/area/security/main)
+"Nt" = (/obj/table{icon_state = "corners"; dir = 10},/obj/item/weapon/paper_bin,/obj/item/weapon/flashlight,/obj/item/weapon/flashlight,/turf/station/floor,/area/security/main)
+"Nu" = (/obj/table{icon_state = "corners"; dir = 6},/obj/item/weapon/extinguisher,/turf/station/floor,/area/security/main)
+"Nv" = (/obj/item/weapon/radio/signaller,/turf/station/floor,/area/security/brig)
+"Nw" = (/obj/machinery/computer/communications{prints_intercept = 0},/turf/station/floor,/area/bridge)
+"Nx" = (/obj/start{name = "Captain"},/turf/station/floor,/area/bridge)
+"Ny" = (/obj/table,/obj/item/weapon/tank/jetpack,/obj/item/weapon/card/id/captains_spare,/obj/item/weapon/hand_tele,/obj/item/weapon/disk/code,/turf/station/floor,/area)
+"Nz" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
+"NA" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
+"NB" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
+"NC" = (/obj/closet/secure/emergency,/turf/station/floor{icon_state = "Floor2"},/area/medical/medbay)
+"ND" = (/obj/machinery/door/window/security{name = "Senior Staff"; dir = 4; req_access_txt = "22"},/turf/station/floor,/area/bridge)
+"NE" = (/obj/machinery/door/window/security{name = "Captain"; dir = 8; req_access_txt = "23"},/turf/station/floor,/area/bridge)
+"NF" = (/obj/machinery/atmoalter/siphs/fullairsiphon/port,/turf/station/floor,/area/security/brig)
+"NG" = (/obj/machinery/atmoalter/siphs/scrubbers/port,/turf/station/floor,/area/security/brig)
+"NH" = (/obj/machinery/computer/brig,/turf/station/floor,/area/security/brig)
+"NI" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
+"NJ" = (/obj/item/weapon/extinguisher,/turf/station/floor,/area/bridge)
+"NK" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/main)
+"NL" = (/obj/item/weapon/t_scanner,/turf/station/floor,/area/security/main)
+"NM" = (/obj/closet/secure/medical2{anchored = 0},/turf/station/floor{icon_state = "Floor2"},/area/medical/medbay)
+"NN" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"NO" = (/obj/machinery/computer/card,/turf/station/floor,/area/bridge)
+"NP" = (/obj/stool/chair,/turf/station/floor,/area/bridge)
+"NQ" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 2; req_access_txt = "22"},/turf/station/floor,/area/bridge)
+"NR" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 2; req_access_txt = "22"},/turf/station/floor,/area/security/main)
+"NS" = (/obj/machinery/door/airlock/sec{name = "Security"},/turf/station/floor,/area/security/main)
+"NT" = (/obj/machinery/door/airlock/sec{name = "Security"},/turf/station/floor,/area/security/brig)
+"NU" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/space,/area/medical/medbay)
+"NV" = (/obj/machinery/hologram_ai,/turf/station/floor,/area/bridge)
+"NW" = (/obj/table{tag = "icon-sides (NORTH)"; icon_state = "sides"; dir = 1},/obj/item/weapon/pill_canister/placebo{name = "Pill Canister- 'Baby Medicine'"; desc = "<B>Baby Medicine</B>\nManagements special medicine."},/turf/station/floor,/area/bridge)
+"NX" = (/obj/table{tag = "icon-sides (NORTH)"; icon_state = "sides"; dir = 1},/obj/item/weapon/analyzer,/turf/station/floor,/area/bridge)
+"NY" = (/obj/table{tag = "icon-sides (NORTH)"; icon_state = "sides"; dir = 1},/obj/item/weapon/clipboard,/obj/item/weapon/infra,/turf/station/floor,/area/bridge)
+"NZ" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/wrapping_paper,/obj/item/weapon/wirecutters,/turf/station/floor,/area/bridge)
+"Oa" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 1; req_access_txt = "22"},/turf/station/floor,/area/bridge)
+"Ob" = (/obj/machinery/door/firedoor,/obj/machinery/door/window/security{name = "Bridge"; dir = 1; req_access_txt = "22"},/turf/station/floor,/area/security/main)
+"Oc" = (/obj/table{icon_state = "corners"; dir = 9},/obj/item/weapon/infra,/obj/item/weapon/infra,/turf/station/floor,/area/security/main)
+"Od" = (/obj/table{icon_state = "corners"; dir = 5},/obj/item/weapon/storage/toolbox,/obj/item/weapon/crowbar,/obj/item/weapon/radio/signaller,/turf/station/floor,/area/security/main)
+"Oe" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/obj/cable{icon_state = "4-8"; d1 = 4; d2 = 8},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
+"Of" = (/obj/machinery/firealarm,/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"Og" = (/obj/landmark/alterations{name = "blobstart"; icon_state = "x3"},/turf/station/floor,/area/bridge)
+"Oh" = (/obj/table{icon_state = "corners"; dir = 10},/obj/item/weapon/bottle/rejuvenators,/obj/item/weapon/bottle/rejuvenators,/obj/item/weapon/syringe,/turf/station/floor,/area/bridge)
+"Oi" = (/obj/table{icon_state = "sides"; dir = 2},/obj/item/weapon/bottle/antitoxins,/turf/station/floor,/area/bridge)
+"Oj" = (/obj/table{icon_state = "sides"; dir = 2},/obj/item/weapon/crowbar,/obj/item/weapon/paper/jobs,/obj/item/weapon/handcuffs,/turf/station/floor,/area/bridge)
+"Ok" = (/obj/table{icon_state = "sides"; dir = 2},/obj/item/weapon/radio/beacon,/turf/station/floor,/area/bridge)
+"Ol" = (/obj/table{icon_state = "corners"; dir = 6},/obj/item/weapon/clothing/under/lawyer,/obj/item/weapon/clothing/under/lawyer,/turf/station/floor,/area/bridge)
+"Om" = (/obj/item/weapon/clothing/under/nazi{name = "an owl suit to run around in"; icon_state = "owl"; color = "owl"},/turf/station/floor,/area/bridge)
+"On" = (/obj/item/weapon/clothing/under/nazi{name = "a clown suit to run around in"; icon_state = "clown"; color = "clown"},/turf/station/floor,/area/bridge)
+"Oo" = (/obj/table{icon_state = "alone"},/obj/machinery/recharger,/turf/station/floor,/area/bridge)
+"Op" = (/obj/table{icon_state = "corners"; dir = 10},/obj/machinery/recharger,/obj/item/weapon/clothing/glasses/thermal,/turf/station/floor,/area/security/main)
+"Oq" = (/obj/table{icon_state = "corners"; dir = 6},/obj/item/weapon/handcuffs,/obj/item/weapon/handcuffs,/obj/item/weapon/multitool,/turf/station/floor,/area/security/main)
+"Or" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/main)
+"Os" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"Ot" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"Ou" = (/obj/stool/chair{dir = 1},/turf/station/floor,/area/bridge)
+"Ov" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"Ow" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/obj/window{icon_state = "rwindow"; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"Ox" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 4; invisibility = 0; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"Oy" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 10; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/main)
+"Oz" = (/obj/grille,/obj/window{icon_state = "rwindow"; dir = 10; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/security/brig)
+"OA" = (/obj/machinery/computer/security,/turf/station/floor,/area/bridge)
+"OB" = (/obj/machinery/computer/secure_data,/turf/station/floor,/area/bridge)
+"OC" = (/obj/machinery/computer/engine,/turf/station/floor,/area/bridge)
+"OD" = (/obj/machinery/computer/communications,/turf/station/floor,/area/bridge)
+"OE" = (/obj/machinery/computer/data/weapon/log,/turf/station/floor,/area/bridge)
+"OF" = (/obj/machinery/computer/brig,/turf/station/floor,/area/security/main)
+"OG" = (/obj/item/weapon/crowbar,/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/maintenance/south)
+"OH" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 8; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
+"OI" = (/obj/grille,/obj/window{icon_state = "rwindow"; reinf = 1},/obj/window{icon_state = "rwindow"; dir = 1; reinf = 1},/turf/station/floor{name = "plating"; icon_state = "Floor1"; intact = 0},/area/bridge)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -2514,19 +2517,19 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaMRaaaaaaaaaaMRaaaaaaaaaaaaaaaaaaNeNfwGwGwGwGwGwGwGwGwGwGwGwGwGwGMmwoMoMogmgmgmgmgmgmgmMoMoMoMoMolvaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaMRaaaaaaaaaaMRaaaaaaaaaaaaaaaaaaNewGwGwGwGwGwGwGwGwGwGwGwGwGwGwGMmwoyVyVNgNgMoNhNigmgmMolvlvlvlvaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaMRaaaaaaaaaaMRaaaaaaaaaaaaaaaaaaNexdxdxdxdxdxdxdxdxdxdxdxdxdxdxdNjwoyVyVztztMogmgmgmgmMoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaososososososososososaaaaaaaaaaaaaaNkNkNkNlNlNkNkNkNmNnNoNoNoNoNoNoNoNoNoNpztztNqNhNigmgmNqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosnhwqwqosospanhnhosaaaaaaaaaaaaaaNkxHNrxixiNsNtNkznznznznznznznznznznNuNpztztNqgmgmgmgmNqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosnhwdweososNvNwnhosaaaaaaaaaaaaaaNkxixixixixixiNkznznznznznNxNyNyNzNyNyNpztztNqNhNigmNANqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosososNBososososososNCosososaaaaaaaaaaNkxixixixixixiNkNDNENFznznNGyOyPNGznyRNpztztNqgmgmgmNANqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosNHnhnhnhnhnhnhnhnhnhwWwWosNkNINININkNkxixixixixixiNkNkNoNoznznzozpznzqznzrNpztztMoNhNigmNJMoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNKNLnhnhnhnhNMNMNMnhnhnhnhNNxixixixixiNOxixixixixixiNPxiznNQznznNxNyNyNzNyNyNpDGDGMoMoNRNRMoMoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNKNSnhnhnhryNTNUNVNWnhnhnhNXxixixixixiNYxixiNZOaxixiNPxiznNQznznObyOyPNGznyRNpOcztyVaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNKOdnhnhnhOeOfOgOhOiOjOkOlosNkNINININkNkxixiOmOnxixiNkOoNyNoznznBbBcznBdznzrNpztztOpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOqnhnhnhnhnhOrOrOrnhnhnhnhosaaaaaaaaaaNkxixixixixixiNkaaaaNoznznNxNyNyNzNyNyNpztztOpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOsOtOtOunhnhnhnhnhnhnhnhnhosaaaaaaaaaaOvxhxhxhxhxhxiOvaaaaOwznznNGyOyPNGznyRNpztztOpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOqOxnhOynhOznhOAnhOBosaaaaaaaaaaNkxgxgxgxgxgOCNkaaaaNoznznCqCrznCsznzrNpODztOpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOEOFOFOFOFOFOFOFOFososaaaaaaaaaaNkNkOoOoOoOoNkNkaaaaNpNgNgNpNpNpNpNpNpNpztztOpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNpztztztztztztztztztztztOpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaososososososososososHiHiaaaaaaaaaaNkNkNkNlNlNkNkNkNmNnNoNoNoNoNoNoNoNoNoNpztztNqNhNigmgmNqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosnhwqwqosospanhnhNrHkHiaaaaaaaaaaNkxHNsxixiNtNuNkznznznznznznznznznznNvNpztztNqgmgmgmgmNqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosnhwdweososNwNxnhosNyHiaaaaaaaaaaNkxixixixixixiNkznznznznznNzNANANBNANANpztztNqNhNigmNCNqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosososNDososososososNEosososaaaaaaaaaaNkxixixixixixiNkNFNGNHznznNIyOyPNIznyRNpztztNqgmgmgmNCNqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaosNJnhnhnhnhnhnhnhnhnhwWwWosNkNKNKNKNkNkxiNLxixixixiNkNkNoNoznznzozpznzqznzrNpztztMoNhNigmNMMoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNNNOnhnhnhnhNPNPNPnhnhnhnhNQxixixixixiNRxixixixixixiNSxiznNTznznNzNANANBNANANpDGDGMoMoNUNUMoMoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNNNVnhnhnhryNWNXNYNZnhnhnhOaxixixixixiObxixiOcOdxixiNSxiznNTznznOeyOyPNIznyRNpOfztyVaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNNOgnhnhnhOhOiOjOkOlOmOnOoosNkNKNKNKNkNkxixiOpOqxixiNkOrNANoznznBbBcznBdznzrNpztztOsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOtnhnhnhnhnhOuOuOunhnhnhnhosaaaaaaaaaaNkxixixixixixiNkaaaaNoznznNzNANANBNANANpztztOsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOvOwOwOxnhnhnhnhnhnhnhnhnhosaaaaaaaaaaOyxhxhxhxhxhxiOyaaaaOzznznNIyOyPNIznyRNpztztOsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOtOAnhOBnhOCnhODnhOEosaaaaaaaaaaNkxgxgxgxgxgOFNkaaaaNoznznCqCrznCsznzrNpOGztOsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaOHOIOIOIOIOIOIOIOIososaaaaaaaaaaNkNkOrOrOrOrNkNkaaaaNpNgNgNpNpNpNpNpNpNpztztOsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNpztztztztztztztztztztztOsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNpztztztztztztztztztztztNpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaNpNpDRDRDRDRDRDRDRDRDRNpNpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

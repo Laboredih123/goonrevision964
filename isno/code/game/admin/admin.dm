@@ -44,7 +44,7 @@
 		return 1
 	if (src.address == "127.0.0.1")
 		return 1
-	if (!( src.address ))
+	if (!src.address)
 		return 1
 	return 0
 

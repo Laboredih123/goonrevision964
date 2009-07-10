@@ -19,6 +19,6 @@
 		sleep(WAIT_TIME)
 		src.operating = 0
 		src.icon_state = ""
-		if(user.loc == T && user.handcuffs) // still cuffed, hasn't moved (probably)
+		if(!user.hasMoved(T) && user.handcuffs) // still cuffed, hasn't moved (probably)
 			user.show_viewers("\red <b>[user]'s handcuffs fall off!</b>")
 			user.drop(SLOT_HANDCUFFS)
