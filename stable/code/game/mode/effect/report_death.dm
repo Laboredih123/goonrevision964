@@ -1,5 +1,0 @@
-/datum/effect/report_death/New(mob/M, message)
-	spawn(10)
-		while(M && !M.is_dead)
-			sleep(10)
-		notify_admins(message)
