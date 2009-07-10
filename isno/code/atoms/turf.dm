@@ -9,6 +9,7 @@
 	var/n2=N2STANDARD
 	var/poison=0
 	var/co2 = 0
+	var/no2 = 0
 	var/temp=T20C
 
 	var/intact = 0

@@ -69,3 +69,9 @@
 		if(src.shoes.chained)	tally += 15
 		else					tally--
 	return tally
+
+/mob/proc/hasMoved(T as turf)
+	if(get_turf(src) ==	T)
+		return 1
+	else
+		return 0

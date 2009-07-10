@@ -28,7 +28,7 @@
 			src.damtype = "brute"
 			src.icon_state = "welder"
 		var/turf/location = user.loc
-		if (!( istype(location, /turf) ))
+		if (!istype(location, /turf))
 			return
 		location.firelevel = location.gas.plasma + 1
 	return

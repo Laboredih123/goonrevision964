@@ -21,6 +21,7 @@
 	gas.oxygen = src.oxygen
 	gas.plasma = src.poison
 	gas.co2 = src.co2
+	gas.no2 = src.no2
 	gas.temp = src.temp
 	reset_phases()
 
