@@ -1,4 +1,0 @@
-persh - Primary Administrator
-naveegunner - Primary Administrator
-abakahn - Administrator
-slurm - Primary Administrator
