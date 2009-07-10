@@ -3,7 +3,7 @@ var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</
 
 <p><b>Friday, July 10, 2009</b></p>
 <ul>
-<li><b>926</b> - Pipe filters now bypassable either with screwdriver+wirecoil or alternatively an emag.
+<li><b>936</b> - Pipe filters now bypassable either with screwdriver+wirecoil or alternatively an emag.
 </li>
 </ul>
 
