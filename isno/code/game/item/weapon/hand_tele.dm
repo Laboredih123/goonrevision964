@@ -18,13 +18,15 @@
 			if(T.x>world.maxx-4 || T.x<4)	continue	//putting them at the edge is dumb
 			if(T.y>world.maxy-4 || T.y<4)	continue
 			turfs += T
-		if(turfs)	L["None (Dangerous)"] = pick(turfs)
+		if(turfs)
+			L["None (Dangerous)"] = pick(turfs)
 		var/t1 = input(user, "Please select a teleporter to lock in on.", "Hand Teleporter") in L
 		if (user.equipped() != src || !user.can_use_hands())
 			return
 		var/count = 0	//num of portals from this teleport in world
 		for(var/obj/portal/PO in world)
-			if(PO.creator == src)	count++
+			if(PO.creator == src)
+				count++
 		if(count >= 3)
 			user.see("\red The hand teleporter is recharging!")
 			return

@@ -9,9 +9,13 @@
 /obj/machinery/junction/buildnodes()
 	var/turf/T = src.loc
 	node1 = get_he_machine(level, T, h_dir)	// the h/e pipe
+	world << "got [node1] for 1"
 	node2 = get_machine(level, T , p_dir)	// the regular pipe
-	if(node1) vnode1 = node1.getline()
-	if(node2) vnode2 = node2.getline()
+	world << "got [node2] for 2"
+	if(node1)
+		vnode1 = node1.getline()
+	if(node2)
+		vnode2 = node2.getline()
 
 /obj/machinery/junction/gas_flow()
 	gas.replace_by(ngas)
@@ -19,12 +23,14 @@
 /obj/machinery/junction/process()
 	var/delta_gt
 
-	if(!vnode1)	leak_to_turf(1)
+	if(!vnode1)
+		leak_to_turf(1)
 	else
 		delta_gt = FLOWFRAC * (vnode1.get_gas_val(src) - gas.total() / capmult)
 		calc_delta(src, gas, ngas, vnode1, delta_gt)
 
-	if(!vnode2) leak_to_turf(2)
+	if(!vnode2)
+		leak_to_turf(2)
 	else
 		delta_gt = FLOWFRAC * (vnode2.get_gas_val(src) - gas.total() / capmult)
 		calc_delta(src, gas, ngas, vnode2, delta_gt)
@@ -36,8 +42,12 @@
 /obj/machinery/junction/proc/leak_to_turf(var/port)
 	var/turf/T
 	switch(port)
-		if(1)	T = get_step(src, dir)
-		if(2)	T = get_step(src, turn(dir, 180))
+		if(1)
+			T = get_step(src, dir)
+			world << "leaking 1"
+		if(2)
+			T = get_step(src, turn(dir, 180))
+			world << "leaking 2"
 	if(T.density)
 		T = src.loc
 		if(T.density) return

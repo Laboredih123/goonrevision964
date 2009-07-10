@@ -109,7 +109,6 @@
 		if (counter > 2)
 			counter = 1
 			t1 += "<BR>"
-		//Foreach goto(186)
 	t1 += "</TT></HTML>"
 	ss13_browse(user, t1, "window=met_sheet")
 	return

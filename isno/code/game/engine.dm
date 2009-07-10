@@ -1,48 +1,73 @@
-/obj/machinery/computer/engine/req_access = list(access_eject_engine)
-
-/obj/machinery/computer/engine/ex_act(severity)
-
+/obj/machinery/computer/gasmonitor/ex_act(severity)
 	switch(severity)
 		if(1.0)
-			//SN src = null
 			del(src)
 			return
 		if(2.0)
 			if (prob(50))
-				for(var/x in src.verbs)
-					src.verbs -= x
-					//Foreach goto(58)
+				src.stat |= BROKEN
 				src.icon_state = "broken"
 		if(3.0)
 			if (prob(25))
-				for(var/x in src.verbs)
-					src.verbs -= x
-					//Foreach goto(109)
+				src.stat |= BROKEN
 				src.icon_state = "broken"
 		else
 	return
 
-/obj/machinery/computer/engine/New()
-
-	if (!( engine_eject_control ))
-		engine_eject_control = new /datum/engine_eject(  )
-	..()
-
+/obj/machinery/computer/gasmonitor/New()
 	spawn(5)
 		for(var/obj/machinery/gas_sensor/G in machines)
 			if(G.id == src.id)
 				gs = G
 				break
+	..()
 	return
 
-/obj/machinery/computer/engine/attackby(var/obj/O, mob/user)
+/obj/machinery/computer/gasmonitor/process()
+	if(stat & (NOPOWER|BROKEN))
+		return
+	use_power(250)
+	src.updateDialog()
+	return
+
+obj/machinery/computer/gasmonitor/Topic(href, href_list)
+	if(!..())
+		return 0
+	usr.machine = src
+	if(href_list["close"])
+		ss13_browse(usr, null, "window=computer")
+	return
+
+/obj/machinery/computer/gasmonitor/interact(var/mob/user as mob)
+	if(!..())
+		return
+	user.machine = src
+
+	var/dat = "<B>Gas Monitor - [tag ? tag : ""]</B><HR>"
+
+	if(gs)
+		dat += "[gs.sense_string()]<BR>\n"
+	else
+		dat += "No sensor found.<BR>\n"
+
+	dat += "<A href='?src=\ref[user];mach_close=computer'>Close</A>"
+	ss13_browse(user, dat, "window=computer;size=400x250")
+	return
+
+
+/obj/machinery/computer/gasmonitor/attackby(var/obj/O, mob/user)
 	return src.interact(user)
 
-/obj/machinery/computer/engine/interact(var/mob/user as mob)
 
-	if(stat & (NOPOWER|BROKEN) )
+/obj/machinery/computer/gasmonitor/engine/New()
+	if (!engine_eject_control)
+		engine_eject_control = new /datum/engine_eject(  )
+	..()
+	return
+
+/obj/machinery/computer/gasmonitor/engine/interact(var/mob/user as mob)
+	if(!..())
 		return
-
 	user.machine = src
 	var/dat
 	if (src.temp)
@@ -52,10 +77,10 @@
 
 			dat = "<B>Engine Gas Monitor</B><HR>"
 			if(gs)
-				dat += "[gs.sense_string()]"
+				dat += "[gs.sense_string()]<BR>\n"
 
 			else
-				dat += "No sensor found."
+				dat += "No sensor found.<BR>\n"
 
 
 			dat += "<BR><B>Engine Ejection Module</B><HR>\nStatus: Docked<BR>\n<BR>\nCountdown: [engine_eject_control.timeleft]/60 <A href='?src=\ref[src];reset=1'>\[Reset\]</A><BR>\n<BR>\n<A href='?src=\ref[src];eject=1'>Eject Engine</A><BR>\n<BR>\n<A href='?src=\ref[user];mach_close=computer'>Close</A>"
@@ -67,61 +92,47 @@
 	ss13_browse(user, dat, "window=computer;size=400x500")
 	return
 
-/obj/machinery/computer/engine/process()
-
-	if(stat & (NOPOWER|BROKEN) )
-		return
-	use_power(250)
-	src.updateDialog()
-	return
-
-/obj/machinery/computer/engine/Topic(href, href_list)
+/obj/machinery/computer/gasmonitor/engine/Topic(href, href_list)
 	. = ..()
 	if(!.)
 		return
-	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))) || (istype(usr, /mob/silicon/ai)))
-		usr.machine = src
+	usr.machine = src
 
-		if (href_list["eject"])
-			if (engine_eject_control.status == 0)
-				src.temp = "Eject Engine?<BR><BR><B><A href='?src=\ref[src];eject2=1'>\[Swipe ID to initiate eject sequence\]</A></B><BR><A href='?src=\ref[src];temp=1'>Cancel</A>"
+	if (href_list["eject"])
+		if (engine_eject_control.status == 0)
+			src.temp = "Eject Engine?<BR><BR><B><A href='?src=\ref[src];eject2=1'>\[Swipe ID to initiate eject sequence\]</A></B><BR><A href='?src=\ref[src];temp=1'>Cancel</A>"
 
-		else if (href_list["eject2"])
-			if(!istype(usr, /mob/carbon))
-				return
-			var/mob/carbon/M = usr
-			var/obj/item/weapon/card/id/I = M.equipped()
-			if (istype(I))
-				if(src.check_access(I))
-					if (engine_eject_control.status == 0)
-						engine_eject_control.ejectstart()
-						src.temp = null
-				else
-					usr << "\red Access Denied."
-		else if (href_list["stop"])
-			if (engine_eject_control.status > 0)
-				src.temp = text("Stop Ejection?<BR><BR><A href='?src=\ref[];stop2=1'>Yes</A><BR><A href='?src=\ref[];temp=1'>No</A>", src, src)
+	else if (href_list["eject2"])
+		if(!istype(usr, /mob/carbon))
+			return
+		var/mob/carbon/M = usr
+		var/obj/item/weapon/card/id/I = M.equipped()
+		if (istype(I))
+			if(src.check_access(I))
+				if (engine_eject_control.status == 0)
+					engine_eject_control.ejectstart()
+					src.temp = null
+			else
+				usr << "\red Access Denied."
+	else if (href_list["stop"])
+		if (engine_eject_control.status > 0)
+			src.temp = text("Stop Ejection?<BR><BR><A href='?src=\ref[];stop2=1'>Yes</A><BR><A href='?src=\ref[];temp=1'>No</A>", src, src)
 
-		else if (href_list["stop2"])
-			if (engine_eject_control.status > 0)
-				engine_eject_control.stopcount()
-				src.temp = null
-
-		else if (href_list["reset"])
-			if (engine_eject_control.status == 0)
-				engine_eject_control.resetcount()
-
-		else if (href_list["temp"])
+	else if (href_list["stop2"])
+		if (engine_eject_control.status > 0)
+			engine_eject_control.stopcount()
 			src.temp = null
 
-		src.add_fingerprint(usr)
-		for(var/mob/M in viewers(1, src))
-			if ((M.client && M.machine == src))
-				src.interact(M)
-			//Foreach goto(351)
+	else if (href_list["reset"])
+		if (engine_eject_control.status == 0)
+			engine_eject_control.resetcount()
+
+	else if (href_list["temp"])
+		src.temp = null
+
+	src.add_fingerprint(usr)
+	src.updateUsrDialog()
 	return
-
-
 
 
 /turf/station/engine/interact(var/mob/user as mob)
@@ -143,25 +154,21 @@
 	return
 
 /turf/station/engine/floor/ex_act(severity)
-
 	switch(severity)
 		if(1.0)
 			src.ReplaceWithSpace()
 			src.levelupdate()
-			// del(src)
 		if(2.0)
 			if (prob(50))
 				src.ReplaceWithSpace()
 				src.levelupdate()
-				// del(src)
 	return
 
 /turf/station/engine/floor/blob_act()
 	return
 
 /datum/engine_eject/proc/ejectstart()
-
-	if (!( src.status ))
+	if (!src.status)
 		if (src.timeleft <= 0)
 			src.timeleft = 60
 		station_announce("<B>Alert: Ejection sequence for engine module has been engaged.</B>")
@@ -175,17 +182,15 @@
 			A.updateicon()
 
 		src.status = 1
-		for(var/obj/machinery/computer/engine/E in machines)
+		for(var/obj/machinery/computer/gasmonitor/engine/E in machines)
 			E.icon_state = "engaging"
-			//Foreach goto(113)
 		spawn( 0 )
 			src.countdown()
 			return
 	return
 
 /datum/engine_eject/proc/resetcount()
-
-	if (!( src.status ))
+	if (!src.status)
 		src.resetting = 1
 	sleep(50)
 	if (src.resetting)
@@ -194,7 +199,6 @@
 	return
 
 /datum/engine_eject/proc/countdone()
-
 	src.status = -1.0
 
 	var/list/E = engine_areas()
@@ -217,31 +221,22 @@
 			S.match_gasses(T)
 			S.buildlinks()
 
-
-
 		A.contents += S
 		var/turf/P = new T.type( locate(T.x, T.y, T.z) )
 		var/area/D = locate(/area/dummy)
 		D.contents += P
 
-		//T = null
 
 		del(T)
 		P.buildlinks()
-
-
-
-		//Foreach goto(60)
 	defer_powernet_rebuild = 0
 	makepowernets()
 	station_announce("<B>Engine Ejected!</B>")
-	for(var/obj/machinery/computer/engine/CE in machines)
+	for(var/obj/machinery/computer/gasmonitor/engine/CE in machines)
 		CE.icon_state = "engaged"
-		//Foreach goto(392)
 	return
 
 /datum/engine_eject/proc/stopcount()
-
 	if (src.status > 0)
 		src.status = 0
 		station_announce("<B>Alert: Ejection sequence for engine module has been disengaged!</B>")
@@ -252,13 +247,11 @@
 			A.eject = 0
 			A.updateicon()
 
-		for(var/obj/machinery/computer/engine/CE in machines)
+		for(var/obj/machinery/computer/gasmonitor/engine/CE in machines)
 			CE.icon_state = null
-			//Foreach goto(84)
 	return
 
 /datum/engine_eject/proc/countdown()
-
 	if (src.timeleft <= 0)
 		spawn( 0 )
 			countdone()
@@ -280,12 +273,7 @@
 	for(var/area/A in world)
 		if(istype(A, /area/engine))
 			L += A
-
 	return L
-
-
-
-
 
 
 /obj/machinery/gas_sensor/proc/sense_string()

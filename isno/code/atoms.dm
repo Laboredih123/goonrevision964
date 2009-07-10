@@ -1704,13 +1704,24 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	name = "Research Computer"
 /obj/machinery/computer/data/weapon/log
 	name = "Log Computer"
-/obj/machinery/computer/engine
+
+/obj/machinery/computer/gasmonitor
+	name = "Gas Monitor"
+	icon = 'enginecomputer.dmi'
+	var/id = null
+	var/obj/machinery/gas_sensor/gs = null
+
+/obj/machinery/computer/gasmonitor/engine
 	name = "Engine Control"
+	var/temp = null
+	req_access = list(access_eject_engine)
+
+/obj/machinery/computer/sensor
+	name = "Gas Sensor"
 	icon = 'enginecomputer.dmi'
 	var/temp = null
 	var/id = 1
 	var/obj/machinery/gas_sensor/gs
-	req_access = list(access_eject_engine)
 
 /obj/machinery/computer/hologram_comp
 	name = "Hologram Computer"
