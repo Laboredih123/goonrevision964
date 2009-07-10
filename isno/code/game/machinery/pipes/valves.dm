@@ -23,9 +23,12 @@
 
 /obj/machinery/valve/examine()
 	set src in oview(1)
-
 	usr << "[desc] It is [ open? "open" : "closed"]."
 
+/obj/machinery/valve/dvalve/examine()
+	..()
+	if(NOPOWER)
+		usr << "[desc] It is unpowered."
 
 /obj/machinery/valve/buildnodes()
 
@@ -127,6 +130,13 @@
 		icon_state = "valve0"
 		sleep(10)
 	open = !open
+
+/obj/machinery/valve/dvalve/power_change()
+	..()
+	if(stat & NOPOWER)
+		icon_state = "dvalve[open]-np"
+		return
+	icon_state = "dvalve[open]"
 
 /obj/machinery/valve/dvalve/interact(mob/user)
 	..()

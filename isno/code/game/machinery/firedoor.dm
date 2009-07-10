@@ -3,7 +3,7 @@
 
 /obj/machinery/door/firedoor
 	name = "Firelock"
-	icon = 'Door1.dmi'
+	icon = 'Doorfire.dmi'
 	icon_state = "door0"
 	var/blocked = null
 	opacity = 0
