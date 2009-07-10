@@ -1,0 +1,7 @@
+/datum/effect/meteors/New(interval, nummeteors, wavelength)
+	spawn(0)
+		while(1)
+			for(var/i= 1 to nummeteors)
+				spawn(rand(wavelength))
+					spawn_meteor()
+			sleep(interval)
