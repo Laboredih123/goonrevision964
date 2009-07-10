@@ -1,0 +1,98 @@
+/var/const/meteor_wave_delay = 300 //minimum wait between waves in tenths of seconds
+//set to at least 100 unless you want evarr ruining every round
+
+/var/const/meteors_in_wave = 400
+/var/const/meteors_in_small_wave = 1
+
+/proc/meteor_wave()
+	if(!game_started || wavesecret)
+		return
+
+	wavesecret = 1
+	for(var/i = 0 to meteors_in_wave)
+		spawn(rand(10,100))
+			spawn_meteor()
+	spawn(meteor_wave_delay)
+		wavesecret = 0
+
+/proc/spawn_meteors()
+	for(var/i = 0; i < meteors_in_small_wave; i++)
+		spawn(0)
+			spawn_meteor()
+
+/proc/spawn_meteor()
+	var/startedge = pick(NORTH, SOUTH, EAST, WEST)
+	var/startx
+	var/starty
+	var/endx
+	var/endy
+
+	if(startedge == NORTH)
+		starty = world.maxy - 2 // because of the dumb way the z-level code works
+		endy = 1
+	else if(startedge == SOUTH)
+		starty = 3  // because of the dumb way the z-level code works
+		endy = world.maxy
+	else
+		starty = rand(3, world.maxy - 2)
+		endy = rand(3, world.maxy - 2)
+
+	if(startedge == WEST)
+		startx = 3
+		endx = world.maxx
+	else if(startedge == EAST)
+		startx = world.maxx - 2 // because of the dumb way the z-level code works
+		endx = 1
+	else
+		startx = rand(3, world.maxx - 2)
+		endx = rand(3, world.maxx - 2)
+
+	var/obj/meteor/M
+	if(rand(50))
+		M = new /obj/meteor(locate(startx, starty, 1)) //meteors only spawn on z-level 1, boo hoo
+	else
+		M = new /obj/meteor/small(locate(startx, starty, 1))
+	M.dest = locate(endx, endy, 1)
+	walk_towards(M, M.dest, 1)
+
+/obj/meteor
+	name = "meteor"
+	icon = 'meteor.dmi'
+	icon_state = "flaming"
+	density = 1
+	anchored = 1.0
+	var/hits = 3
+	var/dest
+
+/obj/meteor/small
+	name = "small meteor"
+	icon_state = "smallf"
+
+/obj/meteor/Move()
+	var/turf/T = src.loc
+	if (istype(T, /turf))
+		T.firelevel = T.gas.plasma + 5
+	..()
+	if(src.z != 1 || src.loc == src.dest)
+		del(src)
+		return
+	return
+
+/obj/meteor/Bump(atom/A)
+	spawn( 0 )
+		if (A)
+			A.meteorhit(src)
+		if (--src.hits <= 0)
+			if(prob(15) && !istype(A, /obj/grille))
+				var/obj/item/weapon/tank/plasmatank/pt = new /obj/item/weapon/tank/plasmatank( src )
+				pt.gas.temp = 475+T0C
+				pt.ignite()
+				//this is pretty crazy, but it seems to be the easiest way to get an explosion
+			del(src)
+	return
+
+/obj/meteor/ex_act(severity)
+
+	if (severity < 4)
+		del(src)
+	return

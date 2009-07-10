@@ -1,0 +1,1 @@
+If there were any secret knowledge for non-authenticated users to be told, it'd go here.
