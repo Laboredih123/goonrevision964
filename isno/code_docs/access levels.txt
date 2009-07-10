@@ -44,3 +44,4 @@ access_captain = 23
 access_all_personal_lockers = 24
 access_chapel_office = 25
 access_tech_storage = 26
+access_atmospherics = 27
