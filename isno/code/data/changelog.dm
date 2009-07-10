@@ -1,6 +1,12 @@
 var/changes = {"<font color='blue'><b>Recent changes (apart from bugfixes etc)</b></font>
 <hr>
 
+<p><b>Friday, July 10, 2009</b></p>
+<ul>
+<li><b>926</b> - Pipe filters now bypassable either with screwdriver+wirecoil or alternatively an emag.
+</li>
+</ul>
+
 <p><b>Sunday, July 5, 2009</b></p>
 <ul>
 <li><b>923</b> - "jump" verb no longer shows monkeys, shows their spawn name if different from their current name,
