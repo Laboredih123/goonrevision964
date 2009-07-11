@@ -162,7 +162,7 @@
 	var/dat = "Filter Extraction Rate:<BR>\n<A href='?src=\ref[src];fp=-[num2text(src.maxrate, 9)]'>M</A> <A href='?src=\ref[src];fp=-10000'>-</A> <A href='?src=\ref[src];fp=-1000'>-</A> <A href='?src=\ref[src];fp=-100'>-</A> <A href='?src=\ref[src];fp=-1'>-</A> [src.f_per] <A href='?src=\ref[src];fp=1'>+</A> <A href='?src=\ref[src];fp=100'>+</A> <A href='?src=\ref[src];fp=1000'>+</A> <A href='?src=\ref[src];fp=10000'>+</A> <A href='?src=\ref[src];fp=[num2text(src.maxrate, 9)]'>M</A><BR>\n"
 	for (var/i = 1; i <= gases.len; i++)
 		dat += "[gases[i]]: <A HREF='?src=\ref[src];tg=[1 << (i - 1)]'>[(src.f_mask & 1 << (i - 1)) ? "Extracting" : "Passing"]</A><BR>\n"
-	dat += "<A HREF='?src=\ref[src];mach_close=pipefilter'>Close</A><BR><BR>"
+	dat += "<A HREF='?src=\ref[src];close=1;mach_close=pipefilter'>Close</A><BR><BR>"
 	ss13_browse(user, dat, "window=pipefilter;size=600x300;can_close=0")
 
 /obj/machinery/pipefilter/Topic(href, href_list)
@@ -182,7 +182,6 @@
 		else
 			usr.see("\red Access Denied ([src.name] operation restricted to authorized atmospheric technicians.)")
 		src.updateUsrDialog()
-		src.add_fingerprint(usr)
 	else
 		ss13_browse(usr, null, "window=pipefilter")
 
