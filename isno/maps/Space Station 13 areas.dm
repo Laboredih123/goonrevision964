@@ -10,25 +10,36 @@
 
 */
 
-/area/maintenance/north
-	name = "North Maintenance"
-	icon_state = "green"
-
-/area/maintenance/northeast
-	name = "NorthEast Maintenance"
-	icon_state = "green"
-
-/area/maintenance/west
-	name = "West Maintenance"
-	icon_state = "green"
-
-/area/maintenance/south
-	name = "South Maintenance"
+/area/maintenance/
+	name = "Maintenance"
 	icon_state = "green"
 
 /area/maintenance/storage
 	name = "Maintenance Storage"
-	icon_state = "green"
+
+/area/maintenance/north
+	name = "North Maintenance"
+
+/area/maintenance/northeast
+	name = "Northeast Maintenance"
+
+/area/maintenance/northwest
+	name = "Northwest Maintenance"
+
+/area/maintenance/west
+	name = "West Maintenance"
+
+/area/maintenance/east
+	name = "East Maintenance"
+
+/area/maintenance/south
+	name = "South Maintenance"
+
+/area/maintenance/southeast
+	name = "Southeast Maintenance"
+
+/area/maintenance/southwest
+	name = "Southwest Maintenance"
 
 /area/hallway/primary/north
 	name = "North Primary Hallway"
