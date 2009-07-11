@@ -1,5 +1,4 @@
 /obj/machinery/connector/New()
-
 	..()
 
 	gas = new/datum/substance/gas(src)
@@ -18,20 +17,13 @@
 
 
 /obj/machinery/connector/buildnodes()
+	var/turf/T = src.loc
 
-	var/turf/T = get_step(src.loc, src.dir)
-	var/fdir = turn(src.p_dir, 180)
-
-	for(var/obj/machinery/M in T)
-		if(M.p_dir & fdir)
-			src.node = M
-			break
+//	node = get_machine(level, T , turn(dir, 180) )	// the regular pipe
+	node = get_machine(level, T , dir)	// the regular pipe
 
 	if(node) vnode = node.getline()
-
-
 	return
-
 
 
 /obj/machinery/connector/examine()
@@ -123,7 +115,6 @@
 	if(T && !T.density)
 
 		//if(dbg) world.log << "CLT1: [gas.tostring()] ~ [ngas.tostring()]\nTg = [T.tostring()]"
-
 
 		flow_to_turf(gas, ngas, T)
 
