@@ -103,29 +103,30 @@
 /obj/machinery/pipefilter/attackby(obj/item/weapon/W, mob/user as mob)
 	var/turf/T = get_turf(user)
 	if(!isturf(T))
-		return
+		return 0
 	if(istype(W, /obj/item/weapon/screwdriver))
 		if(src.bypassed)
 			user.see("\red Remove the foreign wires first!")
-			return
+			return 0
 		src.add_fingerprint(user)
 		user.see(text("\red Now []securing the access system panel...", (src.locked) ? "un" : "re"), 1)
 		sleep(30)
 		if(user.hasMoved(T))
-			return
+			return 0
 		src.locked =! src.locked
 		user.see("\red Done!")
 		src.updateicon()
-		return
+		return 1
 	else if(istype(W, /obj/item/weapon/cable_coil) && !src.bypassed)
 		if(src.locked)
 			user.see(text("\red You must remove the panel first!"),1)
-			return
+			return 0
 		var/obj/item/weapon/cable_coil/C = W
 		if(C.use(4))
 			user.see(text("\red You unravel some cable.."),1)
 		else
 			user.see(text("\red Not enough cable! <I>(Requires four pieces)</I>"),1)
+			return 0
 		src.add_fingerprint(user)
 		user.see("\red Now bypassing the access system... <I>(This may take a while)</I>")
 		sleep(100)
@@ -134,7 +135,7 @@
 		src.bypassed = 1
 		user.see("\red Done!")
 		src.updateicon()
-		return
+		return 1
 	else if(istype(W, /obj/item/weapon/wirecutters) && src.bypassed)
 		src.add_fingerprint(user)
 		user.see(text("\red Now removing the bypass wires... <I>(This may take a while)</I>"), 1)
@@ -144,7 +145,7 @@
 		src.bypassed = 0
 		user.see("\red Done!")
 		src.updateicon()
-		return
+		return 1
 	else if(istype(W, /obj/item/weapon/card/emag) && !(src.stat & EMAGGED))
 		src.stat |= EMAGGED
 		src.add_fingerprint(user)
