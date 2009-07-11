@@ -169,6 +169,10 @@
 /obj/machinery/pipefilter/Topic(href, href_list)
 	if(..())
 		usr.machine = src
+		if (href_list["close"])	//can close window if we aren't allowed
+			usr << browse(null, "window=pipefilter;")
+			usr.machine = null
+			return
 		if (src.allowed(usr) || (src.stat & EMAGGED) || src.bypassed)
 			if (href_list["fp"])
 				src.f_per = min(max(round(src.f_per + text2num(href_list["fp"])), 0), src.maxrate)
