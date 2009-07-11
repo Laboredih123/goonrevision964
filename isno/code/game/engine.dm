@@ -30,19 +30,18 @@
 	src.updateDialog()
 	return
 
-obj/machinery/computer/gasmonitor/Topic(href, href_list)
+/obj/machinery/computer/gasmonitor/Topic(href, href_list)
 	if(!..())
 		return 0
 	usr.machine = src
 	if(href_list["close"])
 		ss13_browse(usr, null, "window=computer")
-	return
+	return 1
 
 /obj/machinery/computer/gasmonitor/interact(var/mob/user as mob)
 	if(!..())
-		return
+		return 0
 	user.machine = src
-
 	var/dat = "<B>Gas Monitor - [tag ? tag : ""]</B><HR>"
 
 	if(gs)
@@ -51,13 +50,12 @@ obj/machinery/computer/gasmonitor/Topic(href, href_list)
 		dat += "No sensor found.<BR>\n"
 
 	dat += "<A href='?src=\ref[user];mach_close=computer'>Close</A>"
-	ss13_browse(user, dat, "window=computer;size=400x250")
-	return
+	ss13_browse(user, dat, "window=computer;size=400x500")
+	return 1
 
 
 /obj/machinery/computer/gasmonitor/attackby(var/obj/O, mob/user)
 	return src.interact(user)
-
 
 /obj/machinery/computer/gasmonitor/engine/New()
 	if (!engine_eject_control)
@@ -93,8 +91,7 @@ obj/machinery/computer/gasmonitor/Topic(href, href_list)
 	return
 
 /obj/machinery/computer/gasmonitor/engine/Topic(href, href_list)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	usr.machine = src
 

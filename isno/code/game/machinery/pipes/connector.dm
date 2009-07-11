@@ -117,5 +117,5 @@
 		//if(dbg) world.log << "CLT1: [gas.tostring()] ~ [ngas.tostring()]\nTg = [T.tostring()]"
 
 		flow_to_turf(gas, ngas, T)
-
+		magicleaking(src,"1")
 		//if(dbg) world.log << "CLT2: [gas.tostring()] ~ [ngas.tostring()]\nTg = [T.tostring()]"

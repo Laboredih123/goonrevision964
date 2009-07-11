@@ -44,11 +44,15 @@
 	switch(port)
 		if(1)
 			T = get_step(src, dir)
-			world << "leaking 1"
+			magicleaking(src,"1")
 		if(2)
 			T = get_step(src, turn(dir, 180))
-			world << "leaking 2"
+			magicleaking(src,"2")
 	if(T.density)
 		T = src.loc
 		if(T.density) return
 	flow_to_turf(gas, ngas, T)
+
+/proc/magicleaking(obj/thing, text)
+	if(thing.z>1)
+		world << ("[thing.name] is leaking ( [text] ) @ ([thing.x],[thing.y],[thing.z] - [thing.loc])")

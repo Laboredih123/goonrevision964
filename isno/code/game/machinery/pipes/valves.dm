@@ -114,8 +114,10 @@
 
 	if(port==1)
 		flow_to_turf(gas1, ngas1, T)
+		magicleaking(src,"1")
 	else
 		flow_to_turf(gas2, ngas2, T)
+		magicleaking(src,"2")
 
 /obj/machinery/valve/mvalve/interact(mob/user)
 	..()
