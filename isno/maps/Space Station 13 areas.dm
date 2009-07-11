@@ -57,13 +57,15 @@
 	name = "West Primary Hallway"
 	icon_state = "dk_yellow"
 
-/area/hallway/secondary/exit
-	name = "Exit Shuttle Hallway"
+/area/hallway/shuttle/
+	name = "Shuttle Hallway"
 	icon_state = "yellow"
 
-/area/hallway/secondary/entry
+/area/hallway/shuttle/exit
+	name = "Exit Shuttle Hallway"
+
+/area/hallway/shuttle/entry
 	name = "Entry Shuttle Hallway"
-	icon_state = "yellow"
 
 /area/bridge
 	name = "Bridge"
