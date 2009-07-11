@@ -58,13 +58,15 @@
 	name = "Bridge"
 	icon_state = "bridge"
 
+/area/crew_quarters/
+	name = "Crew Quarters"
+	icon_state = "crew_quarters"
+
 /area/crew_quarters/male
 	name = "Male Quarters"
-	icon_state = "crew_quarters"
 
 /area/crew_quarters/female
 	name = "Female Quarters"
-	icon_state = "crew_quarters"
 
 /area/crew_quarters/captain
 	name = "Captain's Quarters"
@@ -77,11 +79,6 @@
 /area/engine/engine_smes
 	name = "Engine SMES Room"
 	icon_state = "engine"
-
-/area/engine/engine_walls
-	name = "Engine Walls"
-	icon_state = "engine"
-	requires_power = 0
 
 /area/engine/engine_gas_storage
 	name = "Engine Storage"
@@ -98,6 +95,12 @@
 /area/engine/combustion
 	name = "Combustion Chamber"
 	icon_state = "combustion"
+	requires_power = 0
+
+/area/engine/engine_walls
+	name = "Engine Walls"
+	icon_state = "engine"
+	requires_power = 0
 
 /area/engine/engine_control
 	name = "Engine Control"
