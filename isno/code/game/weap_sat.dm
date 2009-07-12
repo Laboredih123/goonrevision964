@@ -98,6 +98,7 @@
 	return
 
 /proc/do_teleport(atom/movable/M as mob|obj, atom/destination, precision)
+	var/turf/origturf = get_turf(M)
 	var/turf/destturf = get_turf(destination)
 
 	var/tx = destturf.x + rand(precision * -1, precision)
@@ -107,7 +108,19 @@
 	if(tx == destturf.x && ty == destturf.y && istype(destination.loc, /obj/closet))
 		tmploc = destination.loc
 
+	//Tell our turf and area we left
+	if(istype(/turf, M.loc))
+		M.loc.Exited(M, origturf)
+		if(istype(/area/, M.loc.loc))
+			M.loc.loc.Exited(M, origturf)
+
 	M.loc = tmploc
+
+	//Tell our new turf and area we have arrived
+	if(istype(/turf, M.loc))
+		M.loc.Entered(M, origturf)
+		if(istype(/area, M.loc.loc))
+			M.loc.loc.Entered(M, origturf)
 
 	var/obj/effects/sparks/O = new /obj/effects/sparks(M)
 	O.dir = pick(NORTH, SOUTH, EAST, WEST)
