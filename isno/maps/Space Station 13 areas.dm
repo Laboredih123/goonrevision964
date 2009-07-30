@@ -155,13 +155,15 @@
 	name = "Brig"
 	icon_state = "brig"
 
+/area/solar/
+	name = "Solar Array"
+	icon_state = "yellow"
+
 /area/solar/north
 	name = "North Solar Array"
-	icon_state = "yellow"
 
 /area/solar/south
 	name = "South Solar Array"
-	icon_state = "south"
 
 /area/syndicate_station
 	name = "Syndicate Station"
@@ -187,13 +189,15 @@
 	name = "Chapel Office"
 	icon_state = "chapel"
 
-/area/storage/tools
-	name = "Tool Storage"
+/area/storage
+	name = "Storage"
 	icon_state = "storage"
+
+/area/storage/tech
+	name = "Technician Storage"
 
 /area/storage/auxillary
 	name = "Auxillary Storage"
-	icon_state = "storage"
 
 /area/storage/eva
 	name = "EVA Storage"
@@ -219,21 +223,21 @@
 	name = "Emergency Storage"
 	icon_state = "storage"
 
-/area/turret_protected/ai_upload
-	name = "AI Upload Chamber"
-	icon_state = "ai_upload"
-
-/area/turret_protected/ai_upload_foyer
-	name = "AI Upload Foyer"
-	icon_state = "ai_upload"
-
 /area/turret_protected/ai
 	name = "AI Chamber"
 	icon_state = "ai"
 
+/area/turret_protected/ai/ai_upload
+	name = "AI Upload Chamber"
+	icon_state = "ai_upload"
+
+/area/turret_protected/ai/ai_upload_foyer
+	name = "AI Upload Foyer"
+	icon_state = "ai_upload"
+
 /area/shuttle
-	requires_power = 0
 	icon_state = "shuttle"
+	requires_power = 0
 
 /area/shuttle/emergency
 	name = "Emergency Shuttle"
@@ -245,8 +249,8 @@
 	name = "Arrival Shuttle"
 
 /area/prespawn
-	requires_power = 0
 	name = "Prespawn Area"
+	requires_power = 0
 
 /area/courtroom
 	name = "Courtroom"

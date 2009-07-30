@@ -107,6 +107,9 @@
 /turf/station/floor/chapel
 	icon_state = "chapel"
 
+/turf/station/floor/chapel/blank
+	icon_state = "chapel_floor_blank"
+
 /turf/station/r_wall
 	name = "r wall"
 	icon = 'wall.dmi'
