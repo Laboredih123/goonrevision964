@@ -88,5 +88,5 @@
 
 	lawyer
 		name = "Lawyer Suit"
-		color = "lawyer"
-		icon_state = "lawyer"
+		color = "lawyer_blue"
+		icon_state = "lawyer_blue"

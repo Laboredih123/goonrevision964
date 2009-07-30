@@ -2320,6 +2320,7 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	anchored = 1
 	density = 1
 	directwired = 1
+	var/health = 10.0
 	var/id = 1
 	var/obscured = 0
 	var/sunfrac = 0

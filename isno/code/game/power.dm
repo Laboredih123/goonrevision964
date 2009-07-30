@@ -1496,13 +1496,40 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 			updateicon()
 			updatefrac()
 
+/obj/machinery/power/solar/attackby(obj/item/weapon/W, mob/user)
+	..()
+	src.add_fingerprint(user)
+	src.health -= W.force
+	src.healthcheck()
+	return
+
+/obj/machinery/power/solar/blob_act()
+	src.health--
+	src.healthcheck()
+	return
+
+/obj/machinery/power/solar/proc/healthcheck()
+	if (src.health <= 0)
+		if(!(stat & BROKEN))
+			broken()
+		else
+			new /obj/item/weapon/shard(src.loc)
+			new /obj/item/weapon/shard(src.loc)
+			del(src)
+			return
+	return
+
 /obj/machinery/power/solar/broken()
 	stat |= BROKEN
 	updateicon()
 
 /obj/machinery/power/solar/meteorhit()
-	if(stat & BROKEN)	del(src)
-	else				src.broken()
+	if(stat & BROKEN)
+		del(src)
+	else
+		src.health -= 15
+		healthcheck()
+	return
 
 //----------------------------------------------------------------------------
 /obj/machinery/power/solar_control/New()
