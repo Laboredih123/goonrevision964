@@ -14,8 +14,9 @@
 	name = "Maintenance"
 	icon_state = "green"
 
-/area/maintenance/storage
-	name = "Maintenance Storage"
+/area/maintenance/atmospherics
+	name = "Atmospherics"
+	icon_state = "atmos"
 
 /area/maintenance/north
 	name = "North Maintenance"
