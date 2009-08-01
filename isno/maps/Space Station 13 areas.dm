@@ -228,6 +228,16 @@
 	name = "AI Chamber"
 	icon_state = "ai"
 
+/area/turret_protected/ai/exterior
+	name = "AI Chamber Exterior"
+	icon_state = "aiexterior"
+
+/area/turret_protected/ai/exterior/south
+	name = "AI Chamber Exterior South"
+
+/area/turret_protected/ai/exterior/north
+	name = "AI Chamber Exterior North"
+
 /area/turret_protected/ai/ai_upload
 	name = "AI Upload Chamber"
 	icon_state = "ai_upload"
