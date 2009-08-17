@@ -9,9 +9,8 @@
 /obj/machinery/junction/buildnodes()
 	var/turf/T = src.loc
 	node1 = get_he_machine(level, T, h_dir)	// the h/e pipe
-	world << "got [node1] for 1"
 	node2 = get_machine(level, T , p_dir)	// the regular pipe
-	world << "got [node2] for 2"
+
 	if(node1)
 		vnode1 = node1.getline()
 	if(node2)
@@ -54,5 +53,4 @@
 	flow_to_turf(gas, ngas, T)
 
 /proc/magicleaking(obj/thing, text)
-	if(thing.z>1)
-		world << ("[thing.name] is leaking ( [text] ) @ ([thing.x],[thing.y],[thing.z] - [thing.loc])")
+//	world << ("[thing.name] is leaking ( [text] ) @ ([thing.x],[thing.y],[thing.z] - [thing.loc])")

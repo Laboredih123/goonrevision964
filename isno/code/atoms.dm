@@ -2068,7 +2068,7 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 	capmult = 3
 	req_access = list(access_atmospherics)
 	var/bypassed = 0
-	var/locked = 0
+	var/locked = 1
 	var/maxrate = 1000000.0
 	var/capacity = 6000000.0
 	var/n1dir

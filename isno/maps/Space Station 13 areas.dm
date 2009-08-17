@@ -14,6 +14,10 @@
 	name = "Maintenance"
 	icon_state = "green"
 
+/area/maintenance/backupGenerator
+	name = "Backup Generator"
+	icon_state = "engine"
+
 /area/maintenance/atmospherics
 	name = "Atmospherics"
 	icon_state = "atmos"
@@ -165,6 +169,9 @@
 
 /area/solar/south
 	name = "South Solar Array"
+
+/area/solar/aiupload
+	name = "AI Upload Solar Array"
 
 /area/syndicate_station
 	name = "Syndicate Station"
