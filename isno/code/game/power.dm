@@ -1462,9 +1462,11 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 
 /obj/machinery/power/solar/proc/updateicon()
 	overlays = null
-	src.dir = angle2dir(adir)
-	if(stat & BROKEN)	overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
-	else 				overlays += image('power.dmi', icon_state = "solar_panel",   layer = FLY_LAYER)
+	if(stat & BROKEN)
+		overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
+	else
+		overlays += image('power.dmi', icon_state = "solar_panel", layer = FLY_LAYER)
+		src.dir = angle2dir(adir)
 
 /obj/machinery/power/solar/proc/updatefrac()
 	if(obscured)
@@ -1553,10 +1555,9 @@ atom/proc/electrocute(mob/carbon/user, prb, netnum)
 		return
 
 	icon_state = "solar_con"
-	overlays = null
-	if(cdir > 0)
+	if(cdir > 1)
+		overlays = null
 		overlays += image('enginecomputer.dmi', "solcon-o", FLY_LAYER, cdir)
-
 
 /obj/machinery/power/solar_control/process()
 	lastgen = gen
