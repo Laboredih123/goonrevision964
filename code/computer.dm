@@ -97,7 +97,7 @@
 	var/list/namecounts = list()
 	var/list/creatures = list()
 	for (var/mob/M in world)
-		if (istype(M, /mob/human) && istype(M:wear_id, /obj/item/weapon/card/id/syndicate))
+		if (istype(M, /mob/human) && istype(M:wear_id, /obj/item/card/id/syndicate))
 			continue
 		else if (M == usr)
 			continue
@@ -131,7 +131,7 @@
 				usr:cameraFollow = null
 				usr << "Follow camera mode ended."
 				return
-			else if (istype(target, /mob/human) && istype(target:wear_id, /obj/item/weapon/card/id/syndicate))
+			else if (istype(target, /mob/human) && istype(target:wear_id, /obj/item/card/id/syndicate))
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return
@@ -385,7 +385,7 @@
 				src.modify = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/card/id))
 					usr.drop_item()
 					I.loc = src
 					src.modify = I
@@ -396,7 +396,7 @@
 				src.scan = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/card/id))
 					usr.drop_item()
 					I.loc = src
 					src.scan = I
@@ -456,7 +456,7 @@
 			if (!( src.printing ))
 				src.printing = 1
 				sleep(50)
-				var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+				var/obj/item/paper/P = new /obj/item/paper( src.loc )
 				var/t1 = "<B>Crew Manifest:</B><BR>"
 				for(var/datum/data/record/t in data_core.general)
 					t1 += text("<B>[]</B> - []<BR>", t.fields["name"], t.fields["rank"])
@@ -669,10 +669,10 @@
 	usr << "This is a remote controlled door!"
 	return
 
-/obj/machinery/door/poddoor/attackby(obj/item/weapon/C as obj, mob/user as mob)
+/obj/machinery/door/poddoor/attackby(obj/item/C as obj, mob/user as mob)
 
 	src.add_fingerprint(user)
-	if (!( istype(C, /obj/item/weapon/crowbar) ))
+	if (!( istype(C, /obj/item/crowbar) ))
 		return
 	if ((src.density && (stat & NOPOWER) && !( src.operating )))
 		spawn( 0 )
@@ -739,7 +739,7 @@
 			var/datum/data/record/G = new /datum/data/record(  )
 			var/datum/data/record/M = new /datum/data/record(  )
 			var/datum/data/record/S = new /datum/data/record(  )
-			var/obj/item/weapon/card/id/C = H.wear_id
+			var/obj/item/card/id/C = H.wear_id
 			if (C)
 				G.fields["rank"] = C.assignment
 			else
@@ -803,9 +803,9 @@
 		step(user.pulling, get_dir(user.pulling.loc, src))
 	return
 
-/turf/space/attackby(obj/item/weapon/tile/T as obj, mob/user as mob)
+/turf/space/attackby(obj/item/tile/T as obj, mob/user as mob)
 
-	if (istype(T, /obj/item/weapon/tile))
+	if (istype(T, /obj/item/tile))
 		T.build(src)
 		T.amount--
 		T.add_fingerprint(user)

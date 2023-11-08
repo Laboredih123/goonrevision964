@@ -16,15 +16,15 @@
 
 /obj/machinery/computer/hologram_comp/proc/render()
 
-	var/icon/I = new /icon( 'human.dmi', "male" )
+	var/icon/I = new /icon( 'icons/human.dmi', "male" )
 	if (src.lumens >= 0)
 		I.Blend(rgb(src.lumens, src.lumens, src.lumens), 0)
 	else
 		I.Blend(rgb(- src.lumens,  -src.lumens,  -src.lumens), 1)
-	I.Blend(new /icon( 'human.dmi', "mouth" ), 3)
-	var/icon/U = new /icon( 'human.dmi', "diaper" )
+	I.Blend(new /icon( 'icons/human.dmi', "mouth" ), 3)
+	var/icon/U = new /icon( 'icons/human.dmi', "diaper" )
 	U.Blend(U, 3)
-	U = new /icon( 'mob.dmi', "hair_a" )
+	U = new /icon( 'icons/mob.dmi', "hair_a" )
 	U.Blend(rgb(src.h_r, src.h_g, src.h_b), 0)
 	I.Blend(U, 3)
 	src.projector.projection.icon = I
@@ -52,7 +52,7 @@
 				del(src.projector.projection)
 			else
 				src.projector.projection = new /obj/projection( src.projector.loc )
-				src.projector.projection.icon = 'human.dmi'
+				src.projector.projection.icon = 'icons/human.dmi'
 				src.projector.projection.icon_state = "male"
 				src.projector.icon_state = "hologram1"
 				src.render()
@@ -108,16 +108,16 @@
 	src.get_dna_ready(M)
 	if ((!( M.w_uniform ) && !( ticker )))
 		if (M.gender == "female")
-			M.w_uniform = new /obj/item/weapon/clothing/under/pink( M )
+			M.w_uniform = new /obj/item/clothing/under/pink( M )
 		else
-			M.w_uniform = new /obj/item/weapon/clothing/under/blue( M )
+			M.w_uniform = new /obj/item/clothing/under/blue( M )
 		M.w_uniform.layer = 20
-		M.shoes = new /obj/item/weapon/clothing/shoes/brown( M )
+		M.shoes = new /obj/item/clothing/shoes/brown( M )
 		M.shoes.layer = 20
 	else
 		M << "You will have to find clothes from the station."
 	if ((ticker && !( M.l_hand )))
-		var/obj/item/weapon/card/id/I = new /obj/item/weapon/card/id( M )
+		var/obj/item/card/id/I = new /obj/item/card/id( M )
 		var/list/L = list( "Technical Assistant", "Research Assistant", "Staff Assistant", "Medical Assistant" )
 		var/choose
 		if (L.Find(M.occupation1))

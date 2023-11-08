@@ -313,7 +313,7 @@ obj/machinery/computer/airtunnel/attack_ai(user as mob)
 
 /obj/machinery/camera/attackby(W as obj, user as mob)
 
-	if (istype(W, /obj/item/weapon/wirecutters))
+	if (istype(W, /obj/item/wirecutters))
 		src.status = !( src.status )
 		if (!( src.status ))
 			for(var/mob/O in viewers(user, null))
@@ -347,8 +347,8 @@ obj/machinery/door_control/attack_ai(mob/user as mob)
 obj/machinery/door_control/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-obj/machinery/door_control/attackby(obj/item/weapon/W, mob/user as mob)
-	if(istype(W, /obj/item/weapon/f_print_scanner))
+obj/machinery/door_control/attackby(obj/item/W, mob/user as mob)
+	if(istype(W, /obj/item/f_print_scanner))
 		return
 	return src.attack_hand(user)
 
@@ -442,8 +442,8 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 				src.scan.loc = src.loc
 				src.scan = null
 			else
-				var/obj/item/weapon/card/id/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
+				var/obj/item/card/id/I = usr.equipped()
+				if (istype(I, /obj/item/card/id))
 					usr.drop_item()
 					I.loc = src
 					src.scan = I
@@ -501,9 +501,9 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 			//Foreach goto(737)
 	return
 
-/obj/machinery/autolathe/attackby(var/obj/item/weapon/O as obj, var/mob/user as mob)
+/obj/machinery/autolathe/attackby(var/obj/item/O as obj, var/mob/user as mob)
 
-	if (istype(O, /obj/item/weapon/sheet/metal))
+	if (istype(O, /obj/item/sheet/metal))
 		if (src.m_amount < 150000.0)
 			src.m_amount += O:height * O:width * O:length * 1000000.0
 			O:amount--
@@ -511,7 +511,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 				//O = null
 				del(O)
 	else
-		if (istype(O, /obj/item/weapon/sheet/glass))
+		if (istype(O, /obj/item/sheet/glass))
 			if (src.g_amount < 75000.0)
 				src.g_amount += O:height * O:width * O:length * 1000000.0
 				O:amount--
@@ -519,7 +519,7 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 					//O = null
 					del(O)
 		else
-			if (istype(O, /obj/item/weapon/screwdriver))
+			if (istype(O, /obj/item/screwdriver))
 				if (!( src.operating ))
 					src.opened = !( src.opened )
 					src.icon_state = text("autolathe[]", (src.opened ? "f" : null))
@@ -610,14 +610,14 @@ obj/machinery/door_control/attack_hand(mob/user as mob)
 	if(prob(25))
 		del(src)
 
-/obj/machinery/injector/attackby(var/obj/item/weapon/tank/W as obj, var/mob/user as mob)
+/obj/machinery/injector/attackby(var/obj/item/tank/W as obj, var/mob/user as mob)
 
 	if(stat & NOPOWER)
 		return
 	use_power(25)
 
-	var/obj/item/weapon/tank/ptank = W
-	if (!( istype(ptank, /obj/item/weapon/tank) ))
+	var/obj/item/tank/ptank = W
+	if (!( istype(ptank, /obj/item/tank) ))
 		return
 	var/turf/T = get_step(src.loc, get_dir(user, src))
 	ptank.gas.turf_add(T, -1.0)

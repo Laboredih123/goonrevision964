@@ -1,4 +1,4 @@
-/obj/item/weapon/t_scanner/attack_self(mob/user)
+/obj/item/t_scanner/attack_self(mob/user)
 
 	on = !on
 	icon_state = "t-scanner[on]"
@@ -7,7 +7,7 @@
 		src.process()
 
 
-/obj/item/weapon/t_scanner/proc/process()
+/obj/item/t_scanner/proc/process()
 
 	while(on)
 		for(var/turf/T in range(1, src.loc) )
@@ -38,14 +38,14 @@
 
 		sleep(10)
 
-/obj/item/weapon/flashlight/attack_self(mob/user)
+/obj/item/flashlight/attack_self(mob/user)
 
 	on = !on
 	icon_state = "flight[on]"
 	if(on)
 		src.process()
 
-/obj/item/weapon/flashlight/proc/process()
+/obj/item/flashlight/proc/process()
 	lastHolder = null
 
 	while(on)

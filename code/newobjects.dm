@@ -5,11 +5,11 @@
 
 
 
-/obj/machinery/cell_charger/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/cell_charger/attackby(obj/item/W, mob/user)
 
 	if(stat & BROKEN) return
 
-	if(istype(W, /obj/item/weapon/cell))
+	if(istype(W, /obj/item/cell))
 		if(charging)
 			user << "There is already a cell in the charger."
 			return
@@ -36,7 +36,7 @@
 		if(chargelevel != newlevel)
 
 			overlays = null
-			overlays += image('power.dmi', "ccharger-o[newlevel]")
+			overlays += image('icons/power.dmi', "ccharger-o[newlevel]")
 
 			chargelevel = newlevel
 

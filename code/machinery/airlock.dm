@@ -58,7 +58,7 @@ Airlock index -> wire color are { 9, 4, 6, 7, 5, 8, 1, 2, 3 }.
 
 /obj/machinery/door/airlock
 	name = "Airlock"
-	icon = 'Door1.dmi'
+	icon = 'icons/Door1.dmi'
 	var/aiControlDisabled = 0 //If 1, AI control is disabled until the AI hacks back in and disables the lock. If 2, the AI has bypassed the lock. If -1, the control is enabled but the AI had bypassed it earlier, so if it is disabled again the AI would have no trouble getting back in.
 	var/secondsMainPowerLost = 0 //The number of seconds until power is restored.
 	var/secondsBackupPowerLost = 0 //The number of seconds until power is restored.
@@ -503,7 +503,7 @@ About the new airlock wires panel:
 			usr.machine = src
 			if (href_list["wires"])
 				var/t1 = text2num(href_list["wires"])
-				if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
+				if (!( istype(usr.equipped(), /obj/item/wirecutters) ))
 					usr << alert("You need wirecutters!", null, null, null, null, null)
 					return
 				if (!( src.p_open ))
@@ -514,7 +514,7 @@ About the new airlock wires panel:
 					src.cut(t1)
 			else if (href_list["pulse"])
 				var/t1 = text2num(href_list["pulse"])
-				if (!( istype(usr.equipped(), /obj/item/weapon/multitool) ))
+				if (!( istype(usr.equipped(), /obj/item/multitool) ))
 					usr << alert("You need a multitool!", null, null, null, null, null)
 					return
 				if (!( src.p_open ))
@@ -659,8 +659,8 @@ About the new airlock wires panel:
 				return
 	
 	src.add_fingerprint(user)
-	if ((istype(C, /obj/item/weapon/weldingtool) && !( src.operating ) && src.density))
-		var/obj/item/weapon/weldingtool/W = C
+	if ((istype(C, /obj/item/weldingtool) && !( src.operating ) && src.density))
+		var/obj/item/weldingtool/W = C
 		if(W.welding)
 			if (W.weldfuel > 2)
 				W.weldfuel -= 2
@@ -673,7 +673,7 @@ About the new airlock wires panel:
 				src.blocked = null
 			src.updateIconState()
 			return
-	else if (istype(C, /obj/item/weapon/wrench))
+	else if (istype(C, /obj/item/wrench))
 		if (src.p_open)
 			if (src.arePowerSystemsOn())
 				if (src.canBoltsBeRaisedManually())
@@ -683,14 +683,14 @@ About the new airlock wires panel:
 			else
 				user << alert("The door's power assist seems to be disabled!", null, null, null, null, null)
 		src.updateIconState()
-	else if (istype(C, /obj/item/weapon/screwdriver))
+	else if (istype(C, /obj/item/screwdriver))
 		src.p_open = !( src.p_open )
 		src.updateIconState()
-	else if (istype(C, /obj/item/weapon/wirecutters))
+	else if (istype(C, /obj/item/wirecutters))
 		return src.attack_hand(user)
-	else if (istype(C, /obj/item/weapon/multitool))
+	else if (istype(C, /obj/item/multitool))
 		return src.attack_hand(user)
-	else if (istype(C, /obj/item/weapon/crowbar))
+	else if (istype(C, /obj/item/crowbar))
 		if ((src.density) && (!( src.blocked ) && !( src.operating ) && ((!src.arePowerSystemsOn()) || (stat & NOPOWER)) && !( src.locked )))
 			spawn( 0 )
 				src.operating = 1

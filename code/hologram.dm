@@ -7,15 +7,15 @@
 
 /obj/machinery/hologram_ai/proc/render()
 
-	var/icon/I = new /icon( 'human.dmi', "male" )
+	var/icon/I = new /icon( 'icons/human.dmi', "male" )
 	if (src.lumens >= 0)
 		I.Blend(rgb(src.lumens, src.lumens, src.lumens), 0)
 	else
 		I.Blend(rgb(- src.lumens,  -src.lumens,  -src.lumens), 1)
-	I.Blend(new /icon( 'human.dmi', "mouth" ), 3)
-	var/icon/U = new /icon( 'human.dmi', "diaper" )
+	I.Blend(new /icon( 'icons/human.dmi', "mouth" ), 3)
+	var/icon/U = new /icon( 'icons/human.dmi', "diaper" )
 	U.Blend(U, 3)
-	U = new /icon( 'mob.dmi', "hair_a" )
+	U = new /icon( 'icons/mob.dmi', "hair_a" )
 	U.Blend(rgb(src.h_r, src.h_g, src.h_b), 0)
 	I.Blend(U, 3)
 	src.projection.icon = I
@@ -44,7 +44,7 @@
 			del(src.projection)
 		else
 			src.projection = new /obj/projection( src.loc )
-			src.projection.icon = 'human.dmi'
+			src.projection.icon = 'icons/human.dmi'
 			src.projection.icon_state = "male"
 			src.icon_state = "hologram1"
 			src.render()

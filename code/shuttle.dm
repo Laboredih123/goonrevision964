@@ -174,9 +174,9 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/machinery/computer/shuttle/attackby(var/obj/item/weapon/card/id/W as obj, var/mob/user as mob)
+/obj/machinery/computer/shuttle/attackby(var/obj/item/card/id/W as obj, var/mob/user as mob)
 
-	if ((!( istype(W, /obj/item/weapon/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
+	if ((!( istype(W, /obj/item/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
 		return
 	if (!W.check_access(access, allowed))
 		user << text("The access level ([]) of [] card is not high enough. ", W.access_level, W.registered)

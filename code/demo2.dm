@@ -299,15 +299,15 @@
 
 /obj/machinery/atmoalter/heater/attackby(var/obj/W as obj, var/mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/tank))
+	if (istype(W, /obj/item/tank))
 		if (src.holding)
 			return
-		var/obj/item/weapon/tank/T = W
+		var/obj/item/tank/T = W
 		user.drop_item()
 		T.loc = src
 		src.holding = T
 	else
-		if (istype(W, /obj/item/weapon/wrench))
+		if (istype(W, /obj/item/wrench))
 			var/obj/machinery/connector/con = locate(/obj/machinery/connector, src.loc)
 
 			if (src.c_status)
@@ -334,21 +334,21 @@
 	src.overlays = 0
 
 	if (src.destroyed)
-		src.icon_state = text("[]-1", src.color)
+		src.icon_state = text("[]-1", src.canister_color)
 
 	else
-		icon_state = "[color]"
+		icon_state = "[canister_color]"
 		if(holding)
-			overlays += image('canister.dmi', "can-oT")
+			overlays += image('icons/canister.dmi', "can-oT")
 
 		if (air_in < 10)
-			overlays += image('canister.dmi', "can-o0")
+			overlays += image('icons/canister.dmi', "can-o0")
 		else if (air_in < (src.gas.maximum * 0.2))
-			overlays += image('canister.dmi', "can-o1")
+			overlays += image('icons/canister.dmi', "can-o1")
 		else if (air_in < (src.maximum * 0.6))
-			overlays += image('canister.dmi', "can-o2")
+			overlays += image('icons/canister.dmi', "can-o2")
 		else
-			overlays += image('canister.dmi', "can-o3")
+			overlays += image('icons/canister.dmi', "can-o3")
 	return
 
 /obj/machinery/atmoalter/canister/proc/healthcheck()
@@ -584,18 +584,18 @@ Pipe Valve Status: []<BR>
 		return
 	return
 
-/obj/machinery/atmoalter/canister/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+/obj/machinery/atmoalter/canister/attackby(var/obj/item/W as obj, var/mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/tank) && !( src.destroyed )))
+	if ((istype(W, /obj/item/tank) && !( src.destroyed )))
 		if (src.holding)
 			return
-		var/obj/item/weapon/tank/T = W
+		var/obj/item/tank/T = W
 		user.drop_item()
 		T.loc = src
 		src.holding = T
 		update_icon()
 	else
-		if ((istype(W, /obj/item/weapon/wrench)))
+		if ((istype(W, /obj/item/wrench)))
 			var/obj/machinery/connector/con = locate(/obj/machinery/connector, src.loc)
 
 

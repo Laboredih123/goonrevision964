@@ -63,7 +63,7 @@
 // charge from 0 to 100%
 // fits in PDU to provide backup power
 
-/obj/item/weapon/cell/New()
+/obj/item/cell/New()
 	..()
 
 	charge = charge * maxcharge/100.0		// map obj has charge as percentage, convert to real value here
@@ -72,7 +72,7 @@
 		updateicon()
 
 
-/obj/item/weapon/cell/proc/updateicon()
+/obj/item/cell/proc/updateicon()
 
 	if(maxcharge == 1000)
 		icon_state = "cell"
@@ -84,14 +84,14 @@
 	if(charge < 0.01)
 		return
 	else if(charge/maxcharge >=0.995)
-		overlays += image('power.dmi', "cell-o2")
+		overlays += image('icons/power.dmi', "cell-o2")
 	else
-		overlays += image('power.dmi', "cell-o1")
+		overlays += image('icons/power.dmi', "cell-o1")
 
-/obj/item/weapon/cell/proc/percent()		// return % charge of cell
+/obj/item/cell/proc/percent()		// return % charge of cell
 	return 100.0*charge/maxcharge
 
-/obj/item/weapon/cell/examine()
+/obj/item/cell/examine()
 	set src in view(1)
 	if(usr && !usr.stat)
 		if(maxcharge == 1000)
@@ -166,7 +166,7 @@
 
 	// is starting with a power cell installed, create it and set its charge level
 	if(cell_type)
-		src.cell = new/obj/item/weapon/cell(src)
+		src.cell = new/obj/item/cell(src)
 		cell.maxcharge = cell_type==1 ? 1000 : 2500				// if type=2, make a hp cell
 		cell.charge = start_charge * cell.maxcharge / 100.0 		// (convert percentage to actual value)
 
@@ -214,26 +214,26 @@
 
 		src.overlays = null
 
-		overlays += image('power.dmi', "apcox-[locked]")	// 0=blue 1=red
-		overlays += image('power.dmi', "apco3-[charging]") // 0=red, 1=yellow/black 2=green
+		overlays += image('icons/power.dmi', "apcox-[locked]")	// 0=blue 1=red
+		overlays += image('icons/power.dmi', "apco3-[charging]") // 0=red, 1=yellow/black 2=green
 
 
 		if(operating)
-			overlays += image('power.dmi', "apco0-[equipment]")	// 0=red, 1=green, 2=blue
-			overlays += image('power.dmi', "apco1-[lighting]")
-			overlays += image('power.dmi', "apco2-[environ]")
+			overlays += image('icons/power.dmi', "apco0-[equipment]")	// 0=red, 1=green, 2=blue
+			overlays += image('icons/power.dmi', "apco1-[lighting]")
+			overlays += image('icons/power.dmi', "apco2-[environ]")
 
 
 
 //attack with an item - open/close cover, insert cell, or (un)lock interface
 
-/obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/apc/attackby(obj/item/W, mob/user)
 
 	if(stat & BROKEN) return
 	if (istype(user, /mob/ai))
 		return src.attack_hand(user)
 
-	if (istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
+	if (istype(W, /obj/item/screwdriver))	// screwdriver means open or close the cover
 		if(opened)
 			opened = 0
 			updateicon()
@@ -244,7 +244,7 @@
 				opened = 1
 				updateicon()
 
-	else if	(istype(W, /obj/item/weapon/cell) && opened)	// trying to put a cell inside
+	else if	(istype(W, /obj/item/cell) && opened)	// trying to put a cell inside
 		if(cell)
 			user << "There is a power cell already installed."
 		else
@@ -255,12 +255,12 @@
 			chargecount = 0
 
 		updateicon()
-	else if (istype(W, /obj/item/weapon/card/id) )			// trying to unlock the interface with an ID card
+	else if (istype(W, /obj/item/card/id) )			// trying to unlock the interface with an ID card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
 		else
-			var/obj/item/weapon/card/id/I = W
+			var/obj/item/card/id/I = W
 			if (I.check_access(access, allowed))
 				locked = !locked
 				user << "You [ locked ? "lock" : "unlock"] the APC interface."
@@ -268,7 +268,7 @@
 			else
 				user << "\red Access denied."
 
-	else if (istype(W, /obj/item/weapon/card/emag) )		// trying to unlock with an emag card
+	else if (istype(W, /obj/item/card/emag) )		// trying to unlock with an emag card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -281,7 +281,7 @@
 				updateicon()
 			else
 				user << "You fail to [ locked ? "unlock" : "lock"] the APC interface."
-	else if (istype(W, /obj/item/weapon/wirecutters))
+	else if (istype(W, /obj/item/wirecutters))
 		if (opened)
 			if (src.aidisabled)
 				user << "You have reconnected the AI control wire in the APC interface."
@@ -804,9 +804,9 @@
 		overlays = null
 
 		if(lastgenlev != 0)
-			overlays += image('power.dmi', "teg-op[lastgenlev]")
+			overlays += image('icons/power.dmi', "teg-op[lastgenlev]")
 
-		overlays += image('power.dmi', "teg-oc[c1on][c2on]")
+		overlays += image('icons/power.dmi', "teg-oc[c1on][c2on]")
 
 #define GENRATE 0.0017			// generator output coefficient from Q
 
@@ -1041,11 +1041,11 @@
 
 // attach a wire to a power machine - leads from the turf you are standing on
 
-/obj/machinery/power/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/attackby(obj/item/W, mob/user)
 
-	if(istype(W, /obj/item/weapon/cable_coil))
+	if(istype(W, /obj/item/cable_coil))
 
-		var/obj/item/weapon/cable_coil/coil = W
+		var/obj/item/cable_coil/coil = W
 
 		var/turf/T = user.loc
 
@@ -1121,18 +1121,18 @@
 		icon_state = "[d1]-[d2]"
 
 
-/obj/cable/attackby(obj/item/weapon/W, mob/user)
+/obj/cable/attackby(obj/item/W, mob/user)
 
 	var/turf/T = src.loc
 	if(T.intact)
 		return
 
-	if(istype(W, /obj/item/weapon/wirecutters))
+	if(istype(W, /obj/item/wirecutters))
 
 		if(src.d1)	// 0-X cables are 1 unit, X-X cables are 2 units long
-			new/obj/item/weapon/cable_coil(T, 2)
+			new/obj/item/cable_coil(T, 2)
 		else
-			new/obj/item/weapon/cable_coil(T, 1)
+			new/obj/item/cable_coil(T, 1)
 
 		for(var/mob/O in viewers(src, null))
 			O.show_message("[user] cuts the cable.", 1)
@@ -1145,8 +1145,8 @@
 		return	// not needed, but for clarity
 
 
-	else if(istype(W, /obj/item/weapon/cable_coil))
-		var/obj/item/weapon/cable_coil/coil = W
+	else if(istype(W, /obj/item/cable_coil))
+		var/obj/item/cable_coil/coil = W
 
 		coil.cable_join(src, user)
 		//note do shock in cable_join
@@ -1183,7 +1183,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 		if(istype(user, /mob/human))
 			var/mob/human/H = user
 			if(H.gloves)
-				var/obj/item/weapon/clothing/gloves/G = H.gloves
+				var/obj/item/clothing/gloves/G = H.gloves
 
 				prot = G.elec_protect
 		else if (istype(user, /mob/ai))
@@ -1226,12 +1226,12 @@ atom/proc/electrocute(mob/user, prb, netnum)
 			del(src)
 		if(2.0)
 			if (prob(50))
-				new/obj/item/weapon/cable_coil(src.loc, src.d1 ? 2 : 1)
+				new/obj/item/cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 
 		if(3.0)
 			if (prob(25))
-				new/obj/item/weapon/cable_coil(src.loc, src.d1 ? 2 : 1)
+				new/obj/item/cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 		else
 	return
@@ -1250,21 +1250,21 @@ atom/proc/electrocute(mob/user, prb, netnum)
 
 // the cable coil object, used for laying cable
 
-/obj/item/weapon/cable_coil/New(loc, length = MAXCOIL)
+/obj/item/cable_coil/New(loc, length = MAXCOIL)
 	src.amount = length
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 	..(loc)
 
-/obj/item/weapon/cable_coil/cut/New(loc)
+/obj/item/cable_coil/cut/New(loc)
 	..(loc)
 	src.amount = rand(1,2)
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 
-/obj/item/weapon/cable_coil/proc/updateicon()
+/obj/item/cable_coil/proc/updateicon()
 	if(amount == 1)
 		icon_state = "coil1"
 		name = "cable piece"
@@ -1275,7 +1275,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 		icon_state = "coil"
 		name = "cable coil"
 
-/obj/item/weapon/cable_coil/examine()
+/obj/item/cable_coil/examine()
 	set src in view(1)
 
 	if(amount == 1)
@@ -1287,17 +1287,17 @@ atom/proc/electrocute(mob/user, prb, netnum)
 
 
 
-/obj/item/weapon/cable_coil/attackby(obj/item/weapon/W, mob/user)
+/obj/item/cable_coil/attackby(obj/item/W, mob/user)
 
-	if( istype(W, /obj/item/weapon/wirecutters) && src.amount > 1)
+	if( istype(W, /obj/item/wirecutters) && src.amount > 1)
 		src.amount--
-		new/obj/item/weapon/cable_coil(user.loc, 1)
+		new/obj/item/cable_coil(user.loc, 1)
 		user << "You cut a piece off the cable coil."
 		src.updateicon()
 		return
 
-	else if( istype(W, /obj/item/weapon/cable_coil) )
-		var/obj/item/weapon/cable_coil/C = W
+	else if( istype(W, /obj/item/cable_coil) )
+		var/obj/item/cable_coil/C = W
 		if(C.amount == MAXCOIL)
 			user << "The coil is too long, you cannot add any more cable to it."
 			return
@@ -1319,7 +1319,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 
 
 
-/obj/item/weapon/cable_coil/proc/use(var/used)
+/obj/item/cable_coil/proc/use(var/used)
 	if(src.amount < used)
 		return 0
 	else if (src.amount == used)
@@ -1333,7 +1333,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 
 // called when cable_coil is clicked on a turf/station/floor
 
-/obj/item/weapon/cable_coil/proc/turf_place(turf/station/floor/F, mob/user)
+/obj/item/cable_coil/proc/turf_place(turf/station/floor/F, mob/user)
 
 	if(!isturf(user.loc))
 		return
@@ -1372,7 +1372,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 
 // called when cable_coil is click on an installed obj/cable
 
-/obj/item/weapon/cable_coil/proc/cable_join(obj/cable/C, mob/user)
+/obj/item/cable_coil/proc/cable_join(obj/cable/C, mob/user)
 
 
 	var/turf/U = user.loc
@@ -1912,17 +1912,17 @@ atom/proc/electrocute(mob/user, prb, netnum)
 		return
 
 
-	overlays += image('power.dmi', "smes-op[online]")
+	overlays += image('icons/power.dmi', "smes-op[online]")
 
 	if(charging)
-		overlays += image('power.dmi', "smes-oc1")
+		overlays += image('icons/power.dmi', "smes-oc1")
 	else
 		if(chargemode)
-			overlays += image('power.dmi', "smes-oc0")
+			overlays += image('icons/power.dmi', "smes-oc0")
 
 	var/clevel = chargedisplay()
 	if(clevel>0)
-		overlays += image('power.dmi', "smes-og[clevel]")
+		overlays += image('icons/power.dmi', "smes-og[clevel]")
 
 /obj/machinery/power/smes/proc/chargedisplay()
 	return round(5.5*charge/capacity)
@@ -2182,9 +2182,9 @@ atom/proc/electrocute(mob/user, prb, netnum)
 /obj/machinery/power/solar/proc/updateicon()
 	overlays = null
 	if(stat & BROKEN)
-		overlays += image('power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
+		overlays += image('icons/power.dmi', icon_state = "solar_panel-b", layer = FLY_LAYER)
 	else
-		overlays += image('power.dmi', icon_state = "solar_panel", layer = FLY_LAYER, dir = EAST)
+		overlays += image('icons/power.dmi', icon_state = "solar_panel", layer = FLY_LAYER, dir = EAST)
 
 /obj/machinery/power/solar/proc/updatefrac()
 
@@ -2261,7 +2261,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 			for(var/obj/machinery/power/solar/S in powernet.nodes)
 				if(S.id == id)
 					cdir = S.adir
-						updateicon()
+					updateicon()
 
 
 
@@ -2278,7 +2278,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 	icon_state = "solar_con"
 	overlays = null
 	if(cdir > 0)
-		overlays += image('enginecomputer.dmi', "solcon-o", FLY_LAYER, cdir)
+		overlays += image('icons/enginecomputer.dmi', "solcon-o", FLY_LAYER, cdir)
 
 
 
@@ -2535,13 +2535,13 @@ atom/proc/electrocute(mob/user, prb, netnum)
 
 
 	if(rpm>50000)
-		overlays += image('pipes.dmi', "comp-o4", FLY_LAYER)
+		overlays += image('icons/pipes.dmi', "comp-o4", FLY_LAYER)
 	else if(rpm>10000)
-		overlays += image('pipes.dmi', "comp-o3", FLY_LAYER)
+		overlays += image('icons/pipes.dmi', "comp-o3", FLY_LAYER)
 	else if(rpm>2000)
-		overlays += image('pipes.dmi', "comp-o2", FLY_LAYER)
+		overlays += image('icons/pipes.dmi', "comp-o2", FLY_LAYER)
 	if(rpm>500)
-		overlays += image('pipes.dmi', "comp-o1", FLY_LAYER)
+		overlays += image('icons/pipes.dmi', "comp-o1", FLY_LAYER)
 
 
 /obj/machinery/power/turbine/New()
@@ -2584,7 +2584,7 @@ atom/proc/electrocute(mob/user, prb, netnum)
 		outturf.firelevel = outturf.poison
 
 	if(lastgen > 100)
-		overlays += image('pipes.dmi', "turb-o", FLY_LAYER)
+		overlays += image('icons/pipes.dmi', "turb-o", FLY_LAYER)
 
 
 	for(var/mob/M in viewers(1, src))

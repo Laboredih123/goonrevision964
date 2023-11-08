@@ -77,7 +77,7 @@
 				src.auth = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/disk/nuclear))
+				if (istype(I, /obj/item/disk/nuclear))
 					usr.drop_item()
 					I.loc = src
 					src.auth = I
@@ -185,7 +185,7 @@
 	return
 	return
 
-/obj/item/weapon/infra_sensor/New()
+/obj/item/infra_sensor/New()
 
 	..()
 	spawn( 0 )
@@ -193,7 +193,7 @@
 		return
 	return
 
-/obj/item/weapon/infra_sensor/proc/process()
+/obj/item/infra_sensor/proc/process()
 
 	if (src.passive)
 		for(var/obj/beam/i_beam/I in range(2, src.loc))
@@ -204,19 +204,19 @@
 		return
 	return
 
-/obj/item/weapon/infra_sensor/proc/burst()
+/obj/item/infra_sensor/proc/burst()
 
 	for(var/obj/beam/i_beam/I in range(src.loc))
 		I.left = 10
 		//Foreach goto(22)
-	for(var/obj/item/weapon/infra/I in range(src.loc))
+	for(var/obj/item/infra/I in range(src.loc))
 		I.visible = 1
 		spawn( 0 )
 			if ((I && I.first))
 				I.first.vis_spread(1)
 			return
 		//Foreach goto(69)
-	for(var/obj/item/weapon/assembly/rad_infra/I in range(src.loc))
+	for(var/obj/item/assembly/rad_infra/I in range(src.loc))
 		I.part2.visible = 1
 		spawn( 0 )
 			if ((I.part2 && I.part2.first))
@@ -225,14 +225,14 @@
 		//Foreach goto(145)
 	return
 
-/obj/item/weapon/infra_sensor/attack_self(mob/user as mob)
+/obj/item/infra_sensor/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/dat = text("<TT><B>Infrared Sensor</B><BR>\n<B>Passive Emitter</B>: []<BR>\n<B>Active Emitter</B>: <A href='?src=\ref[];active=0'>Burst Fire</A>\n</TT>", (src.passive ? text("<A href='?src=\ref[];passive=0'>On</A>", src) : text("<A href='?src=\ref[];passive=1'>Off</A>", src)), src)
 	user << browse(dat, "window=infra_sensor")
 	return
 
-/obj/item/weapon/infra_sensor/Topic(href, href_list)
+/obj/item/infra_sensor/Topic(href, href_list)
 	..()
 	if (usr.stat || usr.restrained())
 		return
@@ -266,14 +266,14 @@
 		return
 	return
 
-/obj/item/weapon/prox_sensor/dropped()
+/obj/item/prox_sensor/dropped()
 
 	spawn( 0 )
 		src.sense()
 		return
 	return
 
-/obj/item/weapon/prox_sensor/proc/sense()
+/obj/item/prox_sensor/proc/sense()
 
 	if (src.state)
 		if (src.master)
@@ -286,7 +286,7 @@
 				//Foreach goto(58)
 	return
 
-/obj/item/weapon/prox_sensor/HasProximity(atom/movable/AM as mob|obj)
+/obj/item/prox_sensor/HasProximity(atom/movable/AM as mob|obj)
 
 	if (istype(AM, /obj/beam))
 		return
@@ -295,11 +295,11 @@
 		src.sense()
 	return
 
-/obj/item/weapon/prox_sensor/attackby(obj/item/weapon/radio/signaler/S as obj, mob/user as mob)
+/obj/item/prox_sensor/attackby(obj/item/radio/signaler/S as obj, mob/user as mob)
 
-	if ((!( istype(S, /obj/item/weapon/radio/signaler) ) || !( S.b_stat )))
+	if ((!( istype(S, /obj/item/radio/signaler) ) || !( S.b_stat )))
 		return
-	var/obj/item/weapon/assembly/rad_prox/R = new /obj/item/weapon/assembly/rad_prox( user )
+	var/obj/item/assembly/rad_prox/R = new /obj/item/assembly/rad_prox( user )
 	S.loc = R
 	R.part1 = S
 	S.layer = initial(S.layer)
@@ -325,7 +325,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/prox_sensor/attack_self(mob/user as mob)
+/obj/item/prox_sensor/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/dat = text("<TT><B>Proximity Sensor</B>\n<B>Status</B>: []<BR>\n[]\n</TT>", (src.state ? text("<A href='?src=\ref[];state=0'>On</A>", src) : text("<A href='?src=\ref[];state=1'>Off</A>", src)), (src.state ? "<b>\red Time On (30)</b>" : text("<A href='?src=\ref[];time=1'>Time On (30)</A>", src)))
@@ -335,7 +335,7 @@
 
 
 
-/obj/item/weapon/prox_sensor/Topic(href, href_list)
+/obj/item/prox_sensor/Topic(href, href_list)
 	..()
 	if (usr.stat || usr.restrained())
 		return
@@ -379,18 +379,18 @@
 		return
 	return
 
-/obj/item/weapon/prox_sensor/attack_paw(mob/user as mob)
+/obj/item/prox_sensor/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/prox_sensor/Move()
+/obj/item/prox_sensor/Move()
 
 	..()
 	src.sense()
 	return
 
-/obj/item/weapon/infra/proc/hit()
+/obj/item/infra/proc/hit()
 
 	if (src.master)
 		spawn( 0 )
@@ -402,7 +402,7 @@
 			//Foreach goto(51)
 	return
 
-/obj/item/weapon/infra/proc/process()
+/obj/item/infra/proc/process()
 
 
 	if ((!( src.first ) && (src.state && (istype(src.loc, /turf) || (src.master && istype(src.master.loc, /turf))))))
@@ -435,11 +435,11 @@
 		return
 	return
 
-/obj/item/weapon/infra/attackby(obj/item/weapon/radio/signaler/S as obj, mob/user as mob)
+/obj/item/infra/attackby(obj/item/radio/signaler/S as obj, mob/user as mob)
 
-	if ((!( istype(S, /obj/item/weapon/radio/signaler) ) || !( S.b_stat )))
+	if ((!( istype(S, /obj/item/radio/signaler) ) || !( S.b_stat )))
 		return
-	var/obj/item/weapon/assembly/rad_infra/R = new /obj/item/weapon/assembly/rad_infra( user )
+	var/obj/item/assembly/rad_infra/R = new /obj/item/assembly/rad_infra( user )
 	S.loc = R
 	R.part1 = S
 	S.layer = initial(S.layer)
@@ -465,7 +465,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/infra/New()
+/obj/item/infra/New()
 
 	spawn( 0 )
 		src.process()
@@ -473,14 +473,14 @@
 	..()
 	return
 
-/obj/item/weapon/infra/attack_self(mob/user as mob)
+/obj/item/infra/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/dat = text("<TT><B>Infrared Laser</B>\n<B>Status</B>: []<BR>\n<B>Visibility</B>: []<BR>\n</TT>", (src.state ? text("<A href='?src=\ref[];state=0'>On</A>", src) : text("<A href='?src=\ref[];state=1'>Off</A>", src)), (src.visible ? text("<A href='?src=\ref[];visible=0'>Visible</A>", src) : text("<A href='?src=\ref[];visible=1'>Invisible</A>", src)))
 	user << browse(dat, "window=infra")
 	return
 
-/obj/item/weapon/infra/Topic(href, href_list)
+/obj/item/infra/Topic(href, href_list)
 	..()
 	if (usr.stat || usr.restrained())
 		return
@@ -518,19 +518,19 @@
 		return
 	return
 
-/obj/item/weapon/infra/attack_paw(mob/user as mob)
+/obj/item/infra/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/infra/attack_hand()
+/obj/item/infra/attack_hand()
 
 	//src.first = null
 	del(src.first)
 	..()
 	return
 
-/obj/item/weapon/infra/Move()
+/obj/item/infra/Move()
 
 	var/t = src.dir
 	..()
@@ -539,13 +539,13 @@
 	del(src.first)
 	return
 
-/obj/item/weapon/infra/verb/rotate()
+/obj/item/infra/verb/rotate()
 	set src in usr
 
 	src.dir = turn(src.dir, 90)
 	return
 
-/obj/item/weapon/timer/proc/time()
+/obj/item/timer/proc/time()
 
 
 	src.c_state(0)
@@ -563,7 +563,7 @@
 //*****RM
 
 
-/obj/item/weapon/timer/proc/c_state(n)
+/obj/item/timer/proc/c_state(n)
 
 	src.icon_state = text("timer[]", n)
 
@@ -575,7 +575,7 @@
 
 //*****
 
-/obj/item/weapon/timer/proc/process()
+/obj/item/timer/proc/process()
 
 	if (src.timing)
 		if (src.time > 0)
@@ -613,15 +613,15 @@
 		return
 	return
 
-/obj/item/weapon/timer/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/timer/attackby(obj/item/W as obj, mob/user as mob)
 
 
-	if (istype(W, /obj/item/weapon/radio/signaler) )
-		var/obj/item/weapon/radio/signaler/S = W
+	if (istype(W, /obj/item/radio/signaler) )
+		var/obj/item/radio/signaler/S = W
 		if(!S.b_stat)
 			return
 
-		var/obj/item/weapon/assembly/rad_time/R = new /obj/item/weapon/assembly/rad_time( user )
+		var/obj/item/assembly/rad_time/R = new /obj/item/assembly/rad_time( user )
 		S.loc = R
 		R.part1 = S
 		S.layer = initial(S.layer)
@@ -648,7 +648,7 @@
 		R.add_fingerprint(user)
 		return
 
-/obj/item/weapon/timer/New()
+/obj/item/timer/New()
 
 	spawn( 0 )
 		src.process()
@@ -656,7 +656,7 @@
 	..()
 	return
 
-/obj/item/weapon/timer/attack_self(mob/user as mob)
+/obj/item/timer/attack_self(mob/user as mob)
 
 	if ((user.contents.Find(src) || user.contents.Find(src.master) || get_dist(src, user) <= 1 && istype(src.loc, /turf)))
 
@@ -671,7 +671,7 @@
 
 	return
 
-/obj/item/weapon/timer/Topic(href, href_list)
+/obj/item/timer/Topic(href, href_list)
 	..()
 	if (usr.stat)
 		return
@@ -709,15 +709,15 @@
 		return
 	return
 
-/obj/item/weapon/assembly/proc/r_signal(signal)
+/obj/item/assembly/proc/r_signal(signal)
 
 	return
 
-/obj/item/weapon/assembly/proc/c_state(n, O as obj)
+/obj/item/assembly/proc/c_state(n, O as obj)
 
 	return
 
-/obj/item/weapon/assembly/shock_kit/Del()
+/obj/item/assembly/shock_kit/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -726,9 +726,9 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/shock_kit/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/shock_kit/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -741,7 +741,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -751,14 +751,14 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/shock_kit/attack_self(mob/user as mob)
+/obj/item/assembly/shock_kit/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.part2.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/shock_kit/r_signal(n, source)
+/obj/item/assembly/shock_kit/r_signal(n, source)
 
 	//*****
 	//world << "Shock kit got r_signal"
@@ -770,18 +770,18 @@
 
 //*****RM
 
-/obj/item/weapon/assembly/time_ignite/Del()
+/obj/item/assembly/time_ignite/Del()
 	del(part1)
 	del(part2)
 	..()
 
-/obj/item/weapon/assembly/time_ignite/attack_self(mob/user as mob)
+/obj/item/assembly/time_ignite/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/time_ignite/r_signal()
+/obj/item/assembly/time_ignite/r_signal()
 
 	for(var/mob/O in hearers(1, src.loc))
 		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
@@ -789,9 +789,9 @@
 	src.part2.ignite()
 	return
 
-/obj/item/weapon/assembly/time_ignite/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/time_ignite/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -804,7 +804,7 @@
 
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -815,14 +815,14 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/time_ignite/c_state(n)
+/obj/item/assembly/time_ignite/c_state(n)
 
 	src.icon_state = text("time_igniter[]", n)
 	return
 
 //*****
 
-/obj/item/weapon/assembly/rad_time/Del()
+/obj/item/assembly/rad_time/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -831,9 +831,9 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/rad_time/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/rad_time/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -846,7 +846,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -857,25 +857,25 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_time/attack_self(mob/user as mob)
+/obj/item/assembly/rad_time/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.part2.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_time/r_signal(n, source)
+/obj/item/assembly/rad_time/r_signal(n, source)
 
 	if (source == src.part2)
 		src.part1.s_signal(1)
 	return
 
-/obj/item/weapon/assembly/rad_prox/c_state(n)
+/obj/item/assembly/rad_prox/c_state(n)
 
 	src.icon_state = text("motion[]", n)
 	return
 
-/obj/item/weapon/assembly/rad_prox/Del()
+/obj/item/assembly/rad_prox/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -884,7 +884,7 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/rad_prox/HasProximity(atom/movable/AM as mob|obj)
+/obj/item/assembly/rad_prox/HasProximity(atom/movable/AM as mob|obj)
 
 	if (istype(AM, /obj/beam))
 		return
@@ -892,9 +892,9 @@
 		src.part2.sense()
 	return
 
-/obj/item/weapon/assembly/rad_prox/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/rad_prox/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -907,7 +907,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -918,43 +918,43 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_prox/attack_self(mob/user as mob)
+/obj/item/assembly/rad_prox/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.part2.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_prox/r_signal(n, source)
+/obj/item/assembly/rad_prox/r_signal(n, source)
 
 	if (source == src.part2)
 		src.part1.s_signal(1)
 	return
 
-/obj/item/weapon/assembly/rad_prox/Move()
+/obj/item/assembly/rad_prox/Move()
 
 	..()
 	src.part2.sense()
 	return
 
-/obj/item/weapon/assembly/rad_prox/attack_paw(mob/user as mob)
+/obj/item/assembly/rad_prox/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/assembly/rad_prox/dropped()
+/obj/item/assembly/rad_prox/dropped()
 
 	spawn( 0 )
 		src.part2.sense()
 		return
 	return
 
-/obj/item/weapon/assembly/rad_infra/c_state(n)
+/obj/item/assembly/rad_infra/c_state(n)
 
 	src.icon_state = text("infrared[]", n)
 	return
 
-/obj/item/weapon/assembly/rad_infra/Del()
+/obj/item/assembly/rad_infra/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -963,9 +963,9 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/rad_infra/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/rad_infra/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -978,7 +978,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -989,20 +989,20 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_infra/attack_self(mob/user as mob)
+/obj/item/assembly/rad_infra/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.part2.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_infra/r_signal(n, source)
+/obj/item/assembly/rad_infra/r_signal(n, source)
 
 	if (source == src.part2)
 		src.part1.s_signal(1)
 	return
 
-/obj/item/weapon/assembly/rad_infra/verb/rotate()
+/obj/item/assembly/rad_infra/verb/rotate()
 	set src in usr
 
 	src.dir = turn(src.dir, 90)
@@ -1010,7 +1010,7 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/item/weapon/assembly/rad_infra/Move()
+/obj/item/assembly/rad_infra/Move()
 
 	var/t = src.dir
 	..()
@@ -1019,19 +1019,19 @@
 	del(src.part2.first)
 	return
 
-/obj/item/weapon/assembly/rad_infra/attack_paw(mob/user as mob)
+/obj/item/assembly/rad_infra/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/assembly/rad_infra/attack_hand(M)
+/obj/item/assembly/rad_infra/attack_hand(M)
 
 	//src.part2.first = null
 	del(src.part2.first)
 	..()
 	return
 
-/obj/item/weapon/assembly/prox_ignite/HasProximity(atom/movable/AM as mob|obj)
+/obj/item/assembly/prox_ignite/HasProximity(atom/movable/AM as mob|obj)
 
 	if (istype(AM, /obj/beam))
 		return
@@ -1039,14 +1039,14 @@
 		src.part1.sense()
 	return
 
-/obj/item/weapon/assembly/prox_ignite/dropped()
+/obj/item/assembly/prox_ignite/dropped()
 
 	spawn( 0 )
 		src.part1.sense()
 		return
 	return
 
-/obj/item/weapon/assembly/prox_ignite/Del()
+/obj/item/assembly/prox_ignite/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -1055,14 +1055,14 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/prox_ignite/c_state(n)
+/obj/item/assembly/prox_ignite/c_state(n)
 
 	src.icon_state = text("prox_igniter[]", n)
 	return
 
-/obj/item/weapon/assembly/prox_ignite/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/prox_ignite/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -1075,7 +1075,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -1086,13 +1086,13 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/prox_ignite/attack_self(mob/user as mob)
+/obj/item/assembly/prox_ignite/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/prox_ignite/r_signal()
+/obj/item/assembly/prox_ignite/r_signal()
 
 	for(var/mob/O in hearers(1, src.loc))
 		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
@@ -1100,7 +1100,7 @@
 	src.part2.ignite()
 	return
 
-/obj/item/weapon/assembly/rad_ignite/Del()
+/obj/item/assembly/rad_ignite/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -1109,9 +1109,9 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/rad_ignite/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/rad_ignite/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -1124,7 +1124,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -1136,13 +1136,13 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_ignite/attack_self(mob/user as mob)
+/obj/item/assembly/rad_ignite/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/rad_ignite/r_signal()
+/obj/item/assembly/rad_ignite/r_signal()
 
 	for(var/mob/O in hearers(1, src.loc))
 		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
@@ -1150,12 +1150,12 @@
 	src.part2.ignite()
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/c_state(n)
+/obj/item/assembly/m_i_ptank/c_state(n)
 
 	src.icon_state = text("m_i_ptank[]", n)
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/HasProximity(atom/movable/AM as mob|obj)
+/obj/item/assembly/m_i_ptank/HasProximity(atom/movable/AM as mob|obj)
 
 	if (istype(AM, /obj/beam))
 		return
@@ -1165,7 +1165,7 @@
 
 
 //*****RM
-/obj/item/weapon/assembly/m_i_ptank/Bump(atom/O)
+/obj/item/assembly/m_i_ptank/Bump(atom/O)
 	spawn(0)
 		//world << "miptank bumped into [O]"
 		if(src.part1.state)
@@ -1176,7 +1176,7 @@
 	..()
 
 
-/obj/item/weapon/assembly/m_i_ptank/verb/Arm()
+/obj/item/assembly/m_i_ptank/verb/Arm()
 	set src in view(1)
 
 	usr.show_message("\blue The proximity sensor has been armed with a delay of 15 seconds.", 1)
@@ -1193,7 +1193,7 @@
 
 
 
-/obj/item/weapon/assembly/m_i_ptank/proc/prox_check()
+/obj/item/assembly/m_i_ptank/proc/prox_check()
 
 	if(!part1 || !part1.state)
 		return
@@ -1210,14 +1210,14 @@
 //*****
 
 
-/obj/item/weapon/assembly/m_i_ptank/dropped()
+/obj/item/assembly/m_i_ptank/dropped()
 
 	spawn( 0 )
 		src.part1.sense()
 		return
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/Del()
+/obj/item/assembly/m_i_ptank/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -1228,10 +1228,10 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/m_i_ptank/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
-		var/obj/item/weapon/assembly/prox_ignite/R = new /obj/item/weapon/assembly/prox_ignite(  )
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
+		var/obj/item/assembly/prox_ignite/R = new /obj/item/assembly/prox_ignite(  )
 		R.part1 = src.part1
 		R.part2 = src.part2
 		R.loc = src.loc
@@ -1258,7 +1258,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/weldingtool) ))
+	if (!( istype(W, /obj/item/weldingtool) ))
 		return
 	if (!( src.status ))
 		src.status = 1
@@ -1272,13 +1272,13 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/attack_self(mob/user as mob)
+/obj/item/assembly/m_i_ptank/attack_self(mob/user as mob)
 
 	src.part1.attack_self(user, 1)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/m_i_ptank/r_signal()
+/obj/item/assembly/m_i_ptank/r_signal()
 	//world << "miptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
 		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
@@ -1296,13 +1296,13 @@
 
 //*****RM
 
-/obj/item/weapon/assembly/t_i_ptank/c_state(n)
+/obj/item/assembly/t_i_ptank/c_state(n)
 
 	src.icon_state = text("t_i_ptank[]", n)
 	return
 
 
-/obj/item/weapon/assembly/t_i_ptank/Del()
+/obj/item/assembly/t_i_ptank/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -1313,10 +1313,10 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/t_i_ptank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/t_i_ptank/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
-		var/obj/item/weapon/assembly/time_ignite/R = new /obj/item/weapon/assembly/time_ignite(  )
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
+		var/obj/item/assembly/time_ignite/R = new /obj/item/assembly/time_ignite(  )
 		R.part1 = src.part1
 		R.part2 = src.part2
 		R.loc = src.loc
@@ -1343,7 +1343,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/weldingtool) ))
+	if (!( istype(W, /obj/item/weldingtool) ))
 		return
 	if (!( src.status ))
 		src.status = 1
@@ -1358,14 +1358,14 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/t_i_ptank/attack_self(mob/user as mob)
+/obj/item/assembly/t_i_ptank/attack_self(mob/user as mob)
 
 	if (src.part1)
 		src.part1.attack_self(user, 1)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/t_i_ptank/r_signal()
+/obj/item/assembly/t_i_ptank/r_signal()
 	//world << "tiptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
 		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)
@@ -1379,7 +1379,7 @@
 	return
 
 /*
-/obj/item/weapon/assembly/t_i_ptank/examine()
+/obj/item/assembly/t_i_ptank/examine()
 	usr << "t_i_ptank"
 	usr << "P1: [src.part1] : [src.part1.master]"
 	usr << "P2: [src.part2] : [src.part2.master]"
@@ -1389,7 +1389,7 @@
 
 
 
-/obj/item/weapon/assembly/r_i_ptank/examine()
+/obj/item/assembly/r_i_ptank/examine()
 	usr << "r_i_ptank"
 	usr << "P1: [src.part1] : [src.part1.master]"
 	usr << "P2: [src.part2] : [src.part2.master]"
@@ -1401,7 +1401,7 @@
 //*****
 
 
-/obj/item/weapon/assembly/r_i_ptank/Del()
+/obj/item/assembly/r_i_ptank/Del()
 
 	//src.part1 = null
 	del(src.part1)
@@ -1412,10 +1412,10 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/r_i_ptank/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/assembly/r_i_ptank/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
-		var/obj/item/weapon/assembly/rad_ignite/R = new /obj/item/weapon/assembly/rad_ignite(  )
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
+		var/obj/item/assembly/rad_ignite/R = new /obj/item/assembly/rad_ignite(  )
 		R.part1 = src.part1
 		R.part2 = src.part2
 		R.loc = src.loc
@@ -1442,7 +1442,7 @@
 		//SN src = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/weldingtool) ))
+	if (!( istype(W, /obj/item/weldingtool) ))
 		return
 	if (!( src.status ))
 		src.status = 1
@@ -1457,14 +1457,14 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/r_i_ptank/attack_self(mob/user as mob)
+/obj/item/assembly/r_i_ptank/attack_self(mob/user as mob)
 
 	if (src.part1)
 		src.part1.attack_self(user, 1)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/r_i_ptank/r_signal()
+/obj/item/assembly/r_i_ptank/r_signal()
 	//world << "riptank [src] got signal"
 	for(var/mob/O in hearers(1, null))
 		O.show_message(text("\icon[] *beep* *beep*", src), 3, "*beep* *beep*", 2)

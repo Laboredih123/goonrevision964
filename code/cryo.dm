@@ -68,7 +68,7 @@
 				src.scan = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/card/id))
 					usr.drop_item()
 					I.loc = src
 					src.scan = I
@@ -87,7 +87,7 @@
 						src.rank = "AI"
 						src.screen = 1
 					else
-						if (istype(src.scan, /obj/item/weapon/card/id))
+						if (istype(src.scan, /obj/item/card/id))
 							src.active1 = null
 							src.active2 = null
 							if(scan.check_access(access, allowed))
@@ -339,7 +339,7 @@
 																				if (!( src.printing ))
 																					src.printing = 1
 																					sleep(50)
-																					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+																					var/obj/item/paper/P = new /obj/item/paper( src.loc )
 																					P.info = "<CENTER><B>Medical Record</B></CENTER><BR>"
 																					if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
 																						P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nAge: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["age"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
@@ -434,7 +434,7 @@
 				src.scan = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/card/id))
 					usr.drop_item()
 					I.loc = src
 					src.scan = I
@@ -452,7 +452,7 @@
 						src.authenticated = 1
 						src.rank = "AI"
 						src.screen = 1
-					if (istype(src.scan, /obj/item/weapon/card/id))
+					if (istype(src.scan, /obj/item/card/id))
 						src.active1 = null
 						src.active2 = null
 						var/list/L = list( "Security Officer", "Forensic Technician", "Prison Warden", "Head of Personnel", "Captain" )
@@ -748,7 +748,7 @@
 																							if (!( src.printing ))
 																								src.printing = 1
 																								sleep(50)
-																								var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+																								var/obj/item/paper/P = new /obj/item/paper( src.loc )
 																								P.info = "<CENTER><B>Security Record</B></CENTER><BR>"
 																								if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
 																									P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nAge: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["age"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])
@@ -864,10 +864,10 @@
 
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))) && (!istype(usr, /mob/ai)))
 		var/d1
-		if (locate(/obj/item/weapon/flasks, src))
+		if (locate(/obj/item/flasks, src))
 			var/counter = 1
 
-			for(var/obj/item/weapon/flasks/F in src)
+			for(var/obj/item/flasks/F in src)
 				d1 += text("<A href = '?src=\ref[];flask=[]'><B>Flask []</B></A>: [] / [] / []<BR>", src, counter, counter, F.oxygen, F.plasma, F.coolant)
 				counter++
 				//Foreach goto(78)
@@ -894,9 +894,9 @@
 		user << browse(dat, "window=freezer;size=400x500")
 	else
 		var/d1 = null
-		if (locate(/obj/item/weapon/flasks, src))
+		if (locate(/obj/item/flasks, src))
 			var/counter = 1
-			for(var/obj/item/weapon/flasks/F in src)
+			for(var/obj/item/flasks/F in src)
 				d1 += text("<A href = '?src=\ref[];flask=[]'><B>[] []</B></A>: []<BR>", src, counter, stars("Flask"), counter, stars(text("[] / [] / []", F.oxygen, F.plasma, F.coolant)))
 				counter++
 				//Foreach goto(380)
@@ -977,9 +977,9 @@
 
 	use_power(50)
 
-	var/obj/item/weapon/flasks/F1
-	var/obj/item/weapon/flasks/F2
-	var/obj/item/weapon/flasks/F3
+	var/obj/item/flasks/F1
+	var/obj/item/flasks/F2
+	var/obj/item/flasks/F3
 	if (src.contents.len >= 3)
 		F3 = src.contents[3]
 	if (src.contents.len >= 2)
@@ -1116,14 +1116,14 @@
 
 	..()
 	var/obj/overlay/O1 = new /obj/overlay(  )
-	O1.icon = 'Cryogenic2.dmi'
+	O1.icon = 'icons/Cryogenic2.dmi'
 	O1.icon_state = "canister connector_0"
 	O1.pixel_y = -16.0
 	src.overlays += O1
 	src.connector = O1
-	new /obj/item/weapon/flasks/oxygen( src )
-	new /obj/item/weapon/flasks/coolant( src )
-	new /obj/item/weapon/flasks/plasma( src )
+	new /obj/item/flasks/oxygen( src )
+	new /obj/item/flasks/coolant( src )
+	new /obj/item/flasks/plasma( src )
 	rebuild_overlay()
 
 	gas = new/obj/substance/gas()
@@ -1157,9 +1157,9 @@
 	return gas
 
 
-/obj/machinery/freezer/attackby(obj/item/weapon/flasks/F as obj, mob/user as mob)
+/obj/machinery/freezer/attackby(obj/item/flasks/F as obj, mob/user as mob)
 
-	if (!( istype(F, /obj/item/weapon/flasks) ))
+	if (!( istype(F, /obj/item/flasks) ))
 		return
 	if (src.contents.len >= 3)
 		user << "\blue All slots are full!"
@@ -1176,7 +1176,7 @@
 		//Foreach goto(17)
 	src.overlays += src.connector
 	var/counter = 0
-	for(var/obj/item/weapon/flasks/F in src.contents)
+	for(var/obj/item/flasks/F in src.contents)
 		var/obj/overlay/O = new /obj/overlay(  )
 		O.icon = F.icon
 		O.icon_state = F.icon_state
@@ -1260,9 +1260,9 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/machinery/sleeper/attackby(obj/item/weapon/grab/G as obj, mob/user as mob)
+/obj/machinery/sleeper/attackby(obj/item/grab/G as obj, mob/user as mob)
 
-	if ((!( istype(G, /obj/item/weapon/grab) ) || !( ismob(G.affecting) )))
+	if ((!( istype(G, /obj/item/grab) ) || !( ismob(G.affecting) )))
 		return
 	if (src.occupant)
 		user << "\blue <B>The sleeper is already occupied!</B>"
@@ -1428,13 +1428,13 @@
 	..()
 	src.layer = 5
 	O1 = new /obj/overlay(  )
-	O1.icon = 'Cryogenic2.dmi'
+	O1.icon = 'icons/Cryogenic2.dmi'
 	O1.icon_state = "cellconsole"
 	O1.pixel_y = -32.0
 	O1.layer = 4
 
 	O2 = new /obj/overlay(  )
-	O2.icon = 'Cryogenic2.dmi'
+	O2.icon = 'icons/Cryogenic2.dmi'
 	O2.icon_state = "cellbottom"
 	O2.pixel_y = -32.0
 	src.pixel_y = 32
@@ -1544,11 +1544,11 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/machinery/cryo_cell/attackby(obj/item/weapon/grab/G as obj, mob/user as mob)
+/obj/machinery/cryo_cell/attackby(obj/item/grab/G as obj, mob/user as mob)
 
 	if (stat & NOPOWER) return
 
-	if ((!( istype(G, /obj/item/weapon/grab) ) || !( ismob(G.affecting) )))
+	if ((!( istype(G, /obj/item/grab) ) || !( ismob(G.affecting) )))
 		return
 	if (src.occupant)
 		user << "\blue <B>The cell is already occupied!</B>"
@@ -1671,8 +1671,8 @@
 					//target.leak_to_turf()
 					var/sendplasma = src.gas.plasma + vnode:gas:plasma + vnode:vnode2:gas:plasma
 					var/sendoxygen = src.gas.oxygen + vnode:gas:oxygen + vnode:vnode2:gas:oxygen
-					for (var/obj/item/weapon/flasks/flask in target.contents)
-						if (istype(flask, /obj/item/weapon/flasks/plasma))
+					for (var/obj/item/flasks/flask in target.contents)
+						if (istype(flask, /obj/item/flasks/plasma))
 							flask.plasma += sendplasma
 							src.gas.plasma = 0
 							src.ngas.plasma = 0
@@ -1681,7 +1681,7 @@
 							src.vnode:vnode2:gas.plasma = 0
 							src.vnode:vnode2:ngas.plasma = 0
 						else
-							if (istype(flask, /obj/item/weapon/flasks/oxygen))
+							if (istype(flask, /obj/item/flasks/oxygen))
 								flask.oxygen += sendoxygen
 								src.gas.oxygen = 0
 								src.ngas.oxygen = 0
@@ -1750,7 +1750,7 @@
 			var/mob/human/H = M
 			var/ok = 0
 			for(var/organ in H.organs)
-				var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", organ)]
+				var/obj/item/organ/external/affecting = H.organs[text("[]", organ)]
 				ok += affecting.heal_damage(5, 5)
 				//Foreach goto(267)
 			if (ok)
@@ -1794,7 +1794,7 @@
 	return
 */
 
-/obj/item/weapon/flasks/examine()
+/obj/item/flasks/examine()
 	set src in oview(1)
 
 	usr << text("The flask is []% full", (src.oxygen + src.plasma + src.coolant) * 100 / 500)

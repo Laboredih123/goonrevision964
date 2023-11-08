@@ -54,14 +54,14 @@
 	return
 	return
 
-/obj/item/weapon/table_parts/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/table_parts/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/sheet/metal( src.loc )
+	if (istype(W, /obj/item/wrench))
+		new /obj/item/sheet/metal( src.loc )
 		//SN src = null
 		del(src)
 
-/obj/item/weapon/table_parts/attack_self(mob/user as mob)
+/obj/item/table_parts/attack_self(mob/user as mob)
 
 	var/state = input(user, "What type of table?", "Assembling Table", null) in list( "sides", "corners", "alone" )
 	var/direct = SOUTH
@@ -79,17 +79,17 @@
 	return
 	return
 
-/obj/item/weapon/rack_parts/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/rack_parts/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/sheet/metal( src.loc )
+	if (istype(W, /obj/item/wrench))
+		new /obj/item/sheet/metal( src.loc )
 		//SN src = null
 		del(src)
 		return
 		return
 	return
 
-/obj/item/weapon/rack_parts/attack_self(mob/user as mob)
+/obj/item/rack_parts/attack_self(mob/user as mob)
 
 	var/obj/rack/R = new /obj/rack( user.loc )
 	R.add_fingerprint(user)
@@ -98,26 +98,26 @@
 	return
 	return
 
-/obj/item/weapon/paper_bin/proc/update()
+/obj/item/paper_bin/proc/update()
 
-	src.icon_state = text("paper_bin[]", ((src.amount || locate(/obj/item/weapon/paper, src)) ? "1" : null))
+	src.icon_state = text("paper_bin[]", ((src.amount || locate(/obj/item/paper, src)) ? "1" : null))
 	return
 
-/obj/item/weapon/paper_bin/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/paper_bin/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/paper))
+	if (istype(W, /obj/item/paper))
 		user.drop_item()
 		W.loc = src
 	else
-		if (istype(W, /obj/item/weapon/weldingtool))
-			var/obj/item/weapon/weldingtool/T = W
+		if (istype(W, /obj/item/weldingtool))
+			var/obj/item/weldingtool/T = W
 			if ((T.welding && T.weldfuel > 0))
 				viewers(user, null) << text("[] burns the paper with the welding tool!", user)
 				spawn( 0 )
 					src.burn(1800000.0)
 					return
 		else
-			if (istype(W, /obj/item/weapon/igniter))
+			if (istype(W, /obj/item/igniter))
 				viewers(user, null) << text("[] burns the paper with the igniter!", user)
 				spawn( 0 )
 					src.burn(1800000.0)
@@ -125,7 +125,7 @@
 	src.update()
 	return
 
-/obj/item/weapon/paper_bin/burn(fi_amount)
+/obj/item/paper_bin/burn(fi_amount)
 
 	flick("paper_binb", src)
 	for(var/atom/movable/A as mob|obj in src)
@@ -136,7 +136,7 @@
 	src.update()
 	return
 
-/obj/item/weapon/paper_bin/MouseDrop(mob/user as mob)
+/obj/item/paper_bin/MouseDrop(mob/user as mob)
 
 	if ((user == usr && (!( usr.restrained() ) && (!( usr.stat ) && (usr.contents.Find(src) || get_dist(src, usr) <= 1)))))
 		if (usr.hand)
@@ -151,18 +151,18 @@
 					return
 	return
 
-/obj/item/weapon/paper_bin/attack_paw(mob/user as mob)
+/obj/item/paper_bin/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/paper_bin/attack_hand(mob/user as mob, unused, flag)
+/obj/item/paper_bin/attack_hand(mob/user as mob, unused, flag)
 
 	if (flag)
 		return ..()
 	src.add_fingerprint(user)
-	if (locate(/obj/item/weapon/paper, src))
-		for(var/obj/item/weapon/paper/P in src)
+	if (locate(/obj/item/paper, src))
+		for(var/obj/item/paper/P in src)
 			if ((usr.hand && !( usr.l_hand )))
 				usr.l_hand = P
 				P.loc = usr
@@ -183,16 +183,16 @@
 	else
 		if (src.amount >= 1)
 			src.amount--
-			new /obj/item/weapon/paper( usr.loc )
+			new /obj/item/paper( usr.loc )
 	src.update()
 	return
 
-/obj/item/weapon/paper_bin/examine()
+/obj/item/paper_bin/examine()
 	set src in oview(1)
 
 	src.amount = round(src.amount)
 	var/n = src.amount
-	for(var/obj/item/weapon/paper/P in src)
+	for(var/obj/item/paper/P in src)
 		n++
 		//Foreach goto(33)
 	if (n <= 0)
@@ -205,15 +205,15 @@
 			usr << text("There are [] papers in the bin.", n)
 	return
 
-/obj/item/weapon/dummy/ex_act()
+/obj/item/dummy/ex_act()
 
 	return
 
-/obj/item/weapon/dummy/blob_act()
+/obj/item/dummy/blob_act()
 
 	return
 
-/obj/item/weapon/ex_act(severity)
+/obj/item/ex_act(severity)
 
 	switch(severity)
 		if(1.0)
@@ -233,13 +233,13 @@
 		else
 	return
 
-/obj/item/weapon/blob_act()
+/obj/item/blob_act()
 	return
 
 
 //*****RM
 
-/obj/item/weapon/verb/move_to_top()
+/obj/item/verb/move_to_top()
 	set src in oview(1)
 
 	if(!istype(src.loc, /turf) || usr.stat || usr.restrained() )
@@ -255,28 +255,28 @@
 //*****
 
 
-/obj/item/weapon/proc/attack_self()
+/obj/item/proc/attack_self()
 
 	return
 
-/obj/item/weapon/proc/talk_into(mob/M as mob, text)
+/obj/item/proc/talk_into(mob/M as mob, text)
 
 	return
 
-/obj/item/weapon/proc/moved(mob/user as mob, old_loc as turf)
+/obj/item/proc/moved(mob/user as mob, old_loc as turf)
 
 	return
 
-/obj/item/weapon/proc/dropped(mob/user as mob)
+/obj/item/proc/dropped(mob/user as mob)
 
 	return
 
-/obj/item/weapon/proc/afterattack()
+/obj/item/proc/afterattack()
 
 	return
 	return
 
-/obj/item/weapon/proc/attack(mob/M as mob, mob/user as mob, def_zone)
+/obj/item/proc/attack(mob/M as mob, mob/user as mob, def_zone)
 
 	for(var/mob/O in viewers(M, null))
 		O.show_message(text("\red <B>[] has been attacked with [][] </B>", M, src, (user ? text(" by [].", user) : ".")), 1)
@@ -285,7 +285,7 @@
 	if (M.health >= -10.0)
 		if (istype(M, /mob/human))
 			var/mob/human/H = M
-			var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
+			var/obj/item/organ/external/affecting = H.organs["chest"]
 			if (istype(user, /mob/human))
 				if (!( def_zone ))
 					var/mob/user2 = user
@@ -295,7 +295,7 @@
 					def_zone = ran_zone(t)
 				if (H.organs[text("[]", def_zone)])
 					affecting = H.organs[text("[]", def_zone)]
-			if (istype(affecting, /obj/item/weapon/organ/external))
+			if (istype(affecting, /obj/item/organ/external))
 				var/b_dam = (src.damtype == "brute" ? src.force : 0)
 				var/f_dam = (src.damtype == "fire" ? src.force : 0)
 				if (def_zone == "head")
@@ -373,7 +373,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/bedsheet/ex_act(severity)
+/obj/item/bedsheet/ex_act(severity)
 
 	if (severity <= 2)
 		//SN src = null
@@ -381,20 +381,20 @@
 		return
 	return
 
-/obj/item/weapon/bedsheet/attack_self(mob/user as mob)
+/obj/item/bedsheet/attack_self(mob/user as mob)
 
 	user.drop_item()
 	src.layer = 5
 	add_fingerprint(user)
 	return
 
-/obj/item/weapon/bedsheet/burn(fi_amount)
+/obj/item/bedsheet/burn(fi_amount)
 
 	if (fi_amount > 3.0E7)
 		spawn( 0 )
 			var/t = src.icon_state
 			src.icon_state = ""
-			src.icon = 'b_items.dmi'
+			src.icon = 'icons/b_items.dmi'
 			flick(text("[]", t), src)
 			spawn( 14 )
 				//SN src = null
@@ -404,19 +404,19 @@
 			return
 	return
 
-/obj/item/weapon/wrapping_paper/examine()
+/obj/item/wrapping_paper/examine()
 	set src in oview(1)
 
 	..()
 	usr << text("There is about [] square units of paper left!", src.amount)
 	return
 
-/obj/item/weapon/wrapping_paper/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/wrapping_paper/attackby(obj/item/W as obj, mob/user as mob)
 
 	if (!( locate(/obj/table, src.loc) ))
 		user << "\blue You MUST put the paper on a table!"
 	if (W.w_class < 4)
-		if ((istype(user.l_hand, /obj/item/weapon/wirecutters) || istype(user.r_hand, /obj/item/weapon/wirecutters)))
+		if ((istype(user.l_hand, /obj/item/wirecutters) || istype(user.r_hand, /obj/item/wirecutters)))
 			var/a_used = 2 ** (src.w_class - 1)
 			if (src.amount < a_used)
 				user << "\blue You need more paper!"
@@ -424,7 +424,7 @@
 			else
 				src.amount -= a_used
 				user.drop_item()
-				var/obj/item/weapon/gift/G = new /obj/item/weapon/gift( src.loc )
+				var/obj/item/gift/G = new /obj/item/gift( src.loc )
 				G.size = W.w_class
 				G.w_class = G.size + 1
 				G.icon_state = text("gift[]", G.size)
@@ -434,7 +434,7 @@
 				W.add_fingerprint(user)
 				src.add_fingerprint(user)
 			if (src.amount <= 0)
-				new /obj/item/weapon/c_tube( src.loc )
+				new /obj/item/c_tube( src.loc )
 				//SN src = null
 				del(src)
 				return
@@ -444,7 +444,7 @@
 		user << "\blue The object is FAR too large!"
 	return
 
-/obj/item/weapon/gift/attack_self(mob/user as mob)
+/obj/item/gift/attack_self(mob/user as mob)
 
 	src.gift.loc = user
 	if (user.hand)
@@ -458,14 +458,14 @@
 	return
 	return
 
-/obj/item/weapon/a_gift/ex_act()
+/obj/item/a_gift/ex_act()
 
 	//SN src = null
 	del(src)
 	return
 	return
 
-/obj/item/weapon/a_gift/burn(fi_amount)
+/obj/item/a_gift/burn(fi_amount)
 
 	if (fi_amount > 900000.0)
 		//SN src = null
@@ -473,11 +473,11 @@
 		return
 	return
 
-/obj/item/weapon/a_gift/attack_self(mob/M as mob)
+/obj/item/a_gift/attack_self(mob/M as mob)
 
 	switch(pick("pill", "flash", "t_gun", "l_gun", "shield", "sword"))
 		if("pill")
-			var/obj/item/weapon/m_pill/superpill/W = new /obj/item/weapon/m_pill/superpill( M )
+			var/obj/item/m_pill/superpill/W = new /obj/item/m_pill/superpill( M )
 			if (M.hand)
 				M.l_hand = W
 			else
@@ -488,7 +488,7 @@
 			del(src)
 			return
 		if("flash")
-			var/obj/item/weapon/flash/W = new /obj/item/weapon/flash( M )
+			var/obj/item/flash/W = new /obj/item/flash( M )
 			if (M.hand)
 				M.l_hand = W
 			else
@@ -499,7 +499,7 @@
 			del(src)
 			return
 		if("l_gun")
-			var/obj/item/weapon/gun/energy/laser_gun/W = new /obj/item/weapon/gun/energy/laser_gun( M )
+			var/obj/item/gun/energy/laser_gun/W = new /obj/item/gun/energy/laser_gun( M )
 			if (M.hand)
 				M.l_hand = W
 			else
@@ -510,7 +510,7 @@
 			del(src)
 			return
 		if("t_gun")
-			var/obj/item/weapon/gun/energy/taser_gun/W = new /obj/item/weapon/gun/energy/taser_gun( M )
+			var/obj/item/gun/energy/taser_gun/W = new /obj/item/gun/energy/taser_gun( M )
 			if (M.hand)
 				M.l_hand = W
 			else
@@ -521,7 +521,7 @@
 			del(src)
 			return
 		if("shield")
-			var/obj/item/weapon/shield/W = new /obj/item/weapon/shield( M )
+			var/obj/item/shield/W = new /obj/item/shield( M )
 			if (M.hand)
 				M.l_hand = W
 			else
@@ -532,7 +532,7 @@
 			del(src)
 			return
 		if("sword")
-			var/obj/item/weapon/sword/W = new /obj/item/weapon/sword( M )
+			var/obj/item/sword/W = new /obj/item/sword( M )
 			if (M.hand)
 				M.l_hand = W
 			else
@@ -545,9 +545,9 @@
 		else
 	return
 
-/obj/item/weapon/flashbang/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/flashbang/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/screwdriver))
+	if (istype(W, /obj/item/screwdriver))
 		if (src.det_time == 30)
 			src.det_time = 30
 			user.show_message("\blue You set the flashbang for 3 second detonation time.")
@@ -559,7 +559,7 @@
 		src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/flashbang/afterattack(atom/target as mob|obj|turf|area, mob/user as mob)
+/obj/item/flashbang/afterattack(atom/target as mob|obj|turf|area, mob/user as mob)
 
 	if (user.equipped() == src)
 		if (!( src.state ))
@@ -576,25 +576,25 @@
 		src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/flashbang/attack_paw(mob/user as mob)
+/obj/item/flashbang/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 
 
-/obj/item/weapon/flashbang/attack_hand()
+/obj/item/flashbang/attack_hand()
 
 	walk(src, null, null)
 	src.throwspeed = 20
 	..()
 	return
 
-/obj/item/weapon/flashbang/proc/prime()
+/obj/item/flashbang/proc/prime()
 
 	var/turf/T = get_turf(src)
 	T.firelevel = T.poison
 	for(var/mob/M in viewers(T, null))
-		if (locate(/obj/item/weapon/cloaking_device, M))
-			for(var/obj/item/weapon/cloaking_device/S in M)
+		if (locate(/obj/item/cloaking_device, M))
+			for(var/obj/item/cloaking_device/S in M)
 				S.active = 0
 				S.icon_state = "shield0"
 				//Foreach goto(72)
@@ -618,7 +618,7 @@
 				if (prob(60))
 					if (istype(M, /mob/human))
 						var/mob/human/H = M
-						if (!( istype(H.ears, /obj/item/weapon/clothing/ears/earmuffs) ))
+						if (!( istype(H.ears, /obj/item/clothing/ears/earmuffs) ))
 							M.ear_damage += 15
 							M.ear_deaf += 60
 					else
@@ -635,7 +635,7 @@
 					M.ear_deaf += 10
 					if (prob(20))
 						M.ear_damage += 10
-					if ((!( istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses) ) || M.paralysis))
+					if ((!( istype(H.glasses, /obj/item/clothing/glasses/sunglasses) ) || M.paralysis))
 						M.stunned = 7
 						M.weakened = 2
 					else
@@ -647,7 +647,7 @@
 					flick("flash", M.flash)
 				else
 					var/mob/human/H = M
-					if (!( istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses) ))
+					if (!( istype(H.glasses, /obj/item/clothing/glasses/sunglasses) ))
 						flick("flash", M.flash)
 				M.eye_stat += rand(1, 2)
 				M.ear_deaf += 5
@@ -679,7 +679,7 @@
 	return
 	return
 
-/obj/item/weapon/flashbang/attack_self(mob/user as mob)
+/obj/item/flashbang/attack_self(mob/user as mob)
 
 	if (!( src.state ))
 		user << "\red You prime the flashbang! [det_time/10] seconds!"
@@ -691,13 +691,13 @@
 			return
 	return
 
-/obj/item/weapon/flash/attack(mob/M as mob, mob/user as mob)
+/obj/item/flash/attack(mob/M as mob, mob/user as mob)
 
 	if (src.shots > 0)
 		var/safety = null
 		if (istype(M, /mob/human))
 			var/mob/human/H = M
-			if (istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
+			if (istype(H.glasses, /obj/item/clothing/glasses/sunglasses))
 				safety = 1
 		if (!( safety ))
 			M.weakened = 10
@@ -721,7 +721,7 @@
 	src.attack_self(user, 1)
 	return
 
-/obj/item/weapon/flash/attack_self(mob/user as mob, flag)
+/obj/item/flash/attack_self(mob/user as mob, flag)
 
 	if ( (world.time + 600) > src.l_time)
 		src.shots = 5
@@ -738,8 +738,8 @@
 	if (!( flag ))
 		for(var/mob/M in oviewers(3, null))
 			if (prob(50))
-				if (locate(/obj/item/weapon/cloaking_device, M))
-					for(var/obj/item/weapon/cloaking_device/S in M)
+				if (locate(/obj/item/cloaking_device, M))
+					for(var/obj/item/cloaking_device/S in M)
 						S.active = 0
 						S.icon_state = "shield0"
 						//Foreach goto(201)
@@ -747,14 +747,14 @@
 				var/safety = null
 				if (istype(M, /mob/human))
 					var/mob/human/H = M
-					if (istype(H.glasses, /obj/item/weapon/clothing/glasses/sunglasses))
+					if (istype(H.glasses, /obj/item/clothing/glasses/sunglasses))
 						safety = 1
 				if (!( safety ))
 					flick("flash", M.flash)
 			//Foreach goto(160)
 	return
 
-/obj/item/weapon/locator/attack_self(mob/user as mob)
+/obj/item/locator/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/dat
@@ -765,7 +765,7 @@
 	user << browse(dat, "window=radio")
 	return
 
-/obj/item/weapon/locator/Topic(href, href_list)
+/obj/item/locator/Topic(href, href_list)
 	..()
 	if (usr.stat || usr.restrained())
 		return
@@ -776,7 +776,7 @@
 			var/turf/sr = get_turf(src)
 			if (sr)
 				src.temp += "<B>Located Beacons:</B><BR>"
-				for(var/obj/item/weapon/radio/beacon/W in world)
+				for(var/obj/item/radio/beacon/W in world)
 					if (W.freq == src.freq)
 						var/turf/tr = get_turf(W)
 						if ((tr.z == sr.z && tr))
@@ -794,7 +794,7 @@
 							src.temp += text("[]-[]-[]<BR>", W.code, dir2text(get_dir(sr, tr)), direct)
 					//Foreach goto(114)
 				src.temp += "<B>Extranneous Signals:</B><BR>"
-				for(var/obj/item/weapon/implant/tracking/W in world)
+				for(var/obj/item/implant/tracking/W in world)
 				//Label_332:
 					if (W.freq == src.freq)
 						if ((!( W.implanted ) || !( ismob(W.loc) )))
@@ -839,7 +839,7 @@
 				//Foreach goto(749)
 	return
 
-/obj/item/weapon/syndicate_uplink/proc/explode()
+/obj/item/syndicate_uplink/proc/explode()
 
 	var/turf/T = get_turf(src.loc)
 	T.firelevel = T.poison
@@ -863,7 +863,7 @@
 	return
 	return
 
-/obj/item/weapon/syndicate_uplink/attack_self(mob/user as mob)
+/obj/item/syndicate_uplink/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/dat
@@ -877,7 +877,7 @@
 	user << browse(dat, "window=radio")
 	return
 
-/obj/item/weapon/syndicate_uplink/Topic(href, href_list)
+/obj/item/syndicate_uplink/Topic(href, href_list)
 	..()
 	if (usr.stat || usr.restrained())
 		return
@@ -889,34 +889,34 @@
 		if (href_list["item_emag"])
 			if (src.uses > 0)
 				src.uses--
-				new /obj/item/weapon/card/emag( H.loc )
+				new /obj/item/card/emag( H.loc )
 		else if (href_list["item_sleepypen"])
 			if (src.uses > 0)
 				src.uses--
-				new /obj/item/weapon/pen/sleepypen( H.loc )
+				new /obj/item/pen/sleepypen( H.loc )
 		else if (href_list["item_cyanide"])
 			if (src.uses > 0)
 				src.uses--
-				new /obj/item/weapon/m_pill/cyanide( H.loc )
+				new /obj/item/m_pill/cyanide( H.loc )
 		else if (href_list["item_cloak"])
 			if (src.uses > 0)
 				src.uses--
-				new /obj/item/weapon/cloaking_device( H.loc )
+				new /obj/item/cloaking_device( H.loc )
 		else if (href_list["item_revolver"])
 			if (src.uses > 0)
 				src.uses--
-				var/obj/item/weapon/gun/revolver/O = new /obj/item/weapon/gun/revolver( H.loc )
+				var/obj/item/gun/revolver/O = new /obj/item/gun/revolver( H.loc )
 				O.bullets = 7
 		else if (href_list["item_imp_freedom"])
 			if (src.uses > 0)
 				src.uses--
-				var/obj/item/weapon/implanter/O = new /obj/item/weapon/implanter( H.loc )
-				O.imp = new /obj/item/weapon/implant/freedom( O )
+				var/obj/item/implanter/O = new /obj/item/implanter( H.loc )
+				O.imp = new /obj/item/implant/freedom( O )
 				src.temp = "The implant is triggered by chuckling and has a random amount of uses."
 		else if (href_list["item_ai_module"])
 			if (src.uses > 0)
 				src.uses--
-				new /obj/item/weapon/aiModule/oxygen( H.loc )
+				new /obj/item/aiModule/oxygen( H.loc )
 		else if (href_list["selfdestruct"])
 			src.temp = text("<A href='?src=\ref[];selfdestruct2=1'>Self-Destruct</A>", src)
 		else if (href_list["selfdestruct2"])
@@ -936,14 +936,14 @@
 				//Foreach goto(488)
 	return
 
-/obj/item/weapon/sword/attack(target as mob, mob/user as mob)
+/obj/item/sword/attack(target as mob, mob/user as mob)
 
 	..()
 	if (user.key == "Exadv1")
 		user.next_move = 1
 	return
 
-/obj/item/weapon/sword/attack_self(mob/user as mob)
+/obj/item/sword/attack_self(mob/user as mob)
 
 	src.active = !( src.active )
 	if (src.active)
@@ -959,7 +959,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/shield/attack_self(mob/user as mob)
+/obj/item/shield/attack_self(mob/user as mob)
 
 	src.active = !( src.active )
 	if (src.active)
@@ -973,7 +973,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/cloaking_device/attack_self(mob/user as mob)
+/obj/item/cloaking_device/attack_self(mob/user as mob)
 
 	src.active = !( src.active )
 	if (src.active)
@@ -987,26 +987,26 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/ammo/proc/update_icon()
+/obj/item/ammo/proc/update_icon()
 
 	return
 
-/obj/item/weapon/ammo/a357/update_icon()
+/obj/item/ammo/a357/update_icon()
 
 	src.icon_state = text("357-[]", src.amount_left)
 	src.desc = text("There are [] bullet\s left!", src.amount_left)
 	return
 
-/obj/item/weapon/gun/revolver/examine()
+/obj/item/gun/revolver/examine()
 	set src in usr
 
 	src.desc = text("There are [] bullet\s left! Uses 357.", src.bullets)
 	..()
 	return
 
-/obj/item/weapon/gun/revolver/attackby(obj/item/weapon/ammo/a357/A as obj, mob/user as mob)
+/obj/item/gun/revolver/attackby(obj/item/ammo/a357/A as obj, mob/user as mob)
 
-	if (istype(A, /obj/item/weapon/ammo/a357))
+	if (istype(A, /obj/item/ammo/a357))
 		if (src.bullets >= 7)
 			user << "\blue It's already fully loaded!"
 			return 1
@@ -1025,7 +1025,7 @@
 		return 1
 	return
 
-/obj/item/weapon/gun/revolver/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
+/obj/item/gun/revolver/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
 
 	if (flag)
 		return
@@ -1065,14 +1065,14 @@
 		return
 	return
 
-/obj/item/weapon/gun/revolver/attack(mob/M as mob, mob/user as mob)
+/obj/item/gun/revolver/attack(mob/M as mob, mob/user as mob)
 
 	src.add_fingerprint(user)
 	var/mob/human/H = M
 
 // ******* Check
 
-	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+	if ((istype(H, /mob/human) && istype(H, /obj/item/clothing/head) && H.flags & 8 && prob(80)))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	if ((user.a_intent == "hurt" && src.bullets > 0))
@@ -1106,14 +1106,14 @@
 			//Foreach goto(315)
 	return
 
-/obj/item/weapon/gun/energy/proc/update_icon()
+/obj/item/gun/energy/proc/update_icon()
 
 	var/ratio = src.charges / 10
 	ratio = round(ratio, 0.25) * 100
 	src.icon_state = text("gun[]", ratio)
 	return
 
-/obj/item/weapon/gun/energy/laser_gun/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
+/obj/item/gun/energy/laser_gun/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
 
 	if (flag)
 		return
@@ -1151,7 +1151,7 @@
 		return
 	return
 
-/obj/item/weapon/gun/energy/laser_gun/attack(mob/M as mob, mob/user as mob)
+/obj/item/gun/energy/laser_gun/attack(mob/M as mob, mob/user as mob)
 
 	..()
 	src.add_fingerprint(user)
@@ -1159,7 +1159,7 @@
 		var/mob/human/H = M
 
 // ******* Check
-		if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+		if ((istype(H, /mob/human) && istype(H, /obj/item/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
 		var/time = rand(10, 120)
@@ -1176,14 +1176,14 @@
 		M.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
 	return
 
-/obj/item/weapon/gun/energy/taser_gun/update_icon()
+/obj/item/gun/energy/taser_gun/update_icon()
 
 	var/ratio = src.charges / maximum_charges
 	ratio = round(ratio, 0.25) * 100
 	src.icon_state = text("t_gun[]", ratio)
 	return
 
-/obj/item/weapon/gun/energy/taser_gun/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
+/obj/item/gun/energy/taser_gun/afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
 
 	if (flag)
 		return
@@ -1220,12 +1220,12 @@
 		return
 	return
 
-/obj/item/weapon/gun/energy/taser_gun/attack(mob/M as mob, mob/user as mob)
+/obj/item/gun/energy/taser_gun/attack(mob/M as mob, mob/user as mob)
 
 	src.add_fingerprint(user)
 	var/mob/human/H = M
 
-	if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+	if ((istype(H, /mob/human) && istype(H, /obj/item/clothing/head) && H.flags & 8 && prob(80)))
 		M << "\red The helmet protects you from being hit hard in the head!"
 		return
 	if(src.charges >= 1)
@@ -1259,74 +1259,74 @@
 	else // no charges in the gun, so they just wallop the target with it
 		..()
 
-/obj/item/weapon/pill_canister/New()
+/obj/item/pill_canister/New()
 
 	..()
 	src.pixel_x = rand(-10.0, 10)
 	src.pixel_y = rand(-10.0, 10)
 	return
 
-/obj/item/weapon/pill_canister/placebo/New()
+/obj/item/pill_canister/placebo/New()
 
 	..()
 	spawn( 2 )
-		var/obj/item/weapon/m_pill/P = new /obj/item/weapon/m_pill( src )
+		var/obj/item/m_pill/P = new /obj/item/m_pill( src )
 		P.amount = 30
 		return
 	return
 
-/obj/item/weapon/pill_canister/antitoxin/New()
+/obj/item/pill_canister/antitoxin/New()
 
 	..()
 	spawn( 2 )
-		var/obj/item/weapon/m_pill/antitoxin/P = new /obj/item/weapon/m_pill/antitoxin( src )
+		var/obj/item/m_pill/antitoxin/P = new /obj/item/m_pill/antitoxin( src )
 		P.amount = 30
 		return
 	return
 
-/obj/item/weapon/pill_canister/Tourette/New()
+/obj/item/pill_canister/Tourette/New()
 
 	..()
 	spawn( 2 )
-		var/obj/item/weapon/m_pill/Tourette/P = new /obj/item/weapon/m_pill/Tourette( src )
+		var/obj/item/m_pill/Tourette/P = new /obj/item/m_pill/Tourette( src )
 		P.amount = 30
 		return
 	return
 
-/obj/item/weapon/pill_canister/sleep/New()
+/obj/item/pill_canister/sleep/New()
 
 	..()
 	spawn( 2 )
-		var/obj/item/weapon/m_pill/sleep/P = new /obj/item/weapon/m_pill/sleep( src )
+		var/obj/item/m_pill/sleep/P = new /obj/item/m_pill/sleep( src )
 		P.amount = 30
 		return
 	return
 
-/obj/item/weapon/pill_canister/epilepsy/New()
+/obj/item/pill_canister/epilepsy/New()
 
 	..()
 	spawn( 2 )
-		var/obj/item/weapon/m_pill/epilepsy/P = new /obj/item/weapon/m_pill/epilepsy( src )
+		var/obj/item/m_pill/epilepsy/P = new /obj/item/m_pill/epilepsy( src )
 		P.amount = 30
 		return
 	return
 
-/obj/item/weapon/pill_canister/cough/New()
+/obj/item/pill_canister/cough/New()
 
 	..()
 	spawn( 2 )
-		var/obj/item/weapon/m_pill/cough/P = new /obj/item/weapon/m_pill/cough( src )
+		var/obj/item/m_pill/cough/P = new /obj/item/m_pill/cough( src )
 		P.amount = 30
 		return
 	return
 
-/obj/item/weapon/pill_canister/examine()
+/obj/item/pill_canister/examine()
 	set src in view(1)
 
 	..()
 	if (src.contents.len)
 		var/pills = 0
-		for(var/obj/item/weapon/m_pill/M in src)
+		for(var/obj/item/m_pill/M in src)
 			pills += M.amount
 			//Foreach goto(39)
 		usr << text("\blue There are [] pills inside!", pills)
@@ -1334,19 +1334,19 @@
 		usr << "\blue It looks empty!"
 	return
 
-/obj/item/weapon/pill_canister/attack_paw(mob/user as mob)
+/obj/item/pill_canister/attack_paw(mob/user as mob)
 
 	if ((ticker && ticker.mode == "monkey"))
 		return src.attack_hand(user)
 	return
 
-/obj/item/weapon/pill_canister/attack_hand(mob/user as mob)
+/obj/item/pill_canister/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
-		var/obj/item/weapon/m_pill/P = pick(src.contents)
+		var/obj/item/m_pill/P = pick(src.contents)
 		if (P)
 			P.amount--
-			var/obj/item/weapon/m_pill/W = new P.type( user )
+			var/obj/item/m_pill/W = new P.type( user )
 			if (user.hand)
 				user.l_hand = W
 			else
@@ -1361,17 +1361,17 @@
 		return ..()
 	return
 
-/obj/item/weapon/pill_canister/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/pill_canister/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/m_pill))
+	if (istype(W, /obj/item/m_pill))
 		var/pills = 0
-		for(var/obj/item/weapon/m_pill/M in src)
+		for(var/obj/item/m_pill/M in src)
 			pills += M.amount
 			//Foreach goto(34)
 		if (pills > 30)
 			usr << "\blue There are too many pills inside!"
 			return
-		for(var/obj/item/weapon/m_pill/M in src)
+		for(var/obj/item/m_pill/M in src)
 			if (M.type == W.type)
 				M.amount += W:amount
 				//W = null
@@ -1383,7 +1383,7 @@
 			W.loc = src
 			src.add_fingerprint(user)
 			W.add_fingerprint(user)
-	if (istype(W, /obj/item/weapon/pen))
+	if (istype(W, /obj/item/pen))
 		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != W)
 			return
@@ -1396,7 +1396,7 @@
 			src.name = "Pill Canister"
 	return
 
-/obj/item/weapon/m_pill/proc/ingest(mob/M as mob)
+/obj/item/m_pill/proc/ingest(mob/M as mob)
 
 	src.amount--
 	if (src.amount <= 0)
@@ -1405,11 +1405,11 @@
 		return
 	return
 
-/obj/item/weapon/m_pill/attack_hand(mob/user as mob)
+/obj/item/m_pill/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/m_pill/F = new src.type( user )
+		var/obj/item/m_pill/F = new src.type( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -1426,7 +1426,7 @@
 		..()
 	return
 
-/obj/item/weapon/m_pill/attack(mob/M as mob, mob/user as mob)
+/obj/item/m_pill/attack(mob/M as mob, mob/user as mob)
 
 	if ((user != M && istype(M, /mob/human)))
 		for(var/mob/O in viewers(M, null))
@@ -1448,7 +1448,7 @@
 		ingest(M)
 	return
 
-/obj/item/weapon/m_pill/superpill/ingest(mob/M as mob)
+/obj/item/m_pill/superpill/ingest(mob/M as mob)
 
 	M.fireloss = 0
 	M.toxloss = 0
@@ -1461,7 +1461,7 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/sleep/ingest(mob/M as mob)
+/obj/item/m_pill/sleep/ingest(mob/M as mob)
 
 	if (M.drowsyness < 600)
 		M.drowsyness += 600
@@ -1474,7 +1474,7 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/cyanide/ingest(mob/M as mob)
+/obj/item/m_pill/cyanide/ingest(mob/M as mob)
 
 	if (M.health > -50.0)
 		M.toxloss += M.health + 50
@@ -1482,7 +1482,7 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/antitoxin/ingest(mob/M as mob)
+/obj/item/m_pill/antitoxin/ingest(mob/M as mob)
 
 	if ((prob(50) && M.drowsyness < 600))
 		M.drowsyness += 60
@@ -1497,7 +1497,7 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/cough/ingest(mob/M as mob)
+/obj/item/m_pill/cough/ingest(mob/M as mob)
 
 	if ((prob(75) && M.drowsyness < 600))
 		M.drowsyness += 60
@@ -1506,7 +1506,7 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/epilepsy/ingest(mob/M as mob)
+/obj/item/m_pill/epilepsy/ingest(mob/M as mob)
 
 	if (M.drowsyness < 600)
 		M.drowsyness += rand(2, 3) * 60
@@ -1515,7 +1515,7 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/Tourette/ingest(mob/M as mob)
+/obj/item/m_pill/Tourette/ingest(mob/M as mob)
 
 	if (M.drowsyness < 600)
 		M.drowsyness += rand(3, 5) * 60
@@ -1524,14 +1524,14 @@
 	..()
 	return
 
-/obj/item/weapon/m_pill/examine()
+/obj/item/m_pill/examine()
 	set src in view(1)
 
 	..()
 	usr << text("\blue There are [] pills left on the stack!", src.amount)
 	return
 
-/obj/item/weapon/m_pill/attackby(obj/item/weapon/m_pill/W as obj, mob/user as mob)
+/obj/item/m_pill/attackby(obj/item/m_pill/W as obj, mob/user as mob)
 
 	if (!( istype(W, src.type) ))
 		return
@@ -1547,7 +1547,7 @@
 		return
 	return
 
-/obj/item/weapon/handcuffs/attack(mob/M as mob, mob/user as mob)
+/obj/item/handcuffs/attack(mob/M as mob, mob/user as mob)
 
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
 		user << "\red You don't have the dexterity to do this!"
@@ -1578,14 +1578,14 @@
 			return
 	return
 
-/obj/item/weapon/throwing(t_dir, rs)
+/obj/item/throwing(t_dir, rs)
 
 	if (!( rs ))
 		rs = src.r_speed
 	..(t_dir, rs)
 	return
 
-/obj/item/weapon/examine()
+/obj/item/examine()
 	set src in view()
 
 	var/t
@@ -1605,9 +1605,9 @@
 	..()
 	return
 
-/obj/item/weapon/attack_hand(mob/user as mob)
+/obj/item/attack_hand(mob/user as mob)
 
-	if (istype(src.loc, /obj/item/weapon/storage))
+	if (istype(src.loc, /obj/item/storage))
 		for(var/mob/M in range(1, src.loc))
 			if (M.s_active == src.loc)
 				if (M.client)
@@ -1626,9 +1626,9 @@
 	user.UpdateClothing()
 	return
 
-/obj/item/weapon/attack_paw(mob/user as mob)
+/obj/item/attack_paw(mob/user as mob)
 
-	if (istype(src.loc, /obj/item/weapon/storage))
+	if (istype(src.loc, /obj/item/storage))
 		for(var/mob/M in range(1, src.loc))
 			if (M.s_active == src.loc)
 				if (M.client)
@@ -1646,7 +1646,7 @@
 	user.UpdateClothing()
 	return
 
-/obj/item/weapon/wire/proc/update()
+/obj/item/wire/proc/update()
 
 	if (src.amount > 1)
 		src.icon_state = "spool_wire"
@@ -1656,7 +1656,7 @@
 		src.desc = "This is just a simple piece of regular insulated wire."
 	return
 
-/obj/item/weapon/wire/attack_self(mob/user as mob)
+/obj/item/wire/attack_self(mob/user as mob)
 
 	if (src.laying)
 		src.laying = 0
@@ -1665,7 +1665,7 @@
 		user << "\blue You are not using this to lay wire..."
 	return
 
-/obj/item/weapon/card/data/verb/label(t as text)
+/obj/item/card/data/verb/label(t as text)
 	set src in usr
 
 	if (t)
@@ -1675,7 +1675,7 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/item/weapon/card/id/attack_self(mob/user as mob)
+/obj/item/card/id/attack_self(mob/user as mob)
 
 	for(var/mob/O in viewers(user, null))
 		O.show_message(text("[] shows you: \icon[] []: assignment: []", user, src, src.name, src.assignment), 1)
@@ -1683,7 +1683,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/card/id/verb/read()
+/obj/item/card/id/verb/read()
 	set src in usr
 
 	usr << text("\icon[] []: The current assignment on the card is [].", src, src.name, src.assignment)
@@ -1693,7 +1693,7 @@
 // new check_access for ID cards
 // returns 1 if passed check, 0 if denied
 
-/obj/item/weapon/card/id/proc/check_access(var/access, var/allowed)
+/obj/item/card/id/proc/check_access(var/access, var/allowed)
 
 	if(!access && !allowed)		// if neither set, allow by default
 		return 1
@@ -1726,11 +1726,11 @@
 
 
 
-/obj/item/weapon/rods/attack_hand(mob/user as mob)
+/obj/item/rods/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/rods/F = new /obj/item/weapon/rods( user )
+		var/obj/item/rods/F = new /obj/item/rods( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -1747,9 +1747,9 @@
 		..()
 	return
 
-/obj/item/weapon/rods/attackby(obj/item/weapon/rods/W as obj, mob/user as mob)
+/obj/item/rods/attackby(obj/item/rods/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/rods) ))
+	if (!( istype(W, /obj/item/rods) ))
 		return
 	if (W.amount == 6)
 		return
@@ -1763,14 +1763,14 @@
 		return
 	return
 
-/obj/item/weapon/rods/examine()
+/obj/item/rods/examine()
 	set src in view(1)
 
 	..()
 	usr << text("There are [] rod\s left on the stack.", src.amount)
 	return
 
-/obj/item/weapon/rods/attack_self(mob/user as mob)
+/obj/item/rods/attack_self(mob/user as mob)
 
 	if (locate(/obj/grille, usr.loc))
 		for(var/obj/grille/G in usr.loc)
@@ -1794,11 +1794,11 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/sheet/metal/attack_hand(mob/user as mob)
+/obj/item/sheet/metal/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/sheet/metal/F = new /obj/item/weapon/sheet/metal( user )
+		var/obj/item/sheet/metal/F = new /obj/item/sheet/metal( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -1816,9 +1816,9 @@
 	src.force = 5
 	return
 
-/obj/item/weapon/sheet/metal/attackby(obj/item/weapon/sheet/metal/W as obj, mob/user as mob)
+/obj/item/sheet/metal/attackby(obj/item/sheet/metal/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/sheet/metal) ))
+	if (!( istype(W, /obj/item/sheet/metal) ))
 		return
 	if (W.amount == 5)
 		return
@@ -1832,14 +1832,14 @@
 		return
 	return
 
-/obj/item/weapon/sheet/metal/examine()
+/obj/item/sheet/metal/examine()
 	set src in view(1)
 
 	..()
 	usr << text("There are [] metal sheet\s on the stack.", src.amount)
 	return
 
-/obj/item/weapon/sheet/metal/attack_self(mob/user as mob)
+/obj/item/sheet/metal/attack_self(mob/user as mob)
 
 	var/t1 = text("<HTML><HEAD></HEAD><TT>Amount Left: [] <BR>", src.amount)
 	var/counter = 1
@@ -1867,7 +1867,7 @@
 	user << browse(t1, "window=met_sheet")
 	return
 
-/obj/item/weapon/sheet/metal/Topic(href, href_list)
+/obj/item/sheet/metal/Topic(href, href_list)
 	..()
 	if ((usr.restrained() || usr.stat || usr.equipped() != src))
 		return
@@ -1879,13 +1879,13 @@
 		switch(href_list["make"])
 			if("rods")
 				src.amount--
-				var/obj/item/weapon/rods/R = new /obj/item/weapon/rods( usr.loc )
+				var/obj/item/rods/R = new /obj/item/rods( usr.loc )
 				R.amount = 2
 			if("table")
 				if (src.amount < 2)
 					return
 				src.amount -= 2
-				new /obj/item/weapon/table_parts( usr.loc )
+				new /obj/item/table_parts( usr.loc )
 			if("stool")
 				src.amount--
 				new /obj/stool( usr.loc )
@@ -1897,7 +1897,7 @@
 					C.layer = 5
 			if("rack")
 				src.amount--
-				new /obj/item/weapon/rack_parts( usr.loc )
+				new /obj/item/rack_parts( usr.loc )
 			if("o2can")
 				if (src.amount < 2)
 					return
@@ -1914,7 +1914,7 @@
 				if (src.amount < 2)
 					return
 				src.amount -= 2
-				var/obj/item/weapon/sheet/r_metal/C = new /obj/item/weapon/sheet/r_metal( usr.loc )
+				var/obj/item/sheet/r_metal/C = new /obj/item/sheet/r_metal( usr.loc )
 				C.amount = 1
 			if("closet")
 				if (src.amount < 2)
@@ -1923,7 +1923,7 @@
 				new /obj/closet( usr.loc )
 			if("fl_tiles")
 				src.amount--
-				var/obj/item/weapon/tile/R = new /obj/item/weapon/tile( usr.loc )
+				var/obj/item/tile/R = new /obj/item/tile( usr.loc )
 				R.amount = 4
 			if("construct")
 				if (src.amount < 2)
@@ -1966,11 +1966,11 @@
 		return
 	return
 
-/obj/item/weapon/sheet/glass/attack_hand(mob/user as mob)
+/obj/item/sheet/glass/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/sheet/glass/F = new /obj/item/weapon/sheet/glass( user )
+		var/obj/item/sheet/glass/F = new /obj/item/sheet/glass( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -1988,10 +1988,10 @@
 	src.force = 5
 	return
 
-/obj/item/weapon/sheet/glass/attackby(obj/item/weapon/W, mob/user)
+/obj/item/sheet/glass/attackby(obj/item/W, mob/user)
 
-	if ( istype(W, /obj/item/weapon/sheet/glass) )
-		var/obj/item/weapon/sheet/glass/G = W
+	if ( istype(W, /obj/item/sheet/glass) )
+		var/obj/item/sheet/glass/G = W
 		if (G.amount == 5)
 			return
 		if (G.amount + src.amount > 5)
@@ -2003,10 +2003,10 @@
 			del(src)
 			return
 		return
-	else if( istype(W, /obj/item/weapon/rods) )
+	else if( istype(W, /obj/item/rods) )
 
-		var/obj/item/weapon/rods/V  = W
-		var/obj/item/weapon/sheet/rglass/R = new /obj/item/weapon/sheet/rglass(user.loc)
+		var/obj/item/rods/V  = W
+		var/obj/item/sheet/rglass/R = new /obj/item/sheet/rglass(user.loc)
 		R.loc = user.loc
 		R.add_fingerprint(user)
 
@@ -2035,14 +2035,14 @@
 
 
 
-/obj/item/weapon/sheet/glass/examine()
+/obj/item/sheet/glass/examine()
 	set src in view(1)
 
 	..()
 	usr << text("There are [] glass sheet\s on the stack.", src.amount)
 	return
 
-/obj/item/weapon/sheet/glass/attack_self(mob/user as mob)
+/obj/item/sheet/glass/attack_self(mob/user as mob)
 
 	if (!( istype(usr.loc, /turf/station) ))
 		return
@@ -2072,11 +2072,11 @@
 		return
 	return
 
-/obj/item/weapon/sheet/rglass/attack_hand(mob/user as mob)
+/obj/item/sheet/rglass/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/sheet/rglass/F = new /obj/item/weapon/sheet/rglass( user )
+		var/obj/item/sheet/rglass/F = new /obj/item/sheet/rglass( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -2094,9 +2094,9 @@
 	src.force = 5
 	return
 
-/obj/item/weapon/sheet/rglass/attackby(obj/item/weapon/sheet/rglass/W as obj, mob/user as mob)
+/obj/item/sheet/rglass/attackby(obj/item/sheet/rglass/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/sheet/rglass) ))
+	if (!( istype(W, /obj/item/sheet/rglass) ))
 		return
 	if (W.amount == 5)
 		return
@@ -2110,14 +2110,14 @@
 		return
 	return
 
-/obj/item/weapon/sheet/rglass/examine()
+/obj/item/sheet/rglass/examine()
 	set src in view(1)
 
 	..()
 	usr << text("There are [] reinforced glass sheet\s on the stack.", src.amount)
 	return
 
-/obj/item/weapon/sheet/rglass/attack_self(mob/user as mob)
+/obj/item/sheet/rglass/attack_self(mob/user as mob)
 
 	if (!( istype(usr.loc, /turf/station) ))
 		return
@@ -2150,18 +2150,18 @@
 	return
 
 
-/obj/item/weapon/clipboard/attack_self(mob/user as mob)
+/obj/item/clipboard/attack_self(mob/user as mob)
 
 	var/dat = "<B>Clipboard</B><BR>"
 	if (src.pen)
 		dat += text("<A href='?src=\ref[];pen=1'>Remove Pen</A><BR><HR>", src)
-	for(var/obj/item/weapon/paper/P in src)
+	for(var/obj/item/paper/P in src)
 		dat += text("<A href='?src=\ref[];read=\ref[]'>[]</A> <A href='?src=\ref[];write=\ref[]'>Write</A> <A href='?src=\ref[];remove=\ref[]'>Remove</A><BR>", src, P, P.name, src, P, src, P)
 		//Foreach goto(42)
 	user << browse(dat, "window=clipboard")
 	return
 
-/obj/item/weapon/clipboard/Topic(href, href_list)
+/obj/item/clipboard/Topic(href, href_list)
 	..()
 	if ((usr.stat || usr.restrained()))
 		return
@@ -2204,17 +2204,17 @@
 		if (href_list["write"])
 			var/obj/item/P = locate(href_list["write"])
 			if ((P && P.loc == src))
-				if (istype(usr.r_hand, /obj/item/weapon/pen))
+				if (istype(usr.r_hand, /obj/item/pen))
 					P.attackby(usr.r_hand, usr)
 				else
-					if (istype(usr.l_hand, /obj/item/weapon/pen))
+					if (istype(usr.l_hand, /obj/item/pen))
 						P.attackby(usr.l_hand, usr)
 					else
-						if (istype(src.pen, /obj/item/weapon/pen))
+						if (istype(src.pen, /obj/item/pen))
 							P.attackby(src.pen, usr)
 			src.add_fingerprint(usr)
 		if (href_list["read"])
-			var/obj/item/weapon/paper/P = locate(href_list["read"])
+			var/obj/item/paper/P = locate(href_list["read"])
 			if ((P && P.loc == src))
 				if (!( istype(usr, /mob/human) ))
 					usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, stars(P.info)), text("window=[]", P.name))
@@ -2228,15 +2228,15 @@
 					return
 	return
 
-/obj/item/weapon/clipboard/attack_paw(mob/user as mob)
+/obj/item/clipboard/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/clipboard/attack_hand(mob/user as mob)
+/obj/item/clipboard/attack_hand(mob/user as mob)
 
-	if ((locate(/obj/item/weapon/paper, src) && (!( user.equipped() ) && (user.l_hand == src || user.r_hand == src))))
-		var/obj/item/weapon/paper/P
+	if ((locate(/obj/item/paper, src) && (!( user.equipped() ) && (user.l_hand == src || user.r_hand == src))))
+		var/obj/item/paper/P
 		for(P in src)
 			break
 			//Foreach goto(50)
@@ -2259,19 +2259,19 @@
 			return ..()
 	return
 
-/obj/item/weapon/clipboard/attackby(obj/item/weapon/P as obj, mob/user as mob)
+/obj/item/clipboard/attackby(obj/item/P as obj, mob/user as mob)
 
-	if (istype(P, /obj/item/weapon/paper))
+	if (istype(P, /obj/item/paper))
 		if (src.contents.len < 15)
 			user.drop_item()
 			P.loc = src
-			if (istype(P, /obj/item/weapon/paper/flag))
+			if (istype(P, /obj/item/paper/flag))
 				if (ctf)
 					ctf.check_win(src)
 		else
 			user << "\blue Not enough space!!!"
 	else
-		if (istype(P, /obj/item/weapon/pen))
+		if (istype(P, /obj/item/pen))
 			if (!( src.pen ))
 				user.drop_item()
 				P.loc = src
@@ -2284,21 +2284,21 @@
 		return
 	return
 
-/obj/item/weapon/clipboard/proc/update()
+/obj/item/clipboard/proc/update()
 
-	src.icon_state = text("clipboard[][]", (locate(/obj/item/weapon/paper, src) ? "1" : "0"), (locate(/obj/item/weapon/pen, src) ? "1" : "0"))
+	src.icon_state = text("clipboard[][]", (locate(/obj/item/paper, src) ? "1" : "0"), (locate(/obj/item/pen, src) ? "1" : "0"))
 	return
 
-/obj/item/weapon/fcardholder/attack_self(mob/user as mob)
+/obj/item/fcardholder/attack_self(mob/user as mob)
 
 	var/dat = "<B>Clipboard</B><BR>"
-	for(var/obj/item/weapon/f_card/P in src)
+	for(var/obj/item/f_card/P in src)
 		dat += text("<A href='?src=\ref[];read=\ref[]'>[]</A> <A href='?src=\ref[];remove=\ref[]'>Remove</A><BR>", src, P, P.name, src, P)
 		//Foreach goto(23)
 	user << browse(dat, "window=fcardholder")
 	return
 
-/obj/item/weapon/fcardholder/Topic(href, href_list)
+/obj/item/fcardholder/Topic(href, href_list)
 	..()
 	if ((usr.stat || usr.restrained()))
 		return
@@ -2322,7 +2322,7 @@
 				P.add_fingerprint(usr)
 			src.update()
 		if (href_list["read"])
-			var/obj/item/weapon/f_card/P = locate(href_list["read"])
+			var/obj/item/f_card/P = locate(href_list["read"])
 			if ((P && P.loc == src))
 				if (!( istype(usr, /mob/human) ))
 					usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", P.name, P.display()), text("window=[]", P.name))
@@ -2337,12 +2337,12 @@
 					return
 	return
 
-/obj/item/weapon/fcardholder/attack_paw(mob/user as mob)
+/obj/item/fcardholder/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/fcardholder/attack_hand(mob/user as mob)
+/obj/item/fcardholder/attack_hand(mob/user as mob)
 
 	if (user.contents.Find(src))
 		spawn( 0 )
@@ -2353,9 +2353,9 @@
 		return ..()
 	return
 
-/obj/item/weapon/fcardholder/attackby(obj/item/weapon/P as obj, mob/user as mob)
+/obj/item/fcardholder/attackby(obj/item/P as obj, mob/user as mob)
 
-	if (istype(P, /obj/item/weapon/f_card))
+	if (istype(P, /obj/item/f_card))
 		if (src.contents.len < 30)
 			user.drop_item()
 			P.loc = src
@@ -2364,7 +2364,7 @@
 		else
 			user << "\blue Not enough space!!!"
 	else
-		if (istype(P, /obj/item/weapon/pen))
+		if (istype(P, /obj/item/pen))
 			var/t = input(user, "Holder Label:", text("[]", src.name), null)  as text
 			if (user.equipped() != P)
 				return
@@ -2383,10 +2383,10 @@
 		return
 	return
 
-/obj/item/weapon/fcardholder/proc/update()
+/obj/item/fcardholder/proc/update()
 
 	var/i = 0
-	for(var/obj/item/weapon/f_card/F in src)
+	for(var/obj/item/f_card/F in src)
 		i = 1
 		break
 		//else
@@ -2394,14 +2394,14 @@
 	src.icon_state = text("fcardholder[]", (i ? "1" : "0"))
 	return
 
-/obj/item/weapon/extinguisher/examine()
+/obj/item/extinguisher/examine()
 	set src in usr
 
 	usr << text("\icon[] [] contains [] units of water left!", src, src.name, src.waterleft)
 	..()
 	return
 
-/obj/item/weapon/extinguisher/afterattack(atom/target, mob/user , flag)
+/obj/item/extinguisher/afterattack(atom/target, mob/user , flag)
 
 	if (src.icon_state == "fire_extinguisher1")
 		if (src.waterleft < 1)
@@ -2467,7 +2467,7 @@
 		return ..()
 	return
 
-/obj/item/weapon/extinguisher/attack_self(mob/user as mob)
+/obj/item/extinguisher/attack_self(mob/user as mob)
 
 	if (src.icon_state == "fire_extinguisher0")
 		src.icon_state = "fire_extinguisher1"
@@ -2477,12 +2477,12 @@
 		src.desc = "The safety is on."
 	return
 
-/obj/item/weapon/pen/sleepypen/attack_paw(mob/user as mob)
+/obj/item/pen/sleepypen/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/pen/sleepypen/New()
+/obj/item/pen/sleepypen/New()
 
 	src.chem = new /obj/substance/chemical(  )
 	src.chem.maximum = 5
@@ -2492,7 +2492,7 @@
 	..()
 	return
 
-/obj/item/weapon/pen/sleepypen/attack(mob/M as mob, mob/user as mob)
+/obj/item/pen/sleepypen/attack(mob/M as mob, mob/user as mob)
 
 	if (!( istype(M, /mob) ))
 		return
@@ -2507,22 +2507,22 @@
 		src.desc = "It's a normal black ink pen."
 	return
 
-/obj/item/weapon/paint/attack_self(mob/user as mob)
+/obj/item/paint/attack_self(mob/user as mob)
 
 	var/t1 = input(user, "Please select a color:", "Locking Computer", null) in list( "red", "blue", "green", "yellow", "black", "white", "neutral" )
 	if ((user.equipped() != src || user.stat || user.restrained()))
 		return
-	src.color = t1
+	src.paint_color = t1
 	src.icon_state = text("paint_[]", t1)
 	add_fingerprint(user)
 	return
 
-/obj/item/weapon/paper/burn(fi_amount)
+/obj/item/paper/burn(fi_amount)
 
 	spawn( 0 )
 		var/t = src.icon_state
 		src.icon_state = ""
-		src.icon = 'b_items.dmi'
+		src.icon = 'icons/b_items.dmi'
 		flick(text("[]", t), src)
 		spawn( 14 )
 			//SN src = null
@@ -2532,14 +2532,14 @@
 		return
 	return
 
-/obj/item/weapon/paper/photograph/New()
+/obj/item/paper/photograph/New()
 
 	..()
 	src.pixel_y = 0
 	src.pixel_x = 0
 	return
 
-/obj/item/weapon/paper/photograph/attack_self(mob/user as mob)
+/obj/item/paper/photograph/attack_self(mob/user as mob)
 
 	var/n_name = input(user, "What would you like to label the photo?", "Paper Labelling", null)  as text
 	n_name = copytext(n_name, 1, 32)
@@ -2548,18 +2548,18 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/paper/photograph/examine()
+/obj/item/paper/photograph/examine()
 	set src in view()
 
 	..()
 	return
 
-/obj/item/weapon/paper/flag/burn()
+/obj/item/paper/flag/burn()
 
 	return
 	return
 
-/obj/item/weapon/paper/flag/New()
+/obj/item/paper/flag/New()
 
 	..()
 	src.pixel_y = 0
@@ -2567,7 +2567,7 @@
 	src.name = "flag- 'FLAG'"
 	return
 
-/obj/item/weapon/paper/flag/attack_hand()
+/obj/item/paper/flag/attack_hand()
 
 	if ((ctf && ctf.immobile))
 		return 0
@@ -2575,7 +2575,7 @@
 		. = ..()
 	return
 
-/obj/item/weapon/paper/flag/attack_self(mob/user as mob)
+/obj/item/paper/flag/attack_self(mob/user as mob)
 
 	var/n_name = input(user, "What would you like to label the paper?", "Paper Labelling", null)  as text
 	n_name = copytext(n_name, 1, 32)
@@ -2584,28 +2584,28 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/paper/flag/attackby(P as obj, mob/user as mob)
+/obj/item/paper/flag/attackby(P as obj, mob/user as mob)
 
-	if (istype(P, /obj/item/weapon/pen))
+	if (istype(P, /obj/item/pen))
 		..()
 	else
-		if (istype(P, /obj/item/weapon/paint))
-			var/obj/item/weapon/paint/C = P
-			src.icon_state = text("flag_[]", C.color)
+		if (istype(P, /obj/item/paint))
+			var/obj/item/paint/C = P
+			src.icon_state = text("flag_[]", C.paint_color)
 			if (ctf)
 				ctf.check_win()
 		else
 			return
 	return
 
-/obj/item/weapon/paper/New()
+/obj/item/paper/New()
 
 	..()
 	src.pixel_y = rand(1, 16)
 	src.pixel_x = rand(1, 16)
 	return
 
-/obj/item/weapon/paper/attack_self(mob/user as mob)
+/obj/item/paper/attack_self(mob/user as mob)
 
 	var/n_name = input(user, "What would you like to label the paper?", "Paper Labelling", null)  as text
 	n_name = copytext(n_name, 1, 32)
@@ -2614,11 +2614,11 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/paper/attackby(obj/item/weapon/P as obj, mob/user as mob)
+/obj/item/paper/attackby(obj/item/P as obj, mob/user as mob)
 
-	if (istype(P, /obj/item/weapon/pen))
+	if (istype(P, /obj/item/pen))
 		var/t = input(user, "What text do you wish to add?", text("[]", src.name), null)  as message
-		if ((get_dist(src, usr) > 1 && src.loc != user && !( istype(src.loc, /obj/item/weapon/clipboard) ) && src.loc.loc != user && user.equipped() != P))
+		if ((get_dist(src, usr) > 1 && src.loc != user && !( istype(src.loc, /obj/item/clipboard) ) && src.loc.loc != user && user.equipped() != P))
 			return
 		t = html_encode(t)
 		t = dd_replacetext(t, "\n", "<BR>")
@@ -2632,8 +2632,8 @@
 		t = text("<font face=calligrapher>[]</font>", t)
 		src.info += t
 	else
-		if (istype(P, /obj/item/weapon/weldingtool))
-			var/obj/item/weapon/weldingtool/W = P
+		if (istype(P, /obj/item/weldingtool))
+			var/obj/item/weldingtool/W = P
 			if ((W.welding && W.weldfuel > 0))
 				for(var/mob/O in viewers(user, null))
 					O.show_message(text("\red [] burns [] with the welding tool!", user, src), 1, "\red You hear a small burning noise", 2)
@@ -2642,7 +2642,7 @@
 					src.burn(1800000.0)
 					return
 		else
-			if (istype(P, /obj/item/weapon/igniter))
+			if (istype(P, /obj/item/igniter))
 				for(var/mob/O in viewers(user, null))
 					O.show_message(text("\red [] burns [] with the igniter!", user, src), 1, "\red You hear a small burning noise", 2)
 					//Foreach goto(406)
@@ -2650,7 +2650,7 @@
 					src.burn(1800000.0)
 					return
 			else
-				if (istype(P, /obj/item/weapon/wirecutters))
+				if (istype(P, /obj/item/wirecutters))
 					for(var/mob/O in viewers(user, null))
 						O.show_message(text("\red [] starts cutting []!", user, src), 1)
 						//Foreach goto(489)
@@ -2665,7 +2665,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/paper/examine()
+/obj/item/paper/examine()
 	set src in view()
 
 	..()
@@ -2675,7 +2675,7 @@
 		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, src.info), text("window=[]", src.name))
 	return
 
-/obj/item/weapon/paper/Map/examine()
+/obj/item/paper/Map/examine()
 	set src in view()
 
 	..()
@@ -2688,7 +2688,7 @@
 	return
 
 
-/obj/item/weapon/f_card/examine()
+/obj/item/f_card/examine()
 	set src in view(2)
 
 	..()
@@ -2696,7 +2696,7 @@
 	usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", src.name, display()), text("window=[]", src.name))
 	return
 
-/obj/item/weapon/f_card/proc/display()
+/obj/item/f_card/proc/display()
 
 	if (src.fingerprints)
 		var/dat = "<B>Fingerprints on Card</B><HR>"
@@ -2709,11 +2709,11 @@
 		return "<B>There are no fingerprints on this card.</B>"
 	return
 
-/obj/item/weapon/f_card/attack_hand(mob/user as mob)
+/obj/item/f_card/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user )
+		var/obj/item/f_card/F = new /obj/item/f_card( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -2730,9 +2730,9 @@
 		..()
 	return
 
-/obj/item/weapon/f_card/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/f_card/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/f_card))
+	if (istype(W, /obj/item/f_card))
 		if ((src.fingerprints || W.fingerprints))
 			return
 		if (src.amount == 10)
@@ -2748,7 +2748,7 @@
 		if (W)
 			W.add_fingerprint(user)
 	else
-		if (istype(W, /obj/item/weapon/pen))
+		if (istype(W, /obj/item/pen))
 			var/t = input(user, "Card Label:", text("[]", src.name), null)  as text
 			if (user.equipped() != W)
 				return
@@ -2763,21 +2763,21 @@
 			src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/f_card/add_fingerprint()
+/obj/item/f_card/add_fingerprint()
 
 	..()
 	if (!istype(usr, /mob/ai))
 		if (src.fingerprints)
 			if (src.amount > 1)
-				var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( (ismob(src.loc) ? src.loc.loc : src.loc) )
+				var/obj/item/f_card/F = new /obj/item/f_card( (ismob(src.loc) ? src.loc.loc : src.loc) )
 				F.amount = --src.amount
 				src.amount = 1
 			src.icon_state = "f_print_card1"
 	return
 
-/obj/item/weapon/f_print_scanner/attackby(obj/item/weapon/f_card/W as obj, mob/user as mob)
+/obj/item/f_print_scanner/attackby(obj/item/f_card/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/f_card))
+	if (istype(W, /obj/item/f_card))
 		if (W.fingerprints)
 			return
 		if (src.amount == 20)
@@ -2794,14 +2794,14 @@
 			W.add_fingerprint(user)
 	return
 
-/obj/item/weapon/f_print_scanner/attack_self(mob/user as mob)
+/obj/item/f_print_scanner/attack_self(mob/user as mob)
 
 	src.printing = !( src.printing )
 	src.icon_state = text("f_print_scanner[]", src.printing)
 	add_fingerprint(user)
 	return
 
-/obj/item/weapon/f_print_scanner/attack(mob/human/M as mob, mob/user as mob)
+/obj/item/f_print_scanner/attack(mob/human/M as mob, mob/user as mob)
 
 	if ((!( ismob(M) ) || !( istype(M.primary, /obj/dna) ) || !( istype(M, /mob/human) ) || M.gloves))
 		user << text("\blue Unable to locate any fingerprints on []!", M)
@@ -2813,7 +2813,7 @@
 	src.icon_state = text("f_print_scanner[]", src.printing)
 	if (src.printing)
 		src.amount--
-		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user.loc )
+		var/obj/item/f_card/F = new /obj/item/f_card( user.loc )
 		F.amount = 1
 		F.fingerprints = md5(M.primary.uni_identity)
 		F.icon_state = "f_print_card1"
@@ -2822,7 +2822,7 @@
 	user << text("\blue []'s Fingerprints: []", M, md5(M.primary.uni_identity))
 	return
 
-/obj/item/weapon/f_print_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
+/obj/item/f_print_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
 
 	src.add_fingerprint(user)
 	if (!( A.fingerprints ))
@@ -2835,7 +2835,7 @@
 	src.icon_state = text("f_print_scanner[]", src.printing)
 	if (src.printing)
 		src.amount--
-		var/obj/item/weapon/f_card/F = new /obj/item/weapon/f_card( user.loc )
+		var/obj/item/f_card/F = new /obj/item/f_card( user.loc )
 		F.amount = 1
 		F.fingerprints = A.fingerprints
 		F.icon_state = "f_print_card1"
@@ -2847,7 +2847,7 @@
 		//Foreach goto(186)
 	return
 
-/obj/item/weapon/healthanalyzer/attack(mob/M as mob, mob/user as mob)
+/obj/item/healthanalyzer/attack(mob/M as mob, mob/user as mob)
 	if ((!( istype(usr, /mob/human) ) && (!( ticker ) || (ticker && ticker.mode != "monkey"))))
 		user << "\red You don't have the dexterity to do this!"
 		return
@@ -2867,7 +2867,7 @@
 	
 	src.add_fingerprint(user)
 
-/obj/item/weapon/analyzer/attack_self(mob/user as mob)
+/obj/item/analyzer/attack_self(mob/user as mob)
 
 	if (user.stat)
 		return
@@ -2923,20 +2923,20 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/storage/proc/return_inv()
+/obj/item/storage/proc/return_inv()
 
 	var/list/L = list(  )
 
 	// RM*****
 	L += src.contents
 
-	for(var/obj/item/weapon/storage/S in src)
+	for(var/obj/item/storage/S in src)
 		L += S.return_inv()
 		//Foreach goto(22)
 	return L
 	return
 
-/obj/item/weapon/storage/proc/show_to(mob/user as mob)
+/obj/item/storage/proc/show_to(mob/user as mob)
 
 	user.client.screen -= src.boxes
 	user.client.screen -= src.closer
@@ -2947,7 +2947,7 @@
 	user.s_active = src
 	return
 
-/obj/item/weapon/storage/proc/hide_from(mob/user as mob)
+/obj/item/storage/proc/hide_from(mob/user as mob)
 
 	if(!user.client)
 		return
@@ -2956,13 +2956,13 @@
 	user.client.screen -= src.contents
 	return
 
-/obj/item/weapon/storage/proc/close(mob/user as mob)
+/obj/item/storage/proc/close(mob/user as mob)
 
 	src.hide_from(user)
 	user.s_active = null
 	return
 
-/obj/item/weapon/storage/proc/orient_objs(tx, ty, mx, my)
+/obj/item/storage/proc/orient_objs(tx, ty, mx, my)
 
 	var/cx = tx
 	var/cy = ty
@@ -2978,7 +2978,7 @@
 	src.closer.screen_loc = text("[],[]", mx, my)
 	return
 
-/obj/item/weapon/storage/proc/orient2hud(mob/user as mob)
+/obj/item/storage/proc/orient2hud(mob/user as mob)
 
 	if (src == user.l_hand)
 		src.orient_objs(3, 11, 3, 4)
@@ -2992,131 +2992,131 @@
 				src.orient_objs(7, 8, 10, 7)
 	return
 
-/obj/item/weapon/storage/lglo_kit/New()
+/obj/item/storage/lglo_kit/New()
 
-	new /obj/item/weapon/clothing/gloves/latex( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
-	new /obj/item/weapon/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
+	new /obj/item/clothing/gloves/latex( src )
 	..()
 	return
 
-/obj/item/weapon/storage/flashbang_kit/New()
+/obj/item/storage/flashbang_kit/New()
 
-	new /obj/item/weapon/flashbang( src )
-	new /obj/item/weapon/flashbang( src )
-	new /obj/item/weapon/flashbang( src )
-	new /obj/item/weapon/flashbang( src )
-	new /obj/item/weapon/flashbang( src )
-	new /obj/item/weapon/flashbang( src )
-	new /obj/item/weapon/flashbang( src )
+	new /obj/item/flashbang( src )
+	new /obj/item/flashbang( src )
+	new /obj/item/flashbang( src )
+	new /obj/item/flashbang( src )
+	new /obj/item/flashbang( src )
+	new /obj/item/flashbang( src )
+	new /obj/item/flashbang( src )
 	..()
 	return
 
-/obj/item/weapon/storage/stma_kit/New()
+/obj/item/storage/stma_kit/New()
 
-	new /obj/item/weapon/clothing/mask/surgical( src )
-	new /obj/item/weapon/clothing/mask/surgical( src )
-	new /obj/item/weapon/clothing/mask/surgical( src )
-	new /obj/item/weapon/clothing/mask/surgical( src )
-	new /obj/item/weapon/clothing/mask/surgical( src )
-	new /obj/item/weapon/clothing/mask/surgical( src )
-	new /obj/item/weapon/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
+	new /obj/item/clothing/mask/surgical( src )
 	..()
 	return
 
-/obj/item/weapon/storage/gl_kit/New()
+/obj/item/storage/gl_kit/New()
 
-	new /obj/item/weapon/clothing/glasses/regular( src )
-	new /obj/item/weapon/clothing/glasses/regular( src )
-	new /obj/item/weapon/clothing/glasses/regular( src )
-	new /obj/item/weapon/clothing/glasses/regular( src )
-	new /obj/item/weapon/clothing/glasses/regular( src )
-	new /obj/item/weapon/clothing/glasses/regular( src )
-	new /obj/item/weapon/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
+	new /obj/item/clothing/glasses/regular( src )
 	..()
 	return
 
-/obj/item/weapon/storage/trackimp_kit/New()
+/obj/item/storage/trackimp_kit/New()
 
-	new /obj/item/weapon/implantcase/tracking( src )
-	new /obj/item/weapon/implantcase/tracking( src )
-	new /obj/item/weapon/implantcase/tracking( src )
-	new /obj/item/weapon/implantcase/tracking( src )
-	new /obj/item/weapon/implanter( src )
-	new /obj/item/weapon/implantpad( src )
-	new /obj/item/weapon/locator( src )
+	new /obj/item/implantcase/tracking( src )
+	new /obj/item/implantcase/tracking( src )
+	new /obj/item/implantcase/tracking( src )
+	new /obj/item/implantcase/tracking( src )
+	new /obj/item/implanter( src )
+	new /obj/item/implantpad( src )
+	new /obj/item/locator( src )
 	..()
 	return
 
-/obj/item/weapon/storage/fcard_kit/New()
+/obj/item/storage/fcard_kit/New()
 
-	new /obj/item/weapon/f_card( src )
-	new /obj/item/weapon/f_card( src )
-	new /obj/item/weapon/f_card( src )
-	new /obj/item/weapon/f_card( src )
-	new /obj/item/weapon/f_card( src )
-	new /obj/item/weapon/f_card( src )
-	new /obj/item/weapon/f_card( src )
+	new /obj/item/f_card( src )
+	new /obj/item/f_card( src )
+	new /obj/item/f_card( src )
+	new /obj/item/f_card( src )
+	new /obj/item/f_card( src )
+	new /obj/item/f_card( src )
+	new /obj/item/f_card( src )
 	..()
 	return
 
-/obj/item/weapon/storage/id_kit/New()
+/obj/item/storage/id_kit/New()
 
-	new /obj/item/weapon/card/id( src )
-	new /obj/item/weapon/card/id( src )
-	new /obj/item/weapon/card/id( src )
-	new /obj/item/weapon/card/id( src )
-	new /obj/item/weapon/card/id( src )
-	new /obj/item/weapon/card/id( src )
-	new /obj/item/weapon/card/id( src )
+	new /obj/item/card/id( src )
+	new /obj/item/card/id( src )
+	new /obj/item/card/id( src )
+	new /obj/item/card/id( src )
+	new /obj/item/card/id( src )
+	new /obj/item/card/id( src )
+	new /obj/item/card/id( src )
 	..()
 	return
 
-/obj/item/weapon/storage/handcuff_kit/New()
+/obj/item/storage/handcuff_kit/New()
 
-	new /obj/item/weapon/handcuffs( src )
-	new /obj/item/weapon/handcuffs( src )
-	new /obj/item/weapon/handcuffs( src )
-	new /obj/item/weapon/handcuffs( src )
-	new /obj/item/weapon/handcuffs( src )
-	new /obj/item/weapon/handcuffs( src )
-	new /obj/item/weapon/handcuffs( src )
+	new /obj/item/handcuffs( src )
+	new /obj/item/handcuffs( src )
+	new /obj/item/handcuffs( src )
+	new /obj/item/handcuffs( src )
+	new /obj/item/handcuffs( src )
+	new /obj/item/handcuffs( src )
+	new /obj/item/handcuffs( src )
 	..()
 	return
 
-/obj/item/weapon/storage/disk_kit/disks/New()
+/obj/item/storage/disk_kit/disks/New()
 
-	new /obj/item/weapon/card/data( src )
-	new /obj/item/weapon/card/data( src )
-	new /obj/item/weapon/card/data( src )
-	new /obj/item/weapon/card/data( src )
-	new /obj/item/weapon/card/data( src )
-	new /obj/item/weapon/card/data( src )
-	new /obj/item/weapon/card/data( src )
+	new /obj/item/card/data( src )
+	new /obj/item/card/data( src )
+	new /obj/item/card/data( src )
+	new /obj/item/card/data( src )
+	new /obj/item/card/data( src )
+	new /obj/item/card/data( src )
+	new /obj/item/card/data( src )
 	..()
 	return
 
-/obj/item/weapon/storage/disk_kit/disks2/New()
+/obj/item/storage/disk_kit/disks2/New()
 
 	spawn( 2 )
-		for(var/obj/item/weapon/card/data/D in src.loc)
+		for(var/obj/item/card/data/D in src.loc)
 			D.loc = src
 			//Foreach goto(23)
 		return
 	..()
 	return
 
-/obj/item/weapon/storage/backpack/New()
+/obj/item/storage/backpack/New()
 
-	new /obj/item/weapon/storage/box( src )
+	new /obj/item/storage/box( src )
 	..()
 	return
 
-/obj/item/weapon/storage/backpack/MouseDrop(obj/over_object as obj)
+/obj/item/storage/backpack/MouseDrop(obj/over_object as obj)
 
 	if (src.loc != usr)
 		return
@@ -3138,14 +3138,14 @@
 			src.add_fingerprint(usr)
 	return
 
-/obj/item/weapon/storage/backpack/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/storage/backpack/attackby(obj/item/W as obj, mob/user as mob)
 
 	if (src.contents.len >= 7)
 		return
 	if (W.w_class > 3)
 		return
 	var/t
-	for(var/obj/item/weapon/O in src)
+	for(var/obj/item/O in src)
 		t += O.w_class
 		//Foreach goto(46)
 	t += W.w_class
@@ -3164,11 +3164,11 @@
 		//Foreach goto(206)
 	return
 
-/obj/item/weapon/storage/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/storage/attackby(obj/item/W as obj, mob/user as mob)
 
 	if (src.contents.len >= 7)
 		return
-	if ((W.w_class >= 3 || istype(W, /obj/item/weapon/storage)))
+	if ((W.w_class >= 3 || istype(W, /obj/item/storage)))
 		return
 	user.u_equip(W)
 	W.loc = src
@@ -3182,12 +3182,12 @@
 		//Foreach goto(139)
 	return
 
-/obj/item/weapon/storage/dropped(mob/user as mob)
+/obj/item/storage/dropped(mob/user as mob)
 
 	src.orient_objs(7, 8, 10, 7)
 	return
 
-/obj/item/weapon/storage/MouseDrop(over_object, src_location, over_location)
+/obj/item/storage/MouseDrop(over_object, src_location, over_location)
 
 	..()
 	if ((over_object == usr && (get_dist(src, usr) <= 1 || usr.contents.Find(src))))
@@ -3196,12 +3196,12 @@
 		src.show_to(usr)
 	return
 
-/obj/item/weapon/storage/attack_paw(mob/user as mob)
+/obj/item/storage/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/storage/attack_hand(mob/user as mob)
+/obj/item/storage/attack_hand(mob/user as mob)
 
 	if (src.loc == user)
 		if (user.s_active)
@@ -3217,7 +3217,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/storage/New()
+/obj/item/storage/New()
 
 	src.boxes = new /obj/screen/storage(  )
 	src.boxes.name = "storage"
@@ -3234,32 +3234,32 @@
 		return
 	return
 
-/obj/item/weapon/storage/toolbox/New()
+/obj/item/storage/toolbox/New()
 
-	new /obj/item/weapon/screwdriver( src )
-	new /obj/item/weapon/wrench( src )
-	new /obj/item/weapon/weldingtool( src )
-	new /obj/item/weapon/radio( src )
-	new /obj/item/weapon/analyzer( src )
-	new /obj/item/weapon/extinguisher( src )
-	new /obj/item/weapon/wirecutters( src )
+	new /obj/item/screwdriver( src )
+	new /obj/item/wrench( src )
+	new /obj/item/weldingtool( src )
+	new /obj/item/radio( src )
+	new /obj/item/analyzer( src )
+	new /obj/item/extinguisher( src )
+	new /obj/item/wirecutters( src )
 	..()
 	return
 
-/obj/item/weapon/storage/toolbox/electrical/New()
+/obj/item/storage/toolbox/electrical/New()
 	..()
 	src.contents = null
-	new /obj/item/weapon/screwdriver( src )
-	new /obj/item/weapon/wirecutters( src )
-	new /obj/item/weapon/t_scanner( src )
-	new /obj/item/weapon/crowbar( src )
-	new /obj/item/weapon/cable_coil( src )
-	new /obj/item/weapon/cable_coil( src )
-	new /obj/item/weapon/cable_coil( src )
+	new /obj/item/screwdriver( src )
+	new /obj/item/wirecutters( src )
+	new /obj/item/t_scanner( src )
+	new /obj/item/crowbar( src )
+	new /obj/item/cable_coil( src )
+	new /obj/item/cable_coil( src )
+	new /obj/item/cable_coil( src )
 
 	return
 
-/obj/item/weapon/storage/toolbox/attack(mob/M as mob, mob/user as mob)
+/obj/item/storage/toolbox/attack(mob/M as mob, mob/user as mob)
 
 	..()
 	if ((prob(30) && M.stat < 2))
@@ -3267,7 +3267,7 @@
 
 		// ******* Check
 
-		if ((istype(H, /mob/human) && istype(H, /obj/item/weapon/clothing/head) && H.flags & 8 && prob(80)))
+		if ((istype(H, /mob/human) && istype(H, /obj/item/clothing/head) && H.flags & 8 && prob(80)))
 			M << "\red The helmet protects you from being hit hard in the head!"
 			return
 		var/time = rand(10, 120)
@@ -3284,86 +3284,86 @@
 		M.show_message(text("\red <B>This was a []% hit. Roleplay it! (personality/memory change if the hit was severe enough)</B>", time * 100 / 120))
 	return
 
-/obj/item/weapon/storage/firstaid/fire/New()
+/obj/item/storage/firstaid/fire/New()
 
 	..()
-	new /obj/item/weapon/ointment( src )
-	new /obj/item/weapon/ointment( src )
-	new /obj/item/weapon/ointment( src )
-	new /obj/item/weapon/ointment( src )
-	new /obj/item/weapon/healthanalyzer( src )
-	var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe( src )
+	new /obj/item/ointment( src )
+	new /obj/item/ointment( src )
+	new /obj/item/ointment( src )
+	new /obj/item/ointment( src )
+	new /obj/item/healthanalyzer( src )
+	var/obj/item/syringe/S = new /obj/item/syringe( src )
 	var/datum/chemical/rejuv/C = new /datum/chemical/rejuv( null )
 	C.moles = C.density * 15 / C.molarmass
 	S.chem.chemicals[text("[]", C.name)] = C
 	S.icon_state = "syringe_15"
 	return
 
-/obj/item/weapon/storage/firstaid/syringes/New()
+/obj/item/storage/firstaid/syringes/New()
 
 	..()
-	new /obj/item/weapon/syringe( src )
-	new /obj/item/weapon/syringe( src )
-	new /obj/item/weapon/syringe( src )
-	new /obj/item/weapon/syringe( src )
-	new /obj/item/weapon/syringe( src )
-	new /obj/item/weapon/syringe( src )
-	new /obj/item/weapon/syringe( src )
+	new /obj/item/syringe( src )
+	new /obj/item/syringe( src )
+	new /obj/item/syringe( src )
+	new /obj/item/syringe( src )
+	new /obj/item/syringe( src )
+	new /obj/item/syringe( src )
+	new /obj/item/syringe( src )
 	return
 
-/obj/item/weapon/storage/firstaid/regular/New()
+/obj/item/storage/firstaid/regular/New()
 
 	..()
-	new /obj/item/weapon/brutepack( src )
-	new /obj/item/weapon/brutepack( src )
-	new /obj/item/weapon/brutepack( src )
-	new /obj/item/weapon/ointment( src )
-	new /obj/item/weapon/ointment( src )
-	new /obj/item/weapon/healthanalyzer( src )
-	var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe( src )
+	new /obj/item/brutepack( src )
+	new /obj/item/brutepack( src )
+	new /obj/item/brutepack( src )
+	new /obj/item/ointment( src )
+	new /obj/item/ointment( src )
+	new /obj/item/healthanalyzer( src )
+	var/obj/item/syringe/S = new /obj/item/syringe( src )
 	var/datum/chemical/rejuv/C = new /datum/chemical/rejuv( null )
 	C.moles = C.density * 15 / C.molarmass
 	S.chem.chemicals[text("[]", C.name)] = C
 	S.icon_state = "syringe_15"
 	return
 
-/obj/item/weapon/storage/firstaid/toxin/New()
+/obj/item/storage/firstaid/toxin/New()
 
 	..()
-	new /obj/item/weapon/pill_canister/antitoxin( src )
-	new /obj/item/weapon/pill_canister/antitoxin( src )
+	new /obj/item/pill_canister/antitoxin( src )
+	new /obj/item/pill_canister/antitoxin( src )
 	var/t = null
 	t = 1
 	while(t <= 4)
-		var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe( src )
+		var/obj/item/syringe/S = new /obj/item/syringe( src )
 		var/datum/chemical/pl_coag/C = new /datum/chemical/pl_coag( null )
 		C.moles = C.density * 15 / C.molarmass
 		S.chem.chemicals[text("[]", C.name)] = C
 		S.icon_state = "syringe_15"
 		t++
-	new /obj/item/weapon/healthanalyzer( src )
+	new /obj/item/healthanalyzer( src )
 	return
 
-/obj/item/weapon/storage/firstaid/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/storage/firstaid/attackby(obj/item/W as obj, mob/user as mob)
 
 	if (src.contents.len >= 7)
 		return
-	if ((W.w_class >= 2 || istype(W, /obj/item/weapon/storage)))
+	if ((W.w_class >= 2 || istype(W, /obj/item/storage)))
 		return
 	..()
 	return
 
-/obj/item/weapon/tile/New()
+/obj/item/tile/New()
 
 	src.pixel_x = rand(1, 14)
 	src.pixel_y = rand(1, 14)
 	return
 
-/obj/item/weapon/tile/attack_hand(mob/user as mob)
+/obj/item/tile/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/tile/F = new /obj/item/weapon/tile( user )
+		var/obj/item/tile/F = new /obj/item/tile( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -3380,7 +3380,7 @@
 		..()
 	return
 
-/obj/item/weapon/tile/proc/build(turf/S as turf)
+/obj/item/tile/proc/build(turf/S as turf)
 	var/turf/station/floor/W = S.ReplaceWithFloor()
 
 	W.burnt = 1
@@ -3393,7 +3393,7 @@
 	W.health = 100
 	return
 
-/obj/item/weapon/tile/attack_self(mob/user as mob)
+/obj/item/tile/attack_self(mob/user as mob)
 
 	if (usr.stat)
 		return
@@ -3417,9 +3417,9 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/tile/attackby(obj/item/weapon/tile/W as obj, mob/user as mob)
+/obj/item/tile/attackby(obj/item/tile/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/tile) ))
+	if (!( istype(W, /obj/item/tile) ))
 		return
 	if (W.amount == 10)
 		return
@@ -3434,20 +3434,20 @@
 		return
 	return
 
-/obj/item/weapon/tile/examine()
+/obj/item/tile/examine()
 	set src in view(1)
 
 	..()
 	usr << text("There are [] tile\s left on the stack.", src.amount)
 	return
 
-/obj/item/weapon/igniter/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/igniter/attackby(obj/item/W as obj, mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/radio/signaler) && !( src.status )))
-		var/obj/item/weapon/radio/signaler/S = W
+	if ((istype(W, /obj/item/radio/signaler) && !( src.status )))
+		var/obj/item/radio/signaler/S = W
 		if (!( S.b_stat ))
 			return
-		var/obj/item/weapon/assembly/rad_ignite/R = new /obj/item/weapon/assembly/rad_ignite( user )
+		var/obj/item/assembly/rad_ignite/R = new /obj/item/assembly/rad_ignite( user )
 		S.loc = R
 		R.part1 = S
 		S.layer = initial(S.layer)
@@ -3471,9 +3471,9 @@
 		R.loc = user
 		src.add_fingerprint(user)
 
-	else if ((istype(W, /obj/item/weapon/prox_sensor) && !( src.status )))
+	else if ((istype(W, /obj/item/prox_sensor) && !( src.status )))
 
-		var/obj/item/weapon/assembly/prox_ignite/R = new /obj/item/weapon/assembly/prox_ignite( user )
+		var/obj/item/assembly/prox_ignite/R = new /obj/item/assembly/prox_ignite( user )
 		W.loc = R
 		R.part1 = W
 		W.layer = initial(W.layer)
@@ -3497,9 +3497,9 @@
 		R.loc = user
 		src.add_fingerprint(user)
 
-	else if ((istype(W, /obj/item/weapon/timer) && !( src.status )))
+	else if ((istype(W, /obj/item/timer) && !( src.status )))
 
-		var/obj/item/weapon/assembly/time_ignite/R = new /obj/item/weapon/assembly/time_ignite( user )
+		var/obj/item/assembly/time_ignite/R = new /obj/item/assembly/time_ignite( user )
 		W.loc = R
 		R.part1 = W
 		W.layer = initial(W.layer)
@@ -3524,7 +3524,7 @@
 		src.add_fingerprint(user)
 
 
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (src.status)
@@ -3534,7 +3534,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/igniter/attack_self(mob/user as mob)
+/obj/item/igniter/attack_self(mob/user as mob)
 
 	src.add_fingerprint(user)
 	spawn( 5 )
@@ -3542,7 +3542,7 @@
 		return
 	return
 
-/obj/item/weapon/igniter/proc/ignite()
+/obj/item/igniter/proc/ignite()
 
 	if (src.status)
 		var/turf/T = src.loc
@@ -3561,7 +3561,7 @@
 			T.firelevel = T.poison
 	return
 
-/obj/item/weapon/igniter/examine()
+/obj/item/igniter/examine()
 	set src in view()
 
 	..()
@@ -3572,7 +3572,7 @@
 			usr.show_message("The igniter can be attached!")
 	return
 
-/obj/item/weapon/radio/electropack/examine()
+/obj/item/radio/electropack/examine()
 	set src in view()
 
 	..()
@@ -3581,12 +3581,12 @@
 			usr << "\blue The electric pads are exposed!"
 	return
 
-/obj/item/weapon/radio/electropack/attack_paw(mob/user as mob)
+/obj/item/radio/electropack/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/radio/electropack/attack_hand(mob/user as mob)
+/obj/item/radio/electropack/attack_hand(mob/user as mob)
 
 	if (src == user.back)
 		user << "\blue You need help taking this off!"
@@ -3595,9 +3595,9 @@
 		..()
 	return
 
-/obj/item/weapon/radio/electropack/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/radio/electropack/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/screwdriver))
+	if (istype(W, /obj/item/screwdriver))
 		src.e_pads = !( src.e_pads )
 		if (src.e_pads)
 			user.show_message("\blue The electric pads have been exposed!")
@@ -3605,8 +3605,8 @@
 			user.show_message("\blue The electric pads have been reinserted!")
 		src.add_fingerprint(user)
 	else
-		if (istype(W, /obj/item/weapon/clothing/head/helmet))
-			var/obj/item/weapon/assembly/shock_kit/A = new /obj/item/weapon/assembly/shock_kit( user )
+		if (istype(W, /obj/item/clothing/head/helmet))
+			var/obj/item/assembly/shock_kit/A = new /obj/item/assembly/shock_kit( user )
 			W.loc = A
 			A.part1 = W
 			W.layer = initial(W.layer)
@@ -3631,7 +3631,7 @@
 			A.add_fingerprint(user)
 	return
 
-/obj/item/weapon/radio/electropack/Topic(href, href_list)
+/obj/item/radio/electropack/Topic(href, href_list)
 	//..()
 	if (usr.stat || usr.restrained())
 		return
@@ -3674,15 +3674,15 @@
 		return
 	return
 
-/obj/item/weapon/radio/electropack/accept_rad(obj/item/weapon/radio/signaler/R as obj, message)
+/obj/item/radio/electropack/accept_rad(obj/item/radio/signaler/R as obj, message)
 
-	if ((istype(R, /obj/item/weapon/radio/signaler) && R.freq == src.freq && R.code == src.code))
+	if ((istype(R, /obj/item/radio/signaler) && R.freq == src.freq && R.code == src.code))
 		return 1
 	else
 		return null
 	return
 
-/obj/item/weapon/radio/electropack/r_signal()
+/obj/item/radio/electropack/r_signal()
 
 	//*****
 	//world << "electropack \ref[src] got signal: [src.loc] [on]"
@@ -3703,7 +3703,7 @@
 		src.master:r_signal(1)
 	return
 
-/obj/item/weapon/radio/electropack/attack_self(mob/user as mob, flag1)
+/obj/item/radio/electropack/attack_self(mob/user as mob, flag1)
 
 	if (!( istype(user, /mob/human) ))
 		return
@@ -3712,7 +3712,7 @@
 	user << browse(dat, "window=radio")
 	return
 
-/obj/item/weapon/radio/proc/accept_rad(obj/item/weapon/radio/R as obj, message)
+/obj/item/radio/proc/accept_rad(obj/item/radio/R as obj, message)
 
 	if ((R.freq == src.freq && message))
 		return 1
@@ -3720,23 +3720,23 @@
 		return null
 	return
 
-/obj/item/weapon/radio/proc/r_signal()
+/obj/item/radio/proc/r_signal()
 
 	return
 
-/obj/item/weapon/radio/proc/send_crackle()
+/obj/item/radio/proc/send_crackle()
 
 	if ((src.listening && src.wires & 2))
 		return hearers(3, src.loc)
 	return
 
-/obj/item/weapon/radio/proc/sendm(msg)
+/obj/item/radio/proc/sendm(msg)
 
 	if ((src.listening && src.wires & 2))
 		return hearers(1, src.loc)
 	return
 
-/obj/item/weapon/radio/examine()
+/obj/item/radio/examine()
 	set src in view()
 
 	..()
@@ -3747,10 +3747,10 @@
 			usr.show_message("\blue The radio can not be modified or attached!")
 	return
 
-/obj/item/weapon/radio/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/radio/attackby(obj/item/W as obj, mob/user as mob)
 
 	user.machine = src
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.b_stat = !( src.b_stat )
 	if (src.b_stat)
@@ -3764,22 +3764,22 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/radio/beacon/hear_talk()
+/obj/item/radio/beacon/hear_talk()
 
 	return
 	return
 
-/obj/item/weapon/radio/beacon/sendm()
+/obj/item/radio/beacon/sendm()
 
 	return null
 	return
 
-/obj/item/weapon/radio/beacon/send_crackle()
+/obj/item/radio/beacon/send_crackle()
 
 	return null
 	return
 
-/obj/item/weapon/radio/beacon/verb/alter_signal(t as text)
+/obj/item/radio/beacon/verb/alter_signal(t as text)
 	set src in usr
 
 	if ((usr.canmove && !( usr.restrained() )))
@@ -3789,15 +3789,15 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/item/weapon/radio/signaler/accept_rad(obj/item/weapon/radio/signaler/R as obj, message)
+/obj/item/radio/signaler/accept_rad(obj/item/radio/signaler/R as obj, message)
 
-	if ((istype(R, /obj/item/weapon/radio/signaler) && R.freq == src.freq && R.code == src.code))
+	if ((istype(R, /obj/item/radio/signaler) && R.freq == src.freq && R.code == src.code))
 		return 1
 	else
 		return null
 	return
 
-/obj/item/weapon/radio/signaler/examine()
+/obj/item/radio/signaler/examine()
 	set src in view()
 
 	..()
@@ -3808,7 +3808,7 @@
 			usr.show_message("\blue The signaler can not be modified or attached!")
 	return
 
-/obj/item/weapon/radio/signaler/attack_self(mob/user as mob, flag1)
+/obj/item/radio/signaler/attack_self(mob/user as mob, flag1)
 
 	user.machine = src
 	var/t1
@@ -3820,22 +3820,22 @@
 	user << browse(dat, "window=radio")
 	return
 
-/obj/item/weapon/radio/signaler/hear_talk()
+/obj/item/radio/signaler/hear_talk()
 
 	return
 	return
 
-/obj/item/weapon/radio/signaler/sendm()
+/obj/item/radio/signaler/sendm()
 
 	return
 	return
 
-/obj/item/weapon/radio/signaler/send_crackle()
+/obj/item/radio/signaler/send_crackle()
 
 	return
 	return
 
-/obj/item/weapon/radio/signaler/r_signal(signal)
+/obj/item/radio/signaler/r_signal(signal)
 
 
 
@@ -3850,7 +3850,7 @@
 		//Foreach goto(64)
 	return
 
-/obj/item/weapon/radio/signaler/proc/s_signal(signal)
+/obj/item/radio/signaler/proc/s_signal(signal)
 
 
 	if (signal == null)
@@ -3864,7 +3864,7 @@
 
 	//world << "Sending signal from signaler \ref[src]: [freq]/[code]"
 
-	for(var/obj/item/weapon/radio/R in world)
+	for(var/obj/item/radio/R in world)
 
 		if (R.accept_rad(src))
 			spawn( 0 )
@@ -3878,7 +3878,7 @@
 	delay = 0
 	return
 
-/obj/item/weapon/radio/signaler/Topic(href, href_list)
+/obj/item/radio/signaler/Topic(href, href_list)
 	//..()
 	if (usr.stat)
 		return
@@ -3909,7 +3909,7 @@
 					else
 						if (href_list["wires"])
 							var/t1 = text2num(href_list["wires"])
-							if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
+							if (!( istype(usr.equipped(), /obj/item/wirecutters) ))
 								return
 							if ((!( src.b_stat ) && !( src.master )))
 								return
@@ -3952,7 +3952,7 @@
 		return
 	return
 
-/obj/item/weapon/radio/intercom/attack_ai(mob/user as mob)
+/obj/item/radio/intercom/attack_ai(mob/user as mob)
 
 	src.add_fingerprint(user)
 	spawn( 0 )
@@ -3960,13 +3960,13 @@
 		return
 	return
 
-/obj/item/weapon/radio/intercom/attack_paw(mob/user as mob)
+/obj/item/radio/intercom/attack_paw(mob/user as mob)
 
 	if ((ticker && ticker.mode == "monkey"))
 		return src.attack_hand(user)
 	return
 
-/obj/item/weapon/radio/intercom/attack_hand(mob/user as mob)
+/obj/item/radio/intercom/attack_hand(mob/user as mob)
 
 	src.add_fingerprint(user)
 	spawn( 0 )
@@ -3974,19 +3974,19 @@
 		return
 	return
 
-/obj/item/weapon/radio/intercom/send_crackle()
+/obj/item/radio/intercom/send_crackle()
 
 	if (src.listening)
 		return list(  )
 	return
 
-/obj/item/weapon/radio/intercom/sendm(msg)
+/obj/item/radio/intercom/sendm(msg)
 
 	if (src.listening)
 		return hearers(7, src.loc)
 	return
 
-/obj/item/weapon/radio/attack_self(mob/user as mob)
+/obj/item/radio/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/t1
@@ -3998,7 +3998,7 @@
 	user << browse(dat, "window=radio")
 	return
 
-/obj/item/weapon/radio/Topic(href, href_list)
+/obj/item/radio/Topic(href, href_list)
 	//..()
 	if (usr.stat)
 		return
@@ -4019,7 +4019,7 @@
 				else
 					if (href_list["wires"])
 						var/t1 = text2num(href_list["wires"])
-						if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
+						if (!( istype(usr.equipped(), /obj/item/wirecutters) ))
 							return
 						if (t1 & 1)
 							if (src.wires & 1)
@@ -4054,13 +4054,13 @@
 		return
 	return
 
-/obj/item/weapon/radio/talk_into(mob/M as mob, msg)
+/obj/item/radio/talk_into(mob/M as mob, msg)
 
 	if (!( src.wires & 4 ))
 		return
 	var/list/receive = list(  )
 	var/list/crackle = list(  )
-	for(var/obj/item/weapon/radio/R in world)
+	for(var/obj/item/radio/R in world)
 		if (((src.freq == 0 || R.accept_rad(src, msg)) && src.freq != 5))
 			for(var/i in R.sendm(msg))
 				receive -= i
@@ -4107,13 +4107,13 @@
 				//Foreach goto(585)
 	return
 
-/obj/item/weapon/radio/hear_talk(mob/M as mob, msg)
+/obj/item/radio/hear_talk(mob/M as mob, msg)
 
 	if (src.broadcasting)
 		talk_into(M, msg)
 	return
 
-/obj/item/weapon/shard/Bump()
+/obj/item/shard/Bump()
 
 	spawn( 0 )
 		if (prob(20))
@@ -4124,7 +4124,7 @@
 		return
 	return
 
-/obj/item/weapon/shard/New()
+/obj/item/shard/New()
 
 	//****RM
 	//world<<"New shard at [x],[y],[z]"
@@ -4143,18 +4143,18 @@
 		else
 	return
 
-/obj/item/weapon/shard/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/shard/attackby(obj/item/W as obj, mob/user as mob)
 
 	..()
-	if (!( istype(W, /obj/item/weapon/weldingtool) ))
+	if (!( istype(W, /obj/item/weldingtool) ))
 		return
-	new /obj/item/weapon/sheet/glass( user.loc )
+	new /obj/item/sheet/glass( user.loc )
 	//SN src = null
 	del(src)
 	return
 	return
 
-/obj/item/weapon/Bump(mob/M as mob)
+/obj/item/Bump(mob/M as mob)
 
 	spawn( 0 )
 		..()
@@ -4177,7 +4177,7 @@
 					var/mob/human/H = M
 					var/dam_zone = pick("chest", "diaper", "head")
 					if (H.organs[text("[]", dam_zone)])
-						var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", dam_zone)]
+						var/obj/item/organ/external/affecting = H.organs[text("[]", dam_zone)]
 						if (affecting.take_damage(src.throwforce, 0))
 							H.UpdateDamageIcon()
 						else
@@ -4188,30 +4188,30 @@
 		return
 	return
 
-/obj/item/weapon/wrench/New()
+/obj/item/wrench/New()
 
 	if (prob(75))
 		src.pixel_x = rand(0, 16)
 	return
 
-/obj/item/weapon/screwdriver/New()
+/obj/item/screwdriver/New()
 
 	if (prob(75))
 		src.pixel_y = rand(0, 16)
 	return
 
-/obj/item/weapon/dropper/attack_paw(mob/user as mob)
+/obj/item/dropper/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/dropper/attack_hand()
+/obj/item/dropper/attack_hand()
 
 	..()
 	src.update_is()
 	return
 
-/obj/item/weapon/dropper/proc/update_is()
+/obj/item/dropper/proc/update_is()
 
 	var/t1 = round(src.chem.volume())
 	if (istype(src.loc, /mob))
@@ -4224,13 +4224,13 @@
 	src.s_istate = "dropper"
 	return
 
-/obj/item/weapon/dropper/dropped()
+/obj/item/dropper/dropped()
 
 	..()
 	src.update_is()
 	return
 
-/obj/item/weapon/dropper/attack_self()
+/obj/item/dropper/attack_self()
 
 	if (src.mode == "inject")
 		src.mode = "draw"
@@ -4239,14 +4239,14 @@
 	src.update_is()
 	return
 
-/obj/item/weapon/dropper/New()
+/obj/item/dropper/New()
 
 	src.chem = new /obj/substance/chemical(  )
 	src.chem.maximum = 5
 	..()
 	return
 
-/obj/item/weapon/dropper/attack(mob/M as mob, mob/user as mob)
+/obj/item/dropper/attack(mob/M as mob, mob/user as mob)
 
 	if (!( istype(M, /mob) ))
 		return
@@ -4263,17 +4263,17 @@
 		src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/implantcase/proc/update()
+/obj/item/implantcase/proc/update()
 
 	if (src.imp)
-		src.icon_state = text("implantcase-[]", src.imp.color)
+		src.icon_state = text("implantcase-[]", src.imp.implant_color)
 	else
 		src.icon_state = "implantcase-0"
 	return
 
-/obj/item/weapon/implantcase/attackby(obj/item/weapon/I as obj, mob/user as mob)
+/obj/item/implantcase/attackby(obj/item/I as obj, mob/user as mob)
 
-	if (istype(I, /obj/item/weapon/pen))
+	if (istype(I, /obj/item/pen))
 		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != I)
 			return
@@ -4285,7 +4285,7 @@
 		else
 			src.name = "Glass Case"
 	else
-		if (!( istype(I, /obj/item/weapon/implanter) ))
+		if (!( istype(I, /obj/item/implanter) ))
 			return
 	if (I:imp)
 		if ((src.imp || I:imp.implanted))
@@ -4306,13 +4306,13 @@
 			I:update()
 	return
 
-/obj/item/weapon/implantcase/tracking/New()
+/obj/item/implantcase/tracking/New()
 
-	src.imp = new /obj/item/weapon/implant/tracking( src )
+	src.imp = new /obj/item/implant/tracking( src )
 	..()
 	return
 
-/obj/item/weapon/implantpad/proc/update()
+/obj/item/implantpad/proc/update()
 
 	if (src.case)
 		src.icon_state = "implantpad-1"
@@ -4320,7 +4320,7 @@
 		src.icon_state = "implantpad-0"
 	return
 
-/obj/item/weapon/implantpad/attack_hand(mob/user as mob)
+/obj/item/implantpad/attack_hand(mob/user as mob)
 
 	if ((src.case && (user.l_hand == src || user.r_hand == src)))
 		if (user.hand)
@@ -4343,9 +4343,9 @@
 			return ..()
 	return
 
-/obj/item/weapon/implantpad/attackby(obj/item/weapon/implantcase/C as obj, mob/user as mob)
+/obj/item/implantpad/attackby(obj/item/implantcase/C as obj, mob/user as mob)
 
-	if (istype(C, /obj/item/weapon/implantcase))
+	if (istype(C, /obj/item/implantcase))
 		if (!( src.case ))
 			user.drop_item()
 			C.loc = src
@@ -4355,17 +4355,17 @@
 	src.update()
 	return
 
-/obj/item/weapon/implantpad/attack_self(mob/user as mob)
+/obj/item/implantpad/attack_self(mob/user as mob)
 
 	user.machine = src
 	var/dat = "<B>Implant Mini-Computer:</B><HR>"
 	if (src.case)
 		if (src.case.imp)
-			if (istype(src.case.imp, /obj/item/weapon/implant/tracking))
-				var/obj/item/weapon/implant/tracking/T = src.case.imp
+			if (istype(src.case.imp, /obj/item/implant/tracking))
+				var/obj/item/implant/tracking/T = src.case.imp
 				dat += text("<b>Implant Specifications:</b><BR>\n<b>Name:</b> Tracking Beacon<BR>\n<b>Zone:</b> Spinal Column> 2-5 vertebrae<BR>\n<b>Power Source:</b> Nervous System Ion Withdrawl Gradient<BR>\n<b>Life:</b> 10 minutes after death of host<BR>\n<b>Important Notes:</b> None<BR>\n<HR>\n<b>Implant Details:</b> <BR>\n<b>Function:</b> Continuously transmits low power signal on frequency- Useful for tracking.<BR>\nRange: 35-40 meters<BR>\n<b>Special Features:</b><BR>\n<i>Neuro-Safe</i>- Specialized shell absorbs excess voltages self-destructing the chip if\na malfunction occurs thereby securing safety of subject. The implant will melt and\ndisintegrate into bio-safe elements.<BR>\n<b>Integrity:</b> Gradient creates slight risk of being overcharged and frying the\ncircuitry. As a result neurotoxins can cause massive damage.<HR>\nImplant Specifics:\nFrequency (144.1-148.9): <A href='?src=\ref[];freq=-1'>-</A><A href='?src=\ref[];freq=-0.2'>-</A> [] <A href='?src=\ref[];freq=0.2'>+</A><A href='?src=\ref[];freq=1'>+</A><BR>\nID (1-100): <A href='?src=\ref[];id=-10'>-</A><A href='?src=\ref[];id=-1'>-</A> [] <A href='?src=\ref[];id=1'>+</A><A href='?src=\ref[];id=10'>+</A><BR>", src, src, T.freq, src, src, src, src, T.id, src, src)
 			else
-				if (istype(src.case.imp, /obj/item/weapon/implant/freedom))
+				if (istype(src.case.imp, /obj/item/implant/freedom))
 					dat += "<b>Implant Specifications:</b><BR>\n<b>Name:</b> Freedom Beacon<BR>\n<b>Zone:</b> Right Hand> Near wrist<BR>\n<b>Power Source:</b> Lithium Ion Battery<BR>\n<b>Life:</b> optimum 5 uses<BR>\n<b>Important Notes: <font color='red'>Illegal</font></b><BR>\n<HR>\n<b>Implant Details:</b> <BR>\n<b>Function:</b> Transmits a specialized cluster of signals to override handcuff locking\nmechanisms<BR>\n<b>Special Features:</b><BR>\n<i>Neuro-Scan</i>- Analyzes certain shadow signals in the nervous system along the dark\njoy sectors which respond mainly to chuckling<BR>\n<b>Integrity:</b> The battery is extremely weak and commonly after injection its\nlife can drive down to only 1 use.<HR>\nNo Implant Specifics"
 				else
 					dat += "Implant ID not in database"
@@ -4376,23 +4376,23 @@
 	user << browse(dat, "window=implantpad")
 	return
 
-/obj/item/weapon/implantpad/Topic(href, href_list)
+/obj/item/implantpad/Topic(href, href_list)
 	..()
 	if (usr.stat)
 		return
 	if ((usr.contents.Find(src) || (get_dist(src, usr) <= 1 && istype(src.loc, /turf))))
 		usr.machine = src
 		if (href_list["freq"])
-			if ((istype(src.case, /obj/item/weapon/implantcase) && istype(src.case.imp, /obj/item/weapon/implant/tracking)))
-				var/obj/item/weapon/implant/tracking/T = src.case.imp
+			if ((istype(src.case, /obj/item/implantcase) && istype(src.case.imp, /obj/item/implant/tracking)))
+				var/obj/item/implant/tracking/T = src.case.imp
 				T.freq += text2num(href_list["freq"])
 				if (T.freq * 10 % 2 == 0)
 					T.freq += 0.1
 				T.freq = min(148.9, T.freq)
 				T.freq = max(144.1, T.freq)
 		if (href_list["id"])
-			if ((istype(src.case, /obj/item/weapon/implantcase) && istype(src.case.imp, /obj/item/weapon/implant/tracking)))
-				var/obj/item/weapon/implant/tracking/T = src.case.imp
+			if ((istype(src.case, /obj/item/implantcase) && istype(src.case.imp, /obj/item/implant/tracking)))
+				var/obj/item/implant/tracking/T = src.case.imp
 				T.id += text2num(href_list["id"])
 				T.id = min(100, T.id)
 				T.id = max(1, T.id)
@@ -4409,24 +4409,24 @@
 		return
 	return
 
-/obj/item/weapon/implant/proc/trigger(emote, source as mob)
+/obj/item/implant/proc/trigger(emote, source as mob)
 
 	return
 
-/obj/item/weapon/implant/freedom/New()
+/obj/item/implant/freedom/New()
 
 	src.uses = rand(1, 5)
 	..()
 	return
 
-/obj/item/weapon/implant/freedom/trigger(emote, mob/source as mob)
+/obj/item/implant/freedom/trigger(emote, mob/source as mob)
 
 	if (src.uses < 1)
 		return 0
 	if (emote == "chuckle")
 		src.uses--
 		if (source.handcuffed)
-			var/obj/item/weapon/W = source.handcuffed
+			var/obj/item/W = source.handcuffed
 			source.handcuffed = null
 			if (source.client)
 				source.client.screen -= W
@@ -4437,7 +4437,7 @@
 					W.layer = initial(W.layer)
 	return
 
-/obj/item/weapon/implanter/proc/update()
+/obj/item/implanter/proc/update()
 
 	if (src.imp)
 		src.icon_state = "implanter1"
@@ -4445,7 +4445,7 @@
 		src.icon_state = "implanter0"
 	return
 
-/obj/item/weapon/implanter/attack(mob/M as mob, mob/user as mob)
+/obj/item/implanter/attack(mob/M as mob, mob/user as mob)
 
 	if (!( istype(M, /mob) ))
 		return
@@ -4460,18 +4460,18 @@
 		src.icon_state = "implanter0"
 	return
 
-/obj/item/weapon/syringe/attack_paw(mob/user as mob)
+/obj/item/syringe/attack_paw(mob/user as mob)
 
 	return src.attack_hand(user)
 	return
 
-/obj/item/weapon/syringe/attack_hand()
+/obj/item/syringe/attack_hand()
 
 	..()
 	src.update_is()
 	return
 
-/obj/item/weapon/syringe/proc/update_is()
+/obj/item/syringe/proc/update_is()
 
 	var/t1 = round(src.chem.volume(), 5)
 	if (istype(src.loc, /mob))
@@ -4484,7 +4484,7 @@
 	src.s_istate = text("syringe_[]", t1)
 	return
 
-/obj/item/weapon/syringe/proc/inject(mob/M as mob)
+/obj/item/syringe/proc/inject(mob/M as mob)
 
 	var/amount = 5
 	var/volume = src.chem.volume()
@@ -4498,13 +4498,13 @@
 	return amount
 	return
 
-/obj/item/weapon/syringe/dropped()
+/obj/item/syringe/dropped()
 
 	..()
 	src.update_is()
 	return
 
-/obj/item/weapon/syringe/attack_self()
+/obj/item/syringe/attack_self()
 
 	if (src.mode == "inject")
 		src.mode = "draw"
@@ -4513,14 +4513,14 @@
 	src.update_is()
 	return
 
-/obj/item/weapon/syringe/New()
+/obj/item/syringe/New()
 
 	src.chem = new /obj/substance/chemical(  )
 	src.chem.maximum = 15
 	..()
 	return
 
-/obj/item/weapon/syringe/attack(mob/M as mob, mob/user as mob)
+/obj/item/syringe/attack(mob/M as mob, mob/user as mob)
 
 	if (!( istype(M, /mob) ))
 		return
@@ -4550,11 +4550,11 @@
 			user.show_message(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.volume()))
 	return
 
-/obj/item/weapon/brutepack/attack_hand(mob/user as mob)
+/obj/item/brutepack/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/brutepack/F = new /obj/item/weapon/brutepack( user )
+		var/obj/item/brutepack/F = new /obj/item/brutepack( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -4571,7 +4571,7 @@
 		..()
 	return
 
-/obj/item/weapon/brutepack/attack(mob/M as mob, mob/user as mob)
+/obj/item/brutepack/attack(mob/M as mob, mob/user as mob)
 
 	if (M.health < 0)
 		return
@@ -4584,7 +4584,7 @@
 			//Foreach goto(89)
 	if (istype(M, /mob/human))
 		var/mob/human/H = M
-		var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
+		var/obj/item/organ/external/affecting = H.organs["chest"]
 		if (istype(user, /mob/human))
 			var/mob/human/user2 = user
 			var/t = user2.zone_sel.selecting
@@ -4593,9 +4593,9 @@
 			if (H.organs[text("[]", t)])
 				affecting = H.organs[text("[]", t)]
 		else
-			if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting:burn_dam <= 0))
+			if ((!( istype(affecting, /obj/item/organ/external) ) || affecting:burn_dam <= 0))
 				affecting = H.organs["head"]
-				if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting:burn_dam <= 0))
+				if ((!( istype(affecting, /obj/item/organ/external) ) || affecting:burn_dam <= 0))
 					affecting = H.organs["diaper"]
 		if (affecting.heal_damage(60, 0))
 			H.UpdateDamageIcon()
@@ -4605,7 +4605,7 @@
 	src.amount--
 	return
 
-/obj/item/weapon/brutepack/examine()
+/obj/item/brutepack/examine()
 	set src in view(1)
 
 	..()
@@ -4616,9 +4616,9 @@
 		return
 	return
 
-/obj/item/weapon/brutepack/attackby(obj/item/weapon/brutepack/W as obj, mob/user as mob)
+/obj/item/brutepack/attackby(obj/item/brutepack/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/brutepack) ))
+	if (!( istype(W, /obj/item/brutepack) ))
 		return
 	if (src.amount == 5)
 		return
@@ -4631,7 +4631,7 @@
 		del(W)
 	return
 
-/obj/item/weapon/hand_tele/attack_self(mob/user as mob)
+/obj/item/hand_tele/attack_self(mob/user as mob)
 
 	var/list/L = list(  )
 	for(var/obj/machinery/teleport/hub/R in world)
@@ -4651,11 +4651,11 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/ointment/attack_hand(mob/user as mob)
+/obj/item/ointment/attack_hand(mob/user as mob)
 
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/ointment/F = new /obj/item/weapon/ointment( user )
+		var/obj/item/ointment/F = new /obj/item/ointment( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -4672,7 +4672,7 @@
 		..()
 	return
 
-/obj/item/weapon/ointment/attack(mob/M as mob, mob/user as mob)
+/obj/item/ointment/attack(mob/M as mob, mob/user as mob)
 
 	if (M.health < 0)
 		return
@@ -4686,7 +4686,7 @@
 			//Foreach goto(89)
 	if (istype(M, /mob/human))
 		var/mob/human/H = M
-		var/obj/item/weapon/organ/external/affecting = H.organs["chest"]
+		var/obj/item/organ/external/affecting = H.organs["chest"]
 		if (istype(user, /mob/human))
 			var/mob/user2 = user
 			var/t = user2.zone_sel.selecting
@@ -4695,9 +4695,9 @@
 			if (H.organs[text("[]", t)])
 				affecting = H.organs[text("[]", t)]
 		else
-			if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting.burn_dam <= 0))
+			if ((!( istype(affecting, /obj/item/organ/external) ) || affecting.burn_dam <= 0))
 				affecting = H.organs["head"]
-				if ((!( istype(affecting, /obj/item/weapon/organ/external) ) || affecting.burn_dam <= 0))
+				if ((!( istype(affecting, /obj/item/organ/external) ) || affecting.burn_dam <= 0))
 					affecting = H.organs["diaper"]
 		if (affecting.heal_damage(0, 40))
 			H.UpdateDamageIcon()
@@ -4710,15 +4710,15 @@
 		return
 	return
 
-/obj/item/weapon/ointment/examine()
+/obj/item/ointment/examine()
 	set src in view(1)
 
 	usr << text("\blue there are [] ointment pack\s left on the stack!", src.amount)
 	return
 
-/obj/item/weapon/ointment/attackby(obj/item/weapon/ointment/W as obj, mob/user as mob)
+/obj/item/ointment/attackby(obj/item/ointment/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/ointment) ))
+	if (!( istype(W, /obj/item/ointment) ))
 		return
 	if (W.amount == 5)
 		return
@@ -4732,21 +4732,21 @@
 		return
 	return
 
-/obj/item/weapon/bottle/examine()
+/obj/item/bottle/examine()
 	set src in usr
 
 	usr << text("\blue The bottle \icon[] contains [] millimeters of chemicals", src, round(src.chem.volume(), 0.1))
 	return
 
-/obj/item/weapon/bottle/New()
+/obj/item/bottle/New()
 
 	src.chem = new /obj/substance/chemical(  )
 	..()
 	return
 
-/obj/item/weapon/bottle/attackby(obj/item/weapon/B as obj, mob/user as mob)
+/obj/item/bottle/attackby(obj/item/B as obj, mob/user as mob)
 
-	if (istype(B, /obj/item/weapon/bottle))
+	if (istype(B, /obj/item/bottle))
 		var/t1 = src.chem.maximum
 		var/volume = src.chem.volume()
 		if (volume < 0.1)
@@ -4756,7 +4756,7 @@
 		t1 = src.chem.transfer_from(B:chem, t1)
 		if (t1)
 			user.show_message(text("\blue You pour [] unit\s into the bottle. The bottle now contains [] millimeters.", round(t1, 0.1), round(src.chem.volume(), 0.1)))
-	if (istype(B, /obj/item/weapon/syringe))
+	if (istype(B, /obj/item/syringe))
 		if (B:mode == "inject")
 			var/t1 = 5
 			var/volume = src.chem.volume()
@@ -4783,7 +4783,7 @@
 				user.show_message(text("\blue You draw [] unit\s from the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
 		src.add_fingerprint(user)
 	else
-		if (istype(B, /obj/item/weapon/dropper))
+		if (istype(B, /obj/item/dropper))
 			if (B:mode == "inject")
 				var/t1 = 1
 				var/volume = src.chem.volume()
@@ -4810,7 +4810,7 @@
 					user.show_message(text("\blue You extract [] unit\s from the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
 	return
 
-/obj/item/weapon/bottle/toxins/New()
+/obj/item/bottle/toxins/New()
 
 	..()
 	src.chem.maximum = 60
@@ -4819,7 +4819,7 @@
 	src.chem.chemicals[text("[]", C.name)] = C
 	return
 
-/obj/item/weapon/bottle/antitoxins/New()
+/obj/item/bottle/antitoxins/New()
 
 	..()
 	src.chem.maximum = 60
@@ -4828,7 +4828,7 @@
 	src.chem.chemicals[text("[]", C.name)] = C
 	return
 
-/obj/item/weapon/bottle/r_epil/New()
+/obj/item/bottle/r_epil/New()
 
 	..()
 	src.chem.maximum = 60
@@ -4837,7 +4837,7 @@
 	src.chem.chemicals[text("[]", C.name)] = C
 	return
 
-/obj/item/weapon/bottle/r_ch_cough/New()
+/obj/item/bottle/r_ch_cough/New()
 
 	..()
 	src.chem.maximum = 60
@@ -4846,7 +4846,7 @@
 	src.chem.chemicals[text("[]", C.name)] = C
 	return
 
-/obj/item/weapon/bottle/rejuvenators/New()
+/obj/item/bottle/rejuvenators/New()
 
 	..()
 	src.chem.maximum = 60
@@ -4855,7 +4855,7 @@
 	src.chem.chemicals[text("[]", C.name)] = C
 	return
 
-/obj/item/weapon/bottle/s_tox/New()
+/obj/item/bottle/s_tox/New()
 
 	..()
 	src.chem.maximum = 60
@@ -4864,20 +4864,20 @@
 	src.chem.chemicals[text("[]", C.name)] = C
 	return
 
-/obj/item/weapon/bottle/New()
+/obj/item/bottle/New()
 
 	..()
 	src.pixel_y = rand(-8.0, 8)
 	src.pixel_x = rand(-8.0, 8)
 	return
 
-/obj/item/weapon/weldingtool/examine()
+/obj/item/weldingtool/examine()
 	set src in usr
 
 	usr << text("\icon[] [] contains [] units of fuel left!", src, src.name, src.weldfuel)
 	return
 
-/obj/item/weapon/weldingtool/afterattack(O as obj, mob/user as mob)
+/obj/item/weldingtool/afterattack(O as obj, mob/user as mob)
 
 	if (src.welding)
 		src.weldfuel--
@@ -4893,7 +4893,7 @@
 		location.firelevel = location.poison + 1
 	return
 
-/obj/item/weapon/weldingtool/attack_self(mob/user as mob)
+/obj/item/weldingtool/attack_self(mob/user as mob)
 
 	src.welding = !( src.welding )
 	if (src.welding)
@@ -4922,9 +4922,9 @@
 	var/dat = "<B>Crew Manifest</B>:<BR>"
 	for(var/mob/human/M in world)
 		if (M.start)
-			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.wear_id, /obj/item/weapon/card/id) ? text("[]", M.wear_id.assignment) : "Unknown Position"))
+			dat += text("    <B>[]</B> -  []<BR>", M.name, (istype(M.wear_id, /obj/item/card/id) ? text("[]", M.wear_id.assignment) : "Unknown Position"))
 		//Foreach goto(23)
-	var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+	var/obj/item/paper/P = new /obj/item/paper( src.loc )
 	P.info = dat
 	P.name = "paper- 'Crew Manifest'"
 	//SN src = null
@@ -4943,9 +4943,9 @@
 	src.master.attackby(W, user)
 	return
 
-/obj/bedsheetbin/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/bedsheetbin/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/bedsheet))
+	if (istype(W, /obj/item/bedsheet))
 		//W = null
 		del(W)
 		src.amount++
@@ -4960,7 +4960,7 @@
 
 	if (src.amount >= 1)
 		src.amount--
-		new /obj/item/weapon/bedsheet( src.loc )
+		new /obj/item/bedsheet( src.loc )
 		add_fingerprint(user)
 	return
 
@@ -4999,7 +4999,7 @@
 /obj/table/blob_act()
 
 	if(prob(50))
-		new /obj/item/weapon/table_parts( src.loc )
+		new /obj/item/table_parts( src.loc )
 		del(src)
 
 /obj/table/hand_p(mob/user as mob)
@@ -5028,17 +5028,17 @@
 
 /obj/table/MouseDrop_T(obj/O as obj, mob/user as mob)
 
-	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
+	if ((!( istype(O, /obj/item/) ) || user.equipped() != O))
 		return
 	user.drop_item()
 	if (O.loc != src.loc)
 		step(O, get_dir(O, src))
 	return
 
-/obj/table/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/table/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/table_parts( src.loc )
+	if (istype(W, /obj/item/wrench))
+		new /obj/item/table_parts( src.loc )
 		//SN src = null
 		del(src)
 		return
@@ -5083,17 +5083,17 @@
 
 /obj/rack/MouseDrop_T(obj/O as obj, mob/user as mob)
 
-	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
+	if ((!( istype(O, /obj/item/) ) || user.equipped() != O))
 		return
 	user.drop_item()
 	if (O.loc != src.loc)
 		step(O, get_dir(O, src))
 	return
 
-/obj/rack/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/rack/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/rack_parts( src.loc )
+	if (istype(W, /obj/item/wrench))
+		new /obj/item/rack_parts( src.loc )
 		//SN src = null
 		del(src)
 		return
@@ -5110,9 +5110,9 @@
 		src.density = 0
 	return
 
-/obj/weldfueltank/attackby(obj/item/weapon/weldingtool/W as obj, mob/user as mob)
+/obj/weldfueltank/attackby(obj/item/weldingtool/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/weldingtool) ))
+	if (!( istype(W, /obj/item/weldingtool) ))
 		return
 	W.weldfuel = 20
 	W.suffix = text("[][]", (W == src ? "equipped " : ""), W.weldfuel)
@@ -5150,9 +5150,9 @@
 		T.oxygen += 1600000
 		del(src)
 
-/obj/watertank/attackby(obj/item/weapon/extinguisher/W as obj, mob/user as mob)
+/obj/watertank/attackby(obj/item/extinguisher/W as obj, mob/user as mob)
 
-	if (!( istype(W, /obj/item/weapon/extinguisher) ))
+	if (!( istype(W, /obj/item/extinguisher) ))
 		return
 	W.waterleft = 20
 	W.suffix = text("[][]", (user.equipped() == src ? "equipped " : ""), W.waterleft)
@@ -5187,9 +5187,9 @@
 
 		del(src)
 
-/obj/d_girders/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/d_girders/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/sheet/metal))
+	if (istype(W, /obj/item/sheet/metal))
 		if (W:amount < 1)
 			//W = null
 			del(W)
@@ -5204,8 +5204,8 @@
 		del(src)
 		return
 	else
-		if (istype(W, /obj/item/weapon/screwdriver))
-			new /obj/item/weapon/sheet/metal( src.loc )
+		if (istype(W, /obj/item/screwdriver))
+			new /obj/item/sheet/metal( src.loc )
 			//SN src = null
 			del(src)
 			return
@@ -5312,22 +5312,22 @@
 
 	.=..()
 
-/mob/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/mob/attackby(obj/item/W as obj, mob/user as mob)
 
 	var/shielded = 0
-	for(var/obj/item/weapon/shield/S in src)
+	for(var/obj/item/shield/S in src)
 		if (S.active)
 			shielded = 1
 		else
 			//Foreach continue //goto(22)
-	if (locate(/obj/item/weapon/grab, src))
+	if (locate(/obj/item/grab, src))
 		var/mob/safe = null
-		if (istype(src.l_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.l_hand
+		if (istype(src.l_hand, /obj/item/grab))
+			var/obj/item/grab/G = src.l_hand
 			if ((G.state == 3 && get_dir(src, user) == src.dir))
 				safe = G.affecting
-		if (istype(src.r_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.r_hand
+		if (istype(src.r_hand, /obj/item/grab))
+			var/obj/item/grab/G = src.r_hand
 			if ((G.state == 3 && get_dir(src, user) == src.dir))
 				safe = G.affecting
 		if (safe)
@@ -5366,19 +5366,19 @@
 
 	return
 
-/atom/proc/hitby(obj/item/weapon/W as obj)
+/atom/proc/hitby(obj/item/W as obj)
 
 	return
 
-/atom/proc/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/atom/proc/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/f_print_scanner))
+	if (istype(W, /obj/item/f_print_scanner))
 		for(var/mob/O in viewers(src, null))
 			if ((O.client && !( O.blinded )))
 				O << text("\red [] has been scanned by [] with the []", src, user, W)
 			//Foreach goto(31)
 	else
-		if (!( istype(W, /obj/item/weapon/grab) ))
+		if (!( istype(W, /obj/item/grab) ))
 			for(var/mob/O in viewers(src, null))
 				if ((O.client && !( O.blinded )))
 					O << text("\red <B>[] has been hit by [] with []</B>", src, user, W)
@@ -5427,7 +5427,7 @@
 		usr:lastDblClick = world.time
 
 	..()
-	var/obj/item/weapon/W = usr.equipped()
+	var/obj/item/W = usr.equipped()
 	if ((W == src && usr.stat == 0))
 		spawn( 0 )
 			W.attack_self(usr)
@@ -5442,7 +5442,7 @@
 	var/t5 = (get_dist(src, usr) <= 1 || src.loc == usr)
 	if (istype(usr, /mob/ai))
 		t5 = 1
-	if ((istype(src, /obj/item/weapon/organ) && src in usr.contents))
+	if ((istype(src, /obj/item/organ) && src in usr.contents))
 		var/mob/human/H = usr
 		usr << "Betchya think you're really smart trying to remove your own body parts aren't ya!"
 		if (istype(H, /mob/human))
@@ -5459,7 +5459,7 @@
 			return
 		if ((src.loc && (get_dist(src, usr) < 2 || src.loc == usr.loc)))
 			var/direct = get_dir(usr, src)
-			var/obj/item/weapon/dummy/D = new /obj/item/weapon/dummy( usr.loc )
+			var/obj/item/dummy/D = new /obj/item/dummy( usr.loc )
 			var/ok = 0
 			if ( (direct - 1) & direct)
 				var/turf/T

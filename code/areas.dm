@@ -2,7 +2,7 @@
 	var/fire = null
 	level = null
 	name = "area"
-	icon = 'areas.dmi'
+	icon = 'icons/areas.dmi'
 	icon_state = "unknown"
 	layer = 10
 	mouse_opacity = 0
@@ -286,7 +286,7 @@
 
 /area/New()
 	..()
-	src.icon = 'alert.dmi'
+	src.icon = 'icons/alert.dmi'
 	src.layer = 10
 
 	if(!requires_power)

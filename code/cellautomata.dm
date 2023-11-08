@@ -5,35 +5,35 @@
 		var/obj/starting = locate(text("landmark*CTF-base-[]", src.base))
 		while(locate(text("landmark*CTF-supply-[]", src.base)))
 			var/obj/L = locate(text("landmark*CTF-supply-[]", src.base))
-			var/obj/item/weapon/card/id/I = new /obj/item/weapon/card/id( L.loc )
+			var/obj/item/card/id/I = new /obj/item/card/id( L.loc )
 			I.access_level = 5
 			I.lab_access = 5
 			I.engine_access = 5
 			I.air_access = 5
 			I.assignment = "Captain"
-			I.registered = text("[]", uppertext((src.color ? src.color : "rogue")))
+			I.registered = text("[]", uppertext((src.side ? src.side : "rogue")))
 			I.name = text("[]'s ID Card ([]>[]-[]-[])", I.registered, I.access_level, I.lab_access, I.engine_access, I.air_access)
-			var/obj/item/weapon/paper/flag/F = new /obj/item/weapon/paper/flag( L.loc )
-			if (src.color)
-				F.icon_state = text("flag_[]", src.color)
-				F.name = text("flag- '[] Team's Flag'", uppertext(src.color))
+			var/obj/item/paper/flag/F = new /obj/item/paper/flag( L.loc )
+			if (src.side)
+				F.icon_state = text("flag_[]", src.side)
+				F.name = text("flag- '[] Team's Flag'", uppertext(src.side))
 			else
 				F.name = "flag- 'NEUTRAL Team's Flag'"
 				F.icon_state = "flag_neutral"
-			F.info = text("This is an authentic [] flag!\n<font face=vivaldi>Capture the Flag</font>", (src.color ? src.color : "neutral"))
+			F.info = text("This is an authentic [] flag!\n<font face=vivaldi>Capture the Flag</font>", (src.side ? src.side : "neutral"))
 			if (src.master.paint_cans)
-				var/obj/item/weapon/paint/P = new /obj/item/weapon/paint( L.loc )
-				if (src.color)
-					P.color = src.color
-					P.icon_state = text("paint_[]", src.color)
+				var/obj/item/paint/P = new /obj/item/paint( L.loc )
+				if (src.side)
+					P.paint_color = src.side
+					P.icon_state = text("paint_[]", src.side)
 				else
-					P.color = "neutral"
-					P.icon_state = text("paint_[]", src.color)
+					P.paint_color = "neutral"
+					P.icon_state = text("paint_[]", src.side)
 			//L = null
 			del(L)
 		while(locate(text("landmark*CTF-wardrobe-[]", src.base)))
 			var/obj/L = locate(text("landmark*CTF-wardrobe-[]", src.base))
-			switch(src.color)
+			switch(src.side)
 				if("blue")
 					new /obj/closet/wardrobe( L.loc )
 				if("green")
@@ -52,33 +52,33 @@
 		if (starting)
 			for(var/mob/human/H in src.members)
 				H.loc = starting.loc
-				if ((src.master.autodress && src.color))
+				if ((src.master.autodress && src.side))
 					H.w_uniform = null
 					del(H.w_uniform)
 					H.shoes = null
 					del(H.shoes)
-					switch(src.color)
+					switch(src.side)
 						if("blue")
-							H.w_uniform = new /obj/item/weapon/clothing/under/blue( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/brown( H )
+							H.w_uniform = new /obj/item/clothing/under/blue( H )
+							H.shoes = new /obj/item/clothing/shoes/brown( H )
 						if("green")
-							H.w_uniform = new /obj/item/weapon/clothing/under/green( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
+							H.w_uniform = new /obj/item/clothing/under/green( H )
+							H.shoes = new /obj/item/clothing/shoes/black( H )
 						if("yellow")
-							H.w_uniform = new /obj/item/weapon/clothing/under/yellow( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/orange( H )
+							H.w_uniform = new /obj/item/clothing/under/yellow( H )
+							H.shoes = new /obj/item/clothing/shoes/orange( H )
 						if("black")
-							H.w_uniform = new /obj/item/weapon/clothing/under/black( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
+							H.w_uniform = new /obj/item/clothing/under/black( H )
+							H.shoes = new /obj/item/clothing/shoes/black( H )
 						if("white")
-							H.w_uniform = new /obj/item/weapon/clothing/under/white( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/brown( H )
+							H.w_uniform = new /obj/item/clothing/under/white( H )
+							H.shoes = new /obj/item/clothing/shoes/brown( H )
 						if("red")
-							H.w_uniform = new /obj/item/weapon/clothing/under/red( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/brown( H )
+							H.w_uniform = new /obj/item/clothing/under/red( H )
+							H.shoes = new /obj/item/clothing/shoes/brown( H )
 						else
-							H.w_uniform = new /obj/item/weapon/clothing/under/orange( H )
-							H.shoes = new /obj/item/weapon/clothing/shoes/orange( H )
+							H.w_uniform = new /obj/item/clothing/under/orange( H )
+							H.shoes = new /obj/item/clothing/shoes/orange( H )
 					H.w_uniform.layer = 20
 					H.shoes.layer = 20
 				//Foreach goto(507)
@@ -94,7 +94,7 @@
 	for(var/mob/M in src.members)
 		dat += text("\t[] ([])\n", M.rname, M.key)
 		//Foreach goto(79)
-	dat += text("Base: \t<A href='?src=\ref[];base=1'>[]</A>\nColor: \t<A href='?src=\ref[];color=1'>[]</A>\n\n<A href='?src=\ref[];nothing=1'>Refresh</A>", src, src.base, src, src.color, src)
+	dat += text("Base: \t<A href='?src=\ref[];base=1'>[]</A>\nColor: \t<A href='?src=\ref[];color=1'>[]</A>\n\n<A href='?src=\ref[];nothing=1'>Refresh</A>", src, src.base, src, src.side, src)
 	dat += "</PRE>"
 	user << browse(dat, "window=ctf_team")
 	return
@@ -108,8 +108,8 @@
 			var/t = input(usr, "Please select a new color", null, null)  as null|anything in src.master.avail_colors
 			if ((t && src.master.avail_colors.Find(t)))
 				src.master.avail_colors -= t
-				src.master.avail_colors += src.color
-				src.color = t
+				src.master.avail_colors += src.side
+				src.side = t
 		if (href_list["base"])
 			var/t = input(usr, "Please select a new base", null, null)  as null|anything in src.master.avail_bases
 			if ((t && src.master.avail_bases.Find(t)))
@@ -166,7 +166,7 @@
 		if (M.start)
 			M.primary = null
 			del(M.primary)
-			for(var/obj/item/weapon/I in M)
+			for(var/obj/item/I in M)
 				//M = null
 				del(M)
 				//Foreach goto(165)
@@ -235,9 +235,9 @@
 
 	if (src.wintype == "none")
 		return
-	var/obj/item/weapon/paper/flag/F = locate(/obj/item/weapon/paper/flag)
+	var/obj/item/paper/flag/F = locate(/obj/item/paper/flag)
 	var/winning = 1
-	for(var/obj/item/weapon/paper/flag/L in world)
+	for(var/obj/item/paper/flag/L in world)
 		if (F.icon_state != L.icon_state)
 			winning = 0
 		else
@@ -249,13 +249,13 @@
 		return
 	var/obj/team/winner = null
 	for(var/obj/team/T in src)
-		if (text("flag_[]", T.color) == text("[]", F.icon_state))
+		if (text("flag_[]", T.side) == text("[]", F.icon_state))
 			winner = T
 		else
 			//Foreach continue //goto(157)
 	if (winner)
 		world << "<H3><B>The game has been won!!!</B></H3>"
-		world << text("<B>Team: [] Team led by [] in []</B>", uppertext(winner.color), winner.captain, winner.base)
+		world << text("<B>Team: [] Team led by [] in []</B>", uppertext(winner.side), winner.captain, winner.base)
 		world << "<B>Original Members:</B>"
 		for(var/mob/human/H in winner.members)
 			if (H.client)
@@ -269,13 +269,13 @@
 	dat += text("Players (per Team): <A href='?src=\ref[];play_team=1'>[]</A>\nBarrier Time: <A href='?src=\ref[];barriertime=1'>[] minutes</A>\n\n<B>Teams:</B>\n", src, src.play_team, src, src.barriertime)
 	for(var/obj/team/O in src)
 		if (ismob(O.captain))
-			if (O.color)
+			if (O.side)
 				dat += text("\t<A href='?src=\ref[];team=\ref[]'>[]'s Team ([])</A>\n", src, O, O.captain, O.color)
 			else
 				dat += text("\t<A href='?src=\ref[];team=\ref[]'>[]'s Team</A>\n", src, O, O.captain)
 		else
-			if (O.color)
-				dat += text("\t<A href='?src=\ref[];team=\ref[]'>[] Team</A>\n", src, O, O.color)
+			if (O.side)
+				dat += text("\t<A href='?src=\ref[];team=\ref[]'>[] Team</A>\n", src, O, O.side)
 			else
 				dat += text("\t<A href='?src=\ref[];team=\ref[]'>No Captain</A>\n", src, O)
 		//Foreach goto(43)
@@ -330,9 +330,9 @@
 			var/obj/team/T = new /obj/team( src )
 			T.master = src
 			T.base = pick(src.avail_bases)
-			T.color = pick(src.avail_colors)
+			T.side = pick(src.avail_colors)
 			src.avail_bases -= T.base
-			src.avail_colors -= T.color
+			src.avail_colors -= T.side
 	if (href_list["select_team"])
 		if (!( src.picking ))
 			src.picking = 1
@@ -410,7 +410,7 @@
 			//W = null
 			del(W)
 			//Foreach goto(1238)
-		for(var/obj/item/weapon/clothing/under/T in world)
+		for(var/obj/item/clothing/under/T in world)
 			//T = null
 			del(T)
 			//Foreach goto(1281)
@@ -428,9 +428,9 @@
 		var/obj/rogue = locate("landmark*CTF-rogue")
 		for(var/mob/human/H in world)
 			H.loc = rogue.loc
-			H.w_uniform = new /obj/item/weapon/clothing/under/orange( H )
+			H.w_uniform = new /obj/item/clothing/under/orange( H )
 			H.w_uniform.layer = 20
-			H.shoes = new /obj/item/weapon/clothing/shoes/orange( H )
+			H.shoes = new /obj/item/clothing/shoes/orange( H )
 			H.shoes.layer = 20
 			//Foreach goto(1453)
 		for(var/obj/team/T in src)
@@ -438,14 +438,14 @@
 			//Foreach goto(1545)
 		if (src.paint_cans)
 			for(var/obj/secloset/highsec/S in world)
-				new /obj/item/weapon/paint( S )
+				new /obj/item/paint( S )
 				//Foreach goto(1595)
 		if (src.neutral_replace)
 			while(src.avail_bases.len > 0)
 				var/t = pick(src.avail_bases)
 				src.avail_bases -= t
 				var/obj/L = locate(text("landmark*CTF-supply-[]", t))
-				var/obj/item/weapon/paper/flag/F = new /obj/item/weapon/paper/flag( L.loc )
+				var/obj/item/paper/flag/F = new /obj/item/paper/flag( L.loc )
 				F.name = "flag- 'NEUTRAL Team's Flag'"
 				F.icon_state = "flag_neutral"
 				F.info = "This is an authentic neutral flag!\n<font face=vivaldi>Capture the Flag</font>"
@@ -744,7 +744,7 @@
 	*/
 
 	if (href_list["m_item"])
-		var/X = typesof(/obj/item/weapon)
+		var/X = typesof(/obj/item/)
 		var/Q = input("What item?", null, null, null)  as null|anything in X
 		if (!( Q ))
 			return
@@ -845,19 +845,19 @@
 			var/ok = 0
 			switch(href_list["secrets2"])
 				if("sec_clothes")
-					for(var/obj/item/weapon/clothing/under/O in world)
+					for(var/obj/item/clothing/under/O in world)
 						//O = null
 						del(O)
 						//Foreach goto(2781)
 					ok = 1
 				if("sec_all_clothes")
-					for(var/obj/item/weapon/clothing/O in world)
+					for(var/obj/item/clothing/O in world)
 						//O = null
 						del(O)
 						//Foreach goto(2833)
 					ok = 1
 				if("sec_classic1")
-					for(var/obj/item/weapon/clothing/suit/firesuit/O in world)
+					for(var/obj/item/clothing/suit/firesuit/O in world)
 						//O = null
 						del(O)
 						//Foreach goto(2885)
@@ -877,11 +877,11 @@
 						//Foreach goto(2971)
 					ok = 1
 				if("clear_bombs")
-					for(var/obj/item/weapon/assembly/r_i_ptank/O in world)
+					for(var/obj/item/assembly/r_i_ptank/O in world)
 						del(O)
-					for(var/obj/item/weapon/assembly/m_i_ptank/O in world)
+					for(var/obj/item/assembly/m_i_ptank/O in world)
 						del(O)
-					for(var/obj/item/weapon/assembly/t_i_ptank/O in world)
+					for(var/obj/item/assembly/t_i_ptank/O in world)
 						del(O)
 					ok = 1
 				if("list_bombers")
@@ -1055,6 +1055,9 @@
 	if (features)
 		src.status += ": [dd_list2text(features, ", ")]"
 
+/client
+	fps = 40
+
 /world/New()
 
 	update_stat()
@@ -1217,11 +1220,11 @@
 		//Foreach goto(312)
 	sleep(50)
 	plmaster = new /obj/overlay(  )
-	plmaster.icon = 'plasma.dmi'
+	plmaster.icon = 'icons/plasma.dmi'
 	plmaster.icon_state = "onturf"
 	plmaster.layer = FLY_LAYER
 	slmaster = new /obj/overlay(  )
-	slmaster.icon = 'plasma.dmi'
+	slmaster.icon = 'icons/plasma.dmi'
 	slmaster.icon_state = "sl_gas"
 	slmaster.layer = FLY_LAYER
 	cellcontrol = new /datum/control/cellular(  )
@@ -1491,7 +1494,7 @@
 
 	var/list/L = list()
 	L += src.contents
-	for(var/obj/item/weapon/storage/S in src.contents)
+	for(var/obj/item/storage/S in src.contents)
 		L += S.return_inv()
 
 
@@ -1601,45 +1604,45 @@
 					var/list/L = list(  )
 					if (src.killer)
 						L += src.killer.contents
-						for(var/obj/item/weapon/storage/S in src.killer.contents)
+						for(var/obj/item/storage/S in src.killer.contents)
 							L += S.return_inv()
 							//Foreach goto(228)
-						for(var/obj/item/weapon/gift/G in src.killer.contents)
+						for(var/obj/item/gift/G in src.killer.contents)
 							L += G.gift
 							//Foreach goto(271)
 					traitorwin = 0
 					switch(src.theft_obj)
 						if("lasergun")
-							for(var/obj/item/weapon/gun/energy/laser_gun/O in L)
+							for(var/obj/item/gun/energy/laser_gun/O in L)
 								if (O.charges == 25)
 									traitorwin = 1
 								else
 									//Foreach continue //goto(347)
 							item = "a fully loaded laser gun"
 						if("plasmabomb")
-							for(var/obj/item/weapon/assembly/r_i_ptank/O in L)
-								var/obj/item/weapon/tank/plasmatank/P = O.part3
+							for(var/obj/item/assembly/r_i_ptank/O in L)
+								var/obj/item/tank/plasmatank/P = O.part3
 								if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773))		// 500degC
 									traitorwin = 1
 								else
 									//Foreach continue //goto(413)
 							item = "a fully armed and heated plasma bomb"
 						if("flashbang")
-							for(var/obj/item/weapon/flashbang/O in L)
+							for(var/obj/item/flashbang/O in L)
 								traitorwin = 1
 
 								//Foreach goto(500)
 							item = "a flashbang"
 						if("captaincard")
-							for(var/obj/item/weapon/card/id/O in L)
+							for(var/obj/item/card/id/O in L)
 								if ((O.access_level == 5 && O.air_access == 5 && O.engine_access == 5 && O.lab_access == 5 && O.assignment == "Captain"))
 									traitorwin = 1
 								else
 									//Foreach continue //goto(553)
 							item = "a captain's card with universal level 5 access"
 						if("sleepingpills")
-							for(var/obj/item/weapon/pill_canister/O in L)
-								for(var/obj/item/weapon/m_pill/sleep/P in O)
+							for(var/obj/item/pill_canister/O in L)
+								for(var/obj/item/m_pill/sleep/P in O)
 									if (P.amount == 30)
 										traitorwin = 1
 									else
@@ -1647,7 +1650,7 @@
 								//Foreach goto(658)
 							item = "a bottle of 30 sleeping pills"
 						if("pl_flask")
-							for(var/obj/item/weapon/flasks/O in L)
+							for(var/obj/item/flasks/O in L)
 								if (O.plasma == 500)
 									traitorwin = 1
 								else
@@ -1728,7 +1731,7 @@
 		if("nuclear")
 			if (src.objective != "Success")
 				var/disk_on_shuttle = 0
-				for(var/obj/item/weapon/disk/nuclear/N in world)
+				for(var/obj/item/disk/nuclear/N in world)
 					if (N.loc)
 						var/turf/T = get_turf(N)
 						if ((T in A))
@@ -2065,31 +2068,31 @@
 					H.already_placed = 1
 					//H.w_uniform = null
 					del(H.w_uniform)
-					H.w_uniform = new /obj/item/weapon/clothing/under/black( H )
+					H.w_uniform = new /obj/item/clothing/under/black( H )
 					H.w_uniform.layer = 20
 					//H.shoes = null
 					del(H.shoes)
-					H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
+					H.shoes = new /obj/item/clothing/shoes/black( H )
 					H.shoes.layer = 20
-					H.gloves = new /obj/item/weapon/clothing/gloves/swat( H )
+					H.gloves = new /obj/item/clothing/gloves/swat( H )
 					H.gloves.layer = 20
-					H.wear_suit = new /obj/item/weapon/clothing/suit/armor( H )
+					H.wear_suit = new /obj/item/clothing/suit/armor( H )
 					H.wear_suit.layer = 20
-					H.head = new /obj/item/weapon/clothing/head/swat_hel( H )
+					H.head = new /obj/item/clothing/head/swat_hel( H )
 					H.head.layer = 20
-					H.glasses = new /obj/item/weapon/clothing/glasses/sunglasses( H )
+					H.glasses = new /obj/item/clothing/glasses/sunglasses( H )
 					H.glasses.layer = 20
-					H.back = new /obj/item/weapon/storage/backpack( H )
+					H.back = new /obj/item/storage/backpack( H )
 					H.back.layer = 20
-					var/obj/item/weapon/ammo/a357/W = new /obj/item/weapon/ammo/a357( H.back )
+					var/obj/item/ammo/a357/W = new /obj/item/ammo/a357( H.back )
 					W.layer = 20
-					W = new /obj/item/weapon/m_pill/cyanide( H.back )
+					W = new /obj/item/m_pill/cyanide( H.back )
 					W.layer = 20
-					var/obj/item/weapon/gun/revolver/G = new /obj/item/weapon/gun/revolver( H )
+					var/obj/item/gun/revolver/G = new /obj/item/gun/revolver( H )
 					G.bullets = 7
 					G.layer = 20
 					H.belt = G
-					var/obj/item/weapon/radio/R = new /obj/item/weapon/radio/headset( H )
+					var/obj/item/radio/R = new /obj/item/radio/headset( H )
 					R.freq = 146.5
 					R.layer = 20
 					H.w_radio = R
@@ -2194,13 +2197,13 @@
 			if (!istype(src.killer, /mob/ai))
 				spawn (100)
 					if (src.killer.w_uniform)
-						if (istype(src.killer.back, /obj/item/weapon/storage/backpack))
-							var/obj/item/weapon/storage/backpack/B = src.killer.back
-							var/obj/item/weapon/syndicate_uplink/U = new /obj/item/weapon/syndicate_uplink(B)
+						if (istype(src.killer.back, /obj/item/storage/backpack))
+							var/obj/item/storage/backpack/B = src.killer.back
+							var/obj/item/syndicate_uplink/U = new /obj/item/syndicate_uplink(B)
 							U.loc = B
 							B.orient2hud(src.killer)
 						else if (!(src.killer.l_store))
-							var/obj/item/weapon/traitor_item = new /obj/item/weapon/syndicate_uplink(src.killer)
+							var/obj/item/traitor_item = new /obj/item/syndicate_uplink(src.killer)
 							traitor_item.loc = src.killer
 							src.killer.l_store = traitor_item
 							traitor_item.layer = 20
@@ -2238,7 +2241,7 @@
 					dat += text("\red <B>Transmission names enemy operative: [] ([]% certainty)</B><BR>", M.rname, rand(10, 95))
 				for(var/obj/machinery/computer/communications/C in world)
 					if(! (C.stat | (BROKEN&NOPOWER) ) )
-						var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( C.loc )
+						var/obj/item/paper/P = new /obj/item/paper( C.loc )
 						P.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
 						P.info = dat
 					//Foreach goto(1830)
@@ -2339,7 +2342,7 @@
 					var/mob/M = pick(backup)
 					dat += text("\red <B>Transmission names enemy operative: [] ([]% certainty)</B><BR>", M.rname, rand(10, 95))
 				for(var/obj/machinery/computer/communications/C in world)
-					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( C.loc )
+					var/obj/item/paper/P = new /obj/item/paper( C.loc )
 					P.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
 					P.info = dat
 					//Foreach goto(1830)
@@ -2350,7 +2353,7 @@
 			spawn (50)
 				var/obj/L = locate("landmark*Nuclear-Disk")
 				if (L)
-					new /obj/item/weapon/disk/nuclear(L.loc)
+					new /obj/item/disk/nuclear(L.loc)
 
 				L = locate("landmark*Nuclear-Closet")
 				if (L)
@@ -2364,7 +2367,7 @@
 						src.killer.memory += text("<B>Syndicate Nuclear Bomb Code</B>: []<BR>", NB.r_code)
 						src.killer << text("The nuclear authorization code is: <B>[]</B>\]", NB.r_code)
 						src.killer << text("Nuclear Explosives 101:\n\tHello and thank you for choosing the Syndicate for your nuclear information needs.\nToday's crash course will deal with the operation of a Fusion Class Nanotrasen made Nuclear Device.\nFirst and foremost, DO NOT TOUCH ANYTHING UNTIL THE BOMB IS IN PLACE.\nPressing any button on the compacted bomb will cause it to extend and bolt itself into place.\nIf this is done to unbolt it one must compeltely log in which at this time may not be possible.\nTo make the device functional:\n1. Place bomb in designated detonation zone\n2. Extend and anchor bomb (attack with hand).\n3. Insert Nuclear Auth. Disk into slot.\n4. Type numeric code into keypad ([]).\n\tNote: If you make a mistake press R to reset the device.\n5. Press the E button to log onto the device\nYou now have activated the device. To deactivate the buttons at anytime for example when\nyou've already prepped the bomb for detonation remove the auth disk OR press the R ont he keypad.\nNow the bomb CAN ONLY be detonated using the timer. A manual det. is not an option.\n\tNote: Nanotrasen is a pain in the neck.\nToggle off the SAFETY.\n\tNote: You wouldn't believe how many Syndicate Operatives with doctorates have forgotten this step\nSo use the - - and + + to set a det time between 5 seconds and 10 minutes.\nThen press the timer toggle button to start the countdown.\nNow remove the auth. disk so that the buttons deactivate.\n\tNote: THE BOMB IS STILL SET AND WILL DETONATE\nNow before you remvoe the disk if you need to mvoe the bomb you can:\nToggle off the anchor, move it, and re-anchor.\n\nGood luck. Remember the order:\nDisk, Code, Safety, Timer, Disk, RUN\nGood luck.\nIntelligence Analysts believe that they are hiding the disk in the control room emergency room", NB.r_code)
-						var/obj/item/weapon/paper/P = new /obj/item/weapon/paper(src.killer.loc)
+						var/obj/item/paper/P = new /obj/item/paper(src.killer.loc)
 						P.info = text("The nuclear authorization code is: <b>[]</b>", NB.r_code)
 						P.name = "nuclear bomb code"
 
@@ -2375,10 +2378,10 @@
 						continue
 
 					if (A.name == "Syndicate-Bomb")
-						var/obj/item/weapon/assembly/t_i_ptank/R = new /obj/item/weapon/assembly/t_i_ptank(A.loc )
-						var/obj/item/weapon/timer/p1 = new /obj/item/weapon/timer(R)
-						var/obj/item/weapon/igniter/p2 = new /obj/item/weapon/igniter(R)
-						var/obj/item/weapon/tank/plasmatank/p3 = new /obj/item/weapon/tank/plasmatank(R)
+						var/obj/item/assembly/t_i_ptank/R = new /obj/item/assembly/t_i_ptank(A.loc )
+						var/obj/item/timer/p1 = new /obj/item/timer(R)
+						var/obj/item/igniter/p2 = new /obj/item/igniter(R)
+						var/obj/item/tank/plasmatank/p3 = new /obj/item/tank/plasmatank(R)
 						R.part1 = p1
 						R.part2 = p2
 						R.part3 = p3

@@ -184,7 +184,7 @@
 #else
 
 	for(var/i = 0; i<icount; i++)
-		imap += icon('imap.dmi', "blank")
+		imap += icon('icons/imap.dmi', "blank")
 
 	for(var/wx = 1 ; wx <= world.maxx; wx++)
 

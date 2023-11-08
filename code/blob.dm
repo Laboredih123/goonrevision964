@@ -132,15 +132,15 @@
 		update()
 
 
-/obj/blob/attackby(var/obj/item/weapon/W, var/mob/user)
+/obj/blob/attackby(var/obj/item/W, var/mob/user)
 	for(var/mob/O in viewers(src, null))
 		O.show_message(text("\red <B>The blob has been attacked with [][] </B>", W, (user ? text(" by [].", user) : ".")), 1)
 		//Foreach goto(20)
 
 	var/damage = W.force / 4.0
 
-	if(istype(W, /obj/item/weapon/weldingtool))
-		var/obj/item/weapon/weldingtool/WT = W
+	if(istype(W, /obj/item/weldingtool))
+		var/obj/item/weldingtool/WT = W
 
 		if(WT.welding)
 			damage = 15
@@ -185,7 +185,7 @@
 
 			for(var/obj/machinery/computer/communications/C in machines)
 				if(! (C.stat & (BROKEN|NOPOWER) ) )
-					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( C.loc )
+					var/obj/item/paper/P = new /obj/item/paper( C.loc )
 					P.name = "paper- 'Cent. Com. Biohazard Alert.'"
 					P.info = dat
 					//Foreach goto(1830)

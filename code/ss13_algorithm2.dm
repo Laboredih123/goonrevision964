@@ -364,28 +364,28 @@
 	if (rank == "Captain")
 		world << text("<b>[] is the captain!</b>", src)
 	if (!( src.w_radio ))
-		var/obj/item/weapon/radio/headset/H = new /obj/item/weapon/radio/headset( src )
+		var/obj/item/radio/headset/H = new /obj/item/radio/headset( src )
 		src.w_radio = H
 		H.layer = 20
 	if (!( src.back ))
-		var/obj/item/weapon/storage/backpack/H = new /obj/item/weapon/storage/backpack( src )
+		var/obj/item/storage/backpack/H = new /obj/item/storage/backpack( src )
 		src.back = H
 		H.layer = 20
 	if (!( src.glasses ))
 		if (src.disabilities & 1)
-			var/obj/item/weapon/clothing/glasses/regular/G = new /obj/item/weapon/clothing/glasses/regular( src )
+			var/obj/item/clothing/glasses/regular/G = new /obj/item/clothing/glasses/regular( src )
 			src.glasses = G
 			G.layer = 20
 	if ((!( src.belt ) && src.w_uniform))
-		var/obj/item/weapon/radio/signaler/S = new /obj/item/weapon/radio/signaler( src )
+		var/obj/item/radio/signaler/S = new /obj/item/radio/signaler( src )
 		src.belt = S
 		S.layer = 20
 	if ((!( src.r_store ) && src.w_uniform))
-		var/obj/item/weapon/pen/S = new /obj/item/weapon/pen( src )
+		var/obj/item/pen/S = new /obj/item/pen( src )
 		src.r_store = S
 		S.layer = 20
 	if (src.client && !(src.wear_id))
-		var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id( src )
+		var/obj/item/card/id/C = new /obj/item/card/id( src )
 		if (src.w_uniform)
 			src.wear_id = C
 		else
@@ -411,7 +411,7 @@
 				C.air_access = 0
 			if("Medical Assistant")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/firstaid/regular/W = new /obj/item/weapon/storage/firstaid/regular( src )
+					var/obj/item/storage/firstaid/regular/W = new /obj/item/storage/firstaid/regular( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()
@@ -421,7 +421,7 @@
 				C.air_access = 0
 			if("Engineer")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/toolbox/W = new /obj/item/weapon/storage/toolbox( src )
+					var/obj/item/storage/toolbox/W = new /obj/item/storage/toolbox( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()
@@ -441,7 +441,7 @@
 				C.air_access = 0
 			if("Medical Doctor")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/firstaid/regular/W = new /obj/item/weapon/storage/firstaid/regular( src )
+					var/obj/item/storage/firstaid/regular/W = new /obj/item/storage/firstaid/regular( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()
@@ -451,7 +451,7 @@
 				C.air_access = 0
 			if("Prison Doctor")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/firstaid/regular/W = new /obj/item/weapon/storage/firstaid/regular( src )
+					var/obj/item/storage/firstaid/regular/W = new /obj/item/storage/firstaid/regular( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()
@@ -466,7 +466,7 @@
 				C.lab_access = 5
 			if("Security Officer")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/handcuffs/W = new /obj/item/weapon/handcuffs( src )
+					var/obj/item/handcuffs/W = new /obj/item/handcuffs( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()
@@ -476,7 +476,7 @@
 				C.air_access = 0
 			if("Prison Security")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/handcuffs/W = new /obj/item/weapon/handcuffs( src )
+					var/obj/item/handcuffs/W = new /obj/item/handcuffs( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()
@@ -511,7 +511,7 @@
 				C.lab_access = 4
 			if("Station Technician")
 				if (!( src.l_hand ))
-					var/obj/item/weapon/storage/toolbox/W = new /obj/item/weapon/storage/toolbox( src )
+					var/obj/item/storage/toolbox/W = new /obj/item/storage/toolbox( src )
 					src.l_hand = W
 					W.layer = 20
 					src.UpdateClothing()

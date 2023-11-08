@@ -9,17 +9,17 @@ obj
 	machinery
 		recharger
 			anchored = 1.0
-			icon = 'stationobjs.dmi'
+			icon = 'icons/stationobjs.dmi'
 			icon_state = "recharger0"
 			name = "recharger"
 		
 			var
-				obj/item/weapon/gun/energy/charging = null
+				obj/item/gun/energy/charging = null
 		
-			attackby(obj/item/weapon/G as obj, mob/user as mob)
+			attackby(obj/item/G as obj, mob/user as mob)
 				if (src.charging)
 					return
-				if (istype(G, /obj/item/weapon/gun/energy))
+				if (istype(G, /obj/item/gun/energy))
 					user.drop_item()
 					G.loc = src
 					src.charging = G
